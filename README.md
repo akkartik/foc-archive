@@ -9,7 +9,7 @@
 
 * Generate a list of files inside all channels:
   ```
-  find input -type f -mindepth 2 > file_list
+  ls input/*/*.json > file_list
   ```
 
 * Generate html for `file_list` into directory `input/`:

@@ -2,6 +2,7 @@
 
 -- variables interpolated into generated files
 repo = 'https://github.com/akkartik/foc-archive'
+site = 'http://akkartik.name/archives/foc/'
 
 --
 
@@ -107,6 +108,7 @@ function emit_post(outfile, post, channel, users)
   if post.user_profile and post.user_profile.image_72 then
     outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>\n')
   end
+  outfile:write('      <a href="'..site..channel..'/'..post.ts..'.html" style="color:#aaa">#</a>\n')
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   if post.user_profile == nil and post.user == nil and post.username == nil then
@@ -122,7 +124,7 @@ function emit_post(outfile, post, channel, users)
   if post.comments then
     for _, comment in ipairs(post.comments) do
       outfile:write('  <tr>\n')
-      emit_comment(outfile, comment, users)
+      emit_comment(outfile, comment, channel, post.ts, users)
       outfile:write('  </tr>\n')
     end
   end
@@ -157,13 +159,13 @@ function emit_text(outfile, s, users)
   outfile:write(s..'\n')
 end
 
-function emit_comment(outfile, comment, users)
+function emit_comment(outfile, comment, channel, post_ts, users)
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   outfile:write('      <a name="'..comment.ts..'"></a>\n')
   if comment.user_profile and comment.user_profile.image_72 then
     outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>\n')
   end
-  outfile:write('      <a href="#'..comment.ts..'" style="color:#aaa">#</a>\n')
+  outfile:write('      <a href="'..site..channel..'/'..post_ts..'.html#'..comment.ts..'" style="color:#aaa">#</a>\n')
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   if comment.user_profile == nil and comment.user == nil and comment.username == nil then

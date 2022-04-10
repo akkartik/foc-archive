@@ -44,36 +44,6 @@ function main(channels, users, files, output)
   emit_files(posts, channel_of_previous_file, output, channels, users)
 end
 
-function read_json_array(filename)
-  local result = {}
-  local item_list = json.decode(io.open(filename):read('*a'))
-  for _, x in ipairs(item_list) do
-    assert(x.id)
-    result[x.id] = x
-  end
-  return result
-end
-
-function read_file_list(filename)
-  local result = {}
-  for line in io.open(filename):lines() do
-    table.insert(result, line)
-  end
-  return result
-end
-
-function channel(filename)
-  return basename(dirname(filename))
-end
-
-function dirname(path)
-  return string.gsub(path, "(.*)/.*", "%1")
-end
-
-function basename(path)
-  return string.gsub(path, ".*/(.*)", "%1")
-end
-
 function read_items(filename, out)
   local items = read_json_array_of_items(filename)
 --?   print(filename, #items)
@@ -108,14 +78,6 @@ function emit_files(posts, channel, output, channels, users)
   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
   emit_posts(posts, channel, output, channels, users)
-end
-
-function copy_file(src_filename, dest_dir)
-  local infile = io.open(src_filename)
-  local outfile = io.open(dest_dir..'/'..src_filename, 'w')
-  outfile:write(infile:read('*a'))
-  infile:close()
-  outfile:close()
 end
 
 function emit_posts(posts, channel, output, channels, users)
@@ -165,39 +127,6 @@ function emit_post(outfile, post, channel, users)
   outfile:write('</html>\n')
 end
 
-function print_name(outfile, user, user_id, users)
-  if user == nil then
-    user = users[user_id]
-    if user == nil then
-      assert(user_id)
-      outfile:write('<b>'..user_id..'</b>\n')
-      return
-    end
-  end
-  outfile:write('<b>'..name(user)..'</b>')
-end
-
-function name(user)
-  if not is_blank(user.real_name) then
-    return user.real_name
-  elseif not is_blank(user.display_name) then
-    return user.display_name
-  elseif not is_blank(user.name) then
-    return user.name
-  end
-  return ''
-end
-
-function print_time(outfile, ts)
-  outfile:write('<span style="margin:2em; color:#606060">')
-  outfile:write(os.date('%Y-%m-%d %H:%M', math.floor(tonumber(ts))))
-  outfile:write('</span>')
-end
-
-function is_blank(s)
-  return s == nil or s == ''
-end
-
 function print_text(outfile, s, users)
   s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
   s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')
@@ -245,6 +174,77 @@ function emit_comment(outfile, comment, users)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   outfile:write('</div>')
+end
+
+function print_name(outfile, user, user_id, users)
+  if user == nil then
+    user = users[user_id]
+    if user == nil then
+      assert(user_id)
+      outfile:write('<b>'..user_id..'</b>\n')
+      return
+    end
+  end
+  outfile:write('<b>'..name(user)..'</b>')
+end
+
+function name(user)
+  if not is_blank(user.real_name) then
+    return user.real_name
+  elseif not is_blank(user.display_name) then
+    return user.display_name
+  elseif not is_blank(user.name) then
+    return user.name
+  end
+  return ''
+end
+
+function print_time(outfile, ts)
+  outfile:write('<span style="margin:2em; color:#606060">')
+  outfile:write(os.date('%Y-%m-%d %H:%M', math.floor(tonumber(ts))))
+  outfile:write('</span>')
+end
+
+function channel(filename)
+  return basename(dirname(filename))
+end
+
+function dirname(path)
+  return string.gsub(path, "(.*)/.*", "%1")
+end
+
+function basename(path)
+  return string.gsub(path, ".*/(.*)", "%1")
+end
+
+function copy_file(src_filename, dest_dir)
+  local infile = io.open(src_filename)
+  local outfile = io.open(dest_dir..'/'..src_filename, 'w')
+  outfile:write(infile:read('*a'))
+  infile:close()
+  outfile:close()
+end
+
+function is_blank(s)
+  return s == nil or s == ''
+end
+
+function read_json_array(filename)
+  local result = {}
+  local item_list = json.decode(io.open(filename):read('*a'))
+  for _, x in ipairs(item_list) do
+    assert(x.id)
+    result[x.id] = x
+  end
+  return result
+end
+
+function read_file_list(filename)
+  local result = {}
+  for line in io.open(filename):lines() do
+    table.insert(result, line)
+  end
+  return result
 end
 
 channels = read_json_array(arg[1])

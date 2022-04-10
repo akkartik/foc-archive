@@ -109,7 +109,7 @@ function emit_post(outfile, post, channel, users)
   end
   print_time(outfile, post.ts)
   outfile:write('<br/>')
-  print_text(outfile, post.text)
+  print_text(outfile, post.text, users)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   if post.comments then
@@ -132,15 +132,18 @@ function print_name(outfile, user, user_id, users)
       return
     end
   end
-  outfile:write('<b>')
+  outfile:write('<b>'..name(user)..'</b>')
+end
+
+function name(user)
   if not is_blank(user.real_name) then
-    outfile:write(user.real_name)
+    return user.real_name
   elseif not is_blank(user.display_name) then
-    outfile:write(user.display_name)
+    return user.display_name
   elseif not is_blank(user.name) then
-    outfile:write(user.name)
+    return user.name
   end
-  outfile:write('</b>')
+  return ''
 end
 
 function print_time(outfile, ts)
@@ -153,8 +156,20 @@ function is_blank(s)
   return s == nil or s == ''
 end
 
-function print_text(outfile, s)
-  local s = s:gsub('\n', '<br/>')
+function print_text(outfile, s, users)
+  s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
+  s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')
+  s = s:gsub('<([^@ |>][^ |>]*)|([^>]*)>', '<a href="%1">%2</a>')
+  -- create a list of user ids to substitute
+  tagged_user_ids = {}
+  for user_tag in string.gmatch(s, '<@U[^ <>]*>') do
+    table.insert(tagged_user_ids, user_tag:sub(3, -2))
+  end
+  -- substitute the users
+  for _, tagged_user_id in ipairs(tagged_user_ids) do
+    s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#aaa">@'..name(users[tagged_user_id])..'</span>')
+  end
+  s = s:gsub('\n', '<br/>')  -- must come after the <...> links syntax
   s = s:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
   s = s:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
   s = s:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
@@ -182,7 +197,7 @@ function emit_comment(outfile, comment, users)
   end
   print_time(outfile, comment.ts)
   outfile:write('<br/>')
-  print_text(outfile, comment.text)
+  print_text(outfile, comment.text, users)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   outfile:write('</div>')

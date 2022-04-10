@@ -84,21 +84,22 @@ function emit_files(posts, channel, output, channels, users)
     if outfile == nil then
       error('could not open '..outfilename)
     end
-    emit_post(outfile, post)
+    emit_post(outfile, post, channel)
     outfile:close()
   end
 end
 
-function emit_post(outfile, post)
+function emit_post(outfile, post, channel)
   outfile:write('<html>\n')
+  outfile:write('<h2>#'..channel..'</h2>\n')
   outfile:write('  <table>\n')
   outfile:write('  <tr>\n')
-  outfile:write('    <td style="vertical-align:top">\n')
+  outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
     outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>')
   end
   outfile:write('    </td>\n')
-  outfile:write('    <td style="vertical-align:top; padding-left:1em">\n')
+  outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   print_name(outfile, post.user_profile)
   print_time(outfile, post.ts)
   outfile:write('<br/>')
@@ -140,12 +141,12 @@ end
 function emit_comment(outfile, comment)
   outfile:write('<div class="comment">')
   outfile:write('  <tr>\n')
-  outfile:write('    <td style="vertical-align:top">\n')
+  outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   if comment.user_profile and comment.user_profile.image_72 then
     outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>')
   end
   outfile:write('    </td>\n')
-  outfile:write('    <td style="vertical-align:top; padding-left:1em">\n')
+  outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   print_name(outfile, comment.user_profile)
   print_time(outfile, comment.ts)
   outfile:write('<br/>')

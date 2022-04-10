@@ -26,7 +26,6 @@ function main(users, files, output)
   --   files within a channel are in chronological order
 
   os.execute('mkdir -p '..output)
-  copy_file('index.html', output)
 
   -- load all channels entirely into memory
   -- we'll need them to construct lists
@@ -42,8 +41,6 @@ function main(users, files, output)
   for channel, cposts in pairs(posts) do
     emit_files(cposts, channel, output, users)
   end
-
-  emit_lists(posts, output, users)
 end
 
 function read_items(filename, out)
@@ -102,7 +99,7 @@ function emit_post(outfile, post, site_prefix, channel, users)
   if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
-  outfile:write('<h2><a href="..">Archives</a>, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
+  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
   outfile:write('  <table>\n')
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
@@ -180,70 +177,6 @@ function emit_comment(outfile, comment, site_prefix, channel, post_ts, users)
   outfile:write('    </td>\n')
 end
 
-function emit_lists(posts, output, users)
-  emit_list('akkartik', output..'/akkartik.html', 'Kartik&apos;s favorites', posts, users)
-end
-
-function emit_list(infilename, outfilename, title, posts, users)
-  local infile = io.open(infilename)
-  local outfile = io.open(outfilename, 'w')
-  outfile:write('<html>\n')
-  outfile:write('<head>\n')
-  outfile:write('  <meta charset="UTF-8">\n')
-  outfile:write('  <title>'..title..'</title>\n')
-  outfile:write('</head>\n')
-  outfile:write('<h2><a href="..">Archives</a>, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, '..title..'</h2>\n')
-  outfile:write('  <table>\n')
-  for line in infile:lines() do
-    emit_post_or_comment(outfile, line, posts, users)
-  end
-  outfile:write('  </table>\n')
-  outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
-  outfile:write('</html>\n')
-  infile:close()
-  outfile:close()
-end
-
-function emit_post_or_comment(outfile, id, posts, users)
-  outfile:write('  <tr>\n')
-  if not string.match(id, '#') then
-    -- post
-    local channel, post_ts = string.match(id, '(.*)/(.*)%.html')
-    local post = posts[channel][post_ts]
-    outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
-    if post.user_profile and post.user_profile.image_72 then
-      outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>')
-    end
-    outfile:write('      <a href="'..channel..'/'..post.ts..'.html" style="color:#aaa">#</a>\n')
-    outfile:write('    </td>\n')
-    outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
-    if post.user_profile == nil and post.user == nil and post.username == nil then
-      io.stderr:write('no author for '..json.encode(post)..'\n')
-    else
-      emit_name(outfile, post.user_profile, post.user or post.username, users)
-    end
-    emit_time(outfile, post.ts)
-    outfile:write('<br/>\n')
-    emit_text(outfile, post.text, users)
-    outfile:write('    </td>\n')
-  else
-    -- comment
-    local channel, post_ts, comment_ts = string.match(id, '(.*)/(.*)%.html#(.*)')
-    local comment = find(posts[channel][post_ts].comments, function(c) return c.ts == comment_ts end)
-    emit_comment(outfile, comment, '', channel, post_ts, users)
-  end
-  outfile:write('  </tr>\n')
-end
-
-function find(arr, pred)
-  for _, x in ipairs(arr) do
-    if pred(x) then
-      return x
-    end
-  end
-end
-
 function emit_name(outfile, user, user_id, users)
   if user == nil then
     user = users[user_id]
@@ -283,14 +216,6 @@ end
 
 function basename(path)
   return string.gsub(path, ".*/(.*)", "%1")
-end
-
-function copy_file(src_filename, dest_dir)
-  local infile = io.open(src_filename)
-  local outfile = io.open(dest_dir..'/'..src_filename, 'w')
-  outfile:write(infile:read('*a'))
-  infile:close()
-  outfile:close()
 end
 
 function is_blank(s)

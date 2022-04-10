@@ -112,6 +112,8 @@ function emit_post(outfile, post, channel)
     end
   end
   outfile:write('  </table>\n')
+  outfile:write('<hr>\n')
+  outfile:write('<a href="https://github.com/akkartik/foc-archive">download this site</a>\n')
   outfile:write('</html>\n')
 end
 

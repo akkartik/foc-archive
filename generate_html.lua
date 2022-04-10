@@ -7,19 +7,20 @@ repo = 'https://github.com/akkartik/foc-archive'
 
 json = require 'json'
 
-if #arg ~= 3 then
-  io.stderr:write('Tell me 3 things in the right order on a single line:\n')
+if #arg ~= 4 then
+  io.stderr:write('Tell me 4 things in the right order on a single line:\n')
+  io.stderr:write('  - where the channels.json is\n')
   io.stderr:write('  - where the users.json is\n')
   io.stderr:write('  - a file containing a list of files to scan\n')
   io.stderr:write('  - the name of a directory to generate html files into\n')
   io.stderr:write('\nFor example:\n')
-  io.stderr:write('  lua generate_html.lua input/users.json file_list output\n')
+  io.stderr:write('  lua generate_html.lua input/channels.json input/users.json file_list output\n')
   io.stderr:write('\nfile_list must include a list of relative paths from the current directory.\n')
   io.stderr:write('See README.md for details.\n')
   os.exit(1)
 end
 
-function main(users, files, output)
+function main(channels, users, files, output)
   -- Assumes:
   --   each channel gets its own top-level directory
   --   files for a channel are contiguously arranged in the file list
@@ -39,7 +40,7 @@ function main(users, files, output)
   end
 
   for channel, cposts in pairs(posts) do
-    emit_files(cposts, channel, output, users)
+    emit_files(cposts, channel, output, channels, users)
   end
 end
 
@@ -75,26 +76,26 @@ function read_json_array_of_items(filename)
   return json.decode(s)
 end
 
-function emit_files(posts, channel, output, users)
+function emit_files(posts, channel, output, channels, users)
   if channel == nil then return end
   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
-  emit_posts(posts, channel, output, users)
+  emit_posts(posts, channel, output, channels, users)
 end
 
-function emit_posts(posts, channel, output, users)
+function emit_posts(posts, channel, output, channels, users)
   for ts, post in pairs(posts) do
     local outfilename = output..'/'..channel..'/'..post.ts..'.html'
     local outfile = io.open(outfilename, 'w')
     if outfile == nil then
       error('could not open '..outfilename)
     end
-    emit_post(outfile, post, '../', channel, users)
+    emit_post(outfile, post, '../', channel, channels, users)
     outfile:close()
   end
 end
 
-function emit_post(outfile, post, site_prefix, channel, users)
+function emit_post(outfile, post, site_prefix, channel, channels, users)
   if post and post.subtype == 'bot_message' then return end
   if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
@@ -116,13 +117,13 @@ function emit_post(outfile, post, site_prefix, channel, users)
   end
   emit_time(outfile, post.ts)
   outfile:write('<br/>\n')
-  emit_text(outfile, post.text, users)
+  emit_text(outfile, post.text, channels, users)
   outfile:write('    </td>\n')
   outfile:write('  </tr>\n')
   if post.comments then
     for _, comment in ipairs(post.comments) do
       outfile:write('  <tr>\n')
-      emit_comment(outfile, comment, site_prefix, channel, post.ts, users)
+      emit_comment(outfile, comment, site_prefix, channel, post.ts, channels, users)
       outfile:write('  </tr>\n')
     end
   end
@@ -132,7 +133,7 @@ function emit_post(outfile, post, site_prefix, channel, users)
   outfile:write('</html>\n')
 end
 
-function emit_text(outfile, s, users)
+function emit_text(outfile, s, channels, users)
   s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
   s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')
   s = s:gsub('<([^@ |>][^ |>]*)|([^>]*)>', '<a href="%1">%2</a>')
@@ -157,7 +158,7 @@ function emit_text(outfile, s, users)
   outfile:write(s..'\n')
 end
 
-function emit_comment(outfile, comment, site_prefix, channel, post_ts, users)
+function emit_comment(outfile, comment, site_prefix, channel, post_ts, channels, users)
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   outfile:write('      <a name="'..comment.ts..'"></a>\n')
   if comment.user_profile and comment.user_profile.image_72 then
@@ -173,7 +174,7 @@ function emit_comment(outfile, comment, site_prefix, channel, post_ts, users)
   end
   emit_time(outfile, comment.ts)
   outfile:write('<br/>\n')
-  emit_text(outfile, comment.text, users)
+  emit_text(outfile, comment.text, channels, users)
   outfile:write('    </td>\n')
 end
 
@@ -240,8 +241,9 @@ function read_file_list(filename)
   return result
 end
 
-users = read_json_array(arg[1])
-files = read_file_list(arg[2])
-output = arg[3]
+channels = read_json_array(arg[1])
+users = read_json_array(arg[2])
+files = read_file_list(arg[3])
+output = arg[4]
 
-main(users, files, output)
+main(channels, users, files, output)

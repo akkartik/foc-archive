@@ -25,7 +25,7 @@ archives, this time as a purely static set of html files.
 * Generate html for `file_list` into directory `output/`:
   ```
   rm -rf output  # clear output
-  lua generate_html.lua input/users.json file_list output
+  lua generate_html.lua input/channels.json input/users.json file_list output
   ```
 
   Tested with Lua 5.1, 5.2, 5.3, 5.4.

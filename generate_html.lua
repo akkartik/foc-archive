@@ -121,7 +121,9 @@ function emit_post(outfile, post, channel, users)
   outfile:write('  </tr>\n')
   if post.comments then
     for _, comment in ipairs(post.comments) do
+      outfile:write('  <tr>\n')
       emit_comment(outfile, comment, users)
+      outfile:write('  </tr>\n')
     end
   end
   outfile:write('  </table>\n')
@@ -156,7 +158,6 @@ function emit_text(outfile, s, users)
 end
 
 function emit_comment(outfile, comment, users)
-  outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   outfile:write('      <a name="'..comment.ts..'"></a>\n')
   if comment.user_profile and comment.user_profile.image_72 then
@@ -174,7 +175,6 @@ function emit_comment(outfile, comment, users)
   outfile:write('<br/>\n')
   emit_text(outfile, comment.text, users)
   outfile:write('    </td>\n')
-  outfile:write('  </tr>\n')
 end
 
 function emit_name(outfile, user, user_id, users)

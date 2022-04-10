@@ -83,13 +83,12 @@ function emit_files(posts, channel, output, channels, users)
   if channel == nil then return end
   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
-  copy_file('index.html', output)
   emit_posts(posts, channel, output, channels, users)
 end
 
 function copy_file(src_filename, dest_dir)
-  infile = io.open(src_filename)
-  outfile = io.open(dest_dir..'/'..src_filename, 'w')
+  local infile = io.open(src_filename)
+  local outfile = io.open(dest_dir..'/'..src_filename, 'w')
   outfile:write(infile:read('*a'))
   infile:close()
   outfile:close()
@@ -233,6 +232,9 @@ channels = read_json_array(arg[1])
 users = read_json_array(arg[2])
 files = read_file_list(arg[3])
 output = arg[4]
+
+os.execute('mkdir -p '..output)
+copy_file('index.html', output)
 
 -- load each channel entirely into memory before writing it out
 local posts = {}

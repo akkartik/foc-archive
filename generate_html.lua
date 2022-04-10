@@ -105,7 +105,7 @@ function emit_post(outfile, post, channel, users)
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
-    outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>')
+    outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>\n')
   end
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
@@ -115,10 +115,10 @@ function emit_post(outfile, post, channel, users)
     emit_name(outfile, post.user_profile, post.user or post.username, users)
   end
   emit_time(outfile, post.ts)
-  outfile:write('<br/>')
+  outfile:write('<br/>\n')
   emit_text(outfile, post.text, users)
   outfile:write('    </td>\n')
-  outfile:write('</tr>')
+  outfile:write('  </tr>\n')
   if post.comments then
     for _, comment in ipairs(post.comments) do
       emit_comment(outfile, comment, users)
@@ -156,14 +156,13 @@ function emit_text(outfile, s, users)
 end
 
 function emit_comment(outfile, comment, users)
-  outfile:write('<div class="comment">')
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
-  outfile:write('<a name="'..comment.ts..'"></a>')
+  outfile:write('      <a name="'..comment.ts..'"></a>\n')
   if comment.user_profile and comment.user_profile.image_72 then
-    outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>')
+    outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>\n')
   end
-  outfile:write('<a href="#'..comment.ts..'" style="color:#aaa">#</a>')
+  outfile:write('      <a href="#'..comment.ts..'" style="color:#aaa">#</a>\n')
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   if comment.user_profile == nil and comment.user == nil and comment.username == nil then
@@ -172,11 +171,10 @@ function emit_comment(outfile, comment, users)
     emit_name(outfile, comment.user_profile, comment.user or comment.username, users)
   end
   emit_time(outfile, comment.ts)
-  outfile:write('<br/>')
+  outfile:write('<br/>\n')
   emit_text(outfile, comment.text, users)
   outfile:write('    </td>\n')
-  outfile:write('</tr>')
-  outfile:write('</div>')
+  outfile:write('  </tr>\n')
 end
 
 function emit_name(outfile, user, user_id, users)
@@ -188,7 +186,7 @@ function emit_name(outfile, user, user_id, users)
       return
     end
   end
-  outfile:write('<b>'..name(user)..'</b>')
+  outfile:write('<b>'..name(user)..'</b>\n')
 end
 
 function name(user)

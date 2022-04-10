@@ -7,20 +7,19 @@ repo = 'https://github.com/akkartik/foc-archive'
 
 json = require 'json'
 
-if #arg ~= 4 then
-  io.stderr:write('Tell me 4 things in the right order on a single line:\n')
-  io.stderr:write('  - where the channels.json is\n')
+if #arg ~= 3 then
+  io.stderr:write('Tell me 3 things in the right order on a single line:\n')
   io.stderr:write('  - where the users.json is\n')
   io.stderr:write('  - a file containing a list of files to scan\n')
   io.stderr:write('  - the name of a directory to generate html files into\n')
   io.stderr:write('\nFor example:\n')
-  io.stderr:write('  lua generate_html.lua input/channels.json input/users.json file_list output\n')
+  io.stderr:write('  lua generate_html.lua input/users.json file_list output\n')
   io.stderr:write('\nfile_list must include a list of relative paths from the current directory.\n')
   io.stderr:write('See README.md for details.\n')
   os.exit(1)
 end
 
-function main(channels, users, files, output)
+function main(users, files, output)
   -- Assumes:
   --   each channel gets its own top-level directory
   --   files for a channel are contiguously arranged in the file list
@@ -35,13 +34,13 @@ function main(channels, users, files, output)
   for i, file in ipairs(files) do
     local curr_channel = channel(file)
     if curr_channel ~= channel_of_previous_file then
-      emit_files(posts, channel_of_previous_file, output, channels, users)
+      emit_files(posts, channel_of_previous_file, output, users)
       posts = {}
     end
     read_items(file, posts)
     channel_of_previous_file = curr_channel
   end
-  emit_files(posts, channel_of_previous_file, output, channels, users)
+  emit_files(posts, channel_of_previous_file, output, users)
 end
 
 function read_items(filename, out)
@@ -73,14 +72,14 @@ function read_json_array_of_items(filename)
   return json.decode(io.open(filename):read('*a'))
 end
 
-function emit_files(posts, channel, output, channels, users)
+function emit_files(posts, channel, output, users)
   if channel == nil then return end
   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
-  emit_posts(posts, channel, output, channels, users)
+  emit_posts(posts, channel, output, users)
 end
 
-function emit_posts(posts, channel, output, channels, users)
+function emit_posts(posts, channel, output, users)
   for ts, post in pairs(posts) do
     local outfilename = output..'/'..channel..'/'..post.ts..'.html'
     local outfile = io.open(outfilename, 'w')
@@ -247,9 +246,8 @@ function read_file_list(filename)
   return result
 end
 
-channels = read_json_array(arg[1])
-users = read_json_array(arg[2])
-files = read_file_list(arg[3])
-output = arg[4]
+users = read_json_array(arg[1])
+files = read_file_list(arg[2])
+output = arg[3]
 
-main(channels, users, files, output)
+main(users, files, output)

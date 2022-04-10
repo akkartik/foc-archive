@@ -146,7 +146,7 @@ function emit_text(outfile, s, users)
   end
   -- substitute the users
   for _, tagged_user_id in ipairs(tagged_user_ids) do
-    s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#aaa">@'..name(users[tagged_user_id])..'</span>')
+    s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#ccf">@'..name(users[tagged_user_id])..'</span>')
   end
   s = s:gsub('\n', '<br/>')  -- must come after the <...> links syntax
   s = s:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')

@@ -1,5 +1,10 @@
 -- Generate a static website out of a Slack archive.
 
+-- variables interpolated into generated files
+repo = 'https://github.com/akkartik/foc-archive'
+
+--
+
 json = require 'json'
 
 if #arg ~= 4 then
@@ -120,7 +125,7 @@ function emit_post(outfile, post, channel, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="https://github.com/akkartik/foc-archive">download this site</a> (~200MB)\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
   outfile:write('</html>\n')
 end
 

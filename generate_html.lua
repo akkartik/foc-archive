@@ -93,6 +93,7 @@ function emit_post(outfile, post, channel, users)
   if post and post.subtype == 'bot_message' then return end
   if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
+  outfile:write('<head><meta charset="UTF-8"></head>')
   outfile:write('<h2>#'..channel..'</h2>\n')
   outfile:write('  <table>\n')
   outfile:write('  <tr>\n')

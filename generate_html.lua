@@ -84,9 +84,75 @@ function emit_files(posts, channel, output, channels, users)
     if outfile == nil then
       error('could not open '..outfilename)
     end
-    outfile:write(json.encode(post))
+    emit_post(outfile, post)
     outfile:close()
   end
+end
+
+function emit_post(outfile, post)
+  outfile:write('<html>\n')
+  outfile:write('  <table>\n')
+  outfile:write('  <tr>\n')
+  outfile:write('    <td style="vertical-align:top">\n')
+  if post.user_profile and post.user_profile.image_72 then
+    outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>')
+  end
+  outfile:write('    </td>\n')
+  outfile:write('    <td style="vertical-align:top; padding-left:1em">\n')
+  print_name(outfile, post.user_profile)
+  print_time(outfile, post.ts)
+  outfile:write('<br/>')
+  outfile:write(post.text..'\n')
+  outfile:write('    </td>\n')
+  outfile:write('</tr>')
+  if post.comments then
+    for _, comment in ipairs(post.comments) do
+      emit_comment(outfile, comment)
+    end
+  end
+  outfile:write('  </table>\n')
+  outfile:write('</html>\n')
+end
+
+function print_name(outfile, user)
+  if user == nil then return end
+  outfile:write('<b>')
+  if not is_blank(user.real_name) then
+    outfile:write(user.real_name)
+  elseif not is_blank(user.display_name) then
+    outfile:write(user.display_name)
+  elseif not is_blank(user.name) then
+    outfile:write(user.name)
+  end
+  outfile:write('</b>')
+end
+
+function print_time(outfile, ts)
+  outfile:write('<span style="margin:2em; color:#606060">')
+  outfile:write(os.date('%Y-%m-%d %H:%M', math.floor(tonumber(ts))))
+  outfile:write('</span>')
+end
+
+function is_blank(s)
+  return s == nil or s == ''
+end
+
+function emit_comment(outfile, comment)
+  outfile:write('<div class="comment">')
+  outfile:write('  <tr>\n')
+  outfile:write('    <td style="vertical-align:top">\n')
+  if comment.user_profile and comment.user_profile.image_72 then
+    outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>')
+  end
+  outfile:write('    </td>\n')
+  outfile:write('    <td style="vertical-align:top; padding-left:1em">\n')
+  print_name(outfile, comment.user_profile)
+  print_time(outfile, comment.ts)
+  outfile:write('<br/>')
+  outfile:write(comment.text..'\n')
+  outfile:write('    </td>\n')
+  outfile:write('</tr>')
+  outfile:write('</div>')
 end
 
 -- Assumes:

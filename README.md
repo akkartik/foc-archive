@@ -12,8 +12,9 @@
   ls input/*/*.json > file_list
   ```
 
-* Generate html for `file_list` into directory `input/`:
+* Generate html for `file_list` into directory `output/`:
   ```
+  rm -rf output  # clear output
   lua generate_html.lua input/channels.json input/users.json file_list output
   ```
 

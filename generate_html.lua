@@ -83,6 +83,7 @@ function emit_files(posts, channel, output, channels, users)
   if channel == nil then return end
   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
+  copy_file('index.html', output)
   for ts, post in pairs(posts) do
     local outfilename = output..'/'..channel..'/'..post.ts..'.html'
     local outfile = io.open(outfilename, 'w')
@@ -94,12 +95,20 @@ function emit_files(posts, channel, output, channels, users)
   end
 end
 
+function copy_file(src_filename, dest_dir)
+  infile = io.open(src_filename)
+  outfile = io.open(dest_dir..'/'..src_filename, 'w')
+  outfile:write(infile:read('*a'))
+  infile:close()
+  outfile:close()
+end
+
 function emit_post(outfile, post, channel, users)
   if post and post.subtype == 'bot_message' then return end
   if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
-  outfile:write('<h2>#'..channel..'</h2>\n')
+  outfile:write('<h2><a href="..">Archives</a>, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
   outfile:write('  <table>\n')
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')

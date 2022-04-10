@@ -28,19 +28,20 @@ function main(users, files, output)
   os.execute('mkdir -p '..output)
   copy_file('index.html', output)
 
-  -- load each channel entirely into memory before writing it out
+  -- load all channels entirely into memory
+  -- we'll need them to construct lists
   local posts = {}
   local channel_of_previous_file = nil
   for i, file in ipairs(files) do
     local chan = channel(file)
     if chan ~= channel_of_previous_file then
-      emit_files(posts, channel_of_previous_file, output, users)
-      posts = {}
+      emit_files(posts[channel_of_previous_file], channel_of_previous_file, output, users)
+      posts[chan] = {}
     end
-    read_items(file, posts)
+    read_items(file, posts[chan])
     channel_of_previous_file = chan
   end
-  emit_files(posts, channel_of_previous_file, output, users)
+  emit_files(posts[channel_of_previous_file], channel_of_previous_file, output, users)
 end
 
 function read_items(filename, out)
@@ -69,7 +70,10 @@ function read_items(filename, out)
 end
 
 function read_json_array_of_items(filename)
-  return json.decode(io.open(filename):read('*a'))
+  local f = io.open(filename)
+  local s = f:read('*a')
+  f:close()
+  return json.decode(s)
 end
 
 function emit_files(posts, channel, output, users)

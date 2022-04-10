@@ -112,11 +112,11 @@ function emit_post(outfile, post, channel, users)
   if post.user_profile == nil and post.user == nil and post.username == nil then
     io.stderr:write('no author for '..json.encode(post)..'\n')
   else
-    print_name(outfile, post.user_profile, post.user or post.username, users)
+    emit_name(outfile, post.user_profile, post.user or post.username, users)
   end
-  print_time(outfile, post.ts)
+  emit_time(outfile, post.ts)
   outfile:write('<br/>')
-  print_text(outfile, post.text, users)
+  emit_text(outfile, post.text, users)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   if post.comments then
@@ -130,7 +130,7 @@ function emit_post(outfile, post, channel, users)
   outfile:write('</html>\n')
 end
 
-function print_text(outfile, s, users)
+function emit_text(outfile, s, users)
   s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
   s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')
   s = s:gsub('<([^@ |>][^ |>]*)|([^>]*)>', '<a href="%1">%2</a>')
@@ -169,17 +169,17 @@ function emit_comment(outfile, comment, users)
   if comment.user_profile == nil and comment.user == nil and comment.username == nil then
     io.stderr:write('no author for '..json.encode(comment)..'\n')
   else
-    print_name(outfile, comment.user_profile, comment.user or comment.username, users)
+    emit_name(outfile, comment.user_profile, comment.user or comment.username, users)
   end
-  print_time(outfile, comment.ts)
+  emit_time(outfile, comment.ts)
   outfile:write('<br/>')
-  print_text(outfile, comment.text, users)
+  emit_text(outfile, comment.text, users)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   outfile:write('</div>')
 end
 
-function print_name(outfile, user, user_id, users)
+function emit_name(outfile, user, user_id, users)
   if user == nil then
     user = users[user_id]
     if user == nil then
@@ -202,7 +202,7 @@ function name(user)
   return ''
 end
 
-function print_time(outfile, ts)
+function emit_time(outfile, ts)
   outfile:write('<span style="margin:2em; color:#606060">')
   outfile:write(os.date('%Y-%m-%d %H:%M', math.floor(tonumber(ts))))
   outfile:write('</span>')

@@ -109,7 +109,7 @@ function emit_post(outfile, post, channel, users)
   end
   print_time(outfile, post.ts)
   outfile:write('<br/>')
-  outfile:write(post.text..'\n')
+  print_text(outfile, post.text)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   if post.comments then
@@ -153,6 +153,19 @@ function is_blank(s)
   return s == nil or s == ''
 end
 
+function print_text(outfile, s)
+  local s = s:gsub('\n', '<br/>')
+  s = s:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
+  s = s:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
+  s = s:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
+  s = s:gsub('^_([^_]*)_$', '<em>%1</em>')
+  s = s:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
+  s = s:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
+  s = s:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
+  s = s:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
+  outfile:write(s..'\n')
+end
+
 function emit_comment(outfile, comment, users)
   outfile:write('<div class="comment">')
   outfile:write('  <tr>\n')
@@ -169,7 +182,7 @@ function emit_comment(outfile, comment, users)
   end
   print_time(outfile, comment.ts)
   outfile:write('<br/>')
-  outfile:write(comment.text..'\n')
+  print_text(outfile, comment.text)
   outfile:write('    </td>\n')
   outfile:write('</tr>')
   outfile:write('</div>')

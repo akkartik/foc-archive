@@ -185,9 +185,11 @@ function emit_comment(outfile, comment, users)
   outfile:write('<div class="comment">')
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
+  outfile:write('<a name="'..comment.ts..'"></a>')
   if comment.user_profile and comment.user_profile.image_72 then
     outfile:write('      <img src="'..comment.user_profile.image_72..'" style="float:left"/>')
   end
+  outfile:write('<a href="#'..comment.ts..'" style="color:#aaa">#</a>')
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   if comment.user_profile == nil and comment.user == nil and comment.username == nil then

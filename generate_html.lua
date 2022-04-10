@@ -20,6 +20,30 @@ if #arg ~= 4 then
   os.exit(1)
 end
 
+function main(channels, users, files, output)
+  -- Assumes:
+  --   each channel gets its own top-level directory
+  --   files for a channel are contiguously arranged in the file list
+  --   files within a channel are in chronological order
+
+  os.execute('mkdir -p '..output)
+  copy_file('index.html', output)
+
+  -- load each channel entirely into memory before writing it out
+  local posts = {}
+  local channel_of_previous_file = nil
+  for i, file in ipairs(files) do
+    local curr_channel = channel(file)
+    if curr_channel ~= channel_of_previous_file then
+      emit_files(posts, channel_of_previous_file, output, channels, users)
+      posts = {}
+    end
+    read_items(file, posts)
+    channel_of_previous_file = curr_channel
+  end
+  emit_files(posts, channel_of_previous_file, output, channels, users)
+end
+
 function read_json_array(filename)
   local result = {}
   local item_list = json.decode(io.open(filename):read('*a'))
@@ -223,29 +247,9 @@ function emit_comment(outfile, comment, users)
   outfile:write('</div>')
 end
 
--- Assumes:
---   each channel gets its own top-level directory
---   files for a channel are contiguously arranged in the file list
---   files within a channel are in chronological order
-
 channels = read_json_array(arg[1])
 users = read_json_array(arg[2])
 files = read_file_list(arg[3])
 output = arg[4]
 
-os.execute('mkdir -p '..output)
-copy_file('index.html', output)
-
--- load each channel entirely into memory before writing it out
-local posts = {}
-local channel_of_previous_file = nil
-for i, file in ipairs(files) do
-  local curr_channel = channel(file)
-  if curr_channel ~= channel_of_previous_file then
-    emit_files(posts, channel_of_previous_file, output, channels, users)
-    posts = {}
-  end
-  read_items(file, posts)
-  channel_of_previous_file = curr_channel
-end
-emit_files(posts, channel_of_previous_file, output, channels, users)
+main(channels, users, files, output)

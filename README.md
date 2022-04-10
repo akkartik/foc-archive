@@ -25,3 +25,5 @@
 
   Will not perform any operations outside of file operations, and will not
   perform file operations to anything outside of `file_list` and `output/`.
+
+Tested with Lua 5.1, 5.2, 5.3, 5.4.

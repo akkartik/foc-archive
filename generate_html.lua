@@ -32,13 +32,13 @@ function main(users, files, output)
   local posts = {}
   local channel_of_previous_file = nil
   for i, file in ipairs(files) do
-    local curr_channel = channel(file)
-    if curr_channel ~= channel_of_previous_file then
+    local chan = channel(file)
+    if chan ~= channel_of_previous_file then
       emit_files(posts, channel_of_previous_file, output, users)
       posts = {}
     end
     read_items(file, posts)
-    channel_of_previous_file = curr_channel
+    channel_of_previous_file = chan
   end
   emit_files(posts, channel_of_previous_file, output, users)
 end

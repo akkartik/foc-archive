@@ -119,7 +119,7 @@ function emit_post(outfile, post, channel, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="https://github.com/akkartik/foc-archive">download this site</a>\n')
+  outfile:write('<a href="https://github.com/akkartik/foc-archive">download this site</a> (~200MB)\n')
   outfile:write('</html>\n')
 end
 

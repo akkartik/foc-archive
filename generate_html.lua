@@ -84,12 +84,14 @@ function emit_files(posts, channel, output, channels, users)
     if outfile == nil then
       error('could not open '..outfilename)
     end
-    emit_post(outfile, post, channel)
+    emit_post(outfile, post, channel, users)
     outfile:close()
   end
 end
 
-function emit_post(outfile, post, channel)
+function emit_post(outfile, post, channel, users)
+  if post and post.subtype == 'bot_message' then return end
+  if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
   outfile:write('<h2>#'..channel..'</h2>\n')
   outfile:write('  <table>\n')
@@ -100,7 +102,11 @@ function emit_post(outfile, post, channel)
   end
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
-  print_name(outfile, post.user_profile)
+  if post.user_profile == nil and post.user == nil and post.username == nil then
+    io.stderr:write('no author for '..json.encode(post)..'\n')
+  else
+    print_name(outfile, post.user_profile, post.user or post.username, users)
+  end
   print_time(outfile, post.ts)
   outfile:write('<br/>')
   outfile:write(post.text..'\n')
@@ -108,7 +114,7 @@ function emit_post(outfile, post, channel)
   outfile:write('</tr>')
   if post.comments then
     for _, comment in ipairs(post.comments) do
-      emit_comment(outfile, comment)
+      emit_comment(outfile, comment, users)
     end
   end
   outfile:write('  </table>\n')
@@ -117,8 +123,15 @@ function emit_post(outfile, post, channel)
   outfile:write('</html>\n')
 end
 
-function print_name(outfile, user)
-  if user == nil then return end
+function print_name(outfile, user, user_id, users)
+  if user == nil then
+    user = users[user_id]
+    if user == nil then
+      assert(user_id)
+      outfile:write('<b>'..user_id..'</b>\n')
+      return
+    end
+  end
   outfile:write('<b>')
   if not is_blank(user.real_name) then
     outfile:write(user.real_name)
@@ -140,7 +153,7 @@ function is_blank(s)
   return s == nil or s == ''
 end
 
-function emit_comment(outfile, comment)
+function emit_comment(outfile, comment, users)
   outfile:write('<div class="comment">')
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
@@ -149,7 +162,11 @@ function emit_comment(outfile, comment)
   end
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
-  print_name(outfile, comment.user_profile)
+  if comment.user_profile == nil and comment.user == nil and comment.username == nil then
+    io.stderr:write('no author for '..json.encode(comment)..'\n')
+  else
+    print_name(outfile, comment.user_profile, comment.user or comment.username, users)
+  end
   print_time(outfile, comment.ts)
   outfile:write('<br/>')
   outfile:write(comment.text..'\n')

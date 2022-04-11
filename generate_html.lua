@@ -2,6 +2,7 @@
 
 -- variables interpolated into generated files
 repo = 'https://github.com/akkartik/foc-archive'
+upstream_slack = 'futureofcoding'
 
 --
 
@@ -147,6 +148,34 @@ function emit_text(outfile, s, channels, users)
   end
   for _, tagged_user_id in ipairs(tagged_user_ids) do
     s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#ccf">@'..name(users[tagged_user_id])..'</span>')
+  end
+  -- convert URLs from Slack to go to this archive
+  slack_urls = {}
+  for slack_url in string.gmatch(s, 'https://'..upstream_slack..'.slack.com/archives/[^/ ]*/p[0-9]*%?thread_ts=[0-9]*%.[0-9]*&?[^ \'"|<>]*') do
+    -- turn slack_url into a regex
+    slack_url = slack_url:gsub('%?', '%%?')
+    table.insert(slack_urls, slack_url)
+  end
+  for _, slack_url in ipairs(slack_urls) do
+    local channel_id, comment_ts_int, comment_ts_frac, post_ts = string.match(slack_url, 'https://'..upstream_slack..'.slack.com/archives/([^/ ]*)/p([0-9]*)([0-9][0-9][0-9][0-9][0-9][0-9])%%%?thread_ts=([0-9]*%.[0-9]*)')
+    assert(channel_id)
+    if channels[channel_id] then
+      s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..post_ts..'.html#'..comment_ts_int..'.'..comment_ts_frac)
+    else
+      io.stderr:write(channel_id..' not found\n')
+    end
+  end
+  slack_urls = {}
+  for slack_url in string.gmatch(s, 'https://'..upstream_slack..'.slack.com/archives/[^/ ]*/p[0-9]*') do
+    table.insert(slack_urls, slack_url)
+  end
+  for _, slack_url in ipairs(slack_urls) do
+    local channel_id, ts_int, ts_frac = string.match(slack_url, 'https://'..upstream_slack..'.slack.com/archives/([^/ ]*)/p([0-9]*)([0-9][0-9][0-9][0-9][0-9][0-9])')
+    if channels[channel_id] then
+      s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..ts_int..'.'..ts_frac..'.html')
+    else
+      io.stderr:write(channel_id..' not found\n')
+    end
   end
   -- the remaining substitutions create <..> html, so come after link conversion
   s = s:gsub('\n', '<br/>')

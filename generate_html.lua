@@ -51,13 +51,10 @@ function read_items(filename, out)
   for _, item in ipairs(items) do
     if not item.thread_ts then
       -- top-level post
---?       print('top '..item.ts)
       out[item.ts] = item
     elseif item.ts == item.thread_ts then
---?       print('top '..item.ts)
       out[item.ts] = item
     else
---?       print('comment '..item.ts..' '..item.thread_ts)
       -- comment on a top-level post
       local parent = out[item.thread_ts]
       assert(parent)

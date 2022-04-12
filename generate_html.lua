@@ -115,7 +115,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   end
   emit_time(outfile, post.ts)
   outfile:write('<br/>\n')
-  emit_text(outfile, post.text, channels, users)
+  emit_text(outfile, post.text, channel, channels, users)
   outfile:write('    </td>\n')
   outfile:write('  </tr>\n')
   if post.comments then
@@ -131,7 +131,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('</html>\n')
 end
 
-function emit_text(outfile, s, channels, users)
+function emit_text(outfile, s, channel, channels, users)
   -- convert links to channels
   s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
   -- convert external links without anchor text
@@ -146,7 +146,7 @@ function emit_text(outfile, s, channels, users)
   for _, tagged_user_id in ipairs(tagged_user_ids) do
     s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#ccf">@'..name(users[tagged_user_id])..'</span>')
   end
-  -- convert URLs from Slack to go to this archive
+  -- convert links to individual items to go to this archive
   slack_urls = {}
   for slack_url in string.gmatch(s, 'https://'..upstream_slack..'.slack.com/archives/[^/ ]*/p[0-9]*%?thread_ts=[0-9]*%.[0-9]*&?[^ \'"|<>]*') do
     -- turn slack_url into a regex
@@ -157,7 +157,11 @@ function emit_text(outfile, s, channels, users)
     local channel_id, comment_ts_int, comment_ts_frac, post_ts = string.match(slack_url, 'https://'..upstream_slack..'.slack.com/archives/([^/ ]*)/p([0-9]*)([0-9][0-9][0-9][0-9][0-9][0-9])%%%?thread_ts=([0-9]*%.[0-9]*)')
     assert(channel_id)
     if channels[channel_id] then
-      s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..post_ts..'.html#'..comment_ts_int..'.'..comment_ts_frac)
+      if channels[channel_id].name == channel then
+        s = s:gsub(slack_url, post_ts..'.html#'..comment_ts_int..'.'..comment_ts_frac)
+      else
+        s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..post_ts..'.html#'..comment_ts_int..'.'..comment_ts_frac)
+      end
     else
       io.stderr:write(channel_id..' not found\n')
     end
@@ -169,7 +173,11 @@ function emit_text(outfile, s, channels, users)
   for _, slack_url in ipairs(slack_urls) do
     local channel_id, ts_int, ts_frac = string.match(slack_url, 'https://'..upstream_slack..'.slack.com/archives/([^/ ]*)/p([0-9]*)([0-9][0-9][0-9][0-9][0-9][0-9])')
     if channels[channel_id] then
-      s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..ts_int..'.'..ts_frac..'.html')
+      if channels[channel_id].name == channel then
+        s = s:gsub(slack_url, ts_int..'.'..ts_frac..'.html')
+      else
+        s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..ts_int..'.'..ts_frac..'.html')
+      end
     else
       io.stderr:write(channel_id..' not found\n')
     end
@@ -203,7 +211,7 @@ function emit_comment(outfile, comment, site_prefix, channel, post_ts, channels,
   end
   emit_time(outfile, comment.ts)
   outfile:write('<br/>\n')
-  emit_text(outfile, comment.text, channels, users)
+  emit_text(outfile, comment.text, channel, channels, users)
   outfile:write('    </td>\n')
 end
 

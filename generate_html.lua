@@ -47,6 +47,14 @@ function main(channels, users, files, output)
   end
 
   io.stderr:write('intros by people\n')
+  -- urls for bookmarklets:
+  --  javascript:(function(){ window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(' ', '-').replaceAll(/[^\w_.~-]/g, '-'))+'.html'); })();
+  --  javascript:window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(' ', '-').replaceAll(/[^\w_.~-]/g, '-'))+'.html');undefined
+  -- manual tests:
+  --  selecting text on window
+  --  typing in a name
+  --  typing in a name with spaces
+  --  typing in a name with special characters: ' Santiago Quintana (he/him)  '
   intros = {}  -- user id -> array of posts in #introduce-yourself
   for ts, post in pairs(posts['introduce-yourself']) do
     if post.user_profile then
@@ -294,10 +302,7 @@ end
 
 -- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99
 function encode_for_url(url)
-  local function char_to_hex(c)
-    return string.format("%%%02X", string.byte(c))
-  end
-  url = url:gsub('([^%w _ %- . ~])', char_to_hex)
+  url = url:gsub('([^%w _ %- . ~])', '-')
   url = url:gsub(' ', '-')
   return url
 end

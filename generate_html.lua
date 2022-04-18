@@ -102,6 +102,21 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('<head><meta charset="UTF-8"></head>')
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
   outfile:write('  <table>\n')
+  emit_post_body(outfile, post, site_prefix, channel)
+  if post.comments then
+    for _, comment in ipairs(post.comments) do
+      outfile:write('  <tr>\n')
+      emit_comment(outfile, comment, site_prefix, channel, post.ts, channels, users)
+      outfile:write('  </tr>\n')
+    end
+  end
+  outfile:write('  </table>\n')
+  outfile:write('<hr>\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('</html>\n')
+end
+
+function emit_post_body(outfile, post, site_prefix, channel)
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
@@ -120,17 +135,6 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   emit_text(outfile, post.text, channel, channels, users)
   outfile:write('    </td>\n')
   outfile:write('  </tr>\n')
-  if post.comments then
-    for _, comment in ipairs(post.comments) do
-      outfile:write('  <tr>\n')
-      emit_comment(outfile, comment, site_prefix, channel, post.ts, channels, users)
-      outfile:write('  </tr>\n')
-    end
-  end
-  outfile:write('  </table>\n')
-  outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
-  outfile:write('</html>\n')
 end
 
 function emit_text(outfile, s, channel, channels, users)

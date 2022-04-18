@@ -45,6 +45,27 @@ function main(channels, users, files, output)
   for channel, cposts in pairs(posts) do
     emit_files(cposts, channel, output, channels, users)
   end
+
+  io.stderr:write('intros by people\n')
+  intros = {}  -- user id -> array of posts in #introduce-yourself
+  for ts, post in pairs(posts['introduce-yourself']) do
+    if post.user_profile then
+      local id = post.user or post.username
+      if intros[id] == nil then
+        intros[id] = {post}
+      else
+        table.insert(intros[id], post)
+      end
+    end
+  end
+  for id, userdata in pairs(users) do
+    local name = userdata.real_name or userdata.name
+    local filename = output..'/introduce-yourself/'..encode_for_url(name)..'.html'
+    if intros[id] then
+      table.sort(intros[id], function(a, b) return a.ts < b.ts end)
+      emit_intro(filename, name, intros[id])
+    end
+  end
 end
 
 function read_items(filename, out)
@@ -114,6 +135,23 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('<hr>\n')
   outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
   outfile:write('</html>\n')
+end
+
+function emit_intro(outfilename, name, posts)
+  print(outfilename)
+  local outfile = io.open(outfilename, 'w')
+  outfile:write('<html>\n')
+  outfile:write('<head><meta charset="UTF-8"></head>')
+  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, introductions by '..name..'</h2>\n')
+  outfile:write('  <table>\n')
+  for _, post in ipairs(posts) do
+    emit_post_body(outfile, post, '../', 'introduce-yourself')
+  end
+  outfile:write('  </table>\n')
+  outfile:write('<hr>\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('</html>\n')
+  outfile:close()
 end
 
 function emit_post_body(outfile, post, site_prefix, channel)
@@ -252,6 +290,16 @@ end
 
 function channel(filename)
   return basename(dirname(filename))
+end
+
+-- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99
+function encode_for_url(url)
+  local function char_to_hex(c)
+    return string.format("%%%02X", string.byte(c))
+  end
+  url = url:gsub('([^%w _ %- . ~])', char_to_hex)
+  url = url:gsub(' ', '-')
+  return url
 end
 
 function dirname(path)

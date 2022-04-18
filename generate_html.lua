@@ -31,6 +31,7 @@ function main(channels, users, files, output)
 
   -- load all channels entirely into memory
   -- we'll need them to construct lists
+  io.stderr:write('read\n')
   local posts = {}
   for i, file in ipairs(files) do
     local chan = channel(file)
@@ -40,6 +41,7 @@ function main(channels, users, files, output)
     read_items(file, posts[chan])
   end
 
+  io.stderr:write('threads\n')
   for channel, cposts in pairs(posts) do
     emit_files(cposts, channel, output, channels, users)
   end

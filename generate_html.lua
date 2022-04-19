@@ -48,8 +48,8 @@ function main(channels, users, files, output)
 
   io.stderr:write('intros by people\n')
   -- urls for bookmarklets:
-  --  javascript:(function(){ window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(' ', '-').replaceAll(/[^\w_.~-]/g, '-'))+'.html'); })();
-  --  javascript:window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(' ', '-').replaceAll(/[^\w_.~-]/g, '-'))+'.html');undefined
+  --  javascript:(function(){ window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(/[^\w_.~-]/g, '-'))+'.html'); })();
+  --  javascript:window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(/[^\w_.~-]/g, '-'))+'.html');undefined
   -- manual tests:
   --  selecting text on window
   --  typing in a name

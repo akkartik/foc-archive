@@ -71,7 +71,7 @@ function main(channels, users, files, output)
     local filename = output..'/introduce-yourself/'..encode_for_url(name)..'.html'
     if intros[id] then
       table.sort(intros[id], function(a, b) return a.ts < b.ts end)
-      emit_intro(filename, name, intros[id])
+      emit_intro(filename, name, intros[id], channels, users)
     end
   end
 end
@@ -131,7 +131,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('<head><meta charset="UTF-8"></head>')
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
   outfile:write('  <table>\n')
-  emit_post_body(outfile, post, site_prefix, channel)
+  emit_post_body(outfile, post, site_prefix, channel, channels, users)
   if post.comments then
     for _, comment in ipairs(post.comments) do
       outfile:write('  <tr>\n')
@@ -145,7 +145,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('</html>\n')
 end
 
-function emit_intro(outfilename, name, posts)
+function emit_intro(outfilename, name, posts, channels, users)
   print(outfilename)
   local outfile = io.open(outfilename, 'w')
   outfile:write('<html>\n')
@@ -153,7 +153,7 @@ function emit_intro(outfilename, name, posts)
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, introductions by '..name..'</h2>\n')
   outfile:write('  <table>\n')
   for _, post in ipairs(posts) do
-    emit_post_body(outfile, post, '../', 'introduce-yourself')
+    emit_post_body(outfile, post, '../', 'introduce-yourself', channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
@@ -162,7 +162,7 @@ function emit_intro(outfilename, name, posts)
   outfile:close()
 end
 
-function emit_post_body(outfile, post, site_prefix, channel)
+function emit_post_body(outfile, post, site_prefix, channel, channels, users)
   outfile:write('  <tr>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
@@ -337,9 +337,9 @@ function read_file_list(filename)
   return result
 end
 
-channels = read_json_array(arg[1])
-users = read_json_array(arg[2])
-files = read_file_list(arg[3])
-output = arg[4]
+local channels = read_json_array(arg[1])
+local users = read_json_array(arg[2])
+local files = read_file_list(arg[3])
+local output = arg[4]
 
 main(channels, users, files, output)

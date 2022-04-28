@@ -1,5 +1,7 @@
-Yet another browser for the <a href='https://futureofcoding.org/community'>Future of Coding Slack</a>
-archives, this time as a purely static set of html files.
+[Yet](http://history.futureofcoding.org)
+[another](https://github.com/akkartik/mu/tree/main/browse-slack) browser for
+the [Future of Coding Slack](https://futureofcoding.org/community) archives,
+this time as a purely static set of html files.
 
 # Goals
 

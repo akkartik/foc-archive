@@ -43,7 +43,8 @@ this time as a purely static set of html files.
 Q: Why did you invent a whole new URL format?
 
 Since this is a statically generated website, I can't use query parameters
-containing `?` and `&`.
+containing `?` and `&`. The changes needed to convert a Slack URL to this repo
+are hopefully easy to deduce.
 
 Q: How do I search?
 

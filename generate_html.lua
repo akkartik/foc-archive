@@ -237,15 +237,28 @@ function emit_text(outfile, s, channel, channels, users)
   -- the remaining substitutions create <..> html, so come after link conversion
   -- also do them line by line to disambiguate emphasis from bullet lists
   local result = ''
+  local fence = false
   for sx in string.gmatch(s, '[^\n]+') do
-    sx = sx:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
-    sx = sx:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
-    sx = sx:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
-    sx = sx:gsub('^_([^_]*)_$', '<em>%1</em>')
-    sx = sx:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
-    sx = sx:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
-    sx = sx:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
-    sx = sx:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
+    if not fence then
+      sx = sx:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
+      sx = sx:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
+      sx = sx:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
+      sx = sx:gsub('^_([^_]*)_$', '<em>%1</em>')
+      sx = sx:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
+      sx = sx:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
+      sx = sx:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
+      sx = sx:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
+      sx = sx:gsub('^%s*%*', '<li>')
+    end
+    if sx:find('```') then
+      if not fence then
+        sx = sx:gsub('```', '<pre>')
+        fence = not fence
+      else
+        sx = sx:gsub('```', '</pre>')
+        fence = not fence
+      end
+    end
     result = result..sx..'<br/>'
   end
   outfile:write(result..'\n')

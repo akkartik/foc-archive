@@ -235,16 +235,20 @@ function emit_text(outfile, s, channel, channels, users)
     end
   end
   -- the remaining substitutions create <..> html, so come after link conversion
-  s = s:gsub('\n', '<br/>')
-  s = s:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
-  s = s:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
-  s = s:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
-  s = s:gsub('^_([^_]*)_$', '<em>%1</em>')
-  s = s:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
-  s = s:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
-  s = s:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
-  s = s:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
-  outfile:write(s..'\n')
+  -- also do them line by line to disambiguate emphasis from bullet lists
+  local result = ''
+  for sx in string.gmatch(s, '[^\n]+') do
+    sx = sx:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
+    sx = sx:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
+    sx = sx:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
+    sx = sx:gsub('^_([^_]*)_$', '<em>%1</em>')
+    sx = sx:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
+    sx = sx:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
+    sx = sx:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
+    sx = sx:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
+    result = result..sx..'<br/>'
+  end
+  outfile:write(result..'\n')
 end
 
 function emit_comment(outfile, comment, site_prefix, channel, post_ts, channels, users)

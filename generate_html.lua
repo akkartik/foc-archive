@@ -238,31 +238,71 @@ function emit_text(outfile, s, channel, channels, users)
   -- also do them line by line to disambiguate e.g. emphasis from bullet lists
   local result = ''
   local fence = false  -- block ```
-  for sx in string.gmatch(s, '[^\n]+') do
+  for sx,newline in string.gmatch(s, '([^\n]*)(\n?)') do
     if sx:find('```') then
       if not fence then
         sx = sx:gsub('```', '<pre>')
-        fence = not fence
       else
         sx = sx:gsub('```', '</pre>')
-        fence = not fence
       end
+      fence = not fence
     else
       if not fence then
-        sx = sx:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
-        sx = sx:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
-        sx = sx:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
-        sx = sx:gsub('^_([^_]*)_$', '<em>%1</em>')
-        sx = sx:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
-        sx = sx:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
-        sx = sx:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
-        sx = sx:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
-        sx = sx:gsub('^%s*%*', '<li>')
+        if not sx:find('`') then
+          sx = postprocess(sx)
+        else
+          local subresult = ''
+          local backtick = false  -- inline `...`
+          local first = true
+          for frag in string.gmatch(sx, '[^`]*') do
+            if not backtick then
+              frag = postprocess(frag)
+            end
+            if first then
+              subresult = subresult..frag
+            else
+              if backtick then
+                subresult = subresult..'<tt>'..frag
+              else
+                subresult = subresult..'</tt>'..frag
+              end
+            end
+            first = false
+            backtick = not backtick
+          end
+          sx = subresult
+        end
       end
     end
-    result = result..sx..'<br/>'
+    result = result..sx
+    if newline ~= '' then
+      result = result..'<br/>'
+    end
   end
   outfile:write(result..'\n')
+end
+
+-- bart's comment at https://stackoverflow.com/questions/1426954/split-string-in-lua
+function split(inputstr, sep)
+  sep=sep or '%s'
+  local t={}
+  for field,s in string.gmatch(inputstr, "([^"..sep.."]*)("..sep.."?)") do
+    table.insert(t,field)
+    if s=="" then return t end
+  end
+end
+
+function postprocess(s)
+  s = s:gsub('(%W)_([^_]*)_(%W)', '%1<em>%2</em>%3')
+  s = s:gsub('^_([^_]*)_(%W)', '<em>%1</em>%2')
+  s = s:gsub('(%W)_([^_]*)_$', '%1<em>%2</em>')
+  s = s:gsub('^_([^_]*)_$', '<em>%1</em>')
+  s = s:gsub('(%W)%*([^%*]*)%*(%W)', '%1<b>%2</b>%3')
+  s = s:gsub('^%*([^%*]*)%*(%W)', '<b>%1</b>%2')
+  s = s:gsub('(%W)%*([^%*]*)%*$', '%1<b>%2</b>')
+  s = s:gsub('^%*([^%*]*)%*$', '<b>%1</b>')
+  s = s:gsub('^%s*%*', '<li>')
+  return s
 end
 
 function emit_comment(outfile, comment, site_prefix, channel, post_ts, channels, users)

@@ -69,7 +69,7 @@ function main(channels, users, files, output)
     emit_channel_index(channel, posts[channel], output, channels, users)
   end
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
   outfile:write('</html>\n')
   outfile:close()
 

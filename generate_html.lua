@@ -49,11 +49,11 @@ function main(channels, users, files, output)
   io.stderr:write('index.html files\n')
   local outfile = io.open(output..'/index.html', 'w')
   outfile:write('<html>\n')
-  outfile:write('<head><meta charset="UTF-8"></head>')
+  outfile:write('<head><meta charset="UTF-8"></head>\n')
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a></h2>\n')
   primary_channels = {'thinking-together', 'linking-together', 'reading-together', 'share-your-work', 'two-minute-week', 'introduce-yourself', 'present-company', 'announcements', 'administrivia'}
   for _,channel in ipairs(primary_channels) do
-    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>')
+    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>\n')
     emit_channel_index(channel, posts[channel], output, channels, users)
   end
   outfile:write('    <hr>\n')
@@ -65,7 +65,7 @@ function main(channels, users, files, output)
   end
   table.sort(secondary_channels)
   for _,channel in ipairs(secondary_channels) do
-    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>')
+    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>\n')
     emit_channel_index(channel, posts[channel], output, channels, users)
   end
   outfile:write('<hr>\n')

@@ -52,7 +52,7 @@ https://futureofcoding.slack.com/archives/C5T9GPWFL/p1653663004176149
 into something like:
 
 ```
-        http://akkartik.name/archives/foc/C5T9GPWFL/p1653663004176149
+        http://akkartik.name/archives/foc/C5T9GPWFL/p1653663004176149.html
 ```
 
 and it'll redirect you to the right page.

@@ -197,7 +197,7 @@ function emit_posts(posts, channel, output, channels, users)
     emit_post(outfile, post, '../', channel, channels, users)
     outfile:close()
     -- emit redirect
-    local outfilename = output..'/'..channel_id..'/p'..math.floor(post.ts*1000000)
+    local outfilename = output..'/'..channel_id..'/p'..math.floor(post.ts*1000000)..'.html'
     local outfile = io.open(outfilename, 'w')
     if outfile == nil then
       error('could not open '..outfilename)

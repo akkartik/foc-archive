@@ -107,7 +107,7 @@ end
 
 function emit_files(posts, channel, output, channels, users)
   if channel == nil then return end
-  io.stderr:write('emitting #'..channel..'\n')
+--?   io.stderr:write('emitting #'..channel..'\n')
   os.execute('mkdir -p '..output..'/'..channel)
   emit_posts(posts, channel, output, channels, users)
 end
@@ -146,7 +146,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
 end
 
 function emit_intro(outfilename, name, posts, channels, users)
-  print(outfilename)
+--?   print(outfilename)
   local outfile = io.open(outfilename, 'w')
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')

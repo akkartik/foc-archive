@@ -47,9 +47,31 @@ function main(channels, users, files, output)
   end
 
   io.stderr:write('index.html files\n')
-  for channel,_ in pairs(posts) do
+  local outfile = io.open(output..'/index.html', 'w')
+  outfile:write('<html>\n')
+  outfile:write('<head><meta charset="UTF-8"></head>')
+  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a></h2>\n')
+  primary_channels = {'thinking-together', 'linking-together', 'reading-together', 'share-your-work', 'two-minute-week', 'introduce-yourself', 'present-company', 'announcements', 'administrivia'}
+  for _,channel in ipairs(primary_channels) do
+    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>')
     emit_channel_index(channel, posts[channel], output, channels, users)
   end
+  outfile:write('    <hr>\n')
+  secondary_channels = {}
+  for channel,_ in pairs(posts) do
+    if not array.find(primary_channels, channel) then
+      table.insert(secondary_channels, channel)
+    end
+  end
+  table.sort(secondary_channels)
+  for _,channel in ipairs(secondary_channels) do
+    outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>')
+    emit_channel_index(channel, posts[channel], output, channels, users)
+  end
+  outfile:write('<hr>\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('</html>\n')
+  outfile:close()
 
   io.stderr:write('intros by people\n')
   -- urls for bookmarklets:
@@ -79,6 +101,16 @@ function main(channels, users, files, output)
       emit_intro(filename, name, intros[id], channels, users)
     end
   end
+end
+
+array = {}
+function array.find(arr, elem)
+  for i,x in ipairs(arr) do
+    if x == elem then
+      return i
+    end
+  end
+  return nil
 end
 
 function emit_channel_index(channel, posts, output, channels, users)

@@ -43,8 +43,19 @@ this time as a purely static set of html files.
 Q: Why did you invent a whole new URL format?
 
 Since this is a statically generated website, I can't use query parameters
-containing `?` and `&`. The changes needed to convert a Slack URL to this repo
-are hopefully easy to deduce.
+containing `?` and `&`. There are redirects to minimize the changes needed. Just turn:
+
+```
+https://futureofcoding.slack.com/archives/C5T9GPWFL/p1653663004176149
+```
+
+into something like:
+
+```
+        http://akkartik.name/archives/foc/C5T9GPWFL/p1653663004176149
+```
+
+and it'll redirect you to the right page.
 
 Q: How do I search?
 

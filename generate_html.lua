@@ -184,6 +184,10 @@ function emit_files(posts, channel, output, channels, users)
 end
 
 function emit_posts(posts, channel, output, channels, users)
+--?   print(channel)
+  local channel_id = lookup_channel_id(channels, channel)
+  assert(channel_id)
+  os.execute('mkdir -p '..output..'/'..channel_id)
   for ts, post in pairs(posts) do
     local outfilename = output..'/'..channel..'/'..post.ts..'.html'
     local outfile = io.open(outfilename, 'w')
@@ -192,6 +196,22 @@ function emit_posts(posts, channel, output, channels, users)
     end
     emit_post(outfile, post, '../', channel, channels, users)
     outfile:close()
+    -- emit redirect
+    local outfilename = output..'/'..channel_id..'/p'..math.floor(post.ts*1000000)
+    local outfile = io.open(outfilename, 'w')
+    if outfile == nil then
+      error('could not open '..outfilename)
+    end
+    outfile:write('<meta http-equiv="refresh" content="0;url=../'..channel..'/'..post.ts..'.html" />')
+    outfile:close()
+  end
+end
+
+function lookup_channel_id(channels, channel)
+  for k,chan in pairs(channels) do
+    if chan.name == channel then
+      return chan.id
+    end
   end
 end
 

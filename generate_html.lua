@@ -46,6 +46,11 @@ function main(channels, users, files, output)
     emit_files(cposts, channel, output, channels, users)
   end
 
+  io.stderr:write('index.html files\n')
+  for channel,_ in pairs(posts) do
+    emit_channel_index(channel, posts[channel], output, channels, users)
+  end
+
   io.stderr:write('intros by people\n')
   -- urls for bookmarklets:
   --  javascript:(function(){ window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(/[^\w_.~-]/g, '-'))+'.html'); })();
@@ -74,6 +79,40 @@ function main(channels, users, files, output)
       emit_intro(filename, name, intros[id], channels, users)
     end
   end
+end
+
+function emit_channel_index(channel, posts, output, channels, users)
+--?   print(channel)
+  local outfile = io.open(output..'/'..channel..'/index.html', 'w')
+  outfile:write('<html>\n')
+  outfile:write('<head><meta charset="UTF-8"></head>')
+  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..', index</h2>\n')
+  outfile:write('  <table style="table-layout:fixed; width:60em; margin:auto; padding:auto">\n')
+  sorted_ts = {}
+  for ts,_ in pairs(posts) do
+    table.insert(sorted_ts, ts)
+  end
+  table.sort(sorted_ts, function(a,b) return a > b end)
+  for _,ts in ipairs(sorted_ts) do
+    local post = posts[ts]
+    if post and post.subtype ~= 'bot_message' and post.subtype ~= 'file_comment' then
+      emit_post_body(outfile, post, '../', channel, channels, users)
+      outfile:write('  <tr>\n')
+      if post.comments then
+        outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
+        outfile:write('    </td>\n')
+        outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
+        outfile:write('<a href="'..post.ts..'.html">'..#post.comments..' comments</a>')
+        outfile:write('    </td>\n')
+      end
+      outfile:write('  </tr>\n')
+    end
+  end
+  outfile:write('  </table>\n')
+  outfile:write('<hr>\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('</html>\n')
+  outfile:close()
 end
 
 function read_items(filename, out)
@@ -164,7 +203,7 @@ end
 
 function emit_post_body(outfile, post, site_prefix, channel, channels, users)
   outfile:write('  <tr>\n')
-  outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
+  outfile:write('    <td style="width:72px; vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
     outfile:write('      <img src="'..post.user_profile.image_72..'" style="float:left"/>\n')
   end

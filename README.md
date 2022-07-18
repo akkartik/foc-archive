@@ -65,4 +65,8 @@ Use [Github search](https://github.com/akkartik/foc-archive)
 
 Q: Is there a way to look up people's introductions?
 
-Create a bookmarklet with [this link](javascript:window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(/[^\w_.~-]/g, '-'))+'.html');undefined)
+Create a bookmark with this Javascript:
+
+```
+javascript:window.open('http://akkartik.name/archives/foc/introduce-yourself/'+((window.getSelection() != '' ? window.getSelection().toString() : prompt('Please enter a name (case sensitive)')).trim().replaceAll(/[^\w_.~-]/g, '-'))+'.html');undefined
+```

@@ -142,7 +142,7 @@ function emit_channel_index(channel, posts, output, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
   outfile:write('</html>\n')
   outfile:close()
 end
@@ -232,7 +232,7 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
   outfile:write('</html>\n')
 end
 
@@ -248,7 +248,7 @@ function emit_intro(outfilename, name, posts, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~200MB)\n')
+  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
   outfile:write('</html>\n')
   outfile:close()
 end

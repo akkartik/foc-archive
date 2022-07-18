@@ -331,12 +331,18 @@ function emit_text(outfile, s, channel, channels, users)
   local fence = false  -- block ```
   for sx,newline in string.gmatch(s, '([^\n]*)(\n?)') do
     if sx:find('```') then
-      if not fence then
-        sx = sx:gsub('```', '<pre>')
-      else
-        sx = sx:gsub('```', '</pre>')
+      while true do
+        local nsubs
+        if not fence then
+          sx, nsubs = sx:gsub('```', '<pre>', 1)
+        else
+          sx, nsubs = sx:gsub('```', '</pre>', 1)
+        end
+        if nsubs == 0 then
+          break
+        end
+        fence = not fence
       end
-      fence = not fence
     else
       if not fence then
         if not sx:find('`') then

@@ -278,9 +278,42 @@ function emit_text(outfile, s, channel, channels, users)
   -- convert links to channels
   s = s:gsub('<(#[^ |>]*)|([^>]*)>', '#%2')  -- no channel pages at the moment
   -- convert external links without anchor text
-  s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')
+--?   s = s:gsub('<([^@ |>][^ |>]*)>', '<a href="%1">%1</a>')  -- doesn't truncate
+  while true do
+--?     print('iter:', s)
+    local link = s:match('<([^/@ |>][^ |>]*)>')  -- extra '/' to avoid matching on the </a> we generate
+    if link == nil then
+      break
+    end
+    -- truncate long links on screen
+    local link_text = link
+    if #link_text > 80 then
+      link_text = link_text:sub(1, 60)..'&hellip;'
+--?       print('replacing', link, 'with', link_text)
+--?     else
+--?       print('no change to', link)
+    end
+    local escaped_link_text = link_text:gsub('%%', '%%%%')
+    s = s:gsub('<([^@ |>/][^ |>]*)>', '<a href="%1">'..escaped_link_text..'</a>', 1)
+  end
   -- convert external links with anchor text
-  s = s:gsub('<([^@ |>][^ |>]*)|([^>]*)>', '<a href="%1">%2</a>')
+--?   s = s:gsub('<([^@ |>][^ |>]*)|([^>]*)>', '<a href="%1">%2</a>')  -- doesn't truncate
+  while true do
+--?     print('iter:', s)
+    local link, link_text = s:match('<([^/@ |>][^ |>]*)|([^>]*)>')  -- extra '/' to avoid matching on the </a> we generate
+    if link == nil then
+      break
+    end
+    -- truncate long links on screen
+    if #link_text > 80 then
+      link_text = link_text:sub(1, 60)..'&hellip;'
+--?       print('replacing', link, 'with', link_text)
+--?     else
+--?       print('no change to', link)
+    end
+    local escaped_link_text = link_text:gsub('%%', '%%%%')
+    s = s:gsub('<([^/@ |>][^ |>]*)|([^>]*)>', '<a href="%1">'..escaped_link_text..'</a>', 1)
+  end
   -- convert links to tagged users
   tagged_user_ids = {}
   for user_tag in string.gmatch(s, '<@U[^ <>]*>') do
@@ -315,14 +348,16 @@ function emit_text(outfile, s, channel, channels, users)
   end
   for _, slack_url in ipairs(slack_urls) do
     local channel_id, ts_int, ts_frac = string.match(slack_url, 'https://'..upstream_slack..'.slack.com/archives/([^/ ]*)/p([0-9]*)([0-9][0-9][0-9][0-9][0-9][0-9])')
-    if channels[channel_id] then
-      if channels[channel_id].name == channel then
-        s = s:gsub(slack_url, ts_int..'.'..ts_frac..'.html')
+    if channel_id then  -- check for truncation above
+      if channels[channel_id] then
+        if channels[channel_id].name == channel then
+          s = s:gsub(slack_url, ts_int..'.'..ts_frac..'.html')
+        else
+          s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..ts_int..'.'..ts_frac..'.html')
+        end
       else
-        s = s:gsub(slack_url, '../'..channels[channel_id].name..'/'..ts_int..'.'..ts_frac..'.html')
+        io.stderr:write(channel_id..' not found\n')
       end
-    else
-      io.stderr:write(channel_id..' not found\n')
     end
   end
   -- the remaining substitutions create <..> html, so come after link conversion

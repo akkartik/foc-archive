@@ -334,7 +334,8 @@ function emit_text(outfile, s, channel, channels, users)
       while true do
         local nsubs
         if not fence then
-          sx, nsubs = sx:gsub('```', '<pre>', 1)
+          -- https://stackoverflow.com/questions/248011/how-do-i-wrap-text-in-a-pre-tag
+          sx, nsubs = sx:gsub('```', '<pre style="white-space:pre-wrap">', 1)
         else
           sx, nsubs = sx:gsub('```', '</pre>', 1)
         end

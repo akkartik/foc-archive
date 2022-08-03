@@ -87,19 +87,20 @@ function main(channels, users, files, output)
   for ts, post in pairs(posts['introduce-yourself']) do
     if post.user_profile then
       local id = post.user or post.username
-      if intros[id] == nil then
-        intros[id] = {post}
+      local name = users[id].real_name or users[id].name
+      if intros[name] == nil then
+        intros[name] = {post}
       else
-        table.insert(intros[id], post)
+        table.insert(intros[name], post)
       end
     end
   end
   for id, userdata in pairs(users) do
     local name = userdata.real_name or userdata.name
     local filename = output..'/introduce-yourself/'..encode_for_url(name)..'.html'
-    if intros[id] then
-      table.sort(intros[id], function(a, b) return a.ts < b.ts end)
-      emit_intro(filename, name, intros[id], channels, users)
+    if intros[name] then
+      table.sort(intros[name], function(a, b) return a.ts < b.ts end)
+      emit_intro(filename, name, intros[name], channels, users)
     end
   end
 end

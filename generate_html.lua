@@ -51,7 +51,7 @@ function main(channels, users, files, output)
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>\n')
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a></h2>\n')
-  primary_channels = {'thinking-together', 'linking-together', 'reading-together', 'share-your-work', 'two-minute-week', 'introduce-yourself', 'present-company', 'announcements', 'administrivia'}
+  primary_channels = {'thinking-together', 'linking-together', 'reading-together', 'share-your-work', 'devlog-together', 'two-minute-week', 'introduce-yourself', 'present-company', 'announcements', 'administrivia'}
   for _,channel in ipairs(primary_channels) do
     outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>\n')
     emit_channel_index(channel, posts[channel], output, channels, users)

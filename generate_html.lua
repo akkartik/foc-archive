@@ -83,6 +83,7 @@ function main(channels, users, files, output)
   --  typing in a name with spaces
   --  typing in a name with special characters: ' Santiago Quintana (he/him)  '
   intros = {}  -- user id -> array of posts in #introduce-yourself
+  -- TODO: handle conflicts in displayed usernames. There are now two 'alex' users.
   for ts, post in pairs(posts['introduce-yourself']) do
     if post.user_profile then
       local id = post.user or post.username

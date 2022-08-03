@@ -285,6 +285,16 @@ function emit_text(outfile, s, channel, channels, users)
     if link == nil then
       break
     end
+    -- get rid of trackers
+    if link:match('[?&]utm_.*') then
+      local link_without_trackers = link:gsub('[?&]utm_.*', '')
+      local escaped_link = link:gsub('[%^%$%(%)%.%[%]%*%+%-%?%%]', '%%%0')  -- https://www.lua.org/manual/5.3/manual.html#6.4.1
+      local escaped_link_without_trackers = link_without_trackers:gsub('%%', '%%%%')  -- replacement in gsub doesn't need to escape much
+      print('replacing', link, 'with', link_without_trackers)
+      s = s:gsub(escaped_link, escaped_link_without_trackers)
+--?       print('=>', s)
+      link = link_without_trackers
+    end
     -- truncate long links on screen
     local link_text = link
     if #link_text > 80 then
@@ -303,6 +313,26 @@ function emit_text(outfile, s, channel, channels, users)
     local link, link_text = s:match('<([^/@ |>][^ |>]*)|([^>]*)>')  -- extra '/' to avoid matching on the </a> we generate
     if link == nil then
       break
+    end
+    -- get rid of trackers from link
+    if link:match('[?&]utm_.*') then
+      local link_without_trackers = link:gsub('[?&]utm_.*', '')
+      local escaped_link = link:gsub('[%^%$%(%)%.%[%]%*%+%-%?%%]', '%%%0')  -- https://www.lua.org/manual/5.3/manual.html#6.4.1
+      local escaped_link_without_trackers = link_without_trackers:gsub('%%', '%%%%')  -- replacement in gsub doesn't need to escape much
+      print('replacing', link, 'with', link_without_trackers)
+      s = s:gsub(escaped_link, escaped_link_without_trackers)
+--?       print('=>', s)
+      link = link_without_trackers
+    end
+    -- get rid of trackers from link_text
+    if link_text:match('[?&]utm_.*') then
+      local link_text_without_trackers = link_text:gsub('[?&]utm_.*', '')
+      local escaped_link_text = link_text:gsub('[%^%$%(%)%.%[%]%*%+%-%?%%]', '%%%0')  -- https://www.lua.org/manual/5.3/manual.html#6.4.1
+      local escaped_link_text_without_trackers = link_text_without_trackers:gsub('%%', '%%%%')  -- replacement in gsub doesn't need to escape much
+      print('replacing link text', link_text, 'with', link_text_without_trackers)
+      s = s:gsub(escaped_link_text, escaped_link_text_without_trackers)
+--?       print('=>', s)
+      link_text = link_text_without_trackers
     end
     -- truncate long links on screen
     if #link_text > 80 then

@@ -11,8 +11,7 @@ This repo is also served online at http://akkartik.name/archives/foc.
   no need to compile additional libraries.
 
 * Offline first. Hosting on the internet is optional; the primary supported
-  way to use this data is locally. (Downloading unfortunately requires a lot
-  of bandwidth. Reducing bandwidth usage is a work in progress.)
+  way to use this data is locally.
 
 * Git is merely the means of distribution of the data. In particular, don't
   rely on the commit hashes being immutable.

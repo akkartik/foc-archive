@@ -153,7 +153,9 @@ function read_items(filename, out)
   local items = read_json_array_of_items(filename)
 --?   print(filename, #items)
   for _, item in ipairs(items) do
-    if not item.thread_ts then
+    if item.ts == nil then
+      print('ignoring', filename)
+    elseif not item.thread_ts then
       -- top-level post
       out[item.ts] = item
     elseif item.ts == item.thread_ts then

@@ -1,0 +1,260 @@
+[
+    {
+        "user": "UFQ1ZEJ0G",
+        "type": "message",
+        "ts": "1717322740.805409",
+        "client_msg_id": "0763c885-5fc4-4aad-9305-affe9ff4d19f",
+        "text": "Thanks Declan :heart: Embedding didn't get easier, but it should be easy to create a library out of ReSheet. Maybe I'll tackle that in the next days, I'll keep you updated",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6d06451d05f1",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-04-01\/6913917017328_6d06451d05f1b3ef47eb_72.jpg",
+            "first_name": "",
+            "real_name": "Daniel Krüger",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "keenbug",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1717182719.476829",
+        "parent_user_id": "UFQ1ZEJ0G",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "UwUWY",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks Declan "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "heart",
+                                "unicode": "2764-fe0f"
+                            },
+                            {
+                                "type": "text",
+                                "text": " Embedding didn't get easier, but it should be easy to create a library out of ReSheet. Maybe I'll tackle that in the next days, I'll keep you updated"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UFQ1ZEJ0G",
+        "type": "message",
+        "ts": "1717325293.160539",
+        "client_msg_id": "6e70df1d-2c25-47be-9e31-234bff012f60",
+        "text": "Nice! I love how you can follow how the code is working with the results of the calculations in the code itself and the visualisations. I wonder what's custom built for this example and what works for any use-case.\n\nAlso, is this new environment somewhere available to try out?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6d06451d05f1",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-04-01\/6913917017328_6d06451d05f1b3ef47eb_72.jpg",
+            "first_name": "",
+            "real_name": "Daniel Krüger",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "keenbug",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1717280989.315659",
+        "parent_user_id": "U06MCTWJKSR",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "UCq4W",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Nice! I love how you can follow how the code is working with the results of the calculations in the code itself and the visualisations. I wonder what's custom built for this example and what works for any use-case.\n\nAlso, is this new environment somewhere available to try out?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U06MCTWJKSR",
+        "type": "message",
+        "ts": "1717343775.796929",
+        "edited": {
+            "user": "U06MCTWJKSR",
+            "ts": "1717343890.000000"
+        },
+        "client_msg_id": "6990037e-f936-4f54-8326-8a0567ca9bb1",
+        "text": "Thanks Daniel!\n\nI use Observable Framework, and its reactive JS. It doesn't have many mechanisms to encapsulate its own reactive code but I can consolidate common bits like the layout, editor, devtools in a `TEMPLATE.md` file that I include in other (\"custom\") OF md files: in this case `raycasting.md`\n\nTo show the workings like that we need to know values to use for every input, so there is a stateful 'cursor' object that custom code must set; also a stateful array of visible formulae that it can set if it wants to. The cursor object is handy anyways because custom code uses it to to make its visualizations\/etc anyways.\n\n`raycasting.md` custom code is dense on code for the visualizations: basically everything on the right hand side, and that includes signal handlers on the visualizations which use setters for the cursor object to set inputs, visible formulas to select formulas, and button controls to set a key stream input to the cursor; also those options at the bottom right.\n\nThat code includes approx 1k lines of visualization code (Vega-Lite for the scene visual at top, much denser Vega for different layers of the visualization below it)\n\nIf the app (lets call the RHS an \"app\") wants to control the cursor (=> the workings) and navigate the formulas then it needs to tie the handling of that into signal\/event listeners.\n\nThat can be in a 'far less' elaborate way, for instance in this example: <https:\/\/calculang-editables.netlify.app\/savings> (an earlier one where you can't see the workings on top of code, but they are calcd underneath)\nThis has another feature that highlight the numbers (in the grid) used to calc a number also (just brush over them).\nAnd this is a bit more standard and I can facilitate a good co-operation in the views with less custom code.\n\nIn the example in the video though - there's some code to manage the cursor and formulae we are navigating (but I think we need to expect it)\n\nThere was a mash of experimentation in the codebase that gives it a poor structure and fragments work around calculang, so haven't released it yet but I'll think about it in the week",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "5b4c95c70d98",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-04-10\/6931478324918_5b4c95c70d98784a05cc_72.jpg",
+            "first_name": "Declan",
+            "real_name": "Declan",
+            "display_name": "Declan Naughton",
+            "team": "T5TCAFTA9",
+            "name": "declann1990",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1717280989.315659",
+        "parent_user_id": "U06MCTWJKSR",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "xdiaw",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks Daniel!\n\nI use Observable Framework, and its reactive JS. It doesn't have many mechanisms to encapsulate its own reactive code but I can consolidate common bits like the layout, editor, devtools in a "
+                            },
+                            {
+                                "type": "text",
+                                "text": "TEMPLATE.md",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " file that I include in other (\"custom\") OF md files: in this case "
+                            },
+                            {
+                                "type": "text",
+                                "text": "raycasting.md",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nTo show the workings like that we need to know values to use for every input, so there is a stateful 'cursor' object that custom code must set; also a stateful array of visible formulae that it can set if it wants to. The cursor object is handy anyways because custom code uses it to to make its visualizations\/etc anyways.\n\n"
+                            },
+                            {
+                                "type": "text",
+                                "text": "raycasting.md",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " custom code is dense on code for the visualizations: basically everything on the right hand side, and that includes signal handlers on the visualizations which use setters for the cursor object to set inputs, visible formulas to select formulas, and button controls to set a key stream input to the cursor; also those options at the bottom right.\n\nThat code includes approx 1k lines of visualization code (Vega-Lite for the scene visual at top, much denser Vega for different layers of the visualization below it)\n\nIf the app (lets call the RHS an \"app\") wants to control the cursor (=> the workings) and navigate the formulas then it needs to tie the handling of that into signal\/event listeners.\n\nThat can be in a 'far less' elaborate way, for instance in this example: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/calculang-editables.netlify.app\/savings"
+                            },
+                            {
+                                "type": "text",
+                                "text": " (an earlier one where you can't see the workings on top of code, but they are calcd underneath)\nThis has another feature that highlight the numbers (in the grid) used to calc a number also (just brush over them).\nAnd this is a bit more standard and I can facilitate a good co-operation in the views with less custom code.\n\nIn the example in the video though - there's some code to manage the cursor and formulae we are navigating (but I think we need to expect it)\n\nThere was a mash of experimentation in the codebase that gives it a poor structure and fragments work around calculang, so haven't released it yet but I'll think about it in the week"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "UFQ1ZEJ0G"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "text": "I love Observable. Been using it for > 3 years now. I can think of many improvements it needs. I am not sure how to get ReSheets working yet though. I would expect the following to evaluate to 6",
+        "files": [
+            {
+                "id": "F07604VA77G",
+                "created": 1717366610,
+                "timestamp": 1717366610,
+                "name": "image.png",
+                "title": "image.png",
+                "mimetype": "image\/png",
+                "filetype": "png",
+                "pretty_type": "PNG",
+                "user": "U02E4DAQGSZ",
+                "user_team": "T5TCAFTA9",
+                "editable": false,
+                "size": 20786,
+                "mode": "hosted",
+                "is_external": false,
+                "external_type": "",
+                "is_public": true,
+                "public_url_shared": false,
+                "display_as_bot": false,
+                "username": "",
+                "url_private": "https:\/\/files.slack.com\/files-pri\/T5TCAFTA9-F07604VA77G\/image.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "url_private_download": "https:\/\/files.slack.com\/files-pri\/T5TCAFTA9-F07604VA77G\/download\/image.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "media_display_type": "unknown",
+                "thumb_64": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F07604VA77G-a907cf7520\/image_64.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "thumb_80": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F07604VA77G-a907cf7520\/image_80.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "thumb_360": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F07604VA77G-a907cf7520\/image_360.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "thumb_360_w": 360,
+                "thumb_360_h": 346,
+                "thumb_480": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F07604VA77G-a907cf7520\/image_480.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "thumb_480_w": 480,
+                "thumb_480_h": 462,
+                "thumb_160": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F07604VA77G-a907cf7520\/image_160.png?t=xoxe-197418537349-7321635993029-7324539381746-353ea4de714784d3f1d50837114e495e",
+                "original_w": 624,
+                "original_h": 600,
+                "thumb_tiny": "AwAuADDTooooAKKTnPbFLQAUUUUAFFFH40AFFN53dwPWlA96AFooooAKM0UUAA5FFFFABRRRQB\/\/2Q==",
+                "permalink": "https:\/\/futureofcoding.slack.com\/files\/U02E4DAQGSZ\/F07604VA77G\/image.png",
+                "permalink_public": "https:\/\/slack-files.com\/T5TCAFTA9-F07604VA77G-2b9b2fabdd",
+                "is_starred": false,
+                "has_rich_preview": false,
+                "file_access": "visible"
+            }
+        ],
+        "upload": false,
+        "user": "U02E4DAQGSZ",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "S6yjD",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I love Observable. Been using it for > 3 years now. I can think of many improvements it needs. I am not sure how to get ReSheets working yet though. I would expect the following to evaluate to 6"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1717366622.465459",
+        "edited": {
+            "user": "U02E4DAQGSZ",
+            "ts": "1717366645.000000"
+        },
+        "client_msg_id": "bbeed89a-63a1-4829-9099-b5283f82f250",
+        "thread_ts": "1717182719.476829",
+        "parent_user_id": "UFQ1ZEJ0G"
+    }
+]

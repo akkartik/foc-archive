@@ -223,8 +223,6 @@ function lookup_channel_id(channels, channel)
 end
 
 function emit_post(outfile, post, site_prefix, channel, channels, users)
-  if post and post.subtype == 'bot_message' then return end
-  if post and post.subtype == 'file_comment' then return end  -- todo
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
   outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
@@ -272,7 +270,7 @@ function emit_post_body(outfile, post, site_prefix, channel, channels, users)
   outfile:write('    </td>\n')
   outfile:write('    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">\n')
   if post.user_profile == nil and post.user == nil and post.username == nil then
-    io.stderr:write('no author for '..json.encode(post)..'\n')
+    io.stderr:write(('no author for %s/%s (subtype %s)\n'):format(channel, post.ts, post.subtype))
   else
     emit_name(outfile, post.user_profile, post.user or post.username, users)
   end

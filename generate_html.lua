@@ -1,8 +1,9 @@
 -- Generate a static website out of a Slack archive.
 
 -- variables interpolated into generated files
-repo = 'https://github.com/akkartik/foc-archive'
 upstream_slack = 'futureofcoding'
+download_url = 'https://akkartik.name/foc-archive.zip'
+repo_url = 'https://github.com/akkartik/foc-archive'
 
 --
 
@@ -69,7 +70,8 @@ function main(channels, users, files, output)
     emit_channel_index(channel, posts[channel], output, channels, users)
   end
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
+  outfile:write('<a href="'..download_url..'">download this site</a> (~25MB)<br/>\n')
+  outfile:write('<a href="'..repo_url..'">Git repo</a>\n')
   outfile:write('</html>\n')
   outfile:close()
 
@@ -144,7 +146,8 @@ function emit_channel_index(channel, posts, output, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
+  outfile:write('<a href="'..download_url..'">download this site</a> (~25MB)<br/>\n')
+  outfile:write('<a href="'..repo_url..'">Git repo</a>\n')
   outfile:write('</html>\n')
   outfile:close()
 end
@@ -236,7 +239,8 @@ function emit_post(outfile, post, site_prefix, channel, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
+  outfile:write('<a href="'..download_url..'">download this site</a> (~25MB)<br/>\n')
+  outfile:write('<a href="'..repo_url..'">Git repo</a>\n')
   outfile:write('</html>\n')
 end
 
@@ -252,7 +256,8 @@ function emit_intro(outfilename, name, posts, channels, users)
   end
   outfile:write('  </table>\n')
   outfile:write('<hr>\n')
-  outfile:write('<a href="'..repo..'">download this site</a> (~35MB)\n')
+  outfile:write('<a href="'..download_url..'">download this site</a> (~25MB)<br/>\n')
+  outfile:write('<a href="'..repo_url..'">Git repo</a>\n')
   outfile:write('</html>\n')
   outfile:close()
 end

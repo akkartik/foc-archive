@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1698818828.191999.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-31 23:07</span><br/>
+I've been experimenting with ways to debug my live programs.<br/><br/>(Kind of a follow-up to <a href="https://archive.org/details/akkartik-mu-2021-05-17">https://archive.org/details/akkartik-mu-2021-05-17</a>, if you squint.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698841440.939389"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698841440.939389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-01 05:24</span><br/>
+FWIW - riffing on your unease with globals: <a href="https://guitarvydas.github.io/2023/11/01/Globals-Are-Not-The-Problem.html">https://guitarvydas.github.io/2023/11/01/Globals-Are-Not-The-Problem.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698841489.149439"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698841489.149439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-01 05:24</span><br/>
+FWIW - suggestions re. your box notation: <a href="https://publish.obsidian.md/programmingsimplicity/Suggestions+re+Kartiks+Box+Notation">https://publish.obsidian.md/programmingsimplicity/Suggestion&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698849215.307029"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698849215.307029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-01 07:33</span><br/>
+Thanks for those comments, <span style="background-color:#ccf">@Paul Tarvydas</span>!<br/><br/>I appreciate the support re globals. To make my nervousness really concrete, consider a scenario where I want to run <tt>sum</tt> from the example over 10 numbers. I now have to adjust where I render the results of each call. Which is overhead when debugging a problem.<br/><br/>This mirrors the classic problem with globals: functions that use them are no longer reentrant. Locals are robust to arbitrary (scales of) calling patterns.<br/><br/>I'm really curious to hear if you have any solutions here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698850411.684809"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698850411.684809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-01 07:53</span><br/>
+I haven’t wrapped my head around what’s going on behind the scenes in what you’re doing.  Can you make the globals into little stacks and display only the topmost value?  Lisp 1.5, Forth, S/SL (the compiler language, not SSL) mechanisms work that way - by making the stacks VERY explicit [not helpful: CPUs were not meant to support internal concurrency, hence, only one global stack pointer ; hence, all of the gotchas that accompany faking concurrency on CPUs].  The lesson of Denotational Semantics is to make EVERYTHING, but EVERYTHING, explicit, including a need for reentrancy.  I.E. if you need to create variables that don’t get overwritten, create a little stack instead of a single variable.  Common Lisp has the concept of “specials”, but that feature gets rarely used.  Functions in programming - as we know them - put Locals on the stack (supported by hardware, but, then the O/S needs to swap stack-pointers under-the-hood to avoid clobbering the stack pointers of apps).  Does that give you any ideas?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698851249.766389"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698851249.766389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-01 08:07</span><br/>
+Definitely something to think about.<br/><br/>Let me explain a little more of what's going on behind the scenes:<br/>• I have a global variable called <tt>Result</tt> that gets populated by <tt>sum</tt> and rendered by the global <tt>draw</tt> handler of the event loop.<br/>• <tt>draw</tt> doesn't know anything about <tt>sum</tt>. All it sees is, there's something in <tt>Result</tt>, and it draws it at a certain point on screen.<br/>• I don't show this in the video, but my hazy plan for larger computations is to add deeper subcomputations into new variables, say <tt>Result_local1</tt>, <tt>Result_local2</tt>, etc. And then define the "visual protocol" in <tt>draw</tt> to say where and how (bar graph, point coordinate, <a href="http://etc.to">etc.) to</a> render each of them.<br/>• But now consider if I want to start rendering n points on screen. I might want the intermediate results in different locations depending on whether I'm computing one or a hundred.<br/>Hmm, as I write this out I realize perhaps this isn't an issue with the globals. Any time I reorganize my computation I'm going to have to tweak my visual protocol. If a caller wants to juggle 10 invocations of <tt>sum</tt>, it's the caller's job to save the results to some other new global, with its own visual protocol.<br/><br/>Ok, I can live with this! It's a lot like having a database of globals in a web app. It's a minor transform to go from lots of little globals scattered everywhere to a single global table called "intermediate results within subsystem foo".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698851669.389419"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698851669.389419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-01 08:14</span><br/>
+[aside: yeah, that happens to me a lot.  So much so, that I’ve come to rely on it.  If I have a problem, I try to explain the problem in an email to someone.  Usually, by the time I’m done, I don’t have to hit SEND, I understand the problem better and know how to fix it :-].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698852236.558359"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1698818828.191999.html#1698852236.558359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-01 08:23</span><br/>
+[aside: this all wasn’t a problem when McCarthy created functional programming. The problems started when lexical scoping was invented to “optimize” away the little stacks that Lisp1.5 caused.  Aside to the aside: McCarthy’s version created “structure sharing” by default - you don’t need to clone lists if you follow a truly functional methodology (stacks only, no random access). Further aside: Sector Lisp uses true functional methodology and gets away with a 40-byte GC].
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

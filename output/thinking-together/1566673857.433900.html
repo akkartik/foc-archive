@@ -1,0 +1,211 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 12:10</span><br/>
+The "mutable variables and immutable values" model is less complex than the "implicit references to mutable objects" model. See replies for more information.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566674058.434000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566674058.434000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 12:14</span><br/>
+In C, a variable can contain an scalar value, like an integer, or it can contain a composite value, like a structure or array. If A and B are structure variables, then the assignment A=B <b>copies</b> the value of B into A. Unlike "implicit references to mutable objects" languages such as Java or Smalltalk or Python, the assignment A=B does not result in A and B being implicit references to the same mutable object. Instead, if I modify one of the fields of B, using B.foo=0, then the value of A is unaffected.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566674148.434200"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566674148.434200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 12:15</span><br/>
+In C, you can still arrange for the variables A and B to reference the same mutable objects, but you must use explicit pointers. There are no implicit references.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566674294.434400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566674294.434400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 12:18</span><br/>
+My language Curv uses a simpler and purer version of this model. All values are immutable. There are mutable local variables, but the assignment statement works by copying immutable values. This means that the state of two local variables with different names is guaranteed to be disjoint, so it's easier to reason about the semantics of mutable state in Curv. Unlike C, Curv does not have pointers, and unlike OOP languages, Curv does not have implicit references to mutable objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566674365.434600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566674365.434600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 12:19</span><br/>
+Curv has two kinds of aggregate data: lists and records. One consequence of these semantics (no pointers, no references) is that all aggregate data is tree structured. There is no cyclic data. That's a feature, not a bug. It makes data easier to visualize and easier to reason about.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566677590.435600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566677590.435600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 13:13</span><br/>
+It's not just that you have no cyclic data. <em>You have no aliasing</em>. That's fine for the domain you're targeting, but won't work for a general-purpose language.<br/><br/>Your first statement is still valid. But "mutable variables and immutable values" doesn't preclude aliasing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566683084.436200"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566683084.436200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-08-24 14:44</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> The requirement that there be no aliasing of mutable state is definitely viable for a general purpose high level language. I'm not sure if it works for system languages, though. The idea was taken seriously back in the 1970's. It does force you to use a different style of programming (it is incompatible with OOP). Today, that original line of research has been forgotten, but the idea has been rediscovered in other contexts. Pure functional languages like Haskell have no aliasing of mutable state, since they have no mutable state. Data oriented design is a style of programming that is compatible with no cycles/no aliasing of mutable state: it's motivated by efficiency and ease of maintenance in video games. The "Out of the tarpit" paper advocated radical changes to the way we design software, to eliminate incidental complexity, and it advocates putting all of your state into what is effectively a relational database, with hierarchical data, no cycles, no aliasing. If we want the future of coding to have less incidental complexity, then we need to look beyond the OOP style of programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566683309.436500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566683309.436500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 14:48</span><br/>
+Huh, you're right! I'd somehow never internalized this implication of Haskell: <a href="https://stackoverflow.com/questions/10386616/how-to-implement-doubly-linked-lists">https://stackoverflow.com/questions/10386616/how-to-implemen&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566693327.442000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566693327.442000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-24 17:35</span><br/>
+OOP is an obstacle to progress, and I am finally being vindicated for loathing Java and refusing to use it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566693974.442900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566693974.442900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 17:46</span><br/>
+Edward de Jong, now weighing in at 50 milli-wolframs :smile:<br/><br/>Reminder to both of you that regular imperative programming (C, Pascal, Lisp, Oberon) also has mutable values and aliasing. I enjoy ripping into (mainstream! not Smalltalk!) OOP and Java as much as the next PL hipster, but it's a pretty low-brow activity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566724381.455000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566724381.455000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-25 02:13</span><br/>
+One aspect that I see rarely discussed in the context of (im)mutability is the scale at which it applies. At small scale (local, low-level, etc.), mutability is still needed for efficiency, but isn’t problematic exactly because of the small scale,  which limits complexity. At the other end of the spectrum, system integration (a Unix installation with its file system, a Smalltalk image), mutability is often desirable because jt reflects the real-world requirements (e.g. editing a file), and again it’s usually unproblematic because the complexity is managed by the user. That leaves a huge collection of intermediate layers where immutability is extremely helpful for taming complexity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566777824.461000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566777824.461000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-25 17:03</span><br/>
+Wolfram is one of the best programmers on the planet, so being compared with him is always a compliment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566778188.461200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566778188.461200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-25 17:09</span><br/>
+Mathematica as a company has 700 full time people, certainly one of the largest pure tool companies in the software business. He chose a very interesting business model, to sell site licenses to universities, which gets people hooked on it, and lives off expensive commercial licenses. Mathematica is $2500 for single licenses, $7000 for enterprise users. By comparison Autocad is 9000 employees. So in terms of engineering employee count I think at this point it is Google &gt; Adobe &gt; Autocad &gt; JetBrains &gt; Mathematica &gt; Embarcadero (Delphi)... not sure who slots in below that, there aren't that many tool companies when you think about how many computers there are.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566862081.466200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566862081.466200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 16:28</span><br/>
+I love this thread so far. Thanks everyone for the very useful thinking and discourse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566862106.467000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566862106.467000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 16:28</span><br/>
+Cycling 74 might count as a small purely tools company.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566862135.467800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566862135.467800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 16:28</span><br/>
+Perhaps Unity, too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566885060.470000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566673857.433900.html#1566885060.470000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-26 22:51</span><br/>
+Unity has more than 2000 employees, so they are between Autocad and JetBrains, certainly in the top 10 pure tools companies.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

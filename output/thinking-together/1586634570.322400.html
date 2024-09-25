@@ -1,0 +1,234 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-11 12:49</span><br/>
+Fixed point is rubbish for a general purpose language. It has its place, especially on embedded processors with no floating point hardware, but in general you get worse numeric results, so you have to be much more careful in designing your code than you do with floating point. Rational arithmetic is so crazy expensive in both time and space that numerically intensive algorithms can become infeasible, thus forcing users to rewrite their programs in another language that supports floating point. There are many languages where computations don't have a total ordering: any purely functional language that uses data parallelism for performance (eg, using GPU hardware) has this characteristic. The serious ones used for real work use floating point. For example, Tensor Flow. There is actually no way to design a number system for a programming language that is "perfect". There are only engineering tradeoffs. For a general purpose language, floating point represents a local optimum that is hard to beat.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586636429.324700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586636429.324700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-11 13:20</span><br/>
+What do you think of Unums? <a href="https://en.wikipedia.org/wiki/Unum_(number_format)">https://en.wikipedia.org/wiki/Unum_(number_format)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586637094.326000"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586637094.326000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2020-04-11 13:31</span><br/>
+DEC64 is also pretty decent, particularly for financial calculations. <a href="http://www.dec64.com/">http://www.dec64.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586637345.326300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586637345.326300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-11 13:35</span><br/>
+Ah, we've discussed this!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586638459.326500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586638459.326500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-11 13:54</span><br/>
+I like Posits. I didn't study the older Unum proposals. I have long had opinions about what I consider to be bugs in the design of IEEE floats, and I was delighted to see that the Unum author agreed with me and fixed the things I thought were broken. Note that I am not a numerical analyst, and that my opinions are based on ideas about symmetry, which may or may not have practical value in numerical algorithms.<br/><br/>The unsymmetrical treatment of +0, -0 has always bugged me. I figured that there should be a true 0, that very small numbers should underflow to '+epsilon', not to 0, and that very small negative numbers should underflow to '-epsilon', not to 0. I agree with the idea that very large positive numbers should overflow to '+infinity' and very large negative numbers should overflow to '-infinity', which happens in both number systems. Posits work this way, except that the Posit standard uses the term "infinity" to describe "NaN". 1/0 is NaN (what Posits call "Infinity"), not "+infinity", as it is in IEEE floats, because true 0 does not have a sign, so there is no way to choose between the results +infinity and -infinity. In IEEE floats, there is no true 0, and the value 0 behaves like +epsilon in some contexts. So in IEEE floats, 1-1 is +0, not true 0.<br/><br/>That said, William Kahan's rationale for the behaviour of +0/-0 in IEEE floats sounds superficially plausible. Since I've never tried to implement transcendental functions in both IEEE floats and posits and compared the difficulty, I can't say who is right. "Branch cuts for complex elementary<br/>functions, or much ado about nothing’s sign bit" by William Kahan.<br/><a href="https://homes.cs.washington.edu/~ztatlock/599z-17sp/papers/branch-cuts-kahan-87.pdf">https://homes.cs.washington.edu/~ztatlock/599z-17sp/papers/b&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586653442.329800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586653442.329800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 18:04</span><br/>
+&gt; Rational arithmetic is so crazy expensive 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586653539.330000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586653539.330000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 18:05</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Do you have a source for your assertion of the cost of rational arithmetic? I'm not designing a language for numerical analysis, so crazy complex computations that are pathological for rationals don't really count for me. I already proposed a reasonable solution to Konrad's problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586653831.330200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586653831.330200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 18:10</span><br/>
+I'm okay with addition and multiplication taking a couple of extra CPU cycles. As I suggested earlier, when rational denominators are statically known/fixed they can be implemented as fixed point operations under the hood, which won't have that cost overhead. Either way, my language is not designed for C-like performance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586683009.337600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586683009.337600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-12 02:16</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> While I agree with your statements as a description of the status quo, it's been a long time that nobody seems to have seriously evaluated alternatives. I suspect that fixed-point can be made much more useful with better support libraries. And unums also deserve a closer look in my opinion. Of course everything is an engineering tradeoff, but the scene has changed in the last two decades, both in terms of hardware (parallel machines, GPUs, ...) and what people do with it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586722349.364300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586722349.364300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-12 13:12</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> 1. I occasionally use OpenSCAD for 3D modelling. It uses rational arithmetic to compute set theoretic ("Boolean") operations on triangle meshes: union, intersection, difference, using the CGAL library. CGAL is horrendous. I have mostly given up on OpenSCAD due to the lengthy render times (can be hours). There are competing mesh libraries that use floating point and are much faster and more memory efficient. The Carve library is 7 times faster. 2. Years ago, I remember reading a paper describing problems encountered using Scheme to teach programming to undergraduates. Scheme supports rational numbers, and dividing two integers returns a rational not a float. This meant that undergrads were "accidently" using rational arithmetic, and the performance problems for these student assignments were pretty disruptive, leading the author to design a new Scheme dialect for his course. The goal of the new dialect was to make it easy to avoid rational arithmetic. It might have been Michael Sperber, and the paper "<b>Cleaning up the Tower: Numbers in Scheme</b>" is the closest match I can find to my recollections. This is a good paper to read for other reasons: it discusses the problems of supporting multiple numeric representations in a programming language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586723808.364600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586723808.364600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-12 13:36</span><br/>
+For Curv, I use IEEE floating point, modified to have better algebraic properties. The only modification is that there is no NaN value: operations that in C would return a NaN will instead raise an exception. Making NaN into an error has already found a bug in my code and saved me from generating invalid data in an STL file.<br/><br/>If I used Posit arithmetic, I believe that I could have better algebraic properties than what I'm currently getting. With Posits, there is a "true zero" value with no associated sign, rather than +0 and -0. Division by true zero raises an exception, or returns a special value that isn't a number. Using posits in Curv, I would define division by true zero to be an error. The important point is that small numbers don't underflow to zero in Posit land, and I still want division by a very small number != 0 to return a very large number, not raise an exception. The paper I just cited, "Cleaning up the Tower: Numbers in Scheme" provides some theoretical backing for my position.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586726447.365500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586726447.365500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-12 14:20</span><br/>
+That's a good paper, <span style="background-color:#ccf">@Doug Moen</span>: <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.80.8683">http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.80.8683</a><br/><br/>I think it's very useful for someone designing numeric types, but I would hesitate to draw any conclusions from it about the general feasibility of supporting multiple numeric representations. It's really about the idiocy of the mainstream "standardization" process. In my ideal world, pointing out that a standard permits (pg 3) <tt>(+ (expt 10 309) 0.0) ⇒ +inf.0</tt> even though <tt>(expt 10 309)</tt> has an exact representation as an integer would lead to a new release of the standard. In our world it leads to a shrug. The standard is a fool, what can one do. It's the standard. Best we comply.<br/><br/>Standards should be about giving end-users a predictable experience independent of implementation. If that was the case, standards wouldn't be finalized until implementations existed and were in wide distribution. Instead, since they're built overwhelmingly by implementors, standards are really about a few implementors sitting around and deciding whom to give a pass on what bit of idiocy. And so we end up with the upside down process of standardization completing <em>before</em> people have actually had a chance to kick the wheels on the standard and find corner cases and sharp edges.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586726832.366400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586726832.366400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-12 14:27</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Fixed point numbers suffer from catastrophic loss of precision and in general have worse numeric and algebraic properties than floating point. Floating point was invented to fix the problems with fixed point. So I don't understand why we are talking about fixed point in the context of a general purpose language. If someone can post a reference to a paper explaining why fixed point is better, it would give me some context for this discussion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586727407.366600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586727407.366600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-12 14:36</span><br/>
+Sorry, I didn't intend to push back on your point. It's a good paper, and it's indeed got several interesting points to make. I'm not an expert on the question being debated here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586768536.376200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586768536.376200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-13 02:02</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> It all depends on what you are doing. With today's state of the art, fixed point is the best choice for dealing with money. Floating point is the best choice for scientific and engineering computing. Rationals are best for symbolic computing. I expect all of them to remain relevant in some context for a long time to come.<br/><br/>Programming languages make some representations easier to use than others, motivated by some specific usage context which is rarely explicitly stated. The Scheme story you cite is a nice example. Prioritizing rationals, as Scheme does, means applying the principle of least surprise with respect to precision. Prioritizing floats, as e.g. Python does, is doing the same with respect to performance. Whichever choice you make <em>will</em> create unpleasant surprises in the other domain sooner or later. It's the job of language tutorials to explain this, but they rarely do because their authors tend to consider their language's choice to be the obviously right one.<br/><br/>More generally, it would be nice if language's engineering tradeoffs were made more explicit. Instead, it's mostly done advertising-style: emphasize the strong points and don't talk about the inevitable disadvantages.<br/><br/>As for fixed-point, all I am saying is that it should be more generally known and better supported, because there are good application domains (such as money) and likely more would be discovered if more people played with it creatively. Example: some people have used it with good results (in terms of performance) in scientific computing, by adapting the scientific models to the available precision. When simulating emergent phenomena, where the low-level details end up being unimportant, this looks like a very promising approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586768982.376500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586768982.376500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-13 02:09</span><br/>
+I'll also mention I'm very grateful for that paper you linked <span style="background-color:#ccf">@Doug Moen</span>. Oddly enough though, it's not critical of rationals. It actually advocates for a unification of integers, floats and fixed point numbers under the rational umbrella, with the ability to explicitly choose places where rounding should occur in order to seamlessly opt-in to the more efficient machine representations. That's what I'm hoping to do in my own programming language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586769284.376700"></a>
+      <a href="../thinking-together/1586634570.322400.html#1586769284.376700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-13 02:14</span><br/>
+Here's the key idea of the paper:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586787158.377700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586787158.377700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-13 07:12</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> said "With today's state of the art, fixed point is the best choice for dealing with money."<br/><br/>I would suggest that for general purpose financial computation, decimal floating point is a better choice. Eg, see &lt;<a href="http://dec64.com">dec64.com</a>&gt;. That's the format I would choose for a financial spreadsheet app. Fixed point could work if the only operations are addition and subtraction. Even then, arithmetic operations that truncate on overflow would be dangerous for financial computations. But general financial computation also includes interest rate computations, and other related computations, which involve multiplication, division and exponentiation. With fixed point, you would have a much higher risk of overflow or loss of precision for intermediate values in such computations. Decimal floating point fixes these problems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586868579.388400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586634570.322400.html#1586868579.388400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-14 05:49</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> OK, I have to admit that I never do much financial computing except for my very modest personal needs! And decimal floating point, while certainly a promising idea to explore, is unattractive in my corner of the computational universe (scientific computing) as long as it's not implemented in hardware to make it fast.<br/><br/>But I do maintain my suggestion that fixed-point (compiled to integer arithmetic) could find more uses than it has today in scientific computing.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

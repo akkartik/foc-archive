@@ -1,0 +1,247 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 17:40</span><br/>
+Does anyone have database recommendations for user generated data structures? I'm currently using postgres and it's feeling a little inadequate. For example, a user might have simple formula like <tt>10 + 5</tt> which I store as a string, and I have a <tt>numberCache</tt> column storing <tt>15</tt> for querying. But a formula can also be a string, or a date, so now I need a <tt>stringCache</tt> column and a <tt>boolCache</tt> column. And then there's user input <tt>if statements</tt> which I haven't thought about yet and may need to calculate on the fly.<br/><br/>I have dynamic types, and dynamic relationships, and I'm wrangling postgres into shape, but I can't help but feel there must be something better suited? I was thinking of playing with something more schema-less like mongoDB. Any advice would be appreciated!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594257532.096300"></a>
+      <img src="https://secure.gravatar.com/avatar/0c5674099527c19ca0eccac4f2309515.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594257532.096300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Butler</b>
+<span style="margin:2em; color:#606060">2020-07-08 18:18</span><br/>
+What about using a JSON type in postgres? <a href="https://www.postgresql.org/docs/10/datatype-json.html">https://www.postgresql.org/docs/10/datatype-json.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594258355.096500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594258355.096500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-08 18:32</span><br/>
+I'd need more information about what you're trying to do. "User generated data structures" doesn't seem like a well-posed category that one can make generalizations about. For example, why would you want to cache the result of <tt>10 + 5</tt>? Repeatedly recomputing it would be almost certainly cheaper than a database lookup. If it <em>is</em> worth caching, the first choice of cache is in memory, which would again be much faster than a database lookup. Do you have millions of users running billions of programs a day? If not, a simple program without a database or caching would likely be sufficient for your purposes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594264021.096700"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594264021.096700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 20:07</span><br/>
+Yes, you're right, maybe I'm overthinking it and should just compute on the fly. The most complex user inputs might have many dependencies. ie. <tt>v1 = 100</tt>, <tt>v2 = v1+50</tt>, <tt>v3 = v1 + v2</tt> - but I wouldn't expect a chain greater than 20-30 dependencies. It's just important the data is queryable &amp; aggregatable in the future. And I wouldn't be aggregating more than than 10,000 items<br/><br/>I find postgres json columns aren't very great for queries that go more then 1 level deep but maybe I can make things as flat as possible.<br/><br/>Thanks for your help!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594266330.097200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594266330.097200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-07-08 20:45</span><br/>
+I find the syntax of Postgres JSON really frustrating to work with. I also have mixed feelings about schemaless, but it does seem like a slightly better fit for this kind of a use case, assuming you go with something that lets you do your queries and aggregations in the DB rather than the client.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594267349.097500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594267349.097500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:02</span><br/>
+<span style="background-color:#ccf">@Ryan King</span> I'm still curious to hear more about an app where the database has code expressions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594268497.097700"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594268497.097700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:21</span><br/>
+I'm building an interactive gantt chart tool. A quick 2 min overview here <a href="https://youtu.be/Anv8-3sZFVE">https://youtu.be/Anv8-3sZFVE</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594268644.098000"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594268644.098000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:24</span><br/>
+A user will have many <tt>tasks</tt> and <tt>resources</tt> . A task has various properties (including custom properties) same with resources. A task property may be dependant on other tasks and resources.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594268807.098200"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594268807.098200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:26</span><br/>
+All properties can be formulas, stored as strings. The idea is to try to be very excel-like and the user could theoretically use this for any time / scheduling based calculations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594268848.098400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594268848.098400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:27</span><br/>
+For building an interactive gantt chart tool, my Beads language would offer a RAM database that has number, string, image, sound, records, pointers, etc., and will greatly simplify the tricky issue of resizing your interface to fit different screen resolutions your software will be run on. Desktop resolutions are around 100 dpi, but mobile can reach 500, and any drawing in pixels will not work well, nor will calculating sizes in points work in all cases, as the physical screen sizes vary quite a bit as well. In a Gantt chart program, the majority of the code will be related to drawing, not calculating dates.<br/><br/>But you might be happier using an OpenGL foundation because you may want to zoom smoothly in real time, and nothing zooms more beautifully than 3D rendered stuff which of course can just move the camera to zoom without rebuilding anything.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594269192.098700"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594269192.098700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-08 21:33</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> thanks but I have no issues with drawing for the time being. Hopefully I can test out beads when I have a spare moment though :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594280703.118000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594280703.118000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-09 00:45</span><br/>
+You might consider a graph database for storing the (ahem) graph?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594284660.136600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594284660.136600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-07-09 01:51</span><br/>
+I've been using BaseX recently and I was pleasantly surprised how nice XQuery 3.1 is to use. Since you are talking about storing expressions XML may be perfect for that. Who knows... you may even enjoy transforming your AST with XSLT  3.1 (although you don't need XSLT). <a href="https://docs.basex.org/wiki/Main_Page">https://docs.basex.org/wiki/Main_Page</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594299098.138300"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594299098.138300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-07-09 05:51</span><br/>
+<span style="background-color:#ccf">@Ryan King</span> have you seen Materialize? <a href="https://materialize.io/">https://materialize.io/</a> if you could represent your computation as a SQL query it would do what you want very efficiently and typed all the way through
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594305401.149100"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594305401.149100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-09 07:36</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> I was thinking a graph database but all the relationships are stored in the formula string as well. Perhaps I could split the formula into a ast and store that but that feels a little absurd.<br/><br/><span style="background-color:#ccf">@Emmanuel Oga</span> Thanks, will take a look.<br/><br/><span style="background-color:#ccf">@Harry Brundage</span> Interesting approach. Will look into it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594313366.161000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594313366.161000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-09 09:49</span><br/>
+Ah, I think I misunderstood the situation! It seemed to me that you might have multiple pieces of code in different places that referenced one another, in which case you'd want some link between a node in one AST to a node in another AST to keep track of dependencies between "code blocks".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594313897.161700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594313897.161700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-09 09:58</span><br/>
+If you insist on an external database then Neo4j is a lot of fun the two-way relationships are very useful when you’re crawling your graph all different directions. There in my design spec but I actually haven’t needed to use them yet. It’s a very powerful data structure and illuminates most and use cases that would otherwise call for a relational database
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594317837.164200"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594317837.164200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-09 11:03</span><br/>
+Yes, that could definitely be beneficial, thanks! I'll have to develop better understanding of what jobs are required from the database and client to reach the best solution (I also need the graph on the client).<br/><br/>I'm thinking mongo might be the simplest solution for the time being - it's easy to learn and will remove the constraints I'm experiencing with postgres. And once the app is further developed I can reassess if a graph database will be more beneficial, I think it's too early to know right now.<br/><br/>Thanks for all your advice, it's been really helpful :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594326695.166800"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594326695.166800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-09 13:31</span><br/>
+Also when you are asking about Database is you kind a need to specify what language your programming in because not every database has bindings for every language, and also some languages have concepts and data types which are not storable in many databases. It becomes a gigantic pain in the ass when you are having to encode and decode constantly when moving to and from the database. I would call this in impedance mismatch, and it’s one of the reasons I put the database inside the language in Beads because I have data types that don’t exist and other systems such as extended arithmetic, and a bookean that has four states. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594914289.409900"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1594255230.095900.html#1594914289.409900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-07-16 08:44</span><br/>
+For those following along, I think I'll be going with <a href="https://www.arangodb.com/">ArangoDB</a>, it's both a document and graph database. I had no idea how terrible Mongo is at querying even basic relationships and I find Neo4j's Cypher query language a bit of a learning curve for me. Arango's query language is a lot closer to sql but instead of joins it uses graphdb-like queries - I actually find it easier to use than sql. On top of that, I can also add micro-services directly on the database server which might be useful in the future if I decide to process formulas on the db. I think it's a nice mix of everyone's suggestions, and thanks again for your help!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

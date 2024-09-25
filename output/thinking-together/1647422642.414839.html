@@ -1,0 +1,607 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2022-03-16 02:24</span><br/>
+Hi all, I wrote down some thoughts on colorless async. See below! I’m not experienced in use of go-routines etc; I write from a language design perspective and,  yeah so; I might be totally wrong/have mis-conceptualized something.  I’m in a process of learning to think about this stuff and would be delighted to have feedback/think together about the topic of designing async into a language!<br/>---<br/><br/><b>Colorless async seems obviously great, but what if the opposite is also true?</b><br/>I read this blog post <a href="https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/">What Color is Your Function?</a>? on ways to integrate async into a language. It’s an entertaining  and convincing read by a super experienced developer. The article leads you through a chain of very obvious thoughts, that you cannot imagine even wanting to contradict; ending up with the understanding that the best solution is to enable using sync and async functions interchangeably, e.g. by supporting go-routines.<br/><br/><b>I was totally convinced</b>. But then I thought, what if you go all the way in the other direction, embracing that <tt>sync</tt> and <tt>async</tt> are so fundamentally different in their semantics. <em>What it that difference was present on the language level, in stead of being hidden by magic?</em> <br/><br/><b>This has been done</b> many decades ago and with superb usability results, in the form of state machines and most notably statecharts. “Red” (sync) functions are transitions. “Blue” (async) functions are states. Thinking of them and visualizing them as distinctly different is a game-changer for the human mind: A top-down understanding can be conveyed to non-programmers and programmers alike, etc. In the typical visualization, sync stuff is not “red functions”, they are arrows. async stuff is not “blue functions”, they are rectangles. Arrows and Rectangles composes perfectly, <em>because of their differences</em>. It’s hard to see what’s gained conceptually by merging arrows and rectangles into one thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647426476.091299"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647426476.091299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2022-03-16 03:27</span><br/>
+If you get preemptive multitasking and lightweight processes (like Erlang &amp; Go) you don't need async :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647627444.970029"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647627444.970029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-18 11:17</span><br/>
+Have you seen how Zig handles this? <a href="https://ziglang.org/download/0.5.0/release-notes.html#Async-Functions">https://ziglang.org/download/0.5.0/release-notes.html#Async-Functions</a><br/><br/>kind of a clever hack to implement co-routines :-)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647815695.262939"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647815695.262939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-03-20 15:34</span><br/>
+Not sure I see the parallel between state machines and sync/async. I don't really see why async functions would be states. My async function <tt>fetch-the-data</tt> isn't a state. In fact, I could make many many state transitions while my async function is still resolving.<br/><br/><br/>To be pedantic, Go has a cooperative scheduler.<br/><br/>But to go beyond the pedanticness, I don’t think actors or CSP solve the colored functions problem. There are still colors here, just not functions. Sending a message to an actor or putting a message on a channel are fundamentally different operations. You can’t parameterize on them. <br/><br/>That said, I think that coloring functions is actually quite good. There are so many unique aspects to asynchronous programming that I’ve seen so many people get wrong. I have spent weeks/months of time trying to help a QA team whose framework hid the fact that asynchrony was going on from them. They constantly ran up against race conditions. To the point where there were 8 people, whose full time jobs was to run tests on their personal laptops, because CI was “too slow” and “caused errors”. They even blamed the errors in their test suites on the app having a “memory leak”.<br/><br/>Needless to say, I'm all for these things being very explicit, because hiding them, or abstracting away these details leads to very subtle and confusing bugs 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647885985.387139"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647885985.387139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-21 11:06</span><br/>
+FWIW, here's how I would summarize this issue:<br/><br/>1. cooperative single-stack, async i/o -&gt; <br/>nightmare of inscrutable state machines<br/><br/>2. pre-emptive multi-stack, blocking i/o -&gt;<br/>nightmare of indeterminacy<br/><br/>3. cooperative multi-stack, async i/o -&gt;<br/>stacks avoid state machines, cooperation avoids indeterminacy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647886478.019279"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647886478.019279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-03-21 11:14</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span><br/><br/>&gt; cooperative multi-stack, async i/o <br/>What language/system would be a good example here?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647888333.523509"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647888333.523509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-21 11:45</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> My language, Io, uses coroutines. Go seems to supports them. IIRC, there is a fork or version of Python that supports them, and possibly a newer version of Ruby that has them. I think Smalltalk and some LISP also supported them.<br/><br/>The key to using coroutines properly is to wrap your async i/o calls to transparently handle pausing the current coroutine and having the scheduler resume it upon the async callback (e.g. your i/o library and scheduler would use libevent/libev/etc) . This way, it looks like a blocking call and the stack handles all your state machine work for you. I think this is the bit that prevents most people from understanding the value coroutines, as they think you have to write that code with each use, instead of it being handled by your i/o libraries and scheduler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647998516.958289"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1647998516.958289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-03-22 18:21</span><br/>
+I guess the thing that confuses me about your description is that you said it avoids indeterminacy. Maybe I don’t know coroutines well enough. How do they avoid indeterminacy?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648065196.002859"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648065196.002859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-23 12:53</span><br/>
+Coroutines are cooperative threads, so you as the programmer choose when context switches occur, while preemptive threads can switch at any point.<br/><br/>A thread is basically a stack + execution stream. With coroutines, you have multiple stacks but a single execution stream which switches between them. With preemptive threads you have multiple stacks with multiple execution streams potentially executing in parallel and reading/writing on the same memory.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648090278.871979"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648090278.871979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2022-03-23 19:51</span><br/>
+Modern python (as of 3.5 I believe) uses coroutines for asynchrony
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648144101.961429"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648144101.961429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-03-24 10:48</span><br/>
+I guess, for me the difficulties I've seen with async/concurrent code have always been the indeterminism in the environment, rather that the concurrency mechanism. I think coroutines are great, but I don't find them much different from the other methods in terms of making things easier to reason about. I still have to realize that my http request might take shorter or longer sometimes and change the order of results I get.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648229519.737769"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648229519.737769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-25 10:31</span><br/>
+Yes, any i/o potentially introduces some level of indeterminacy (whether or not it's async) as the input may be different on another run, but that's both a necessary and tractable problem. This is unlike multiple threads preemptively writing on the same memory at the same time, which is an environment where even the world's top experts have been shown to be unable to write correct code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648235135.414739"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648235135.414739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-25 12:05</span><br/>
+Isn't that part of the fundamental complexity of concurrency? Async is a solution to the problem of variable IO. Async is all about having more control over code scheduling using more accurate domain knowledge. It doesn't hide scheduling from you. It actually makes it more explicit so you can exploit it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648252082.188639"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648252082.188639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-25 16:48</span><br/>
+No, we can have multiple stacks without preemption. This isn't for every situation (e.g. when you actually need to run threads in parallel on different cores) but for most situations in desktop, web, and even server apps, coroutines allow us to avoid the complexity of state machines (by using stacks) without making in impossible to write correct code (as preemption does). As for controlling scheduling, I don't see why your coroutine scheduling code can't provide ways for you to do whatever you like. Many languages with coroutines (e.g. Lua) leave scheduling up to the programmer. I think this is a mistake though, as modules from different programmers can be effectively incompatible without a shared scheduler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648252243.470739"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648252243.470739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-25 16:50</span><br/>
+Coroutines also have the advantage (depending on how they are implemented) of having far smaller (and extendable) stacks than preemptive threads, which allows them to scale to several orders of magnitude more concurrency than preemptive/OS threads.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648256901.538549"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648256901.538549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-25 18:08</span><br/>
+My response was for <span style="background-color:#ccf">@Jimmy Miller</span> and not you, <span style="background-color:#ccf">@Steve Dekorte</span>. I think there was some ordering confusion here. I'm not sure I follow exactly which response you are responding to but I think we are saying compatible things? I didn't mention anything about preemption, but maybe that's a response to someone else? I think we agree. I was saying "any i/o introduces some level of indeterminacy" in a different (maybe less clear) way. Though I don't think it's a mistake to expose the underlying scheduler, but I'm biased towards performance tuning over code reuse.<br/><br/>Isn't cpu scheduling a state machine by definition? The difference between preemptive and cooperative scheduling (coroutines, async, etc...) is that you are matching the state transitions to more closely align with the program logic instead of being controlled by an external algorithm?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648491241.993929"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648491241.993929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 11:14</span><br/>
+<span style="background-color:#ccf">@Ray Imber</span> "Isn't cpu scheduling a state machine by definition?" The point isn't that using stacks avoids state machines, it's that they do that work for you.<br/><br/>It's like automatic garbage collection. The point isn't that memory management isn't done, it's that it's done for you.<br/><br/>Writing your own state machines instead of using stacks is like programming with GOTOs instead of using functions. It's technically possible, and in theory may be more efficient, but there are reasons why it's no longer considered good practice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648495082.436399"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648495082.436399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 12:18</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span><br/>&gt; It's like automatic garbage collection. The point isn't that memory management isn't done, it's that it's done for you.<br/>I don't think it's the difference between manual memory management and GC, it's the difference between reference counting and GC. Both pre-emptive multitasking and co-routines are automatic scheduling algorithms. Neither requires you to build the state machine yourself. The difference is how you influence the scheduling. Pre-emptive schedulers don't take any influence from your program. Whereas coroutines provide "yield" points that can be seen as hints to the scheduler to be more in line with the needs of your program.<br/><br/>&gt; is like programming with GOTOs instead of using functions<br/>I don't think that's accurate at all. Are you saying all state machines can be represented as coroutines? This duality seems much more like the Church-Turing duality of lambda calculus vs. Turing machines. It's theoretically important but not practical by itself.<br/><br/>I'm also not convinced your argument is true if that's the case. Coroutines deal with a particular class of state machines (those dealing with scheduling), they are not appropriate for all state machines.<br/><br/>Are you saying that all state machines are <b>better</b> represented as cooroutines? If that's the case, then this is very clearly subjective. That is an  argument similar to the difference between functional and imperative programming. There is no evidence that one is universally better than another. Some things are better represented functionally, and some better procedurally.<br/><br/>Anecdotally, I dislike the GOTO argument. It misses too much nuance, in the same way that "functional programming is always better" is a useless statement. Both Knuth and Dijkstra himself walked back the "GOTO considered harmful" statements.<br/>&gt; <em>Donald E. Knuth:</em> I believe that by presenting such a view I am not in fact disagreeing sharply with Dijkstra's ideas, since he recently wrote the following: "Please don't fall into the trap of believing that I am terribly dogmatical about [the go to statement]. <b>I have the uncomfortable feeling that others are making a religion out of it, as if the conceptual problems of programming could be solved by a single trick, by a simple form of coding discipline!</b><br/><a href="https://pic.plover.com/knuth-GOTO.pdf">https://pic.plover.com/knuth-GOTO.pdf</a><br/><br/>Programming abstractions should be ladder that you can both walk up <b>or down</b> depending on the <b>engineering</b> needs of the particular problem. Dogma has no place in engineering imo. To be fair, we are all human, so that is more of an aspiration than the reality.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648496141.269119"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648496141.269119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 12:35</span><br/>
+&gt; coroutines allow us to avoid the complexity of state machines (by using stacks) without making in impossible to write correct code (as preemption does).<br/>&gt; ...<br/>&gt; This is unlike multiple threads preemptively writing on the same memory at the same time, which is an environment where even the world's top experts have been shown to be unable to write correct code.<br/>Sorry, I don't buy it. Async lets you write more efficient code around IO scheduling. It solves a particular problem, that is completely orthogonal to correctness or memory safety. Coroutines are about "when", not "where".<br/><br/>Corountines do not solve multithreaded memory safety. Async and Parallelism are not the same thing. You can still have race conditions with coroutines (Go has had plenty of bugs showing this). Multiple Coroutines can still be scheduled on different CPU cores and write to the same memory. You need something like the Rust borrow checker to solve that problem. Not coroutines.<br/><br/>&gt; Coroutines also have the advantage (depending on how they are implemented) of having far smaller (and extendable) stacks than preemptive threads, which allows them to scale to several orders of magnitude more concurrency than preemptive/OS threads.<br/>This is the problem coroutines solve. Coroutines deal with optimization, not correctness.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648496367.015009"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648496367.015009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 12:39</span><br/>
+<span style="background-color:#ccf">@Ray Imber</span> I'm saying that in most every case in which single stack asnyc is used (say, in Javascript) the proper (with i/o wrappers and a schedule) use of coroutines (i.e. multi-stack async) would result significantly easier to write/read/debug/maintain code (as well as less code). The larger and more complex the app, the larger this difference will tend to be.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648496703.560479"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648496703.560479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 12:45</span><br/>
+I think this exists already: it's called Node.js, and, afaik, it did not make large complex apps easier to write/read/debug/maintain.<br/>From what I've seen, adding richer type systems with things like typescript or one of the myriad of other languages that use javascript as a compile target have had better success on those fronts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648498969.233539"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648498969.233539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 13:22</span><br/>
+Node.js doesn't have coroutines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648499795.766609"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648499795.766609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 13:36</span><br/>
+Node.js has async, yield, and iterators. That's the required building blocks for coroutines. See the many coroutine libraries on npm for examples. All of this is based on CSP Theory from Hoare. Just varying levels of abstraction.<br/><a href="https://medium.com/@adambene/async-await-vs-coroutines-vs-promises-eaedee4e0829">https://medium.com/@adambene/async-await-vs-coroutines-vs-promises-eaedee4e0829</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648500371.451019"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648500371.451019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 13:46</span><br/>
+Most Lisps implements coroutines the same way btw: async, yield, and iterators
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648503181.610769"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648503181.610769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 14:33</span><br/>
+Look. You can do some cool stuff with async and coroutines. But it's just another tool in the toolbox imo.  In fact, in my experience, show that async and coroutines make debugging more difficult not less. Coroutines expose more things for the programmer to think about, not less.<br/><br/>Standard sequential architecture <b>hides</b> all scheduling from the programmer. The OS or runtime pre-empts your code at arbitrary points. It's invisible to you. You don't think about it. It's like Virtual Memory. Virtual Memory creates the illusion that you have infinite RAM (and the OS in the background pages memory in and out of your process without your program having any knowledge of it at all.)<br/><br/>But, there are downsides. A database really needs control over when things are paged in and out of memory. But I don't want all programs to do this. It makes life harder on the programmer. I <b>want</b> the option to pick the right tool for the job. For databases Virtual memory is the wrong tool, for some other application it's the right one.<br/><br/>Pre-emptive scheduling is the same idea. You write your code as if there was a single CPU core and your program is the only thing running. Then the OS will sneakily pause your program and let some other program run, you being non the wiser. This is a great abstraction!<br/><br/>Similarly, coroutines <b>explicitly</b> expose the scheduling points to the user. Preemptive scheduling has the disadvantage of only being able to proceed as a fast as it's slowest I/O call. If you are building a web server, preemptive scheduling is the wrong tool. You want to process a lot of I/O and not have have to wait for the slowest one, you really want something like coroutines.<br/><br/>But! now you have many possible orders of execution that you have to keep track of when debugging. The illusion of a single linear order of execution is gone. You have added more states to your DFA, not less.<br/><br/>I have some experience in this area. I am actually a big fan of coroutines! I spent a year working with the async team working to add coroutines and CSP to the <a href="https://nim-lang.org">Nim language</a>. I read a lot of research on this stuff, and I have experience with the inner workings of both the language transforms and the schedulers. CSP has some cool properties. I'm not denying that. It certainly isn't some magic paradigm shifting solution to modern software architecture though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648503764.589209"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648503764.589209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 14:42</span><br/>
+Here is an example where (formal) CSP works really well. I would like to point out that it is used as an explicit tool to model state machines, explicitly modeling all the states, <b>not</b> hiding them:<br/><a href="https://www.reaktor.com/blog/why-csp-matters-ii-how-do-i-know-sync-works/">https://www.reaktor.com/blog/why-csp-matters-ii-how-do-i-know-sync-works/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648504559.127549"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648504559.127549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 14:55</span><br/>
+Another really cool use of CSP principles is delimited continuations, as seen in Racket: <a href="https://docs.racket-lang.org/more/index.html#(part.<em>.Continuations)">https://docs.racket-lang.org/more/index.html#(part.</em>.Continuations)</a><br/>It's a way to do AJAX style stateful request/response, using only a single handler. It combines server routing and I/O scheduling of the network call together. IMO this results in much more readable and clean code. Iirc Hacker News uses this trick, still to this day. I wish more modern languages and servers supported the technique.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648504857.688159"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648504857.688159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 15:00</span><br/>
+Did you read the article linked in the original post for this thread? ( <a href="https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/">https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/</a> ) I think it explains JS's async/await is not the same as coroutines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648506310.983499"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648506310.983499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 15:25</span><br/>
+I have read the article many times. Did you read my responses? Let me be more clear. JS doesn't have coroutines, but it has the building blocks to make coroutines. Ok, so that isn't at the language runtime level, but it amounts to the same thing.<br/><br/>From the article:<br/>&gt; This is where the “red functions can only be called by red functions” rule comes from. You have to closurify the entire callstack all the way back to <tt>main()</tt> or the event handler.<br/>What's the difference between "closurify the entire callstack" and "reified callstacks"?<br/>An implementation detail, that's what. They are semantically equivalent.<br/>You implement a coroutine scheduler using a trampoline at the main and a set of execution stacks.<br/><br/>&gt; Go is the language that does this most beautifully in my opinion. As soon as you do any IO operation, it just parks that goroutine and resumes any other ones that aren’t blocked on IO.<br/>You know that "goroutines" are just a fancy closure right?<br/>When you write the go program "read("file.txt")", it's essentially tranformed into "await read("file.txt")"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648507052.374169"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648507052.374169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 15:37</span><br/>
+There is a difference between what is possible and what is practical. For example, if I try to use some open source JS code, will everything be written in async/await? Or will I have to rewrite it and potentially maintain the async/await version will future updates of the module? What about all of its dependencies? Do I update and maintain all of those too? While these barriers are theoretically surmountable given unbounded time and resources, they are practically non-starters for most programmers. Coroutines would remove these barriers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648507079.363439"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648507079.363439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 15:37</span><br/>
+If you want an example of something closer to Go, see my original <a href="https://ziglang.org/download/0.5.0/release-notes.html#Async-Functions">Zig example</a> at the top of the the thread. It works very similarly to Go but without the magic that hides it from you.<br/><br/>From the zig docs:<br/>&gt; The point here is that the <tt>amain</tt> function, which is the demo of typical async/await usage, works in both an async context and blocking context. The programmer was able to express the inherent parallelism of the logic, without resorting to <a href="http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/">function coloring</a>.<br/>&gt; There is admittedly a bit of boilerplate in the example. <a href="https://github.com/ziglang/zig/issues/3164">Here's the tracking issue for that</a>.<br/>&gt; Now for the related <a href="https://ziglang.org/download/0.5.0/release-notes.html#Standard-Library">Standard Library</a> updates:<br/>&gt; This introduces the concept of "IO mode" which is configurable by the <a href="https://ziglang.org/documentation/0.5.0/#Root-Source-File">Root Source File</a> (e.g. next to *<tt>pub</tt><b> </b><tt>fn</tt><b> </b><tt>main</tt><li>). Applications can put this in their root source file:<br/>I personally think the Zig solution is much better than the Go solution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648508148.832639"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648508148.832639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 15:55</span><br/>
+&gt; here is a difference between what is possible and what is practical. For example, if I try to use some open source JS code, will everything be written in async/await? Or will I have to rewrite it and potentially maintain the async/await version will future updates of the module? What about all of its dependencies? Do I update and maintain all of those too?<br/>That's a good argument, though as much of a political one as a technical one. It's more practical from a technical standpoint than you might think though. It's possible at the compiler level to use program transforms. i.e. lisp style macros (what Nim and lisp do) or compiler passes (what Zig and Go do) to automate a lot of that, at least from the point of the standard library. Just make the standard library I/O calls async, and automatically transform the callers into delimited continuation closures. Admittedly that is fairly invasive and not foolproof (depending on how the caller code was written).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648510600.001469"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648510600.001469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-03-28 16:36</span><br/>
+"It's more practical from a technical standpoint than you might think though..." If you write and maintain it, I would love to use (and advocate for) it - assuming it worked well with debuggers and didn't wreck performance. IMO this is the greatest weakness of JS at the moment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648514113.147109"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648514113.147109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 17:35</span><br/>
+You are right about JS. There would have to be a lot of changes there. It's most practical at the language level, where you can uniformly enforce the transforms. In terms of performance, reification of closures is something that can be heavily optimized. (I think V8 does a lot for this already, but I don't remember all the details). Debugging is another story. I have yet to see good debugger support for concurrent code in any language. That's the main reason I think concurrent code is not a silver bullet. If you had a solution for that, I would love to use and advocate for it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648514427.622619"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648514427.622619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 17:40</span><br/>
+You could run some "macro expander" program on top of your JS code and all dependencies. I guess during the "bundler" build step in the javascript world. I think something like this is what Vue.js does for their component language?<br/>But at that point it's not JS anymore is it? You are basically building a new language that compiles to JS... Are DSLs that get macro expanded in lisp still lisp? :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1648516857.963519"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1648516857.963519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-03-28 18:20</span><br/>
+I've been out of the JS world a long time, looks like React already added coroutines (specialized for react components): <a href="https://blog.logrocket.com/deep-dive-react-fiber/">https://blog.logrocket.com/deep-dive-react-fiber/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650230086.026869"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650230086.026869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-17 14:14</span><br/>
+Was thinking about this more and JS async/await can't be used to provide coroutines because there are effective yield points on every call boundary. This destroys the whole point of coroutines, which is to allow the programmer to choose when to yield.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650230192.007289"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650230192.007289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-17 14:16</span><br/>
+That said, if some API was added to allow the programmer to control the ordering of events/callbacks, that could be used to effectively eliminate those yield points (by always ordering the most recent call first, unless it's an explicitly declared yield point).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650231527.300709"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650231527.300709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-04-17 14:38</span><br/>
+Yup. That's why coroutines require async/await + iterators. It's yield points + a scheduler. The scheduler in JS can be provided via iterators.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650231735.142669"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650231735.142669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-17 14:42</span><br/>
+I don't follow how iterators prevent switching between promise chains on call boundaries. Can you explain?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650232943.900469"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650232943.900469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-04-17 15:02</span><br/>
+Let me take a step back. I might not understand your comment. What makes you think there are effective yield points on call boundaries? Or inversely, what makes you think there are not yield points on call boundaries of other coroutine implementations? Why is that a problem? Isn't that controllable by the scheduler? I.e the scheduler (iterator) controls the order of execution and the switching of promise chains.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650302805.224589"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650302805.224589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-18 10:26</span><br/>
+<span style="background-color:#ccf">@Ray Imber</span> "What makes you think there are effective yield points on call boundaries?" From what I recall reading, Javascript async/await calls give the scheduler an opportunity to switch between promise chains or other events/callbacks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650303231.907539"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650303231.907539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-18 10:33</span><br/>
+<span style="background-color:#ccf">@Ray Imber</span> "Why is that a problem? Isn't that controllable by the scheduler? I.e the scheduler (iterator) controls the order of execution and the switching of promise chains."<br/><br/>Yes, but AFAIK we have no control over the scheduler so using async/await is more like preemptive OS threads except the context switching is limited to all call boundaries instead of individual instructions. This is not how cooperative threading (coroutines) work. They are cooperative because the programmer explicitly chooses the yield points. Preemptive threads make it extremely difficult to write correct code.<br/><br/>"I.e the scheduler (iterator) controls the order of execution and the switching of promise chains."<br/><br/>I don't understand your suggestion that a scheduler and iterator are the same thing. Can you explain? If JS did give us control over the scheduler, we could get coroutine like behavior by reordering the callback/event queue to avoid any switching on call boundaries that was not requested via an explicit yield or resumed by an explicit resume.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650305058.910379"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650305058.910379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-04-18 11:04</span><br/>
+&gt;  context switching is limited to all call boundaries instead of individual instructions<br/>Isn't that what cooperative threading is? You are telling the scheduler when it is allowed to pre-empt. It cannot pre-empt arbitrarily. The actual scheduling order is abstracted and doesn't matter to your user code. You yourself mentioned in an earlier comment that the scheduler can be abstracted from the user.<br/><br/>&gt;  I don't see why your coroutine scheduling code can't provide ways for you to do whatever you like. Many languages with coroutines (e.g. Lua) leave scheduling up to the programmer. I think this is a mistake though, as modules from different programmers can be effectively incompatible without a shared scheduler.<br/>Pre-emption itself isn't the problem, it's when pre-emption is allowed to happen that makes things difficult.<br/><br/>Also, I want to make very clear, that threads have nothing to do with async or cooroutines. <a href="https://go.dev/blog/waza-talk">Concurrency is not parallelism</a>. Cooroutines still work with a single thread. I think you are conflating the abstraction with the implementation here. Unless you are working on an embedded system with no operating system, you will <b>always</b> have some level of pre-emption from the OS. This is the foundation of modern timesharing computing. You seem to assume that a "proper" cooroutine implementation has no pre-emption at all, but that is not the case.<br/><br/>Have you seen this series of articles that describes how go routines are implemented? It's a really good deep dive into the architecture of cooroutines. It goes into good detail about how Go interacts with the OS preemptive scheduler.<br/><a href="https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html">https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html</a><br/><br/>Regarding JS, iterators can be used to implement the runtime scheduler. This works by having a queue of async 'thunks' or promises (units of work). The iterator then pops those off the queue and runs them. The iterator can know which promise chain something came from and can schedule appropriately. The user can even influence this depending on the implementation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650305533.562769"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650305533.562769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-18 11:12</span><br/>
+<span style="background-color:#ccf">@Ray Imber</span> " Isn't that what cooperative threading is (context switching is limited to all call boundaries)?" No, cooperative threading uses yield/resume points chosen by the programmer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650305891.065579"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650305891.065579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-04-18 11:18</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span> JS is single threaded. Async/await is simply sugar around promises. Can you share where you saw that JS is implemented the way you describe? That is not my understanding of how JS async works at all.<br/>Even if there is implicit yield points at call boundaries, the Async is desugared into a chain of promises at each call point. Those promises that can scheduled to run in the expected order by the iterator.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650328109.614419"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650328109.614419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-04-18 17:28</span><br/>
+Can you share an code example of this iterator/scheduler that you mention?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1650390169.186829"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1650390169.186829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-04-19 10:42</span><br/>
+I think this project is one of the most successful stand alone Javascript implementations of coroutines: <a href="https://github.com/miketalbot/js-coroutines">https://github.com/miketalbot/js-coroutines</a><br/>That implementation even supports web workers afaik, so it actually can be multithreaded.<br/><a href="http://js-coroutines.com/#coroutines">http://js-coroutines.com/#coroutines</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1652461337.955919"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1652461337.955919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2022-05-13 10:02</span><br/>
+Continuing to resurrect this thread (sorry lol), but have you seen the news? The JVM is getting lightweight threads and coroutines :grin: <a href="https://ales.rocks/notes-on-virtual-threads-and-clojure">https://ales.rocks/notes-on-virtual-threads-and-clojure</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1652553518.013959"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1647422642.414839.html#1652553518.013959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-05-14 11:38</span><br/>
+Cool. Let’s hope this inspires the JS VM folks.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

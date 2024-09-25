@@ -1,0 +1,283 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-04 22:36</span><br/>
+Got the visual design of the wiki mostly fleshed out. Fluid layout, one breakpoint that moves elements around for smaller screens, light and dark modes, nice keyboard nav, etc etc. Thoroughly documented too, since I figure some folks might want to peek at the css but aren't up on all the new weird stuff you can do.<br/><br/>Also, I'll be eating my hat now: everyone who scolded me for attempting to parse a markdown-like syntax with Regex, well, yeah, it kinda stinks. Not sure what to do about this, given the values I'd like to impart in this project. Since it's not a blocker on writing pages, I think I'll ship it half-finished and we can talk about it. This feels like a great area to draw on the wisdom of the crowd.<br/><br/>Markdown or not, we'll still need a build script, I reckon, unless we want to <em>require</em> that anyone adding a new page also add their page to any relevant indexes — since, I reckon, we'll need some indexes just to get through the early phase where the wiki will be sparsely interconnected. To start, I'm thinking one index of broad categories (or maybe tags, dunno), and then another that's just a list of all pages. But if anyone has strong feelings about the right way to do this, I'm at least 75% ears.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722839433.212069"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1722839433.212069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-04 23:30</span><br/>
+Throwing in a couple of rough ideas:<br/>• If the spirit is simplicity and minimalism, maybe gemtext would be a better option than Markdown? I haven't looked at gemtext closely enough to say if it's that much easier to parse, but maybe someone else here has.<br/>• If the spirit is simplicity and minimalism, then "all the new weird stuff you can do" with CSS rings an alarm bell. Does this CSS wizardry require the latest and greatest browser from Google or Mozilla,or will the site be usable with older and indie browsers?<br/>• Indexes: the only way I see to remove the need for them is a good search engine. But maybe we want a search engine anyway, and then we could perhaps start at that end and see if we still want indexes.<br/>• The last two points also raise the question of the preferred mode of interaction with the conversations. Is it a Web interface? Or is the Web interface merely one tool out of many? A search engine could also be a locally-run tool, or a tool running as a separate Web service.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722856842.030409"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1722856842.030409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-08-05 04:20</span><br/>
+FWIW I needed a super simple CMS and I discovered you can reference a publicly accessible google sheet with CORS enabled from the FE<br/><pre style="white-space:pre-wrap">const sheetId = '1Z7Dja43FepxVOJc5_pMdP0etERM6h0BPAWT74zjdbno';<br/>const sheetName = 'Sheet1';<br/>const url = `<a href="https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&amp;sheet=${sheetName}">https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tq&hellip;</a>`;<br/>  <br/>return d3.csv(url)</pre><br/>Could you push the build step into a google sheet?<br/><br/>e.g. author write blog post and uploads.<br/>Author views google sheet and adds tags =&gt; various downstream sheets update.<br/>Website viewer goes to page <tt>?tag=foo</tt><br/>page fetches sheet for that tag and has a list of articles in a JSON.<br/><br/>You will still need JS thought to unroll that JSON to renderable content, which may be against a design goal (?). Where is the feature matrix? I have been keen to understand this project more but I have not seen it on the slack yet
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722856970.936049"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1722856970.936049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2024-08-05 04:22</span><br/>
+&gt; • If the spirit is simplicity and minimalism, then “all the new weird stuff you can do” with CSS rings an alarm bell. Does this CSS wizardry require the latest and greatest browser from Google or Mozilla,or will the site be usable with older and indie browsers?<br/>I’d encourage the group not to worry about this too much, at least not until we have evidence that something is broken. CSS, similar to HTML, tends to degrade relatively gracefully, and it is easy to write fallback styles for. If the latest and greatest doesn’t work, something older can step in to clean it up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722924496.552249"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1722924496.552249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-05 23:08</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span><br/>• Gemtext: doesn't ring a bell, so I'll definitely take a look at it. Thank you for the rec.<br/>• CSS: I'm using features like rule nesting and custom properties, which make it faster to iterate on the design. Once the dust has settled, I can spend a few cycles making sure everything degrades gracefully — this adds bulk and cyclomatic complexity, so it's actually against the spirit of simplicity and minimalism, but it's worth doing to give as many folks as possible a nice experience.<br/>• I'm going to say that a search engine that's somehow specific to this wiki is out of scope for now. We could add, say, a search box that just drops the user on duck duck go with a <tt>site:</tt> query, maybe. But especially when the quantity of text on the site is relatively small, search is going to be a bit shot-in-the-dark. Good to think about for down the road, sure.<br/>• Yeah! The thing I'm setting up is (A) a git repo with all the wiki entries as either html files or some sort of md-like plain text files, (B) a build script that generates nice static html pages based on the wiki entries, and (C) the means of serving those html pages with nice styling at some official URL. Anyone can clone the repo and do whatever else they want with it. I'd love to see people build alternative tooling around this corpus of wiki entries.<br/><span style="background-color:#ccf">@Tom Larkworthy</span><br/>• I don't really want to couple anything to Google (or Amazon, etc). Everything that I've set up so far just assumes much more bog-standard / portable tech, like "a programming language with regexes" or "a web server that can serve html files". On the initial call where we hashed out this idea, one compelling thought was that by hosting the wiki git repo on GitHub, folks could use their web-based editor to write/edit wiki entries. So we are doing that, but that's just additive, not essential.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722930831.519519"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1722930831.519519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2024-08-06 00:53</span><br/>
+On "parsing markdown with regex", I'm sure most will know this famous StackOverflow reply:<br/><br/><a href="https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454">https://stackoverflow.com/questions/1732348/regex-match-open&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723065586.163539"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723065586.163539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 14:19</span><br/>
+Gemtext is definitely easier to parse. That was the whole design goal. Evidence: count the number of Gemini clients out there written in less than 200 lines of code.<br/><br/>The drawback of Gemtext: no inline formatting, no inline links. You can only format at line granularity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723066184.066909"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723066184.066909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 14:29</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> — Yes. A classic.<br/><span style="background-color:#ccf">@Kartik Agaram</span> (cc <span style="background-color:#ccf">@Konrad Hinsen</span>) — Had a look at Gemtext. I really like it! I think it would be trivial (and sensible) to extend this syntax to support inline links and formatting (including code, using a modal processor just like you do for lines). I'm going to give it a shot and see how it goes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723066468.541039"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723066468.541039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 14:34</span><br/>
+Astonished?<br/><br/>It's simple, you just implement an FSM, and split the incoming character stream on any syntactically-relevant character, then backtrack if you hit a node in the FSM with no outbound edges.<br/><br/><a href="https://www.urbandictionary.com/define.php?term=%2FS">/s</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723068340.322439"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723068340.322439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-07 15:05</span><br/>
+I suspect markdown would also be really easy to parse if you refuse to implement all the stupid edge cases eg if someone writes <tt>am _I bold* or_ italic*</tt> just replace it with an error message.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723068402.282409"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723068402.282409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 15:06</span><br/>
+Shhhh you're spoiling my "actually I will implement a superset of gemtext" gambit to ship decent md ;)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723068761.184629"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723068761.184629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-07 15:12</span><br/>
+&gt; Astonished?<br/>Parsing is one of those funny things where the existence of lots of interesting theory and papers creates the impression that you need complicated tools, whereas in practice almost every industrial parser I've ever seen is just hand-written recursive descent because that is by far the easiest option.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723069148.595929"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723069148.595929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 15:19</span><br/>
+Yeah. Alex Warth (known for OhmJS among other things) has been teaching a little "prototyping programming languages" course internally at I&amp;S. One of the major themes is just that — unless you're actually building an industrial-scale compiler, most of the standard advice given about writing compilers is bunk. Just do something quick and dirty and direct and manual. It's fine. It's <em>plenty</em> fast, and robust.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723069260.843259"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723069260.843259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 15:21</span><br/>
+So it's funny to hear that even for the industrial stuff, most of the sophisticated theory doesn't apply.<br/><br/>I guess the one place that stuff is actually useful is when writing… textbooks about compilers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723078840.806409"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723078840.806409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 18:00</span><br/>
+My astonishment is about getting into notation design, not parsing. What could possibly go wrong :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723078921.457019"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723078921.457019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 18:02</span><br/>
+I will be counting the days until people start complaining about the notation or asking for features.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723080410.845889"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723080410.845889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-07 18:26</span><br/>
+<a href="1722442852.630609.html">-7</a> 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723081015.810969"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723081015.810969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 18:36</span><br/>
+Exactly. And that was just about how to <em>implement</em> a notation.<br/><br/>It's fine. If I'm worried about bikeshedding I shouldn't add to it :smile: :homer-backing-away:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723081327.363749"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723081327.363749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 18:42</span><br/>
+Y'all just got me to de-emoji myself by clubbing me with the unwashed masses who haven't written a recursive descent parser or three :sweat_smile:<br/><br/>(Parsing has its depths. It's hard to make sure all possible illegal statements behave well and raise errors. Favorite target of fuzzers! Probably less important in a safe language, but be prepared for the odd DoS vulnerability caused by an infinite loop in a year or 3.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723083924.530079"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723083924.530079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-07 19:25</span><br/>
+Going back, this is a good suggestion:<br/><br/>> I suspect markdown would also be really easy to parse if you refuse to implement all the stupid edge cases eg if someone writes <tt>am _I bold* or_ italic*</tt> just replace it with an error message.<br/>The key is doing it without eating people's comments. May be safer to just leave the whole message unformatted.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723086751.928109"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723086751.928109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-07 20:12</span><br/>
+Drive-by comments and observations...<br/>1. A major cause of difficulty in parsing is: ASCII. ASCII provides so few characters that we are inclined to overload their meaning. For example “begin string” and “end string” are both represented by the same quote characters in traditional programming languages. Parentheses can bracket expressions or invoke functions or define arg lists in function definitions. Unicode, though, has tons of characters, hence I, for one, have no compunction about choosing a single, non-overloaded meaning for specific characters, and, I have no compunction about choosing left and right bracketing characters for each different kind of bracketing that I feel is needed. The concept of nested comments seemed revolutionary in the past, but, would be natural using non-overloaded characters. Likewise, nested strings become easy to imagine. (Note that the Unix program “M4” does define different begin and end quote characters for some of its strings).<br/>2. Recursive descent + backtracking = PEG. Recursive descent does better than CFG and REGEX for practical parsing, with the exception that you have to manually pre-refactor the grammar to fold together all common prefixes (left hand side of phrases). PEG adds the nuance that it can try to parse a phrase, and, if the attempt fails, PEG backs up and retries some other parse branch. With backtracking, manual common prefix refactoring is no longer necessary (the machine does it for you). Backtracking was well-known early on, but, frowned upon by those with 1950s biases. Early’s parser and PROLOG were side-stepped for “more efficient”, gotcha-full approaches. Backtracking ain’t all that hard if you ignore your inner 1950s biases. [I even have a JS backtracker (a Prolog) lying around, only lightly tested, on my repo somewhere, generated by my first use of OhmJS. I transpiled Nils Holm’s Scheme program to JS. If I can do it, anyone can.]. <br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723103367.639429"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723103367.639429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-08 00:49</span><br/>
+I like the idea of building on gemtext. I see a simple specification as a necessary foundation for simple implementations. So: make it as simple as you can. If gemtext goes too far, then add what's missing to gemtext.<br/><br/>There is, of course, the risk of "oh, it's our own notation, so we can do all these wonderful things with it". Followed by extensive bikeshedding sessions. Here's an idea for dealing with it: (1) Whoever proposes a modification to the notation has to supply working code that implements the change. We won't even discuss unimplemented ideas. (2) We'll set a limit to allowed code size. Something like "no more than 1.2 times the size of Ivan's first working version, for at least one year".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723525755.647289"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722836207.656899.html#1723525755.647289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-12 22:09</span><br/>
+I just (finally) learned what Gemini is, and discovered that this is where Gemtext originated. Then I used Mariano's history tools to look for past discussions of Gemini here, and found there were only a few scattered mentions.<br/><br/>Anyway, really feeling the "let's build our own thing that's radically simpler than the workaday corporate software gruel" vibe.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

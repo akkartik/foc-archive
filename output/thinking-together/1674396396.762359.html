@@ -1,0 +1,389 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-22 06:06</span><br/>
+# Summary 2022<br/>For me 2022 was:<br/>1. 0D<br/>2. transpiler pipelines<br/>Explanations below.<br/><br/>There is nothing “new” here.   I believe that our crop of programming languages subtly discourages certain kinds of thoughts. You <b>can</b> do these things with our programming languages, but, you <b>don’t bother</b>.<br/><br/>[I wrote this on Jan 1/2023.  Then I promptly got sick and found new ways to procrastinate.  I will gladly remove this if it is inappropriate or too long...]<br/><br/># TL;DR<br/>## 0D<br/>• 0D is part of traditional parallelism (zero-dependency, total decoupling)<br/>• breaking 0D away from parallelism enables other uses<br/>• 0D uses FIFOs, whereas functions use LIFOs (LIFOs are used by most modern programming languages, Python, Rust, etc. and stifle possible solutions)<br/>## Transpiler Pipelines<br/>• “skip over” uninteresting bits of syntax, whereas CFG requires full language specification<br/>• leads to a different class of tools -&gt; parser used for “quickie” matches instead of for building compilers ; different way of using parser DSLs ; like mathematical manipulation of notation<br/>• “skipping over” bits of syntax allows syntactic composition ; syntactic composition enables pipelines ; <br/># 0D<br/><br/>0D is a short-hand for the phrase <b>zero dependency</b>.  Total decoupling.<br/><br/>Programmers already know how to write 0D code, but, they tangle this simple concept up with other concepts and call the result “parallelism”.<br/><br/>At a very, very basic level, you can achieve 0D by using FIFOs instead of LIFOs (queues vs stacks).  LIFOs - callstacks - are good for expressing synchronous code.  LIFOs are less-good for expressing asynchronous code.<br/><br/>Programmers often conflate nested, recursive functions with the notion of pipelines.  If a component sends itself a message, the message is queued up in FIFO order and there is a “delay” before the message is processed, whereas if a component recursively calls itself, the function parameters are pushed onto a stack and the processing happens immediately, in LIFO order.  This subtle difference in processing sequence manifests itself in design differences.  For example, in electronics - where all components are asynchronous by default - you often see the use of “negative feedback”, say in Op-Amp designs. You rarely see this technique used in software design.  In electronics, negative feedback is used by components to self-regulate, whereas in software, recursion is used as a form of divide and conquer.  Feedback loops make it possible to be explicit about software design, whereas recursion hides the key element - the callstack - of the design.<br/><br/>EEs had this issue sussed out, before the advent of the “everything must be synchronized” mentality.<br/><br/>All components in an electronic circuit are asynchronous by default.  Synchrony is judiciously, explicitly designed-in through the use of <b>protocols</b>.  Synchrony is not designed-in everywhere <b>by default</b> and is explicitly designed in on an <b>as needed</b> basis.  There is a reason - a subtle reason - why it is easy to draw diagrams of computer networks and not-so-easy to draw diagrams of synchronous code.<br/><br/>In EE designs, concurrency is so cheap that you can’t help but use it.  In software, concurrency implies difficulty and designers end up avoiding concurrency in their designs.<br/><br/>This subtle difference has a trickle-down effect to end-user code.  When it is difficult to draw diagrams of programs and to snap components together, programmers tend not to provide such features to end-users.  Or, when they provide such features, they implement such features under duress.  If DaS and snappable components were abundantly available, such features would naturally leak through to end-user apps.<br/><br/>0D can be implemented a lot more efficiently than by using operating system processes and IPCs.  Most modern programming languages support closures (anonymous functions) and make it easy to build queue data structures.  Stick one queue at the front of a closure - the “input queue” - and one queue at the tail of a closure - the “output queue” - and, you get 0D.  Then, you need to write a wrapper component that routes “messages” from the output queue of one closure to the input queue of another closure.  Can this concept be generalized?  This ain’t rocket science.<br/><br/>When you build 0D software components, does the order-of-operation of components matter?  Nope.  Can a 0D component create more than one result during its operation?  Yep.  Can a 0D component directly refer to another 0D component?  Nope.  The best you can do is to compose networks of 0D components inside of routing wrappers.<br/><br/># Transpiler Pipelines<br/>It would be nice to build up solutions using pipelines of many little solutions and syntaxes made expressly for those solutions.<br/><br/>What do you need to be able to do this?<br/><br/>1) You need to be able to write grammars that are very, very small and that allow you to”ignore” bits of syntax that don’t pertain to a problem, e.g. kind-of like REGEX, but, better.<br/>2) Total isolation of building blocks.<br/><br/>## Very Small Grammars That Ignore Uninteresting Items<br/>Ohm-JS - a derivative of PEG (Parsing Expression Grammars) - makes it possible to write grammars that skip over uninteresting bits of text.<br/><br/>For example, if you want to write a quickie parser for C code, you might want to say:<br/><tt>... function-name (...) {...}</tt><br/><br/>In Ohm-JS, you can say this, whereas in a CFG-based parser generator you need to over-specify all of the niggly bits of C syntax.  In Ohm-JS, this results in a few minutes of work and only a few lines of code.  The Ohm-Editor assists in developing the micro-grammar.<br/><br/>In YACC and CFG-based approaches, though, you’re looking at a gargantuan job (days, weeks, months, ...) and you simply <b>don’t bother</b> to write such a quickie parser.  You either <b>don’t bother</b> with the whole idea, or you use something like REGEX which fails on a number of edge-cases for this kind of thing.  REGEX can’t search recursively for matching brackets, Ohm-JS can.  Using REGEX, you might get away with a partial solution, or, the project might grow larger as you hit unexpected speed bumps.  You either persevere or you just give up.<br/><br/>For the record, the grammar plus the accompanying code fabricator specification  for the above simple example are shown in the appendix.<br/><br/>### DaS Comes For Free<br/><br/>When you can build totally isolated building blocks, you can draw sensible diagrams of how the building blocks should be snapped together to solve a problem.<br/><br/>Later, you can steal (cut/copy/paste) chunks of previous solutions and use them as building blocks for new problems.<br/><br/>DaS: Diagrams as Syntax.<br/><br/>DaS is not diagrams as an Art Form.  DaS is diagrams as programming languages.  For example, instead of writing <tt>{...}</tt>, you draw a rectangle.<br/><br/>Programming languages were created by culling the English language and by choosing only the words and phrases that could be compiled to executable code.<br/><br/>Can we cull diagrams in the same way to invent new programming languages?<br/><br/>EE’s have done this and they call the resulting diagrams “schematics”.<br/><br/>Building construction engineers have done this and call the resulting diagrams “blueprints”.<br/><br/>## Don’t We Already Use Building Blocks?<br/><br/>“Code Libraries” <b>look</b> like building blocks, but, contain subtle bits of coupling that discourage building-block-iness.<br/><br/>For example, the very common idiom of a function call <tt>f(x)</tt> introduces at least 3 kinds of coupling:<br/>1. The name <tt>f</tt> is hard-wired into the caller’s code.  The calling code cannot be cut/copy/pasted into some other solution without also dragging in the called code, or, by futzing with the source code.<br/>2. The function call <tt>f(x)</tt> waits for the callee to return a value.  This is also known as <b>blocking</b>.  Function call notation works fine on paper, where functions can be evaluated instantaneously.  It’s different when you map function call syntax onto hardware that has propagation delays wherein functions take finite amounts of time to “run”.  This subtle difference in behaviour leads to hidden gotchas.  A glaring example of the impact of such a difference can be seen in the Mars Pathfinder disaster[^pathfinder].  <br/>3. The function return <tt>v = f(x)</tt> hard-wires a routing decision into the callee’s code.  The callee <b>must</b> direct its response back to the caller.  This is called “returning a value”.  Again, this doesn’t look like a problem when you just want to build fancier calculators, but, this hard-wired routing decision discourages simple solutions to non-calculator problems, like machine control.<br/>[^pathfinder]: <a href="https://www.rapitasystems.com/blog/what-really-happened-software-mars-pathfinder-spacecraft">https://www.rapitasystems.com/blog/what-really-happened-soft&hellip;</a><br/><br/>When you don’t have complete isolation, you don’t have building blocks.  Imagine a LEGO® set where all the pieces are joined together with a single, long sewing thread glued to each LEGO® block.  Or, you have two real-world objects, e.g. one apple and one orange.  You cut the apple in half.  What happens to the orange?<br/><br/>As humans, we are used to the idea that objects are completely isolated.  Programs don’t work that way.  We have to stop and think hard when writing programs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674396645.606299"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674396645.606299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-22 06:10</span><br/>
+# Appendix<br/>If you want to play along with this experiment, the code is in <a href="https://github.com/guitarvydas/cfunc">https://github.com/guitarvydas/cfunc</a>.<br/><br/>## c.ohm<br/>A quickie grammar that matches function declarations in a C file.<br/><br/>Note that this grammar is longer than a REGEX, but, is significantly shorter than a CFG specification (LR(k), YACC, etc.) for the C programming language.<br/><br/><pre style="white-space:pre-wrap">Cfunctions {<br/>  program = item+<br/>  item =<br/>    | comment<br/>    | string<br/>    | applySyntactic&lt;FunctionDecl&gt; -- decl<br/>    | any -- other<br/>  FunctionDecl = name "(" param+ ")" "{" block+ "}"<br/><br/>    param =<br/>      | "(" param+ ")" -- nested<br/>      | ~"(" ~")" any  -- flat<br/><br/>    block =<br/>      | "{" block+ "}" -- nested<br/>      | ~"{" ~"}" any  -- flat<br/><br/>      name = letter (alnum | "_")*<br/>      comment =<br/>        | "//" (~nl any)* nl<br/>        | "/*" (~"*/" any)* "*/"<br/>      string =<br/>        | bqstring<br/>        | dqstring<br/>        | sqstring<br/>      bqstring = "`" (qbq | (~"`" any))* "`"<br/>      dqstring = "\"" (qdq | (~"\"" any))* "\""<br/>      sqstring = "'" (qsq | (~"'" any))* "'"<br/>      qbq = "\\" "`"<br/>      qdq = "\\" "\""<br/>      qsq = "\\" "'"<br/>      nl = "\n"<br/>      spaces += comment<br/>}</pre><br/>Can this grammar be improved and optimized?  Probably.  But, why would you care?<br/><br/>You would care only if you used this code in an end-user product.<br/><br/>If you use this code in something like a batch-editing environment, “efficiency” takes on a different meaning.  End-users don’t care about the efficiency of your code editor and its Find-and-Replace function.  End-users don’t care how efficient your command line tools, like <b>grep</b>, are.<br/><br/>When you treat Ohm-JS + Fab as batch editors for development, then, only <b>development efficiency</b> matters.<br/><br/>I strongly believe that one shouldn’t write code.  One should write code that writes code.  From this perspective, “efficiency” breaks down into 2 camps:<br/>1. developer efficiency<br/>2. end-user efficiency.<br/>Note that traditional <b>compilers</b> are simply apps that write code.  Developers use <b>compilers</b>.  End-users don’t care if a developer created end-user app code by hand or by using a compiler.  The only things that end-users care about is if the app is cheap and runs on cheap hardware.  The final app is assembler, regardless of how it was created. Developers, on the other hand, do care about development time and effort.  Hand-writing apps requires much more effort than using high-level language compilers to generate the final app code.  Debugging apps is easier when using high-level languages with type-checkers.  On the other hand, developers usually buy fancier hardware than that which is used by end-users.  Developers can afford to burn CPU cycles on their fancy hardware to give themselves faster - and cheaper - development and debugging times.<br/><br/>The final step in development is that of Production Engineering an app to make it cheap-enough to sell.  Up until that point, the development workflow should consist of <b>anything</b> that speeds up and cheapens development time, for example, dynamic language environments and REPLs.  For example, <b>Rust</b> is a Production Engineering language and needn’t be used until the last moment.<br/><br/>## c.fab<br/><br/>A <tt>.fab</tt> file is a specification that creates strings based on the above grammar.  <b>Fab</b> is an experimental transpiler tool that works with Ohm-JS.  It generates JavaScript code required by Ohm-JS.  This could all be done by off-the-shelf Ohm-JS.  <b>Fab</b> simply reduces the amount of keyboarding needed for creating JavaScript “semantics” code required by Ohm-JS.  <b>Fab</b> is written in Ohm-JS.<br/><pre style="white-space:pre-wrap">Cfunctions {<br/>  program [item+] = ‛«item»'<br/>  item_decl [x] =  ‛«x»'<br/>  item_other [x] =  ‛'<br/>  FunctionDecl [name lp param+ rp lb block+ rb] = ‛\n«name»'<br/>    param_nested [lp param+ rp] = ‛'<br/>    param_flat [c] = ‛'<br/>    block_nested [lp block+ rp] = ‛'<br/>    block_flat [c] = ‛'<br/>      name [letter c*] = ‛«letter»«c»'<br/>      comment [begin cs end] = ‛'<br/>      nl [c] =  ‛«c»'<br/>      spaces [cs] =  ‛«cs»'<br/>      bqstring [begin cs* end] = ‛'<br/>      dqstring [begin cs* end] = ‛'<br/>      sqstring [begin cs* end] = ‛'<br/>      qbq [bslash c] = ‛'<br/>      qdq [bslash c] = ‛'<br/>      qsq [bslash c] = ‛'<br/>}</pre><br/>## grep.c<br/>The above was tested against <tt>grep.c</tt> from the Gnu grep repo.<br/><br/><tt>git clone <a href="https://git.savannah.gnu.org/git/grep.git">https://git.savannah.gnu.org/git/grep.git</a></tt><br/>## Even Smaller<br/>I’m playing with the design of a new tool that I call <b>bred</b> (bracket editor).  It’s like a super-simple batch editor that walks through text that contains bracketed constructs.<br/><br/>The full specification consists of 2 strings<br/>1. what to match<br/>2. how to rewrite it.<br/>The above specifications might be re-expressed as:<br/><pre style="white-space:pre-wrap">‛«name» («params») {«block»}'<br/>‛«name»'</pre><br/>which reads as:<br/>1. match, recursively, anything that looks like <tt>«name» («params») {«block»}</tt><br/>2. then, throw away everything except the name<br/>Currently, my concepts have warts - what happens when a comment or a string or a character constant contains brackets, or, even worse, what happens if they contain unmatched brackets?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674413048.780219"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674413048.780219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-22 10:44</span><br/>
+Nice ideas.<br/><br/>Re 0D, my next question is: how to decide at what granularity to stop using function calls? Or are you suggesting eliminating them entirely?<br/><br/>Re transpiler pipelines: I tried this for a while a few years ago. The conclusion I reached was that they were great for adding capabilities but they can't add restrictions. In first class languages often a lot of value comes from guarantees that certain events won't occur. An int won't be assigned to a string. There you need a single coherent grammar. Does this seem right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674427195.703659"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674427195.703659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2023-01-22 14:39</span><br/>
+this talk is quite relevant —
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674427198.559319"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674427198.559319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2023-01-22 14:39</span><br/>
+<a href="https://youtu.be/JMZLBB_BFNg">https://youtu.be/JMZLBB_BFNg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674476389.286669"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674476389.286669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-23 04:19</span><br/>
+... re: 0D ...<br/><br/>ideal: use both, without letting language influence your thinking<br/>ideal: use both, but, remain aware of what each choice accomplishes<br/>ideal: 0D to be so cheap that it could be used on every line of code<br/><br/>reality: 0D is entangled with Multiprocessing and the current grain size is “Process”<br/>alternate reality: 0D can be couched in terms of closures and FIFOs, hence, grain size is “function” (where closure is roughly equivalent to function)<br/><br/>reality: CALL/RETURN and the callstack are hard-wired into CPUs (there used to be a time when CPUs didn’t have hard-wired callstacks)<br/><br/>reality: 1950s IDEs for Programming were Programming Languages, but, in 2022++ IDEs include other stuff, like powerful programming editors<br/><br/>CALL is used for 2 reasons: (1) compacting code size, (2) DRY (Don’t Repeat Yourself).  There is no good reason to allow CALL/RETURN to leak into end-user code except for case (1) compacting code size [corollary: case (2) should be entirely optimized away at “compile time” and “edit time”]<br/><br/>x.f(x) is syntax with the meaning “mutate the global callstack and mutate the IP to point at the method function x.f” (and “return” means “put the return value in a special place, then mutate the global callstack, then mutate the IP to point at the caller’s continuation code”)<br/><br/>but, there is no popular builtin syntax for Send()ing to an output queue and passing the finalized output queue back up to the parent Container<br/><br/>... re: transpiler pipelines question ... thinking ...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674555091.488049"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674555091.488049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-24 02:11</span><br/>
+... re: transpiler pipelines question, progress towards answering the question, WIP ...<br/>... this doesn’t necessarily answer the question, but might show where my thinking is going, while I try to figure out what is really being asked ...<br/>... I think of a PL as 2 issues: (1) data (2) control flow, i.e. (1) operands and (2) syntax ...<br/>... I am playing with Orthogonal Programming Languages, where (1) is OO, (2) is syntax ; based on Cordy’s Orthogonal Code Generator ideas and based on RTL and based on dataless PLs (like Holt’s S/SL (used in PT Pascal, Concurrent Euclid, Turing, etc.)) ...<br/>... I think that dataless languages boils down to 2 entities: (1) Things, (2) Lists of Things.  Types are opaque and cannot be defined at the dataless language-level (Types are defined and manipulated in other layers, implemented in common PLs (e.g. Python, C, etc.))<br/><br/># Src<br/>String s<br/>s &lt;- ‘abc’<br/>s &lt;- 7<br/><br/># Gather<br/>$defsynonym (‘s’, ⟨od, kind=var, type=“String”, key=‘s’⟩)<br/>s &lt;- ‘abc’<br/>s &lt;- 7<br/><br/># Normalize<br/>$defsynonym (‘s’, ⟨od-var, “String”, ‘s’⟩)<br/>$Assign s, ⟨od-lit, “String”, ‘abc’⟩<br/>$Assign s, ⟨od-lit, “int”, 7⟩<br/><br/>... same as ...<br/><br/>$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “String”, ‘abc’⟩<br/>$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “int”, 7⟩<br/><br/># Semantic Check<br/>“String” == “String” --&gt; OK<br/>“String” != “int” --&gt; Error<br/><br/>This looks like simple name equivalence.  Lower layers are free to use structural equivalence instead (using names as keys to a map containing more detail for each type).<br/><br/>[The goal here is to think of a compiler as a string of pearls on a pipeline instead of as a honking big tree].<br/><br/>[od - oh-D, not zero-D, means “object descriptor”]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674562402.434799"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1674562402.434799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-24 04:13</span><br/>
+Hmmm, is it valid to say that “0D is Combinators for impure languages”?<br/><br/>Is that the appeal of /bin/sh pipelines?  Combinators for C?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675068378.006549"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675068378.006549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-01-30 00:46</span><br/>
+While I don’t believe 0D is possible, it certainly is true that our current dominant architectural style, call/return, couples way more than it should, and is largely <a href="https://repository.upenn.edu/cgi/viewcontent.cgi?article=1074&amp;context=library_papers">mismatched</a> with the <a href="https://dl.ifip.org/db/conf/ehci/ehci2007/Chatty07.pdf">majority of systems</a> we build today.<br/><br/>I talk about this in some detail in <a href="https://dl.acm.org/doi/10.1145/3397537.3397546">Can Programmers Escape the Gentle Tyranny of Call/Return</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675068549.772679"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675068549.772679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-01-30 00:49</span><br/>
+As an example, it turns out that dataflow (in particular of the pipe/filter kind) is actually the more flexible / more basic style, because you can easily and generically implement call/return in terms of pipes/filters but not the other way around, at least not without sacrificing important performance properties of dataflow.  Which was a bit of a surprising result to be honest.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675094970.899729"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675094970.899729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-01-30 08:09</span><br/>
+Curious to learn more, I listened to <span style="background-color:#ccf">@Marcel Weiher</span> over here <a href="https://www.youtube.com/watch?v=Gel8ffr4pqw">https://www.youtube.com/watch?v=Gel8ffr4pqw</a>.  The Q&amp;A has a few familiar faces.<br/><br/>The idea, as I understand it, is that we often want to connect bits of data <tt>y = f(x)</tt> but call/return unnecessarily couples how you enforce the relation, namely, by fixing <tt>y</tt> based on <tt>f</tt> of an precomputed <tt>x</tt>.  You may do it eagerly, you may do it lazily, but you're still committed.  With Prolog you can leave variables unbound.  With bidirectional transformations / lenses you can update <tt>x</tt> from changing <tt>y</tt>.  And there are more possibilities.<br/><br/>I've long been curious about decoupling relations over state from evaluation/update mechanisms.<br/><br/>By the way Common Lisp's resumable exception handling mechanism is called the "Condition System."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675097023.539569"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675097023.539569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-01-30 08:43</span><br/>
+I apologize if I’ve made this sound too complicated...<br/><br/>0D has been around for a long time.<br/><br/>I didn’t invent it, I just drew a sloppy red circle around it and gave it a name that I like.<br/><br/>Every “concurrent” program needs, first, to be 0D.  UNIX pipes were invented in 1973 <a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)">https://en.wikipedia.org/wiki/Pipeline_(Unix)</a>.  Morrison invented Flow-Based Programming even earlier.  Processes and IPCs have been around for a long time. All are 0D at the core.<br/><br/>Anonymous functions (the precursors to closures) were invented around 1956 (Lisp 1.5).  If there hadn’t been such a deep allergy to Lisp, it might have become obvious that “operating system processes” were just closures.<br/><br/>One of the first CPUs that I programmed, didn’t have a callstack.  You had to choose to implement CALL manually, or, choose to implement co-routines manually.  (BALR instruction, IIRC). Or, to do something more ad-hoc and less-structured.<br/><br/>Basic 0D consists of putting a queue at the front of a closure and another queue at the back of the same closure.  Then, writing a wrapper that shepherds messages between queues. Stating the obvious - lists and callstacks are not queues. Recursion is not 0D.<br/><br/>I will try to whip up an example in some example language ...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675603917.529659"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675603917.529659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-05 05:31</span><br/>
+I think you did a great job describing it, and yes, Unix P/F, Morrison’s FBP etc. are all under-appreciated.  Not sure the name “0 Dependencies” does the trick, though I understand where you are coming from with it.<br/><br/>Part of the problem with dataflow systems being under-appreciated, I think, has to do with them usually suffering from packaging mismatch.  So while in principle they are structurally simpler, their implementations tend to be difficult to integrate with.<br/><br/>So-called “FRP” (or Rx) has done a somewhat better job of integrating with existing procedural/functional languages, and has thus seen fairly wide adoption, but at the cost of hiding the goodness of the dataflow underpinnings under some FP goobledygook that makes it much more difficult to (re-)use and compose.<br/><br/>Polymorphic Write Streams do a slightly better job, IMHO of course, but still suffer, because in the end it is tricky to provide non-procedural abstractions when the abstraction mechanism itself is the procedure call.  You simply can’t talk about what you’re doing with the linguistic means available, which is a bit of a bummer.<br/><br/>One of the reasons I decided to create a new language…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675630292.911339"></a>
+      <a href="../thinking-together/1674396396.762359.html#1675630292.911339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-05 12:51</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675630323.576739"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675630323.576739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-05 12:52</span><br/>
+&gt; I will try to whip up an example in some example language ...<br/>!<a href="https://github.com/guitarvydas/py0d/blob/feedback/doc/feedback.png">simple example</a><br/><br/><pre style="white-space:pre-wrap">from leaf import Leaf<br/><br/>class A (Leaf):<br/>    def __handler__ (self, message):<br/>        self.send (xfrom=self, portname='out', data='v', cause=message)<br/>        self.send (xfrom=self, portname='out', data='w', cause=message)</pre><br/><pre style="white-space:pre-wrap">from leaf import Leaf<br/><br/>class B (Leaf):<br/>    def __handler__ (self, message):<br/>        if (message.port == 'in'):<br/>            self.send (xfrom=self, portname='out', data=message.data, cause=message)<br/>            self.send (xfrom=self, portname='feedback', data='z', cause=message)<br/>        elif (message.port == 'fb'):<br/>            self.send (xfrom=self, portname='out', data=message.data, cause=message)<br/>        else:<br/>            raise Exception (f'internal error: unhandled message in C {message}')</pre><br/><pre style="white-space:pre-wrap">from sender import Sender<br/>from receiver import Receiver<br/>from up import Up<br/>from down import Down<br/>from across import Across<br/>from container import Container<br/><br/>from a import A<br/>from b import B<br/><br/>class Top (Container): <br/>  def __init__ (self, parent, name):<br/>      a = A (self, f'{name}/a')<br/>      b = B (self, f'{name}/b')<br/>      self._children = [a,b]<br/>      self._connections = [<br/>          Down (Sender (self,'in'), Receiver (a,'in')),<br/>          Across (Sender (a,'out'), Receiver (b,'in')),<br/>          Across (Sender (b,'feedback'), Receiver (b,'fb')),<br/>          Up (Sender (b,'out'), Receiver (self,'out'))<br/>      ]<br/>      super ().__init__ (parent, name, self._children, self._connections)</pre><br/><br/><br/>This example shows a small, 2-component feedback network.<br/><br/>The code does nothing useful, but, it demonstrates message feedback.<br/><br/>The problem statement:<br/><br/>• When A gets a message on its pin ‘in’, it produces 2 messages ‘v’<br/>  and ‘w’ in that order.<br/>• When B gets a message on its pin ‘in’, it outputs the message on its<br/>  pin ‘out’ AND it produces a ‘z’ message on its pin ‘feedback’.<br/>• When B gets a message on its pin ‘fb’, it outputs the message on its<br/>  pin ‘out’ (only).<br/><br/>The result of the system is 4 messages ‘v’, ‘w’, ‘z’, ‘z’ in that<br/>order (left to right).<br/><br/>... for more details, see <a href="https://github.com/guitarvydas/py0d/blob/feedback/README.md">https://github.com/guitarvydas/py0d/blob/feedback/README.md</a> (note that this is the “feedback” branch of that repo)<br/><br/>Feedback - why bother? In electronics, it is common to use feedback to self-regulate (“negative feedback”). In software, recursion (which only LOOKS like feedback) is used only as a form of divide-and-conquer.<br/><br/>The difference between Recursion and Feedback is the delay imposed by queuing. Recursion is processed immediately in a LIFO manner, whereas Feedback messages are put into a queue in FIFO order, to be processed when their time comes.  It’s like someone waiting patiently in a lineup versus someone jumping the queue and going to the front of the line.<br/><br/>Stuff like this matters when you are building sequencers instead of calculators.<br/><br/>The Architect can be very explicit in the design instead of having a certain semantics built into the lower-levels of the tool.  Loops (not Recursion) become explicit messages-to-self.  If the Architect really, really, really wants a Stack, the Architect builds it explicitly and gives it the desired semantics, instead of relying on the built-in call-stack to do the work implicitly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675630535.285029"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675630535.285029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-05 12:55</span><br/>
+fyi <a href="https://github.com/guitarvydas/py0d/tree/feedback">https://github.com/guitarvydas/py0d/tree/feedback</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675678641.863779"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675678641.863779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-06 02:17</span><br/>
+… watching … <a href="https://www.youtube.com/watch?v=DG5MtsMojgI">https://www.youtube.com/watch?v=DG5MtsMojgI</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675685850.521639"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675685850.521639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-06 04:17</span><br/>
+various comments that came to mind ...<br/><br/>a) aside: are you aware of Paul Morrison’s Flow-Based Programming? (If not, I can supply more info, including a discord link)<br/><br/>b) There is ONLY ONE thing that matters to end-users in the end: how inexpensive is the machine?  Do end-users care if you used Emacs, VIM, VSCode, etc.?  Nope.  Do end-users care if you used functional programming, OOP, C, or raw assembler?  Nope.  Can the end-user waltz into WalMart and buy your hand-held game machine in the home furnishings department off-the-shelf like a toaster or can they run your product on an rPI or do they need to buy a full-blown laptop paying tax to Microsoft or Apple?  Is the product guaranteed to work or does it need frequent updates?<br/><br/>c) CALL/RETURN uses the call-stack - a LIFO.  Queues use FIFOs.<br/><br/>d) To be able to Architect software, you need to get rid of the concept of Loops and Recursion (these concepts are valid only in call-stack based code).  I think in terms of messages being shepherded between Output and Input queues and explicit feedback.  I’m not sure how to think about this in terms of streams. ?  For example, “loop 2 times {print “hello”}” becomes “when input &gt; 0 {print hello ; send self (input - 1)}”<br/><br/>e) The “trick” is to think in terms of 2 kinds of Components - recursive Container components and Leaf components.  I think that this corresponds to Packages and Wares, resp, in the paper. ?  (Containers compose Components by joining them up via streams and messages, Leaves are just “code” as we know it with the ability to call functions AND the additional ability to send messages).<br/><br/>f) Stepping stones ... Call/Return Spaghetti <a href="https://guitarvydas.github.io/2020/12/09/CALL-RETURN-Spaghetti.html">https://guitarvydas.github.io/2020/12/09/CALL-RETURN-Spaghetti.html</a>, ALGOL bottleneck <a href="https://guitarvydas.github.io/2020/12/25/The-ALGOL-Bottleneck.html">https://guitarvydas.github.io/2020/12/25/The-ALGOL-Bottleneck.html</a>.<br/><br/>g) Programming Languages were invented in the 1950's, operating systems came soon after.  It is now 2023, (approx. 70 years later) and I just had to preventative-reboot my MacBook because I was beginning to get random, unexplained errors in apps that worked OK yesterday.  What is wrong with this picture? Functional Programming will surely make this all better, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675686938.256409"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675686938.256409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-06 04:35</span><br/>
+… planning to read … <a href="https://www.semanticscholar.org/paper/Standard-object-out%3A-streaming-objects-with-write-Weiher-Hirschfeld/68b28444e2aaad48b48e382bc325cf38a5557dea">https://www.semanticscholar.org/paper/Standard-object-out%3A&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675764936.721009"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675764936.721009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-07 02:15</span><br/>
+Re: ALGOL.    My quip (which I get a lot of flak for, so good…) is that today’s “general purpose” languages are nothing of the sort.  They are domain specific languages for the domain of algorithms.<br/><br/>See ALGOL, the ALGOrithimic Language, which all of today’s mainstream languages are descendants of and largely indistinguishable from.<br/><br/>That said, “algorithms” is a pretty good domain, and if I had to choose one and only on architectural style, call/return is the one I’d choose.  And I think the idea that we have to get <em>rid</em> of the dominant style in order to overcome its limitations is one of they key obstacles to actually doing so.<br/><br/>We need to generalize from it, not ditch it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675766777.386399"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675766777.386399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-07 02:46</span><br/>
+a) I consider IF-THEN-ELSE to be the root of many evils.  It is “too general” and allows one to construct ad-hoc control flows.  (McCarthy specified COND, which maps functions to values, but, was not meant to be a control flow concept).<br/><br/>b) There used to be a time when CPUs gave equal weight to function calling and to co-routining.  Function calling is an attempt to graft mathematics notations onto CPUs.  One difference is that mathematics notation requires instantaneous textual replacement of functions (“referential transparency”).  CPUs have propagation delays which make it “impossible” to graft 0-time concepts onto electronics.  A lot of epicycles have been invented to get around this issue by completely ignoring it (e.g “operating systems”).  [aside: “instantaneous textual replacement” without side-effects?  Isn’t that what Microsoft Word “find-and-replace” does?]<br/><br/>c) I am enjoying your comments / this perspective.  Mathematical “algorithms” are not the same as “electronic machine algorithms”.  Electronic machines have “mutation”.  Period. “Mutation” is also known as “RAM” (and heaps, and caches, and registers, and ...).  Models of mathematical-only algorithms using electronic machines are not the same thing as models of electronic machines in general.  Using only functional notation to express electronic-machine-algorithms snips off a bunch of possible avenues of thought.<br/><br/>d) Abstraction.  “Lambda” is a way to lasso and abstract code.  But, a rectangle drawn on a whiteboard is also a way to lasso and abstract code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675930032.174079"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1675930032.174079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-09 00:07</span><br/>
+“A computer does not primarily compute in the sense of doing arithmetic. Strange. Although they call them computers, that’s not what they primarily do. They primarily are filing systems. People in the computer business say they’re not really computers, they are “data handlers”. All right. That’s nice. Data handlers would have been a better name because it gives a better idea of the idea of a filing system.”   — Richard Feynman  <a href="https://www.youtube.com/watch?v=EKWGGDXe5MA&amp;t=278s">https://www.youtube.com/watch?v=EKWGGDXe5MA&amp;t=278s</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676278129.929629"></a>
+      <a href="../thinking-together/1674396396.762359.html#1676278129.929629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-13 00:48</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676278268.593209"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676278268.593209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-13 00:51</span><br/>
+I agree.  Thanks for the link.<br/><br/>I find it fruitful to think of a “computer” as but a little machine...<br/><br/>I tend to think of “computers” as “machines”.  Small electronic machines, that take a bunch of low-power electrical inputs (3V-5V, milli-amps) and produce low-power electrical outputs, and, contain some “state” (aka RAM).  The machines are controlled by scripts, instead of, say, mechanical gears, mechanical pulleys, mechanical ratchets, etc..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676278407.969789"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676278407.969789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-13 00:53</span><br/>
+You can hook low-power generalized electronic machines to “amplifiers” to control higher-power dumb devices (110V, 220V, amps ; motors, steppers, etc.).<br/><br/>For now, I will call “generalized electronic machines” GEMs instead of using the word “computers”.  I think of a “computer” as a raisin-sized rPI (Raspberry PI, Arduino, etc.).  I call that a GEM to emphasize the fact that it can do more than just compute.<br/><br/>Can GEMs compute?  Yep.<br/><br/>Is that all that GEMs can do?  Nope.<br/><br/>You can write scripts by hand (“Assembler”).<br/><br/>You can write scripts using other apps (“compilers”).<br/><br/>“Scripts” are for GEMs. “Programming Languages” are for other humans.<br/><br/>“Compilers” transpile “programming languages” to “scripts for GEMs”<br/><br/>There are ways to write specifications for scripts in a way that allows you to reuse parts of scripts for new scripts and that allows you to have less trouble when building scripts (“DRY” (Don’t Repeat Yourself), type checking, so-called “computer science”, etc.).<br/><br/>Currently, we are focused on writing specifications in call-stack-based, textual programming languages, but, that’s not the only way to write script specs.<br/><br/>Call-stack-based programming languages have the side-effect that they restrict you to thinking only about calculation.<br/><br/>If you want to use a GEM to build a sequencer, you are out of luck, or worse, you have to invent epicycles that allow you to use calculator-only methods to specify sequencers (e.g. “control theory”, “operating systems”)<br/><br/>Aside: Control Theory was well documented in the 1950s, using things called “resistors” and “capacitors” and “inductors” and “Maxwell’s Equations”.  Note that Maxwell’s Equations do not describe Electricity, they only describe a 2D subset of Electricity that we can use to calculate how to build a limited number of useful electronic things.  Electricity is - at least - a 4D effect (x/y/z/t).<br/><br/>Aside: Concurrency can be <b>faked out</b> through the use of Operating Systems.  To have True Concurrency, all you need to do is to use multiple rPIs (GEMs), each running single-threaded apps, connected by packets (“messages”) sent to each other through wires.  To keep out of trouble, you simply need to invent the equivalent of Structured Programming for messaging - I call that “Structured Message Passing” (it may surprise you that I have opinions about that, too :-).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676284952.600019"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676284952.600019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-13 02:42</span><br/>
+“For the first time I thought of the whole as the entire computer and wondered why anyone would want to divide it up into weaker things called data structures and procedures. Why not divide it up into little computers, as time sharing was starting to? But not in dozens. Why not thousands of them, each simulating a useful structure?”  — Alan Kay, <a href="http://worrydream.com/EarlyHistoryOfSmalltalk/">The Early History of Smalltalk</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676286086.501359"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676286086.501359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-13 03:01</span><br/>
+And yes, it is really interesting that you cannot actually have concurrency in the call/return architectural style, you have to go to some outside mechanism like the operating system to fake it for you.  Hence we get the “blocking call”.  What on earth is a “blocking call”?  It’s the OS allowing you to pretend that call/return is workable, because it would be <em>really</em> convenient if it were workable.<br/><br/>Async/await, “FRP” and the so-called “reactive” UI frameworks are similar:  they try to map things that aren’t call/return into call/return, because that makes them convenient.  But they fall down because the mismatch is just too great.  And why is it convenient?  Because our languages are call/return.  If we can map the problem onto a call/return problem, we can write it down directly.  That <em>is</em> convenient and powerful.  But it breaks down horribly when the things we want to do aren’t really call/return.<br/><br/>What’s the alternative?  Make it possible to directly write down non-call/return things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676375261.699049"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676375261.699049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-14 03:47</span><br/>
+Ironically, all of the Smalltalks that I know about implement so-called “message sending” using synchronous CALL/RETURN.  What is needed is a Smalltalk that implements Objects as concurrent entities with input and output queues.  McCarthy provided the basics for faking this kind of thing out in 1956 (anonymous functions, and, cons cells)<br/><br/>Aside: I have a passing interest in Dave Ackley’s MFM.  What I see there is “relativity”.  Machines cannot address one another in absolute terms, but only in relative terms.  Kinda like The Game of Life on steroids and hardware.<br/><br/>The only valid use of CALL is to save space in a delivered executable.  Using CALL - in end-user apps - for any other purpose is inefficient and abusive.  Mapping “functional notation” onto CALLs in end-user code is expensive.  If you wish to fake out “functions” during development, let your IDE do it for you, but, make sure that none of that fakery reaches the end-user.  (Corollary - back-pedaling by inventing epicycles such as “inline code” is the opposite of how scripts for generalized electronic machines (aka “computers”) should be created.  Operating systems fake out closures.  Closures fake out a notation that is - sometimes - useful for developing scripts of Assembler.).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676375275.618309"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676375275.618309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-14 03:47</span><br/>
+(I feel that I’m using up a lot of bandwidth here.  Ah, but this is Slack Free which Garbage Collects by hiding anything that is over 3 months old).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676375398.111889"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676375398.111889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-14 03:49</span><br/>
+&gt; Make it possible to directly write down non-call/return things.<br/>number of inputs = m<br/>number of outputs = n<br/><br/>where<br/>  0 &lt;= m &lt;= infinity<br/>  0 &lt;= n &lt;= infinity<br/><br/>where one input is a block of data that arrives simultaneously (“at the same time”, regardless of how you wish to destructure it (e.g. in f(a,b,c), “a,b,c” is but one block of data which is destructured into 3 elements a,b,c (this is how parameters are implemented in Assembler))) and one output is a block of data that is sent simultaneously<br/><br/>(note that “functions” imply m = 1, n = 1, where the input is totally synchronous and the output is totally synchronous)<br/><br/>(note that daemons have m = 0 when in steady-state)<br/><br/>(note that buffered text filters have n = 0 most of the time, and n = 1 when they want to say something)<br/><br/>You <b>can</b> express these kinds of things in text, but the result is a mish-mosh, IMO.  Diagrams express this kind of thing better.<br/><br/>In my nomenclature: Thing = Component.<br/><br/>FTR - parsing technical diagrams ain’t much harder than parsing technical text.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676375477.575019"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676375477.575019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-02-14 03:51</span><br/>
+GLOBAL:<em>the environment of the parameter values</em><br/>SENDER:<em>the sender of the message</em><br/>RECEIVER:<em>the receiver of the message</em><br/>REPLY-STYLE:<em>wait, fork, ...?</em><br/>STATUS:<em>progress of the message</em><br/>REPLY:<em>eventual result (if any)</em><br/>OPERATION SELECTOR:<em>relative to the receiver</em><br/>\# OF PARAMETERS:<br/>P1:<br/>...:<br/>Pn:<br/><br/>Skimming.  I notice that about 40% of the way down, he discusses the “Messenger Object”.  I think that there is but one reply-style, no status and no reply.  I guess that I adopt a very atomic perspective and try to not drape meaning onto lower-level constructs.  If you consider electronic machines to be 1000's of small computers (possible now, using rPIs and Arduinos, but not thinkable in the 1950s), then there is only one communication mechanism - the wire.  One-way (bi-directional wires are an optimization).  Given that view, stuff like “wait/fork”, “eventual result”, “progress of message” are molecules built out of atoms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676468736.567129"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1674396396.762359.html#1676468736.567129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-02-15 05:45</span><br/>
+&gt;  Ironically, all of the Smalltalks that I know about implement so-called “message sending” using synchronous CALL/RETURN.<br/>Yes. And in fact, Alan’s famous quip “I made up the term ‘object-oriented’, and I can tell you I did not have C++ in mind” was followed immediately with the far less quoted “The important thing here is I have many of the same feelings about Smalltalk”.    <a href="https://www.youtube.com/watch?v=oKg1hTOQXoY&amp;t=633s">https://www.youtube.com/watch?v=oKg1hTOQXoY&amp;t=633s</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,295 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-11 18:41</span><br/>
+I feel like concurrency introduces vast complexity and thus results in more errors, but I have no empirical data to support this. Does anyone have any go-to papers/data on such a thing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562897487.214000"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562897487.214000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-11 19:11</span><br/>
+This paper has a lot of the data I was looking for: <a href="https://jisajournal.springeropen.com/articles/10.1186/s13174-017-0055-2">https://jisajournal.springeropen.com/articles/10.1186/s13174-017-0055-2</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562907728.214400"></a>
+      <img src="https://secure.gravatar.com/avatar/0be480defce7edd188aaf7fd255ed9e2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562907728.214400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kochise</b>
+<span style="margin:2em; color:#606060">2019-07-11 22:02</span><br/>
+Depend on the programming language used. Look at how Erlang solves the problem and handle concurrency.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562913459.214600"></a>
+      <img src="https://secure.gravatar.com/avatar/ffcb418e17cac2873d611c2b8d8d891c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562913459.214600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Benjohn Barnes</b>
+<span style="margin:2em; color:#606060">2019-07-11 23:37</span><br/>
+This looks like a great paper – thanks.<br/><br/>I think we generally see concurrency through the lens of languages that have been designed to largely functionally transform inputs to outputs, and to manage any change in a sequential manner.<br/><br/>Concurrency is also inherently a more complex domain.<br/><br/>However, the vast majority of our problems with concurrency are not its essential complexity, but that we’re not approaching it in a principled way and using tools that are appropriate to work with it.<br/><br/>Progress has been made with tools. Some of them tacked on to our existing languages (eg, queue based programming, reactive programming, actors, software transactional memory), some theoretical.<br/><br/>My personal view is that probably “the right way” to handle concurrency might be something like composable state charts. This feels like a sweet spot that would handle an enormous class of use cases in a really robust and clarifying way. Rather similar to the success of automata in language parsing. There’s work being done on petri nets that also looks very promising and would presumably handle a larger class of problems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562918375.215000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562918375.215000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 00:59</span><br/>
+Erlang and Pony are two languages that make concurrency much more easy, with erlang you even get parallelism almost for free. It's fun to solve a problem just by modeling it as actors and having it use all your cores without any explicit work on your side
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562918718.215200"></a>
+      <img src="https://secure.gravatar.com/avatar/ffcb418e17cac2873d611c2b8d8d891c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562918718.215200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Benjohn Barnes</b>
+<span style="margin:2em; color:#606060">2019-07-12 01:05</span><br/>
+I should have mentioned Erlang under “progress has been made with tools”. Am I right that its actor model doesn’t validate a concurrent and distributed system, but it does make it a lot easier to build and removes many kinds of error?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923836.215600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923836.215600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:30</span><br/>
+yes, it makes it really easy, lot of things you don't have to care about, in fact, by looking at the code if you use OTP you don't see any explicit part that mentions or handles concurrency
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923852.215800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923852.215800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:30</span><br/>
+pony goes a step forward by providing stronger guarantees via its type system
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923868.216000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923868.216000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:31</span><br/>
+this talk is really interesting
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923869.216200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923869.216200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:31</span><br/>
+<a href="https://www.youtube.com/watch?v=_0m0_qtfzLs">https://www.youtube.com/watch?v=_0m0_qtfzLs</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923970.216500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923970.216500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:32</span><br/>
+partisan is also a really interesting project in this area <a href="https://twitter.com/heathercmiller/status/1149040274502381568">https://twitter.com/heathercmiller/status/1149040274502381568</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562923982.216800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562923982.216800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:33</span><br/>
+<a href="http://partisan.cloud/">http://partisan.cloud/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562924085.217000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562924085.217000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 02:34</span><br/>
+<span style="background-color:#ccf">@Daniel Hines</span> the usenix partisan paper and that twitter thread should be a good starting point
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562945215.218300"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562945215.218300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 08:26</span><br/>
+It’s odd, but this paper suggested Erlang actually had higher rates of concurrency errors: <a href="https://cacm.acm.org/magazines/2017/10/221326-a-large-scale-study-of-programming-languages-and-code-quality-in-github/abstract">https://cacm.acm.org/magazines/2017/10/221326-a-large-scale-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562945224.218600"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562945224.218600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 08:27</span><br/>
+(If I’m interpretting it correctly)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562945246.218800"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562945246.218800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 08:27</span><br/>
+Same with Go.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562945290.219000"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562945290.219000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 08:28</span><br/>
+I’m wondering if there’s some sort of obfuscating bias. Perhaps Go and Erlang projects had more concurrency going on than the others.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562945423.219200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562945423.219200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-07-12 08:30</span><br/>
+you write more concurrent code with them because it's easier (I guess)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562949933.219700"></a>
+      <img src="https://secure.gravatar.com/avatar/b540add019442ca4a6f3acf8a99024b1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562949933.219700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Deklan Webster</b>
+<span style="margin:2em; color:#606060">2019-07-12 09:45</span><br/>
+<span style="background-color:#ccf">@Daniel Hines</span> that study didn't replicate <a href="https://arxiv.org/pdf/1901.10220.pdf">https://arxiv.org/pdf/1901.10220.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562950022.219900"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562950022.219900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 09:47</span><br/>
+Aha, so perhaps my internal compass isn’t completely broken! It was a bit crushing to think that all my sensibilities about programming weren’t producing measurable results.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562950027.220100"></a>
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562950027.220100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2019-07-12 09:47</span><br/>
+I’ll check that paper out - thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562953287.220300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1562953287.220300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-07-12 10:41</span><br/>
+wow! partisan is really cool
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563179785.281000"></a>
+      <img src="https://secure.gravatar.com/avatar/ffcb418e17cac2873d611c2b8d8d891c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1563179785.281000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Benjohn Barnes</b>
+<span style="margin:2em; color:#606060">2019-07-15 01:36</span><br/>
+Thanks <span style="background-color:#ccf">@Mariano Guerra</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563729316.055000"></a>
+      <img src="https://secure.gravatar.com/avatar/c5602bab02fb00f0c9a052ee6c220513.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1562895704.212400.html#1563729316.055000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alan Johnson</b>
+<span style="margin:2em; color:#606060">2019-07-21 10:15</span><br/>
+I've never used Erlang but I've used Akka quite a bit. I find it a lot better and (mostly) less error-prone than threads and mutexes, but coherence business logic gets lost in translation. I think streams async/await do a much better job of keeping logic coherent, at the cost of some power and generality
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

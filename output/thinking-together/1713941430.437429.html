@@ -1,0 +1,259 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-23 23:50</span><br/>
+Ok, I've been thinking a lot about composable systems recently, and why I don't find visual programming languages like blueprints very flexible. Wrote up a blog post about it. Basically, I think the value graph is a more fundamental primitive for computation than execution graphs. <a href="https://johnaustin.io/articles/2024/composability-designing-a-visual-programming-language">https://johnaustin.io/articles/2024/composability-designing-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713972981.018249"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-13/5441522160256_154a9d12968ca5a13cf5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713972981.018249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Greg Bylenok</b>
+<span style="margin:2em; color:#606060">2024-04-24 08:36</span><br/>
+Just an observation: "value graph" seems analogous to "data flow" in a data flow/control flow sense.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713974007.517509"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713974007.517509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 08:53</span><br/>
+It's similar, but not quite the same. Value graphs are distinct in that a node only ever executes once. It's more akin to a build-graph. Where-as dataflow expects values to be flowing through and nodes have several values over the course of execution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713974129.539259"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713974129.539259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 08:55</span><br/>
+I've actually been trying to find information about this type of computation, that's not in the context of build system like Bazel, Nix, etc.<br/><br/>For example, if you squint, Git is also a value-graph -- it's a big directed graph where every node holds a single value, which is defined entirely by the node's inputs in a pure way. :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713977489.725449"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-26/6878305658801_8ca6563fd00d076a06d0_72.png" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713977489.725449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jeffrey Tao</b>
+<span style="margin:2em; color:#606060">2024-04-24 09:51</span><br/>
+Framed another way, a value graph is like <em>provenance</em> seen in reverse. Usually when we talk about data provenance its from the perspective of understanding the inputs that produced a particular result. A value graph seems more like starting from the inputs and building up to the result.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713979658.003039"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713979658.003039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 10:27</span><br/>
+Yeah! I like that perspective. Merkel trees, for instance, are also value graphs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713979678.335139"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713979678.335139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 10:27</span><br/>
+Any piece of the value graph is recoverable if you have the required inputs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713980486.421769"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-26/6878305658801_8ca6563fd00d076a06d0_72.png" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713980486.421769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jeffrey Tao</b>
+<span style="margin:2em; color:#606060">2024-04-24 10:41</span><br/>
+Hmm, this makes me think about visual programming for computational notebooks. Notebook code tends to be focused on the production of specific outputs, not reusable code. Actually the first thing that comes to mind is Ultimate Plumber: <a href="https://github.com/akavel/up">https://github.com/akavel/up</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713980961.743169"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713980961.743169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 10:49</span><br/>
+Cool reference, I haven't seen that!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713981000.957779"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1713981000.957779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 10:50</span><br/>
+Yeah, many notebooks are just fancy build graphs for data. Very much a value graph. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714026208.326369"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714026208.326369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2024-04-24 23:23</span><br/>
+IIUC UE Blueprints, which are used as an example of execution graph, are not composable because they force the designer to sequence the nodes. (This is a really cool observation!) Is it possible that Unreal Engine Blueprints are just missing the operations to split &amp; merge signals? I don't know UE well enough but it doesn't seem like a fundamental issue with execution graphs. Am I missing something?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714026761.823429"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714026761.823429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 23:32</span><br/>
+There are operations to split and merge execution wires, such as branch (a split), but the key is there is no split operation for an execution wire that retains the program semantics. A branch semantically changes the program (because it only takes one or the other).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714026777.853449"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714026777.853449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-24 23:32</span><br/>
+The only semantically sensible "split" operation for an execution wire is to run the nodes in parallel, but that comes with other issues.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714110480.830759"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714110480.830759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-25 22:48</span><br/>
+Miqula also has value graphs. When I started coding it, I didn't even know blueprints had "execution" wires, how could one do such a hideous thing! To split the execution, I use subnets, for example in a condition, one for true and one that is executed for false. That doesn't solve all problems though, if one would do for example<br/><br/><pre style="white-space:pre-wrap">foo != nullptr -><br/>foo->IsValid() -><br/>-> both connected to an && node</pre><br/>you don't need to do subnets, it just does the most sensible thing.<br/><br/>As for side effects, a "regular graph" has none, except assertions (exceptions). To do effects on the world, I use a behavior tree (which is nicely composable). The leaf nodes have regular graphs, which then  may contain nodes with side effects (for example to send messages / spawn objects).<br/><br/>Be aware that dataflow programming (with pure functions) is a different model. Most people are used to do the "little robot in your head" that does stuff, one after the other (which is procedural programming). In dataflow, you are wiring dependencies / data together to create new data. You look at the data instead of the instruction.<br/>I'm curious as how you want to design around these problems and how it fit's into an ECS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714421917.560509"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714421917.560509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 13:18</span><br/>
+Oh interesting project! Thanks for sharing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714421987.528979"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714421987.528979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 13:19</span><br/>
+The behavior tree method is interesting. For Lattice, I just allow 'pure' nodes to perform side-effects. This works fine as long the inputs/output relationship is still pure.<br/><br/>Although this creates some constraints around needing to know when nodes run, and not being able to run one node twice, pragmatically this has been fine and I think is a fairly solid approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714422131.311929"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714422131.311929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 13:22</span><br/>
+Dataflow definitely is a bit different, but I think having instant debugging helps. Unlike traditional data flow, nodes in Lattice only execute once, so you can always just look at the value produced.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714422158.623619"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714422158.623619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 13:22</span><br/>
+ECS actually pairs quite nicely, because ECS is all about pipelines of data transformation. So a dataflow pipeline nestles into that quite well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714449826.478009"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714449826.478009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-29 21:03</span><br/>
+There's another way to do side effects in a dataflow graph: accumulate the commands in a list and execute it at the end of the graph. This gives clear order of the side effects.. also easier to debug.. and simpler to implement. I use that approach on a different part.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714451978.117499"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714451978.117499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 21:39</span><br/>
+Yeah! It's only easier to debug on small graphs though. The idea with Lattice is a single graph defines the entire program, so it gets hairy trying to debug those outputs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714452015.701089"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713941430.437429.html#1714452015.701089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2024-04-29 21:40</span><br/>
+But I've been designing some ways to use this within the data flow: collecting batches of commands as the output of several nodes and then acting on that later in the graph.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,162 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 04:17</span><br/>
+Slightly too big for #two-minute-week - here's an update on things I've done recently in the Audio part of the project.<br/><a href="https://youtu.be/hgxt0YlWULI">https://youtu.be/hgxt0YlWULI</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605270650.164100"></a>
+      <a href="../share-your-work/1605269840.163900.html#1605270650.164100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 04:30</span><br/>
+Towards the end of the video I show a profile of the sample music.  For comparison, here's a single frame of the UI on a release build.  The UI is locked at 60fps; so can't go faster than that, but you can also see a couple of audio frames on this screenshot (which don't necessarily align inside frames), along with the FFT thread at the bottom.<br/>Here 512 frames of audio is being generated in about 1.2ms - this is the equivalent of about 11ms of audio.  Although I keep an eye on this stuff, and build things sensibly to avoid bottlenecks, I haven't actually spent too much time optimising anything yet.  But it's good to know there is headroom.<br/>I also forgot to mention in the video that one of the main things the profiler brings to the table is debugging; it already showed me a place where I'm doing unexpected work, and a mutex lock that should not be happening.   For the small effort it took to build this feature, I think it was well worth it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605271597.164500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605271597.164500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-11-13 04:46</span><br/>
+great work! it's written in C++ right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605275519.164900"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605275519.164900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 05:51</span><br/>
+Yes, 99% of it. C++ 17.  Janet Lang for scripting the graph generation for audio, Ixi lang as the first music language (work in progress).  CMake for project files. vcpkg for external libraries.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605280566.165400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605280566.165400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-13 07:16</span><br/>
+The profiler looks awesome. Is it intended to only be a debug tool for yourself and anybody hacking on the code rather than making music?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605283049.165800"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605283049.165800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 07:57</span><br/>
+Yes, I think so.  Though I can imagine other uses for it.  You could possibly imagine a simplified version which shows the live coder which parts of their performance are taking the most time.  That's probably just looking for a hammer now I've got the nails though ;)<br/>Also, I think I will add frame candles so you can see spikes in performance and indications of memory allocations.  I'll put these things in as I need them.<br/>I looked for an ImGui profiler before doing this one; I found  one that didn't handle threads very well, or profile events that spanned frames.  I found another that was a butchered version of the first one, with better UI but worse profiling.  In the end, this only took a few hours over the course of a week to do; I'm pleased I put in the effort.  My version will be OS in a week or so when I've finished tweaking it and pushed it to my shared library.<br/>I'm not claiming this is fast, but for my purposes it is 'fast enough' :slightly_smiling_face: It allocates all the memory up front, and records simple time stamps, so overhead is fairly decent, which is all I need.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605283174.166000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605283174.166000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-13 07:59</span><br/>
+It really looks thoughtfully designed. I used to study old computers in a past life, and one marker of successful ones was a certain subtle attention to <em>balance</em> wherever I spot-checked. This feels similar. Satisficing in a million ways rather than optimizing in one. Super impressive.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605283367.166200"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605283367.166200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 08:02</span><br/>
+Full confession: I build stuff like this for NVIDIA <a href="https://youtu.be/g-VarJU6yJ8?t=30">https://youtu.be/g-VarJU6yJ8?t=30</a><br/>So this kind of stuff is my specialist subject, I guess :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605283488.166700"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605283488.166700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 08:04</span><br/>
+(although that one is Qt/C++, not ImGui.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605283553.166900"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605283553.166900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-13 08:05</span><br/>
+But thanks for your comments!  Feedback like this keeps me inspired :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605335318.170500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605335318.170500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-11-13 22:28</span><br/>
+I didn't realize you worked on Nsight as your day job
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605350434.171900"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605350434.171900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-11-14 02:40</span><br/>
+Have you shared screenshots with the creator of imgui? he shares some examples on each release, could help visibility
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605351521.172100"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1605269840.163900.html#1605351521.172100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-14 02:58</span><br/>
+Yes, I plan to add it to the screenshot list; I've shared other things before.  Just needs a bit more cleanup and making public.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

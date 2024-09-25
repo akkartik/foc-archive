@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-12-03 13:43</span><br/>
+2) do you consider reduce/foldLeft to be "fundamental" at the level of map and filter? is there another way of expresing? why reduce never has a special syntax in languages?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543874090.010100"></a>
+      <img src="https://secure.gravatar.com/avatar/248a3c4ba8f2972427222d46954f9c1c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543874090.010100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Phil Jones</b>
+<span style="margin:2em; color:#606060">2018-12-03 13:54</span><br/>
+The main difference between map and filter is that reduce is more likely to change the shape of the final output. The result of map and filter are still collections (though map obviously can change the type of what the collection contains)<br/><br/>You could perhaps argue that reduces like "sum" or "group by" in SQL <b>are</b> a kind of special syntax for for reduce.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543876828.011100"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543876828.011100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-12-03 14:40</span><br/>
+that's a good observation, maybe there are many specializations to reduce that have syntax and reduce is too general (can do too many things to have a single/simple "representation")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543889275.014000"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543889275.014000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2018-12-03 18:07</span><br/>
+You can create map and also filter with reduce. So I guess is more fundamental than them. What do you mean by special syntax?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543901972.014200"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543901972.014200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2018-12-03 21:39</span><br/>
+Kinda tangental, but: you can take the existence of "reduce" as the <b>definition</b> of a list.<br/><br/>Usually you define a list with something like:<br/><br/>List a = Nil | Cons a (List a)<br/><br/>This is the "positive" definition of a list, in terms of constructors. But there's a dual, "negative" definition in terms of eliminators:<br/><br/>List a = ∀b. (b, (a, b) → b) → b<br/><br/>What's that weird term on the RHS? It's the signature of a generic reduce function!<br/><br/>Turning the positive definition into the negative definition is a totally mechanical process, which I'm pretty sure is called Church encoding. This connection might look slightly more clear if I write:<br/><br/>List a = ∀b. (() → b, (a, b) → b) → b<br/><br/>"() → b" says what the reduce does to Nil, and "(a, b) → b" says what the reduce does to Cons. Every constructor turns into a parameter to the reduce.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543914446.014700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543914446.014700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-12-04 01:07</span><br/>
+<span style="background-color:#ccf">@Daniel Garcia</span> list comprehensions in languages are map and/or filter [x + 1 for x in xs] # map; [x for x in xs if x &gt; 5] # filter
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543933850.014900"></a>
+      <img src="https://secure.gravatar.com/avatar/248a3c4ba8f2972427222d46954f9c1c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543933850.014900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Phil Jones</b>
+<span style="margin:2em; color:#606060">2018-12-04 06:30</span><br/>
+In Python there's a special syntax for comprehensions. But that's because higher-order functions are considered exotic for the intended audience. In Lisps, maps and filters and reduces are just ordinary function calls with no special syntax.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543934012.015100"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543934012.015100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-12-04 06:33</span><br/>
+Haskell, Erlang and F# have them, also C#
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543934122.015500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543934122.015500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-12-04 06:35</span><br/>
+common lisp has the loop macro, clojure has the for form
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543964817.030500"></a>
+      <img src="https://secure.gravatar.com/avatar/248a3c4ba8f2972427222d46954f9c1c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1543873428.007500.html#1543964817.030500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Phil Jones</b>
+<span style="margin:2em; color:#606060">2018-12-04 15:06</span><br/>
+Yeah. That mystifies me. Why does something like Haskell or Erlang need special syntax? I see why a statement oriented language which can be used imperatively (eg. Common Lisp) might want a Loop macro. But in a pure functional language why have special syntax for maps, filter and reduce?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

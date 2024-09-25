@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-06 04:11</span><br/>
+Hi all, anyone else here that’s a fan of Rich Hickeys thinking on language design? Please comment with your main take-aways! I’ve found his talks a treasure trove and his approach to go back to deep philosophy and fuse it with hard-earned dev experience a great inspiration! Here’s a link to a bunch of transcripts for those in the enviable position to not yet having devoured all of them :heart: <a href="https://github.com/matthiasn/talk-transcripts/tree/master/Hickey_Rich">https://github.com/matthiasn/talk-transcripts/tree/master/Hickey_Rich</a><br/>Disclaimer: Obviously no one claims Hickey, including himself, invented all of the stuff he talks about, but his way to concretize, make use of, make understandable the stuff is just something appreciate deeply and learned a lot from.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1638793178.190100"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1638793178.190100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-06 04:19</span><br/>
+So here are some of my favorites that Rich Hickey describes in his talks and that relates to Language Design thinking, right off the top of my mind:<br/><br/>+ Orthogonality as the fundamental principle for composable language features<br/>+ Data as a universal interface<br/>+ Respect and understand the nature of Value semantics<br/>+ The map data structure as a flexible composition of orthogonal concerns (my formulation, derived from his considerations for spec)<br/>+ Build on abstractions, not conretions<br/>+ etc etc
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1638901761.192100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1638901761.192100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-12-07 10:29</span><br/>
+So as a full time clojure programmer I definitely have a lot of opinions on this. I largely agree with the philosophy, but at the same time find some unease with it. <br/><br/>I guess I want to have this conversation, but I also don't want to be super negative. <br/><br/>Clojure is a fantastic set of tradeoffs that makes for a super productive programming environment. But I do worry that there is a lot of talk from rich that this model of programming is the only good one. That is something I think needs more push back in the clojure world. <br/><br/>I think languages have something to learn from clojure. But clojure could learn a lot from other languages as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639650540.273800"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1639650540.273800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-12-16 02:29</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> please share some of the tradeoffs! Such things are always under discussed
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640105186.324800"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1640105186.324800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-12-21 08:46</span><br/>
+So let’s take what I think is one of the most central features of Rich’s view, complecting.<br/><br/>There is something absolutely right about about avoid complecting things. At the same time, what doesn’t get talked about much is that what you consider complecting or not is actually relative to your own concerns, to the concepts in your language, etc. <br/><br/>I’ll give one simple of example of this. In C/C++ style languages, there is an important distinction between allocation memory, and initializing that memory. There are many programmers who dislike the complecting of these two things. They believe that these are separate concerns and should be handled separately.<br/><br/>This of course does not make Rich’s list of things that complect. And for good reason. On the jvm, with its memory model, this is less of a concern, and really something you don’t have direct control over. But yet, complecting is 1) supposed to be an objective measure and 2) something to avoid. <br/><br/>So, is allocation vs initialization complecting? Is it just the good kind of complecting? How do we decide? I’d say that complecting is much more relative than Rich suggests. <br/><br/><br/>To further look at trade offs being made, consider immutable datastructures. Immutability is fantastic. It really helps you reason about code. But a full fledge immutable only style of programming depends on the underlying memory system in order to be efficient.<br/><br/>When I was first learning rust, I tried to write rust like I did my clojure. And I found that my rust was barely if at all faster than the clojure code I wrote. Why? Because in tight loops I was allocating and cleaning up intermediate data structures. Due to generational garbage collection on the jvm, this pattern is cheap. But not so in rust. <br/><br/>Instead what I found is that mutability becomes less difficult to reason about in rust and waaaaay more performant due to its borrow checker. <br/><br/>My basic point is that we need pay attention to our goals and our context. There are things that Rich criticizes, that with the right goals and context are incredibly valuable. And on the same hand there are things that Rich embraces that with the wrong goals and context can be incredibly detrimental.<br/><br/>So given Clojure’s goals and context I think it succeeds quite a bit. There have been some failures along the way (spec). But overall it is a great language to learn from and a very productive language for certain classes of applications.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640198512.326700"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1640198512.326700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-22 10:41</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> Thanks for the writeup! Your mentioning of <tt>spec</tt> as a failure piqued my interest. I’m not inside Clojure, just read about <tt>spec</tt> and found a lot of beautiful ideas went into it, so how has it failed in your perspective? (I found no easily googleable online content on the topic)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640200618.327200"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1640200618.327200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-12-22 11:16</span><br/>
+There are definitely a lot of good ideas in spec. But the implementation has caused a lot of issues.<br/><br/>Its status as alpha means that there have been a number of breaking changes. But yet, Clojure itself depends on spec! (even though it is alpha) So it ships with clojure. Meaning you as a library author you don’t have a stable interface to work with. It has been 5 years and the alpha status hasn’t changed and in fact, it looks like the future will be spec.alpha2. Still unclear what that means.<br/><br/>Spec by its very nature wants to allow you to have incomplete specs. But if a library decides to do this and you in your application want to check your specs, you will now get errors. That’s fine if you just want to enabling instrumentation for a certain namespace, but s/check-asserts is global. So now if someone has a broken assert in a library, there is nothing you can do. Kind of ruining this whole gradualness spec pitched.<br/><br/>Requiring namespace qualified keywords for everything made it really hard to model real world systems. I worked on a medical system that went all in on spec. Trying to contort the data we had coming in to fit into the way spec wanted to think about things was a nightmare. This problem is even leading to new language features in clojure, to me a sign that it might not be the right approach.<br/><br/>The error messages produced by spec are simply unreadable.<br/><br/><pre style="white-space:pre-wrap">(defn get-x [{:x x}] x)<br/>=&gt; Error ;; Shortened from actual output<br/>Syntax error macroexpanding clojure.core/defn at (REPL:1:1).<br/>{:x x} - failed: vector? at: [:fn-tail :arity-n :bodies :params] spec: :clojure.core.specs.alpha/param-list<br/>({:x x}) - failed: Extra input at: [:fn-tail :arity-1 :params] spec: :clojure.core.specs.alpha/param-list<br/>[{:path [:fn-tail :arity-1 :params],<br/> :reason "Extra input",<br/> :pred (clojure.spec.alpha/cat<br/>        :params<br/>        (clojure.spec.alpha/* :clojure.core.specs.alpha/binding-form)<br/>        :var-params<br/>        (clojure.spec.alpha/?<br/>         (clojure.spec.alpha/cat<br/>          :ampersand<br/>          #{(quote &amp;)}<br/>          :var-form<br/>          :clojure.core.specs.alpha/binding-form))),<br/> :val ({:x x}),<br/> :via [:clojure.core.specs.alpha/defn-args<br/>       :clojure.core.specs.alpha/params+body<br/>       :clojure.core.specs.alpha/param-list<br/>       :clojure.core.specs.alpha/param-list],<br/> :in [1 0]}<br/>{:path [:fn-tail :arity-n :bodies :params],<br/> :pred clojure.core/vector?,<br/> :val {:x x},<br/> :via [:clojure.core.specs.alpha/defn-args<br/>       :clojure.core.specs.alpha/params+body<br/>       :clojure.core.specs.alpha/params+body<br/>       :clojure.core.specs.alpha/params+body<br/>       :clojure.core.specs.alpha/param-list<br/>       :clojure.core.specs.alpha/param-list],<br/> :in [1 0]}]</pre><br/>There are a number of other issues. But overall I think spec really missed the mark. I don’t know of anyone who really is a big advocate of it. I really was excited when it came out. Really wanted to love it. But now avoid it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640200674.327500"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1640200674.327500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-12-22 11:17</span><br/>
+<span style="background-color:#ccf">@Henning Sato von Rosen</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641210728.345100"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1638792666.189800.html#1641210728.345100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2022-01-03 03:52</span><br/>
+Thank you for sharing
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,486 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 10:47</span><br/>
+I just downloaded K from <a href="http://Shakti.com">Shakti.com</a>. The executable is 84728 bytes on Linux (after stripping the symbols), depending only on libc. That is pretty compact for what you get: a powerful array-oriented programming language plus a high performance column-oriented database, and a REPL. If I slim Curv down to just the interpreter and compiler (no REPL, no UI, no OpenGL or mesh export) then the executable is 3.5MB without symbols: 42x larger. K is arguably a more powerful language than Curv, and it is definitely much faster.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586111917.143900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586111917.143900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 11:38</span><br/>
+I'm guessing K is entirely self-contained, no libraries used
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586112234.144100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586112234.144100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 11:43</span><br/>
+K is entirely self-contained. The implementation is &lt; 1000 lines of C, depending only on libc. Not open source, unfortunately. Curv is written in C++, and template expansion is partly responsible for the code bloat. Plus, there is just a lot more code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113060.144300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113060.144300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 11:57</span><br/>
+is it self contained beyond C++ STL and such?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113122.144500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113122.144500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 11:58</span><br/>
+ahh sorry, just noticed it probably pulls in a lot of 3D stuff
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113231.144700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113231.144700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:00</span><br/>
+Windows lobster.exe is 4MB but 90% of that is the 3D engine and its dependencies
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113349.144900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113349.144900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:02</span><br/>
+when I first wrote <a href="http://cubeengine.com">cubeengine.com</a>, I was able to keep it under 64K for a while.. this being an OpenGL 3D engine with a multiplayer FPS.. in 2000
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113535.145100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113535.145100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:05</span><br/>
+the latest version (from 2005) is still 149K :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113674.145300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113674.145300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:07</span><br/>
+One reason to care about executable size: if you are compiling your language implementation into WASM to run in a web browser. Download time of WASM modules matters.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113712.145500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113712.145500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:08</span><br/>
+Another reason to care about executable size: According to the K people, one reason K runs so fast is that the entire system fits in the CPU cache.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586113852.145700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586113852.145700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:10</span><br/>
+yup and yup
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586114204.145900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586114204.145900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:16</span><br/>
+The 3.5MB curv executable I mentioned is statically linked, depending only on Boost::filesystem, Boost::system, and double-conversion. It contains a Curv parser, interpreter, and compiler that outputs GLSL. No actual 3D stuff. It's a consequence of using C++, and years of code accretion without worrying about code size. The core library is now 19,000 lines of C++, and I'm not sure how it got that big.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586114772.146100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586114772.146100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:26</span><br/>
+thats some pretty expansive C++ yes :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586116575.146400"></a>
+      <a href="../thinking-together/1586108832.143700.html#1586116575.146400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 12:56</span><br/>
+Provocative claim: All our high-level languages are only good for building prototypes. Since all software is built in HLLs, all mainstream software is prototypes. We've forgotten to throw the first one away on a grand scale.<br/><br/>There's holes to poke in this argument, but the number of rewrites K has been through lead me to think it's more right than wrong. A healthy life cycle should lead to many more rewrites, and rewrites should successively trim dependencies. All the way down to machine code.<br/><br/>(We may eventually end up with HLLs suitable for non-prototype software, but we can't do that while HLL implementations are all prototypes.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117205.147400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117205.147400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:06</span><br/>
+I get a sense you're right about the benefit we would have from more ground up rewrites.. I don't what the relationship with HLLs is though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117244.147600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117244.147600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:07</span><br/>
+in some sense rewrites happen a lot.. just by different authors :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117288.147800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117288.147800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:08</span><br/>
+&gt; I don't what the relationship with HLLs is though<br/>HLL implementations don't have enough ground-up rewrites.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117365.148200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117365.148200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:09</span><br/>
+This sounds like it might be a good candidate for <em>Agaram's 1st Law</em> (in the spirit of <a href="1580718026.447200.html">1580718026.447200.html</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117377.148700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117377.148700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:09</span><br/>
+oh, those too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117389.148900"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117389.148900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:09</span><br/>
+We certainly got a ton of value out of constantly rewriting. It's the only way I'm aware of to really combat the exponentiating wrongness problem (innocuous "bad" decisions cause further bad decisions as things get built on top over time).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117503.149100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117503.149100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:11</span><br/>
+As Joe Armstrong used to say, you're at your most ignorant the first time you write something, it isn't until the 5th or 6th that you start to know something. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117594.149400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117594.149400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:13</span><br/>
+We found this to be pretty tough for people though. If you're a craftsperson, you tend to place pride in the artifact and this requires what we ended up calling "artifact zen" - you just have to let the thing you produced go.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117625.149600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117625.149600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:13</span><br/>
+We struggled with that at several points during Eve.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586117683.149900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586117683.149900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:14</span><br/>
+My comment also owes something to this description of the process Rob Pike went through in rewriting Jim to Sam: <a href="http://texteditors.org/cgi-bin/wiki.pl?Jim">http://texteditors.org/cgi-bin/wiki.pl?Jim</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586118017.150300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586118017.150300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:20</span><br/>
+Hack for getting to "artifact zen": take pride in the input space you have designed, rather than how you serve it. If you find yourself attached to the code, maybe you haven't written enough tests?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586118184.150500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586118184.150500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:23</span><br/>
+Yeah, we talked about it as the outcome is the only thing that ultimately matters - did you solve the problem or not? If not, it doesn't matter how great the thing you produced is. Understanding and accepting the distinction between outcome vs output is a serious force multiplier in life :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586118836.150800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586118836.150800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:33</span><br/>
+<span style="background-color:#ccf">@Wouter van Oortmerssen</span>:<br/>&gt; in some sense rewrites happen a lot.. just by different authors :slightly_smiling_face:<br/>This might be the hidden variable in the debate over whether rewrites are good: whether learning accumulates. K's rewrites required Arthur Whitney's continuity on the project.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586119633.151000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586119633.151000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:47</span><br/>
+yup exactly: the original author rewrites too little.. because they put too much value in their existing code.. anyone else rewrites too casually, since they can't see the value in someone elses code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586119684.151200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586119684.151200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:48</span><br/>
+related: <a href="https://twitter.com/wvo/status/1154148443268321280">https://twitter.com/wvo/status/1154148443268321280</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586119767.151600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586119767.151600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:49</span><br/>
+maybe if people wrote more post-mortems ("If I'd do this project again, I'd change...") so we can get some leverage out of all this effort duplicating
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586119784.151800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586119784.151800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:49</span><br/>
+oh wait, that would require people to read about people's previous efforts :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586119835.152000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586119835.152000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-05 13:50</span><br/>
+What we need is some way to scale up the review of "project X tried this, but ran into Y and Z." I don't know how to make tests work across projects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586123325.152400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586123325.152400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-04-05 14:48</span><br/>
+The Author of the K language is named Whitney who worked with Iverson on the J language which was Iverson's sequel to the APL language, which is famous in language history because APL was super brief, super powerful, but used its own invented alphabet which make it cryptography to use.<br/><br/>The K language is reminiscent of APL and J, but has its own twist to things. You can find the 1998 language reference manual here:<br/><br/><a href="http://www.nsl.com/k/k2/k295/kreflite.pdf">http://www.nsl.com/k/k2/k295/kreflite.pdf</a><br/><br/>Nowadays K has evolved into being part of a  high performance analytics platform that included a database Kdb+. Evidently Whitney the inventor has been bought out and that product is with another firm, and recently he started a new company called Shakti, staffed with many former members of the KDB+ project, and they are offering a high performance analytics platform.  Shakti has no documentation or materials on what their current language or product looks like. I think in this case if you have to ask you can't afford it.<br/><br/>APL, J, and K are not suitable for normal mortals. They require too much mathematics training. Both Whitney and Iverson had higher degrees in Math and what they think is a reasonable level of abstraction is beyond the average mortal. I will take Prof. Wirth's more logic based approach in Pascal/Modula-2/Oberon any day of the week over array processing languages that love to force you to memory operators with tricky left-to-right or right-to-left application. But certainly array languages have validity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586128221.153000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586128221.153000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-05 16:10</span><br/>
+K is about as far from OOP as I can imagine, and is used heavily in the financial sector - they've made many millions of dollars more than any of the languages the rest of us have ever made :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586135186.153900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586135186.153900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-04-05 18:06</span><br/>
+Having spent my early days making reports in FORTRAN for the first mainframe portfolio management system i am quite familiar with financial computing. And my mainframe buddies are still using terminal emulators, Assembler and COBOL. You would be shocked at how old some of the big banks' systems are. When i refinanced my mortgage a few years back at JP Morgan Chase, the officer was running on a PC a terminal emulator that was running DOS. One thing about mainframes that people don't realize is the amount of I/O those machines can handle. China Mobile has the fastest mainframe IBM makes, because they 700 million monthly bills to process. I think that is the largest number of paying customers any firm has in the world.<br/><br/>Anyway i am sure that the algorithmic traders, and "quants" on wall street like to use array languages like K, but if you are building PacMan or making anything user centric like a web app or mobile app, it is useless. Very little computation is needed by the average person in their normal course of life. So the advantages of being able to spread a 1000x1000 cell matrix inversion across multiple cores is just not a factor, and these high performance array languages can do that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586154019.155000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586154019.155000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-05 23:20</span><br/>
+The K language from <a href="http://Shakti.com">Shakti.com</a> is K version 9, and it is a development snapshot of a from-scratch rewrite and redesign of the K language. I haven't found any public documentation for K 9 other than the output of the help command "\" in the REPL, but this version of the language isn't finished, and the K 9 forum appears to be a private google group that I don't have visibility into. Maybe public documentation will be made available for the release version. It's not that different from any other version of K, at least at first glance. It has a better syntax for dictionary literals, and better support for database tables, and some of the operator syntax has been rearranged. For example, dyadic ^ is now "cut" instead of exponentiation, which breaks some of the examples on Wikipedia. It certainly is not an OOP language, since it has no concept of objects, classes, inheritance, or any of that. It certainly does have date and time values. The help mentions "exp" in a list of trancendental functions, so I assume that is exponentiation, although it isn't implemented. Other commenters on the web say that K9 is simplified from its predecessors.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586154955.161400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586154955.161400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-05 23:35</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I mostly agree with your analysis, but I don’t blame languages specifically. In computing technology, everything is a prototype these days. All these prototypes look unsatisfying to a large part of stakeholders, and therefore never get implemented carefully.<br/>Only stabilizing forces such as standards or conservative clients (finance) can make a difference. Implementations of languages such as Fortran or Common Lisp have continued to improve over decades.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586176650.164400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586176650.164400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-06 05:37</span><br/>
+Relevant in this context: this Twitter thread by software environmentalist <span style="background-color:#ccf">@Tudor Girba</span>: <a href="https://twitter.com/girba/status/1246750717538373632">https://twitter.com/girba/status/1246750717538373632</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586176704.164700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1586176704.164700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-06 05:38</span><br/>
+Note: I <b>really</b> like the term "software environmentalist". I wish more people would adopt that attitude.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587507284.107800"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1586108832.143700.html#1587507284.107800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-21 15:14</span><br/>
+Er... I thought I agreed, but you lost me at "machine code".
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

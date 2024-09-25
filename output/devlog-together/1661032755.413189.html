@@ -1,0 +1,136 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1661032755.413189.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 14:59</span><br/>
+I'm working on a way to better preserve order of sibling nodes in my directed graph editor. I'm wondering if anyone's familiar with common data structures for this kind of stuff. Maybe from the text editing world. I use a customized fork of <a href="https://github.com/dagrejs/dagre/wiki">dagrejs</a> for auto layout. You can see the difference between videos 1/2 below where my first solution has made things better. I'm basically using time stamps to track the order in which nodes were added to the graph. And transfer those timestamps to adjacent nodes on deletions/edits.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661037656.447109"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661037656.447109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-20 16:20</span><br/>
+Can you say a bit more about what capabilities dagrejs provides you with and how your timestamp solution relates to them?<br/><br/>I haven’t seen dagrejs before, but it looks like their priority is more getting an individual graph rendering to have nice properties like minimizing edge crossings rather than consistency across renderings. From the abstract of the first paper they cite:<br/><br/>&gt; The second pass sets the vertex order within ranks by an iterative heuristic incorporating a novel weight function and local transpositions to reduce crossings<br/>So you’re able to override their ordering with your timestamp ordering?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661037732.837109"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661037732.837109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-20 16:22</span><br/>
+Also that abstract ends on:<br/>&gt; The algorithm makes good drawings and runs fast.<br/>:joy:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661038255.288769"></a>
+      <img src="https://secure.gravatar.com/avatar/cd02882a83b643d0f595c605d960c28f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661038255.288769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 16:30</span><br/>
+Thanks for taking a look! Yes you're right, dagre doesn't try to support incremental rendering, or interactive rendering. It just takes a DAG (<a href="https://github.com/dagrejs/graphlib/wiki/API-Reference#graph-api">graphlib</a>) and assigns x,y coords to all the nodes. It also gives you splines for drawing the edges. It's widely used for these kinds of applications, despite it being no longer maintained (because it's feature complete).<br/><br/>The order that you add nodes to your graph will determine part of the layout. For example if your code is:<br/><pre style="white-space:pre-wrap">graph = new dagre.Graph() // pseudo code<br/>graph.setNode("a");<br/>graph.setNode("b");<br/>graph.setNode("c"):<br/>graph.setNode("d");<br/>graph.setEdge("c", "d");</pre><br/>Then your resulting graph will be rendered like:<br/><pre style="white-space:pre-wrap">a<br/>b<br/>c -&gt; d</pre><br/>mermaid js uses the same layout algo so it can be handy to experiment there: mermaid.live. (And my tool exports to mermaid). Basically you can see the order of the nodes in mermaid since its a DSL, text to diagram thing.<br/><br/>The issue I have is that I need to tell dagre the correct ordering of nodes in order to maintain the order of sibling branches. Like in the first video above you can see that deleting "D1" causes the whole D branch to be re-arranged at the bottom. This is because originally I was creating the dagre graph by ordering the nodes based on their created at time stamps, which is pretty naive but works most of the time. However the user never edits their graph by just always appending to it, top to bottom. So the created at time doesn't end up corresponding with the actual intent. For example in the a,b,c,d graph above, if after making that initial graph we added a node <tt>e</tt> from <tt>a -&gt; e</tt> then e is going to have a late created at time, but conceptually it needs to be ordered at the very beginning of the graph so you would get a layout of:<br/><pre style="white-space:pre-wrap">a -&gt; e<br/>b<br/>c -&gt; d</pre><br/>So my attempt today is to move away from ordering by createdAt and find a different way. So far its a combination of two things: 1. I add the earliest nodes first in a depth first way by adding the node, then traversing the graph from that node and adding its predecessors/successors. Eg in the graph above we would add <tt>a</tt> and <tt>e</tt> nodes first because a is the earliest, and it's connected to e.<br/><br/>This has been a lot better, but I think there's a better way that would capture more information than simple time stamp can. I'm thinking of using a tree (probably) structure to capture the ordering of nodes relative to other siblings. But I haven't come up with a design for this yet.<br/><br/>Eventually I want to be able to support letting the user re-order nodes (vertically) or insert nodes above/below other nodes. Which right now isn't really possible with the timestamp approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661041626.430929"></a>
+      <a href="../devlog-together/1661032755.413189.html#1661041626.430929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 17:27</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661043879.831009"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661043879.831009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-20 18:04</span><br/>
+I rolled it around in my head a bit but don’t have any suggestions at the moment.<br/><br/>What graphs does/will knotend support? All DAGs?<br/><br/>&gt; The order that you add nodes to your graph will determine part of the layout.<br/>Does dagre make any specific promises? And in general, do you think a complete solution is possible, or just looking for a good heuristic?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661057007.858349"></a>
+      <img src="https://secure.gravatar.com/avatar/cd02882a83b643d0f595c605d960c28f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661057007.858349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 21:43</span><br/>
+Knotend supports directed graphs (cycles are ok). It doesn't do compound/nested graphs. There aren't really any restrictions otherwise.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661057314.503209"></a>
+      <img src="https://secure.gravatar.com/avatar/cd02882a83b643d0f595c605d960c28f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661057314.503209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 21:48</span><br/>
+Dagre doesn't promise this, but from looking at the paper the idea is that dagre mostly cares about setting the rank of the node (in a left to right graph, the rank would be which column the node is placed in). It sets the order (which column the node is in) based on trying to minimize edge crossings. But by default it would just order the nodes vertically in the order that you added them to the graph.<br/><br/>I do think a complete solution is possible. I really just need to help dagre determine the vertical ordering since the horizontal ordering is determined by the dependencies. So I'm thinking of maintaining an ordering as a list, probably a doubly linked list, based on how nodes are added/deleted. Then I'd use that graph just in the context of ordering sibling nodes vertically.<br/><br/>For example if we have a graph:<br/><pre style="white-space:pre-wrap">a -&gt; b1<br/>a -&gt; b2<br/>c -&gt; d<br/>e -&gt; f</pre><br/>Then say we add a new node <tt>b3</tt> to the right of <tt>a</tt>. The main bit of information we would need is the ordering of [b1, b2, b3] so that the new <tt>b3</tt> node is placed at the bottom vertically of those children.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661057434.123409"></a>
+      <img src="https://secure.gravatar.com/avatar/cd02882a83b643d0f595c605d960c28f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661057434.123409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-20 21:50</span><br/>
+That's a pretty simple case. It gets more complex when you start deleting nodes in the middle of the graph and then have to decide how to stitch the graph together and also update that ordering. But I think overall since the only requirement is to properly maintain the order for nodes that are siblings, it should be doable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661121610.895199"></a>
+      <img src="https://secure.gravatar.com/avatar/cd02882a83b643d0f595c605d960c28f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../devlog-together/1661032755.413189.html#1661121610.895199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-21 15:40</span><br/>
+I ended up using a list to represent relative ordering between nodes. You can see it printed in the console. Basically, the position in that list is what determines vertical ordering of siblings in the graph. Every graph edit then needs to update this list as well. So adding a new child do node <tt>A</tt> means you find <tt>A</tt> in the list and insert the new node after it. Deleting nodes removes from the order list, etc.<br/><br/>A huge benefit of this is now I can support adding nodes in between others, whereas previously they would be added to the bottom of the set of siblings. Eg the <tt>between 1 and 2</tt> node is added with the shortcut to add a sibling.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661121623.353919"></a>
+      <a href="../devlog-together/1661032755.413189.html#1661121623.353919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Antipa</b>
+<span style="margin:2em; color:#606060">2022-08-21 15:40</span><br/>
+
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

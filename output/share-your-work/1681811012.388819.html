@@ -1,0 +1,283 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-04-18 02:43</span><br/>
+Drawware using <a href="http://draw.io">draw.io</a> - recent submission to Handmade Jam that I was involved with<br/><br/><a href="https://handmade.network/p/374/odin0d/">https://handmade.network/p/374/odin0d/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1682314437.051729"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1682314437.051729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-04-23 22:33</span><br/>
+Where does the string "hello world" come from when you run the program?<br/><br/>I went back and reread your earlier writings (seeing running code often causes me to focus on a thing). Some reactions:<br/>• Components include two concerns: what code runs inside them, and what queues are wired up to them. I think having to duplicate the code inside every time you clone a component is a non-starter. You say, "deduplicating code is a compiler concern" (<a href="https://publish.obsidian.md/programmingsimplicity/2023-01-24-0D+Ideal+vs.+Reality">https://publish.obsidian.md/programmingsimplicity/2023-01-24&hellip;</a>) which feels handwavy. Compilers are rocket science, and if we don't have the compilers to do this (we don't have compilers to do a lot, and it isn't obvious to me that compilers can deduplicate arbitrary code without risking lots of performance <em>regressions</em>) then somebody still has to do it.<br/>• As a consequence it seems to me that components are strictly higher level than functions. You don't want to put raw code inside components. Stick a function call into the component, and now copying the component is cheap and you don't need a complicated compiler to make it cheap. This is fine. I wouldn't get too hung up on this. Like you said, use both. The interesting question here is when we should wrap a function in a component abstraction.<br/>• Calling these things zero-dependency is not quite accurate. As you define it, hardwiring the name of a function call is a dependency. But you have names of components like <tt>echo</tt> hard-wired into your example. Again, this is fine. I wouldn't get too hung up on this. The technical idea is sound. You just need a better name and positioning to avoid these distracting quibbles and focus the audience's attention on the core idea.<br/>• Request for example #1: How might you perform dependency injection with components? Pass something into a port that causes a component with that name to be invoked? Does this help make things more decoupled? Dependency injection does help decouple functions.<br/>• Request for example #2: Check out the example of run-length encoding at <a href="https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html">https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html</a>. I'm curious how this program would look with your approach. Might you need coroutines? A component can have multiple inputs and outputs in parallel. Can it have multiple outputs <em>in series</em>? So that pumping in one input results in multiple outputs? Then this question has me wondering if it should have multiple inputs in series as well. What might that mean?<br/>• You've mentioned before that this looks like hardware. One challenge with designing hardware circuits is getting just right the timing of signals coming into a piece of combinatorial circuit, and debugging the weird errors when we don't. We need the sequential latches just so to make the circuit more robust. But the latches add latency. I wonder if your approach shares this problem. What are the semantics of a component with two inputs that receives a signal/value on only one of them? You could block and wait for the other, or not. Both seem to have trade-offs, and I think I can construct subtle bugs both ways.<br/>• There are still some gaps before this can be the notation for concurrency. As you said, you need both functions and components to coexist. And you need a way to go between them: wrap a series of function calls in some queues to turn it into a component, or wrap a set of components into a function so you can give it a name/address to combine with multiple sets of queues. Functions provide abstraction. Copying components does not.<br/>On the whole, this needs a whole lot more examples. I'd forget the tooling initially and just hand-write a bunch of examples. Do they seem clear? Are there notational changes that might make them clearer? Etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1682336547.022709"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1682336547.022709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-04-24 04:42</span><br/>
+Thank you for taking the time to read and to write detailed comments! Much appreciated.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1685537255.766689"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1685537255.766689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-05-31 05:47</span><br/>
+I apologize for the delay in responding.  I was incrementally trying to make this perfect, but am suffering from “life gets in the way” and now have decided to post a snapshot...<br/><br/>Components are like Classes.  The code is not duplicated.  Instantiated, yes, duplicated, no.<br/>...<br/>In 2023, though, compilers are “easy” to build.<br/>...<br/>What is needed is a language(s) that gets out of the way during design then allows incremental optimization (aka “typing”, etc.) in places where performance matters (probably only about 5% of the code).<br/>...<br/>End-users don’t care if developers use static typing or not.<br/>...<br/>Optimization-first languages, like Python, Rust, Haskell, Odin, etc., deal only with ... 33% of the problem.<br/>...<br/>Code as we know it, is just <b>assembler</b> for better languages.<br/>...<br/>I think that <b>dependency</b> is a serious problem.  I identify at least 3 ways that <b>dependency</b> creeps into current-day code.<br/>...<br/>Note that this scheme tries to encapsulate names.<br/>...<br/>These ideas are definitely related to coroutines.  And, green threads, and, mutual multi-tasking, and, closures, and pipelines, and Actors, and State, and Duff’s device, and RATFOR, and Software Tools, and EE, etc.<br/>...<br/>I argue that the over-use of synchrony, as in just about all current-day programming languages, leads to even weirder errors.<br/>...<br/>Components provide better abstraction than functions.<br/>...<br/>the true model of distributed programming is a couple of rPIs connected by a pair of wires.<br/>...<br/>Thread libraries don’t implement the above model correctly.<br/>...<br/>… was your first point. I choose to defer discussion of this point, since I think that it contains deeper meaning that needs to be addressed in a better way than I can at this time.<br/>...<br/>The rest of this note is at: <a href="https://publish.obsidian.md/programmingsimplicity/2023-05-26-Response+regarding+Call-Return+Spaghetti">https://publish.obsidian.md/programmingsimplicity/2023-05-26&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1685545583.805419"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1685545583.805419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-05-31 08:06</span><br/>
+Oh don't feel like you have to respond to me. It's enough to be aware of my suggestions in future writings. Certainly feel free to ask me questions or show me new drafts. But comments should help you, not add more to your to-do list.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1685552408.284979"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1685552408.284979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-05-31 10:00</span><br/>
+&gt; In 2023, though, compilers are “easy” to build.<br/>Sure, but these are compilers for the sorts of languages you criticize. They use functions, are overly synchronous. I haven't seen any evidence they are able to deduplicate huge swathes of code in large parts of a program. The best they can do is fold together a few expressions within the same function.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686737481.002109"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686737481.002109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-14 03:11</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span><br/><br/>FYI, I think of this when I think about manipulation by compilers:<br/><br/><pre style="white-space:pre-wrap">int plus97 (int x) {<br/>  return x + 99 - 2;<br/>}<br/><br/>int pt1 (int x) {<br/>  return plus97 (plus97 (x));<br/>}</pre><br/>$ gcc -O3 -S pt1.c<br/><br/>turns this into:<br/><br/><pre style="white-space:pre-wrap">int pt1 (int x) {<br/>  return x + 194;<br/>}</pre><br/>Then, there’s git, diff, NiCaD Clone Detector (Cordy, Roy).<br/><br/>[aside: the above quoted essay doesn’t actually contain a statement about “deduplication”, but, it does sound like something I would say.  I wonder what I was thinking when I wrote that? I wonder what it made you think?]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686759649.942569"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686759649.942569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-14 09:20</span><br/>
+I don't see it anymore at <a href="https://publish.obsidian.md/programmingsimplicity/2023-01-24-0D+Ideal+vs.+Reality">https://publish.obsidian.md/programmingsimplicity/2023-01-24&hellip;</a>, but as I recall that page used to be much longer. Did you reorganize or something?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686759907.704059"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686759907.704059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-14 09:25</span><br/>
+Yes, constant folding works <em>really</em> well in modern compilers. I think part of the reason is it's a one-sided optimization problem. There's never any costs so it's never a bad idea to do too much of it. So a compiler can blindly go chomping through the whole codebase. Deduplication is more complicated to implement and also has more risk. Folding two places together can make a program run slower by reducing opportunities for other optimizations compared to optimizing both sides separately.<br/><br/>(Please let me know if I'm saying things you know, or things you know to be false. I haven't worked on compilers in many years.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686785699.849839"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686785699.849839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-14 16:34</span><br/>
+Hmm, I think this is an example of inlining, wherein constant-folding is but a subset.  Anyway, you have me wondering whether I’ve actually witnessed a compiler doing deduplication or if I’m inferring how it might be done.  We sucked information out of code during Y2K fixing, under-utilizing a technique called “Design Recovery”.  Using that technique would make deduplication “easy” (involving just rote work).  I detail that idea here <a href="https://publish.obsidian.md/programmingsimplicity/2023-06-14-Towards+Deduplication">https://publish.obsidian.md/programmingsimplicity/2023-06-14&hellip;</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686786660.362359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686786660.362359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-14 16:51</span><br/>
+2 points:<br/><br/>• Inlining feels like the opposite of constant folding and deduplication. Increasing rather than decreasing code size.<br/>• It's a lot easier to create a transformer for a codebase you control than to create a compiler for arbitrary codebases. The latter has to be conservative in a thousand places and the consequences compound.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686822821.603449"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686822821.603449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-15 02:53</span><br/>
+“… longer. Did you reorganize or something?…”  Not intentionally, but operator error is certainly a possibility.  I’ll see if I can access backups from around then.  Is it safe to say that you saw this essay around Apr. 18 (the date of the original post in this thread)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686823760.818089"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686823760.818089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-15 03:09</span><br/>
+“Inlining … Increasing rather than decreasing code size.”  True.  I guess that I’m thinking about how this is done, i.e. if you can do inlining, then deduplication is just around the corner.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686824613.393479"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686824613.393479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-15 03:23</span><br/>
+“It’s a lot easier to create a …”<br/>Specialization instead of generalization.  Fork-ing is specialization.  I argue that there is a huge gap in Simplicity between the two approaches.  I argue that Generalization does not make programming better and leads to bloatware.  We, finally, have tools that allow us to Specialize easily (e.g. Ohm-JS, PEG, PROLOG, github, etc.) and should be working out ways to Specialize on a per-project basis.  That’s the flavour I get from your talk, too. [None of the above-mentioned tools / techniques are “new”, but we now have the freedom to use them in earnest, instead of doing things the way we’ve always done them (envisioned in the 1950s, based on biases from the 1950s)].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686825262.038799"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686825262.038799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-15 03:34</span><br/>
+The ground truth has changed.<br/><br/>CPUs are cheap and abundant.  Memory is cheap and abundant.  None of this was true in the 1950s.<br/><br/>For example, we don’t need to waste our time figuring out how to time-share CPUs and we don’t need to waste our time dealing with the consequences of doing so.  A whole swath of problems simply dissolve, starting with “thread safety”.  If you need more than one process, you use more than one CPU, instead of forcing code to share a single CPU.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686838608.896329"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686838608.896329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-15 07:16</span><br/>
+&gt; ..if you can do inlining, then deduplication is just around the corner.<br/>&gt; <br/>If you can do multiplication, factoring is around the corner? :slightly_smiling_face:<br/><br/>You don't need thread safety to access more than one CPU. You only need it for threads <em>that share data</em>. Keep the data disjoint, and life is much better.<br/><br/>&gt; Is it safe to say that you saw this essay around Apr. 18 (the date of the original post in this thread)?<br/>&gt; <br/>Definitely. Could be an incorrect link on my part as well, or I might not be quoting you exactly..<br/><br/>You're absolutely right that compilers may not be needed for many tasks. Maybe just don't mention them.<br/><br/>It would be <em>very</em> interesting to come up with a framework of some sort that lets people tag duplicate sections in their own code. Like a structured editor that allows transclusion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686840885.073689"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686840885.073689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-15 07:54</span><br/>
+“It would be very interesting … that lets people tag duplicate sections in their own code. …” It would be even more interesting if the machine could do it, instead of wasting peoples’ time.  To me, things like git, diff, NiCaD seem related.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686841304.324429"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686841304.324429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-15 08:01</span><br/>
+To summarize this sub-thread of the conversation: you might have (apocryphal) once said "just let the compiler handle all deduplication" [without ever slowing things down] or words to that effect. It seems you still believe this :slightly_smiling_face: My strong claim is this is impossible (akin to proving P=NP) in the general case. So your options are to manage it manually either by creating techniques in the context of specific codebases, or having programmers juggle function boundaries, or having programmers juggle function boundaries while looking like some cool transclusion effect. There may be other choices, but this is the picture as I can best see it right now. Not trying to score debating points or anything, trying to be as balanced as possible.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686841617.934989"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1686841617.934989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-15 08:06</span><br/>
+Zooming out to the argument as a whole, this is more evidence that you need more examples. Hand-create more example programs, spend some time hand-compiling them. I think you'll quickly run into situations where two code paths look very similar but slow things down when deduplicated. But the only way to confirm this is to create more examples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1687135635.763669"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1687135635.763669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-18 17:47</span><br/>
+I checked my backup and it appears that nothing has been changed in <a href="https://publish.obsidian.md/programmingsimplicity/2023-01-24-0D+Ideal+vs.+Reality">https://publish.obsidian.md/programmingsimplicity/2023-01-24&hellip;</a>.<br/><br/>I think, though that I may have found the phrases that refer to deduplication:<br/><br/>&gt; CALL is used for 2 reasons: ..., (2) DRY ... [corollary: case (2) should be entirely optimized away at “compile time” and “edit time”] <br/>I still believe that the IDE/Editor should be able to help with deduplication.  In the above, I say “entirely”, but, I don’t really care.  80% help would be better than what we are forced to live with now.<br/><br/>...I’ll try to expand on what I mean...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690192185.180259"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1690192185.180259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-07-24 02:49</span><br/>
+FYI, I added some rudimentary examples in the ps discord <a href="https://discord.gg/Jjx62ypR">https://discord.gg/Jjx62ypR</a><br/><br/>Bench Testing Components <a href="https://discord.com/channels/1113565909194375211/1113566623018786846/1132965790749044736">https://discord.com/channels/1113565909194375211/11135666230&hellip;</a><br/>Tee Example <a href="https://discord.com/channels/1113565909194375211/1113566623018786846/1132966647968317480">https://discord.com/channels/1113565909194375211/11135666230&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690208112.454459"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1690208112.454459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-24 07:15</span><br/>
+Hmm, that invite isn't working for me..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690210550.684089"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1681811012.388819.html#1690210550.684089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-07-24 07:55</span><br/>
+I’ll try again … <a href="https://discord.gg/95D8SbjG">https://discord.gg/95D8SbjG</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

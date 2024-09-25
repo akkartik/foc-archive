@@ -1,0 +1,547 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-25 18:54</span><br/>
+An old thread I wish I could link to:<br/><br/>&gt; Consider the powerful, time-honored environment that gives us many “small programs, each doing one thing well”, the Unix shell. There is a <tt>cut</tt> command, a <tt>sort</tt> command, and many more. A versatile collection of blocks that I can snap together in different ways (yay pipes!). There isn’t much duplication of commands and the environment seems to have nice composition properties.<br/>&gt; <br/>&gt; But it only goes so far.<br/>&gt; <br/>&gt; If I write a program in Unix using Java or Python, can I reuse the Unix <tt>sort</tt> to sort an array of items inside my program? Of course not, what an improper question! The decent choice is to reimplement sorting in my program (or use the standard library where someone else has already re-implemented it).<br/>&gt; <br/>&gt; <em>The computer already knows how to sort things, why do I need to tell it again?</em><br/>-- <span style="background-color:#ccf">@Shalabh</span> (<a href="https://shalabh.com/programmable-systems/on-composition.html">https://shalabh.com/programmable-systems/on-composition.html</a>)<br/><br/>From the inventor of shells:<br/><br/>&gt; I felt that commands should be usable as library subroutines, or vice versa. This stemmed from my practice of writing CTSS [OS] commands in MAD, a simplified Algol-like language. It was much faster and the code was more maintainable than IBM 7094 assembly code. Since I needed MAD-friendly subroutine calls to access CTSS primitives, I wrote in assembly code a battery of interface subroutines, which very often mimicked CTSS basic command functions. I felt it was an awkward duplication of effort. However, I did not go further in the context of CTSS.<br/>-- Louis Pouzin (<a href="https://multicians.org/shell.html">https://multicians.org/shell.html</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606360485.136900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606360485.136900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-25 19:14</span><br/>
+I've been thinking about this kind of plumbing a bit too. I recently wrote an HTTP service with an <a href="https://gist.github.com/EmmanuelOga/8458a500645da511f10ad32fe8084367#sample-code-for-working-with-rdf">API expressed as mostly RPC operations</a>.<br/><br/>I wanted to add a REPL so I used prompt-toolkit. But then it occurred to me I should also accept the repl commands as command line parameters. I also wanted to be able to trigger these RPC commands from VS Code.<br/><br/>I think the answer is a machine readable spec and code generation. That would assist with:<br/>• Writing boilerplate server and client code<br/>• Generating a REPL and CLI parser<br/>• Calling the API from any other place (like a VS Code plugin!)<br/>Without a spec, I would just have to write all these API clients by hand.<br/><br/>since I'm thinking RDF for this spec, it should be relatively easy to express composability: send the result of executing this command as input of this other command.<br/><br/>My use case is HTTP but seems like a specific case of IPC<br/><br/>Perhaps I could bypass the REPL altogether by integrating deeply with my shell, providing completions, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606360847.137200"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606360847.137200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-25 19:20</span><br/>
+-- the tricky part is sharing binary data, I will probably wan to do it out of band since rdf is not great for binary, but that adds some complexity to the mix
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606381850.139000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606381850.139000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-11-26 01:10</span><br/>
+Never knowing how much of the wisdom of the ancients has been lost, I offer this related material (if you haven't the patience to read Knuth's beautiful program, skip to page 478 to read McIlroy's review): <a href="https://www.cs.tufts.edu/~nr/cs257/archive/don-knuth/pearls-2.pdf">https://www.cs.tufts.edu/~nr/cs257/archive/don-knuth/pearls-2.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606382408.139200"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606382408.139200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2020-11-26 01:20</span><br/>
+Thank you <span style="background-color:#ccf">@Jack Rusher</span> for sharing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606384342.139400"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606384342.139400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 01:52</span><br/>
+oh yes, the famed "knuth v mcilroy" :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606409837.150900"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606409837.150900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2020-11-26 08:57</span><br/>
+Maybe companies producing their own silicon will also one day include the language-independent, optimal "higher-order command set" that simply, physically can't be improved upon - just used by everything - (I imagine Apple will do this atop their Apple Silicon GPU instruction set - but also from top-down, as their OS is iterated towards maximal use of their chips - some unequivocally optimized libraries should fall out)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606428649.151500"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606428649.151500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-26 14:10</span><br/>
+<span style="background-color:#ccf">@Emmanuel Oga</span> sounds a lot like protobuf as an OS interface.<br/><br/>I strongly agree that starting with procedures and exposing them via user friendly interfaces like repls is the right direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606435197.151700"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606435197.151700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 15:59</span><br/>
+proto is close  but a lot more strict, I like open formats like JSON or RDF because you can add things and pass them trough so is more composable
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606435347.151900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606435347.151900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 16:02</span><br/>
+for all nice things people say about the wisdom of unix there's little talk about the ugly parts. Plain text as an interface between programs is awful, because every program can output whatever, usually the glue is parsing line by line using regular expressions. Even something as simple as numbers can come in a number of formats. Not to speak of so called "comma separated values", which may use comma, semicolons tabs of fixed width, etc... often times without a spec or documentation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606435431.152100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606435431.152100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 16:03</span><br/>
+if unix has “small programs, each doing one thing well”, why are the man pages 20 pages long? Can you imagine having <b>one function</b> which takes 200 parameters? No type checking, mind you, you just need to provide the right parameters <b>in the correct order</b> (<tt>find</tt>, i'm looking at you)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606435504.152300"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606435504.152300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 16:05</span><br/>
+<tt>powershell</tt> went in the right direction but after trying really hard to like it, I still don't feel like it has very good ergonomics
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606444940.153300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606444940.153300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-26 18:42</span><br/>
+There's a fable about a historian who distilled a comprehensive history down to three sentences: <em>"People were born. They lived. They died."</em> If I had to do a similar distillation for programming, it might be: <em>"People tried to solve problems. The problems turned out to be more difficult than expected. People came slowly to terms with how difficult they were."</em><br/><br/>Here's Maurice Wilkes:<br/><br/>&gt; I can remember the exact instant when I realized that a large part of my life from then on was going to be spent [doing this].<br/>I've been grinding my wheels for the past week because I've been reading about how to print floating-point numbers in decimal. Absurdly, ridiculously difficult as it is, the time has gone less in figuring out how to do it and more in coming to terms with the irreducible difficulty of it. No, this shortcut doesn't work. No, we can't avoid bignum support. And on and on. No, reading this one more research paper isn't going to make the problem magically simpler.<br/><br/>OP seems similar. Yes, it's actually not that hard to reuse code between shell scripts and standard libraries. All you have to do is specify for every function call:<br/><li> Where to look for the function. (Is it a source file? A dynamic library somewhere in the path? A database? A registry somewhere online?)<br/><li> How to look for the function in that source. (An address in RAM? A mangled name? A URL? A file handle?)<br/><li> Where to look for each input, and how to look for it. (An address in RAM? A file handle to load lines asynchronously from? How to unmarshall?)<br/><li> Where the computation must run. (Same process? A new child sharing nothing? A threadpool? A coroutine? Some computer on the internet?)<br/><li> Where to send each output. (To a register? Memory location? In-memory FIFO? File system? Database table? API endpoint on some server on the internet?)<br/><br/>Given the infinite detail of reality (<a href="http://johnsalvatier.org/blog/2017/reality-has-a-surprising-amount-of-detail">http://johnsalvatier.org/blog/2017/reality-has-a-surprising-amount-of-detail</a>), each of these questions can be answered with arbitrary, Turing-complete code. Still, totally doable. You just have to be willing to be verbose. At every single call site.<br/><br/>No? Well, if you aren't willing to be verbose, by Shannon's law of entropy you have to trade off flexibility for concision. Live within the life-boat of a shell script, and it will impose the standard policy called, "<tt>execve()</tt> all the things". Live within the life-boat of a single language, and it will impose the standard policy called, "push args on the stack and call." Or something like that.<br/><br/>It's certainly possible to explore other points on this spectrum. For example it might be quite ergonomic to unbundle an OS to the point that any synchronous function call <tt>foo()</tt> forks a process in an isolated address space and receives its inputs asynchronously over a channel simply by calling it as <tt>foo!()</tt> (or <tt>spawn</tt>, or <tt>go</tt>, in a maze of subtle differences in semantics). But it seems clear you have to accept a limited menu of choices. Languages that share this menu can interoperate. Languages that make distinct choices will have to "be told again." Regardless of what you choose, I submit that having to specify the algorithm again is not that big a deal next to these problems of namespace management, mutable stores and marshalling/unmarshalling. Computation is always the easiest part of any non-trivial program.<br/><br/>Interesting question. It's clearly one Louis Pouzin grappled with, and I see a day later that I've dealt with it multiple times in myriad guises. It's a question my brain is designed to keep butting heads against every so often.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606446003.153500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606446003.153500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:00</span><br/>
+Not "difficult" so much as "fiddly" where often you need to handle the fiddly bit (names, dates, addresses, Pythagorean commas) rather iron it out — presuming you can iron it out at all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606446481.153700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606446481.153700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:08</span><br/>
+Part of what we have to come to terms with is what we think of as "honorably difficult" vs "unfair fiddly bits".<br/><br/>"What, do you really expect me to think about that? What am I, a farmer?"<br/>"No, Mr. Baldwin, I expect you to die."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606446538.153900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606446538.153900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:08</span><br/>
+that's a great observation Kartik, it is true that "plumbing programs together" has some irreducible complexity, but I think the premise of a lot of projects in here (FoC) is that we can do better. I feel like many times though we fantasize sci-fi like solutions involving A.I., advanced GUIs and what not when we could be taking smaller incremental steps to a more ergonomic computing system
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606446806.154100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606446806.154100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:13</span><br/>
+I'm not as visionary as others ... I feel like shells could work closer to IDEs, with inline documentation, autocompletion and solid language oriented tools, it doesn't feel like scifi, it feels doable. I feel like current shells are a bit hacky in this regard. Say, Bash completions are like the crappy version of real grammar and type analysis to produce completions that you would get in a normal IDE. We could start sending JSON at least, the least common denominator, to our standard outputs, instead of plain text (then we can start thinking how to add encodings for things like dates and bignums...). The small overhead is probably worth all the benefits.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606446875.154300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606446875.154300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:14</span><br/>
+Current shells seem all kinds of hacking.  I've been typing at this shell for twenty years, and I still don't know it's basic syntax.  For all the programming languages I know, never seemed much point in learning the rhyme and reason to the shell as there seems to be little to none.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606447004.154600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606447004.154600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-26 19:16</span><br/>
+For sure. I think my comment was a long-winded way of saying, "don't expect to support a large plethora of languages and runtimes." If you want it to cleanly interoperate and not be hacky, you have to be modernist about it and control diversity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606464254.155100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606464254.155100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-11-27 00:04</span><br/>
+<span style="background-color:#ccf">@Emmanuel Oga</span> "for all nice things people say about the wisdom of unix there's little talk about the ugly parts"<br/>It's not like we haven't been talking about this for decades: <a href="http://doc.cat-v.org/bell_labs/structural_regexps/se.pdf">http://doc.cat-v.org/bell_labs/structural_regexps/se.pdf</a><br/><br/>Just yesterday: <a href="https://twitter.com/jackrusher/status/1331901111620481025">https://twitter.com/jackrusher/status/1331901111620481025</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606467048.155500"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606467048.155500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2020-11-27 00:50</span><br/>
+Its almost as if history moves forward as a kind of dialectic and unix was a thesis and smalltalk (maybe) was an anti-thesis and now we wait for synthesis which create something with best of both worlds. Its just taking so long
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606474471.156100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606474471.156100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-27 02:54</span><br/>
+&gt; I feel like shells could work closer to IDEs, with inline documentation, autocompletion and solid language oriented tools, it doesn't feel like scifi, it feels doable.<br/><span style="background-color:#ccf">@Emmanuel Oga</span> - have you looked into the Genera Lisp Machines? It comes very close to what you are describing. Each "function" is available at the "shell" (they call it something else, I think "listener"?). When you invoke a function from the listener, it does have autocomplete. E.g. if it accepts a file, all the filenames on the screen will "light up" and become clickable. This works because fundamentally it is not dumping streams of text on a tty, but <em>attaching presentation objects on the screen</em> - so each visible presentation is linked to the backing object and its type is available to the system. There are some details in this short demo: <a href="https://www.youtube.com/watch?v=o4-YnLpLgtk">https://www.youtube.com/watch?v=o4-YnLpLgtk</a>.<br/><br/>You can also introspect and jump to source from the listener. I linked to a twitter thread about some more features: <a href="https://twitter.com/chatur_shalabh/status/1213740969201262593">https://twitter.com/chatur_shalabh/status/1213740969201262593</a>. Also check out <a href="http://lispm.de/genera-concepts">http://lispm.de/genera-concepts</a> (section "Data Level Integration")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606475174.156800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606475174.156800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-27 03:06</span><br/>
+&gt;  for all nice things people say about the wisdom of unix<br/>Some say fewer nice things than others :wink:.<br/><br/>I'm starting to think the primary purpose of an OS is providing <em>composition models</em> which subsumes the abstract objects they provide. E.g. the Unix models are the C ABI, bytestream pipes, command shells and the rest are built on top of these. The concepts of processes and files sort of live within these models.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606475727.157200"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606475727.157200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-27 03:15</span><br/>
+haven't seen the lisp machines demo before, really cool
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606485554.157500"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606485554.157500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-11-27 05:59</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> An example of a less nice thing :joy_cat:<br/>&gt; <em>“I liken starting one’s computing career with Unix, say as an under- graduate, to being born in East Africa. It is intolerably hot, your body is covered with lice and flies, you are malnourished and you suffer from numerous curable diseases. But, as far as young East Africans can tell, this is simply the natural condition and they live within it. By the time they find out differently, it is too late. They already think that the writing of shell scripts is a natural act.”</em><br/>&gt; — Ken Pier, Xerox PARC<br/>(taken, of course, from <b>The UNIX- HATERS Handbook</b> <a href="https://en.wikipedia.org/wiki/The_UNIX-HATERS_Handbook">wiki</a>, <a href="http://web.mit.edu/~simsong/www/ugh.pdf">pdf</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606492223.157900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606492223.157900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-11-27 07:50</span><br/>
+infra is another stab at this problem <a href="http://www.infra-structure.org/specification.html">http://www.infra-structure.org/specification.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606495030.158700"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606495030.158700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2020-11-27 08:37</span><br/>
+Interesting, also incomplete and already abandoned? (Is the Working Group active?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606514948.159500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606514948.159500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-11-27 14:09</span><br/>
+"There is a long and sordid history of numerous attempts to bridge composition barriers: CORBA, COM, D-Bus, XML-RPC, SOAP, Protocol Buffers, JSON, the list goes on." We only need 1 more: Tree/2-D Notation  :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606516076.159800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606516076.159800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-27 14:27</span><br/>
+another one: <a href="https://concise-encoding.org/">https://concise-encoding.org/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606516816.160100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606516816.160100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-27 14:40</span><br/>
+I think this is a bit of an spinoff this thread (serialization/IDL languages), but there was an interesting <a href="https://news.ycombinator.com/item?id=24994304">thread going on on HN recently</a>.<br/><br/>Two type definition languages presented something that I did not think about before when dealing with IDL:<br/>• the concept of <b>equality</b> (preserves: "two Values are equal if neither is less than the other according to the total order.")<br/>• a design that ensures that <tt>serialized . deserialize = id</tt>, which may seem obvious but in fact is not trivial.<br/>I guess there's a reason unix people went with plaintext, they were basically kicking the problem to someone else to deal with ("do the simplest thing that works" and such).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606522068.161000"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606522068.161000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-27 16:07</span><br/>
+I used to collect names of serialization formats (only reluctantly including RPC protocols, because I was young and didn't yet know true suffering*). So I have this urge to add all these links to my list, but also can't really get excited about them. After a while they all look the same.<br/><br/>I think the rpc protocol that makes a difference will have to be one that makes it easy, or at least feasible, to bridge all these other formats, including the mucky legacy wire protocols. A couple other people here have expressed similar ideas.<br/><br/>I do like the idea that the OSs job is to allow composing heterogeneous components. I think that fits in with the interop idea above.<br/><br/><li> Probably still true, honestly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606586289.165500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606586289.165500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-11-28 09:58</span><br/>
+infra includes a few interesting properties: a “patch” datatype, which represents references to other infra data as well as immutable changes, using the same format as the rest of the data, and an editor that lets you make changes to data with mouse and keyboard and then outputs the changed data with a record in the form of patches
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606594264.166300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606594264.166300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-28 12:11</span><br/>
+In this comment I present a counterpoint to what I think <span style="background-color:#ccf">@Kartik Agaram</span> is saying here:<br/>&gt;  Yes, it's actually not that hard to reuse code between shell scripts and standard libraries. All you have to do is specify for every function call:<br/>&gt; <em>&lt;snipped a long list of mechanism details pertaining to function invocation&gt;</em><br/>here:<br/>&gt;  Shannon's law of entropy you have to trade off flexibility for concision<br/>and here:<br/>&gt; <em>"People tried to solve problems. The problems turned out to be more difficult than expected. People came slowly to terms with how difficult they were."</em><br/>Funnily I kind of agree with Kartik but only while we stick to the current models of abstraction.<br/><br/>I'm going to use the following analogy to describe how I think about this. Imagine we are all "electronics people" making circuit boards with LEDs, batteries, wires, switches etc. We send signals around encoded as voltage-on-wire or even FM. Note that voltage-on-wire serves a higher purpose (e.g. a specific voltage on a line may represent the "turn this light on" signal). We create  wired-ports/FM transmitters/recievers to hook up multiple such gizmos together. Unfortunately we all use different conventions for <em>how</em> the voltage levels or FM bands correspond to the the signals we share. So most of our integration work is spent building adapters - the simple ones might just step up/down the voltage. The complex ones may receive a signal encoded as FM and re-encode the same signal as voltage-on-wire, or even re-transmit it on another FM band. There's nothing wrong with this because <em>this is reality</em>.<br/><br/>OTOH, we can also think of making things better, or even doing something  <em>different</em>. Here, and this is key, I think there are two broad paths:<br/><br/>1. Standardize. If everyone uses 5V and the same FM band and the same "encoding" of the shared signals, we can more easily plug things with each other. <em>We're still electronics people, doing mostly the same thing,</em> but better and easier.<br/>2. A new level of abstraction. Say we completely stop thinking about voltages and think in a new level of abstraction called "bytes". This is the idea of software. I'd say we're now doing a fundamentally different thing - <em>we now are "software people" and no longer electronics people</em> - because we are absolved of concerns about voltages and such things. The voltage didn't disappear, but don't matter directly to us. In fact many different physical contraptions may use very different physical mechanisms to represent the same bytes, but from our abstraction level, we still think of those disparate systems through a unified model of "bytes".<br/>Now the next chapter.. bytes are themselves problematic in ways that resemble voltage and FM band mismatches. The thing is bytes are used to represent "higher purpose" signals and messages that we send around - so encoding matters, again. The first approach is "standardize the encodings". This is very popular (cue this history of byte formats). But is there a second approach which would <em>make bytes irrelevant</em> _to us_? What are the new concepts we would think and design in? We may end up with many different byte level encodings for the same messages we send around but we will have a new unified model of design across all of them. We will no longer be "bytes people", so what will we be? (BTW, eventually we could forego bytes completely in some cases and map directly to voltage or other physical representations.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606607135.166800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606607135.166800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-28 15:45</span><br/>
+what you are describing sounds  an awful lot like networking. In networking you go from radio, copper. fiber optic mediums to ... bytes, and then more layers of bytes by packing in "layers". The way systems like TCP/IP has been successful is .. by standardizing. I may be wrong but it sounds like you are thinking there may be something undiscovered that is superior to "arranging bits", but encoding and decoding data just seems like the nature of the problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606611089.167000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606611089.167000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-28 16:51</span><br/>
+I'm not proposing a solution but rather suggesting a perspective on the problem. It's not about superior, but the about virtual concepts we work with. Yes it is about what concepts have been standardized. E.g. TCP/IP will work across copper wire, <em>or</em> radio frequency <em>or</em> microwave frequency <em>or</em> any other medium the someone cares to map it to.<br/><br/>I could just as correctly say "designing circuits or radio frequencies is just the nature of the problem". Yet in decades of building systems that <em>transmit information</em> I have never once had to design the mapping of information to radio frequencies. Yet I have often designed (or reckoned with) the mapping of information to <em>bits.</em> You could standardize on a concept higher level than bits of course, (one example is something based on "symbols"). In fact we always work with higher levels within PLs or frameworks. Yet the OS and networks stop at giving us support for bits.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606612182.167300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606612182.167300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-28 17:09</span><br/>
+Since software is executable, it gives us much more powerful ways of re-configuring than we can have with hardware. With hardware the encodings tend to be fixed. With software we can look at standardizing the bare minimum and leveraging its reconfigurability. For instance instead of standardizing "encodings" we could standardize "encoding grammar" which are pre-shared, but any real encodings can just be defined using this grammar and sent on the wire. Any receiver can then generate encoder/decoder on the fly. This doesn't do away with bits but encapsulates them in a way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606620852.167600"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606620852.167600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-28 19:34</span><br/>
+In the general case, I suspect your "encoding grammar" is equivalent in complexity to a general purpose programming language. Maybe a total language depending on your definition. I mean, the idea is pretty close to what I want to do/see, but even these "grammars" have to be encoded to be shared, and standardizing that encoding won't be any easier than the others.<br/><br/>I think of this as "encoding" vs "intent". Intent is the human purpose for whatever the system is supposed to do. We would really like to specify everything in terms of intent, both messages and programs, but intent is inherently non-physical (unless you want to talk about neurology). You can't standardize intent, or transmit it. I don't believe you can really get higher-level than "arranging bits" without confronting this non-physicality.<br/><br/>My design goals, as far as I've nailed them down, revolve in large part around precisely capturing intent, in particular, <em>avoiding</em> encoding things that are not intended but merely side effects of the encoding a user is using to convey their intent to a computer. One of my catchphrases is "as specific as desired", something I've thought about since I first felt straitjacketed by a mind-mapping app. Implicit ordering and implicit dependencies are quite pernicious, e.g. a supposedly unordered map that is nevertheless processed in order and allows/requires you to make assumptions based on that order. (Notably, bit strings are always ordered, which in a way is the fundamental obstacle.)<br/><br/>I've gotten as far as "make all dependencies explicit and optional (including ordering)" and "define things by the effects (in the sense of I/O!) they produce". What form of communication your intent produces, or whether it results in native code, is a matter of encoding, to be specified independently; as I (and Emmanuel I guess) said, the OS's job. Details are WIP. :-/
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606631008.167900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606631008.167900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-28 22:23</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> wrote<br/>&gt; In the general case, I suspect your "encoding grammar" is equivalent in complexity to a general purpose programming language.<br/>I agree.<br/>&gt; I think of this as "encoding" vs "intent".<br/>You've put this really well. I think of this as "meaning", which only exists in our minds, and "representations" and "mechanisms" which exist outside the mind.<br/>&gt; I don't believe you can really get higher-level than "arranging bits" without confronting this non-physicality.<br/>If you're saying that irrespective of the encoding, the machines can only hold <em>signifiers</em> and all mechanisms in the end amount to just transmitting arbitrary symbols (bits are just a sequence of symbols "1", "0") I must agree. But consider that we spend a lot of effort designing and manually implementing the mapping between <em>multiple</em> vocabularies of such symbols - all of which are entirely in the machine. So there is the possibility of removing this extra work. (BTW, <span style="background-color:#ccf">@Konrad Hinsen</span> and I have a <a href="https://shalabh.com/programmable-systems/files-and-file-formats.html#comment-7">discussion</a> on this topic on my blog post).<br/><br/>&gt; <em>avoiding</em> encoding things that are <br/>&gt; not intended but merely side effects of the encoding a user is using to <br/>&gt; convey their intent to a computer<br/>Nicely put. In some sense these are <em>encoding artifacts</em>. Looking forward to see where you take these ideas.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606683105.168600"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606683105.168600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-29 12:51</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> It seems like we're mostly on the same track. :) Thanks for the interesting link, too.<br/><br/>&gt; So there is the possibility of removing this extra work.<br/>&gt; <br/>Perhaps the closest thing to a disagreement is this: it would be more precise to say that we're only doing the work once, rather than not doing it at all (and we want to let a compiler handle the details of hooking up encodings to business logic). Probably this is already what you were thinking, but I like to be explicit that the essential complexity is still there.<br/><br/>I think we should keep in mind that any "solution" to this problem of lots of encodings needs to be imagined in a world that still seethes with conflicting formats and protocols. Even besides the mess of existing formats that have zero chance of going away, different encodings have different useful properties, notably performance under various queries (also space efficiency, error resilience, etc). You wouldn't try to back a relational database with the same encoding you send over a network. I'm looking for a tool to navigate chaos more than tame it (at least in a global standard sense).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606695749.168800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606695749.168800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-29 16:22</span><br/>
+Related: "it took eighteen years for ASCII to become installed in most computers from its year of publication." :exploding_head: <a href="https://news.ycombinator.com/item?id=25235575">https://news.ycombinator.com/item?id=25235575</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606733271.169400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606733271.169400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-11-30 02:47</span><br/>
+The one point made by <span style="background-color:#ccf">@Shalabh</span> on which I tend to insist is "standardize". It's actually a condition for productively moving on to higher abstraction levels. The reason we can discuss information management at the byte level (and higher) is that we do have standards for storing and communicating bytes. Even the byte itself as a practical unit of information is a standard.<br/><br/>If you look at the history of computing, it started out, like other technologies, with cycles of messy innovation followed by standardization. Until about the year 2000. All major standards of the computing world were created before 2000, although some have been updated since. But nobody seems to be interested in standardization any more. Tech is dominated by a few big players whose game is "Who can impose their conventions on the rest of the world?" And even small players accept this game, proposing new ideas they consider "better", and thus deserving to "win" by the ideas of meritocracy. Some have been cited above.<br/><br/>So what happened to the idea of compromise for the benefit of everyone? Many technical issues are reasonably well understood. We know about the relative benefits of function calls with on-stack argument passing, subprocess creation with command-line arguments, and other techniques for calling code blocks. A committee of experts could come up with a minimal list of techniques that cover the various use cases/priorities, and write up a standard with something like three or four calling conventions. If everybody accepted and implemented them, we could then move on to discussing higher levels of abstraction. But this isn't happening. There is no incentive for agreeing with others. Can we fix that somehow?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606761117.173300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606761117.173300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-30 10:31</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> wrote:<br/>&gt; Perhaps the closest thing to a disagreement is this: it would be more precise to say that we're only doing the work once, rather than not doing it at all (and we want to let a compiler handle the details of hooking up encodings to business logic).<br/>I think that's fair. There's definitely some work we'll always need to do and some complexity in the way. BTW there's an old thread which disputes that there's a sharp distinction between incidental and essential complexity. Hopefully this <a href="https://marianoguerra.github.io/future-of-coding-weekly/history/?fromDate=2020-02-03&amp;toDate=2020-02-05&amp;channel=general#2020-02-04T04:04:54.491Z">link to the search history</a> works.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606762390.173500"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606762390.173500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-30 10:53</span><br/>
+Bad behavior by tech companies aside (which I agree is a problem), I disagree that we're technically ready to standardize on inter-procedure calling conventions. In particular, picking among the current options for inter-process communication fills me with dread. I don't see consensus on how to even address processes, much less a language for them to speak.<br/><br/>It's natural for higher-level abstractions to take longer to stabilize. In some sense they have more degrees of freedom in their design, so there's an exponentially larger search space. More tradeoffs to optimize, with more local minima.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606763676.173700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606763676.173700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-30 11:14</span><br/>
+Using a standard model that is higher level and <b>independent</b> of the underlying mechanism is key. This is the option 2 I was suggesting earlier in the thread. Eg. with TCP/IP you don't have to stay stuck to copper wire or powerline or whatever it was originally designed with. You can switch those around <em>even later</em> while the systems using it continue to work. Same thing with 'bits'. This is why I am interested in models that are "not bits" however "can be mapped to bits many different ways". BTW, transmitting and storing information is a subset of organizing computation (e.g. decomposing into processes, defining execution models), so doing this abstract model for distributed computation is much harder.<br/><br/>One more thing I find very interesting is that software gives us a new superpower for achieving standardization because it is "virtual". Imagine you could magically and instantaneously ship FM receivers to everyone in the world. The shift from AM radio to FM would be overnight. With software, the limitations of hardware are gone, you can actually ship such software <em>receivers</em>. Yet we live in a world where switching to a new <em>software</em> protocol or media format is very burdensome. Our standard-making ideas are holdovers from a hardware world. So maybe instead of making software standards we usually do,we should be inventing new standard-making software (i.e. standardize the meta level)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606765647.174100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1606359276.136400.html#1606765647.174100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-11-30 11:47</span><br/>
+Exactly. Calling conventions can require some intermediary, which could well involve no performance overhead via JIT techniques.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

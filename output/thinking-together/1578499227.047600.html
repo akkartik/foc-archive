@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-01-07/896448669716_da2bf34d2e0e6c3d6047_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian</b>
+<span style="margin:2em; color:#606060">2020-01-08 08:00</span><br/>
+I've been trying to find more interesting ways to handle localization -- what we're currently doing is using graphql to query for each bit of text -- Has anyone written on how you'd do it in a pure language?<br/>Also if anyone's written something more holistic that combines "localized text" and "localized prices" / marketing text and db models I'd be interested.<br/>So far everything seems to get about this far:  <tt>var greeting = i18n.__('Hello');</tt> and stops there as localization is "solved" :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1578499378.048000"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html#1578499378.048000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-01-08 08:02</span><br/>
+I'm guessing you've read this but the example you posted suggests maybe not so posting<br/><br/><a href="https://metacpan.org/pod/Locale::Maketext::TPJ13">https://metacpan.org/pod/Locale::Maketext::TPJ13</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1578500219.048700"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html#1578500219.048700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-01-08 08:16</span><br/>
+Also I don't have a suggestion really except that <tt>var greeting = i18n.__('Hello');</tt> sets off warning signals to me as it seems to suggest that 'Hello' will translate the same eveywhere it's used. That's not my experience so I'd expect <tt>var greeting = i18n.__(I81N_GREETING_ID_24);</tt>  given that some other place in the code will may also need 'Hello' but it will be a different 'Hello'
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1578560625.079500"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-02/716038509047_90fce52335c2772cfb1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html#1578560625.079500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>cauli</b>
+<span style="margin:2em; color:#606060">2020-01-09 01:03</span><br/>
+<tt>i18n.__('Hello')</tt> suggests to me that the strategy here is the "<tt>gettext</tt>" way in which the translations are extracted from the codebase then replaced in runtime, and key of a translation is a original string in the <tt>en</tt> version of it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1578560773.079700"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-02/716038509047_90fce52335c2772cfb1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html#1578560773.079700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>cauli</b>
+<span style="margin:2em; color:#606060">2020-01-09 01:06</span><br/>
+It sounds weird to me that you are <tt>using graphql to query for each bit of text</tt>. You should have files that consolidate all translations for a locale for your app/system and then fetch them all at once (the most appropriate translations file), depending on the user's locale.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1578586015.080300"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-07/896448669716_da2bf34d2e0e6c3d6047_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1578499227.047600.html#1578586015.080300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian</b>
+<span style="margin:2em; color:#606060">2020-01-09 08:06</span><br/>
+ah yeah, <tt>i18n.__('Hello')</tt> was just a reference to the <tt>gettext</tt> approach, which I've run into most frequently.  I'm looking for more interesting approaches.<br/><br/>the full approach we're using is Contentful -&gt; Graphql query to get all our text -&gt; it's loaded into the cache -&gt; react hooks that query the graphql cache at the component level to get specific text, looks kind of like <tt>const text = useText('section.heading.hello')</tt>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

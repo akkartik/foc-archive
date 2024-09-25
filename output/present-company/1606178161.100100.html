@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-23 16:36</span><br/>
+I'm not a hardware designer, but I've had classes on HW design and I've done quite a bit of research on it. In general, does it make sense to design hardware that supports functional languages? Correct me if I'm wrong here, but it seems to me that the most expensive operation for languages like clojure are around their <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">data structures</a> (even though they are really fast). Could fixed function hardware be designed to make persistant data structures a winning choice? e.g. could be stuff like improving cache synchronization. I don't know where this would fit best though - would this type of FF HW be best placed within the cpu core, or perhaps alongside the ram? Just spit balling here, hopefully someone here knows enough to say weather this is dumb or a possible idea.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606178935.100200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606178935.100200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-11-23 16:48</span><br/>
+I'm reminded of this recent <a href="https://twitter.com/Catfish_Man/status/1326238434235568128">tweet</a> from Apple engineer Dave Smith about the perf of the M1 chip:<br/><br/>&gt; fun fact: retaining and releasing an NSObject takes ~30 nanoseconds on current gen Intel, and ~6.5 nanoseconds on an M1<br/>&gt; <br/>&gt; …and ~14 nanoseconds on an M1 emulating an Intel :innocent: <br/>They designed the M1 chip to do really well at object retain/release because Swift &amp; Obj-C use reference counting extensively (rather than, say, some sort of full-blown GC).<br/><br/>Would be interesting to know what work they did to the hardware to accelerate that particular pattern. Like you said — is it just in the CPU, or is it affected by memory latency, or..?<br/><br/>Would also be interesting to know whether other languages could be pulled along in the slipstream of that particular HW optimization.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606182152.101000"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606182152.101000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-11-23 17:42</span><br/>
+I think it is a rabbit hole. Hardware is inherently stateful, state machines are a good model to think about it. There were whole teams trying to come up with Lisp machines and the effort is well documented elsewhere but they ultimately failed to get traction (there's also a distinction to be made between "functional" and "immutable"). I feel like stateful hardware with an immutable layer on top is the correct way to model something like Clojure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606184017.101300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606184017.101300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-23 18:13</span><br/>
+Yeah, this has been explored a whole lot. I'd have more citations to provide 10+ years ago when I did my PhD in computer architecture. One thing to note here is that the whole CISC thing that RISC was in response to was a trend of adding special instructions for common patterns in software.<br/><br/>Which is not to say there's nothing to explore here. It's gotten quite unfashionable for 30+ years now. That seems like enough time for another turn of the wheel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606192516.101600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606192516.101600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-11-23 20:35</span><br/>
+On the one hand: yeah, RISC has definitely had a good run for the past 30 years.<br/><br/>On the other hand: chips are extremely wide now wherever the software is able to make use of that (eg: SIMD, GPU units); SoCs have dedicated image signal processors, ML accelerators, crypto accelerators, video decoding (and sometimes encoding); mobile chips (or, at least, Apple's chips) have heterogeneous cores, some for high-perf and some for low-power.<br/><br/>So there seems to be a move away from simple, undifferentiated compute and a return to specialized hardware aplenty — but this time it's physical specialization, rather than instruction specialization.<br/><br/>Curiously, it seems the opposite might be happening in memory. RAM and VRAM are frequently merged (ie. by M1, modern game consoles, mobile devices), there's the thought that we might see NVRAM combine RAM and storage, I wouldn't be surprised if L3 cache fell out of favour.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606202711.106000"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606202711.106000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-23 23:25</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> my only disagreement with your post is that, yes, lisp machine have been tried. However, afaik most lisps before clojure used more out less standard mutable data structures. My theory (could still be wrong) is that the data structures provide the biggest possible ROI for hardware. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606203055.106200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606203055.106200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-23 23:30</span><br/>
+Perhaps you're responding to Emanuel's comment? I didn't really mention Lisp machines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606226570.107100"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606226570.107100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-24 06:02</span><br/>
+Oops, mobile is hard to read :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606226703.108400"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606226703.108400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-24 06:05</span><br/>
+I thought you had made both comments, but with each of you making one my comment applies less
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606229953.108800"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606229953.108800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-11-24 06:59</span><br/>
+<span style="background-color:#ccf">@Jarrett Atkinson</span> While most Lisps allow one to tinker with the inner workings of cons cells, it's probably worth noting that the standard list building process of <tt>(cons elem the-list)</tt>  (construct a new list with <tt>elem</tt> as the head and <tt>the-list</tt> as the tail) does not modify <tt>the-list</tt> in any way, allowing other reference holders to continue as if nothing has happened. It's a form of "unenforced immutability," if you will.<br/><br/>You can read about how this works in the context of Common Lisp here:<br/><a href="http://blog.thezerobit.com/2012/07/21/immutable-persistent-data-structures-in-common-lisp.html">http://blog.thezerobit.com/2012/07/21/immutable-persistent-d&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606234884.109100"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1606178161.100100.html#1606234884.109100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-24 08:21</span><br/>
+Ah, interesting. I've come across this before, but I didn't think about it w.r.t. this topic
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

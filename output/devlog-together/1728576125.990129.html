@@ -1,0 +1,138 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1728576125.990129.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-10 09:02</span><br/>
+(Where's everyone else? I'm feeling lonely in this channel.)<br/><br/>I hadn't tried this until today, but it turns out to work: I can create equations forwards and back, and trigger either selectively based on what blanks I fill in.<br/><br/>The fine print: to switch directions I have to fill in the right blank, clear the old blank, and then type in something outside the old blank (to indicate I'm not going to type further into the old blank).<br/><br/>Works better if I clear the old query first, but who can remember that?<br/><br/>Perhaps I should just recompute on every mouse click. Then the third step could be clicking outside any blanks. More wasteful, because most of the time a mouse click won't require recomputation. It's Tadi, but is it permacomputing? :butterfly:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728577597.307169"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728577597.307169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 09:26</span><br/>
+Hm was the "indicate I'm not going to type further into the old blank" interaction for switching direction intentional? It's kind of surprising that going the first direction the blank updates for every keystroke but it would require additional interactions to get it to recompute the other way..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728582774.866539"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728582774.866539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-10 10:52</span><br/>
+There's basically 2 scenarios here:<br/>1. I'm clearing a field before typing something else in.<br/>2. I'm clearing a field so the computer can fill it in.<br/>If I optimized for 2, then I end up with a situation where a blank has say 10, I click into it to change it to 20, but when I backspace to nothing it immediately goes back to 10.<br/><br/>So currently the update as you type only triggers for fields that are blank when cursor is outside them.<br/><br/>It does seem sub-optimal, so suggestions appreciated.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728583282.646239"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728583282.646239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:01</span><br/>
+Ah I think I see what you're saying - they're kind of "linked" to each other and always want to stay in linked even during edit, which gets you that first interaction where celsius updates instantly, but you needed to add that additional interaction to go back the other way...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728583373.031109"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728583373.031109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:02</span><br/>
+It may not be what you're going for, but in my mind I'd kind of expect more of a leader/follower model for these links - if I start editing field A, anything linked to it should be updated until I unfocus that field
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728583407.872329"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728583407.872329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:03</span><br/>
+but nothing should really trigger an update on A until I unfocus that field
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728583692.173359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728583692.173359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:08</span><br/>
+That's certainly an approach. The drawback there is that you might change a complex sheet in unanticipated ways because you forgot about the presence of some formulas. Things change outside your field of view. Right now that only happens for fields you've not typed anything into. So no data loss. I tend to prefer UIs with a sense of stability that aren't constantly moving what I put into them..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728584913.070439"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728584913.070439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:28</span><br/>
+Ahh right...yeah wasn't thinking about the more complex sheets with things out of view
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728585238.048649"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1728585238.048649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2024-10-10 11:33</span><br/>
+I imagine I'm probably going to run into a similar problem pretty soon with these event-based agents haha
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731446115.552349"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1731446115.552349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-11-12 13:15</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> commenting here to say that I just went through all your notebook posts in this channel and this work is super cool! Loving the layout changes with / and + you've been experimenting with. The bidirectional values is great too! Just wanted to say I'm excited about your work on this!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731450298.462849"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1728576125.990129.html#1731450298.462849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-12 14:24</span><br/>
+<span style="background-color:#ccf">@Elliot</span> Thanks! :hearts: I seem to be stuck on this front, mostly because I don't have a clear sense of the use case for this. <br/><br/>It feels a little bit like a dead end from a complexity perspective. Just slightly harder to change than the value it provides. I think if I could find a use case I'd split out the two pieces here of blanks in prose and code lines that can compute. Maybe on balance I'm slightly more excited by the code side, the prospect of reimplementing <span style="background-color:#ccf">@Jonathan Edwards</span>'s Subtext 1. But I'm also trying hard not to build "just a demo" or "yet another programming environment built using a programming environment." So I'm on the lookout for some potentially non-Turing-Complete use case that will actually be useful to someone. At least it needs to have a strong focus on a specific domain, even if you could in principle build anything with it. I just don't know what domain yet..
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

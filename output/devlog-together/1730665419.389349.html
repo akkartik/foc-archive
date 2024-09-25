@@ -1,0 +1,76 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1730665419.389349.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-03 12:23</span><br/>
+I've built a single file notebook export format in Observable userspace. Convert an Observable notebook into a single file. Self-replicating notebooks. You don't even need a local webserver to run them, they work in a <tt>file://</tt> context. You <em>can</em> put them on a webserver if you want. This is complement the userspace notebook source<a href="1729454226.172819.html"> editor</a>. I still have some more work on this to consider it fully working (e.g. FileAttachment support), but today I finally reached the milestone that the exporter can export an operational version of itself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730739377.371929"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1730665419.389349.html#1730739377.371929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-04 08:56</span><br/>
+So the video is showing you repeatedly clicking the button to download an html file, then click on the html file to open the download, then click on the button in the html file to download again? This is amazing! I think it's worthy of a whole domain name and everything. You've unified the worldviews and values of classic Tiddlywiki with modern Javascript.<br/><br/>And the single html file weighs in at just 130KB! Awesome. Can I view this as a new packaging format for Javascript to compete with Webpack and whatnot (I don't even know the right words to use here)? I mean, can you import arbitrary npm libraries into Observable?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730745073.420129"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1730665419.389349.html#1730745073.420129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-04 10:31</span><br/>
+yes, exactly, its a whole self-hosting fully recursive thing. I love observable because its got the partial recompilation reactive and non-linear execution aspect too, so I would say its a new execution paradigm thrown in too. And when the live editor is added too, then its a full programming environment.. and if I start snapshotting the state of variables too, we get to an image like smalltalk. But the exciting point is we can add whatever features we want in userspace. We do not need to beg Observable to add features (and they won't anyway), there is a path to adding them ourselves.<br/>Yes Observable can import from the npm ecosystem if bundled a certain way, but those are dynamic imports, so they would not work offline. Actually this doesn't work offline either because some of the Observable dependancies like the Inputs library are also pulled in via UMD which is not so easily intercepted like ES modules. For now its not offline-first, but it does annoy me as those CDN downloads are what's preventing me getting to single digit millis startup time and fully working offline. I could fix this with a service worker, but then doesn't work with <tt>file://</tt> origins, and I think the simplicity of the single file double click <tt></tt>file://<tt></tt> execution wins. Maybe there is another way :thinking_face:<br/>Anyway, for me the MVP is<br/>• reliable exporting to a single file<br/>• bundled userspace editor so you can continue editing within the notebook in the replicas<br/>If those two things are in place then we can decouple from Observable and the other stuff like notebook state serialization and trying to make it offline-first can come later. First those two before I get too excited though. Still quite a lot of stuff to iron out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731103223.044009"></a>
+      <a href="../devlog-together/1730665419.389349.html#1731103223.044009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-08 14:00</span><br/>
+It loads so fast I had to make it load faster, also the fact it did not work offline was annoying me. I've added the ability to bundle Observable FileAttachments to support images, but this also unblocked me to include static JS libraries, and then eventually supplying Observable's builtins as file attachments, but gzip compressed. So the final result is it expands to 300kb, but all dependancies are gzipped inside the page.. no CDN fetches or DNS stalls => sub 100ms loading time! For comparison the same notebook takes 3 seconds to load on Observable. I think the core tech is done, now I switch to ironing out some remaining warts like some of the cells get unnecessarily reordered.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731175462.293989"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../devlog-together/1730665419.389349.html#1731175462.293989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2024-11-09 10:04</span><br/>
+As someone who tried to serialize an ObservableHQ notebook for work over the course of a year, but wasn't resourced to pull it off, this tooling is immensely impressive. I'd use it in a GitHub Enterprise deployment and be otherwise serverless.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731242186.779779"></a>
+      <a href="../devlog-together/1730665419.389349.html#1731242186.779779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-10 04:36</span><br/>
+well exactly! Shoot it straight in a bucket.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

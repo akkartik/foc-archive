@@ -1,0 +1,227 @@
+[
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1714467713.373209",
+        "client_msg_id": "426e7c9a-59c2-4b98-a46b-c12a6f4b5ee5",
+        "text": "There is frustratingly little detail about how it was built; I googled a bit, but couldn't find anything.  It would be interesting to know how it was put together.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1714416805.041219",
+        "parent_user_id": "UUQ2EQW21",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "26eU9",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "There is frustratingly little detail about how it was built; I googled a bit, but couldn't find anything.  It would be interesting to know how it was put together."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1714486655.048499",
+        "edited": {
+            "user": "UUQ2EQW21",
+            "ts": "1714486670.000000"
+        },
+        "client_msg_id": "d56ca179-61c5-4f2f-abaa-c0b9bedbd02f",
+        "text": "There's a little more detail in a response on their blog (<https:\/\/tomorrowcorporation.com\/posts\/how-we-make-games-at-tomorrow-corp-our-custom-tools-tech-demo>)\n\n\"The act of going forward and back is not itself recorded – just the evolution of the game’s state.\nThe snapshots happen according to 2 different schedules – a coarse grain schedule that records a new snapshot every so often based on time (we do every 2 minutes currently) and a fine grain limited set of snapshots that move around depending on where you are currently working on the timeline. That’s why the initial reverse debugger step causes a brief pause and then becomes fast – the first one seeks back to the most recent coarse grain snapshot, simulates forward creating fine grained snapshots that are exponentially spaced out backwards from your seek target, and then the subsequent steps will tend to have a snapshot that is right on the frame you need (or very close – unless you step back far enough to need to go create more snapshots but that is the rare case.)\nThe state capture is mostly just a memcpy of the game’s heap (snapshots only happen on frame boundaries so the stack is never needed.) It for sure could be too big to keep as many snapshots as we currently do – that will just be game dependent. Something to use to calibrate what you expect is possible though is to remember that games like Metroid Prime, LOZ The Wind Waker, RE4, Mario Sunshine, etc. all ran on a system that basically had 24MB of RAM to use for your game. And it wasn’t just game state filling up that 24MB, it was your code and other read only resources – the kind of stuff that we don’t have to include in our snapshots. So while it’s true that this system is not a general purpose solution for any and all kinds of games, it’s also true that you can make some pretty incredible games with not a ton of actual game state.\nYes in theory you could totally fork the timeline in the past and create a new session based off of the old one up to that point. That is a feature that I had in the reverse engineering debugger I made before this because it was good for creating what were basically tool assisted speed run videos for code coverage purposes. For our current system though it hasn’t been something that I thought we would actually use enough to justify spending the time to implement it.\nThe code gen is totally custom but keep in mind that this toolchain only needs to run on our development platform which is Windows. To ship the finished game we will transpile the code to C and then compile it with the native toolchains on whatever platforms we’re targeting.\"",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1714416805.041219",
+        "parent_user_id": "UUQ2EQW21",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "F38dX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "There's a little more detail in a response on their blog ("
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/tomorrowcorporation.com\/posts\/how-we-make-games-at-tomorrow-corp-our-custom-tools-tech-demo"
+                            },
+                            {
+                                "type": "text",
+                                "text": ")\n\n\"The act of going forward and back is not itself recorded – just the evolution of the game’s state.\nThe snapshots happen according to 2 different schedules – a coarse grain schedule that records a new snapshot every so often based on time (we do every 2 minutes currently) and a fine grain limited set of snapshots that move around depending on where you are currently working on the timeline. That’s why the initial reverse debugger step causes a brief pause and then becomes fast – the first one seeks back to the most recent coarse grain snapshot, simulates forward creating fine grained snapshots that are exponentially spaced out backwards from your seek target, and then the subsequent steps will tend to have a snapshot that is right on the frame you need (or very close – unless you step back far enough to need to go create more snapshots but that is the rare case.)\nThe state capture is mostly just a memcpy of the game’s heap (snapshots only happen on frame boundaries so the stack is never needed.) It for sure could be too big to keep as many snapshots as we currently do – that will just be game dependent. Something to use to calibrate what you expect is possible though is to remember that games like Metroid Prime, LOZ The Wind Waker, RE4, Mario Sunshine, etc. all ran on a system that basically had 24MB of RAM to use for your game. And it wasn’t just game state filling up that 24MB, it was your code and other read only resources – the kind of stuff that we don’t have to include in our snapshots. So while it’s true that this system is not a general purpose solution for any and all kinds of games, it’s also true that you can make some pretty incredible games with not a ton of actual game state.\nYes in theory you could totally fork the timeline in the past and create a new session based off of the old one up to that point. That is a feature that I had in the reverse engineering debugger I made before this because it was good for creating what were basically tool assisted speed run videos for code coverage purposes. For our current system though it hasn’t been something that I thought we would actually use enough to justify spending the time to implement it.\nThe code gen is totally custom but keep in mind that this toolchain only needs to run on our development platform which is Windows. To ship the finished game we will transpile the code to C and then compile it with the native toolchains on whatever platforms we’re targeting.\""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "cake",
+                "users": [
+                    "UC2A2ARPT",
+                    "U05TJD2V4P2"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "text": "Was thinking about motion today and thought if this thread. Frames with changing opacity is a nice way to visualize the past and the future (bret victor style). This is psuedo-design but you can imagine some system that could enable\/disable shadows of the future, past, or both. Using a high numbers of frames making smooth gradients and using lower numbers both seems interesting. Could also imagine color delineating past v future if both are enabled. Very interesting thread to pull.",
+        "files": [
+            {
+                "id": "F0716Q5JZK8",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "U06BUK2M2RH",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "vXT4E",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Was thinking about motion today and thought if this thread. Frames with changing opacity is a nice way to visualize the past and the future (bret victor style). This is psuedo-design but you can imagine some system that could enable\/disable shadows of the future, past, or both. Using a high numbers of frames making smooth gradients and using lower numbers both seems interesting. Could also imagine color delineating past v future if both are enabled. Very interesting thread to pull."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1714500826.436869",
+        "client_msg_id": "0c2464e2-a36c-4ab9-b305-8fa99c18d963",
+        "thread_ts": "1714410953.740979",
+        "parent_user_id": "U06SS0DHZD1",
+        "reactions": [
+            {
+                "name": "cake",
+                "users": [
+                    "UC2A2ARPT"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U06BUK2M2RH",
+        "type": "message",
+        "ts": "1714501352.089899",
+        "client_msg_id": "6a4064ca-690c-44bf-b81d-c25a5d0c1967",
+        "text": "In rereading this thread- i suppose it's less 'depth' oriented since subsequent shadows aren't scaling, but useful nonetheless with just the changing opacity in the 'trail'",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9eac202d45a2",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-12-28\/6396121022742_9eac202d45a2827e9fa6_72.jpg",
+            "first_name": "Dennis",
+            "real_name": "Dennis Hansen",
+            "display_name": "Dennis Hansen",
+            "team": "T5TCAFTA9",
+            "name": "dhansen909",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1714410953.740979",
+        "parent_user_id": "U06SS0DHZD1",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "yDkW1",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "In rereading this thread- i suppose it's less 'depth' oriented since subsequent shadows aren't scaling, but useful nonetheless with just the changing opacity in the 'trail'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1714504479.008349",
+        "client_msg_id": "0079b64d-fee4-49bb-8622-45f39be22171",
+        "text": "I made a toy time travel debugger for python that used a similar technique. You could run a much simpler simulation when calculating state forward from the snapshot because it didn't need to do any conditional tests. You could just save the series of mutations and reapply them. On a modern CPU it's very fast because there's no branch prediction failures.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1714416805.041219",
+        "parent_user_id": "UUQ2EQW21",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "W+j76",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I made a toy time travel debugger for python that used a similar technique. You could run a much simpler simulation when calculating state forward from the snapshot because it didn't need to do any conditional tests. You could just save the series of mutations and reapply them. On a modern CPU it's very fast because there's no branch prediction failures."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

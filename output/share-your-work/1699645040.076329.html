@@ -1,0 +1,256 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../share-your-work/1699645040.076329.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 11:37</span><br/>
+We're experimenting with a novel form of "Programming by Example", similar to Excel macros: <a href="https://www.plato.io/blog/introducing-macros">https://www.plato.io/blog/introducing-macros</a><br/><br/>I think it can scale quite well to a complete programming system with branching, looping, etc.. Thoughts?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699650483.671959"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-17/6066889038289_0d9c7dcaa476f559eb42_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699650483.671959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mike Austin</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:08</span><br/>
+How would branching work? Drag/press a condition button? Record two macros and mark them as branches visually?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699650682.165039"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699650682.165039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:11</span><br/>
+<span style="background-color:#ccf">@Mike Austin</span> We're experimenting with a few variants. The most straightforward is your first suggestion, but the challenge is maintaining a consistent state. Macros are recorded with a "recording context", or an example of the parameters needed to run the macro (e.g. a single row of a table). But once you introduce conditionals, those parameters might not be valid for all branches (e.g. update if a record exists, insert if it doesn't).<br/><br/>So one option is to prompt the user to choose a different context (e.g. pick a different row).<br/><br/>Another option is more in line with your second suggestion (took us longer to come up with it, though :)). The user records a macro for a single context, then we alert them to a failure or possible failure for other contexts (not always possible, but usually is), and then they record a separate macro for that context.<br/><br/>This is more in line with classic "Programming by Example" systems such as the one described by Bret Victor (<a href="http://worrydream.com/MagicInk/">http://worrydream.com/MagicInk/</a>), where multiple examples are provided and the system tries to generalize.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653090.473659"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653090.473659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:51</span><br/>
+&gt; where multiple examples are provided and the system tries to generalize<br/>This approach fails. Just have the user write the branch condition explicitly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653279.768689"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653279.768689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:54</span><br/>
+Why do you say it fails? To clarify, we're not trying to do any "smart" inference. Just trying to come up with a scheme that's more inductive.<br/><br/>For instance, if you record a macro that accepts some input, searches for a row, then updates the row, that may work for your first example, but it will fail when the row doesn't exist. We can prompt the user when they hit that failure, and ask them what they want to do.<br/><br/>I agree it won't work in all cases, but we think there might be common patterns that will get us pretty far.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653308.888499"></a>
+      <a href="../share-your-work/1699645040.076329.html#1699653308.888499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:55</span><br/>
+Is this representation editable, or must you redo the demo if one of these inferences is wrong?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653320.567379"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653320.567379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:55</span><br/>
+It's not editable yet, but we're working on it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653345.512139"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653345.512139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:55</span><br/>
+Also, those aren't inferences, they're recordings of explicit user actions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653558.648799"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653558.648799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 13:59</span><br/>
+&gt; We can prompt the user when they hit that failure, and ask them what they want to do.<br/>Maybe Eager did this? It sounds okay. But what you don’t want to do is implicitly try to infer the branch condition.<br/><br/>I’ve seen many PBD systems and the amount of work to demonstrate to try to get the branch condition is very much greater than the amount of work to just say the branch condition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653691.439849"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653691.439849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:01</span><br/>
+I didn't know about Eager. Thanks!<br/><br/>Are you aware of any PBD systems that only record explicit actions? All of the research projects I'm familiar with try to do an "observe and infer" approach, which I agree is too fragile.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699653793.905129"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699653793.905129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:03</span><br/>
+For instance, our plan for looping is to make the user explicitly say they want to run a loop over a collection, rather than to try and infer that they're repeating actions for some set of elements.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654087.820879"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699654087.820879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:08</span><br/>
+Yeah less inference is better. If you could <em>also</em> add the loop after the fact, that’s even better. That’s where the editable program representation is helpful.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654145.725909"></a>
+      <a href="../share-your-work/1699645040.076329.html#1699654145.725909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:09</span><br/>
+SmallStar <a href="http://acypher.com/wwid/Chapters/05SmallStar.html">http://acypher.com/wwid/Chapters/05SmallStar.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654204.132809"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699654204.132809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:10</span><br/>
+Yea, SmallStar is the most practical I've seen. But all of these systems operate in the desktop metaphor. Have you seen any that operate on structured or relational data? That's our context, and the problems end up being quite different.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654409.515939"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699654409.515939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:13</span><br/>
+“Why Programming by Demonstration Systems Fail: Lessons Learned for Usable AI”  Tessa Lau. 2009. <a href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=37c50b0cc3c701b269c18014dd3a0c07f9c2b4b8">https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=p&hellip;</a><br/><br/>Most of these are solved with an editable program representation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654529.069009"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699654529.069009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:15</span><br/>
+Awesome. I have some nightime reading :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699654683.094339"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699654683.094339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2023-11-10 14:18</span><br/>
+&gt;  Have you seen any that operate on structured or relational data?<br/>Surprisingly, not off the top of my head (nor in my quick search). Closest I can find is Gneiss, which is great in its own right. <a href="https://www.cs.cmu.edu/~shihpinc/gneiss.html">https://www.cs.cmu.edu/~shihpinc/gneiss.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699669826.314559"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-17/6066889038289_0d9c7dcaa476f559eb42_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699669826.314559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mike Austin</b>
+<span style="margin:2em; color:#606060">2023-11-10 18:30</span><br/>
+Wow, SmallStar goes waaay back. I was going to say something like PhotoShop actions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699669913.898109"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-08/2456193585383_797f85c4509a6e997492_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699669913.898109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Gummelt</b>
+<span style="margin:2em; color:#606060">2023-11-10 18:31</span><br/>
+Photoshop actions doesn't solve the hard problems like conditionals, AFAIK, though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699679809.094789"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-17/6066889038289_0d9c7dcaa476f559eb42_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699679809.094789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mike Austin</b>
+<span style="margin:2em; color:#606060">2023-11-10 21:16</span><br/>
+True. Just one example of macros that came to mind. I'd imagine they would have solved some interesting problems being how old PS is, though. I haven't use it in many years.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699688213.313149"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../share-your-work/1699645040.076329.html#1699688213.313149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-11-10 23:36</span><br/>
+As strange as this might sound, the most powerful and usable PBD system I’ve ever seen is… emacs keyboard macros (the name’s a misnomer, they also  record other types of events, like mouse gestures).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-01-30 20:53</span><br/>
+Hi friends! I'm new to this slack, but I've been dabbling in this space off and on for a while. I've completed a draft of a blog post about type inference in my projectional language / structured editor, and I'd love to get your feedback! <a href="https://gist.github.com/jaredly/13abec33c7576c4636ca87039a999cf2">"Type inference that sticks"</a>. thanks! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675146104.066659"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675146104.066659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-30 22:21</span><br/>
+That looks very promising! Types are statements <b>about</b> code, so it makes sense to move them to an annotation layer and have tool support for that layer.<br/><br/>Next: make that layer optional (perhaps it already is). Then: allow multiple type annotation layers for the same codebase. Allow programmers to add their own domain-specific type systems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675151094.806049"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675151094.806049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2023-01-30 23:44</span><br/>
+Great stuff!<br/><br/>My favorite part, and I wonder if this would be <b>the</b> selling point for structure editors for pro-coders (I don't think it will ever be "avoiding syntax errors" etc.):<br/><br/>&gt; the compiler is involved in the entire process of development, responding to programmer feedback, and giving context-aware feedback in return. In this model, the source code is enriched with the compiler's inferences along the way, which the programmer can inspect &amp; correct (but can also be elided from display for a more compact presentation).<br/>About this:<br/>&gt; When typing an identifier in Jerd, if you select something from autocomplete, the ID of that term is stuck onto the identifier node, and then the compilation pass doesn't need to do any name resolution -- it knows exactly what is being referenced. And, if you later change the name of a variable, none of the references are broken.<br/>How do you plan on handling the case where a new higher precedence function overload is added after a id+arguments code has been 'bound' to an overload that should now be preceded by the new overload for the given id+arguments? So you could end up in a situation in which exactly the same function call expressions bind to different overload depending on which overloads existed at the time of writing (binding) of the call. I guess you could just run the overload resolution again for all the calls, but what if the result for a call depends on a (now hidden) user defined type annotation. You could still end visibly exactly the same function calls binding to different overloads. How would possible implicit casts/conversions fit in?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675151708.421689"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675151708.421689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-01-30 23:55</span><br/>
+Glad to see you working on interactive approaches to this problem. :slightly_smiling_face: If you're looking into interesting prior art in the space, I strongly recommend this paper: <a href="https://plover.com/~mjd/misc/hbaker-archive/TInference.html">https://plover.com/~mjd/misc/hbaker-archive/TInference.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675199807.657629"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675199807.657629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-01-31 13:16</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> :exploding_head: domain-specific type systems? Do you have any more thoughts on what that would look like? As far as whether the layer is optional, it very much isn't as knowledge of types informs code generation :shrug: .<br/><span style="background-color:#ccf">@Jarno Montonen</span> Thanks! So, in this system, we no longer have a notion of "precedence" in function overload resolution. If there is any ambiguity (multiple functions w/ the same signature), the answer is to always ask the user. <tt>You could still end visibly exactly the same function calls binding to different overloads.</tt> So that's already the case with <tt>a + b</tt> and <tt>c + d</tt>, if a &amp; b are ints, but c &amp; d are strings, right? Now I actually solve this by coloring all identifiers according to the hash of the definition, so the two function calls would very likely have different colors, allowing you to immediately recognize them as distinct.<br/><span style="background-color:#ccf">@Jack Rusher</span> thanks for the link! fascinating read.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675232368.604429"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675232368.604429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2023-01-31 22:19</span><br/>
+Okay, so say there exists a 'myfunc (double x, double y) -&gt; double' and an implicit conversion from int to double. the user writes the call 'myfunc(1, 2)' which binds to the function. now user adds 'myfunc (int x, int y) -&gt; int' and writes another call 'myfunc(1, 2)'. Do you ask the user which overload to use or bind to the int version? Do you ask the user to re-evaluate which overload to bind the first call to? Either way the user could end up in a situation that exactly the same calls (down to argument types) bind to different overloads, possibly without the user ever choosing that the first call should bind to the less-specific double overload. Of course if the only difference in the signature is numeric types, it's likely that the functions do the same thing, but you could end up with a more problematic case with user defined types.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675247100.935179"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675247100.935179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-02-01 02:25</span><br/>
+<span style="background-color:#ccf">@Jared Forsyth</span> My favorite example of a domain-specific type system is dimensional analysis in science and engineering (<a href="https://en.wikipedia.org/wiki/Dimensional_analysis">https://en.wikipedia.org/wiki/Dimensional_analysis</a>). It illustrates the general characteristics of domain-specific typing: (1) types apply to some but not all data/variables in a program and (2) each piece of data and each variable can have types from another type system as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675258439.547849"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675258439.547849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2023-02-01 05:33</span><br/>
+Regarding:<br/>&gt; <b>Prior Art</b><br/>&gt; <b>…</b><br/>&gt; I don’t know if they [Lamdu] store the inferred types in the syntax tree, or if they re-compute them on every edit.<br/>Lamdu does a combination:<br/>• For every definition (global variable/function) it stores the types of every definition that it used, so that if that definition changes its old type is still used for inference until a manual (and informative!) “update type” action<br/>• Inside the definition it does re-infer it on every edit, and an edit that would had resulted in an error in a normal language gets inserted as wrapped in a “fragment” (aka “non-empty hole” which was our old term and was also adopted by Hazel)<br/>And btw, Lamdu also has the option to mark the new usage with fragment as the correct one and push the error to other parts of the code.<br/><br/>It’s all explained/demonstrated in more detail here: <a href="https://youtu.be/viF1bVTOO6k">https://youtu.be/viF1bVTOO6k</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675258855.596559"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675258855.596559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-01 05:40</span><br/>
+oh fantastic, thanks <span style="background-color:#ccf">@Yair Chuchem</span> for the more info! exactly what I was hoping for :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675259012.544649"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675259012.544649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-01 05:43</span><br/>
+<span style="background-color:#ccf">@Jarno Montonen</span> If there's the possibility of ambiguity, always ask the user! Also, adding a new function <b>never</b> changes previously defined code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675260029.611249"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675260029.611249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2023-02-01 06:00</span><br/>
+So in my example, user would have to go through all the calls to a previous overload and select the correct one? Could be quite a bit of work in a big codebase.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675261498.757329"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675261498.757329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-01 06:24</span><br/>
+If you actually want to change the behavior of all of your code, it will take some work, yes :smile:  there'll be automated assistance however, that will allow you to "re-base" existing functions onto a new function (or indeed a changed definition of a previous function), while running any relevant tests. hash-based identification is definitely a different paradigm. By default, the behavior of a function is deeply immutable, but there are tools to migrate changes broadly if that is what you want.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675261620.920069"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675261620.920069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-01 06:27</span><br/>
+You can think of it as pull-based vs push-based. The current general mode is pull-based (everything always auto-updates dependencies), but jerd (which takes inspiration from unison) is push-based (dependency updates are explicit). We're used to that pattern in external dependencies, and here it's applied to internal ones as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675265095.798459"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675140821.935599.html#1675265095.798459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-01 07:24</span><br/>
+(this is all experimental of course, it may well turn out that operating this way is prohibitively annoying :sweat_smile: )
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

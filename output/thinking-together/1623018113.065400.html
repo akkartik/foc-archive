@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2021-06-06 15:21</span><br/>
+More thoughts on Hest, carrying on from <a href="https://twitter.com/spiralganglion/status/1401625480348848132">https://twitter.com/spiralganglion/status/1401625480348848132</a> (Hi <span style="background-color:#ccf">@Ivan Reese</span>!)<br/><br/>I had some thoughts on synchronization of data, which I realize is an aspect of Hest's design space that's not fully explored, so grain of salt and all that :slightly_smiling_face:<br/><br/>Mostly I want to draw a parallel to chip design (VHDL/Verilog), which if you squint a bit is a lot like Hest but with much, much worse UX. You run into the same synchronization problems there, and the solution is actually really close to both the "sync" primitive and the "Fibers" you describe in your podcast – you put latches/registers between components of your design.<br/><br/>In fact, those are a nice implicit way that abstraction and structure can arise in a hardware design – when you realize you can't do all the things you want to instantaneously, you add a latch, which then delineates a component/pipeline stage.<br/><br/>One point (in my eyes) in favor of calling it a "barrier" rather than the concept of "Fibers" is that with Fibers, you're essentially making the bug undetectable. Consider a -thing- with two inputs, but one of them does not arrive.<br/><br/>If your inputs are combined at a barrier, your code would get stuck if either input didn't arrive in time, and the program might grind to a halt.<br/><br/>But with Fibers, presumably one of your inputs just wouldn't change and you'd have stale data on that input, but not the other. That's a recipe for producing garbage outputs and never noticing until fifteen functions later (see also: ROS :face_with_rolling_eyes: – or any pub-sub system, really).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623084253.079900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623084253.079900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-06-07 09:44</span><br/>
+I saw this message right when you posted it, but decided to take some time to think about it before responding.<br/><br/>(As an aside — the relation to chip design is choice. I work for a company that studies hydraulic &amp; electrical systems, so there's a ton of "I read schematics" DNA going into Hest. Not quite the same domain, but adjacent.)<br/><br/>&gt; But with Fibers, presumably one of your inputs just wouldn't change and you'd have stale data on that input, but not the other.<br/>My initial thought is that this is probably <em>fine</em>. As in: it's not as good as <em>not</em> hitting this bug, granted, but it's a bug that should be easy to avoid most of the time and easy to solve when it does come up. If you hit this bug, then when you notice it 15 functions later, you just rewind execution back until you see where the problem cropped up.<br/><br/>That was my initial thought. But my prevailing thought is... that I don't understand what you mean by this:<br/><br/>&gt; One point (in my eyes) in favor of calling it a "barrier" rather than the concept of "Fibers"<br/>Is a barrier like the "sync" node in SpaceChem? Is it something else?<br/><br/>I'd like to hear more about what you think I should do instead of fibers. I think you're onto something (*), but I don't understand it well enough, even after a day of reflecting on it.<br/><br/>(* Fibers are a conflation of several things. They hold state, they help with coordination. There are a few other approaches I've considered that keep those things separate. So it's very likely that I'll find more ways to slice up these concepts by looking at how other domains, like chips, handle similar problems.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623089010.088300"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623089010.088300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2021-06-07 11:03</span><br/>
+Sorry, my bad for phrasing that sentence badly.<br/><br/>By <br/>&gt; calling it a „barrier“ rather than the concept of „Fibers“<br/>what I was trying to say is that I think a sync node (which I am calling barrier, because that‘s a slightly more precise term imo) would be my preferred solution, even if it does force you to solve the issue of handling the resulting „jams“
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623089086.090400"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623089086.090400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2021-06-07 11:04</span><br/>
+I think we‘re fundamentally in agreement that something should happen at the boundaries of an „abstraction“, there‘s just multiple ways to argue how best to do it :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623089522.091700"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623089522.091700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2021-06-07 11:12</span><br/>
+Also, I was wondering how a „sync“ node is different from just a point with multiple incoming lines. Do those exist in Hest?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623302187.094800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623302187.094800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-06-09 22:16</span><br/>
+In my (not yet prototyped) designs for various potential approaches to abstraction, there would be the ability to create an abstraction that has distinct "ports" for multiple inputs, like what you'd find in a traditional node-and-wire / patcher visual programming system. I'm not sure that I'd want this to be part of the core language model, but I'd like to be able to build abstractions that can do this out of whatever the core model allows.<br/><br/>In the current prototypes, yes, you can attach multiple edges to a node. I wrote a blog post about how that makes the time-rewinding behaviour a little thorny: <a href="http://ivanish.ca/hest-time-travel">ivanish.ca/hest-time-travel</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623302384.095100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623302384.095100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-06-09 22:19</span><br/>
+As for how this is different than a sync node — that's the entire point of this inquiry into coordination mechanisms.<br/><br/>Right now, if you have two lines that come in to a single point (function), then that function will be invoked whenever <em>any</em> data arrives at it. Up until now, I've been regarding this as.. akin to having a function that is called from more than one place. Each incoming edge represents a different caller of the function. But this doesn't offer a nice way to build systems that need to call a function with more than one argument. So that's what I'm trying to.. figure out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623319433.095300"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623319433.095300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2021-06-10 03:03</span><br/>
+Thanks for the link, that made things much more clear!<br/><br/>Looks like you're allowing the "function points" (like <tt>*=</tt>) to have internal state too, which makes rewinding manually-inserted points even more tricky. <br/>It's a fascinating design space, and my initial instinct is to go very functional on it, but that would perhaps make the entire system less accessible (I've struggled with a similar tradeoff at work, actually)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623343888.095500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1623018113.065400.html#1623343888.095500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-06-10 09:51</span><br/>
+Yeah, state is something I'm forcing myself to wrestle with, at least for now. I think it'd be much easier to design this if there was no state beyond the moving data points. But I think there are a lot of playful things I can do if state is allowed to go anywhere, even if it makes things harder to reason about, harder to design, harder to implement.<br/><br/>If it turns out to be just too difficult to work with, I can always simplify by removing state.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

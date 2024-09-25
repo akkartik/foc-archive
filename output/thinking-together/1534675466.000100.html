@@ -1,0 +1,354 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-08-19 03:44</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> I really like this article. I never questioned the primacy of the enter key before <a href="https://shalabh.com/programmable-systems/plain-text.html">https://shalabh.com/programmable-systems/plain-text.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1534832234.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1534832234.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-08-20 23:17</span><br/>
+Thanks for all the likes, folks! The POV I'm investigating is this: We can represent anything in any 'medium' (plain text file, or json, or XML or in-memory data structures, or RDBMS etc.). Each offers some kind of schema/structures that can be composed and rearranged to represent the media/content, but each also ends up with some kind of 'encoding artifacts'. So it may be useful to study the representation of info more deeply. I asked earlier on twitter:<br/>Are there studies/formalisms of 'representation of information wrt medium'? E.g. plain-text-medium has a specific schema while json-medium has a different one. In this case one medium is built from the other. Consider also rdbms-medium, fs-medium, etc. Does this make any sense?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535587138.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1535587138.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-08-29 16:58</span><br/>
+Yep I think nesting is very fundamental missing piece there. There are no virtually plain text which have to somehow emulate this behavior. And if implementation is well done it can completely avoid all text protocol injection issues (so far I am aware).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535734770.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1535734770.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-08-31 09:59</span><br/>
+Thanks for the feedback <span style="background-color:#ccf">@Niko Autio</span>. I agree nesting is a missing piece - as the post suggests. If we had that, would there be other pieces that seem important but missing? E.g. most text languages contain tokens, should 'token types' be a built-in feature? Or perhaps 'identity of names', e.g. a repeated variable name refers to the same variable - could this idea be encoded in the core syntax of text? Or even 'reference to another file' which is another feature re-implemented in many languages ('import x', 'include &lt;y&gt;;', etc.)<br/>What I'm looking to explore is that while we can always have incremental improvements, there may be something fundamental in our premise that needs to change for a big leap. One pov is that when we come up with the idea of a 'file' we have this clear, fixed boundary around a construct, but in reality all concepts are deeply connected with others in the system. I discuss this in some of the other posts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536022009.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536022009.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-03 17:46</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> If we think the requirement of tokens from the abstract data structure point of view:<br/><br/>-As you stated: text files are a list of strings. Therefore we can have many things on the single level.<br/>-To be able to compose things from smaller parts we need a tree. This level lives usually on the syntax level.<br/>-Next, we need to be able to reuse existing parts elsewhere so we need DAG. Currently done with tokens on higher level inside the compiler.<br/>-Cyclic graphs for recursive definitions? - out of scope for now<br/><br/>One point here is that while you can represent the general program as graph we still represent some of the program structure as a nested tree and rest with tokens. Even tough program can be considered to be composed from equal class relations. So nesting is quite cheap and obvious way of improvement but yeah it kind is just halfway to the natural structure of programming languages.<br/><br/>So do we need tokens as an addition for nesting? I think we need the structure which has native support for at least DAGs. The most direct way of thinking next incremental step is adding tokens in addition to nesting. However, then there are two different ways of referencing. That smells to my nose a bit.<br/><br/>My own current favorite structure model is to use GUID/hash identified tuples (or lists) which have in cells either payload data or reference. Therefore there is the only single way of having substructure which also supports graphs. Visualizing / editing can then happen by nesting and by token (label by metadata of token) and this visualization doesn't have to be static even tough actual structure is untouched.<br/><br/>Btw your blog post: Files, Formats and Byte Arrays was great area capture and caused that "of course"-realization. Files require same kind metastructure where referencing to other files is standardized. But if files contain graph which can have references to another same kind of files (which lives in a hierarchical filesystem), what is the value of file concept? It starts to smell like low-level implementation detail which I maybe don't want to see at all. Some time ago I relistened Future Of Coding E10 - Interview of Paul Chiusano and got idea/illusion that it should be possible to make application persistency completely invisible by using the right abstraction. Elm family-architectures with time-traveling debugger are some sort of proof.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536024871.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536024871.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-03 18:34</span><br/>
+:thumbsup: Yes - files are 'in the way'. First we break apart our interconnected structures into different files and then invent ways to put them back together. I also agree persistence should be 'orthogonal' to structure. Files cause another  conflation here as they are also the unit of persistence. We have to do all kinds of gymnastics to use files consistently (databases, version control etc.). Interestingly, the B-trees are often bound both below and above the file (i.e. in filesystems implementations and database implementations). It seems like a 'system smell' that these definitions cannot collapse into one.<br/><br/>Maybe the general idea here is that any 'partition' of some 'whole' (e.g. files) can be problematic. But partitioning is also useful because we do want to break apart the whole into smaller bits... so there's a tension there. Even 'programs' are a partitioning concept - a system is broken down into programs, and the behavior is the result of coupling between programs and shared libraries, configuration etc.. it all seems very messy.<br/><br/>In another thread started by <span style="background-color:#ccf">@Vladimir Gordeev</span> we're discussing something related - a distributed, append-only graph to store 'everything'.<br/><br/>Could you elaborate on what you mean by hash identified tuples/lists?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536024981.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536024981.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-03 18:36</span><br/>
+(oh now I see you already found that thread :smile:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536040639.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536040639.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-03 22:57</span><br/>
+It sounds like we’re searching for the “atoms of data”. What is the smallest entity to model data structures?<br/><br/>We already know that we can represent anything as a stream of bytes. That seems to be a universal format, but that alone isn’t enough. A stream of bytes is only usable with some sort of encoding. That is usually not explicitly part of the data itself, but external, e.g. when we implicitly assume that a stream of bytes is UTF-8 encoded.<br/><br/>Now that gives us a text string. Which is still pretty universal, but not enough to do anything interesting with it. We want to express structure, because structure gives us a way to have proper entities. Entities allow us to do meaningful computation with them.<br/><br/>So we invented all kinds of ways to break a text string down into entities. That’s where it diverges into a hell of a lot of different formats we invented over time. Simple Unix configuration and data files with various formats, often using one or two different delimiters (often newlines and spaces or tabs) to break strings into entities.<br/>These give us simple collections to do some meaningful computation with.<br/><br/>But that’s still not enough, because we also need hierarchy, or nesting, and so we invented more elaborate ways to encode that, e.g. XML or JSON.<br/>These give us trees and as such even more interesting ways to compute with them.<br/><br/>Somewhere along this way, we made some decisions that got us where we are today — so it’s not exactly terrible, but at least most of us here think we can do better.<br/><br/>I think it’s relatively easy to see why a graph looks so appealing to us. But I think the core question is not “Should it be a graph?” but rather “What exactly do the nodes and edges represent?”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536104636.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536104636.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-04 16:43</span><br/>
+<span style="background-color:#ccf">@Shalabh</span>: I agree that being able to split graph to subgraphs (files) is still useful.<br/>About tuple/list model (I stick with list for now on):<br/><br/>Traditionally graphs are tough as nodes and edges. Usually, edges are at least labeled so that you can separate different relations and nodes can also have data. To me, this kind model can be thought of as Node = Map&lt;Label, Node&gt;. Also, you have incoming edges but I leave that out just for simplicity.<br/><br/>One idea forward is that you have to have data also in edges. I am not a fan of this idea since it smells like XML-attributes: metadata is always simple string:string key-value pair whether data actually fit or not. And if we allow complex data for edges =&gt; edges can now have edges... and are kind of nodes? What that even mean? In RDF world they do this but the mental model is toward general subject-predicate-object tuples instead of hard node/edge distinction.<br/><br/>So we maybe won't want to introduce two different things that can have data. At least let's try to survive with only one.<br/><br/>Edge-labeled graphs are fine but can it be made simpler? Another way of separating relations is to use position instead of name like we do in function calls. Then our graph become simply Node = Node[] which I think is the simplest possible meaningful graph. Is it positional/list based better than named/map based graph? Don't know, those have some different characteristic.<br/><br/>List graph has a nice spreadsheet like property when you can basically just write your data in without having to concern about semantics. It somewhat simpler in a sense that you can just give string instead of being rejected "You have to give 'first-name' but just 'name' was found.".<br/><br/>Lists are also very atom like composition which can represent nicely other compositions. List and tuples are the same from a data perspective. Difference lives only on expectation or type level.<br/><br/>-"List" list is an arbitrary length of homogenous things.<br/>-Tuple is a fixed size of heterogeneous things.<br/><br/>Maps can be represented as a nested list. Actually two ways, at first I thought this is miss feature but different representations express nicely different intention.<br/><br/>Dynamic style map:<br/>[ [k1, v1], [k2, v2], ... ]<br/><br/>Static style map where key list can be shared as "type":<br/>[ [k1, k2, ...], [v1, v2, ...] ]<br/><br/>Personal opinion is that expressing a list or tuple with a map is not as elegant. But these are more like different sides of the coin and maybe UI can expose one kind of view while having another model under the hood.<br/><br/>Another way of thinking: the data knows itself that it is HTML dom VS somebody is offering data to HTML renderer, therefore, it should be treated as HTML dom. If the data doesn't have to know what it is, it can be anything where it matches... even though it can happen by accident.<br/><br/>I haven't much to say about hashes. Referencing require some sort of identity. It would be nice to have some serializable non-memory position related identity. GUIDs and hashes can do the job well. Hashes could bring benefits (and challenges) of value referencing but that's not my main focus currently.<br/><br/><br/><br/><span style="background-color:#ccf">@Stefan Lesser</span>: Definedly hunting those "atoms of data". Can you open that “What exactly do the nodes and edges represent?” a bit?<br/><br/>We can probably create quite a nice visualization and editing experience just for dummy graph with some pattern matching for common structures etc. Additional semantic while important is a bit out of scope like it should belong to the next layer? Like there are multiple vocabularies on top of generic RDF concept.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536122046.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536122046.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-04 21:34</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> - excellent question! The way I was approaching it back when I was thinking about it is that we are replacing 'encoding as bytes' with 'encoding as graphs' and also 'filesystems, databases, DVCS' also with 'graphs' - i.e. using the same graph both 'in the small' and 'in the large'. (BTW, these are early, unfinished ideas and I'm not pursuing this line presently). The nodes and edges would be just user defined 'symbols' at the lowest level. Users would define sets of these symbols and define schemas that specify valid graphs structures (e.g. 'a node of Canvas type can point to nodes of Shape'). Lets call a set of related symbols an rules a 'vocabulary'. I imagine there would be some core vocabularies with symbols such as 'contains', 'new-version-of', 'property' etc. - these are the common relationships that occur across various domains (ontology languages could be used as inspiration). Users would build structures for their purpose using mixed vocabularies (hopefully using much of the core vocabulary, so the common relationships would be visible to the system). At the higher levels I imagine nodes would represent composite objects such as images, canvases, functions, programs etc. and from these would 'hang' clusters that form the lower level structures. At even higher level nodes would represent collections of these media objects (here 'property' edges could represent the 'names in a namespace'). The core vocabularies would be used both in the small and in the large, but would eventually map to the lower level (~bytes) in different ways - e.g. a subgraph could be broken up and encoded as a distributed cluster of byte chunks, or as a single chunk. All nodes/edges would have enough metadata that we can trace them to the vocabulary definitions (also stored as nodes in this graph), which might also contain programs or functions that can operate on them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536159065.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536159065.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-05 07:51</span><br/>
+I just discovered this issue and discussion <a href="https://github.com/d-cook/SomethingNew/issues/24">https://github.com/d-cook/SomethingNew/issues/24</a> at <span style="background-color:#ccf">@Dan Cook</span>'s <em>SomethingNew</em> project, which is also highly relevant to our discussion here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536159133.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536159133.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-05 07:52</span><br/>
+And it's good to see that some of the people having that discussion there also found their way here. :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536167102.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536167102.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-05 10:05</span><br/>
+<span style="background-color:#ccf">@Niko Autio</span> thanks for the explanation - it seems you are thinking of some implementation aspects and how practical they would be. I was thinking about high level nodes/edges graphs (which could be represented eventually as various different data types, if thats the path we choose).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536170538.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536170538.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-05 11:02</span><br/>
+<span style="background-color:#ccf">@Niko Autio</span> I guess what I mean by “what the edges and nodes actually represent” I’m asking about the implementation — if we know we want a graph, how exactly do we model the AST (or whatever it is we’re modeling) with the nodes and edges?<br/><br/>To be fair, you already answered that question quite a bit, and I think it shows that there are many ways to do it, and we’re somehow missing a way to decide which way is most promising. I do like the idea to explore several<br/>different paths in parallel, until we have a better feeling for what the advantages and challenges with each are.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536174416.000100"></a>
+      <a href="../thinking-together/1534675466.000100.html#1536174416.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-05 12:06</span><br/>
+Some messy thoughts about code in graph<br/><br/>1) Not sure if we need to do full mapping of code into nodes. Dependencies and IO are ought to be expressed by nodes and edges. Pure functions -- not necessary. I think it's fine to keep pure functions as text for now and keep them as node content. This clicks with idea of splitting program into two languages living separate worlds: <a href="https://twitter.com/vladimir_vg/status/1035422044605829120">https://twitter.com/vladimir_vg/status/1035422044605829120</a><br/><br/>2) I like Erlang model of isolated processes and messages, and feels like something similar would be expressed in this graph code quite good.<br/><br/>3) The actual execution might be also saved into graph, linked with code nodes. Imagine that you pick function or process and immediately see connections to different inputs from past. If we capture all IO into graph, then we may play out execution of the whole program.<br/><br/>4) This programming environment surely gonna work with graphs, match against them. How matching against graph gonna look like in this graph language? Maybe this is the key to structure of code, clear analogy with Lisp and it's code as list.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536185681.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536185681.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-05 15:14</span><br/>
+I think these are good ideas and need more exploration. See also Joe Armstrong's post "Why do we need modules at all?" <a href="http://erlang.org/pipermail/erlang-questions/2011-May/058768.html">http://erlang.org/pipermail/erlang-questions/2011-May/058768.html</a>.<br/><br/>The question would be about scope: what are you trying to build? Is this a distributed programming system that incorporates UI, language features, build/deploy/run features? Or something bigger/smaller in scope?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536191958.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536191958.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-05 16:59</span><br/>
+Yep, I am currently focusing to interaction side.<br/>    My "mantra": I have data on my screen, therefore I must be able to...<br/>        -Use it elsewhere<br/>        -Observe it the way I want VS having fixed view made by designer<br/>        -Speak about it VS <a href="https://entropymag.org/wp-content/uploads/2017/03/matrix-neo-no-mouth.jpg">https://entropymag.org/wp-content/uploads/2017/03/matrix-neo-no-mouth.jpg</a><br/>        -Like it being a living thing out there VS having jpg picture about it<br/>        -And there shouldn't be anything else on your screen<br/><br/>So not too focused yet how to express programs even though it's, of course, long-term goal and important evaluation object.<br/><br/>That SomethingNew community was indeed a nice discovery. Let's see how we will merge. It's interesting to see people inventing/recognizing on the same ideas separately. It gives hope that there is something there yet to be found.<br/><br/><span style="background-color:#ccf">@Vladimir Gordeev</span><br/>1. My opinion is that we should have graphs as first-class citizen everywhere, period. But you could have different representations where some can be textual and great variety between general &lt;-&gt; domain specific.<br/><br/>Ugly demo I made quickly ~year ago which express the idea of multi-representation (check video)<br/><a href="https://futureofcoding.org/log#niko-autios-microeditor">https://futureofcoding.org/log#niko-autios-microeditor</a><br/><br/>On the other hand core idea that you have different DSL / domain representation / dialect for these two use cases is more appealing for research.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536192720.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536192720.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-05 17:12</span><br/>
+Keeping user text formatting is a bit challenging and require some metadata tricks. On the other hand, elm-format is loved tool in their community which is a tool built precisely for removing user formatting so it can be considered a feature.<br/><br/>Just as F# compiler want's files to be ordered and code can call only previous one. It sounds tedious at first but after a little while, it's a nice feature which makes reasoning about dependencies much easier.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536250684.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536250684.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-06 09:18</span><br/>
+Another thought: if assigned value is represented by node, then there is no need to maintain a name for variables.  Every time you need to refer to variable, just create an edge, no need to use name.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536251101.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536251101.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-06 09:25</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> Yes! We're way too obsessed with naming, which is a side effect of using text everywhere. However, how exactly do you create that edge?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536251502.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536251502.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-06 09:31</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> well, just connect node representing variable and node that will do calculation. Something like this:<br/><br/><a href="https://pp.userapi.com/c849432/v849432880/6e4bd/SX93E1GABYI.jpg">https://pp.userapi.com/c849432/v849432880/6e4bd/SX93E1GABYI.jpg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536252546.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536252546.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-06 09:49</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> Ah, sorry, I guess I was a few steps ahead and was thinking beyond text interfaces to manipulate the graph, but here so far we’ve just discussed how to represent what’s likely still coming from parsed text, so my question was a little out of context.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536252945.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536252945.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-06 09:55</span><br/>
+Functions still accept args in this graph code, and those args have to be named. In graph code functions receive many arguments-nodes and return many arguments-nodes.<br/><br/>In text code function args specified sequentially, no problem understanding where is which.<br/><br/>In graph code args are connected to function call by edges, order is not set.<br/><br/>Solution: require function args have <b>exactly</b> same names as it specified in function definition. This way we don't have to worry about order. Values can be easily renamed by creating additional node.<br/><br/>So it would feel like every function in graph code receives and returns a dictionary. Elements in this dictionary -- nodes representing variable.<br/><br/>for example this pseudocode:<br/><pre style="white-space:pre-wrap"><br/>function multiply(a, b) {<br/>  return a*b AS c;<br/>}<br/><br/>function square(num) {<br/>  return multiply(num AS a, num AS b) AS q;<br/>}<br/></pre><br/><br/>can be drawn like this:<br/><br/><a href="https://pp.userapi.com/c845219/v845219880/e5d40/0ttVcAUWEOQ.jpg">https://pp.userapi.com/c845219/v845219880/e5d40/0ttVcAUWEOQ.jpg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536260899.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1536260899.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-06 12:08</span><br/>
+Yep. You could also replace many nodes with edges like return and maybe arguments. There is so many ways to do it...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1550072901.017300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1550072901.017300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-02-13 07:48</span><br/>
+Here is a nice satirical article about using text as an interface for a drawing tool: <a href="https://programmingmadecomplicated.wordpress.com/2017/10/29/introducing-drw-a-useful-tool-to-solve-a-practical-problem/">https://programmingmadecomplicated.wordpress.com/2017/10/29/&hellip;</a><br/><br/>I think the point is that it's just as ridiculous that programming works that way, at least when the thing being programmed is something visual or structural.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1550073075.017600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1550073075.017600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-02-13 07:51</span><br/>
+BV also makes a great point about this in "Learnable Programming" (see the "Dump the parts bin on the floor" section): <a href="http://worrydream.com/LearnableProgramming">http://worrydream.com/LearnableProgramming</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1550180422.084900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1550180422.084900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-02-14 13:40</span><br/>
+Strongly agree. Even when what's being programmed is not visual, there is the possibility of visualizing the behavior and shorter feedback loops.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1550180482.085100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1550180482.085100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-02-14 13:41</span><br/>
+The question is how can we visualize behavior and can this be manipulated directly?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1550181622.085300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1534675466.000100.html#1550181622.085300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-02-14 14:00</span><br/>
+My perspective on this has slightly shifted from 'visualize the behavior of a program while you modify it' to 'rethink the process of programming'. Writing a program still works within the concept of a static doc like structure (the program), but 'programming behavior' could use other forms. E.g. you could have a conversational interaction by which you refine a general behavior into a more specific one. You could visualize some behavior and manipulate that visualization directly and so on.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

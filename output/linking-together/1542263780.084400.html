@@ -1,0 +1,174 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-11-14 22:36</span><br/>
+Just realized that documentation usually describes higher level of abstraction about code. It describers into what layers program is split, or what functionality several applications should provide.<br/><br/>There must be a tool that would parse plain English statements with links to your code, transform it into some constraints, and then apply these constraints while developing. This will connect documentation and code more tightly, reduce chance of being obsolete.<br/><br/>Say you're writing in documentation that: "The whole application is split into three layers: A, B, C. A and C layers never communicate. A consists of ComponentA1, ComponentA2. Components in C layers are all located in 'c_layer' directory". A tool gonna parse it and produce rules:<br/><br/><pre style="white-space:pre-wrap"><br/>layer('A', 'ComponentA1').<br/>layer('A', 'ComponentA2').<br/><br/>read_components_in_dir('C', "c_layer").<br/><br/>io_allowed(Component1, Component2) :-<br/>  layer('A', Component1), layer('C', Component2), false;<br/>io_allowed(Component1, Component2) :-<br/>  layer('A', Component2), layer('C', Component1), false;<br/>io_allowed(Component1, Component2).<br/></pre><br/><br/>I'm not sure I got the Prolog code right, but you get the idea.<br/><br/>Thus it will throw a warning if it notices that code break constraint described in documentation.<br/><br/>This will motivate programmers describe higher level assumptions about code in documentation, because it constraints it and provides some kind of safety. Just like static typing or assertion does.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542264193.084500"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542264193.084500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-11-14 22:43</span><br/>
+Actually it reminds Gherkin somewhat: <a href="https://docs.cucumber.io/gherkin/reference/">https://docs.cucumber.io/gherkin/reference/</a><br/><br/>To make this kind of constraints really work, it will require code and deployment identifiers to be located in single namespace. This way it would be possible to reason about anything in documentation, describe any type of constraints on application or service behavior,<br/><br/>That's why I look at IPFS with hope.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542265827.086300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542265827.086300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:10</span><br/>
+Parsing natural language to produce accurate queries is a hard problem. But, you do not need natural language for that. For example, <a href="http://moosetechnology.org">moosetechnology.org</a> offers an extensive mechanism for writing queries like this. In fact, I believe this is the only way we can steer agile architecture.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542266008.086500"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542266008.086500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:13</span><br/>
+Well, I still want to keep it as documentation first. Make it undestandable for humans first.<br/><br/>I'm fine with manual assistance of translating plain text statement into formula.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542266174.086700"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542266174.086700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:16</span><br/>
+The problem with this is that if you need to maintain it manually, it will get obsolete.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542266210.086900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542266210.086900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:16</span><br/>
+but, queries do not have to be unapproachable. A query could look like this: <tt>componentA shouldNotUse: componentB</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542266391.087200"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542266391.087200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:19</span><br/>
+Also, translating queries to natural language should be an easier problem than the other way around.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542266568.087400"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542266568.087400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-11-14 23:22</span><br/>
+yeah
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542304815.088000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542304815.088000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-15 10:00</span><br/>
+Top down design is useful. Bottom up should also be possible - e.g. write programs that grow organically over time but then you identify the boundaries, patterns extract the higher level descriptions. Doing this in form that remains connected and true to the lower levels is what could make this different from the alternative 'document the architecture in a google doc'.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542305018.088200"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542305018.088200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-15 10:03</span><br/>
+I developed a method that does exactly that and used it in practice for the last 9 years. It works really well :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542305072.088400"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542305072.088400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-15 10:04</span><br/>
+in fact, even if you do top down design, the reality is always in the code, so the ability to know what is there is crucial. Code reading does not scale, so we need tools that answer questions for us.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542315971.088700"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542315971.088700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2018-11-15 13:06</span><br/>
+if anyone is interested, you can look for more details at <a href="http://humane-assessment.com">http://humane-assessment.com</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542762468.110200"></a>
+      <a href="../linking-together/1542263780.084400.html#1542762468.110200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-20 17:07</span><br/>
+The Synthesizer Generator<br/>A System for Constructing Language-Based Editors
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1542762518.110600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1542263780.084400.html#1542762518.110600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-20 17:08</span><br/>
+(This is from 1989..much good stuff is available from decades ago)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

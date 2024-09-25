@@ -1,0 +1,424 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 02:16</span><br/>
+Have people here given much consideration to structured concurrency? I haven't spent a huge amount of time writing multithreaded/async code, and so hadn't given it much thought. I apologise if this is all old news to many of you...<br/><br/>I came across this article that makes a strong case that most of our current primitives have a similar effect on flow control to <tt>goto</tt>. It then presents the analogous solution. (N.B. others have named the same concept different things - <tt>bundle</tt>, <tt>scope</tt>, <tt>nursery</tt>, maybe others...). Notably this approach would seem to map to visual representation far more easily than promises/arbitrary thread spawning/...<br/><br/><a href="https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful">https://vorpus.org/blog/notes-on-structured-concurrency-or-g&hellip;</a><br/><br/>For related links, including to videos on the topic, see <a href="http://250bpm.com/blog:137">http://250bpm.com/blog:137</a><br/><br/>Aside: the term 'structured' seems too generic for what people actually mean. AFAICT, in the context here/of <tt>goto</tt>s, 'structured' always means 'hierarchically structured', despite other types of structure existing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545389544.008600"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545389544.008600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-12-21 02:52</span><br/>
+Cool! I have a similar albeit stronger aversion to goto. In fact I would like to ban the idea of control flow entirely. We should not be telling the computer what order to do things. Way to low level. One clear reason it's bad is that we over specify the problem:<br/><br/><pre style="white-space:pre-wrap"><br/>a=6+7<br/>b=1+4<br/></pre><br/><br/>Clearly the computer should automatically do these statements in parallel because they have nothing to do with each other. But in imperitive languages it defaults to one after another unless you manually specify concurrency
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545391051.009100"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545391051.009100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 03:17</span><br/>
+I won't dispute that there exists a certain class of problem where a high-level approach like that is viable/preferable. Even at the lowest level no modern CPU executes instructions in order (but they provide the abstraction that you can normally treat it as such). Some compilers would auto-parallelize (via SIMD/SSE) the statements in your example, as it's trivially provable that they are order-independent.<br/><br/>More complex sections of code may not be so trivial to prove, for which better language constructs may provide a solution. e.g. functions that are known to be pure can be more aggressively optimised than procedures with side effects.<br/><br/>That said, I am yet to be convinced that 'low-level' concerns such as ordering will be made completely obsolete. At the very least they will be needed in the implementation of higher-level languages, and for the foreseeable future in performance-heavy applications, where the programmer's domain-specific knowledge allows them to optimise by not having to provide for the general case.<br/><br/>A completely order-independent language would certainly provide benefits, but there are also costs to losing access to the low-level. The benefits may well outweigh the costs for many use-cases, but the costs should be considered as well.<br/><br/>Jonathan Blow, re his language JAI, talks about how he wants it to reach for the stars (allow high level), while keeping its feet on the ground (allow low-level).<br/><br/>The threading approach in the linked article seems to be a case of 'better abstraction', rather than 'more abstraction' - you get the benefits without losing your previous level of control. These are the types of approach that I am most hopeful for.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545391467.009400"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545391467.009400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 03:24</span><br/>
+(sorry for the wall of text :stuck_out_tongue: )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545392205.010700"></a>
+      <a href="../thinking-together/1545387390.005400.html#1545392205.010700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 03:36</span><br/>
+This is starting to go OT (hence moving to a new topic as well), but this talk has informed a lot of the way I think about APIs. It's aimed at library APIs, but I don't see there being a large conceptual chasm between library interfaces and language interfaces.<br/><br/>A couple of key takeaways for me:<br/>- interfaces can be evaluated on at least 5 metrics (granularity, redundancy, coupling, retention, flow control), which may structure thinking more productively than the single axis of low/high-level<br/>- given the iterative nature of design in general, and software design in particular, it is useful to provide different levels of granularity (less work to implement, allowing broad strokes -&gt; more work to implement, but with more precise control)<br/>    - there should generally not be a large discontinuity  in terms of the amount more work needed to achieve the next level of granularity<br/><br/><a href="https://www.youtube.com/watch?v=ZQ5_u8Lgvyk">https://www.youtube.com/watch?v=ZQ5_u8Lgvyk</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545406255.014400"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545406255.014400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 07:30</span><br/>
+Hmm, rereading, I think we may have slightly diverging conceptions of flow control.<br/>What sort of thing are you including in your ban on flow control <span style="background-color:#ccf">@Steve Krouse</span>? any order whatsoever? conditionals? loops? functions? :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545406303.014600"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545406303.014600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 07:31</span><br/>
+I suppose one option if you wanted to discourage explicit ordering would be to make it something you have to actively opt into, as rust does with <tt>mut</tt> for mutable data
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545407337.014900"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545407337.014900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-12-21 07:48</span><br/>
+I'm against statements of any kind, really. I want a language only of expressions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545407597.015100"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545407597.015100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 07:53</span><br/>
+ahh ok. This is something I know very little about...<br/>1) are there any languages that do/approach this?<br/>2) what are the implications of this? (any resources you can point me towards?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545408888.015800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545408888.015800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-12-21 08:14</span><br/>
+The whole branch of non-strict (lazy) functional languages try to explore what you can do when execution order is less well specified.  Certainly some parts of such programs have a composed step 1, step 2, step 3 structure (using applicatives, monads or what have you).  What it boils down to is that often you don't care when <b>exactly</b> a computation happens and so it's nice having a system that lets you honestly mostly ignore the details.  (After all the a sufficiently smart compiler is going to reorder and branch predict for you anyway.  Why use "portable assembly" for 1970s hardware when you don't have to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545411249.016400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545411249.016400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 08:54</span><br/>
+Lisp is also all expressions, while not functional. Expressions vs statements feels like a purely syntactic thing. Having made both an expression-only and statement-only language, I don't think it matters much which you choose. But probably not worth mixing the two.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545411748.016700"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545411748.016700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:02</span><br/>
+&gt; 1) are there any languages that do/approach this?<br/>Pretty much any ML-style functional language spiritually descended from the lambda calculus—which itself is only expressions. That is, Standard ML, OCaml (and its ReasonML reskinning), Haskell, Elm, etc.<br/>&gt; 2) what are the implications of this? (any resources you can point me towards?)<br/>Expression oriented functional programming discourages (or completely disallows) using mutation, which anecdotally seems to reduce bugs because at any place in your code mutation/statefulness means that the things you are working with now may not be what they said there were when you started working with them, which is an opportunity for bugs. In expression-oriented functional programming, what you gain in confidence comes at the cost that you have to write lots of recursive code. While lots of common code is just as easy or easier to write, a few particular patterns become <em>a lot</em> harder, namely traversing a large data structure and gathering some order-dependent information about it (which is why I gave up and hacked mutation into Elm for our project :smile: but then it’s also caused me lots of headaches, within the last week I spent half a day tracking down a bug that turned out to be because I accidentally mutated an input to a function).<br/><br/>I realize the question was about expressions (code pieces that have a return value) vs. statements  (code pieces that do not), but the fundamental difference is mutation. Pure expressions communicate their computational result by traditional return—the expression itself evaluates to the result. Statements do not return anything, so they must communicate their result by mutation of some local or global state. So it is about mutation at the end of the day.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545412360.017100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545412360.017100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:12</span><br/>
+<span style="background-color:#ccf">@Steve Krouse</span> I think it's worth thinking through the implications of only wanting to democratize high-level programs. Since we don't really have a good way to build hardware that can execute recursively nested expressions, the lowest level will always execute statements that are connected by named locations. So by saying you don't want people to have to think about statements, you're asking for the lowest levels to just be "handled" for you. That's basically just the same priesthood arrangement we're trying to get away from, and we end up with the same questions about who watches the watchers, and so on.<br/><br/>Democratization is primarily a political activity, even if it happens to have some technical prerequisites that preoccupy us at the moment. Any major chasms between the front end and back end of programming lose us most of the benefit.<br/><br/>So you have to want people to be able to handle both statements and expressions. And compilers and OS and web frameworks and mobile apps. Luckily we can pick things up on an on-demand basis, and record the 'curriculum' in the software itself. So it's a bigger problem than you think, but not insurmountable. Except for backdoors in our processors. I have no idea how to attack <em>that</em> problem :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545412653.017300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545412653.017300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:17</span><br/>
+<span style="background-color:#ccf">@Brian Hempel</span> we already have the terms 'pure functional' and 'imperative' for what you're describing, so there's no point in twisting expressions and statements to mean the same thing.<br/><br/>Statements have to be imperative, yes. But expressions can be either, as Lisps show. And there's no such thing as a 'pure expression' :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545412867.017500"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545412867.017500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:21</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Gotta pick and choose your battles. Complexity is antidemocratic—if you define “democratic” as “understandable+manipulable to a wide range of people”. But if you want fast computers, then there’s going to be serious complexity in the technology stack. Because Physics Doesn’t Care™ and so CPUs &amp; computer architectures become super complicated. So you can’t have both a fast computational stack and a fully comprehensible tech stack. I’m okay with that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545415061.018000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545415061.018000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:57</span><br/>
+Yes, you absolutely have to pick your battles. But heed also the danger of winning the battle while losing the war. Design is about working with non-linear components, so there's an ever-present danger of sub-problems being solved in unproductive ways when you return to the big picture.<br/><br/>I'm not sure what to make of "complexity is anti-democratic". Feels like mixing metaphors. Complexity is far more fundamental than people or democracies. We know how to manage complexity to the extent of human needs: with hierarchy and abstraction. The way we do that isn't particularly accessible to some people over others. Hierarchy is only needed in the design, not in the organization of people working with the design. No matter what Conway's Law says.<br/><br/>In the end I'm not in the business of complexity for its own sake. Designing computers is a human activity for humans. If it turns out that it's bad for society to make computers faster than some threshold or miniaturized beyond some threshold that's easily verified by small groups of people -- that seems like a reason to avoid overly fast or small computers. Maybe that makes me Amish :slightly_smiling_face:<br/><br/>I think we haven't yet seen the worst effects on society of parasitism by small groups of influential people. In nature parasites cause evolution to prefer a variety of individuals with diverse genomes. Large swathes of uniformity can seem to win for long periods but not last. That may yet happen with software.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545416565.019000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545416565.019000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 10:22</span><br/>
+Hmm, my comment above may be unclear. A couple of links into my belief system:<br/>• I updated my intro on Mastodon last evening: <a href="https://mastodon.social/@akkartik/101276175243395515">https://mastodon.social/@akkartik/101276175243395515</a><br/>• Longer intro from a year ago: <a href="http://akkartik.name/about">http://akkartik.name/about</a><br/>• My intro here from September: <a href="../introduce-yourself/1536962970.000100.html">../introduce-yourself/1536962970.000100.html</a><br/><br/>Also, <span style="background-color:#ccf">@Steve Krouse</span> and I did a recorded-videochat thing last month: <a href="../share-your-work/1543012054.056800.html">../share-your-work/1543012054.056800.html</a>. Steve, I've been thinking about your one-sentence mission:<br/><br/>&gt; Enable all people to modify the software they use in the course of using it. (<a href="https://futureofcoding.org/episodes/033">https://futureofcoding.org/episodes/033</a>)<br/><br/>I think the place where we diverge is the <tt>in the course of using it</tt> part. Or at least that seems like a much lower priority to me. If you try to attack both halves at once (<tt>allow modification</tt> and <tt>in the course of using it</tt>) you're liable to add features at the product/UI level to help with the latter that make certain kinds of modification harder. But then I (still) don't really understand Smalltalk yet..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545425345.020700"></a>
+      <a href="../thinking-together/1545387390.005400.html#1545425345.020700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-12-21 12:49</span><br/>
+<span style="background-color:#ccf">@Brian Hempel</span> I’m intrigued that you hacked mutation into Elm (presumably ref cells?). If you were starting over would you use ReasonML or F# instead?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545426587.021100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545426587.021100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-12-21 13:09</span><br/>
+A famous programming language designer who I am not free to quote recently told me that we made a big mistake when we threw out GOTO. They said that beginners find it easier to understand than all the fancy stuff we replaced it with. Just throwing this out there to upset you :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545427721.022100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545427721.022100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-12-21 13:28</span><br/>
+&gt; Have people here given much consideration to structured concurrency?<br/><br/>Yes - I'm also familiar with Nathaniel's Trio you linked to. I think that's an (incremental) step in the right direction, if we were to stick with coroutines. Another interesting language in this space is <a href="http://www.ceu-lang.org/">http://www.ceu-lang.org/</a>.<br/><br/>I think concurrency shouldn't be a library or afterthought but has to be part of the system design from the very beginning. After all, all state is 'concurrent' if you consider all values present in any program or system all exist at the same time in different places.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545429790.023400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545429790.023400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-12-21 14:03</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span> I kinda speculated in similar vein at <a href="http://akkartik.name/post/mu">http://akkartik.name/post/mu</a> (section <em>"discerning structure and patterns"</em>) so that's super interesting to hear.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545431418.024200"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545431418.024200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-12-21 14:30</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span> Yes, ref cells (i.e. “change this field of this Javascript object”). Elm has gotten us really far. The big change that made the language nicer to use was not mutation, but hacking the core library so that any arbitrary ADT could be used inside sets or as dictionary keys—vanilla Elm artificially limits sets/dicts to a built-in concept of “comparable” types of which your ADTs are not. And yeah, I hacked exceptions in as well for a couple special cases.<br/><br/>But the big consideration for starting over would not be mutation (’cuz we’ve got it now :D) but performance and tooling. I’m not sure any of the functional languages have super-great tooling, but some of them for sure have better performance than Elm. And for certain features (program synthesis search) you want the cycles. Also it’d be nice to target something other than the browser. Most likely we’ll stick with Elm but I keep contemplating starting over.<br/><br/>Regarding GOTO: I’ve used GOTO. Good riddance. I’m sure there’s better ways to smooth out the learning curve of programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545432761.024800"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545432761.024800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2018-12-21 14:52</span><br/>
+So many things it would be nice to reply to directly in this thread, but largely impossible since Slack threads are flat. All I will observe is, in an environment where the instruction pointer is materialised, GOTO counts as tangible programming :slightly_smiling_face: And on the other side, I have described the issue <span style="background-color:#ccf">@Steve Krouse</span> illustrates earlier as the "excess sequential intention" of imperative programming. This may sound like I am trying to talk out of both sides of my mouth, but I do believe these two points of view are actually compatible.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545434594.025200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545434594.025200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-12-21 15:23</span><br/>
+Great point about instruction pointer - GOTO doesn't make sense in Excel (another beginner friendly system).  Also agree that the different points of view could be compatible - we don't want to take a restrictive ideological stance up front, but want the ability to specify desirable system behavior using different perspectives, while minimizing over-specification.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545441860.025700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545441860.025700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-12-21 17:24</span><br/>
+<span style="background-color:#ccf">@Antranig Basman</span> I hypothesize that the “actual sequential intention” is a partial ordering of statements describing the intended causality of side-effects. The problem is we don’t know a convenient way to represent this syntactically or graphically. That was going to be my next experiment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545454520.026400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545454520.026400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-12-21 20:55</span><br/>
+<span style="background-color:#ccf">@Antranig Basman</span><br/>&gt; in an environment where the instruction pointer is materialised<br/>Can you link me to some of those, or drop names? This is an area of active research for me, and I'm very eager to see any and all examples of materalized / visible / tangible / explicit instruction pointers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545518721.029800"></a>
+      <a href="../thinking-together/1545387390.005400.html#1545518721.029800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-22 14:45</span><br/>
+Going down this rabbit hole of concurrency models led me to a few more things I thought I'd share:<br/><br/>- a couple of more detailed descriptions of using realtalk by <span style="background-color:#ccf">@Omar Rizwan</span> (<a href="https://rsnous.com/posts/notes-from-dynamicland-geokit/">https://rsnous.com/posts/notes-from-dynamicland-geokit/</a>, <a href="https://rsnous.com/posts/notes-from-dynamicland-programming-raspberry-pis/">https://rsnous.com/posts/notes-from-dynamicland-programming-raspberry-pis/</a>)<br/><br/>- Linda/tuple space/blackboard models (<a href="https://www.computer.org/csdl/proceedings/hicss/1997/7734/01/7734010379.pdf">https://www.computer.org/csdl/proceedings/hicss/1997/7734/01/7734010379.pdf</a>, <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.39.8004&amp;rep=rep1&amp;type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.39.&hellip;</a>)<br/><br/>- Ivan Sutherland talking about his research on hardware that will make async/'self-timed' processing a more natural fit (<a href="https://www.youtube.com/watch?v=aXVUoT_objA">https://www.youtube.com/watch?v=aXVUoT_objA</a>)<br/><br/>- (and a couple-hundred other pages, but I thought I'd prioritize!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545547365.031100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545547365.031100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-12-22 22:42</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span> <span style="background-color:#ccf">@Steve Krouse</span> In a way, the ordering of statements and side-effects comes back to the problem of the granularity of the IO monad and really compositionality itself.... taking the thought train... a stop down memory lane, the dread at learning that when you have <tt>f(g(), h())</tt> in C, the order in which <tt>g</tt> and <tt>h</tt> get called is undefined!<br/><br/>It all boils down to expressing intentions.  Is there a bug which isn't a mismatch between what we wrote and what we meant?  Can tools help identify the subtle interactions (causally or otherwise) without getting in the way?  I suppose being able to clearly express the differences is an essential prerequisite.<br/><br/>So much client work amounts to pinning down the basic design of things... Is there one of these or many of them?  Do it go with one of those or many of them?  When do they get put together?  Who needs to sign off on it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545560064.031400"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545560064.031400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-12-23 02:14</span><br/>
+In the right language, it all boils down to expressing intentions! In the wrong language, it's about shoehorning your intentions into a platform made for computers, not intentions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545565826.031800"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545565826.031800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2018-12-23 03:50</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> - I wasn't thinking of much more than, e.g. the "Sequence Control Tank" of the EDSAC and similar vintage systems, seen here in this simulation and photographs: <a href="https://www.dcs.warwick.ac.uk/~edsac/Software/EdsacTG.pdf">https://www.dcs.warwick.ac.uk/~edsac/Software/EdsacTG.pdf</a> - it appears that the contents of this tank could be cleared (along with the others), by earthing its terminals with a wet finger : P Hugely interested in any pointers you have to current or historical environments your researches have led you to - got anything (even very rough) written up somewhere?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545566669.032000"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545566669.032000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2018-12-23 04:04</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span> - I have a competing hypothesis, where the intention specifications have the same form they would in specifying a partial ordering (PO), but have a stricter interpretation, which one could call "positional directives" (PD). In a PO, "A before B" indicates that any ordering where A precedes B is acceptable, whereas with PD, "A before B" indicates that the intention is that, absent any further directives by a further author with a more refined intention, A should be placed in the order immediately before B. There are many fewer orderings compliant with a PD specification than the equivalent PO, but the PD consumes a few more bits in that one needs to track the "relative distance" between the site where the intention is expressed and its site of action, but this extra bookkeeping is necessary IMO in any effective authorial system. Unfortunately resolving between these hypotheses could only be done via experiments "in the wild" - that is, by studying the trajectories of groups of authors who were parts of genuinely separated communities collaborating on shared artefacts. This is why developing and validating genuinely new materials will take timescales comparable to the last time, i.e. ~1500 years : P
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545591624.032600"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545591624.032600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-12-23 11:00</span><br/>
+<span style="background-color:#ccf">@Antranig Basman</span> You raise the central problem for all of us. How do we make progress if everything is a matter of personal opinion and the only judgments are those of the marketplace? For in the marketplace, worse is better. Academics have a system, but it does not reward risk-taking. I’ve been seeking another way for years. cc #administrivia
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545607917.033000"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545607917.033000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2018-12-23 15:31</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span> - actually, my suggestion for a methodology was serious : P And it's just as well that in the "marketplace", worse is better, since if it made optimal decisions there would be no room in it for nutcases performing ill-advised and expensive experiments at the expense of their "customers". I can think of a few routes for cheapening the experiments, though - for example, snapshots of the same community at wider intervals of time could for some purposes act as a proxy for snapshots of more contemporary, separated communities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545612357.033200"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1545612357.033200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-12-23 16:45</span><br/>
+<span style="background-color:#ccf">@Antranig Basman</span> Indeed “nutcases performing ill-advised and expensive experiments at the expense of their “customers”" is a perfect description of my business career. I’m afraid I lack the naïveté to do that again. Nevertheless it just may be the only way forward.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1546870511.277000"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545387390.005400.html#1546870511.277000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-01-07 06:15</span><br/>
+<span style="background-color:#ccf">@Jonathan Edwards</span><br/>&gt; I’m afraid I lack the naïveté to do that again.<br/>If you could do it again, would you do anything differently?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

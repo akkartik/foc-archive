@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-04-29 02:35</span><br/>
+preliminary musings on bloatware <a href="https://guitarvydas.github.io/2024/04/27/Bloatware.html">https://guitarvydas.github.io/2024/04/27/Bloatware.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714385788.488249"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html#1714385788.488249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-04-29 03:16</span><br/>
+This is extremely clarifying, because it makes it clear you're going in the exact opposite direction to me :smile:<br/><br/>It's only a slight exaggeration to say I want to ship the IDE to "end-users" (scare quotes because I believe the demographic shouldn't exist). The source code should always be available.<br/><br/>So it now seems to me that we've been nodding along to each other that bloat is bad, but our definitions of "bloat" are in opposition. From my perspective, opcodes and the transistors they run on are a necessary evil. Both are bloat without the source code and late binding needed to keep the human in the loop exercising agency over them. Anything else is just disempowering legalism (<a href="https://futureofcoding.org/episodes/065">https://futureofcoding.org/episodes/065</a>) that is superfluous to requirements.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714404322.426909"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html#1714404322.426909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-04-29 08:25</span><br/>
+Interesting constrast. I am mostly on <span style="background-color:#ccf">@Kartik Agaram</span>'s side of what I consider important (non-bloat). But I think there's still a lot of overlap between both sides' definitions of bloat. For example code that exists due to technical debt.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714404482.101119"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html#1714404482.101119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-04-29 08:28</span><br/>
+Yeah, there's a reason this wasn't obvious. Mainstream software is bloated by both our definitions!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714480419.940219"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html#1714480419.940219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-30 05:33</span><br/>
+Traditional C compilers output code in <em>assembly language</em>, which is piped to an <em>assembler</em>, which is a program that outputs <em>machine code</em>. Modern compilers internally generate code in an <em>intermediate representation</em>, and then output machine code without going through assembly language. If you want to read the output in assembly language, you have to run a disassembler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714481367.217799"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1714383312.740829.html#1714481367.217799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-30 05:49</span><br/>
+The assumption that the ideal application to ship to end users is all machine code and that anything else is bloat is an interesting one. If you look into it, it quickly becomes obvious that the machine code tends to be more bloated than the source code. That's on x86, an instruction set architecture that was designed to make the machine code as short as possible, at the expense of making the interpreter implemented in hardware more complex and less efficient. Modern alternatives to x86 care less about the compactness of the machine code.<br/><br/>It may actually be less bloated not to ship machine code, but instead ship an intermediate representation that can be JIT-compiled to machine code. Formats such as minified JS, Web Assembly and Dalvik bytecode are examples of more compact formats for shipping that in the end are passed to a JIT compiler that outputs less compact machine code.<br/><br/>Not only are instructions in intermediate representation shorter than in machine code, but intermediate representation can also take advantage of polymorphism, allowing polymorphic code to be shipped only once, whereas the final machine code may come in multiple monomorphic copies.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

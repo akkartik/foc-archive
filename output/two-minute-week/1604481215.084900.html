@@ -1,0 +1,42 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1604481215.084900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-04 01:13</span><br/>
+Another screenshot update.<br/>Slow progress on making the audio side of the project into something more robust and useful.<br/>• Added audio configuration for choosing sound device (on the top right of the screenshot)<br/>• Added a spectrum analysis window.  If this looks familiar, it's the same FFT/GUI code I contributed to Sonic Pi, although here it is using ImGui<br/>• Continuing work on dock windows/gui setup.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604481551.085200"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1604481215.084900.html#1604481551.085200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-04 01:19</span><br/>
+The technical challenge of adding the sound options was really in cleaning up the generation of the graphs when the audio changes.  Since many nodes in the graph might be processing music data at the current audio rate, I needed to shut the graph down, reconfigure the nodes, and restart.<br/>This builds on previous work I've done to manage the graphs inside the audio pipeline.  Effectively a graph is either 'Active' or 'Inactive'; the distinction is that an active graph can be run inside the audio thread.  A graph is made inactive by quickly swapping pointers under a spin-lock.  This means that the audio thread never waits for a graph, and never does a mutex lock which can schedule away from the audio thread when the lock is freed.<br/>Technical details aside, this is tricky to make clean and robust, but I think I'm there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604481645.085400"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1604481215.084900.html#1604481645.085400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-11-04 01:20</span><br/>
+The output sound data in the audio side is also copied into a buffer and pointer-swapped so it can be processed in other threads.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2024-04-29 11:53</span><br/>
+The tooling here is next-level.  Bret Victor would be proud:<br/><a href="https://youtu.be/72y2EC5fkcE?si=MI2T1IME2SH3OCjp">https://youtu.be/72y2EC5fkcE?si=MI2T1IME2SH3OCjp</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714420076.408479"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html#1714420076.408479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-04-29 12:47</span><br/>
+Yeah this one slaps
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714467713.373209"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html#1714467713.373209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2024-04-30 02:01</span><br/>
+There is frustratingly little detail about how it was built; I googled a bit, but couldn't find anything.  It would be interesting to know how it was put together.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714486655.048499"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html#1714486655.048499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2024-04-30 07:17</span><br/>
+There's a little more detail in a response on their blog (<a href="https://tomorrowcorporation.com/posts/how-we-make-games-at-tomorrow-corp-our-custom-tools-tech-demo">https://tomorrowcorporation.com/posts/how-we-make-games-at-t&hellip;</a>)<br/><br/>"The act of going forward and back is not itself recorded – just the evolution of the game’s state.<br/>The snapshots happen according to 2 different schedules – a coarse grain schedule that records a new snapshot every so often based on time (we do every 2 minutes currently) and a fine grain limited set of snapshots that move around depending on where you are currently working on the timeline. That’s why the initial reverse debugger step causes a brief pause and then becomes fast – the first one seeks back to the most recent coarse grain snapshot, simulates forward creating fine grained snapshots that are exponentially spaced out backwards from your seek target, and then the subsequent steps will tend to have a snapshot that is right on the frame you need (or very close – unless you step back far enough to need to go create more snapshots but that is the rare case.)<br/>The state capture is mostly just a memcpy of the game’s heap (snapshots only happen on frame boundaries so the stack is never needed.) It for sure could be too big to keep as many snapshots as we currently do – that will just be game dependent. Something to use to calibrate what you expect is possible though is to remember that games like Metroid Prime, LOZ The Wind Waker, RE4, Mario Sunshine, etc. all ran on a system that basically had 24MB of RAM to use for your game. And it wasn’t just game state filling up that 24MB, it was your code and other read only resources – the kind of stuff that we don’t have to include in our snapshots. So while it’s true that this system is not a general purpose solution for any and all kinds of games, it’s also true that you can make some pretty incredible games with not a ton of actual game state.<br/>Yes in theory you could totally fork the timeline in the past and create a new session based off of the old one up to that point. That is a feature that I had in the reverse engineering debugger I made before this because it was good for creating what were basically tool assisted speed run videos for code coverage purposes. For our current system though it hasn’t been something that I thought we would actually use enough to justify spending the time to implement it.<br/>The code gen is totally custom but keep in mind that this toolchain only needs to run on our development platform which is Windows. To ship the finished game we will transpile the code to C and then compile it with the native toolchains on whatever platforms we’re targeting."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714504479.008349"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html#1714504479.008349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2024-04-30 12:14</span><br/>
+I made a toy time travel debugger for python that used a similar technique. You could run a much simpler simulation when calculating state forward from the snapshot because it didn't need to do any conditional tests. You could just save the series of mutations and reapply them. On a modern CPU it's very fast because there's no branch prediction failures.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714686804.540689"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-18/5926088433521_c62c43b01fd5b63ec214_72.jpg" style="float:left"/>
+      <a href="../linking-together/1714416805.041219.html#1714686804.540689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Zimmerman</b>
+<span style="margin:2em; color:#606060">2024-05-02 14:53</span><br/>
+This is really amazing! Great share
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

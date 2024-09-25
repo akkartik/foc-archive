@@ -1,0 +1,235 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-11 01:17</span><br/>
+Fixed-point is often a good alternative, but rarely well supported in languages. But there are important cases where it fails, and it's those you need to look at. Example: Generate random points in a sphere or a square, and sum 1/d^2 over all pairs of points, where d is the distance between the points in a pair. That's a cartoon version of computing gravitational or electrostatic interactions in physics. 1/d^2 is very large for short distances but very small for long ones, which however make up the majority of pairs. Doing this with rationals is prohibitively expensive.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586593708.248700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586593708.248700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 01:28</span><br/>
+This is one of those cases where my language should force a round-off to occur, but I would still want to preserve the associativity of addition. I <b>think</b> that's still possible: instead of computing the product (or least common multiple) of all denominators here (yielding an exact result), I would pick a "sufficiently large denominator" (2^63 would suffice), and normalize each fraction to have that denominator (rounding the numerator to the nearest integer). Would that suffice for a precise and performant fixed-point solution?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586593777.248900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586593777.248900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 01:29</span><br/>
+Such cases (iterative/recursive summation of fractions with different denominators) would just need to be statically detected and have such an algorithm applied. The user can pick the denominator or it can be auto-suggested.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586594970.249200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586594970.249200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-04-11 01:49</span><br/>
+Yes I think that would work. The key design distinction is at what point you do the rounding step, as this is what breaks associativity. If you round all numbers to something computationally tractable before your SUM() then this will work I think.<br/><br/>Another method would be to say that all arithmetic operations are performed in a particular order. e.g. sort the set before SUM(), sort a, b before a + b. I would go with this probably because I reckon it would simplify implementation a lot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586595364.249500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586595364.249500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 01:56</span><br/>
+Yeah I've thought about the sorting approach before too! But I've decided I don't want to go down that route, because it affects the time complexity of basic operations (which can cause unacceptable slowdown, as an aside), and I'd have to explain how all that works to the user. I want them to know what the time complexity of their code is, and the rounding behaviour of the operations performed, and I want the explanation to be intuitive.<br/><br/>If we're just normalizing the denominators, it's all intuitive: you can only sum a set of numbers if the numbers have the same denominator. If the denominators aren't the same you have to pick a denominator to normalize them to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586597375.250800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586597375.250800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 02:29</span><br/>
+Thinking further: The technique I mentioned maintains the associativity of an approximated SUM(), but I'm not sure if there's any smart way to maintain the associativity of an approximated PRODUCT().
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586602967.277100"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586602967.277100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-04-11 04:02</span><br/>
+Has anyone here experimented with interval arithmetic and built in error analysis in a language? It's something I've wanted to do for a while but haven't got around to yet
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586603193.277300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586603193.277300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 04:06</span><br/>
+I've looked into interval arithmetic before but concluded that it's pretty useless since the error bounds grow quickly with each operation, for most operations. Also, most apps don't care about error bounds, they just want a single number. It would take a new spin on the topic to change my mind.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586606864.278100"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586606864.278100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-04-11 05:07</span><br/>
+Hmm, yeah I can see where you are coming from, it's not something I've investigated in depth
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586618697.288700"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586618697.288700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2020-04-11 08:24</span><br/>
+I'm planning to have precision/error info as a core part of the type info, would be happy to hear any reason to why that could be not amazing!<br/><br/>Usually: input with precision(s) -&gt; calculation -&gt; output with different precision(s)<br/><br/>The input is provided, the calculation/logic is defined, then an output is requested at a certain min precision, at which point the computation is optimized to reach it. Thus, the logic may be precision-agnostic/generic.<br/><br/>Having the precision info+requirements would not only allow for many optimizations, but also allow for more robust software and inspection (eg. everything from game collision errors bc of edge case velocity/frame rate combination, to fatal money software compounding issues).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586619537.292300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586619537.292300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-11 08:38</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> What you propose is basically compulsory conversion to fixed point before summing more than two numbers. That would make algorithms like my example a bit more cumbersome to write, but since it also forces what would be a good habit anyway (arranging the sum by orders of magnitude), it looks acceptable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586619668.295100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586619668.295100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-11 08:41</span><br/>
+<span style="background-color:#ccf">@S.M Mukarram Nainar</span> Interval arithmetic is a tool for analyzing the robustness of numerical algorithms. It’s almost useless for production runs. The same holds for exact real arithmetic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586620089.303600"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586620089.303600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2020-04-11 08:48</span><br/>
+What if the info is used to select the "best suited" representation during compilation? Eg. if you make interest rate calc, you might want output to be correct +/- 0.4 cent, after 0-200yrs (+/- 0.4). With eg. js, I have to do a bit of digging to be sure, same for C (to figure out correct data type etc), but here, I could just write the plain formula, and specify the input/output error intervals (or just confirm the defaults) and be done and confident with it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586620254.306200"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586620254.306200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2020-04-11 08:50</span><br/>
+I feel like "precision" and "robustness" is quite lacking in the software field I've been exposed to. Would be happy to be shown otherwise.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586622738.311000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586622738.311000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-04-11 09:32</span><br/>
+Mathematica is a Very commonly use language that does not use floating-point. It is a symbolic language and can generate computations to arbitrate precision. Others symbolic math languages like maple can do the same thing￼. The old language SPITBOL￼ Which was a continuation of Griswolds SNOBOL Also had arbitrary precision￼, Not sure if the final version which is called icon offered that same feature.￼ myself I am planning to useDEC64 arithmetic as outlined by the very smart Douglas Crockford. IEEE Floating-point is indeed fraught with problems￼￼￼, And I believe it is one of the reasons COBOL still exists is that it offered BCD arithmetic￼ With specified Percision so that you could control the rounding very deliberately. It’s actually one of the only features in COBOL That Fortran didn’t have. There was a long ago battle Between those two languages and COBOL won (unfortunately)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586630274.313900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586630274.313900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-11 11:37</span><br/>
+<span style="background-color:#ccf">@Leonard Pauli</span> That’s how exact real arithmetic works. Arithmetic operations return functions that you can call with the desired precision as its argument.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586636578.325800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586636578.325800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-11 13:22</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> regarding interval arithmetic in production, what do you think of Unums? <a href="https://en.wikipedia.org/wiki/Unum_(number_format)">https://en.wikipedia.org/wiki/Unum_(number_format)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586651132.329200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586651132.329200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-04-11 17:25</span><br/>
+I went down the unum rabbit hole once. They just end up being "slightly better floats", but require hardware support to be efficient. One piece of hardware that's proposed is an accumulator (called a "quire" there, probably to seem more novel), which would certainly be helpful for adding integers of different magnitudes together efficiently.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586675903.336800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1586593050.248600.html#1586675903.336800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-12 00:18</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Hard to say. It's the work of a rogue expert in the business. Someone whose expertise is recognized, but also has a reputation for overselling his work. He has been working on this alone, without sollicitating feedback from anyone else. As far as I know, nobody has ever used unums for real-life large-scale applications. Also because there is an efficiency problem as long as unums are not implemented in hardware. So for now, this is an idea waiting for someone willing to make a big evaluation effort.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

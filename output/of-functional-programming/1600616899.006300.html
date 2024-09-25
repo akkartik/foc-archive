@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-functional-programming</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2020-09-20 08:48</span><br/>
+The author of the CT/math book I'm reading (Paolo Aluffi) suggested that if functions defs put output first ( <tt>f : B &lt;- A</tt> instead of <tt>f : A -&gt; B</tt>) then function composition like <tt>f . g</tt> would make more sense.<br/>Then a couple chapters later he goes on to say that writing <tt>(x)f</tt> instead of <tt>f(x)</tt> would make  <tt>(f.g)(x)</tt>  be <tt>((x)g)f</tt> (or even maybe <tt>xgf</tt>)<br/>Both are nice suggestions, but the mix really does hurt my head
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600618350.006700"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600618350.006700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-09-20 09:12</span><br/>
+If you read older algebra books, people actually do this. I think herstein's book does it.<br/>The context switching I think is why people have mostly settled on one notation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600648832.007100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600648832.007100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-09-20 17:40</span><br/>
+De Bruijn Notation is a variant notation for lambda calculus where you write <tt>(x)f</tt> to call a function. The wikipedia page describes how this simplifies the algebraic manipulation of lambda terms, and makes certain proofs easier.<br/><a href="https://en.wikipedia.org/wiki/De_Bruijn_notation">https://en.wikipedia.org/wiki/De_Bruijn_notation</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600649688.007400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600649688.007400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-09-20 17:54</span><br/>
+F# has an infix function call operator where <tt>x |&gt; f</tt> means <tt>f x</tt>, and an infix function composition operator where <tt>f &gt;&gt; g</tt> is the same as <tt>g . f</tt> in Haskell. This design has become popular, and has been widely copied by newer functional languages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600668924.007600"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600668924.007600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-09-20 23:15</span><br/>
+I think another perspective is evaluation order / dominance of expressions. For example, in a lazy language like Haskell, an expression like <tt>f x</tt>  - is "dominated" by <tt>f</tt> which may choose to evaluate or not evaluate <tt>x</tt> at all, and in any case <tt>f</tt> and its application are evaluated first. So it makes sense to see things ordered by their importance: <tt>f (g (h x)).</tt><br/>In an eager language, it's nicer to see things read by their evaluation order: <tt>x |&gt; g |&gt; f</tt> (though <tt>f</tt> or <tt>g</tt> as function yielding expressions are actually be evaluated first, their application is evaluated later).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600669008.007800"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600669008.007800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-09-20 23:16</span><br/>
+Another perspective on whether we should write: <tt>f : B &lt;- A</tt> or <tt>f : A -&gt; B</tt> is analogy to arithmetic.  <tt>A -&gt; B</tt> is <tt>B ^ A</tt> (B raised to the power of A).  So making the notations align up could be nice
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600831119.002200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1600616899.006300.html#1600831119.002200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-09-22 20:18</span><br/>
+The Forth is strong.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

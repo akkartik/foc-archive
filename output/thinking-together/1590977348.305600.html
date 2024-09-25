@@ -1,0 +1,391 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-31 19:09</span><br/>
+Has anyone thought about, implemented, or encountered higher-level abstractions of <b>ALUs</b>? a.k.a. the part of hardware where actual computations are performed (as opposed to the miles of hardware dedicated to control flow management). Almost every programming language has an ALU abstraction based upon fixed-width chunks of binary digits (32 or 64-wide), arithmetic operations (interpreting the chunks as integers or IEEE floats), and bitwise and bitshift operations. Those fixed-width chunks are grouped into "allocations", which are either larger fixed-width containers (structs etc) or dynamically-sized arrays.<br/><br/>Recently I've been thinking about a "clean slate" abstraction that still exposes the basic operations that ALUs are good at (integer arithmetic and bit manipulations) but without the fixed-width chunk limitations. Fixed-width chunks are purely a hardware design limitation and have no inherent value to a programmer's mental model; they just add complexity to data modelling. What DOES have value is the notion of a dynamically-sized bit sequence that can be manipulated via splicing operations (take, drop, insert, replace) that generalize bit shifts, bitwise operations (the same old &amp;,|,^ operations), and the familiar arithmetic operations (add, sub, mul, div...). This is a natural foundation for arbitrary-size integers and sequences, but also for general computations that want an efficient mapping to hardware capabilities. I want to take an ALU abstraction like this and build my way-out-there logic programming environment on top of it, so that you still have a conceptual bridge to hardware, and thus you can still reason about the efficiency of basic operations and use them to create efficient user-defined data types.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590977463.305700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1590977463.305700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-31 19:11</span><br/>
+And yes, arbitrary-sized bit sequences have overhead, because you have to perform length checks before every operation. But I'm not too worried about this constant-factor overhead. I'm not competing with C. Also, many of those checks should be able to be removed with the help of some static analysis. I want to make this a language implementation problem, not a user's problem (and my users aren't compute-bound).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590982910.306200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1590982910.306200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-31 20:41</span><br/>
+In Beads i have a variable length bit string type (bits), and a variable length byte type (bytes), which are very useful for packing binary things, or for doing byte manipulation, both common low-level operations. Some CPU's such as the Motorola 68000 had variable length bit and byte strings. Intel has kinda sorta byte manipulation with the REP MOVSB instruction, but the Motorola had extremely handy arbitrary bit string stuff.<br/><br/>As for arithmetic, IEEE floating point is downright stupid, causes all sorts of problems. Some propose using DEC64 a superior methodology, but some languages support BCD with specified decimal digits which can be helpful in financial applications.<br/><br/>No question that thinking about 32 vs 64 is mostly a waste of time unless you have an ungodly amount of data to process, which is why AS3, JS, and many other languages have a single numeric type based on 64 bit floating point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590996067.306900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1590996067.306900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-01 00:21</span><br/>
+Yes I'm planning to see how I go banning IEEE floats and instead exposing an opaque rational number type in my environment. As far as bit manipulation hardware goes, Intel's <a href="https://en.wikipedia.org/wiki/Bit_Manipulation_Instruction_Sets">parallel bit deposit and extract</a> for x86 seems really cool, but unfortunately isn't efficient on an AMD Zen, since they've inexplicably implemented it in microcode rather than as a native capability. I'm also saddened by the absence of a bit reversal instruction in x86... it seems to exist on every other major hardware platform!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591031496.312300"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591031496.312300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-01 10:11</span><br/>
+A few thoughts from my instruction set design.<br/>1. My uCISC instructions have an increment flag in them (see <a href="https://github.com/grokthis/ucisc/blob/master/docs/07_ALU.md#arguments">https://github.com/grokthis/ucisc/blob/master/docs/07_ALU.md#arguments</a>). This allows you to chain arbitrarily long ALU functions back to back in increments of 16-bits since that is my word size. This works for addition, shifts and similar operations, for example. The increment points it to the next address and the carry flags tell the ALU how to adjust the next op.<br/>2. You can generalize this by adding a repeater flag to repeat the same operation N times (see the repetition factor here <a href="https://github.com/grokthis/ucisc/blob/master/docs/05_Instruction_Behaviors.md#flags-register">https://github.com/grokthis/ucisc/blob/master/docs/05_Instru&hellip;</a>)<br/>3. I banned floating point math from my ALU. You can always attach custom hardware to speed up these cases if needed. The problem is that these operations tend to be highly bit width dependent and also orders of magnitude slower in software.<br/>4. However, repetition does NOT work for ALU operations where the first bit and the last bit affect each other. For example, in multiplication, each bit is effectively multiplied against every other bit. So, for arbitrarily sized numbers you'll need to make multiple passes. Using something like the Karatsuba algorithm (<a href="https://en.wikipedia.org/wiki/Karatsuba_algorithm">https://en.wikipedia.org/wiki/Karatsuba_algorithm</a>) you could arbitrarily decompose larger operations into multiple sub operations but it's non-linearly scaling. I haven't done the math, but it gets out of control computation very quickly.<br/>5. Verilog has ALU operations built in with semantics controlling bit width and signed-ness and the effects on the operation. I have found I need to be ultra careful with the results. Adding 8 bit numbers results in a 9th bit. Multiplying to n-bit numbers results in a 2n-bit number. You also have to be careful with what happens when you operate on unequal bit lengths. Verilog's handling of these things might provide some inspiration on how to do what you want.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591041211.313400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591041211.313400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-01 12:53</span><br/>
+LLVM supports this: <a href="http://blog.llvm.org/2020/04/the-new-clang-extint-feature-provides.html">http://blog.llvm.org/2020/04/the-new-clang-extint-feature-provides.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591041290.313700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591041290.313700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-01 12:54</span><br/>
+There's a proposal to put this into the C language: <a href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2472.pdf">http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2472.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591081782.340500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591081782.340500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-02 00:09</span><br/>
+<span style="background-color:#ccf">@Robert Butler</span> Seems like a cool project, but beyond the chaining you still seem like you're sticking to the classical ALU operations. I'm interested in seeing a re-think of bit manipulation, and for that reason I'm planning on having more powerful primitives than just adds and shifts (but which ultimately can be compiled back to them).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591081860.340900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591081860.340900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-02 00:11</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Yeah LLVM's support for this is really cool, but having integer size be statically-specified seems like it's more limited than having all bit strings be dynamically-sized. In other words, LLVM doesn't seem to have BigInts built in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591082055.341300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591082055.341300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-02 00:14</span><br/>
+Once you've decided to ban overflow, size annotations should be a performance optimisation (computed through static analysis), not a requirement for compilation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591084605.354900"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591084605.354900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-02 00:56</span><br/>
+I'm curious, why is banning overflow a useful abstraction? At the end of the day, it has to run on hardware and making use of arbitrary bit widths on each operation will work often (with a performance overhead) and sometimes crater the performance. Unless you limit yourself to ALU operations that scale O(n) where n is the bit width, you'll end up with a lot of edge cases.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591084750.355200"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591084750.355200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-02 00:59</span><br/>
+There are plenty of languages (mostly scripting languages) that you are safe to ignore bit widths for most cases since 64bits and double precision numbers can hold a lot of range. Most programmers don't think about those things anyway.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591084959.355400"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591084959.355400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-02 01:02</span><br/>
+If you do start to break out of 64 bits, you very much need to think about the hardware because performance is going to kill the program pretty quickly on anything computation that isn't O(n) with respect to bit width. I guess my question is what is the target audience is this for?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591189348.390000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591189348.390000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-03 06:02</span><br/>
+Integer wrapping is almost always a bug, and it’s one that can occur years or decades after a program is written. On the other hand, reduced performance is at best a mild nuisance and at worst a bug (if drastic). But (drastically) reduced performance will only occur in situations where wrapping would have occurred anyway. So the question really comes down to: when overflow DOES occur (if it ever does), do you want to produce a correct result (a bigint) or crash/produce garbage numbers? That’s the choice I’m making. And I’m sure that 99.9% of integer overflows in most programs would not cause any noticeable performance drop, and thus are an “obviously correct” choice rather than a tradeoff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591189417.391800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591189417.391800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-03 06:03</span><br/>
+I did mention in my original post that the target audience is not people expecting uncompromised C-like performance. My primary goal is to extend the accessibility of developing nontrivial apps to those who cannot create them today.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591200558.392500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591200558.392500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-03 09:09</span><br/>
+Nick, you started talking about an ALU abstraction (bit strings with low level ALU-like operations), but then you say that integer wrapping is almost always a bug, so now the abstraction we are talking about is integers, not bit strings. From my perspective, the confusion between bit strings and integers began in C (where it was appropriate) but has infected many modern high level languages (where it is not appropriate). The two ideas should be kept separate, because the operations are distinct and the concepts are distinct. In my language (Curv), I started with a "number" abstraction, which only supports numeric operations, not bit string operations. Later, I found a need for bit strings (to write hash functions), so I added a separate bit string abstraction, which is actually an array of booleans. So bitwise <tt>and</tt>, <tt>or</tt>, <tt>xor</tt>, and <tt>not</tt> are just those boolean operations extended to work on boolean arrays. For hash functions, I also needed operations to convert between numbers and bit strings, and I needed a bitwise version of integer addition that wraps around (ie, it has ALU semantics). Unlike C, Python or Javascript, my "bit add" operation, which only works on bit strings, is distinct from the "+" operator that only works on numbers, and they have different semantics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591233743.410800"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591233743.410800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-03 18:22</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> that's a really interesting perspective and I can see where you are going. I see the same base information and come to different conclusions, at least in part because all of the situations where I have had to deal with overflows that I can think of are precisely the ones where performance matters. I write a lot of Ruby in my day job and every time I've had to think about precision or int vs. bigint performance has been one of the walls I was up against. That said, that's just my experience and I'm curious to see where it goes and see if it opens up new ways of approaching these issues that changes the situation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591234787.414400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591234787.414400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-03 18:39</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> You’re right, I’ve mixed discussion of bit strings with that of integers, and I agree that bit strings should be considered something beyond integers. That said, I don’t think they should be separate concepts, rather I think integers should be considered <b>one use case</b> of bit strings. Addition is just xor with carry, and can be useful as a bit string operation, amongst general sequence operations like drop, insert, replace etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591240308.420300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591240308.420300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-03 20:11</span><br/>
+The benefit of keeping the concepts unified is that there is less complexity in the ALU model, and you can mix integers into bit string encodings. However I expect a programming environment to default to a separate (opaque) abstraction for integers that hides their bit string representation and bitwise operations, exposing just arithmetic. The “raw” bit string representation of integers can be reserved for those wanting to do low-level coding with an ALU.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591821961.148100"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591821961.148100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-06-10 13:46</span><br/>
+Think about how it's implemented. 64-bit integer/pointer unions, right? If it's small, it's an integer, if it's big it's a pointer. Well, first off, .NET can't support that, but maybe you don't mind.  Anyway, the very fact that integers have variable size forces every "add" operation to become two checks for "is this first operand a big int, or is this other operand a big int" alongside each 64-bit add operation. It also precludes standard vectorization. Equality tests are trickier... if two 64-bit values are unequal, you have to then check whether they are pointers and if so, call an equality-testing function. Perhaps worst of all, every time an integer goes out of scope you have to check if integer memory has to be freed. This could be mitigated with alloca, but only for integers that are local to the function. What if a bigint is located inside a struct on the stack? It can't use the optimization unless it "knows" it is on the stack.<br/><br/>Don't get me wrong, BigInt support is great, but in my career I've mostly written performance-critical code which I would usually design to avoid overflow reliably, rather than suffer the performance penalty of a BigInt.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591839632.150000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591839632.150000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-10 18:40</span><br/>
+None of what you said is really relevant to me. I'm <em>designing</em> a language, not using BigInts as a library feature. Accordingly, situations where you can "avoid overflow reliably" are amenable to static analysis. It seems like it should be easy to identify sequences of operations where integer size won't change substantially, and you can perform a single size check before entering such a block of code, then branch to either a 64-bit version or a BigInt version as necessary. And memory management is also a language/runtime implementation issue which is going to have to be dealt with for general data structures either way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591894992.166000"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591894992.166000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-11 10:03</span><br/>
+Let's say you have the following code:<br/><pre style="white-space:pre-wrap">def do_it(x, y)<br/>  if x &gt; y<br/>   x = x + y<br/>  else<br/>   x = x - y<br/>  end<br/>end<br/><br/>number_x = read_from_stdin<br/>number_y = read_from_stdin<br/>do_it(number_x, number_y)</pre><br/>This is completely arbitrary, of course, but at which location can you reliably know you can avoid overflow? Any code that takes input could be handed values which cause an overflow at some point right? If you are duplicating logic (i.e. you have a 32-bit version, 64-bit version and perhaps more) how do you know which one to use? The only way you can know if it will overflow is essentially by doing the mathematical operation, so checking which path to take is at least as complicated as just doing it, which means you just need to do it and check for overflows and extend/retry with the next size. I'm having a hard time seeing how static analysis helps here except in arbitrarily small cases where you can compute the entire possible result space and prove it and all intermediate values are less than x-bits. I'm not sure if static analysis of this kind can really be reduced below the complexity of the halting problem, which is an NP-hard problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591934749.178900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591934749.178900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 21:05</span><br/>
+Reading from stdin is a "gotcha" that isn't going to occur too often in the middle of a large program (e.g. a large GUI app, not a small command line utility). Often the numbers you'll be working with will be pieces of program state, or derivatives thereof. Either way, imagine number_x and number_y are used in a lot of different expressions (they're some key value like the position of a particle). Then we might be able to deduce the following: if number_x and number_y are &lt;= 32 bits, then the calculations they are used within will not overflow a 64-bit register (in the above example they simply need to be &lt;= 63 bits). That's the static analysis. What can we do then? Create a <b>fast</b> code path (no size checks, no BigInts, no DRAM access) for the small number case, and a <b>slow</b> code path for the big number case. Branch into the correct path based on an initial test of number_x and number_y.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591934830.179100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591934830.179100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 21:07</span><br/>
+I'm not saying this static analysis is going to be super effective, but I can't see any major problems with the idea yet. I'll figure it out when I try to implement it! That will be the distant future, because I'm far more focused on UX in the coming year. A good ALU abstraction is key to a good UX.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591940682.179400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591940682.179400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:44</span><br/>
+The minute you throw a few IF statements into the mix, static analysis becomes impossible. I don't believe that static analysis could ever work. If you have a mysterious function for which you don't know the result range, then  mystery(3) * 2 becomes unknowable in terms of required bit size.  For a vast number of applications, double precision floating point has proven adequate, which is why it is the main numeric type used in JS and AS3.   A long time ago FLOAT64 was so slow (100x slower than integer) one would go to great lengths to avoid it, but IBM and Intel cracked the code on fast floating point, and now you don't even think about it. I think Motorola's inability to build a fast floating point unit may have been a factor in Apple ditching Motorola for PowerPC.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591940889.179600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591940889.179600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:48</span><br/>
+I'm only envisioning the analysis working locally. The goal is to avoid checks on every single arithmetic operation. What is this "mystery" function you're thinking of? It's going to consist of primitive operations like add and multiply.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941261.180200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591941261.180200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:54</span><br/>
+Even local branches will create a combinatorial nightmare for your analysis. And if it is inside a while() loop, how do you know how many times it will execute? Every one who has ever done this has done runtime checks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941429.180400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591941429.180400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:57</span><br/>
+Well, it won't be inside a while-loop because my language doesn't have those! Nor does it have general recursion. I'm introducing repetition capabilities VERY carefully. My theoretical foundation is Datalog, which is far more amenable to static analysis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941507.180600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591941507.180600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:58</span><br/>
+I'll probably be including escape hatches where "anything goes", but I'm yet to see how prevalent those will need to be. I think they'll be limited to low-level libraries.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941581.180800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591941581.180800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:59</span><br/>
+And coincidentally, Datalog is itself a good language for implementing a static analyzer, so I'll probably have high-quality static analysis at my fingertips.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591980421.203100"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1591980421.203100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-06-12 09:47</span><br/>
+Well, there is no doubt a body of comp-sci research on this sort of thing that would be worth looking at. "value range analysis" is a term I've heard...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593738544.222000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1590977348.305600.html#1593738544.222000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2020-07-02 18:09</span><br/>
+Love the idea of a PL where the basic types are variable sized (and/or small scalar vectors), and made a few designs in that direction.. the hard part (for me) is always making it fast. My last attempts try to solve that by putting such values on a stack (as opposed to dynamic allocation fallback). Something similar to "small object optimization" of e.g. Clang's std::string implementation is also a good direction.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

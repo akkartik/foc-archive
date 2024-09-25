@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-02-03 22:46</span><br/>
+Example: I have a UTF-8 encoded string that holds an XML document. I run a super-simple parser (scanner) over it that cuts it into .tag(String) and .text(String) values — all characters that used to be between &lt; and &gt; end up in .tags, everything else in .texts. Nothing more.<br/><br/>Now in a separate step I take all the .tags and run another super-simple parser on the contents of each tag. If it starts with /, the .tag is transformed into an .endTag, if not it’s transformed into a .startTag.<br/><br/>In another separate step I take all .startTags and run another super-simple parser on their contents to split tagName from attributes. Etc. You get the pattern.<br/><br/>What weird way of parsing have I just reinvented?<br/>This is not a quiz. I’m trying to figure out what this is called so I can search for articles that do something like this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580799883.083600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580799883.083600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-02-03 23:04</span><br/>
+You don't mention how you're managing all the .tags and .texts in step 1, all the .startTags and .endTags in step 2, and so on. For some answers to that question, this sounds like recursive descent.<br/><br/><a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">https://en.wikipedia.org/wiki/Recursive_descent_parser</a><br/><br/>This is probably the #1 way to hand-build parsers. Lots of languages either use it in their parsers or did at some point in the past. I'm <em>very</em> partial to it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580800020.083900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580800020.083900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-02-03 23:07</span><br/>
+Yes, please someone answer.  I have certainly looked at this kind of serial tokenizer/tree-transformer kind of thing before without reaching a clear notion that unifies with more conventional parsers and multipass stream transformation.  There's a connection to this sort of stream processing <a href="http://reactivex.io/">http://reactivex.io/</a> and Bidirectional Transformations of this type <a href="https://2018.programming-conference.org/track/bx-2018-papers">https://2018.programming-conference.org/track/bx-2018-papers</a> and Nanopass compilers <a href="https://nanopass.org/">https://nanopass.org/</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580802756.096000"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580802756.096000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-02-03 23:52</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Nanopass compilers, yay — that’s the kind of stuff I was looking for. You don’t happen to have looked into common patterns for parsing passes, robustness/gracefully dealing with malformed input, concurrent parsing, or visualizing parsing passes as part of your explorations in that matter? And you also read my mind. Bidirectional Transforms is what I’m after.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580804632.097700"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580804632.097700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-02-04 00:23</span><br/>
+Can you even do that? Isn't this valid XML<br/><br/><pre style="white-space:pre-wrap">&lt;tag attr="&lt;notatag&gt;foo&lt;/notatag&gt;"&gt;bar&lt;/tag&gt;</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580805354.101200"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580805354.101200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-02-04 00:35</span><br/>
+I’m not trying to parse XML. I was just making up an example to explain what I’m doing. Seemed easier to do than describing it abstractly.<br/><br/>Apart from that I think you’re supposed to escape &lt; and &gt; with &lt; and &gt; in attributes and text.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580806712.102500"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580806712.102500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-02-04 00:58</span><br/>
+A well, checking the spec this is valid<br/><br/><pre style="white-space:pre-wrap">&lt;tag attr="&gt;"&gt;foo&lt;/tag&gt;</pre><br/>but if dealing with nested delimiters wasn't important then no biggy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580881354.108500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../linking-together/1580798784.083500.html#1580881354.108500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-02-04 21:42</span><br/>
+This type of multi-pass massaging of text is extremely common. I don't think the researchers think it worthy of their attention, as it is a sequential series of a set of text transformations which in the end result in a desired format. The SED program from 50 years ago was one of the first "stream" processing utilities.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

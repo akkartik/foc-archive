@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-04-16/610501525696_590662e8a2ae7b2c73e9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Priestley</b>
+<span style="margin:2em; color:#606060">2019-05-09 11:54</span><br/>
+I think the mindset of "functional is better than imperative" has led to great confusion. If you are approaching this from the point of view of mathematical tractability (which I agree with) then they are simply different mathematical structures. It's like saying "rings are better than groups".<br/><br/>There are areas where the sequential, mutational aspects of imperative code are inessential, and using imperative code is inelegant there ... like using too rich a mathematical structure for a proof, rationals where you just need any monoid. The best place for functional code is "pure computation" without "side effects" like concurrency, I/O etc.<br/><br/>But even this terminology gives a weird value judgment, "pure" vs "impure". And then you have this quest to "purify" the impure by simulating I/O with monads - this doesn't simplify the proofs at all, the putative goal of the exercise. Conal Elliott did a great job parodying this mindset with "The C language is purely functional".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557436796.247900"></a>
+      <img src="https://secure.gravatar.com/avatar/373561dd658617ebf8d413eb95361c0d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557436796.247900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie</b>
+<span style="margin:2em; color:#606060">2019-05-09 14:19</span><br/>
+Haskell will save us!  We must purify the heretics!  I never noticed this tone before.<br/><br/>A Haskell programmer is walking down the street and steps in gum.  He looks down and mutters under his breath with disgust "<em>mutation!</em>".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557437254.248100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557437254.248100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-09 14:27</span><br/>
+I like terms used by Eric Normand: calculations VS actions.<br/><br/>Currently I like extreme purism most useful as thinking tool. When I have asked to help with some messy code piles with buggy / unpredictable behviour, I bite the bullet and describe / redesign roughly same system as pure functional style. On that form you can easily spot fundamental errors. After that you can fix them using more or less FPish style.<br/><br/>I have couple of wins where nobody else has been able to make sense about the code (even tough code is written completely by themselves) but I can <em>systematically</em> apply this method and solve problem. So this is my current day job superpower :smiley: (yea yea no silver bullet I know...)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557438792.249100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557438792.249100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-09 14:53</span><br/>
+If I would try to do programming language at some point one idea I would like to try is implicit function parameters and returns. First some definitions:<br/><br/>Implicit parameters example:<br/><pre style="white-space:pre-wrap">f1 = a =&gt; a + 1<br/>f2 = a =&gt; f1(a) * 2<br/>f2(0) -&gt; 2</pre><br/><br/>Now let's change implementation of f1:<br/><pre style="white-space:pre-wrap">f1 = a, b =&gt; a + b + 1</pre><br/><br/>f2 wont need to be changed but it now must be called with 2 arguments:<br/><pre style="white-space:pre-wrap">f2(0,1) -&gt; 4</pre><br/><br/>Note that this is essentially pretty much the same as (I don't remember the term):<br/><pre style="white-space:pre-wrap">f2 = a, b =&gt; <br/>    f1 = c =&gt; c + 1<br/>    f1(a,b) * 2</pre><br/><br/>Differences basicly is that f1 is not strictly limited to be used only inside f2.<br/><br/><br/><br/>Implicit returns example:<br/><pre style="white-space:pre-wrap">f1 = a =&gt; (a + 1, 'Called with ' + a)<br/>f2 = a =&gt; f1(a) * 2<br/>f2(0) -&gt; (2, 'Called with 0')</pre><br/><br/>So f1 is returning "unhandled data" (kind of log in this case) which is then passed up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557440404.249700"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557440404.249700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-09 15:20</span><br/>
+<b>Interesting part:</b><br/>If you just copy paste you Java like code in it's pretty much valid.<br/>You are doing imperative logging =&gt; it <em>return</em> logs.<br/>You are writing to database =&gt; <em>return</em> new state/change.<br/>You are reading from database =&gt; database must be <em>passed as parameter</em>.<br/>and so on...<br/><br/>And how about if you mix database reads and writes? Should writed states be passed to following reads or should all reads just use same passed database state? Excellent question: raise compile error and let programmer to fine tune parameter flow.<br/><br/>If code is tightly called example by UI events and work done in the middle of the events raise another events this flow may not be obvious. It just means that you most probably didn't have any idea what your code would do. Good news is that fundamental problem is now detected and visible.<br/><br/>Side note: in F# you may not write any types but inferred types will be still shown to you by IDE. In a sameway implicit parameter passing and return values must be shown by tool suitable way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557440958.251600"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557440958.251600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-09 15:29</span><br/>
+Another way to express idea is that side-effects have often dependent from each other and analyzing them functionally could be good tool for that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557441885.252700"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557441885.252700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-09 15:44</span><br/>
+Btw I'd like to get feedback as writer if my descriptions are unclear. So if you feel that you didn't understood the point / or it was hard read please react with at least :point_up:or something. Be brave :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557442965.253200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557442965.253200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-05-09 16:02</span><br/>
+<span style="background-color:#ccf">@Niko Autio</span> From a skim I did not understand why you believe such a feature would help make programming simpler/easier in any way. You're saying side-effects should just be expressed as implicit parameters? If so, I don't think that would make programs easier to understand. You'd quickly be passing huge messes of parameters around, and your programs would be fragile because they'd break when the compiler can't figure out how to thread everything together.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557443057.253400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557443057.253400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-05-09 16:04</span><br/>
+Some researchers are working on a more principled approach to tagging side-effects in a functional language in the form of "algebraic effects". Yet to be determined how that helps reasoning about side-effects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557500088.323600"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557500088.323600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-10 07:54</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Reasoning about side effects is kind of second thought. Primarily it's meant to be able to write side-effect like code while it's actually pure.<br/><br/>Idea is motivated by experience I have got when doing purish F#: ~every time you get new random business requirement ("hey when A is X we want completely unrelated B to be Y") you have to refactor part of your application. Kind of "renormalize" it. Somebody might say that this idea make easier to take technical debt which gives you more productivity but indeed if you take too much of...<br/><br/>I imagine that outcome could finally be something like that if you have zero tooling it just give somekind of "side effect" ability and if you can live with them in JS you should be able to live with those things too. And in opposite direction where compiler/IDE can visualize  parameters well it's just regular pure code only with less writing.<br/><br/>So I don't know is this any game changer but I would like to try programming with such thing myself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557500415.323800"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1557428080.241200.html#1557500415.323800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-05-10 08:00</span><br/>
+However I do believe that on high level future of programming should less write &amp; verify but more like dialogue. So if compiler cannot solve something it's kind of the point. Compiler is there to point out next issue for me.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

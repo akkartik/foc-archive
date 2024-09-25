@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-03 13:25</span><br/>
+Want to tell you about one idea that I was recently working on.<br/><br/>If text file as a source code format is very limiting and doesn't allow to develop more convenient programming environments -- what is the alternative then?<br/>How we gonna store code if it's not in text files?<br/><br/>In my understanding such platform should have following properties:<br/><br/>1) Easy integration into web, media. Should be super easy to drop a rich comment for particular piece of code, or reference it somewhere.<br/>2) Versioning of the code. Must be a way to keep old versions of code, reference them.<br/>3) Explicit dependencies stored alongside. If I open old version of code, I should get references to all dependencies of that time, and it should work.<br/>4) Ability to see where particular functions were called.<br/>5) Easy collaboration, sharing of code.<br/><br/>I want this platform to be able to offer several interfaces for the same code (might be visual or just old plain text).<br/>The interface code should be part of this platform lying next to actual code.<br/><br/>I've just read this tweet <a href="https://twitter.com/chatur_shalabh/status/1035599115793526784">https://twitter.com/chatur_shalabh/status/1035599115793526784</a>,<br/>And got feeling that probably <span style="background-color:#ccf">@Shalabh</span> may have exactly same thoughts about all of this.<br/><br/>Then I've listened to Ted Nelson's ideas about hypermedia and links that visible on both ends.<br/>Then I've also read <span style="background-color:#ccf">@Shalabh</span> article about files: <a href="https://shalabh.com/programmable-systems/files-and-file-formats.html">https://shalabh.com/programmable-systems/files-and-file-formats.html</a><br/><br/>So it seems like in the end I'm not looking for specific code platform.<br/>It seems like I'm looking for more advanced hypermedia than today's web,<br/>that can store code along with other content.<br/><br/>I'm not sure yet how exactly on this platform code gonna be stored, and what kind of programming languages would execute it.<br/>I'm just designing it rich enough that it would be possible.<br/><br/>----------------------<br/><br/>The idea is following: we create a graph where all data is stored as nodes and edges.<br/>Nodes and edges are immutable, and thus graph has many properties that git has.<br/><br/>User may replicate to his machine any set of nodes he interested in from other peers.<br/>User may create node or edge between any two nodes on his machine.<br/>Each node and edge is signed by an author.<br/><br/>Nodes are addressed by their content, just like it is with magnet links (DHT).<br/>User may search for edges for this particular node on peers machines.<br/><br/>This looks really powerful, yet not that complicated.<br/>Certainly someone else already thought about it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536007059.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536007059.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-03 13:37</span><br/>
+Have you thought more about what exactly that graph structure could look like?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536007400.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536007400.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-03 13:43</span><br/>
+Yeah, I just omitted it to not overcomplicate my post. Wait a sec.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536007491.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536007491.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-03 13:44</span><br/>
+I thought how versioning could look like and realized that it takes two kind of edges:<br/><br/>1) hard edges. Similar to relationships between parent and child commits in git. When hard edge created, destination node takes id of source node as part of input to hashing function for id. Hard edges can be created only simultaneously with destination node.<br/><br/>2) soft edges. These edges can be created at any time and don't participate in hash generation for nodes.<br/><br/>Basically graph is bunch of DAGs that we know from git, yet nodes may have more edges between each other providing extra information.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536008345.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536008345.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-03 13:59</span><br/>
+I thought about node content and how viewers should understand how to interpret it. I realized that single node might be interpreted differently in different contexts.<br/><br/>Say if node represents some historical fact, then in timeline viewer it would be represented by timestamp, on world map it will be represented by shapes on the map (where it happened).<br/><br/>Or say we got function that might be interpreted as text code, or as some element of visual program that requires some additional info not available in text code. It should be part of one node.<br/><br/>So different kinds of data, probably for different applications should be stored in one node.<br/>I came up with idea of having namespaces, where application author's public key serves as namespace for node attribute.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536011589.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536011589.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-03 14:53</span><br/>
+Thanks for reading my blog, <span style="background-color:#ccf">@Vladimir Gordeev</span> :smile:. I'm still trying to think these things through. My belief is that we need to think about this from a holistic, whole-system perspective and rethink whether the prevalent concepts are even necessary.<br/><br/>I like the ideas you are proposing and I'll add some of my thoughts below. This is absolutely about a new and different kind of hypermedia, and <b>not</b> a replication of physical paper in a digital machine (which is what text files are). I do think a <b>single</b> location-independent, append-only graph like system could be used to hold <b>all</b> static structural things - code (if we need it), rich media, and all their interconnections, sub parts and versions.<br/><br/>All replication can be orthogonal - whether its for caching a part of this graph to a user's local machine or for redundancy. We can have just a single namespace that can precisely point to any object in this world. Alan Kay once said something like 'give every object a URL'.<br/><br/>Then we can think about built-in concepts, i.e metadata that this system supports. Something like 'new version' is just a special kind of edge. So is 'derived from' (e.g. I use a tool to convert a picture to grayscale, the new picture should be linked to the old, and to the function/tool that modified it). Even 'type-of' could be an edge that links a media object to a transcoder object - you shouldn't have to go hunting around for 'programs' that will decode a 'file' you have. Any dynamic/executable objects should link to <b>all</b> objects that form the interpreters/runtimes/dependencies that it needs - no more runarounds trying to recreate the environment from reading READMEs or whatever. IOW, preserve the connection to the <b>context</b>.<br/><br/>Optimizations and compromises (such as discarding edges) should be defined separately, rather than designed in (we want a system that is limited by computer constraints only, not by design).<br/><br/>I also think it is important not to build in assumptions like programming paradigms etc, so many kinds can be supported. Of course, much of the work is in the details.<br/><br/>BTW, some related ideas are in the <a href="http://unisonweb.org">unisonweb.org</a> and in <a href="http://infra-structure.org">infra-structure.org</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536012320.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536012320.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-03 15:05</span><br/>
+And by 'rethink the prevalent concepts' I'm talking about things like 'programs' - a fundamental concept but why do we need it? In the end we want systems with desired behaviors. But a system is not a  program! Most system behavior emerges from the composition of multiple programs, where the parts of a program are composed together very differently than how multiple programs are composed together (and how multiple clusters of programs are composed together). Another perspective could be we inspect and modify the system through various on-demand projections.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536023785.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536023785.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2018-09-03 18:16</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> welcome to the club :stuck_out_tongue:<br/>I don't know how good match for you but just in case:<br/><a href="https://futureprogramming.slack.com/archives/C5T9GPWFL/p1536022009000100?thread_ts=1534675466.000100&amp;cid=C5T9GPWFL">https://futureprogramming.slack.com/archives/C5T9GPWFL/p1536&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536023962.000100"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536023962.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2018-09-03 18:19</span><br/>
+When we're talking about immutability and content-addressed data, I feel like I should mention <a href="https://ipfs.io/">https://ipfs.io/</a>. Wouldn't it be cool if one day public data / code / programs would be shared in a distibuted peer-to-peer network like ipfs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536039141.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536039141.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-03 22:32</span><br/>
+There is also <a href="https://datproject.org/">https://datproject.org/</a> for peer-to-peer data distribution
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1536044749.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1536006302.000100.html#1536044749.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-04 00:05</span><br/>
+completely forgot about ipfs, it looks so good. Thanks <span style="background-color:#ccf">@Felix Kohlgrüber</span>!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

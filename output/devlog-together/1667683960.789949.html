@@ -1,0 +1,298 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1667683960.789949.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-05 14:32</span><br/>
+I woke up this morning and started implementing <a href="https://www.inkandswitch.com/potluck/">Potluck</a> for myself. I want this in my toolbox, but a browser is just not convivial enough.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1667684250.506429"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1667684250.506429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-05 14:37</span><br/>
+Stack:<br/>• <a href="https://www.lua.org/">Lua</a> (12kLoC of C)<br/>• <a href="https://love2d.org/">LÖVE</a> (5MB download; depends on a minimal graphics stack)<br/>• <a href="https://github.com/linux-man/LoveFrames">LoveFrames</a> (25kLoC of Lua for a GUI toolkit)<br/>• <a href="http://akkartik.name/lines.html">a text editor</a> (5kLoC of Lua)<br/>• <a href="https://codeberg.org/akkartik/20221018-live.love">500 LoC of live programming infrastructure</a><br/>Properties of this stack:<br/>• minimal dependencies<br/>• cross-platform; runs on Windows<br/>• <a href="https://www.inkandswitch.com/end-user-programming">easy for anyone to modify</a><br/>• <a href="https://www.youtube.com/watch?v=8Ab3ArE8W3s">live; modify without restarting</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1667729531.914299"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1667729531.914299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-06 02:12</span><br/>
+I really like how you are exploring the space of minimal dependencies while remaining practically usable in today's computing environment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668902221.023199"></a>
+      <a href="../devlog-together/1667683960.789949.html#1668902221.023199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-19 15:57</span><br/>
+Kernel of a DOM in 50 LoC. Render a tree of nodes (divs) as rectangles, computing their position and dimensions based on their contents. And, of course, all developed live and interactively. More details in :thread:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668902386.799349"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1668902386.799349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-19 15:59</span><br/>
+Ok, I may have under-estimated how much work Potluck will be. To build Potluck I need the ability to render tables, and to render tables that I can type into I really need a DOM. Prev-gen GUI toolkits like LoveFrames won't cut it; I need the ability to dynamically adjust dimensions as contents change. Hence this detour.<br/><br/>The good news: I don't need much. The format is just literal Lua table syntax. Each node (div) contains either text, a row of nodes, or a column of nodes. Other supported attributes: <tt>fg</tt>, <tt>bg</tt> colors and <tt>margin</tt> that acts like <tt>margin-top</tt> or <tt>margin-left</tt> depending on whether the parent has rows or columns.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668937715.244619"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1668937715.244619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-11-20 01:48</span><br/>
+One very nice trick from the scheme community is the "tag is really just the name of a function" approach taken by <a href="https://docs.racket-lang.org/scribble-pp/index.html">Scribble</a>, <a href="https://docs.racket-lang.org/pollen/third-tutorial.html">Pollen</a>, et al.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669619670.929479"></a>
+      <a href="../devlog-together/1667683960.789949.html#1669619670.929479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-27 23:14</span><br/>
+Here's a repo for my Lua-based markup language: <a href="https://codeberg.org/akkartik/luaML.love">https://codeberg.org/akkartik/luaML.love</a><br/><br/>Still just a demo, but hopefully it'll grow to more at this URL.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669624525.123349"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1669624525.123349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-28 00:35</span><br/>
+Interesting!<br/><br/>In particular: "This is a nightmare if you imagine this turning into some sort of long-lived standard with versions and compatibility guarantees. I don't. I just want an app-internal format for creating UIs with very little code."<br/><br/>Craft rather than industrial design. I'd love to see more experiments in this space!<br/><br/>I see my own Leibniz projects there as well, though for a much more specialized application domain. This now makes me wonder if I should try to go for "full craft", i.e. provide Leibniz export in craft-friendly data formats rather than industry-standard ones (XML etc.).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669626264.374519"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1669626264.374519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-28 01:04</span><br/>
+It's an interesting lens. Do you see any drawbacks to the industry-standard approach for your projects? I'm wondering if there are drawbacks you've always been aware of, but you're starting to weight them differently.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669626412.776219"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1669626412.776219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-28 01:06</span><br/>
+The drawbacks of industry standards are often (1) a steep learning curve and (2) too much rigidity. Consider XML. Even with XML libraries available for all major programming languages, extracting data from a particular XML schema is a lot of work, and modifying the schema for an experimental extension is even worse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669626452.408319"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1669626452.408319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-28 01:07</span><br/>
+On the other hand, when archiving data I definitely do want to follow industry standards.So it's not a question of choosing the better option, but of supporting both.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1671327873.320859"></a>
+      <a href="../devlog-together/1667683960.789949.html#1671327873.320859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-12-17 17:44</span><br/>
+I ended up redoing the box model from scratch, this time atop a foundation of a surface you can pan and zoom.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1671906523.549649"></a>
+      <a href="../devlog-together/1667683960.789949.html#1671906523.549649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-12-24 10:28</span><br/>
+Box model from scratch #3. I think I'm happy with this one. You can draw various graphics and edit text in arbitrary grid layouts, all on a pannable, zoomable infinite surface. I finally understand how to cleanly update the viewport based on edits within a pane.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672290343.153799"></a>
+      <a href="../devlog-together/1667683960.789949.html#1672290343.153799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-12-28 21:05</span><br/>
+The driver program I use to live-edit my Lua+LÖVE apps now also uses the new box model so I can open multiple buffers, move them around, zoom, etc.<br/><br/>The stack currently weighs in at:<br/>• Text editor (<a href="https://lobste.rs/s/vsb6ue/case_for_models#c_d2mmvi">with thorough tests</a>): 5kLoC<br/>• Live-programming infrastructure: 500LoC<br/>• LuaML box model and driver app: 1kLoC
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673225130.118809"></a>
+      <a href="../devlog-together/1667683960.789949.html#1673225130.118809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-08 16:45</span><br/>
+I've been pushing hard lately on the metaphor of <b>a map for code</b>. In this brief video you see in succession:<br/>• a simple test app<br/>• the 'driver' programming environment showing the map for the app<br/>• the 'meta-driver' programming environment showing the map for the driver<br/>When the driver loads it zooms out over the whole codebase before zooming back in to wherever I left off.<br/><br/>(For this initial animation I'm inspired by early side-scrolling videogames that would often start a new level by panning across all of it. Since I'm not a game programmer, the animation is currently glitchy af.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673803175.595739"></a>
+      <a href="../devlog-together/1667683960.789949.html#1673803175.595739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-15 09:19</span><br/>
+This was surprisingly hard: making the animation smoother by drawing to a texture just once. I learned two things:<br/><br/>• Just how slow LÖVE is. On my 1.4GHz (/core) laptop (running Linux) an empty app (just initializing graphics every frame) runs at barely 60fps (15ms/frame). It's very easy to overflow even 30fps.<br/>• I don't know if my standards are too high, but the way LÖVE does texture mapping is a little weird: <a href="https://codeberg.org/akkartik/driver.love/commit/207ebfae36902cb18a1d2fcf5e31e6301ad5a2e0">https://codeberg.org/akkartik/driver.love/commit/207ebfae369&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673855248.339139"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673855248.339139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2023-01-15 23:47</span><br/>
+I looked into it a bit because I felt like those performance numbers sounded suspicious.<br/>Looks like there is (or was, 14+ years ago :no_mouth: ) a driver-level bug with vsync: <a href="https://love2d.org/forums/viewtopic.php?t=116">https://love2d.org/forums/viewtopic.php?t=116</a><br/><br/>Maybe the bug is actually in the mechanism LÖVE uses to enable vsync, but either way, I am pretty convinced that disabling vsync should solve your performance problems
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673855387.661239"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673855387.661239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-15 23:49</span><br/>
+Doesn't disabling vsync have its own risks and caveats? I don't really know what I'm doing there..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673855751.671969"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673855751.671969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2023-01-15 23:55</span><br/>
+The only I can think of is tearing, which is annoying at worst, and shouldn’t be an issue unless your render code is <em>actually</em> the bottleneck.<br/>Okay, and maybe some timing stuff if you were using frame numbers instead of wall clock.<br/><br/>Caveat: I’m not a graphics person by trade, but I did take some computer graphics classes and am a bit of a gaming nerd :upside_down_face: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673856116.037109"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673856116.037109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-16 00:01</span><br/>
+Definitely sounds worth a try. Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673890647.037059"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673890647.037059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-16 09:37</span><br/>
+I just tried it and yes, the empty app went from 15ms/frame to 0.005ms/frame without vsync!<br/><br/>It's a little different from your link in that my CPU doesn't get pegged with vsync. But it does introduce a non-busy wait.<br/><br/>Unfortunately this doesn't affect my app's initial animation. If I bump back to before my recent texture-mapping changes and try it with/without vsync, I see no perceptible difference. I might have been able to find an alternative way to speed up the animation, though, if I'd disabled vsync..<br/><br/>I'm going to disable vsync going forward. It seems clear that any drawback stemming from this decision is going to be very obvious, so no reason not to try it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673891995.811289"></a>
+      <img src="https://secure.gravatar.com/avatar/d6d3825871fcd174c36fe3eada6d5fce.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1673891995.811289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nils Berg</b>
+<span style="margin:2em; color:#606060">2023-01-16 09:59</span><br/>
+Hm. If it wasn’t busy-waiting, and you didn’t see improvement on your actual workload, then it sounds like vsync wasn’t actually causing your problem. <br/>Put another way, to run your app at 60fps, <em>something</em> must take 15ms, and if you’re not doing any actual work, the draw function will be that something.<br/><br/>But yeah, it’s likely that turning vsync off won’t hurt either :slightly_smiling_face: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674195138.538259"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1674195138.538259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-19 22:12</span><br/>
+One bit of follow-up: it turns out that disabling vsync increases CPU utilization quite dramatically, from 2-3% to 20% for an empty app. Non-empty apps increase even more. I noticed this when my laptop's fan started coming on; something that has seldom happened.<br/><br/>My mental model now is that without vsync LÖVE just cranks through frames as quickly as possible. It won't make a difference if there's lots to do between frames, but 0 work will lead to infinite fps, approximately.<br/><br/>(Obviously, I'd love to hear if this logic seems flawed.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674398919.532479"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1667683960.789949.html#1674398919.532479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-01-22 06:48</span><br/>
+That reminds me... of that one time... in StarCraft II some scene on Raynor's spaceship with an especially <b>low</b> polycount fried one of my MacBooks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674537799.058979"></a>
+      <a href="../devlog-together/1667683960.789949.html#1674537799.058979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-01-23 21:23</span><br/>
+My environment now has tests. In this 1-minute animation you can see me make a change that breaks some tests. The edges of my vision go red. I zoom out to see what broke. I can click on places on the map to zoom in, Exposé-like, on failing tests.<br/><br/><a href="https://git.sr.ht/~akkartik/driver.love">https://git.sr.ht/~akkartik/driver.love</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

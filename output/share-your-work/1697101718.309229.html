@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/a0b51230e15ccdce8665831ce103ccdb.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Svarovsky</b>
+<span style="margin:2em; color:#606060">2023-10-12 02:08</span><br/>
+<a href="https://m-ld.org/">m-ld</a> is a component for sharing live information peer-to-peer. (Lots of materials at the link, and click the big green button to <a href="https://js.m-ld.org/">find code playgrounds</a>.)<br/><br/>It's intended to allow programs to be written "local-first", having a reactive local model that is concurrently editable from multiple remote locations, with a guarantee of eventual consistency. So, you more-or-less write your code as if the data is 100% local, embedding m-ld as a library, and magically find that other remote participants can read and write the data too (subject to security!).<br/><br/>There are two main use-cases we're targeting – client apps, like office tools, supporting collaborative editing (GDocs-style); and microservices sharing information like configuration or master data. In both cases, you don't need a (extra) server for the data (though you do need a way to pass messages, for example a pubsub).<br/><br/>I've been working on this for a while so there's a million things I could ramble on about, but I'm curious to know if the above pricks up anyone's ears. Do those use-cases sound, well, useful? Does my description make you want to know more, or, ho-hum? Any feedback is welcome; will return with recent focus later! Many thanks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697113547.543659"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697113547.543659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-10-12 05:25</span><br/>
+CRDT-based?<br/><br/>And how is it different from SyncThing (that kind of question people ask which is SOOO annoying cos it usually means they didn't bother to read or understand what your offering is!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697115197.153899"></a>
+      <img src="https://secure.gravatar.com/avatar/a0b51230e15ccdce8665831ce103ccdb.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697115197.153899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Svarovsky</b>
+<span style="margin:2em; color:#606060">2023-10-12 05:53</span><br/>
+Yes, CRDT-based.<br/><br/>Heh no worries, all q's are good, shows me what I need to lead with in the docs :grinning:. So SyncThing is <a href="https://forum.syncthing.net/t/how-does-conflict-resolution-work/15113/4">"not content-aware"</a> – its atoms are opaque binary files. m-ld's atoms are numbers, strings, booleans etc. that live in a graph. (The graph could locally be represented as an object model, or structs with pointers, or whatever.) So what you're sharing is the application-specific data model, which might often correspond, when serialised, to the <em>contents</em> of a file.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697126568.674739"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697126568.674739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-10-12 09:02</span><br/>
+Great answer, thanks, that's very clear.<br/><br/>So on permissions: is there a primary owner that configures write-permitted collaborators per (fine-grained) graph chunk? And I'd guess a kinda separate read permissions for more people to see bigger chunks of your graph?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697128966.082259"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697128966.082259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-10-12 09:42</span><br/>
+This looks at the same time (1) very interesting and (2) scary.<br/><br/>Very interesting for what it allows to do - I guess I don't need to expand on this.<br/><br/>Scary because it encourages "apps" to enclose data  in silos (the clones), which is the exact opposite of what I am hoping and advocating for.<br/><br/>I do understand that apps can store the cloned data in persistent storage, such as a file system, in any format they like, and thereby make it accessible to other apps. But the focus of the documentation is on apps that "own" the user's data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697133127.242479"></a>
+      <img src="https://secure.gravatar.com/avatar/a0b51230e15ccdce8665831ce103ccdb.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697133127.242479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Svarovsky</b>
+<span style="margin:2em; color:#606060">2023-10-12 10:52</span><br/>
+> So on permissions: is there a primary owner that configures write-permitted collaborators per (fine-grained) graph chunk? And I'd guess a kinda separate read permissions for more people to see bigger chunks of your graph?<br/>There's a 'grand vision' flavour of answer and an implementation-specific one. To start with the latter, let me first say that m-ld chunks the world into 'domains', which are generally expected to be file-size things, which are cloned in-full. Each domain is its own graph, and the convergence guarantee covers the contents of that domain.<br/><br/>Read permissions in practice (so far) have been nicely covered by just controlling who has access to the messaging channel for that domain. For example, using MQTT, the channel is a Topic, which can be access controlled.<br/><br/>The baseline position for write permissions is, everyone has them – the component is intended for multi-editor writing. But that's not going to be satisfactory for every use-case. I did a whole research project on decentralised fine-grained write permissions. <a href="https://github.com/m-ld/m-ld-security-spec/blob/main/design/suac.md">The long answer is here</a>. In short, the domain starts with the first "genesis" clone, which establishes the security model and its local user, identified by public key, as the authority over everything. After that, permissions can change by an 'agreement', which is a data update that disallows any concurrent update and so can be used to establish a kind of chain of custody which can be independently verified at each node. At the moment this model is tricky to set up and not well enough characterised, so for now, fine-grained write permissions are definitely in the realm of the experimental.<br/><br/>To return to the grand vision: we're pretty sure we can make domains less physically-bound, and be able to have big domains which are cloned only in part, as required. That would first require some refinements to the 'agreements' model. But also, these ideas go hand-in-hand with having untrusted nodes, which is the tricky bug-bear of any attempt to decentralise authority. (Sorry about the hand-waving. More thoughts on this are in the long answer linked above, in the 'trust' section at the end.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697134167.725999"></a>
+      <img src="https://secure.gravatar.com/avatar/a0b51230e15ccdce8665831ce103ccdb.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697134167.725999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Svarovsky</b>
+<span style="margin:2em; color:#606060">2023-10-12 11:09</span><br/>
+&gt; But the focus of the documentation is on apps that "own" the user's data.<br/>Ah! That's great feedback, thanks, I definitely need to address that focus!<br/><br/>So, we're hoping the design of m-ld will actually encourage apps not to be parochial about their data structures. It's based on the W3C's <a href="https://www.w3.org/2013/data/">Resource Description Framework (RDF)</a>. So it buys into a world of well-defined tools and techniques for data, including the ability to declare the data model in the data itself. I'm hoping that will encourage the use of standard and shared vocabularies.<br/><br/>This is the same fundamental choice as in the Solid Project, if you're familiar with that. As a component rather than a platform, we don't have the same opportunity to transform data ownership like they do. (It'd be great to explore how Solid and m-ld work together though.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1697137857.478559"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1697101718.309229.html#1697137857.478559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-10-12 12:10</span><br/>
+Thanks <span style="background-color:#ccf">@George Svarovsky</span>, that sounds a lot better than my first impression! A combination of m-ld with Solid sounds very interesting. The pod would provide the common reference that multiple apps can refer to.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

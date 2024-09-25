@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-02 10:00</span><br/>
+Random shower thought about hierarchical directories. Not as extreme as many ideas here, but still seems radical to a Unix weenie like myself.<br/><br/><a href="https://mastodon.social/@akkartik/102893835264728821">https://mastodon.social/@akkartik/102893835264728821</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570037406.133100"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html#1570037406.133100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-10-02 10:30</span><br/>
+Dirconf is an interesting idea; my first thought is that it's a peculiar way to implement a database. Also apparently not mentioned in the original article is that each record, however small (e.g. a single number), will take up ~4kb because of the file system block size, meaning that large configs could be thousands of times heavier than necessary.<br/><br/>What format would this structured file be, and why not use that for your config directly? (And would this be an instance of the xkcd #927 problem?) Is there a reason to name the program that does this <tt>cat</tt> and not something else?<br/><br/>In my view, this is all poking at the problem of (a) serializing in-memory data structures, and (b) that serialized data is untyped. The end result is that everyone invents their own system for recreating structure and type. The fundamental problem being solved is that organized data needs to be shared, either between processes, between process invocations, or between entirely different machines. The same problems come up when processes communicate with pipes— one spits out text, and the other inverts the spitting-out process. In general, how do you cause a pattern of organized data like the one you currently have to appear in the memory of a computer program at different place and time?<br/><br/>In the system I am working on, which is (for the time being) less ambitious than an OS, there is no concept of a "program" as distinct from a function. You could make a self-contained "piece of software" which is then directly composable with other "software", and the medium of information exchange is in-memory data structures.<br/><br/>It would be nice if we could do something like this in an OS; send a data structure to another program/invocation directly. Why are programs less composable than APIs? Why is it <em>exactly</em> that the boundary between programs is not identical to the boundary between functions? Why <em>exactly</em> do we serialize data across that boundary? Is that an unavoidable requirement? Could the OS make it transparent?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570041734.134200"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html#1570041734.134200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-02 11:42</span><br/>
+I've fully implemented the 'dirconf' idea in Curv. It's used to represent Curv source files in general, and the Curv configuration file specifically. I don't require each each integer to occupy a separate file (occupying 4K on disk) as Tim said. Instead, there are several different Curv file formats. One format is a regular text file, "*.curv", containing a Curv expression. (You can think of Curv as JSON extended with function values, if that helps.) Another Curv source code file format is a directory, which is an alternative syntax for a Curv record expression. Each directory entry is interpreted as a record member. PNG image files are also Curv source files, typically occurring as members of a directory-style Curv source file, which is how I get raw binary image data into Curv source code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570056055.135100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html#1570056055.135100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-02 15:40</span><br/>
+Very good points there, you are headed in the correct direction, as the UNIX concept that every device and system object is treated as a file, has been embedded as an assumption in people's thinking, and indeed an untyped stream of bytes is a pain in the rear. The whole recent history of JSON as the new data structure of choice for messaging is about preserving some structure across machine boundaries. Too bad JSON is a crude, very poorly defined data structuring system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570059200.135700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html#1570059200.135700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-02 16:33</span><br/>
+<span style="background-color:#ccf">@Tim Babb</span> At least for my original post, it was a thought experiment. Unix holds that everything should be a file. Plan 9 points out that not everything is a file in Unix, and takes it a bit further. OP takes that further still. What format should be native? It doesn't matter! Having a strong default that has native support seems worth trying.<br/><br/>There's an opposite and equally valuable set of thought experiments for exploring what happens when not everything is a file, and different things have distinct APIs.<br/><br/>&gt; If there a reason to name this <tt>cat</tt>?<br/><br/>Because it uses just the syscalls <tt>read()</tt> and <tt>write()</tt>.<br/><br/>Even if every int took up 4KB there's some use case where that's acceptable. However, in Linux, directories already inline files for the first 4KB to some number of inodes, IIRC. Also, one of the two ideas I alluded to was to use a single file for storage but allow reading inside it as if it were a directory. That doesn't have the storage inefficiency. But of course that was a lot to squeeze into 500 characters so nobody is expected to actually understand what I meant :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571378802.022000"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../linking-together/1570035650.132600.html#1571378802.022000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-10-17 23:06</span><br/>
+is this what powershell is/was all about. apps pipe structured objects to each other instead of text<br/><br/><br/><a href="https://en.m.wikipedia.org/wiki/PowerShell">https://en.m.wikipedia.org/wiki/PowerShell</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

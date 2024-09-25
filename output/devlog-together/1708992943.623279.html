@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-26 16:15</span><br/>
+Hi everyone,<br/>I have a big question about a programming-related problem I only partly understand, hoping not to get an answer, but rather pointers to where I should be looking. Here it goes.<br/><br/>For the past two years I have been working on SplootCode wanting to make code more accessible to non-engineers. The initial product (as is today) is basically a structured editor with drag and drop a-la-Scratch capabilities, and some other things to help non-engineers see and understand what the code is doing. You can see an example tiny program <a href="https://app.splootcode.io/shared/mattia/for-loops-example/EPdLhGOx7p1SbPDIDisgbfpV">here</a>.<br/><br/>During the interviews I conducted with several people, I bumped into a non-native English speaker who revealed their frustrations with having to learn English in order to code.<br/><br/>After speaking to another dozen non-native speakers - some of whom teach programming in non-English speaking countries using their native language - I figured that this is a really big problem for a lot people, and I want to solve it.<br/><br/>Since I have been deep into SplootCode for over two years, I am sure that I am suffering from sunk cost fallacy like crazy, thus the reason I am asking the question here is to get some outside perspective.<br/>---<br/>So, to solve the problem for people, I am wanting to address the nested problem that – AFAIK – the vast majority of programming languages, with the exclusion of any purely symbolic ones, are effectively a subset of the English language.<br/><br/>My first train of thoughts was: “perfect use case for building on top of SplootCode! The structured editing part means half the work is done already since I can label keywords however I want”.<br/>Followed by: “but wait! how can this be actually solved so that anyone can use their own tool of choice, which is what people will need?”<br/>---<br/>Thus my question is:<br/>I believe that the proper solution is to add a <em>layer</em>* to code – call the <tt>tongue</tt> layer – that defines the <em>label</em><b></b> for each <tt>tongue</tt>.<br/><b>What do I need to understand thoroughly, in order to build such a solution? Who should I speak to?</b><br/><br/><li><em>layer</em> intended as a standalone structure that doesn’t interact with anything but the semantic label of any literal, variable, operator, or function (or any other atomic structure that may exist within a programming language)<br/><br/><b></b><em>label</em> intended as the human-readable part of an atomic structure of a program. For example, the <tt>if</tt> in the structure <tt>if () {}</tt> in javascript, would be <tt>se</tt> in Italian, and <tt>もし</tt> in Japanese.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1708998758.312289"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1708998758.312289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-02-26 17:52</span><br/>
+One thought: maybe you need to understand the internalization process. As I understand it, there are libraries that let you wrap all string literals in your program in an annotation and then look up the literal in a language-specific list of translations.<br/><br/>So one lens here is that you "just" need to perform this internationalization process to a compiler codebase..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709000096.346619"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709000096.346619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-02-26 18:14</span><br/>
+It sounds - from my very biased perspective - like you are describing text-to-text translation. If so, then you want to dig into technologies that make text-to-text-transformation easy, e.g. PEG parsing, LLMs (large language models "AI"), macros (you can learn about macros in Lisp, but lisp uses Lists instead of Text for macros). For PEG, I would suggest OhmJS (pdubroy on ohmland discord <a href="https://discord.gg/7FqKRZdv">https://discord.gg/7FqKRZdv</a>, and <a href="http://ohmjs.org">ohmjs.org</a>) and LLMs (elimisteve on ohmland and programming simplicity discords (<a href="https://discord.gg/ZEy2ajN3XQ">https://discord.gg/ZEy2ajN3XQ</a>)) (and, TXL (Source Transformation Language by James Cordy) <a href="http://txl.ca">txl.ca</a>) and the fields of Program Transformation and meta-programming. I have been dabbling in this sort of stuff and would be happy to elucidate (including a DSL for t2t for use alongside OhmJS). (REGEX and CFGs look tantalizingly close, but aren't as good at this as Ohm and PEG and LLMs). Note that OhmJS can do more than just t2t transformation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709000418.776099"></a>
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709000418.776099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-26 18:20</span><br/>
+Thanks <span style="background-color:#ccf">@Kartik Agaram</span>, sounds inline with it, I’ll deep dive!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709000882.534809"></a>
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709000882.534809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-26 18:28</span><br/>
+Indeed <span style="background-color:#ccf">@Paul Tarvydas</span> , I will definitely leverage LLMs for the text-to-text translation part.<br/>Thanks for the links on the transformations too, I’ll look dive into Ohm and read up on PEG parsing as well!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709001752.032089"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-06/5085861186081_e3e6bba2ae4575d17358_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709001752.032089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Alan Hjelle</b>
+<span style="margin:2em; color:#606060">2024-02-26 18:42</span><br/>
+You might be interested in this thread: <a href="../linking-together/1706212534.780349.html">../linking-together/1706212534.780349.html</a><br/><br/>The language there has a graphical symbolic representation and a text representation that, as far as I can tell, is not language-specific.<br/><br/>I think <a href="https://github.com/wordplaydev/wordplay/blob/main/LANGUAGE.md">WordPlay</a> is also designed to be natural-language-agnostic?<br/><br/>None of that is probably all that useful to you for your own language except for inspiration. :-)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709014343.854129"></a>
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709014343.854129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-26 22:12</span><br/>
+Thank you <span style="background-color:#ccf">@David Alan Hjelle</span> , inspiration is always awesome :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709021653.916759"></a>
+      <img src="https://secure.gravatar.com/avatar/c4c54a8f7c01b3e22a1e82ae29c85f70.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709021653.916759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Swirsky</b>
+<span style="margin:2em; color:#606060">2024-02-27 00:14</span><br/>
+I'm not sure that "their own tool of choice...is what people need". A billion spreadsheet programmers are just fine with their spreadsheet editor and can always export their spreadsheets if they want to use a different one. The point of your structured editor is to make programming <em>easier</em> by the very fact that it is a different <em>kind</em> of editor. If someone wants to program with a non-structured editor, you can give them their standard code without the tongue layer and they can go. And if someone else develops a different structured editor with something like your tongue layer, you can decide whether to export to their format.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709023849.326489"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709023849.326489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-02-27 00:50</span><br/>
+Blockly and hedy are the best at translation that I know of:<br/><br/>• <a href="https://developers.google.com/blockly/guides/create-custom-blocks/localize-blocks">https://developers.google.com/blockly/guides/create-custom-b&hellip;</a><br/>• <a href="https://www.hedycode.com/">https://www.hedycode.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709025853.428819"></a>
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709025853.428819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-27 01:24</span><br/>
+Didn't know they did <span style="background-color:#ccf">@Mariano Guerra</span> ! Thanks for sharing!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709067566.352219"></a>
+      <img src="https://avatars.slack-edge.com/2024-10-04/7821406731430_b4428844860ebf0c4033_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1708992943.623279.html#1709067566.352219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mattia Fregola</b>
+<span style="margin:2em; color:#606060">2024-02-27 12:59</span><br/>
+<span style="background-color:#ccf">@Dan Swirsky</span> that’s one of the strongest conviction I had before seeing how people interact with computers :sweat_smile:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

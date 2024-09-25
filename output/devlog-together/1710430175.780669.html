@@ -1,0 +1,42 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1710430175.780669.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-03-14 08:29</span><br/>
+My solver can now push a single crate to a destination without moving any other crates. But I feel ambivalent about this. Devlog in :thread:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710430813.938199"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1710430175.780669.html#1710430813.938199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-03-14 08:40</span><br/>
+12th: I first play level 64 (pictured above), which is a really great puzzle -- but also the steps are killing on my fingers on a touchscreen without any tactile feedback.<br/><br/>Tapping an empty square to get the player to go there (pictured in previous thread) is just 20 lines of code! All I need is a breadth-first search (BFS). I am encouraged. However, it only gets me one way across those steps. On the way down I'm carrying a crate. Next step: move a single crate from a starting point to an ending point without disturbing any other crates.<br/><br/>a hazy idea starts to form:<br/>- assign each crate a unique id<br/>- add ability to select a crate and show some visual feedback when you do<br/>- do another BFS. Where the first time generates moves out of empty cells, here I want to generate moves out of either empty cells or the crate with the unique id I originally selected.<br/><br/>I do the first two steps, but the third is still unclear. Will I need to make a copy of the board on each iteration of the BFS? I didn't for the first BFS.<br/><br/>13th: I wake up and open up the program again, and immediately have a flash of insight: BFS #2 needs to use BFS #1 as a primitive operation. For each candidate move, for each direction, use BFS #1 to move the player to the opposite side of the target crate. If that succeeds, add the direction to the BFS.<br/><br/>I'm operating in "plan space". The move to the opposite direction is just a plan, it doesn't mutate the board. Since a single crate moves throughout the BFS, I figure I don't need to copy the entire board each iteration. I can just track the position of that crate as a delta on the original position.<br/><br/>This plan doesn't need the unique crate ids anymore, but I haven't noticed that yet. They'll still come in handy in debugging, but I think the ensuing tale might have gone easier if I'd never added them.<br/><br/>Bugs as I encountered them:<br/><br/>• If we're already at the desired side of the crate we don't actually need to move. Distinguish this from a failed move.<br/>• Remember to actually play out the intermediate moves between the pushes in the plan. The path returned by BFS #2 is a tree of directions where BFS #1 was a simple list. (It could still be a list, but I'm glad in all the ensuing debugging for this bit of provenance: is a step in the plan a move or a push?)<br/>• Undo requires storing a third square for the location of the crate. (For moving the player yesterday I was storing just the initial and final location of the player.)<br/>• Oh wait, undo requires a <em>fourth</em> square. I was thinking of the squares muddily as player, crate and destination, but really it's initial and final squares of player and crate.<br/>    ◦ And we have to save the state of the final square of the player <em>before</em> we start running the plan.<br/>• I can't quite use BFS #1 directly as a step of BFS #2: I need it too to be aware that the square of the selected crate is empty and can be moved through. (I'm still thinking in terms of unique ids, but the penny is starting to drop.)<br/>• BFS #1 also needs the current location of the crate. It's a BFS over the board with 2 deltas: 1 square is forced to empty (original location of the selected crate, and 1 square is forced to occupied (current location of the selected crate, in the middle of a sequence of moves and pushes). At this point the penny drops that I don't need the unique id of crates anymore.<br/>• At this point I'm debugging plans 10s of steps long, generating 10s of candidates in the process. I realize the square forced to empty and the square forced to occupied can be the same -- in which case the square is occupied (the selected crate hasn't moved yet). It takes 2 attempts to get this right, and I start to think maybe I do need to make a copy of the level after all. Eventually I turn my complex conditional of <tt>and</tt>s and <tt>or</tt>s into a helper function with early returns, and the sun shines again.<br/>• A BFS naturally finds the shortest route, but by nesting 2 BFSs I was finding the route with the fewest crate pushes. To get optimal paths I have to start scanning the queue for the fewest number of total steps (counting moves and pushes)<br/>• Give up if destination is occupied. This is symmetric with the very first bug in this list.<br/>• Allow the destination for the selected crate to be the current square of the player.<br/>• Other miscellaneous bugs during this process:<br/>    ◦ 2 cases of switching x and y when indexing<br/>    ◦ A bug in the debug UI had me chasing my tail. I generate the plan as a list but then turn it into an array when animating it. My debug UI was trying to use the list as an array, and Lua of course doesn't forbid that, everything is a table.<br/>    ◦ 1 field name mismatch. Everything is a table strikes again.<br/>By the end this is nowhere near as elegant as my original insight. BFS #2 isn't quite a BFS because the queue is a priority queue, and it's not using BFS #1 unmodified. All in all, the solver for moving a crate takes 200+ lines of code. Might not actually be a worthwhile trade-off. Might make the puzzles too easy. Also, I notice now that level 64 requires moving multiple crates on the way down, so this isn't really improving my life very much at least in this level. We'll see..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710431993.822649"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1710430175.780669.html#1710431993.822649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-03-14 08:59</span><br/>
+"Might make the puzzles too easy" — that's something you can lean into. Zach Gage is a fantastic game designer. One way he works is by taking a classic game (like, say, Sudoku) and building a new interface for the game that makes people "better" at it by reducing inessential complexity. In his game Good Sudoku, the interface helps you avoid making mistakes and quickly test out theories and skip over tedious bits, but it doesn't do anything to <em>solve</em> the puzzle for you. This improved interface means that you can then play more challenging puzzles, which are more satisfying.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

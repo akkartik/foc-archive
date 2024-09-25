@@ -1,0 +1,54 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-04-10/6931478324918_5b4c95c70d98784a05cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1717280989.315659.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-06-01 15:29</span><br/>
+I made a video explainer about raycasting, using a new experimental environment for calculang<br/><a href="https://youtu.be/hKVXRACCnqU">https://youtu.be/hKVXRACCnqU</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1717325293.160539"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1717280989.315659.html#1717325293.160539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-06-02 03:48</span><br/>
+Nice! I love how you can follow how the code is working with the results of the calculations in the code itself and the visualisations. I wonder what's custom built for this example and what works for any use-case.<br/><br/>Also, is this new environment somewhere available to try out?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1717343775.796929"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-10/6931478324918_5b4c95c70d98784a05cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1717280989.315659.html#1717343775.796929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-06-02 08:56</span><br/>
+Thanks Daniel!<br/><br/>I use Observable Framework, and its reactive JS. It doesn't have many mechanisms to encapsulate its own reactive code but I can consolidate common bits like the layout, editor, devtools in a <tt>TEMPLATE.md</tt> file that I include in other ("custom") OF md files: in this case <tt>raycasting.md</tt><br/><br/>To show the workings like that we need to know values to use for every input, so there is a stateful 'cursor' object that custom code must set; also a stateful array of visible formulae that it can set if it wants to. The cursor object is handy anyways because custom code uses it to to make its visualizations/etc anyways.<br/><br/><tt>raycasting.md</tt> custom code is dense on code for the visualizations: basically everything on the right hand side, and that includes signal handlers on the visualizations which use setters for the cursor object to set inputs, visible formulas to select formulas, and button controls to set a key stream input to the cursor; also those options at the bottom right.<br/><br/>That code includes approx 1k lines of visualization code (Vega-Lite for the scene visual at top, much denser Vega for different layers of the visualization below it)<br/><br/>If the app (lets call the RHS an "app") wants to control the cursor (=> the workings) and navigate the formulas then it needs to tie the handling of that into signal/event listeners.<br/><br/>That can be in a 'far less' elaborate way, for instance in this example: <a href="https://calculang-editables.netlify.app/savings">https://calculang-editables.netlify.app/savings</a> (an earlier one where you can't see the workings on top of code, but they are calcd underneath)<br/>This has another feature that highlight the numbers (in the grid) used to calc a number also (just brush over them).<br/>And this is a bit more standard and I can facilitate a good co-operation in the views with less custom code.<br/><br/>In the example in the video though - there's some code to manage the cursor and formulae we are navigating (but I think we need to expect it)<br/><br/>There was a mash of experimentation in the codebase that gives it a poor structure and fragments work around calculang, so haven't released it yet but I'll think about it in the week
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1717783435.696199"></a>
+      <a href="../share-your-work/1717280989.315659.html#1717783435.696199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-06-07 11:03</span><br/>
+I released this calculang "environment" and it's code to GitLab:<br/><a href="https://next-calculang-gallery.netlify.app/">https://next-calculang-gallery.netlify.app/</a> The readme on GitLab has more info on what this is trying to be (and not be).<br/>In a new example you can check the logic for a calculang Fizz Buzz :slightly_smiling_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

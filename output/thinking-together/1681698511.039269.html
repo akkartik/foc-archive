@@ -1,0 +1,31 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1681698511.039269.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-04-16 19:28</span><br/>
+<b>Befunge, but readable</b><br/><br/><a href="https://github.com/m-ender/hexagony">https://github.com/m-ender/hexagony</a> made the rounds of the internet yesterday, and caused me to swap in an old interest of mine that I've flailed ineffectually at in the past (e.g. <a href="https://twitter.com/akkartik/status/1238349948074070017">https://twitter.com/akkartik/status/1238349948074070017</a>): a way to display a program that makes its large-scale structure really obvious (rather than obfuscating it as Befunge does).<br/><br/>One problem I have with Befunge (not the one you're thinking of, ha) and other <em>fungeoids</em> [1] is that you have a bunch of static information about a program visible in 2D on screen, but a key piece -- the stack -- is invisible. The question I keep returning to is how one might go about making the stack (or any other run-time state used by the program) visible without just bolting it on on the side. This time around, I got hooked on the following metaphor. Imagine a spaceship that contains some data, sets out on a voyage across an infinite 2D plane, and performs various operations depending on the objects it collides with.<br/><br/>Example 1: The space ship contains a row of boxes. Colliding with a number pushes a box on to the nose,  colliding with an operator operates on the 1 or 2 front-most boxes in the front. This is a way to display a stack, but a stack in isolation doesn't seem to scale well to larger programs.<br/><br/>Example 2: The spaceship contains a number. Colliding with the BF-inspired primitives <tt>+</tt> and <tt>-</tt> [2] causes the number to be incremented and decremented, respectively. Now build addition out of it. Zooming into a number <tt>n</tt> shows it to be a loop of n iterations. When the spaceship collides with <tt>n</tt> it loops through n times, and the number inside it has n added to it. At a high zoom, you see the spaceship loop n times before exiting the "solar system". At a low zoom you see the spaceship exit instantaneously with n added to its value. Now you can imagine a reduce operation as a series of solar systems that the spaceship visits one by one.<br/><br/>Example 3: The spaceship contains a binary heap to insert and delete elements from depending on objects it collides with. Zooming into any single collision reveals the tree structure to be the "space" that a smaller spaceship containing a single number bounces among.<br/><br/>Two properties that seem important from these examples:<br/>• A hierarchical nature where space and spaceship are duals, and zooming in and out causes them to turn into each other.<br/>• Rendering the state of a spaceship needs to be extensible[3]. We need to leave Befunge's ASCII behind.<br/>At the largest scale, state machines feel like a really powerful way to represent the state within a spaceship. I often find them to be the outermost architecture of a large program. But to <em>actually find</em> the state machine I have to flail around for a long time. If we could use some visual paradigm at the largest scales but zoom into text as needed, programs might be much more comprehensible.<br/><br/>[1] <a href="https://esolangs.org/wiki/Fungeoid">https://esolangs.org/wiki/Fungeoid</a><br/>[2] <a href="https://en.wikipedia.org/wiki/Brainfuck#Language_design">https://en.wikipedia.org/wiki/Brainfuck#Language_design</a><br/>[3] Like in my old Pong demo: <a href="https://handmade.network/snippet/1561">https://handmade.network/snippet/1561</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1681730692.950799"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1681698511.039269.html#1681730692.950799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-04-17 04:24</span><br/>
+“... A hierarchical nature ...”<br/><br/>FWIW, I strongly agree with this phrase.  A minor change in POV might make this whole problem simpler...<br/><br/>We need notations that <b>embrace</b> hierarchy and relative-ism.  Lisp lists, UNIX relative pathnames, StateChart nested machines, Kinopio “/”, HTML links, Dave Ackley all swirl around this flame...  Force-fitting 4D reality down into a single 2D notation causes self-imposed accidental complexity (epicycles).  We need to be thinking in terms of trees of stacks, trees of CPUs/machines/phones, trees of messages, etc.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

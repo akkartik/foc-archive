@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/373561dd658617ebf8d413eb95361c0d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie</b>
+<span style="margin:2em; color:#606060">2019-05-09 17:19</span><br/>
+Yea, I have to agree with you that it's an infrastructure problem first.  I do think that the trajectory of software and hardware is trending away from "everything happens on one machine".  There are still plenty of instances of problems that can be solved on a single machine, but steeped in cloud ideology as I am, I think multi-machine computing is here to stay.  Infrastructure may deliver us from the problems of distributed computing, but today most "back-end web"* developers are dealing with arrays that have been split into chunks, and will be for the foreseeable future.<br/><br/><li>and I don't really know how big this cohort is, or if they've should be driving computing forward anyway!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557508482.325700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557508482.325700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-10 10:14</span><br/>
+I find the infrastructure/language separation not particularly useful. I think the problem is a 'system problem' - which doesn't say much but at least does not start by splitting up the system into infra and language. In a sense this infra/language divide is similar to the language/ide divide. We can choose to adopt this POV but will never think of things like Excel. This is a framing of the problem that I think hides other insights.<br/><br/>In the broad sense all you have is 'the system'.  One machine or multi doesn't matter. And what you are doing is 'negotiating with the system' to have it behave how you want. All negotiation is via back-and-forth messaging. One pattern that emerges is you write these static descriptions of little processes called programs in programming languages and send them off, as one message at a time, into the system. Then separately you send other messages to control (start/stop) the previously defined programs, and yet other messages (yaml etc.) to wire them up. Each of your processes only run on one machine, but the larger logical process (which you never wrote down as a single program) is emergent behavior.  Almost all current improvements are trying to incrementally optimize this pattern.<br/><br/>Are there other patterns that can be explored instead?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557680713.334800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557680713.334800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-05-12 10:05</span><br/>
+I would think that "emergent" behavior is behavior that emerges (i.e. is discovered or evolves naturally) from patterns of interaction/use with parts of a system. Anything that is just the expected way the entire system must behave (even if it's a distributed system) is not really "emergent".<br/><br/>I usually hear others talk about "emergence" as if it's a "divide and conquer" approach to whole system design. I think that's a bad technique in general, because you want your software to be as whole and consistent and possible. (Even with hard boundaries across machines, the impact of that split can be minimized).<br/><br/>Anyway, I'm pretty sure that's not the OOP vision of "emergence" that Alan Kay promotes. That's more like "here's some crayons and a canvas" or "here's some forces that can be applied to objects", and seeing where that leads to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557697434.335700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557697434.335700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-05-12 14:43</span><br/>
+Back to Shalabh's question though, one approach I've seen a few times is to allow a system to be coded (or otherwise specified) as if it were one self contained program, which then either compiles into separate parts, or and acts like a CI/CD/build script which installs or updates separate components on each server.<br/><br/>I think that's also an approach used with protectional editing (e.g. with Jetbrains MPS): a single specification acts as a projection for multiple different software components
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557767123.338300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557767123.338300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-13 10:05</span><br/>
+Yes I'm probably using the word 'emergent' loosely to talk about expected behavior but specified somewhat indirectly.<br/><br/>&gt; one approach I've seen a few times is to allow a system to be coded (or otherwise specified) as if it were one self contained program, which then either compiles into separate parts, or and acts like a CI/CD/build script which installs or updates separate components on each server.<br/><br/>Dan, I'm very interested in these, if you have specific pointers I'd really appreciate it. The thing I'm really looking for is not specifying 'as a program' but a system that has the notion of update built in as well. (One program that's running distributed gets complicated when you think of updating your program.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557767536.338900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557767536.338900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-05-13 10:12</span><br/>
+I think WebFlow and Dark both do something like that:<br/><br/><a href="https://futureofcoding.org/episodes/035.html">https://futureofcoding.org/episodes/035.html</a><br/><br/><a href="https://darklang.com/">https://darklang.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557767637.339200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1557447597.287300.html#1557767637.339200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-13 10:13</span><br/>
+Thanks, yes - those two are on my radar :smile:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

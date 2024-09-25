@@ -1,0 +1,322 @@
+[
+    {
+        "user": "U017TE5R09M",
+        "type": "message",
+        "ts": "1675603917.529659",
+        "client_msg_id": "a4af965d-04cd-436b-8160-7ccbac52599d",
+        "text": "I think you did a great job describing it, and yes, Unix P\/F, Morrison’s FBP etc. are all under-appreciated.  Not sure the name “0 Dependencies” does the trick, though I understand where you are coming from with it.\n\nPart of the problem with dataflow systems being under-appreciated, I think, has to do with them usually suffering from packaging mismatch.  So while in principle they are structurally simpler, their implementations tend to be difficult to integrate with.\n\nSo-called “FRP” (or Rx) has done a somewhat better job of integrating with existing procedural\/functional languages, and has thus seen fairly wide adoption, but at the cost of hiding the goodness of the dataflow underpinnings under some FP goobledygook that makes it much more difficult to (re-)use and compose.\n\nPolymorphic Write Streams do a slightly better job, IMHO of course, but still suffer, because in the end it is tricky to provide non-procedural abstractions when the abstraction mechanism itself is the procedure call.  You simply can’t talk about what you’re doing with the linguistic means available, which is a bit of a bummer.\n\nOne of the reasons I decided to create a new language…",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "d0068f3c51a5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-07\/4763954018659_d0068f3c51a5a00a3b73_72.jpg",
+            "first_name": "",
+            "real_name": "Marcel Weiher",
+            "display_name": "Marcel Weiher",
+            "team": "T5TCAFTA9",
+            "name": "marcel.weiher",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hTUG",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I think you did a great job describing it, and yes, Unix P\/F, Morrison’s FBP etc. are all under-appreciated.  Not sure the name “0 Dependencies” does the trick, though I understand where you are coming from with it.\n\nPart of the problem with dataflow systems being under-appreciated, I think, has to do with them usually suffering from packaging mismatch.  So while in principle they are structurally simpler, their implementations tend to be difficult to integrate with.\n\nSo-called “FRP” (or Rx) has done a somewhat better job of integrating with existing procedural\/functional languages, and has thus seen fairly wide adoption, but at the cost of hiding the goodness of the dataflow underpinnings under some FP goobledygook that makes it much more difficult to (re-)use and compose.\n\nPolymorphic Write Streams do a slightly better job, IMHO of course, but still suffer, because in the end it is tricky to provide non-procedural abstractions when the abstraction mechanism itself is the procedure call.  You simply can’t talk about what you’re doing with the linguistic means available, which is a bit of a bummer.\n\nOne of the reasons I decided to create a new language…"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "text": "",
+        "files": [
+            {
+                "id": "F04MY5PTY5U",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": true,
+        "user": "UGWUJUZHT",
+        "display_as_bot": false,
+        "type": "message",
+        "ts": "1675630292.911339",
+        "client_msg_id": "bc500271-2b79-4ec1-920d-420847f62c2b",
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT"
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1675630323.576739",
+        "client_msg_id": "ce27811d-52be-4239-9435-d13c21bb1698",
+        "text": "&gt; I will try to whip up an example in some example language ...\n!<https:\/\/github.com\/guitarvydas\/py0d\/blob\/feedback\/doc\/feedback.png|simple example>\n\n```from leaf import Leaf\n\nclass A (Leaf):\n    def __handler__ (self, message):\n        self.send (xfrom=self, portname='out', data='v', cause=message)\n        self.send (xfrom=self, portname='out', data='w', cause=message)```\n```from leaf import Leaf\n\nclass B (Leaf):\n    def __handler__ (self, message):\n        if (message.port == 'in'):\n            self.send (xfrom=self, portname='out', data=message.data, cause=message)\n            self.send (xfrom=self, portname='feedback', data='z', cause=message)\n        elif (message.port == 'fb'):\n            self.send (xfrom=self, portname='out', data=message.data, cause=message)\n        else:\n            raise Exception (f'internal error: unhandled message in C {message}')```\n```from sender import Sender\nfrom receiver import Receiver\nfrom up import Up\nfrom down import Down\nfrom across import Across\nfrom container import Container\n\nfrom a import A\nfrom b import B\n\nclass Top (Container): \n  def __init__ (self, parent, name):\n      a = A (self, f'{name}\/a')\n      b = B (self, f'{name}\/b')\n      self._children = [a,b]\n      self._connections = [\n          Down (Sender (self,'in'), Receiver (a,'in')),\n          Across (Sender (a,'out'), Receiver (b,'in')),\n          Across (Sender (b,'feedback'), Receiver (b,'fb')),\n          Up (Sender (b,'out'), Receiver (self,'out'))\n      ]\n      super ().__init__ (parent, name, self._children, self._connections)```\n\n\nThis example shows a small, 2-component feedback network.\n\nThe code does nothing useful, but, it demonstrates message feedback.\n\nThe problem statement:\n\n• When A gets a message on its pin ‘in’, it produces 2 messages ‘v’\n  and ‘w’ in that order.\n• When B gets a message on its pin ‘in’, it outputs the message on its\n  pin ‘out’ AND it produces a ‘z’ message on its pin ‘feedback’.\n• When B gets a message on its pin ‘fb’, it outputs the message on its\n  pin ‘out’ (only).\n\nThe result of the system is 4 messages ‘v’, ‘w’, ‘z’, ‘z’ in that\norder (left to right).\n\n... for more details, see <https:\/\/github.com\/guitarvydas\/py0d\/blob\/feedback\/README.md> (note that this is the “feedback” branch of that repo)\n\nFeedback - why bother? In electronics, it is common to use feedback to self-regulate (“negative feedback”). In software, recursion (which only LOOKS like feedback) is used only as a form of divide-and-conquer.\n\nThe difference between Recursion and Feedback is the delay imposed by queuing. Recursion is processed immediately in a LIFO manner, whereas Feedback messages are put into a queue in FIFO order, to be processed when their time comes.  It’s like someone waiting patiently in a lineup versus someone jumping the queue and going to the front of the line.\n\nStuff like this matters when you are building sequencers instead of calculators.\n\nThe Architect can be very explicit in the design instead of having a certain semantics built into the lower-levels of the tool.  Loops (not Recursion) become explicit messages-to-self.  If the Architect really, really, really wants a Stack, the Architect builds it explicitly and gives it the desired semantics, instead of relying on the built-in call-stack to do the work implicitly.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Cmybh",
+                "elements": [
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I will try to whip up an example in some example language ..."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\n!"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/guitarvydas\/py0d\/blob\/feedback\/doc\/feedback.png",
+                                "text": "simple example"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "from leaf import Leaf\n\nclass A (Leaf):\n    def __handler__ (self, message):\n        self.send (xfrom=self, portname='out', data='v', cause=message)\n        self.send (xfrom=self, portname='out', data='w', cause=message)"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "from leaf import Leaf\n\nclass B (Leaf):\n    def __handler__ (self, message):\n        if (message.port == 'in'):\n            self.send (xfrom=self, portname='out', data=message.data, cause=message)\n            self.send (xfrom=self, portname='feedback', data='z', cause=message)\n        elif (message.port == 'fb'):\n            self.send (xfrom=self, portname='out', data=message.data, cause=message)\n        else:\n            raise Exception (f'internal error: unhandled message in C {message}')"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "from sender import Sender\nfrom receiver import Receiver\nfrom up import Up\nfrom down import Down\nfrom across import Across\nfrom container import Container\n\nfrom a import A\nfrom b import B\n\nclass Top (Container): \n  def __init__ (self, parent, name):\n      a = A (self, f'{name}\/a')\n      b = B (self, f'{name}\/b')\n      self._children = [a,b]\n      self._connections = [\n          Down (Sender (self,'in'), Receiver (a,'in')),\n          Across (Sender (a,'out'), Receiver (b,'in')),\n          Across (Sender (b,'feedback'), Receiver (b,'fb')),\n          Up (Sender (b,'out'), Receiver (self,'out'))\n      ]\n      super ().__init__ (parent, name, self._children, self._connections)"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\n\n\nThis example shows a small, 2-component feedback network.\n\nThe code does nothing useful, but, it demonstrates message feedback.\n\nThe problem statement:\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When A gets a message on its pin ‘in’, it produces 2 messages ‘v’"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  and ‘w’ in that order.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When B gets a message on its pin ‘in’, it outputs the message on its"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  pin ‘out’ AND it produces a ‘z’ message on its pin ‘feedback’.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When B gets a message on its pin ‘fb’, it outputs the message on its"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  pin ‘out’ (only).\n\nThe result of the system is 4 messages ‘v’, ‘w’, ‘z’, ‘z’ in that\norder (left to right).\n\n... for more details, see "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/guitarvydas\/py0d\/blob\/feedback\/README.md"
+                            },
+                            {
+                                "type": "text",
+                                "text": " (note that this is the “feedback” branch of that repo)\n\nFeedback - why bother? In electronics, it is common to use feedback to self-regulate (“negative feedback”). In software, recursion (which only LOOKS like feedback) is used only as a form of divide-and-conquer.\n\nThe difference between Recursion and Feedback is the delay imposed by queuing. Recursion is processed immediately in a LIFO manner, whereas Feedback messages are put into a queue in FIFO order, to be processed when their time comes.  It’s like someone waiting patiently in a lineup versus someone jumping the queue and going to the front of the line.\n\nStuff like this matters when you are building sequencers instead of calculators.\n\nThe Architect can be very explicit in the design instead of having a certain semantics built into the lower-levels of the tool.  Loops (not Recursion) become explicit messages-to-self.  If the Architect really, really, really wants a Stack, the Architect builds it explicitly and gives it the desired semantics, instead of relying on the built-in call-stack to do the work implicitly."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "eyes",
+                "users": [
+                    "U017TE5R09M"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1675630535.285029",
+        "client_msg_id": "33fea04f-e7e2-43da-9522-45ffd8f56cd2",
+        "text": "fyi <https:\/\/github.com\/guitarvydas\/py0d\/tree\/feedback>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "t5E",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "fyi "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/guitarvydas\/py0d\/tree\/feedback"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "eyes",
+                "users": [
+                    "U017TE5R09M"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../two-minute-week/1694970029.238569.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2023-09-17 10:00</span><br/>
+CodeParadise is a (Pharo) Smalltalk project to create web applications using Smalltalk only (and HTML/CSS :wink:).<br/>A tiny Smalltalk image runs inside the browser and performs all the UI logic. Normally applications created with CodeParadise have a highly interactive character and communicate with a server environment.<br/><br/>A new feature allows a running tiny image to be saved and restarted later as a Single Page Application. A sealed snapshot is made, meaning the connection with the server environment is removed. All code running inside the browser (in the tiny image) is saved in the snapshot as well as the current DOM. After the snapshot is restarted the application will create the same DOM structure and rehydrate the WebComponents and you'll have a running application again!<br/><br/>For a short video see: <a href="https://youtu.be/9YUXYuo_HaM">https://youtu.be/9YUXYuo_HaM</a><br/>Or go to the resulting SPA at: <a href="https://codeparadise.nl/blog-example">https://codeparadise.nl/blog-example</a> (open the browser inspector to see all the WebComponents)<br/>Happy coding!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1694986919.298519"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../two-minute-week/1694970029.238569.html#1694986919.298519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-09-17 14:41</span><br/>
+I would like to know more! Is there a writeup?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1694987078.818529"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../two-minute-week/1694970029.238569.html#1694987078.818529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-09-17 14:44</span><br/>
+I'm curious how robust it is. I imagine it's robust to within-Pharo concerns, like if an animation is running when you save an image. If a browser extension injects itself, does it become part of the image? If a browser extension moves things around in the DOM, does that affect the image? Or are images created from the browser just best-effort and only those created from the Pharo environment are to be trusted?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1695153639.771069"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../two-minute-week/1694970029.238569.html#1695153639.771069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2023-09-19 13:00</span><br/>
+Hi <span style="background-color:#ccf">@Tom Lieber</span>. Good questions. It is mostly Pharo/CodeParadise specific. If a WebComponent uses a JS lib it should take care to reinstall during rehydration (post snapshot in Smalltalk lingo), which will probably happen automatically. But browser plugins are not considered. If these insert DOM elements, the DOM elements will be copied (a document.innerHtml is kept). But any events registered on it will be lost. Only (CodeParadise) WebComponents will reinstall their event handlers. So extra effort should be put into supporting a broader range of applications if that is needed.<br/>Any (running) animations created using Smalltalk code will be saved and finalise their animation after the snapshot is restarted. I had that in the demo but removed it because it did not seem relevant enough :-).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

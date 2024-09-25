@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-06-15 11:06</span><br/>
+Are there any IDE's that allow you to visually interleave the stack trace with debug output, so you get a picture of which frames the output occurred within?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655317270.529749"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655317270.529749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-06-15 11:21</span><br/>
+Quoting myself from yesterday "Observable is written in a notebook style where its divided into cells. The cells are great because, even though this cell was evaluated a while ago, we can inspect in our leisure the last value, so the program leaves a trace of its execution. The state of the cells are remembered. The fact that it remembers makes it very powerful for development."<br/><br/>Thanks to hot code reloading, in server programming, we can remember an incoming request in a cell THEN write the implementation AFTER we observe the schema in the external request. We can lazy code against reality, without waiting on fresh requests to arrive<br/><br/> <a href="https://youtu.be/5KxloAcMeSE?t=1307">https://youtu.be/5KxloAcMeSE?t=1307</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655317871.367069"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655317871.367069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-06-15 11:31</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span> If I understand your description correctly, any Smalltalk system qualifies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655342627.852549"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655342627.852549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-06-15 18:23</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> That's really interesting(!) but feels slightly different. A stream of time-ordered output with stack frame attached, as opposed to the most recent execution of every possible stack frame, without time-ordering information. If I understand you correctly.<br/><br/><span style="background-color:#ccf">@Konrad Hinsen</span> what form of debug output are you thinking of in a Smalltalk program?<br/><br/><span style="background-color:#ccf">@Steve Dekorte</span> it isn't an IDE, but I have this tiny framework for emitting logs with an associated stack depth, along with a tiny tool to zoom in and out of such logs. <a href="https://git.sr.ht/~akkartik/basic-whitebox-test/tree/main/item/browse_trace/Readme.md">https://git.sr.ht/~akkartik/basic-whitebox-test/tree/main/it&hellip;</a> The basic idea is totally language agnostic. Debug by print on steroids.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655366653.674489"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655366653.674489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-06-16 01:04</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I don't usually do "debug output" in Smalltalk. I just set a breakpoint and get the stack trace plus access to an inspector on all the data from the debugger.<br/>If you want to do the traditional style of debug output, Smalltalk systems have the transcript tool for that. In older systems, it captures a character stream. In Pharo + Glamorous Toolkit, I can send arbitrary objects, including stack frames.<br/>There's also the Beacon system (<a href="https://github.com/pharo-project/pharo-beacon">https://github.com/pharo-project/pharo-beacon</a>), a framework specifically made for logging events, with stack frames if desired. You can even open a debugger from each stored stack frame.<br/>The real message here is that Smalltalk provides (1) an extendable IDE and (2) full introspection on program execution. Capturing a stack frame is a pretty standard operation. The main barrier for newcomers is understanding what a stack frame is, not the technicalities of capturing it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655611734.745419"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655611734.745419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-06-18 21:08</span><br/>
+I'd say that images are the most surprising thing for people new to Smalltalk (and some Lisps).  Instead of running a program, you think of having a long lived environment with a bunch of stuff in it.  In practice, messy people like me end up ruining their image after a while.  But this isn't an intrinsic limitation of the approach.  Nothing prevents adding isolation, revision. sharing, and features to an image-based system.  I'm mostly surprised it hasn't been explored more.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655632704.550559"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655632704.550559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-06-19 02:58</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> My impression is that what you describe is exactly how most Smalltalkers work today. It's certainly how I work today. My startup configuration file loads all my projects that are not already in the image. Which means that I can start up a fresh image with very little effort. And I end up doing that about once a week. Not necessarily because I messed up my image (though that happens), the main reason is staying up to date with Glamorous Toolkit development.<br/>From that point of view, the image is more like a cache than persistent system state. In line with that view, I don't back up my images, as they are not really valuable. The persistent version of my code resides in Git repositories, just like with code in any other language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655633928.970809"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655633928.970809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-06-19 03:18</span><br/>
+Wow, pointers appreciated on how to maintain the startup configuration. Are you doing double work for every mutation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655649065.646109"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655649065.646109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2022-06-19 07:31</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> This booklet on managing code with Iceberg may help: <a href="http://books.pharo.org/booklet-ManageCode/pdf/2020-05-12-ManageCode.pdf">http://books.pharo.org/booklet-ManageCode/pdf/2020-05-12-ManageCode.pdf</a><br/><br/>There's no double work really… You make your changes inside the image. If it's something you want to preserve, you commit it via Iceberg and associated tools, which automatically snapshot the modified modules as text files and commit those to Git. The image startup configuration is a list of module repos and commit IDs, which recreates the image state from the Git committed snapshots.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655710804.429539"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655710804.429539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-06-20 00:40</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Indeed, as <span style="background-color:#ccf">@J. Ryan Stinnett</span> said, there is no double work. The startup script constructs the image by loading packages. Here's a typical piece of code from my startup script:<br/><pre style="white-space:pre-wrap">(RPackageOrganizer default includesPackageNamed: 'BaselineOfZotero')<br/>    ifFalse: [<br/>        Metacello new<br/>            baseline: 'Zotero';<br/>            repository: '<a href="github://khinsen/GT-Zotero:main/src">github://khinsen/GT-Zotero:main/src</a>';<br/>            onConflictUseLoaded;<br/>            load ].</pre><br/>It's the same principles as in Common Lisp's "systems", the main difference being that nowadays, most people use Common Lisp images like compiled binaries, created once but then never modified. The difference is purely in usage patterns.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655790370.376589"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1655316367.875769.html#1655790370.376589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-06-20 22:46</span><br/>
+Thanks for the update <span style="background-color:#ccf">@Konrad Hinsen</span>.  I haven't used Smalltalk in anger in 20 years and so fully expect that I don't know a thing about modern setups.  (Except for having clicked around Glamorous Toolkit a bit.  How could I not?)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

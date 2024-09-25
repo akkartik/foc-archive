@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1699507456.115349.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-08 21:24</span><br/>
+Now that I've started inserting coroutines into my apps (<a href="../two-minute-week/1698818828.191999.html">../two-minute-week/1698818828.191999.html</a>) to make them more debuggable, I'm starting to find and plug gaps in error recovery:<br/>• I have to be careful to check the results of coroutine operations, because the underlying coroutine might have thrown an error.<br/>• Errors in Lua include a call stack, but errors within coroutines don't return the stack by default.<br/>• If I create a higher-order helper to abstract away the coroutine munging just to smear a computation across frames, does that impact the quality of debug information in the call stack? (Answer: no it doesn't in Lua, but it wasn't obvious.)<br/>• Call stacks returned by LÖVE aren't <em>quite</em> as clean as plain Lua.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699555669.146779"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1699507456.115349.html#1699555669.146779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2023-11-09 10:47</span><br/>
+How would you rate the Lua / LÖVE debug experience overall? Do you generally get meaningful stack traces? Are there debuggers that work as expected? (Feel free to tell me to go away and figure it out myself! :innocent:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699577246.529979"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1699507456.115349.html#1699577246.529979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-09 16:47</span><br/>
+I think it's pretty decent. Baseline Lua gives nice stacks to show you precisely where an error happened. But as a dynamic language it also gives you tools to try to 'improve' on it, and when I run into problems it's invariably because I was trying to be clever and my improvements like driver.love regress the experience. LÖVE is a bit like that as well albeit much more mature than my stuff; it has one issue I've noticed that baseline Lua doesn't have.<br/><br/>I tend to be a debug by print person so haven't played with debuggers like <a href="https://github.com/deltadaedalus/vudu">https://github.com/deltadaedalus/vudu</a> much. So it might fall to others to review the debugger side of the eco system. But things have seemed decent enough to me.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

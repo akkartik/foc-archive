@@ -1,0 +1,545 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-25 23:41</span><br/>
+I've written the first blog post about my own future of coding project, the artistic programming tool Hest. In the post I describe how the programming model emerges from geometric primitives, the inspirations behind the editor GUI, the design of the time travel capability, and end with a problem that emerged from the intersection of two of my favorite features. I welcome feedback about both the design of Hest and the problem I'm currently grappling with, plus the blog post itself. I do a lot of writing but not a lot of blogging so suggestions about how to better utilize the medium, or places where you lose the thread of thought, would be lovely. Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566844772.217200"></a>
+      <a href="../share-your-work/1566801692.212900.html#1566844772.217200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 11:39</span><br/>
+&gt; So when it crosses over the previous function, we must have a strategy for deciding which paths it travels without relying on history.<br/>Probably impossible: unless you want to have a lot of fun doing it “wrong” on purpose! Consider the simple “plus” operator: given the output of a sum, how do “undo” the sum into its two input summands? There’s an infinite number of possibilities. Consequently, for example, in Perera et al.‘s “Functional Programs that Explain Their Work” (ICFP 2012, excerpted in screenshot), they record the original operands so you can undo the computation. Their goal is to rewind the computation in order to rebuild a minimal program required to produce the result, but the challenge is the same. (Their overall strategy is to use computation traces recorded during execution, the <em>T</em>‘s in the screenshot.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566845280.218500"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566845280.218500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 11:48</span><br/>
+Continuing with the “plus” example, the challenge is even greater if you manually change the output sum after it was computed and want to back-propagate to produce changed input summands. Turns out you can’t actually do this with local information only: you end up with a global constraint problem. Consider:<br/><pre style="white-space:pre-wrap"><br/>x = 5<br/>y = 10<br/>return (x + (x + y))<br/></pre><br/>Forward execution produces the result <tt>20</tt>. Say you manually change <tt>20</tt> to <tt>21</tt> and backprop, hoping to change <tt>x</tt> or <tt>y</tt>. The expression <tt>x + (...)</tt> evaluated last, so you change <tt>x</tt> from <tt>5</tt> to to <tt>6</tt> to make it <tt>21</tt> instead of <tt>20</tt>. But now, suddenly, on forward execution the whole result  is <tt>22</tt> rather than <tt>21</tt>!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566845559.218800"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566845559.218800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 11:52</span><br/>
+To get around this problem, in Chugh et al. “Programmatic and Direct Manipulation, Together at Last” (PLDI 2016) we record special arithmetic traces so that, instead of only seeing the local expression<br/><tt>x + (...)</tt><br/>we see an entire arithmetic expression<br/><tt>x + (x + y)</tt><br/>which the computer can change with simple algebra.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566846803.219800"></a>
+      <a href="../share-your-work/1566801692.212900.html#1566846803.219800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:13</span><br/>
+Arithmetic aside, for many kinds of data structure operations, you can define <em>lenses</em> that produce reasonable backprop results; although these lenses usually have to be defined manually. And it also turns out you can backprop <em>without</em> traces, but you end up having to do some recomputation. See Mayer et al “Bidirectional Evaluation with Direct Manipulation for Details” (OOPSLA 2018, the attached screenshot is the heart of the approach and takes a bit to grok; see video. The two forward arrows ⇒ in the attached screenshot are recomputations.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566846871.220200"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566846871.220200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:14</span><br/>
+“Bidirectional Evaluation with Direct Manipulation” presentation. <a href="https://www.youtube.com/watch?v=SoLkTKmr4vU">https://www.youtube.com/watch?v=SoLkTKmr4vU</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566847790.220700"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566847790.220700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:29</span><br/>
+(If you have questions, ping me or <span style="background-color:#ccf">@Mikaël Mayer</span> or just ask here!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566848390.221500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566848390.221500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:39</span><br/>
+Consider the 'state of the world' as an input to a function and the 'new state of the world' as the output. If two values in the input map to the same output value, it is impossible to determine from the output alone which of the inputs was provided to the function. The same problem exists when the same input value maps to multiple possible output values (assumes some untracked input e.g. random number generator).<br/><br/>So to be reversible there need to be a 1:1 mapping from input state to output state. This means you can't reduce the information content of the system (aggregation, hashing etc.). Logging is one way to keep the information content intact - the information is accumulated in this log while it is being lost elsewhere. There could be other ways, e.g. each comet could carry provenance information (comet local log). The design effort here is mainly around minimizing redundancy - so you try to keep the minimal information content that will get you reversibility.<br/><br/>Considering the 'state of the system' point of view, I don't draw any strong distinction between 'reversible functions' (e.g <tt>increment</tt>) and logging or tracing. The new system state has enough information to uniquely map back to the previous state - the difference is only where this information is present.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566849072.225100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566849072.225100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:51</span><br/>
+&gt; we could allow the artist to record their code changes as happening within the timeline (rather than outside it)<br/><br/>I find this to be a very interesting aspect of Hest. Now, about time travel, I'd first like to ask 'why?'. I mean I would really like this, but what are the reasons I would do time travel in the ways described?<br/><br/>1. Undo: Go back to a known good state of code+data.<br/>2. Speculative alternative execution: Try same old data with some new code (see how ball would have bounced with this new value of <tt>g</tt>).<br/>3. 'Retrofit': Discover starting values that give me desired end state. (move ball where I want it to be and system tells me the original position (or value of <tt>g</tt>) it should have been in - note it can't tell me both position <b>and</b> value of <tt>g</tt> - same problem as the Y shaped function?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566849211.225400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566849211.225400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:53</span><br/>
+Possibly more..<br/><br/>The point I'd like to make is I want 1 and 2 to be mostly deterministic. However I want 3 to be an interplay - I must tell the system which original variable is movable and which are fixed. The system may tell me the set of things that would affect the end state, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566849282.227300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566849282.227300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-26 12:54</span><br/>
+the one thing that confuses me is how data could flow into a function that takes two paths on only one path—which makes me think i don’t quite understand the programming model
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566851073.227500"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566851073.227500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-08-26 13:24</span><br/>
+I think time traveling side is quite well checked by others. To me dealbreaker would be more like how this work with more complex data structures?<br/><br/>In any case very nice visual system. It kind of express that every ball have an identity. So my next idea is that could you visualize full history from single ball point of view?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566880195.239800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566880195.239800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:29</span><br/>
+<span style="background-color:#ccf">@Brian Hempel</span> — thank you for the extensive, considered response, and the references. I'll explore those over the coming days, and will absolutely ping you if I have questions. In the mean time, here's an easy elaboration.<br/><br/>&gt; Consider the simple “plus” operator: given the output of a sum, how do “undo” the sum into its two input summands? There’s an infinite number of possibilities.<br/><br/>I imagine that backwards execution will only be useful when the artist is doing programming in the small, focussing on one or a few functions at a time. So, we can simply prompt them to make a choice about this, providing a few suggestions — a predefined monoidal identity element, maybe a random value generated based on the type/spec/contract of the function, maybe a value that has recently been used with this function. After all, this isn't meant to put the sim in a valid state that would naturally occur when running from the start. This is just for quick interactive exploration of the behaviour of some composition of functions, sort of like interactively writing a unit test with fake data, or playing with a function at the REPL. It just needs to be deterministic, more useful than not, and consistent with other parts of the programming model. So your thought, "unless you want to have a lot of fun doing it “wrong” on purpose", is probably spot on.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566880588.240200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566880588.240200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:36</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> Good thoughts. Re: logging, yes — recording and replaying history (which I call "Rewind" in honour of Braid) is absolutely going to be the most common time reversing strategy, since it'll work perfectly in cases where code and data have not been otherwise modified. In the case where code and data have been modified, I don't expect there could be any perfect approach, so I'm not worried about 1:1 mappings from input to output. All I need is n:1 where the the n isn't.. n-sane :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566880756.240400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566880756.240400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:39</span><br/>
+For Rewind, I am thinking that data points (aka comets) will carry provenance, yes. I keep going back and forth between that approach, and the approach of storing history as a property of the space-time that objects exist in. There will need to be some of the latter, to capture things like the moment that a user clicks something that creates data, since it's an event that comes from an outside context. But when it comes to the succession of values via functions, yeah, per-object provenance might be just the ticket. I see minimizing redundancy as an optimization problem, and I've done enough experimenting to know that I have a <em>lot</em> of performance headroom, so I'm not worried about finding a non-naive strategy at this point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566880882.240800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566880882.240800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:41</span><br/>
+Some general feedback: Hest look really fun and 'fresh'. Like there's some new stuff that's pretty intriguing, so I'm excited to see where this goes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566881058.241000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566881058.241000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:44</span><br/>
+If 1:1 mapping isn't important, the functions could just have a tendency to push data back along one path, or some other default (e.g. split evenly if it was addition). But then I'd want to be able to squeeze the default pipe while running backwards to force it to flow into the other one..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566881894.241300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566881894.241300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:58</span><br/>
+Yeah, nothing stopping you from seeing the way things get split and going.. "Nah, that's not right" and editing the two data points. That's the goal, in fact. And once you've established that desired split, you're back in the realm of logging and provenance (at least as far as that data + function is concerned), so you won't need to do it any more for that there &amp; then.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566882053.241700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566882053.241700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 22:00</span><br/>
+&gt; Now, about time travel, I'd first like to ask 'why?'. I mean I would really like this, but what are the reasons I would do time travel in the ways described?<br/><br/>1. Because it's cool. I'm not joking, yes I am that shallow. It looks cool, it feels cool, it was the holy-shit moment in The Matrix.<br/>2. I play a lot of <em>good</em>, arty video games. They're doing HCI work that dances circles around what I've seen in academia, because their priorities are way different (see previous point). They've figured out how to, for instance, make the exact act of computer programming, in a synthetic setting, feel wildly different than the real work programming we do. They've done this so many times, in so many ways, that it's embarrassing. I want to make a programming tool that feels like a video game.<br/>3. When I've previously struggled with RSI, the best advice I received was to listen to my body. Reflecting on my experience programming in visual languages, if I <em>listen to my body</em> there, I feel a bunch of otherwise easily ignored (mental) pains. Similar to the pain of "playing compiler" — say, looking at a mess of nested conditionals and not knowing how to understand the control flow paths — there are a rash of pains in every visual language I've seen. I listened to the things I was craving, and worked on figuring out what they could be. Time travel helps make some of them doable.<br/><br/>I could list a bunch more stuff. The short answer is that time travel is not meant to be a feature. It's a means to an end, where that end is a collection of feelings I want to feel while programming. That probably sounds excessively cringe worthy and pretentious, but it's sincerely how I approach my design process. It's all I've got.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566882206.242100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566882206.242100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 22:03</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span><br/>&gt; the one thing that confuses me is how data could flow into a function that takes two paths on only one path—which makes me think i don’t quite understand the programming model<br/><br/>Yeah, the function doesn't take 2 paths — you're calling it from 2 different places. Edges represent function calls, not function signatures. Does that make more sense?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566882704.242600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566882704.242600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-26 22:11</span><br/>
+<span style="background-color:#ccf">@Niko Autio</span><br/>&gt; To me dealbreaker would be more like how this work with more complex data structures?<br/><br/>Yeah, that's going to be a whole thing, haha. Honestly, I have thought about it a lot but I haven't prototyped anything yet. We'll see!<br/><br/>&gt; So my next idea is that could you visualize full history from single ball point of view?<br/><br/>One of my favourite features, that I have prototyped but not shown off yet, is a mode where you pick a data point and "follow" it through the simulation. The camera tracks that point like a 3rd-person video game where you play as the data. When you hit a function where there are multiple outbound paths, time slows down and you pick which descendant point to follow.<br/><br/>That's actually just one way of tracking data as it travels. Another idea, not yet implemented, is selecting a point and toggling a mode that highlights the full path that that point (and its ancestors) have taken as to arrive at where it currently is. Then, you could click on a spot on that highlighted path to rewind back to the moment that the point was in that spot. Should also be possible to do that with forward paths, too, but I haven't thought about it as much so I'm not 100% sure if it'd work.<br/><br/>This is why I'm keen on 3D graphics programs — they do a great job of giving the artist hundreds or thousands of such tools, without it getting overwhelming. They're a real masterclass in sophisticated GUI design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566929165.262400"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566929165.262400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-08-27 11:06</span><br/>
+&gt; the references. I’ll explore those over the coming days, and will absolutely ping you if I have questions.<br/>Start with the video. I probably shouldn’t nonchalantly drop PL papers here as if one can just glance at them and “get it”. I think the first time Mikael explained to me how to “undo” function calls it required a 2hr whiteboard session :smile: :smile: :smile:. After the video, you can ping me and I can walk through the important bits and save you from having to get the same information via the paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566935187.264500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566935187.264500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 12:46</span><br/>
+definitely clears it up for me (and thank you so much for your very in-depth replies!). what do functions that take multiple values look like? is it just currying?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566936382.265500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566936382.265500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:06</span><br/>
+I haven't decided yet. I've tried a few different things, but nothing has felt great. My process is basically.. I have a whole bunch of principles from graphic design and geometry that are nicely controllable using artist tools, and a bunch of principles from computer science needed to create a workable programming system, and I'm playing with different combinations of them and listening to how I feel. Sort of like playing a big matchmaking game, guided by my experiences with other visual languages and art tools, text programming, games, and the body of academic research.<br/><br/>It could be that multi-arity functions require values delivered to them simultaneously from multiple inputs. Could be currying. Could be that edges take on the value of the last point that's travelled them, supplying that as a constant value to the function (this is sort of how Max/MSP works, and sort of how FRP works) — in this approach, if the data points are like "comets" then the edges are sort of like.. lasers?<br/><br/>What do you think? What might look cool, or be fun to use, or be (ugh)... <em>easy to reason about?</em> (kill me).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566937494.272300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566937494.272300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:24</span><br/>
+you keep referring to your discourse as cringey but to me this is the least cringey use of these often misused terms because it’s clear you’re really thinking deeply/care a lot about this stuff! <br/><br/>i’m trying to dredge up physical or game metaphors for different input—crafting games might be a good place to look. i also like thinking of woodworking—generally, i feel like you’re working with unary or binary operations on wood or tools. you cut wood to make a jig, clamp the jig to another piece of wood, and then apply a saw across the jigged wood. that feels kind of like currying to me but i’m really stretching some metaphors here. cooking might also be a good metaphor.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566937609.274300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566937609.274300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:26</span><br/>
+idk id love it if i could come up with a consistent visual metaphor for visual or higher order programming —eg if a node could copy itself down another edge but that seems hairy and complicated
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566937642.275400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566937642.275400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:27</span><br/>
+this stuff is super interesting to me because i think we share word for word the same goal—programming should feel like a video game
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566937873.278200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566937873.278200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:31</span><br/>
+right now i’m working on a hazy idea of using the concepts of cursors and selection in traditional gui’s to replace ‘this’ and variable names in computation. ie, i don’t have to give my space marine a name to tell him to go fight some aliens in starcraft, and i don’t have to tell the game that i still mean the same guy every time i issue a new command
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566938048.280400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566938048.280400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:34</span><br/>
+one confusing thing about currying would be that i might call the function once with one value (4) and then want to call a new copy of that function with another (3) and then pass the next second values to them later. tricky to communicate visually 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566940094.280700"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566940094.280700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-08-27 14:08</span><br/>
+"Edges represent function calls, not function signatures."<br/><br/>If function is called from multiple places (multiple inputs) this makes sense but returning from function call not. It's like whenever you call a function it will return with same value everywhere where that same function is used. Instead multiple outputs have semantic meaning of variable being used in multiple places.<br/><br/>So how do you return from functions?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566941289.280900"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566941289.280900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-08-27 14:28</span><br/>
+Idea about relative time:<br/>What if multiple inputs just require two inputs arriving at the same time (for different slots)?<br/><br/>Many practical applications can be considered as single signal in and out. There might be other parameters like state but often there is clear signal which causes computation to happen. Computations can be split but we can make sure that for every signal merge (multi input function) there is a split. Therefore we can only adjust time of every branch to make sure signals will be merged nicely together one to one.<br/><br/>Sure if there is non-constant branches it will be more complicated and if signal can disappear or multiply, these assumptions will collapse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566941811.281100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566941811.281100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-27 14:36</span><br/>
+&gt; how do you return from functions?<br/><br/>There's a bit of a conceptual mismatch between what I'm doing (heavily inspired by dataflow languages, hydraulic and electrical schematics, etc) and what you do when calling a function in a Fortran-inspired language (where, I believe, the notion of "calling" and "returning" a function come from). In the Fortran-inspired lot, code forms a tree (the AST), but execution forms a graph (the call graph, the cyclomatic graph, etc, which I believe are all DAGs). In Hest, Max/MSP, schematics, etc, code and execution form a graph (and not even a DAG — a totally free graph). So in the former, a function call travels down a tree branch from call site to function, and the return comes back up the same tree branch. In Hest (etc), the call and the return are separate, so you're responsible for setting up both.<br/><br/>It might also help to know that... in Hest, when you have a point acting as a function, that point isn't itself the function — it's a reference to the function (which is defined elsewhere). You can make as many such references as you want.<br/><br/>&gt; It's like whenever you call a function it will return with same value everywhere where that same function is used.<br/><br/>Yep, exactly. If you don't want that, you just don't do it — make a separate copy of the function point everywhere you need it, and only have 1 inbound edge and 1 outbound edge.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566942139.281300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1566942139.281300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-27 14:42</span><br/>
+&gt; What if multiple inputs just require two inputs arriving at the same time (for different slots)?<br/><br/>Yep, that's actually how I currently have it implemented. The problem with this approach is that you can't have ordered/positional arguments, since the incoming data forms a set, not a list. That is a really harsh restriction. I know that I can overcome this limitation when creating more advanced functions within Hest (which involves drawing an icon to represent the function, and choosing one or more spots in the icon to act as input ports), but I think that might not be sufficient.<br/><br/>&gt; Computations can be split but we can make sure that for every signal merge (multi input function) there is a split. Therefore we can only adjust time of every branch to make sure signals will be merged nicely together one to one.<br/><br/>I don't understand this. But I do like the idea of "signals" and am probably going to implement something like that. (See: <a href="1566801692.212900.html#1566936382.265500">1.566936.html&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567341978.009200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567341978.009200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-09-01 05:46</span><br/>
+Took a chance to read the post at last.  Hot take...<br/><br/>Now that we've seen data passing through functions, what would the opposite – functions passing over data – look like?<br/><br/>About those object balls running along channels, a fun thing with arrows <a href="https://en.wikibooks.org/wiki/Haskell/Understanding_arrows">https://en.wikibooks.org/wiki/Haskell/Understanding_arrows</a>, PROPs <a href="https://golem.ph.utexas.edu/category/2018/04/props_in_network_theory.html">https://golem.ph.utexas.edu/category/2018/04/props_in_network_theory.html</a> and Propagators <a href="https://groups.csail.mit.edu/mac/users/gjs/propagators/">https://groups.csail.mit.edu/mac/users/gjs/propagators/</a> is that you can draw a path while parametrizing over what passes through it, like reusibng the same plumbing with different fluids.<br/><br/>Having channel length matter does give you a locality and smoothness that keeps paradox at bay.  It's more than obvious that you, like everyone else who has tried, have been baffled by the order of operations in Max/MSP: looks like a dataflow network, feels like a dataflow network, absolutely is not a dataflow network.  Likewise the fact that Max/MSP nodes are objects with methods and state rather than pure functions confuses everyone sometimes.<br/><br/>About time travel.  Your five types mainly revolve around the interaction between user time (which of course simply goes forward at human scale), edit action time (undo/redo), and simulation time (the balls moving around).<br/><br/>One solution to your "problem" with remembering the channel that a ball used to enter a function is to "just" remember which channel the ball came in on.  From learning about Propagators, I took away the notion of lifting a datum so as to store provenance metadata with it.<br/><br/>Another silly solution is to embrace time symmetry.  Suppose a function with one entrance and two exits has the quality that when a ball enters, two exit.  Time reversed, it now has two entrances and one exit.  Balls entering have to do so at the same time.  So if you make an edit that adds a ball on one channel, you implicitly also add one in the other.  Fixpoint fun follows.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567349086.009800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567349086.009800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-01 07:44</span><br/>
+&gt;&gt;&gt; The Propagator Programming Model is built on the idea that the basic computational elements are autonomous machines interconnected by shared cells through which they communicate. Each machine continuously examines the cells it is interested in, and adds information to some based on computations it can make from information from the others. Cells accumulate information from the propagators that produce that information. The key idea here is additivity. New ways to make contributions can be added just by adding new propagators; if an approach to a problem doesn't turn out to work well, it can be identified by its premises and ignored, dynamically and without disruption.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567349127.010300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567349127.010300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-01 07:45</span><br/>
+paging alan kay lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567349140.010800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567349140.010800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-01 07:45</span><br/>
+this is insanely cool though thank you for sharing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567403785.011100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567403785.011100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-09-01 22:56</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Great feedback, thanks!<br/><br/>&gt; Now that we've seen data passing through functions, what would the opposite – functions passing over data – look like?<br/><br/>A previous concept for function application was that there'd be a function and data geometrically intersecting — it didn't matter if the data was conveyed to the function or vice versa. I've moved away from <em>intersection</em> to experiment with more directed ways of treating geometry as functions, data, or both, to see what feels good. Too soo to say, since it'll depend on other things (like how I end up handling collections, for instance).<br/><br/>&gt; About those object balls running along channels, a fun thing with arrows <a href="https://en.wikibooks.org/wiki/Haskell/Understanding_arrows">https://en.wikibooks.org/wiki/Haskell/Understanding_arrows</a>, PROPs <a href="https://golem.ph.utexas.edu/category/2018/04/props_in_network_theory.html">https://golem.ph.utexas.edu/category/2018/04/props_in_network_theory.html</a> and Propagators <a href="https://groups.csail.mit.edu/mac/users/gjs/propagators/">https://groups.csail.mit.edu/mac/users/gjs/propagators/</a> is that you can draw a path while parametrizing over what passes through it, like reusibng the same plumbing with different fluids.<br/><br/>My understanding of category theory is fairly poor, so while I'm familiar with arrows, the discussion of PROPs was pretty devoid of footholds for me. That said, the mention of bond graphs was helpful. I evaluated bond graphs for a Hest precursor about 8 years ago, but found them to be a frustratingly lossy generalization, useful for only very coarse analytics and not useful (to me) for the design of systems.<br/><br/>Propagators seem interesting. I've only read the abstract so far, but it sounds vaguely like CES meets Forth. Too late tonight for me to read it, but I'm excited to get to it soon.<br/><br/>&gt; It's more than obvious that you, like everyone else who has tried, have been baffled by the order of operations in Max/MSP: looks like a dataflow network, feels like a dataflow network, absolutely is not a dataflow network.  Likewise the fact that Max/MSP nodes are objects with methods and state rather than pure functions confuses everyone sometimes.<br/><br/>I have to play computer in my head when looking at Max, and that's the ultimate failing of pretty much every "visual" language. They could fix that entirely by improving the GUI, no changes to the model are needed.<br/><br/>&gt; About time travel.  Your five types mainly revolve around the interaction between user time (which of course simply goes forward at human scale), edit action time (undo/redo), and simulation time (the balls moving around).<br/><br/>The latter two are arguably one and the same. It might be useful to attempt to distinguish them (I currently am), but they mostly overlap/intersect.<br/><br/>&gt; One solution to your "problem" with remembering the channel that a ball used to enter a function is to "just" remember which channel the ball came in on.<br/><br/>One prototype ago, that's how it worked. Since then, I've kept coming back to the idea that.. I don't want to have to force decisions like this on my future self. So I'm looking for a way to let me.. build the runtime so that you <em>can</em> have points remember which edge they came in on, but you can also record history as an external thing, or not record any history.. and select which kind of time travel objects participate in on the fly. So I think the challenge is.. determining what underlying data representation(s) will let me do this stuff a la carte with really good performance characteristics <em>in fuckin javascript</em> (because this stuff <em>has to</em> run on the web, even though I want the editor tool to be native).<br/><br/>&gt; Suppose a function with one entrance and two exits has the quality that when a ball enters, two exit.  Time reversed, it now has two entrances and one exit.  Balls entering have to do so at the same time.  So if you make an edit that adds a ball on one channel, you implicitly also add one in the other.<br/><br/>That's how the current prototype works, but I've found symmetry doesn't solve any problems I'm currently facing, so it's just over-constraining.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567405944.011900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567405944.011900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-09-01 23:32</span><br/>
+How do you handle functions that take two arguments?  The first ball just waits for a second to arrive?  Just keep the term "PROPs" in your back pocket, expect to hear it again in a few years.  The time symmetry idea is silly and not likely suitable.  The only really important thing to keep in mind, I think, is that from some perspective all the state/change/movement should be visible.  "Visual" languages generally do fall down from hiding details in ways that lead to behavior being as mysterious and inscrutable as typical software systems.  (Likewise, hidden state in the physical world is disorienting.  Thinking of pluming problems or anything with wiring, weather, and geckos...)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567530113.013700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567530113.013700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-09-03 10:01</span><br/>
+&gt; How do you handle functions that take two arguments?<br/><br/>Still considering different approaches, in combination with different modes of time travel, different ways of storing state internally, to see what feels good and avoids perf cliffs.<br/><br/>My current favourite is what you mentioned: functions don't open themselves to input until they have data waiting at every inlet. If multiple pieces of data arrive at one inlet before other inlets are filled, we just do last-write-wins. If you want a queue instead, that could just be a special kind of edge. I call this idea "perching" because it's like the data point is perched on the lip of the function, waiting until the function opens up.<br/><br/>Another option is that data points "paint" the edges they travel along, leaving a permanent trail of their data value. When a function receives a data point at an inlet, it can accept that input and produce a result even if other inlets don't have a data point waiting at them, so long as those inlet edges have previously been painted with a value. This is sort of like a version of FRP-style behaviours / signals depicted as standing waves, where the initial wavefront is a point. It's also analogous to the way that variables in a scope work, which are in essence painted with a value as the instruction pointer passes over them to do an assignment and they remain so painted until the next assignment. (Yes, I do spend a lot of time thinking of our common abstract execution metaphors as little machines with agency which, I know, is a "no-no" in some technical writing circles.)<br/><br/>Painting seems really interesting and I definitely haven't explored it enough, but I have a raft of concerns that don't seem to be fading as I consider it more. Painting adds several new kinds of complexity (compared to perching and other ideas), and requires a whole additional set of editor tools. There might not be a good way for the artist to embody painted edges the way they can embody points — what would "painted edges: the game" be like, and is that useful for programming?<br/><br/>There's another problem that both painting and perching have, which I only really started to appreciate after exploring painting in depth. Currently, the act of a data point arriving at a function is two things combined together that might need to be separate — it's the provision of data, and it's the initiation of that function's execution. It's both (eg) a value and a "bang". I might want to separate these things, so that the system isn't "complecting what and when" to borrow a Hickeyism. (And that's 25¢ in the jar.)<br/><br/>And yes, of course, I am very resistant to any idea that crosses my path that'd lead to hidden state. Much like incidental complexity (which Hest warmly embraces), hidden state is something that will inevitably happen in some sense or another, but I want to be very careful about what things I hide, and how.<br/><br/>So, what do you think? Should I separate the movement of data and the movement of execution? There are lots of ways to do that. If you were providing multiple pieces of data to a function, how might you do it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567543228.021300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567543228.021300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-09-03 13:40</span><br/>
+I'm thinking in terms of 'Edges represent function calls, not function signatures' so am a bit confused how each inlet will only provide partial data for the function. That sounds more like function signatures (all inlets need inputs). The question is this: does an edge carry all the data for the target node or only part of the data?<br/><br/>If I were to provide multiple pieces of data to a function, maybe I'd introduce some synchrony nodes. E.g. a Y connector that merges two pieces of data into one, so it can be passed down to function. The only purpose of these synchrony nodes would be combining different pieces of data (ensuring they 'sync up') and then putting them on a single track en route to the function node.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567566151.030500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567566151.030500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-03 20:02</span><br/>
+i think the edges represent function calls but the arguments being passed in are particles flowing along those edges. so function signatures are more like specs of how many pieces of data need to hit a function before it spits out another returns (spits out another particle). might be way off base though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567566175.031300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567566175.031300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-03 20:02</span><br/>
+btw i really like the perching and painting metaphors they’re very evocative 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567576284.038800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567576284.038800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-09-03 22:51</span><br/>
+In Max, Pd, vvvv, Cables, Nodes, etc., each function node has a number of inlet and outlet ports (usually typed). Each port serves a specific purpose.<br/><br/>I want artist-defined functions to be able to have something akin to ports. In fact, it's a design requirement of the kinds of simulations my team plans to build in Hest. But I want to be able to implement those <em>visibly multi-parameter</em> functions entirely in terms of simpler functions that just look like points. Simple geometry for the most primitive/core functions, complex geometry for more complex/specialized functions. (Short version of "why?" — it makes for a stronger harmony between the drawing model and programming model). How to accomplish this?<br/><br/>I could try to make the core of the language consist only of single argument functions that execute immediately when data is provided. This feels very.. lambda calculus. I can't conceive of how to make this performant <em>in fuckin javascript</em>. I think I have to do multi-argument, somehow.<br/><br/>"Synchrony nodes" is similar to an idea I've been toying with, which I call "sync gates". They're basically the "sync" operator in SpaceChem, used for temporal coordination — when a data point arrives at a sync gate, it sits there and waits until all other connected sync gates also have a point waiting at them, then all the gates open. No Y-combination, just little gate nodes connected with a "wire" edge. I though about using sync gates in combination with the idea that functions treat the simultaneous arrival of data points as a multi-argument invocation. But I think synchrony nodes are even better, because if you numbered the inbound branches of the Y, you could establish an order, which I think is essential. (I don't think I want to make Hest like a stack/concatenative language, using the temporal order that data arrives at a function as the argument order — that's too confusing).<br/><br/>It's hard for me to think about this stuff without also thinking about how an artist-defined function is created, so I should probably speak to that. When defining a function within Hest, you draw a graphic "icon" for that function using the vector art tools, and lay out the code next to that graphic. You also connect the code to the graphic as needed to (say) alter the graphic in response to state (because functions in Hest can be stateful). If you want to have (say) a row of inlet ports along the top of the graphic, you'd draw what those ports should look like, tell Hest to treat them as ports (which means they'll accept edge connections from outside), and route where the incoming data should go.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567576458.039000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1566801692.212900.html#1567576458.039000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-09-03 22:54</span><br/>
+I realize that didn't address "Edges represent function calls, not function signatures" — I think it's worth handling everything I say with oven mitts, since I'm changing my mind constantly, trying tons of experiments, deleting as much code as I write, and always speaking about what I'm working toward at the moment, not what I've completely decided to do.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

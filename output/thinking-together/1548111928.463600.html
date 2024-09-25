@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2019-01-21 15:05</span><br/>
+The stereotypes of UI/UX-focused and performance-focused programmers tend to be somewhat at odds, but I'm starting to optimistically think that they may not be so diametrically opposed...<br/>I just finished reading the book <em>'Data Oriented Design: Software Engineering for Limited Resources and Short Schedules'</em>  (of which the author has a free online copy here: <a href="http://www.dataorienteddesign.com/dodbook/">http://www.dataorienteddesign.com/dodbook/</a>) and I was struck by a few of his recommendations related to this group (there's definitely more, but these are the things at the top of my head atm):<br/><br/>0) (for a bunch of performance reasons, data are better considered as collections rather than single objects - or even objects at all)<br/>1) Despite their initial appeal, the paradigm of 'objects' falls short in a number of ways. 'Relations' map more consistently between human concepts and computer implementation, are simpler (and so are easier to debug), and typically faster to do computations with.<br/>2) Relatedly, it's generally a good idea to lay out data similar to a normalized relational database - this kept making me think of Eve (<span style="background-color:#ccf">@Chris Granger</span> were you at all aware of/influenced by the DOD 'movement'/approach?)<br/>3) 'Existence-based' programming (see the chapter of a similar name) reduces a lot of boilerplate noise and eliminates-by-design the possibility of a few classes of errors<br/>4) A mixture of queues and hook/subscription/reactions slot in nicely with the paradigm. This leads to easy concurrency with effective immutability without the mental and CPU overhead of mutexes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548118575.468000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548118575.468000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2019-01-21 16:56</span><br/>
+Very much so. :slightly_smiling_face: In practice, focusing on data layout and on trying to use arrays over most other structures made a huge difference in performance. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548118635.469400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548118635.469400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2019-01-21 16:57</span><br/>
+We tried this out in lots of domains and got really exciting numbers compared to systems that were built more traditionally. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548120501.469600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548120501.469600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2019-01-21 17:28</span><br/>
+At the end of the day though, we eventually found that the only way to go <b>fast</b> is to just not do much. :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548120589.469800"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548120589.469800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2019-01-21 17:29</span><br/>
+A lot of the fancy data structures and crazy asymptotics you get out of neat algorithms are often completely destroyed by constant factors. More often than not, we found things that looked more like doing stuff on arrays outperformed everything else by fairly significant margins. Even if they were slower "in theory."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548138786.470200"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548138786.470200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-01-21 22:33</span><br/>
+As a game programmer I'm acutely aware of these perf issues but my impression is for the most part they are at odds with easy to use, easy to maintain, easy to understand code.<br/><br/>Especially for inexperienced people, the type of people <span style="background-color:#ccf">@Steve Krouse</span> seems to be targeting.<br/><br/>Most people I would think see their data on people as<br/><br/><pre style="white-space:pre-wrap"><br/>class Person {<br/>   string name;<br/>   string address;<br/>   string phone;<br/>}<br/></pre><br/><br/>not as<br/><br/><pre style="white-space:pre-wrap"><br/>string[] PhoneNumbers;<br/>string[] Names;<br/>string[] Addresses<br/><br/>class Person {<br/>   int nameNdx;<br/>   int addressNdx;<br/>   int phoneNumberNdx;<br/>};<br/></pre><br/><br/>Probably a bad example but hopefully you get my point. I'm sure systems exist to make things look more like the former but under the hood act like the latter. In fact [Unity's Entity Component System](<a href="https://unity.com/unity/features/job-system-ECS">https://unity.com/unity/features/job-system-ECS</a>) is one such system.<br/><br/>But usage is still far more involved than the more obvious method.<br/><br/>If I'm not making sense what I'm trying to say is that organizing around perf is mostly a topic for experienced programmers.<br/><br/>Another maybe good example is three.js, it started with Vertex objects, each object holding 3 values. You'd make arrays of them then make Face objects and add Vertex objects to do those to make polygons. That's arguably the most obvious idea and when three.js was mostly a software renderer it worked.<br/><br/>But then as they added WebGL they ran into the issue that the GPU needs the data all laid out in nice parallel arrays so they have this issue where they currently have 2 paths.<br/><br/>Path 1, the old path, Use Vertex and Face, and then the library has to convert to a GPU friendly format anytime data is changed.<br/><br/>Path 2, build GPU friendly formats directly, no intermediate format.<br/><br/>The problem with Path 2 is for inexperienced programmers they have to deal with data as individual numbers in an array. In other words, to a specific vertex in path 1 could be as simple as<br/><br/><pre style="white-space:pre-wrap"><br/>const vertex = vertices[vertexIndex];  // easy<br/></pre><br/><br/>where as the GPU friendly way is more like<br/><br/><pre style="white-space:pre-wrap"><br/>const offset = vertexIndex * stride;<br/>const x = vertices[offset + 0];<br/>const y = vertices[offset + 1];<br/>const z = vertices[offset + 2];<br/>const vertex = new Vertex(x, y, z); // because you want access to vertex methods these 3 values need to be assign a type.<br/></pre><br/><br/>That looks trivial to an experienced programmer but not to a beginner.<br/><br/>Anyway, there are probably ways to solve that type of issue and give both perf and easy to follow code for a beginner but I haven't seen any.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548183500.471400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548183500.471400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-01-22 10:58</span><br/>
+I think another option for inexperienced programmers is to add a layer of constraints that makes it very hard or impossible to write non-performant code.  At least in some axes. of course. its always possible to do too much work or do redundant work, but even that can be a constraint (treat performance as an economy and gamify it a little bit)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548193483.471800"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548193483.471800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2019-01-22 13:44</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> heh that's a fun connection.<br/>My understanding was that Eve was made with web tech (JS at some point in the stack?). Did you do any tests with a native compiled language (e.g. C)? I'd be curious to see the difference.<br/><br/><span style="background-color:#ccf">@Gregg Tavares</span> Thanks for the fleshed-out example.<br/>It wouldn't surprise me if there are more comprehensible ways of representing it. Eve seems to have made strides in one possible direction in that area.<br/>Given people's familiarity with Excel, table columns and rows should be a relatively simple sell.<br/>For your example, you could also write it as:<br/><pre style="white-space:pre-wrap"><br/>class People {<br/>	string[] phoneNumbers;<br/>	string[] names;<br/>	string[] addresses;<br/>}<br/></pre><br/>which is not too dissimilar from your original layout. If you squint a bit, you can see the members as the column headers of a table called People...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548193808.472000"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548193808.472000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2019-01-22 13:50</span><br/>
+<span style="background-color:#ccf">@Scott Anderson</span> interesting idea, but possibly difficult to implement in the general case... do you have any constraints in mind that might be helpful here?<br/>I think that making performance more tangible could help - probably by allowing profiling with trivial difficulty and connecting that to the source/data in a fairly immediate way... (I'm aware that I'm speaking in too many generalities here!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548194559.472200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548194559.472200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-01-22 14:02</span><br/>
+<span style="background-color:#ccf">@Andrew Reece</span>.  I'm thinking having users write SPMD programs by default, take away their ability to iterate over collections and treat all code as kernels that operate on smallish heterogenous arrays of data (the language can convert everything to SoA if necessary). pixel and vertex shaders do that already (especially material editors in AAA game engines), so do visual particle system (unity vfx and niagra) and machine learning\scientific computing frameworks kind of do it.   All of these environments are heavily constrained, and its still possible to make things that perform horribly, or perform well in isolation and poorly in production.  I think its possible to build a pretty robust simulation framework\game engine type thing that encourages high performance, even if its constrained in certain ways
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548195603.472500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548195603.472500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-01-22 14:20</span><br/>
+for reference <a href="https://github.com/Unity-Technologies/ScriptableRenderPipeline/wiki/VFX-Blocks">https://github.com/Unity-Technologies/ScriptableRenderPipeline/wiki/VFX-Blocks</a>, <a href="https://docs.unrealengine.com/en-us/Engine/Niagara">https://docs.unrealengine.com/en-us/Engine/Niagara</a>, <a href="http://advances.realtimerendering.com/s2017/Destiny_Particle_Architecture_Siggraph_Advances_2017.pptx">http://advances.realtimerendering.com/s2017/Destiny_Particle&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548206689.472900"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548206689.472900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-01-22 17:24</span><br/>
+More reference, info about Bungie's TFX shader system\bytecode intepreter referenced in the particle system presentation <a href="http://advances.realtimerendering.com/destiny/gdc_2017/Destiny_shader_system_GDC_2017_v.4.0.pdf">http://advances.realtimerendering.com/destiny/gdc_2017/Desti&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1548228513.473300"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548111928.463600.html#1548228513.473300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2019-01-22 23:28</span><br/>
+<span style="background-color:#ccf">@Andrew Reece</span> we wrote versions of Eve in lots of different languages (TS, Clojure, Rust, C, Go, ...), but this pattern makes just as much difference in JS as it does anywhere else. Rust ended up being the fastest by a good margin.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

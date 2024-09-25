@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-05-26/2104531310403_4d4f0ee36615313d19e3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Schulz</b>
+<span style="margin:2em; color:#606060">2021-09-05 22:01</span><br/>
+When <span style="background-color:#ccf">@Ivan Reese</span> talks about the data model in Hest (<a href="https://pod.link/1559446316/episode/488217b61f1f644d58a4219f9d0545f1">Hest Podcast, Episode 25</a>), he mentions things like:<br/><br/>• AOS: Array of Structs<br/>• SOA: Struct of Arrays <br/>He also mentions a way to organise data where each property (name, color, position, …) is stored in its own Array – in contrast to an Array of Objects of Properties.<br/><br/>This reminded me of a talk I had seen at Unite (Unity Conference) about “<a href="https://unity.com/dots">Data-Oriented Design</a>”. While it makes a lot of sense in terms of memory usage, caching and lookup performance, I barely see data-oriented design today.<br/><br/>What are examples of programming languages or software that are using/promote data-oriented design outside of game development?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630913484.101700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1630913484.101700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-09-06 00:31</span><br/>
+Scientific computing has much of the same issues as games: large but simply structured datasets, and dealing with hardware limitations in memory and performance. But explicit support in programming languages is rare. One reason why there was a lot of enthusiasm for C++ for scientific computing in the 1990s was the hope for managing the AOS vs. SOA tradeoff better than in Fortran. Not sure it was a success.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630921090.108300"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1630921090.108300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 02:38</span><br/>
+Probably, "the languages promoting data-oriented design" are exactly "array programming languages", which are kinda popular again later with the spread of GPGPU, but mostly around scientific computing, DSP and alike. :slightly_smiling_face:<br/><br/>Besides, just SoA isn't <em>efficient enough</em> on modern hardware considering all levels of caching, NUMA and vectorization. Thus in practice for maximum performance people use combined layouts like SoAoS. But for that you have to know the sizes and layouts of your base structures, where and how they are used, and adapt algorithms for that. So no "one size fits all" solution here, it's all careful conscious and methodical manual optimisation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630936000.115800"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1630936000.115800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-09-06 06:46</span><br/>
+I know Andrew Kelly just applied some data oriented techniques to zig for compiler performance improvements. <a href="https://vimeo.com/507318005">https://vimeo.com/507318005</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630939797.116100"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1630939797.116100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2021-09-06 07:49</span><br/>
+I’d recommend looking at <a href="https://www.youtube.com/watch?v=Oj_xgO2uKJM&amp;t=1s">https://www.youtube.com/watch?v=Oj_xgO2uKJM&amp;t=1s</a>. And also Aarons Hsu’s thesis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630991108.119500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1630991108.119500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-06 22:05</span><br/>
+Jonathan Blow's work-in-progress programming language Jai has <a href="https://github.com/BSVino/JaiPrimer/blob/master/JaiPrimer.md#data-oriented-structures">language-level support</a> for AOS and SOA:<br/><br/>&gt; However, as programs get larger, it becomes much more difficult to reorganize the data. Testing whether a single, simple change has any effect on performance can take the developer a long time, because once the data structures must change, all of the code that acts on that data structure breaks. So Jai provides mechanisms for automatically transitioning between SoA and AoS without breaking the supporting code.<br/>Which makes me wonder if this sort of generality of data access is similar to the approach Clojure takes to its data structures — and if so, whether they're directly aligned or lie along slightly different axes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631024587.120300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1631024587.120300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2021-09-07 07:23</span><br/>
+For what it is worth I am fairly sure that Jonathan Blow got rid of those abilities. Instead you have macros and arbitrary compile time code execution that would let you reimplement something like that yourself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631031864.121200"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630904464.100400.html#1631031864.121200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-09-07 09:24</span><br/>
+Anytime someone talks about a column store vs a row store, they’re effectively talking about SoA vs AoS
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

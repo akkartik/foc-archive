@@ -1,0 +1,149 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-09-18/5926088433521_c62c43b01fd5b63ec214_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Zimmerman</b>
+<span style="margin:2em; color:#606060">2024-03-20 10:26</span><br/>
+I want to build the backend of an as-bidirectional-as-possible spreadsheet/dataflow, does anyone have any favorite techniques?<br/><br/>I’d like to prefer a dataflow style solution over a constraint solver. I’ve been reading up on why this problem feels hard and its similarity to the “view update problem” in databases, I’m curious if there’s a widely accepted solution that I’m missing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710975759.645089"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1710975759.645089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-03-20 16:02</span><br/>
+[moved from top level, original message by <span style="background-color:#ccf">@Alessandro Warth</span>]<br/><br/>I get that you're not looking for a constraints-based solution, but maybe you'll find this interesting anyway: <a href="https://github.com/harc/constraint-based-spreadsheet">https://github.com/harc/constraint-based-spreadsheet</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710978469.844719"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-18/5926088433521_c62c43b01fd5b63ec214_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1710978469.844719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Zimmerman</b>
+<span style="margin:2em; color:#606060">2024-03-20 16:47</span><br/>
+Thanks <span style="background-color:#ccf">@Alessandro Warth</span>, would you mind sharing any thoughts on how the project went with the constraint approach? I’m thinking right now about leaning on lenses and some semantics discussed in this slideshow “Weird World of Bi-Directional Programming” from Benjamin Pierce. Was there a particular reason you chose a constraint solver?<br/><br/><a href="https://www.cis.upenn.edu/~bcpierce/papers/lenses-etapsslides.pdf">https://www.cis.upenn.edu/~bcpierce/papers/lenses-etapsslides.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711048996.282089"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711048996.282089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-03-21 12:23</span><br/>
+I've been enamored with the Propagator Model as a solution to this problem. The idea is cells don't just store values, but more broadly they store information about what the value could be (such as a set of potential values), and propagators are like functions that react to changes in any number of connected cells, do computation, and then updated dependent cells continuously by* 'merging' in information (like finding the intersection of a set to get closer to a solution). It's a bit abstract, but these networks can be used as general purpose constraint solvers/computers by reacting to changes to cells and propagating updates to converge on a solution/steady state (they can be structured so they always converge). Bonus is nodes are 'actors' in the sense they are autonomous, async, and thus can be  distributed/run in paralle. Sussman and Radul have a paper in it- this is the best intro ive seen (<a href="https://www.youtube.com/watch?v=HB5TrK7A4pI">https://www.youtube.com/watch?v=HB5TrK7A4pI</a>), and there are some implementations of it in <a href="https://github.com/ekmett/propagators">Haskel</a> for example  by this guy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711049193.915029"></a>
+      <a href="../thinking-together/1710955571.143429.html#1711049193.915029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-03-21 12:26</span><br/>
+Here's an visual: You can see how by wiring up an equation in both directions you can solve any variable given the other one*.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711049323.804559"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711049323.804559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-03-21 12:28</span><br/>
+Lastly to add- this is not widely accepted- probably far from it. Just particularly interesting. Hope thats useful
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711056481.014849"></a>
+      <a href="../thinking-together/1710955571.143429.html#1711056481.014849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2024-03-21 14:28</span><br/>
+Related, there's a great book on constraint theory by Friedman and Phan that digs into this kind of thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711056746.149069"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711056746.149069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-03-21 14:32</span><br/>
+<span style="background-color:#ccf">@Don Abrams</span> really cool- just got a copy, curious to peruse
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711082273.878299"></a>
+      <img src="https://secure.gravatar.com/avatar/707654e6af47bfb143e6445a4605c276.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711082273.878299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>avon</b>
+<span style="margin:2em; color:#606060">2024-03-21 21:37</span><br/>
+<span style="background-color:#ccf">@Dennis Hansen</span> if you're into scheme and p2p networking at all there's this interesting experimental propagator implementation built using Spritely Goblins: <a href="https://gitlab.com/spritely/brainy">https://gitlab.com/spritely/brainy</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711082598.888909"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711082598.888909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2024-03-21 21:43</span><br/>
+Hello, and welcome to one of my favorite topics.  I'm so glad to hear the Propagator Model mentioned.  One thing I've learned in spending... oh my... a decade plus on the topic is that you must integrate invalid states and a view model from the start.  Then soon enough, you'll really want versioning.<br/><br/>Consider the simplest thing in a spreadsheet:<br/>• Set <tt>A1 = 24.0</tt>.<br/>• Set <tt>A2 = A1 * 9 / 5 + 32</tt>.<br/>• Come back to edit A1.  Type "x".  What should happen to A2?  For a usual spreadsheet, the answer is nothing.  When active, a cell's state shouldn't propagate, so make that part of the model in the first place.<br/>• Hit enter.  We expect A2 to go funny in some way, ideally a way that points back to A1 as the source of the type error.  An advantage of something like the propagator model is that you can wire your network as the basic level and then independently experiment with the semantics of error propagation.<br/>What about versioning?  Versioning is useful for collaboration, yes.  And undo is essential for any non-trivial model that you can mess up.  But a real potential is realized in having the system make a bunch of version of things and then combine them.  For instance, make a bunch of copies of A1 and A2.  Vary A1 and chart how it affects A2.  So instead of having separate looping constructs, just allow for clones/copies of the parts of the model.<br/><br/>And if you make time first-class, instead of distinguishing between a clone and a copy, you can choose to either modify the original before or after copies were made to get a similar effect.  An advantage is that you now have a well-defined semantics for conflicts when an embellishment of a clone is incompatible with a change to the original.  You can pinpoint: this operation no longer works.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1711394130.661509"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-18/5926088433521_c62c43b01fd5b63ec214_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1711394130.661509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Zimmerman</b>
+<span style="margin:2em; color:#606060">2024-03-25 12:15</span><br/>
+Propagator model seems really interesting, thanks <span style="background-color:#ccf">@Dennis Hansen</span> <span style="background-color:#ccf">@Don Abrams</span> <span style="background-color:#ccf">@avon</span> <span style="background-color:#ccf">@William Taysom</span>! I’ll update when further questions come up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1716490946.215639"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710955571.143429.html#1716490946.215639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-05-23 12:02</span><br/>
+Just wanted to pop this in here for posterity! Made a propagator network simulator on top of tldraw<br/><br/><a href="../share-your-work/1716413598.853019.html">../share-your-work/1716413598.853019.html</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

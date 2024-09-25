@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-20 08:00</span><br/>
+In Unix <a href="https://en.wikipedia.org/wiki/Everything_is_a_file">everything is a file</a> which makes allows simple, reusable tools like <tt>ls</tt>, <tt>cd</tt>, <tt>cat</tt>, etc to be used across the whole system. However, files have their drawbacks as well: primarily that they're difficult to merge or detect changes which is useful for syncing, collaborating,  and/or subscribing to data.<br/><br/>Has anyone seen any alternatives to this paradigm? My startup is currently exploring the idea of append-only logs as our core primitive instead of files. We're not building a new kernel but we're attempting to create a new programming environment with collaboration and reactivity as core tenants. Would love to hear other perspectives on the subject!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640018516.303300"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-14/2826386958343_1ab8763ceb219317febf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640018516.303300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krasner</b>
+<span style="margin:2em; color:#606060">2021-12-20 08:41</span><br/>
+<span style="background-color:#ccf">@Matthew Linkous</span> some of this thread is likely relevant to you: <a href="1636714161.079200.html">1636714161.079200.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640018841.303600"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-14/2826386958343_1ab8763ceb219317febf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640018841.303600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krasner</b>
+<span style="margin:2em; color:#606060">2021-12-20 08:47</span><br/>
+but in general there are many great systems out there which have gone past the teletype/terminal and punch card stack/file model of programming and dealing with information. Smalltalk is one example or NLS for a more historical one.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640019139.303800"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640019139.303800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-20 08:52</span><br/>
+Ah yes Smalltalk is a great example. Having the file not be the single source of truth but instead an optional artifact of your program is an interesting concept.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640019631.304000"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640019631.304000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-20 09:00</span><br/>
+I think my focus is less on the representation of a program but more towards the representation of data or system state.<br/>For example:<br/> If you wanted to create a global source of a user's mouse position in a Unixy system, you might designate a file that is continuously overwritten by the kernel that other processes could stream in. However, if you had multiple mice (somewhat contrived I know) then you either must deal with locks, create multiple files, or make the file append-only. The same is true for a lot of multi-writer applications--especially collaborative text editing.<br/><br/>So it makes me wonder: can/should files be <em>completely</em> replaced with append-only logs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640020041.304600"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-14/2826386958343_1ab8763ceb219317febf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640020041.304600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krasner</b>
+<span style="margin:2em; color:#606060">2021-12-20 09:07</span><br/>
+Unclear to me what you mean by &lt;&lt;log&gt;&gt; here. If you are thinking of building interactive, interpreted environment then the static flat file model/metaphor is only going to make it an upstream battle. You can image an message based system like Smalltalk, or an actor one as in the Carl Hewitt sense (in your mouse example, you can have each mouse be an actor sending a message to some hardware manager actor, no need to files or logs of any kind) or you can come up with another like model or better yet metaphor.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640021340.304800"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640021340.304800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-20 09:29</span><br/>
+Yeah I see what you mean. I think my concern is around persistence and syncing. So I guess if we think in terms of an actor that is in charge of receiving messages/updates from each mouse actor and then can respond to messages that request the mouse state then the internals whether it's in memory, stored in a SQL DB, file, etc doesn't matter because it's a black box which for the most part is a good thing. However, I'm thinking more in terms of composable data structures. So if you instead think of each mouse as a stream, then to have multiple mice you would just interleave your streams. I.e. I think what I'm getting at is more of building on top of an event-bus rather than addressable messages. Like it decouples the source and the recipient.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640021679.305000"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640021679.305000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-20 09:34</span><br/>
+My experience with the actor model is more in the Erlang world than Smalltalk and I have always enjoyed the each process/actor is completely isolated and could be it's own complete computer. However, I've always found the ideas of publishing to streams or channels more intuitive and ergonomic for shared state than exchanging messages. For example in this mouse example, if I had a drawing app then I would likely need to poll the "mouse agent" every 16ms which seems much more awkward than piping mouse changes into the application e.g. <tt>mousePos() |&gt; draw()</tt> then the actual drawing application/process/actor is decoupled from the mouse agent. Which you could model with files but it seems like a different data structure would be more suitable
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640044836.305300"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640044836.305300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2021-12-20 16:00</span><br/>
+I think <a href="https://github.com/nushell/nushell">Nushell</a> represents everything as a table
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640091716.305700"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640091716.305700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2021-12-21 05:01</span><br/>
+Yeah I love that idea!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1640644479.331300"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1640016053.303100.html#1640644479.331300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-27 14:34</span><br/>
+Everything is a file is really "<b>everything is a number of named bidirection stream of bytes</b>.[1]" . This is very general and you can build pubssub and basically any protocol on it. Switching to everything is an append only log seems jarringly limiting and underspecified. How could you implement a network adapter over that abstraction? What is the read pattern to these files? Are the contents queryable forever? Where are these files stored?<br/><br/>Though in your later chat you seem to be talking about streams, so maybe you have arrived back to where UNIX is already?<br/><br/>[1] Linus Torvalds himself corrected it again a bit more precisely: "Everything is a stream of bytes".
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

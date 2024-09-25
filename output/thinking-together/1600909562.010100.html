@@ -1,0 +1,475 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-23 18:06</span><br/>
+A big issue in programming is that a program is an extremely lossy record of history. Even with good comments, it’s hard to look at a program and know:<br/>• What are the alternatives that were considered, but ignored? Tried, but later discarded?<br/>• What order was this program written in? Is a particular line or function the focal point of this code?<br/>• What is the set of resources the author used to write this code? <br/>• How weathered is this code? How many bugs have happened in this code? How scared should I be to change it?<br/>What are some ways in which programming environments could help us record this info / answer these questions without requiring additional effort from the author?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600910178.010200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600910178.010200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-23 18:16</span><br/>
+You might find this older thread useful: <a href="1595618648.446000.html">1595618648.446000.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600929183.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600929183.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-09-23 23:33</span><br/>
+Unit tests help some of this.  They encode the constraints of the program and the expected behavior - assuming they are well written!   In particular the last point - how scared should I be to change it?  That can be answered by how robust the unit tests are.  That is their great value; refactoring becomes much easier.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600937449.000900"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600937449.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-09-24 01:50</span><br/>
+Maybe one way to address some of your points is to store all the code editing history. One missing point will the tracking of the resources and the alternatives that have been considered but not tried.<br/><br/>I guess using environments that use CRDT can have this for free. CRDT used as editing actions log can be used to show what happen at what "time".<br/><br/>And adding other not-code artifacts (resources and record of not-tried alternatives) in the environnement might also help covering all your points.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600955918.001200"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600955918.001200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-09-24 06:58</span><br/>
+I end up using git annotate as a proxy for some of this. It’s limitations are being line-based and being just the most recent thing to have happened to each line. I’m picturing something that turns the section of code I’m looking at into a series of slices that let me step through commits while seeing what has been stable and what has been turbulent.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600964214.001600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600964214.001600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-09-24 09:16</span><br/>
+i think one big area that's possible right now without crazy advances in PL design is revealing production behaviour in the editor during development. it doesn't help that much with designing business logic and answering the questions you asked, but for managing all the accidental complexity of actually running code in production, there's a lot of data generated by logs, tracing systems, etc these days that i wish editors revealed much easier
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600964262.001800"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600964262.001800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-09-24 09:17</span><br/>
+think hovering a name in your editor and getting a popover that shows values that name held for various traces in production, or the values it tends to hold for successful requests vs failed requests, etc
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600964301.002100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600964301.002100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-09-24 09:18</span><br/>
+pretty sure some advanced Java development setups allow for this kind of thing with remote debuggers running in prod, but it doesn't seem to have taken off
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600964486.002300"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600964486.002300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-09-24 09:21</span><br/>
+it really does sound nice to work with a medium that reveals all the variations it could be shaped into next or all the variations it used to be in the shape of, instead of just the current shape, but i also think maybe our feeble brains can't deal with yet another dimension of abstraction when working with code. the concreteness of the code in front of you, the lossiness might actually be valuable in service of making programming possible in the first place
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600965625.002600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600965625.002600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-24 09:40</span><br/>
+One thing I've wished for is the ability to ask, "do we have any tests where this variable has value <em></em>_?" Often when I have a bugfix to add I'll first comment out existing business logic, just to figure out the best place to put the new test.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600982822.003100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600982822.003100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-09-24 14:27</span><br/>
+This is an area of I have thought a lot about. My own personal programming project is aimed to help with this. But I've also been white boarding through ideas on how to help with this in the current world. Not sure I could summarize well the ways I want to actually help this problem here, but I do want to at least contribute a few meta thoughts.<br/><br/>First I think one really important thing to consider is if we can in fact recover the important parts of a programs history at all. Peter Naur in his paper "Programming as Theory Building" claims that re-establishing the theory of a dead program is strictly impossible. I'm sure so people might question this, but I think this is actually very important to consider. If we aim at trying to save a history, we have to consider our aims. If our goal is to recover the theory behind the program that could be a fools errand. Instead maybe we should be thinking about what parts of a programs history are important for helping us establish a new theory? Does that history have to be an actual history or could it be something like what is proposed in the talk "Idealized Commit Logs" (<a href="https://www.youtube.com/watch?v=dSqLt8BgbRQ">https://www.youtube.com/watch?v=dSqLt8BgbRQ</a>)?<br/><br/>Second I think we actually should really consider learning more from historians, particular historians of artifacts (like art history). There is a great book on art history methodology called Patterns of Intention by Michael Baxandall. One of the points he makes is that when we are describing art, we are converting something visual to something linguistic. This is a lossy and biased format, one easy example he gives us that paintings don't actually a beginning and end point. We have to choose how to describe it and where to start. When we are studying art works, we are really studying them under some description of them. (He makes this much clearer for of us who are not artistically inclined by starting with a history of the forth bridge. His history of this artifacts asks as a really interesting example into what goes into an historical explanation.)<br/><br/>I think these same things hold true for programs. In capturing a history, we can't just be recording facts in a database, we are interpreting those facts, selecting the relevant ones and determining an order. What sorts of facts, in what sorts of orders can help people gain a new theory? Will different interpretations click better with different people? What things do we exclude by selecting that facts in this way? Is the loss worth the pay off?<br/><br/>&gt; What are some ways in which programming environments could help us record this info / answer these questions without requiring additional effort from the author?<br/>I think this is particularly interesting. We all know that getting people to provide documentation is hard. It is even harder to make that documentation good. Short of completely automatic though, what if we could make this easier? What if we could make it more part of your current flow? What if you didn't have to leave your editor, but you also didn't have to mess up the code by leaving some big huge long comment in the middle of things?<br/><br/>What if you could decide that something was a good example for later and save it off with a single button press? What if you could make tours through your code bases, or document in those code bases various ways the data flows? What if you could make an interactive introduction to codebase.<br/><br/>I think these are the sorts of starting points we should consider. Once we can make these things work and work well manually, then we can start plugging in automations, start making automatic curation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600984191.007000"></a>
+      <img src="https://secure.gravatar.com/avatar/d4b246038154d7cc2363256bd25a4fe0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600984191.007000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>larry</b>
+<span style="margin:2em; color:#606060">2020-09-24 14:49</span><br/>
+in a big codebase there might be some utility in using ML. For example, applying frequent itemsets to change sets could identify chunks of code that are changed together more frequently than expected. This might be suggestive of risk, or of refactoring opportunities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600990223.007500"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600990223.007500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-24 16:30</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> the reference to idealized commit logs is really interesting. I’ve also been exploring a tool that uses dynamic program slicing for program comprehension (<a href="https://github.com/willcrichton/inliner">https://github.com/willcrichton/inliner</a>), although it’s a little more general in that it uses several source-to-source compiler techniques for simplifying programs, not just dead code elimination. The idea of using cumulative tests to construct diffs between slices is pretty cool, haven’t thought of that before.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600990758.007800"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600990758.007800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-09-24 16:39</span><br/>
+Looks awesome <span style="background-color:#ccf">@Will Crichton</span> ! That is the kind of thing I'm aiming to support in my language. But ideally it should take like 10 lines of code and be something you can just write on the fly. :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600992863.008100"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600992863.008100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-24 17:14</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> as in a goal of your language is to support high-level program transformations? Do you have an example?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600994019.008400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600994019.008400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-24 17:33</span><br/>
+I've been thinking lately about how our minds have infinite levels of conceptual hierarchy, but our tools are inevitably limited to some finite number. That discrepancy inevitably leads to loss of information and entropy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600997792.008700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1600997792.008700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-09-24 18:36</span><br/>
+I talk a bit about the idea at the end of my talk here. <a href="https://youtu.be/9fhnJpCgtUw">https://youtu.be/9fhnJpCgtUw</a> I've got a prototype I'm working on. But only so much free time to do it. <br/><br/>Basically the idea is to base the semantics on term rewriting. So the whole language is just data transformation. Then you can have a notion of meta-execution which is rules that match on the execution data. So you can write a rule that just says, tell me the current expression, what it transforms into, and which rule and clause matched that caused that transformation. <br/><br/>In my prototypes that means I can make a stepping debugger in 3-5 lines of code. And then a time travel debugger in only a few more. Should soon be able to do what we are talking about above as well. <br/><br/>Basically in order to program without a blindfold we need access to the unfolding of the execution of our programs, so why not let it be data that we can match on, query on, etc?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601070240.016700"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1601070240.016700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-09-25 14:44</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> can you expand a bit more on this:<br/>&gt; I've been thinking lately about how our minds have infinite levels of conceptual hierarchy, but our tools are inevitably limited to some finite number. That discrepancy inevitably leads to loss of information and entropy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601100326.018100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1601100326.018100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-25 23:05</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> I just watched the idealized commit logs talk. Very well done, and it takes me back, because my PhD thesis involved program dependence graphs and constructing tiny slices out of very large programs that computed precisely the hard-to-cache memory accesses so that they could be prefetched on a separate thread (computer, actually).<br/><br/>Slices certainly have lots of applications, but there's a reason why there's no empirical evidence that they're valuable for comprehension: they aren't actually the most elegant ordering as he claims. The reason: data transformations. Halfway through the evolution of a program someone redid all the data structures to organize by one axis rather than another. Slices get killed there. In general, slices focus on code but the compiler techniques we have (as of 12 years ago) are forced to approximate data access. This loop accesses field <tt>x</tt> in some node of this linked list, so let's assume it accesses it in <em>all</em> nodes. That sort of thing.<br/><br/>Regarding the specific idea he proposes: it doesn't actually result in a very idealized commit log, because a) you still have to provide a heuristic test sequence, and that's non-trivial, b) lots of times you get a more comprehensible result if you combine sets of tests in a single 'idealized commit' (but that blows up your search space for a) even more), and -- most important! -- c) no program has complete test coverage. If you focus only on tests you lose valuable insight along the way.<br/><br/>Me, after spending 8 years trying to treat programs as black boxes and apply tools to them, I go back to the thing he dismissed at the start. There's no way to understand programs efficiently when the author didn't design for it from the start. If a program had multiple authors, it's as easy to read as the author <em>least</em> interested in comprehensibility made it. Programs have to be designed for comprehensibility. So toss out the modern social organization and its incentives for creating programs primarily as black boxes for people to use.<br/><br/>(I'll share my approach to idealized commit logs for the umpteenth time, just in case somebody hasn't already seen it: <a href="http://akkartik.name/post/wart-layers">http://akkartik.name/post/wart-layers</a>)<br/><br/><span style="background-color:#ccf">@Daniel Garcia</span> I don't recall the context at work where it came up, but I'm increasingly noticing myself constructing larger refactorings out of what my Java IDE provides, like renaming variables. I renamed a variable here, another variable there, did a few other things, and the end result was that I split up a class that handled some input space into two classes that partition the space between themselves. It would be nice (in a first world problems sort of way) if that was obvious in the diff. This isn't a strong opinion, just a random idea.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601103477.018300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1601103477.018300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-09-25 23:57</span><br/>
+Interesting thread.  My requirements are for storing code points to capture serendipity.  In my tool, I have the beginnings of a system which stores code deltas in the project while live coding.  I want to enable users to capture that moment when a visual effect or sequence of sound is great and rewind to that point afterwards (i.e. when not on stage giving the actual performance).  This is easier in a live coding environment because things are more constrained in a single session/tool.  Good live coders often experience that moment where they are in the zone, and a perfect combination of audio/visual has occurred, but then it is lost forever behind the complex edits they used to get to that point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601143494.025500"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1601143494.025500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-26 11:04</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> one interesting part of the idealized commit log idea is that it doesn’t actually use slicing, just code coverage (which is trivial to compute with sufficient runtime instrumentation). Also because it’s dynamic, there’s no need for conservative approximations.<br/><br/>I agree that the heuristic ordering of tests is problematic. Another alternative might be to think more statistically. Think about each test as a document and each line of code invoked as a term. Then a test’s focus would be the lines of code with the highest TF-IDF score (i.e. lines that occur in the test that happen less frequently in other tests).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601154482.036400"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1601154482.036400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-09-26 14:08</span><br/>
+Just watched that video - really interesting since I’ve never heard of code slices before. My only reaction though is that it comes back to how well the unit tests are witten, as noted above. It’s probably unrealistic to expect tests to cover even half the code base in most projects.  I think I still like the idea of a complete record of every program edit with a scrubber. Perhaps highlighting the code lines that are still in the TOT version, and showing heat maps for areas that are changed often, etc. Perhaps I could deep dive into a region of code and see how it evolved; with optional hiding of low code coverage areas...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602182809.167900"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602182809.167900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 11:46</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span><br/><br/>Really interesting to hear more about the limitations with slicing. Not 100% sure I followed why data transformation causes an issue. But definitely agree that slices don't solve the whole problem.<br/><br/>As for the test suite idea, I definitely agree that it has some issues. I do think trying to take an existing test suite and applying this wouldn't be super useful. But you can imagine making your own test suite, specifically designed to exercise various parts of the system. You can imagine taking some lisp interpreter, feeding it simple expressions, getting the trace, and the moving on to more and more complex ones. Giving you in the end something that you can follow.<br/><br/>I think your work on wart is really interesting and actually really aligns with what I was aiming at talking about. What we need is not a factual, uninterpreted history of how the program changed. We do in fact have the facts. They are recorded in source control. What we need is an interpretive, idealized history. You are providing exactly that in wart. Though I will say, I'm not sure it goes far enough, but that is mostly related to this:<br/><br/><br/>&gt; There's no way to understand programs efficiently when the author didn't design for it from the start. If a program had multiple authors, it's as easy to read as the author least interested in comprehensibility made it. Programs have to be designed for comprehensibility. So toss out the modern social organization and its incentives for creating programs primarily as black boxes for people to use.<br/>I'm tempted to agree. But I think the key word here is efficiently. I have worked in codebases that were clearly not meant to be understood (one was decompiled source). Where the code was absolutely insane. Understanding them was very very difficult and took a ton of work. But what I found in the end was that the tools I really needed to capture this information weren't there. I could of course write docs, and I did. But that wasn't enough.<br/><br/>Nor was my coming to an understanding of the code aided (much) by tools. Of course, a slice wouldn't have told me everything, but it would have helped me start with a simplified case. Being able to ask counterfactual questions of my program would have aided me in understanding. In general, I can think of a number of things that computers are fully capable of that would have made my journey of understanding condensed. And then, once understood, I could convey some of that to people, but helping them get into the right states where they too could repeat my learnings.<br/><br/>Designing programs with comprehensibility from the start is definitely a goal. But I just don't think it can be our end state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602183008.168200"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602183008.168200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 11:50</span><br/>
+This post resonates so much with me on how I feel working on a codebases. Thought others might enjoy.  (good despite it being on medium) <a href="https://medium.com/@wm/the-generation-ship-model-of-software-development-5ef89a74854b">https://medium.com/@wm/the-generation-ship-model-of-software&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602183208.168700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602183208.168700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-08 11:53</span><br/>
+I realize you can put either side in the foreground, like a Necker cube:<br/><li> Designing ahead of time for comprehensibility is definitely a start, but it can't be our end state.<br/><li> Tooling for comprehension is definitely a start, but it can't be our end state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602183341.169000"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602183341.169000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-10-08 11:55</span><br/>
+Also worth observing: we have no idea what program comprehension is or how it works. A theory of comprehension would likely be an essential component of designing for comprehension at the tool or program level.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602183704.169200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602183704.169200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-08 12:01</span><br/>
+This is probably a subjective opinion, but I think we tend to do things first, and theories catch up over time as lots of people try out lots of things, and definitions converge last of all. Given that "ready, fire, aim" worldview, I try above all to focus on rewritability. If rewriting seems risky, that feels like the first problem to try to fix. That way the things you build can benefit from future theories, and you can be disrupted by yourself rather than external Johnny-come-latelies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602186249.169900"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602186249.169900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 12:44</span><br/>
+Personally I think Naur's "Programming as Theory Building" and "Intuition in Software Development" are good starting points. In general, I think we have a lot that we could gain from including insights in philosophy into software development (I have a talk at splash this year advocating for exactly that). Something I think Naur does particularly well.<br/><br/>I do agree with <span style="background-color:#ccf">@Kartik Agaram</span>. Our practice generally outstrips our theories. But I think we can gain a lot by reflecting on practice and understanding. For example, as software engineers, we do a lot of what is called "Conceptual Engineering" in the philosophy world. Understanding what we do in light of that framework and how it relates to other things in the world can help us quite a bit.<br/><br/><a href="https://www.amazon.com/Fixing-Language-Essay-Conceptual-Engineering/dp/0198814712">https://www.amazon.com/Fixing-Language-Essay-Conceptual-Engi&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602186576.170100"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602186576.170100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-10-08 12:49</span><br/>
+Naur’s article is a good worldview, but (IMO) the devil is in the details. We have no idea how programmers build theories, what the shape of those theories are, what language constructs promote or hinder theory construction, and so on. We’ve had 50 years of distributed practice in programming, but I don’t think that’s been sufficient to meaningfully understand the psychological nature of programming beyond intuition. You can see this failure most acutely in intro to CS classes, where our top universities will fail to teach even the most basic skills like debugging or decomposition in a meaningful way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602186783.170300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602186783.170300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 12:53</span><br/>
+Curious <span style="background-color:#ccf">@Will Crichton</span> to hear your view of how we'd go about starting that project. Would we solve these issues by doing empirical studies and finding statistical results? Or would it be more a matter of reflecting and exploring our own processes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602187152.170500"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602187152.170500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-10-08 12:59</span><br/>
+This is the subject of my research, so my views evolve rapidly over time. But right now, my sense is: there’s a lot of inspiration we can draw from cognitive psychologists up to anthropologists/sociologists on how to study human behavior, particularly for skilled tasks. There’s a lot of theories that could be applied to programming (e.g. I’ve been thinking about working memory recently, just submitted a paper to CHI about that). And there’s a lot of methodologies that can be used to study programmers. For example, Barbara Tversky’s book <em>Mind in Motion</em> is a really good overview of how simple experiments can build a really rich model of how people build mental models of space and action, and how action informs perception.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602187253.170700"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602187253.170700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-10-08 13:00</span><br/>
+Theory-building inevitably involves both controlled lab experiments (whether protocol analyses of quantitative studies) and data mining (of software repositories, education statistics, etc). But I think an underexplored area is experiment design: what are interesting situations in which we can put programmers, and methods to observe them that reveal patterns in their behavior?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602193491.171000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602193491.171000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-08 14:44</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> Naur's paper is one of my two or three "anchor" influences, so absolutely relevant. However, the "theories" in it are for understanding individual codebases or domains, as I recall. A general theory of comprehension is far more ambitious.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602193660.171300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602193660.171300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 14:47</span><br/>
+Yeah, but he was basing his work on Ryle and James who probably took themselves to have something like that more general theory. (I don't particularly agree with them) But yes I agree. I think naur offers constraints that have largely been ignored. I'd be interesting to know you other anchor influences.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602193997.171500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602193997.171500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-08 14:53</span><br/>
+I'd say Christopher Alexander and Richard Gabriel (the latter for making the former accessible to me). But I have a longer list at the bottom of <a href="https://github.com/akkartik/mu">https://github.com/akkartik/mu</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602201838.171900"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602201838.171900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 17:03</span><br/>
+<span style="background-color:#ccf">@Will Crichton</span> This is an area I have trouble expressing my thoughts on. I skimmed chapters 1 and 2 and read chapter 3 of minds in motion. I will even taking the studies as a given, the conclusion drawn from them seem a bit off to me. But that said, I have very bad spatial awareness, have aphantasia, and in general see abstract thought as a retreat away from the spatial/visual world that I feel mostly uneasy in. I see some parallels for sure, but I sure hope my abstract thought isn’t based on my spatial abilities, because I like to think I’m better at the former than the latter.<br/><br/>I do think this more experiment based side of things is something I need to read more on though. I have a pretty large bias in this area. Perhaps it comes from reading one too many papers declaring free will to be disproved because of some fmri scan :slightly_smiling_face:. I will try reading a bit more of minds in motion with an open mind. Feel free to drop any other works you think are worth reading :)<br/><br/>Thanks <span style="background-color:#ccf">@Kartik Agaram</span> for the references.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602202219.172100"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602202219.172100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-10-08 17:10</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> IMO the two most influential pieces that synthesize cogsci ideas are TRG Greene’s “Cognitive Dimensions of Notation” and Bret Victor’s “Learnable Programming”. Not sure if you’ve read but both are excellent. Some other fun papers:<br/>• Don Knuth invents the term “profile” while studying FORTRAN programs in the wild: <a href="http://doi.wiley.com/10.1002/spe.4380010203">http://doi.wiley.com/10.1002/spe.4380010203</a><br/>• Plan composition shows us how programmers combine abstract program templates to create individual programs, and often fail in the process: <a href="http://portal.acm.org/citation.cfm?doid=6592.6594">http://portal.acm.org/citation.cfm?doid=6592.6594</a><br/>• Really good summary of a lot of experimental work on programming psychology in 70s/80s: <a href="https://telearn.archives-ouvertes.fr/hal-00190531/document">https://telearn.archives-ouvertes.fr/hal-00190531/document</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602203022.172300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602203022.172300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-10-08 17:23</span><br/>
+Thanks <span style="background-color:#ccf">@Will Crichton</span> I have read Victor, but none of the rest of them. Have added them to my reading list. Thanks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602602634.204000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600909562.010100.html#1602602634.204000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-13 08:23</span><br/>
+Listening to Tudor Girba today reminds me of this thing I said here a few days ago:<br/><br/>&gt; our minds have infinite levels of conceptual hierarchy, but our tools are inevitably limited to some finite number.<br/>Perhaps Smalltalk's object model + GToolkit is able to scale here.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

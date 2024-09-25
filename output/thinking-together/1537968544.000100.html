@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-26 06:29</span><br/>
+Indeed, Schema Change has held my interest for quite a while now.  It's a miracle that anything works.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537978604.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1537978604.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-26 09:16</span><br/>
+Mine too. Schema evolution must be part of  the core design of the system. I've been thinking along these lines: if 'code', 'schema' and 'data' are held in the <b>same</b> versioned (immutable, append only) model, maybe we can have some sanity? New schema is introduced as new version of older schema, but older data and code artifacts continue to point to the older schema. So something like the Git/MVCC model where the versioned artifacts are not byte blobs but higher level entities such as functions, types, values etc. that can all refer to each other.<br/><br/>The main idea is that all of these are in a <b>single</b> versioning system. So a version number in such a system identifies a very precise snapshot of the 'system state' which includes not just the data but also the code and schema entities that exist 'at that time'.<br/><br/>Does anything like this exist?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537997584.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1537997584.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 14:33</span><br/>
+How is holding onto older schemas useful? You want a way to transition old data to new schema, so that you can safely assume all data has a specific shape.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538014199.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538014199.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-26 19:09</span><br/>
+It depends.  For different applications (or parts in a single application), a change in core or schema means different things.  On the one hand, we have you long-term data, file formats that you need to support and migrate carefully in perpetuity.  On the other, we have ephemeral calculations, views, and exploratory development where you're happy to throw everything away.  Different needs mean there's no one, good answer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538015555.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538015555.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-26 19:32</span><br/>
+My particular interest boils down to this.  You have a software system in which events cause state changes.  You update the system and now you're curious how similar events effect corresponding state changes.  This is tricky enough when refactoring, when you want the outputs to line up with inputs up to a sometimes difficult to pin down isomorphism.  What I'm really interested in, my work scenario, is where I keep making the "same" software with superficially "slight" modifications at not trivial scale (~50,000 LOC in the project).  If we're running this year's version vs last year's what is the diff not in the code (that ends up also being about ~50,000 LOC as it turns out) but in the experience: of the 30 odd screens in the application how much does each one differ?  It ends up being pervasive (most screens) but smallish (one or two things).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538033127.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538033127.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 00:25</span><br/>
+&gt; You want a way to transition old data to new schema<br/>Absolutely. Holding onto older schemas is useful because it maintains the knowledge that 'data object <tt>d</tt> was created with schema <tt>S@1</tt>'. So when a new version of the schema <tt>S@2</tt> is introduced it is treated effectively as a different type and any operations on <tt>S@2</tt> do not work with the object <tt>d</tt>. Also you could provide a transition function <tt>f: S@1 -&gt; S@2</tt> which the system can apply opportunistically to upgrade the data objects. In theory you don't need any structural compatibility between <tt>S@1</tt> and <tt>S@2</tt> as long as you implement the transition function. Most dbs provide limited evolution paths and invariably need major refactoring of the schema at some point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538034293.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538034293.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-27 00:44</span><br/>
+Suppose that a sequence of actions <tt>as</tt> lead to <tt>d</tt> in the first place.  We could say <tt>S@1 as = d</tt>.  I often curious about the "orphan" question of whether this square commutes <tt>S@2 as = f d</tt>.  In other words, I got <tt>d</tt> from doing something, will I get <tt>f d</tt> if I do the same thing in the new version?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538085672.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538085672.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 15:01</span><br/>
+Ah, interesting question. In my mind the sequence <tt>as</tt> may not be possible in a world where <tt>S@2</tt> exists. For instance if the sequence of actions is <tt>1. user provides first name, 2. user provides last name</tt>. The schema <tt>S@1</tt> is <tt>firstname: string, lastname: string</tt>. The new version <tt>S@2</tt> however is just <tt>fullname: string</tt>. We can still implement <tt>f</tt>, however the events don't make sense in the 'new world', we cannot just do the same thing.<br/><br/>For situations that seem compatible (say we only added an optional <tt>dob: date</tt> field but didn't modify existing fields), I'm not sure. It seems <tt>S@2 as = f d</tt> <b>should hold</b> but how do we ensure this? Maybe the only way to create <tt>S@2</tt> objects should be to create <tt>S@0</tt> objects and run them through the transitions <tt>S@0 -&gt; S@1 -&gt; S@2</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538102111.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1537968544.000100.html#1538102111.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-27 19:35</span><br/>
+This is why the problem is nuanced.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

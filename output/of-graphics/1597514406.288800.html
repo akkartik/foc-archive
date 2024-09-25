@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-graphics</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-15 11:00</span><br/>
+<span style="background-color:#ccf">@Nuno Leiria</span> and I have started <a href="https://github.com/dali3d/dali">Dali</a>, a new 2D/3D graphics API, based on signed distance fields, implemented with WebGPU. The goal is to enable the future of user interfaces and visual programming languages by providing a much richer set of graphics primitives for rendering UIs than what is supported by traditional postscript/SVG/HTML/CSS 2D vector graphics APIs.<br/><br/>The graphics model is inspired by my <a href="https://github.com/curv3d/curv">Curv</a> project, but more general and much higher performance.<br/><br/>At this point, we have overall project goals, a list of prior art, and a design sketch for the Demo 1 release, which will demonstrate text rendering.<br/><li> overall project goals: <a href="https://github.com/dali3d/dali">https://github.com/dali3d/dali</a><br/><li> text rendering goals: <a href="https://github.com/dali3d/dali/wiki/Text-Rendering-(Demo-1)">https://github.com/dali3d/dali/wiki/Text-Rendering-(Demo-1)</a><br/><li> prior art for text rendering: <a href="https://github.com/dali3d/dali/wiki/Prior-Art">https://github.com/dali3d/dali/wiki/Prior-Art</a><br/><br/>We are looking for help, especially with the architecture.<br/><li> Suggestions and recommendations on the GPU data structures and algorithms to use.<br/><li> Pointers to existing projects that are not in my Prior Art list,<br/>   that show a better way to do things than what I've considered thus far.<br/><li> Collaborators.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597516428.289600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597516428.289600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-08-15 11:33</span><br/>
+This looks great. On the GH it says "you can have a large number of primitives on the screen without slowing down."<br/><br/>What is "large"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597520024.289800"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597520024.289800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-15 12:33</span><br/>
+<span style="background-color:#ccf">@Chris Knott</span> The problem I found with typical Shadertoy-style fragment shader programs is that you have a single distance function that encodes the entire scene, and that function is evaluated at each pixel. The cost of calling the distance function is linear in the number of distinct primitives that are unioned together in the scene. So you run into a performance cliff pretty quickly. We are going to fix this with an optimizing scene compiler combined with well known optimization tricks and data structures. I can't give performance numbers, because there's no code yet. The project was only conceived a few days ago. In the case of text, where the primitives are glyphs, I am expecting comparable performance to other GPU based text rendering engines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597521057.291200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597521057.291200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-08-15 12:50</span><br/>
+Very interested in this for Hest! I'm AFK today, but look forward to reviewing what you've got and offering feedback.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597523230.291500"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597523230.291500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-08-15 13:27</span><br/>
+I'd also be very interested in this for my project!<br/>I currently use troika (built on three.js) to render text if it's at all useful. Having text wrapping and selection are especially great features. <a href="https://github.com/protectwise/troika/tree/master/packages/troika-3d-text">https://github.com/protectwise/troika/tree/master/packages/troika-3d-text</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597524828.292200"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597524828.292200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-08-15 13:53</span><br/>
+Is it significant overhead to support WebGL as well? Full browser support for WebGPU won't be here for a while right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597524850.292400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597524850.292400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-15 13:54</span><br/>
+Troika uses SDF textures, which are signed distance fields that have been sampled at some sampling resolution. The problem with this sampling is that it throws away information needed for accurate rendering, which leads to this tradeoff (from the Troika docs):<br/>&gt; <tt>sdfGlyphSize</tt><br/>&gt; Allows overriding the default size of each glyph's SDF (signed distance field) used when rendering this text instance. This must be a power-of-two number. Larger sizes can improve the quality of glyph rendering by increasing the sharpness of corners and preventing loss of very thin lines, at the expense of increased memory footprint and longer SDF generation time.<br/>&gt; Default: <tt>64</tt><br/>In this scheme, when you query a signed distance value, what you actually do is perform an interpolated lookup on the SDF texture, which returns an approximation of the actual distance. What I prefer is to directly query the Bezier curves in the character glyph and compute the exact distance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597525086.292600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597525086.292600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-15 13:58</span><br/>
+Firefox, Chrome and Safari already have experimental support for WebGPU in developer builds, but the standard is still being designed. It's supposed to be complete by the end of the year. WebGPU will be available by the time Dali is ready to use. There won't be a WebGL version because we are using a pipeline of compute shaders for performance reasons.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597525336.292800"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597525336.292800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-08-15 14:02</span><br/>
+Sounds pretty exciting to me! I've definitely been waiting for something like this and look forward to having a play :rocket:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597547564.297500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597547564.297500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-15 20:12</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> How does this differ from <a href="https://github.com/servo/pathfinder">Pathfinder</a>, which is nearing completion? Or piet-gpu, which is a sister project? Pathfinder enables massively-parallel realtime vector rendering, and will run on WebGPU as well. I've been following it pretty closely.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597578044.298600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597578044.298600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-16 04:40</span><br/>
+Pathfinder and Piet only support traditional 2D vector graphics. Dali is a generalized 2D/3D graphics API that supports signed distance field operations, which gives it enormous flexibility and expressiveness. In the same way that 2D vector graphics supports curved shapes that are scalable and resolution independent, Dali also supports 3D shapes that are curved, scalable and resolution independent. Dali also supports a full range of SDF operations that can be applied to any 2D or 3D shape, including many that are not supported by traditional graphics systems based on boundary representation. I already implemented this once already in my Curv project, but there's no text support, and there are performance limitations, so Dali will use a new high performance architecture. I am looking at Pathfinder and Piet to see how much I can reuse.<br/><br/>As part of Dali, I need a text renderer that supports signed distance queries on font data, because that allows the full range of SDF operations to be applied to text. So you can apply non-affine transformations, morph, extrude text into 3D, engrave text into the surface of a 3D object, etc. I am investigating the idea that a single SDF based text renderer can be used to render text in both the 2D and 3D cases. There was already a project that worked this way: "<a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.154.9948">Real Time Texture-Mapped Vector Glyphs</a>". The paper was published in 2006, before compute shaders, before Vulkan, before Piet and Pathfinder. The GPU tech landscape has changed a lot, so I'd like to see if this architecture can be resurrected and made more efficient using current technology and ideas. Piet implements distance queries on font data to implement strokes. I'm looking at Piet to see how it can inform the Dali architecture.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597578158.299500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597578158.299500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-16 04:42</span><br/>
+I see. Sounds very exciting, and very ambitious too!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597605547.299800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597605547.299800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-08-16 12:19</span><br/>
+Exciting stuff, Doug!<br/><br/>To what extent should I think of the API as stateful (a la retained mode) vs stateless (a la immediate mode)?<br/><br/>Are you planning to use this as a new backend for Curv?<br/><br/>(OT: I don't understand how WebGPU buys portability beyond the browser. What makes WebGPU work on native? Is there going to be (eg) some sort of WebGPU-&gt;Metal option for native iOS?)<br/><br/>There's a long road from here to something we'll be able to use in our own projects. How can we help?<br/><br/>FWIW — The tradeoffs listed under Text Rendering (Demo 1) are fantastic. I wouldn't change a thing, for my personal needs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597611708.300000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597611708.300000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-16 14:01</span><br/>
+Google is creating an open source library called Dawn which implements WebGPU as a layer on top of Vulkan, DX12 and Metal. This implements WebGPU on all the platforms that Chrome runs on, and is used by Chrome. The WASI project is adopting WebGPU as a standard portable API for web assembly, so it will work even when you are running WASM programs outside of a web browser. You can think of WebGPU as the new OpenGL, because it runs everywhere, but it's easier to use, higher performance, and there's only one dialect, instead of OpenGL vs OpenGL ES vs WebGL.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597627820.300300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597627820.300300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-16 18:30</span><br/>
+Dali is a "retained mode" API. You build a "graphics tree", where the nodes are graphics primitives and operators, then you load this tree into the GPU, which interprets and renders it. Animation and dynamic content are achieved by modifying uniform variables, and by modifying resources and nodes in the gtree. These tree modifications are synchronized with the GPU's copy of the tree.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597627925.300500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html#1597627925.300500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-16 18:32</span><br/>
+Dali is intended to be a new backend for Curv. But instead of burying the work inside Curv, I'm trying to create a general purpose library that is useful independent of Curv.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-14 09:11</span><br/>
+I've not posted her in a bit partially because it feels like the work I'm doing is a bit "present-company". I put my editor on pause because I hate all languages I could write it in. I want a good dynamic language where I can develop the editor in itself without ever restarting it. I want something multi-threaded. I want something with a lightweight runtime. But ultimately, I really just want to boil the ocean and this feels like a fun way.<br/><br/>So I've been making my own language. It is a dynamically typed functional language that compiles straight to machine code (no vm at all). Today, I finally got my persistent vectors properly working (After finally figuring out that my bug was in the gc (still not fixed) not my implementation.) I decided as an experiment to implement clojures HAMT based persistent vectors into the language itself (not at the compiler/runtime level). In fact, even my mutable arrays are implemented in the language with a primitive allocation function and some fetching "fields" primitives.<br/><br/>Sadly my implementation is about 6x slower than clojures on my artificial benchmark. But honestly that's pretty darn good! I have done 0 optimizations, Clojure's data structures are all implemented in java. That means I'm about 6x slower than java on this benchmark. Not bad. Trying to figure out next if I want to do some performance work, or continue building out features.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728926175.094319"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728926175.094319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-10-14 10:16</span><br/>
+please share some high level design notes :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728926181.846809"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728926181.846809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-10-14 10:16</span><br/>
+(if you want :smile:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728932604.498159"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728932604.498159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:03</span><br/>
+The whole thing is premised on the idea that there are no* popular, modern dynamically typed languages. Javascript, python, and ruby are all decades old and are showing their age. Clojure and Elixir are the only contenders.  Clojure will never be popular because it is a lisp. Elixir's super power and its limitation is the beam.<br/><br/>Python, ruby, and javascript all lack a good story on multi-threading. Ruby and python are slower than they ought to be. All of them are OO inspired. I think functional langauges + Rust have shown a different way of programming.  All of them have weird quirks and problems around packages/modules/scoping, things we've since learned to do better. Finally, they have bad tooling for inspecting performance, memory, usage etc.<br/><br/><br/>All of this is the situation I'm designing into. I want to build something that<br/><br/>1) Can be popular (so no lisp)<br/>2) Can be fast (so focusing on performance from the beginning, no slow interpreter)<br/>3) Has good module/namespace support<br/>4) Is multi-threaded<br/>5) Is lightweight (does not depend on a big existing platform)<br/>6) Has great performance and memory tooling support<br/><br/>As for the actual code design. I've started from the ground up with a aarch64 machine code generator. I have an IR that is an infinite register machine. An AST on top of that. I've implemented 3 different GC systems (Mark and Sweep, Compacting, and a simple generational collector).<br/><br/>That's quite a bit, so happy to answer any questions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934112.295549"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934112.295549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:28</span><br/>
+is it immutable all the way, immutable first or mutable first with immutable support?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934159.570619"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934159.570619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:29</span><br/>
+the multithread support is going to be raw "pthreads"? or some core abstraction like actors, channels etc?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934197.683429"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934197.683429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:29</span><br/>
+any esoteric inspirations?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934211.924999"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934211.924999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:30</span><br/>
+The goal is that people will write immutable code. But I’m going to be fairly pragmatic in that regard. It will be very similar to Clojure. There will be ways to write mutable stuff. But everything is pushing you to write immutable stuff. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934288.956369"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934288.956369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:31</span><br/>
+Multithreading as in system threads. The language should be flexible enough that anything more than that should be able to be written in user land. Still flirting with the idea of delimited continuations in the base language. Which would give you all the power you need for anything like that. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728934433.025249"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728934433.025249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:33</span><br/>
+The most esoteric inspiration I can think of is pyret. Just like pyret I plan on having nice support for algebraic data types (but not trying to do their gradual type stuff) and first class ways of doing tests. <br/><br/>Really this is clojure + rust + batteries included. Those are the main inspirations. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728935091.981019"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1728935091.981019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-14 12:44</span><br/>
+FYI - in places where you can guarantee stack-based immutability, you might consider using Jart's ABC garbage collector. She does it in 40 bytes. YMMV.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1729191461.533459"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1728922292.671349.html#1729191461.533459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-17 11:57</span><br/>
+I just want to say, I think:<br/><br/>a) This feels like future not present.<br/>b) #devlog-together is agnostic to future vs present. It's a space for anything you want to share.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

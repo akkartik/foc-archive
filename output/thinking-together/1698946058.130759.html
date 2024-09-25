@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-06-12/5403931675222_25ed978f2a92f81ad513_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Flockton</b>
+<span style="margin:2em; color:#606060">2023-11-02 10:27</span><br/>
+Hey folks! I'm doing some research into code formatters/pretty printers, with a view to potentially building my own. Does any one have any examples of code formatters that they've found especially fast, or that they know of which have a special focus on performance?<br/><br/>I'm interested in learning about some of the potential techniques at play - what sort of caching and parallelization is being done, are they doing incremental parsing like tree-sitter etc..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698948550.423439"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698948550.423439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-11-02 11:09</span><br/>
+I’ve found <a href="https://git.sr.ht/~technomancy/fnlfmt">fnlfmt</a>, for the fennel language really readable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698949981.137379"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698949981.137379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-02 11:33</span><br/>
+FYI, maybe - I’m not interested in speed, and this might not apply. I note that Ohm-JS has a interactive parsing mode (I haven’t tried it).  I wonder if that means that one could attach semantics code (that’s the way that Ohm-JS is used) that does some formatting?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698950019.085619"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698950019.085619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-11-02 11:33</span><br/>
+[reply from John] Again, thanks! I’ll definitely take a look. Most of the formatter parsers I’ve looked at (e.g. Prettier, Gofmt), will create the AST of the full file, create an IR, and then do the formatting.<br/><br/>I’m wondering if each of these steps can be streamed incrementally, and if you can do each operation in parallel.<br/><br/>My initial thought is, possibly, but not without some difficulties. For example, Prettier formats line breaks with some awareness of parent and subsequent sibling nodes in its IR).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698950047.821629"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698950047.821629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-11-02 11:34</span><br/>
+> This library implements a pretty expressive printer, following the algorithm presented in Porncharoenwase et al. (2023). The pretty printer is expressive, provably optimal, and practically efficient.<br/><a href="https://docs.racket-lang.org/pretty-expressive/index.html">https://docs.racket-lang.org/pretty-expressive/index.html</a><br/><br/>Full paper here:<br/><a href="https://sorawee.github.io/pretty-expressive-oopsla23-artifact/full-paper.pdf">https://sorawee.github.io/pretty-expressive-oopsla23-artifact/full-paper.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698951140.164849"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-17/6066889038289_0d9c7dcaa476f559eb42_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698951140.164849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mike Austin</b>
+<span style="margin:2em; color:#606060">2023-11-02 11:52</span><br/>
+I know that CodeMirror uses Lezer, which is capable of doing incremental parsing. <a href="https://codemirror.net/examples/lang-package/">https://codemirror.net/examples/lang-package/</a><br/>If you're not familiar with CodeMirror, it's a text-editor component that is highly customizable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698976049.102179"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-23/5937523466869_1beaa0968ce502c4375e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698976049.102179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Arcade Wise</b>
+<span style="margin:2em; color:#606060">2023-11-02 18:47</span><br/>
+<a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a> is really fast, I don't know if anyone has built a formater for it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698976118.992219"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-23/5937523466869_1beaa0968ce502c4375e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1698976118.992219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Arcade Wise</b>
+<span style="margin:2em; color:#606060">2023-11-02 18:48</span><br/>
+Looks like yes! <a href="https://www.tweag.io/blog/2023-03-09-announcing-topiary/">topiary</a> is a thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699286469.575499"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1698946058.130759.html#1699286469.575499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2023-11-06 08:01</span><br/>
+[<a href="https://futureofcoding.org/member-handbook#replying">Moved from top-level</a>, original reply by <span style="background-color:#ccf">@Benji York</span>]<br/><br/>Ruff has a beta formatter compatible with Black: <a href="https://astral.sh/blog/the-ruff-formatter">https://astral.sh/blog/the-ruff-formatter</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

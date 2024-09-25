@@ -1,0 +1,295 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:16</span><br/>
+I had a shower thought about pushing to prod, wanted to share it with FoC.<br/><br/>Pushes to prod make no sense except for front end. A push to prod is basically FORCING EVERYBODY ONTO IT NOW. You used an old version? Too bad it's gone.<br/><br/>For front end, I get it, no human is going to visit <a href="http://v1337.facebook.com">v1337.facebook.com</a>. But backend, where clients are programs? Makes no sense.<br/>Why don't we use proper dependency management? Push a new version to prod. Let clients migrate manually to that new version.<br/>Want to break backwards compatibility, go for it. Push first (and use semver), fix clients later.<br/>If clients want the latest and not have to upgrade manually, let them use a symbolic version "latest." Just like the current system, only opt-in.<br/><br/>Why can't we have this world?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615998423.006800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615998423.006800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:27</span><br/>
+On the front-end side, this article has been thought-provoking to me for years: <a href="https://www.ribbonfarm.com/2014/09/24/the-rhythms-of-information-flow-pacing-and-spacetime">https://www.ribbonfarm.com/2014/09/24/the-rhythms-of-informa&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615998951.007200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615998951.007200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:35</span><br/>
+because now instead of maintaining one version you are maintaining all releases you ever did, when there are problems or reports you don't know which versions they come from and it may generate a combinatoric explosion of reasons, you have to backport/forward port all fixes since reusing across versions may introduce issues if you refactor and introduce a bug (version 123 before a refactoring is no longer version 123)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615998976.007400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615998976.007400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:36</span><br/>
+REST supports version negotiation, nobody ever used it, we can barely maintain the current version
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999151.007600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999151.007600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:39</span><br/>
+what do you do when dependencies break/bitrot/get security issues or stop being supported by the host? Performance improvements only work for users on the last version, have to keep support for all schemas and file formats in parallel. Monitoring is much harder to understand, you may get some performance issues when someone does something in some older version
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999171.007800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999171.007800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:39</span><br/>
+I'm not saying it wouldn't be nice, just that we need to change almost everything we do and how we do it to support it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999237.008000"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999237.008000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:40</span><br/>
+we did something like this in production with jboss modules in java. dynamically loading jars on request.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999471.008300"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999471.008300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:44</span><br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> Re: maintenance, this is the same problem every library developer has and they publish versions, not "latest" only<br/><br/>Re: performance, if we treat separate versions as separate services then we don't have conflation issues. If we want to combine stats, we can always combine them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999615.008500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999615.008500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:46</span><br/>
+Cambria from ink&amp;switch follows through on this idea
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999815.008900"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999815.008900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:50</span><br/>
+to give you an idea of the scale of the one service has 700 active and 260K inactive versions collectively doing about 75K rps globally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615999895.009200"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1615999895.009200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-03-17 09:51</span><br/>
+Was it worth it in practice?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616000455.009600"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616000455.009600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:00</span><br/>
+the system got too complex to run locally and meant developers couldn’t debug locally anymore. We’ve switched to a docker based system but it still cumbersome. humans are bad at cleaning up after themselves and we had to build lots of tools to track down underutilized (different than unused) to clean versions up as fast as they were making them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616001430.010000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616001430.010000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:17</span><br/>
+if you treat separate versions as separate services, which makes sense, now your server billing, maintenance, operations and monitoring costs/time increase with each new version. Also, not only support and issue tracking, documentation, tutorials, how tos, screenshots, videos have to consider all versions someone is using. I've maintained two major versions of the same product in production for a few customers and it's not fun.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616001636.010200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616001636.010200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:20</span><br/>
+I've had many cases where you get an issue in a dependency, report it and the maintainer (with good reasons) tells you to upgrade to latest major since the version you are reporting is no longer maintained
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616002419.010400"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616002419.010400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:33</span><br/>
+Billing/maintenance/ops/monitoring is different from standard dependencies. I suspect these are long term automateable problems (i.e. serverless), but they are real today. Everything else sounds the same dilemma as standard dependencies though?<br/><br/>The story of reporting an issue in a dependency and being told that version is deprecated and to upgrade sounds good to me. It's better than being forceably upgraded and the old one disappearing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616002549.010600"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616002549.010600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:35</span><br/>
+<span style="background-color:#ccf">@George Campbell</span> Too complex to run locally because there were too many services for a computer to run? It's a fair point that running an http server is more involved than installing a package to disk
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616002795.010800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616002795.010800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-03-17 10:39</span><br/>
+Datomic is probably a great analog. When used as intended, you never do away with your old data. All data is stored with an explicit sense of time. (<span style="background-color:#ccf">@Kartik Agaram</span>'s linked article was good!) You can have many servers reading the database, and the each have a temporally-locked view of the data. Your data will never unexpectedly change out from under you.<br/><br/>Datomic works great when you've designed a whole system around the way that it works. It's not a drop-in replacement for Postgres or Mongo.<br/><br/>Here's another example — Basecamp (and Highrise) have their "until the end of the internet" practice, where users of old versions of their products will not be forced to upgrade. My company is still using the original Basecamp, which is 2 or 3 major reinventions old at this point. It still works great for our needs, in ways that the newer products wouldn't.<br/><br/>It's totally possible, and even practical, to keep old things alive when new things come into existence. You just need to design with that goal in mind, and that probably will demand confronting and rebuking some established practices and tacit assumptions. (In other words — what Mariano said, just with less <em>here are all the things that would be different</em> and more <em>here are places where we already do this and it's fine/good.)</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005559.011500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005559.011500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:25</span><br/>
+maintaining a small number of major versions is doable, maintaining all versions or at least say 10 versions is another thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005647.011700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005647.011700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:27</span><br/>
+maintaning some major versions is almost the same as maintaining a family of products, easier if you don't have to keep backward/forward compatibility, a little harder if you have to, but still doable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005774.011900"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005774.011900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:29</span><br/>
+each version adds extra maintenance overhead, if it gets "frozen" the overhead may be small, but each extra version adds extra overhead on top, so you have to see if it makes sense.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005853.012100"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005853.012100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:30</span><br/>
+guix, containers, cambria and unison may make it easier
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005919.012300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005919.012300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:31</span><br/>
+just an example, the weather widget on my OS stopped showing weather forecast for the following days, it seems the external api broke/changed,  they didn't change anything, yet it broke
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616005965.012500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616005965.012500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:32</span><br/>
+so it's not only your code, dependencies and environment, but all external systems too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1616006335.012700"></a>
+      <img src="https://secure.gravatar.com/avatar/53ac14ef59b0ea3359b61a56356b91c6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1615997784.006600.html#1616006335.012700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kris Pruden</b>
+<span style="margin:2em; color:#606060">2021-03-17 11:38</span><br/>
+TLDR: to me this is a pretty simple cost-benefit tradeoff. The reduction in regressions/confused users is rarely worth the cost (imo).<br/><br/>(Others have covered some of the points I make here as I wrote this, so apologies if I’m repeating anything)<br/><br/>For context, I cut my teeth in the bad old days of on-premise enterprise software. Our software was mission-critical, and it was incredibly difficult to entice customers to upgrade to new versions. For any given customer, the upgrade process could take a year or longer to work itself out. We probably had at least a half-dozen officially supported versions, and a handful of customer-specific releases on top. The decision-making process for determining what changes went where was a nightmare, to say nothing of the actual implementation. Our release manager was super-human. I never want to go back to that world again :)<br/><br/>Version compatibility is a pretty well understood problem, but supporting multiple versions simultaneously carries some pretty significant engineering and operational overhead. Running multiple versions of application logic is pretty straightforward, but there’s added complexity in request routing.<br/><br/>Technically, it <em>shouldn’t</em> require more compute capacity to support multiple versions of a service, since each user can presumably only use one version at a time, but in practice redundancy means you’re going to need more infrastructure to support multiple versions for the same user base. So that adds more cost.<br/><br/>Each live version of the code adds operational complexity of monitoring and diagnosing issues. Two or three versions might be manageable. Ten? Impossible (imo). Each live version increases complexity linearly if not exponentially. Continuous deployment means you’re pushing dozens of versions each week. There’s no way a team could stand up separate instances of each of these and maintain their sanity. Although the canary process does resemble this motion, it’s only managing two versions at a time, and for a limited time frame.<br/><br/>The temptation then would be to only stand up new instances for “breaking” changes. But it can be devilishly difficult to decide what a breaking change even is. For example, consider an enumerated data type. Simply adding a value to an enum is technically a breaking change, because existing clients can’t be guaranteed to know what to do with it. And that’s just on the API interface side. At least there you can do static analysis to detect breaking changes, although the tooling needed to do this adds its own overhead. Many breaking changes manifest in behavior or semantics, which are impossible to detect statically, and can be very difficult to detect with testing or human reasoning. So, the decision of whether a given release warrants a separate instance becomes a risk management exercise, which can be costly in its own right.<br/><br/>Planning gets more painful too with each live version. Security or critical bug discovered? Get ready for a lot of painful overhead and difficult conversations deciding to which versions the fix should be backported. Depending on how much drift there is in the code from one version to the next, it’s often not even obvious <em>how</em> to backport a fix.<br/><br/>Finally, these challenges often come to a head at the data layer. What happens when a new feature or bugfix requires a data migration? Unless you’re willing to maintain separate databases as well, it’s often practically impossible to support multiple versions, and even when it is, it adds yet more developer overhead.<br/><br/>There are solutions to all of these problems, but in my experience (over 20 years, for what that’s worth), it has never been worth the effort. While not exactly easy, it’s generally much more practical to adopt a posture of runtime compatibility with all live clients, with a multi-phase rollout process in the rare case where a breaking change is unavoidable. If you have a good client upgrade pipeline (browser-based client or app-store) this is pretty manageable.<br/><br/>Note: <span style="background-color:#ccf">@Ivan Reese</span> makes a great point re: Datomic/versioned data. Everything I said is based on the typical “mutation-friendly” architecture. It is probably possible to architect a service to accommodate many live versions practically, but this would have to be a fundamental design goal from the beginning. I’m not convinced there’s away to completely avoid at least some of the costs, however, so imo there’d better be a pretty good business reason to adopt this goal.<br/><br/>As we move forward and more of the software-using public becomes accustomed to and expects their software to keep improving, I’m not convinced there will ever be more than a sliver of the user base that wants to stay on older versions. The question is: how much is supporting this minority of users worth to you?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

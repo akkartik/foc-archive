@@ -1,0 +1,1309 @@
+[
+    {
+        "user": "UA14TGLTC",
+        "type": "message",
+        "ts": "1691997630.261459",
+        "client_msg_id": "c361e685-1f19-4232-aad9-809ae10c8015",
+        "text": "Over the years, I've confronted and reflected on this very sort of problem more times than I'm happy to recount.\n\nIn confrontation, I always hack things together and always have subtle bugs and race conditions.  Likewise, pretty much every GUI I've used glitches or breaks under specially-timed sequences of events.\n\nIn reflection, the difficulty comes from a simple, ideal sequence of events (press button, fill image) running into a messy temporal reality (delay between button press and image being ready) vastly increasing the \"what if\" state-space.  (See also validating input, and dealing with parse errors.)  Half of the \"what if\" could be handled in a principled way, half is more tricky.  How much of the UI should freeze up while waiting?  Is there any reasonable way to cancel the operation?  Added is the simple fact that API\/frameworks\/tools for building UIs are full of the same kind of glitches.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gae6d55db9d1",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png",
+            "first_name": "",
+            "real_name": "William Taysom",
+            "display_name": "wtaysom",
+            "team": "T5TCAFTA9",
+            "name": "wtaysom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691945999.321379",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "xe8vz",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Over the years, I've confronted and reflected on this very sort of problem more times than I'm happy to recount.\n\nIn confrontation, I always hack things together and always have subtle bugs and race conditions.  Likewise, pretty much every GUI I've used glitches or breaks under specially-timed sequences of events.\n\nIn reflection, the difficulty comes from a simple, ideal sequence of events (press button, fill image) running into a messy temporal reality (delay between button press and image being ready) vastly increasing the \"what if\" state-space.  (See also validating input, and dealing with parse errors.)  Half of the \"what if\" could be handled in a principled way, half is more tricky.  How much of the UI should freeze up while waiting?  Is there any reasonable way to cancel the operation?  Added is the simple fact that API\/frameworks\/tools for building UIs are full of the same kind of glitches."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UCUSW7WVD"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1692006470.391889",
+        "client_msg_id": "8a940f43-9909-40b3-b9fa-3ebd0a3d68ab",
+        "text": "Is the use of a state machine a requirement here? Personally, I'd prefer dealing with your situation in terms of events, both for the code and for the documentation. I guess one can always convert event handling into a state machine, with each event becoming a state transition, but states are not my preferred way of thinking about this.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691945999.321379",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "nz3S",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Is the use of a state machine a requirement here? Personally, I'd prefer dealing with your situation in terms of events, both for the code and for the documentation. I guess one can always convert event handling into a state machine, with each event becoming a state transition, but states are not my preferred way of thinking about this."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1692010370.266779",
+        "client_msg_id": "96b27aa6-20d9-46b4-9c6c-71d821191ffb",
+        "text": "One common way to make this sort of thing suck less is concurrency. When you hear the Go people making a distinction between concurrency and parallelism, it’s because being able to having multiple threads of execution (which, again, needn’t run in parallel) allows you to write code like this in a more straightforward way. You can, in some sense, think of the state machine you’re writing as something like manual loop unrolling — you play compiler in your head to maintain the state of multiple tasks, rather than letting the language\/runtime do it. Here’s some clojure code to do something like this using `future` to start a second task:\n```(def image (atom nil))\n\n(defn plot [thing]\n  (future\n    (reset! image (if-let [filename (plot-thing-return-filename-or-nil thing)]\n                    (load-image filename)\n                    error-image)))) ; presumably a sad computer face :(\n\n(defn application-loop []\n  ,,,) ; call plot when they push the button```",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691945999.321379",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "D0uh",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "One common way to make this sort of thing suck less is concurrency. When you hear the Go people making a distinction between concurrency and parallelism, it’s because being able to having multiple threads of execution (which, again, needn’t run in parallel) allows you to write code like this in a more straightforward way. You can, in some sense, think of the state machine you’re writing as something like manual loop unrolling — you play compiler in your head to maintain the state of multiple tasks, rather than letting the language\/runtime do it. Here’s some clojure code to do something like this using "
+                            },
+                            {
+                                "type": "text",
+                                "text": "future",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " to start a second task:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "(def image (atom nil))\n\n(defn plot [thing]\n  (future\n    (reset! image (if-let [filename (plot-thing-return-filename-or-nil thing)]\n                    (load-image filename)\n                    error-image)))) ; presumably a sad computer face :(\n\n(defn application-loop []\n  ,,,) ; call plot when they push the button"
+                            }
+                        ],
+                        "border": 0
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UCUSW7WVD",
+                    "UA14TGLTC",
+                    "UJBAJNFLK"
+                ],
+                "count": 3
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692028306.440989",
+        "client_msg_id": "4bb4f7a3-3113-4778-b233-047ee1471e3a",
+        "text": "Git CLI _is_ hostile, but it has so many survivors that discounting it as merely \"survivor bias\" misses something :smile: \nYes it under-invested in simple polish e.g. consistent flags, very much a case study in worse-is-better &amp; network effects, but I feel more is going on.\n\nThe plumbing\/porcelain boundaries are fuzzy, and it pretty much _forces_ you to grok the messy reality of History Space being a graph - and learn to formulate your actions in terms of that reality.\nIn so doing, git arguably gave the survivors more power than a user-friendly tool could(?)\nIt's what <https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/|https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/>\ncalls a \"physics-friendly tool\".\n\n(Or maybe i just want to believe that, as a survivor with significant sunk cost...  I do _hope_ that smooth learning curves to equal power are possible, but to me Git stands out as success story of the opposite philosophy.)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "attachments": [
+            {
+                "image_url": "https:\/\/ribbonfarm.wpenginepowered.com\/wp-content\/uploads\/2020\/01\/brown.png",
+                "image_width": 810,
+                "image_height": 636,
+                "image_bytes": 20888,
+                "from_url": "https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/",
+                "service_icon": "https:\/\/ribbonfarm.wpenginepowered.com\/wp-content\/uploads\/2022\/02\/cropped-rfsquare-180x180.png",
+                "ts": 1644554180,
+                "id": 1,
+                "original_url": "https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/",
+                "fallback": "ribbonfarm: Tools",
+                "text": "There are two kinds of tools: user-friendly tools, and physics-friendly tools. User-friendly tools wrap a domain around the habits of your mind via a user-experience metaphor, while physics-friendl…",
+                "title": "Tools",
+                "title_link": "https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/",
+                "service_name": "ribbonfarm"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "vTLv",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Git CLI "
+                            },
+                            {
+                                "type": "text",
+                                "text": "is",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " hostile, but it has so many survivors that discounting it as merely \"survivor bias\" misses something "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "smile",
+                                "unicode": "1f604"
+                            },
+                            {
+                                "type": "text",
+                                "text": " \nYes it under-invested in simple polish e.g. consistent flags, very much a case study in worse-is-better & network effects, but I feel more is going on.\n\nThe plumbing\/porcelain boundaries are fuzzy, and it pretty much "
+                            },
+                            {
+                                "type": "text",
+                                "text": "forces",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " you to grok the messy reality of History Space being a graph - and learn to formulate your actions in terms of that reality.\nIn so doing, git arguably gave the survivors more power than a user-friendly tool could(?)\nIt's what "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/",
+                                "text": "https:\/\/www.ribbonfarm.com\/2022\/02\/10\/tools\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\ncalls a \"physics-friendly tool\".\n\n(Or maybe i just want to believe that, as a survivor with significant sunk cost...  I do "
+                            },
+                            {
+                                "type": "text",
+                                "text": "hope",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " that smooth learning curves to equal power are possible, but to me Git stands out as success story of the opposite philosophy.)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692028749.355549",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1692028797.000000"
+        },
+        "client_msg_id": "4f87c0e3-ce4f-4fc4-bad6-b1e408535ca1",
+        "text": "Dont remember if it was on FoC podcast or some other where somebody complained how unfriendly `git rebase -i` is, compared to some hypothetical direct-manipulation UI, and i thought to myself \"what do you mean, rebase -i _is_ direct manipulation on the conceptual level I care for\".",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lfD8",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Dont remember if it was on FoC podcast or some other where somebody complained how unfriendly "
+                            },
+                            {
+                                "type": "text",
+                                "text": "git rebase -i",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " is, compared to some hypothetical direct-manipulation UI, and i thought to myself \"what do you mean, rebase -i "
+                            },
+                            {
+                                "type": "text",
+                                "text": "is",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " direct manipulation on the conceptual level I care for\"."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692032320.404479",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1692032749.000000"
+        },
+        "client_msg_id": "bb96539e-c267-4be8-aea5-71be85f62dce",
+        "text": "On languages, it may depend on how narrowly you define \"language design\".  Some examples where I see large variances in:\n• Support for introspection &amp; live coding.\n• how much the language lends itself to internal DSLs.\n• Crisp vs. fuzzy definition of language: can YOU tweak C++ syntax\/semantics in your particular project? Well #define but nowhere near as much as FORTH or Racket ...\n• Community &amp; inclusivity around language evolution.\n    ◦ Python-ideas &amp; PEP process is, to this day, more accessible that the C standard committee [I see why \"C is done\" and evolution is pretty much a non-goal, not judging just pointing out difference].\n    ◦ GHC goal to be \"research compiler platform\" by definition wanting to accept experimental extensions is a curious example.\n    ◦ (As Don &amp; João said, every early-stage language feels different in this aspect from large long-lived ones, but there are elements of \"community design\")\n• Presequisite knowledge.  Some languages _require_ you to learn manual memory management, or some category theory, etc...  There are pros &amp; cons, but surely a user automating their email flow should not need either of them :-) If you see End-user programming as \"the great unsolved problem of computer science\", then language design has real simplifying power.\n• Run-time interoperability with other languages.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Vtd",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "On languages, it may depend on how narrowly you define \"language design\".  Some examples where I see large variances in:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Support for introspection & live coding."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "how much the language lends itself to internal DSLs."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Crisp vs. fuzzy definition of language: can YOU tweak C++ syntax\/semantics in your particular project? Well #define but nowhere near as much as FORTH or Racket ..."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Community & inclusivity around language evolution."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "offset": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Python-ideas & PEP process is, to this day, more accessible that the C standard committee [I see why \"C is done\" and evolution is pretty much a non-goal, not judging just pointing out difference]."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "GHC goal to be \"research compiler platform\" by definition wanting to accept experimental extensions is a curious example."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "(As Don & João said, every early-stage language feels different in this aspect from large long-lived ones, but there are elements of \"community design\")"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 1,
+                        "offset": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Presequisite knowledge.  Some languages _require_ you to learn manual memory management, or some category theory, etc...  There are pros & cons, but surely a user automating their email flow should not need either of them :-) If you see End-user programming as \"the great unsolved problem of computer science\", then language design has real simplifying power."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Run-time interoperability with other languages."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "offset": 0,
+                        "border": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692032640.379839",
+        "client_msg_id": "3c31a2f8-6a19-4bfe-9bfd-dab9552871f8",
+        "text": "(The observant reader will notice all the above axes can be brute-forced by professional tech-giant teams.  If you view say maintaining your own compiler+debugger+IDE as \"simple matter of budgetting\", than all languages become more similar :sunglasses: )",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "WBq",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "(The observant reader will notice all the above axes can be brute-forced by professional tech-giant teams.  If you view say maintaining your own compiler+debugger+IDE as \"simple matter of budgetting\", than all languages become more similar "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "sunglasses",
+                                "unicode": "1f60e"
+                            },
+                            {
+                                "type": "text",
+                                "text": " )"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692033693.657779",
+        "client_msg_id": "8d94eb52-35d3-4c91-bc36-469f1e37aa1c",
+        "text": "An old one but take a look at <https:\/\/domterm.org\/|https:\/\/domterm.org\/>\n\nIf you dont care for escape sequences\/interative TUIs, just a command-&gt;rich response REPL, consider Jupyter, or similar notebooks.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "attachments": [
+            {
+                "from_url": "https:\/\/domterm.org\/",
+                "service_icon": "https:\/\/domterm.org\/favicon.ico",
+                "id": 1,
+                "original_url": "https:\/\/domterm.org\/",
+                "fallback": "Top (DomTerm - a terminal emulator and console using DOM and JavaScript)",
+                "text": "Top (DomTerm - a terminal emulator and console using DOM and JavaScript)",
+                "title": "Top (DomTerm - a terminal emulator and console using DOM and JavaScript)",
+                "title_link": "https:\/\/domterm.org\/",
+                "service_name": "domterm.org"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "\/CQ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "An old one but take a look at "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/domterm.org\/",
+                                "text": "https:\/\/domterm.org\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nIf you dont care for escape sequences\/interative TUIs, just a command->rich response REPL, consider Jupyter, or similar notebooks."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UN57U8V53",
+        "type": "message",
+        "ts": "1692033783.488599",
+        "client_msg_id": "13343569-06b1-4ff3-876b-57b511747680",
+        "text": "(add onto that training, package repository, and governance body and you can see why even big tech companies usually only have 1-2 home-built languages)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "3447742b735b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-09-09\/753296041488_3447742b735b104a7ff2_72.png",
+            "first_name": "",
+            "real_name": "Don Abrams",
+            "display_name": "Don Abrams",
+            "team": "T5TCAFTA9",
+            "name": "donabrams",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "LON",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "(add onto that training, package repository, and governance body and you can see why even big tech companies usually only have 1-2 home-built languages)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "U02QC0PPER3",
+                    "UML4ZEKDK"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692034012.341499",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1692037721.000000"
+        },
+        "client_msg_id": "0e912374-554e-438e-9307-1d73d4d309cf",
+        "text": "Or DIY on top of CodeMirror (text + syntax hightlight\/completions + can embed arbitrary widgets) \/ ProseMirror (affords structured editing)...",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "t5\/",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Or DIY on top of CodeMirror (text + syntax hightlight\/completions + can embed arbitrary widgets) \/ ProseMirror (affords structured editing)..."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "U01AD80KMLK"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692034753.532919",
+        "client_msg_id": "ff23e0fb-b932-408c-9e20-05e33898bdd3",
+        "text": "I didnt mean home-built from scratch so much as breaking the boundaries of given existing language.\nE.g. for Facebook, once they set out to morph PHP into their own Hack VM\/language, PHP became way more malleable than it is for the average PHP users.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "=Rl",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I didnt mean home-built from scratch so much as breaking the boundaries of given existing language.\nE.g. for Facebook, once they set out to morph PHP into their own Hack VM\/language, PHP became way more malleable than it is for the average PHP users."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692035564.108899",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1692035668.000000"
+        },
+        "client_msg_id": "6f47b2dc-5e13-4e4d-af0c-58fddc67dc24",
+        "text": "Hmm, there is also a middle ground, where almost anybody will build some preprocessor\/generator\/linter around a language they dont \"control\".\n\nThat option reduces how much \"original design\" matters.  Some designers actually shoot for that as the escape hatch from day one.\nStill, some choices make that harder\/easier.  Those can be syntax choices (part of \"language design\" by all definitions) but also implementation\/ecosystem choices like having the official AST [un]parser in stdlib or easily consumable open source...  I view the latter as part of my stretched definition of language design.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691659386.827279",
+        "parent_user_id": "UBN9AFS0N",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "HvP",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Hmm, there is also a middle ground, where almost anybody will build some preprocessor\/generator\/linter around a language they dont \"control\".\n\nThat option reduces how much \"original design\" matters.  Some designers actually shoot for that as the escape hatch from day one.\nStill, some choices make that harder\/easier.  Those can be syntax choices (part of \"language design\" by all definitions) but also implementation\/ecosystem choices like having the official AST [un]parser in stdlib or easily consumable open source...  I view the latter as part of my stretched definition of language design."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692038176.497259",
+        "client_msg_id": "0f47a76c-352f-408e-acd5-69f524de5e82",
+        "text": "The way autocomplete works in terminals is conceptually even grosser that pty stuff.\n\nIt's a pile of shell scripts that do completely independent ad-hoc parsing of the commands. There is zero guarantee the flags they complete match the particulas executable you have.\n\n Some of these scripts do call the executable itself with special flags to help in the process, but that's by ad-hoc knowledge of particular command's facilities.   there is NO standard protocol like \"run me with --complete\" nor any way to autodetect such support.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ZFh4",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "The way autocomplete works in terminals is conceptually even grosser that pty stuff.\n\nIt's a pile of shell scripts that do completely independent ad-hoc parsing of the commands. There is zero guarantee the flags they complete match the particulas executable you have.\n\n Some of these scripts do call the executable itself with special flags to help in the process, but that's by ad-hoc knowledge of particular command's facilities.   there is NO standard protocol like \"run me with --complete\" nor any way to autodetect such support."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1692038804.966539",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1692038833.000000"
+        },
+        "client_msg_id": "2b1d322a-ba50-4e56-b209-21b17a0814f3",
+        "text": "<@U01AD80KMLK> When you say \"a shell\", do you mean a shell-y experience e.g. some REPL with tab completion, or literally a unix shell with browser frontend?\n\nIf latter, there is lots of activity now on oil-shell zulip `#shell-gui` channel around its headless mode and building web frontends around it (must join to read, worth it).\n<https:\/\/oilshell.zulipchat.com\/#narrow\/stream\/266977-shell-gui|https:\/\/oilshell.zulipchat.com\/#narrow\/stream\/266977-shell-gui>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "2xIJ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U01AD80KMLK"
+                            },
+                            {
+                                "type": "text",
+                                "text": " When you say \"a shell\", do you mean a shell-y experience e.g. some REPL with tab completion, or literally a unix shell with browser frontend?\n\nIf latter, there is lots of activity now on oil-shell zulip `#shell-gui` channel around its headless mode and building web frontends around it (must join to read, worth it).\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/oilshell.zulipchat.com\/#narrow\/stream\/266977-shell-gui",
+                                "text": "https:\/\/oilshell.zulipchat.com\/#narrow\/stream\/266977-shell-gui"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "100",
+                "users": [
+                    "UCUSW7WVD"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U01AD80KMLK",
+        "type": "message",
+        "ts": "1692064257.400659",
+        "client_msg_id": "8bb6c22e-8117-400c-9ec8-71c5dab83b77",
+        "text": "I did mean a REPL with tab completion, history etc, not a Unix shell. I think a bit of do it yourself is what my use case is calling for.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "a07cdcb6d037",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-09-09\/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg",
+            "first_name": "",
+            "real_name": "Denny Vrandečić",
+            "display_name": "Denny Vrandečić",
+            "team": "T5TCAFTA9",
+            "name": "dvrandecic",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "67r",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I did mean a REPL with tab completion, history etc, not a Unix shell. I think a bit of do it yourself is what my use case is calling for."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1692064448.332169",
+        "client_msg_id": "41bf39fc-130e-460b-94b5-8688d016411a",
+        "text": "Do you know what language it's going to run?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ljQRH",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Do you know what language it's going to run?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "text": "Feeling the urge to do the whole TLA+ course for no reason other than this",
+        "files": [
+            {
+                "id": "F05MMM1STB4",
+                "mode": "hidden_by_limit"
+            },
+            {
+                "id": "F05N0AJ3LTB",
+                "mode": "hidden_by_limit"
+            },
+            {
+                "id": "F05MJPL7FL5",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "UMV4B97GT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "7vCp",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Feeling the urge to do the whole TLA+ course for no reason other than this"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1692064493.276489",
+        "client_msg_id": "bbc7ca65-a5ee-4461-8058-99ebe5ce65a2",
+        "thread_ts": "1691945999.321379",
+        "parent_user_id": "UCUSW7WVD",
+        "reactions": [
+            {
+                "name": "laughing",
+                "users": [
+                    "UML4ZEKDK"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U01AD80KMLK",
+        "type": "message",
+        "ts": "1692064723.467119",
+        "client_msg_id": "bb4a4185-37c5-4342-a87d-fccb09e65393",
+        "text": "Something I'm making up myself",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "a07cdcb6d037",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-09-09\/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg",
+            "first_name": "",
+            "real_name": "Denny Vrandečić",
+            "display_name": "Denny Vrandečić",
+            "team": "T5TCAFTA9",
+            "name": "dvrandecic",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691118802.776629",
+        "parent_user_id": "U01AD80KMLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Kjb",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Something I'm making up myself"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "UCUSW7WVD",
+                    "U02QC0PPER3"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "U0378MDUG1Y",
+        "type": "message",
+        "ts": "1692080998.894609",
+        "client_msg_id": "432c2943-f946-4561-8402-ff5238eaee16",
+        "text": "As I was reading through your refinements I was reminded of Ian Horrock's description of \"the bottom-up approach to user interfaces\":\n\n&gt; Typically, each event handler starts with a basic sequence of actions that will be executed in response to an event. And because an item may respond to an event in different ways, depending on the context in which it is used, conditional statements are added to determine the context in which the event has occurred and therefore which actions to execute.\n&gt; - Constructing User Interfaces with Statecharts (1999)\nIt seems like the LOVE game engine is is nudging you to reason about the behavior of this UI directly in its event listeners (e.g. `load`\/`update`\/`render`). Specifically, I don't fully understand why it's necessary to check whether the file exists on every frame (i.e. `update` ) and defensively guard against it? Feels like complexity is creeping in from that.\n\nWhile a statechart is not going to solve all of your problems, I do think there are compelling reasons it could be useful at the very least to reason through the behavior of this UI.\n\n```machine Rplot {\n  on PLOT -&gt; .querying do resetImage\n\n  initial state idle\n\n  state querying {\n    spawn R_query\n\n    from R_query {\n      on IMAGE_READY -&gt; drawing do setImageFromFile\n    }\n  }\n\n  state drawing {\n    on RENDER do drawImage\n  }\n}```\nThis example is of a little language called StateML that I'm currently building out. It enables us reason about behavior higher up the ladder of abstraction and provide \"named holes\" to fill in implementations when we pull it into the host language latter on.\n\n• The `PLOT` event causes a transition no matter what state the UI is in.\n• In the `querying` state we defined that an `R_query` activity is spawned. The lifetime of an activity is bound to the state it is spawned in and the statechart can react to events sent directly from that activity. The implementation of `R_query` is left open, the only behaviorally important aspects are that it emits an event that tells us when the image file is ready and has logic to cancel\/ignore the query if another PLOT happens. If you want to implement that with polling or some other method it's up to you.\n• Once the query finishes we enter the `drawing` state and draw the image on each frame.\n• Even for this simple example there are cases that are not covered like if the image fails to generate or maybe takes too long what should be do. We can easily specify that additional behavior:\n```machine Rplot {\n  on PLOT -&gt; .querying do resetImage\n\n  initial state idle\n\n  state querying {\n    spawn R_query\n\n    from R_query {\n      on IMAGE_READY -&gt; drawing do setImageFromFile\n      on ERROR -&gt; idle do displayError\n    }\n\n    after 30s -&gt; idle do showTimeoutError\n  }\n\n  state drawing {\n    on RENDER do drawImage\n  }\n}```",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "1092a4f97098",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-03-23\/3286745266387_1092a4f970985ebc8d2b_72.png",
+            "first_name": "Christopher",
+            "real_name": "Christopher Shank",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chris.shank.23",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1691945999.321379",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hrlfs",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "As I was reading through your refinements I was reminded of Ian Horrock's description of \"the bottom-up approach to user interfaces\":\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Typically, each event handler starts with a basic sequence of actions that will be executed in response to an event. And because an item may respond to an event in different ways, depending on the context in which it is used, conditional statements are added to determine the context in which the event has occurred and therefore which actions to execute.\n- Constructing User Interfaces with Statecharts (1999)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nIt seems like the LOVE game engine is is nudging you to reason about the behavior of this UI directly in its event listeners (e.g. "
+                            },
+                            {
+                                "type": "text",
+                                "text": "load",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "update",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "render",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "). Specifically, I don't fully understand why it's necessary to check whether the file exists on every frame (i.e. "
+                            },
+                            {
+                                "type": "text",
+                                "text": "update",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " ) and defensively guard against it? Feels like complexity is creeping in from that.\n\nWhile a statechart is not going to solve all of your problems, I do think there are compelling reasons it could be useful at the very least to reason through the behavior of this UI.\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "machine Rplot {\n  on PLOT -> .querying do resetImage\n\n  initial state idle\n\n  state querying {\n    spawn R_query\n\n    from R_query {\n      on IMAGE_READY -> drawing do setImageFromFile\n    }\n  }\n\n  state drawing {\n    on RENDER do drawImage\n  }\n}"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nThis example is of a little language called StateML that I'm currently building out. It enables us reason about behavior higher up the ladder of abstraction and provide \"named holes\" to fill in implementations when we pull it into the host language latter on.\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "The "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "PLOT",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " event causes a transition no matter what state the UI is in."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "In the "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "querying",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " state we defined that an "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "R_query",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " activity is spawned. The lifetime of an activity is bound to the state it is spawned in and the statechart can react to events sent directly from that activity. The implementation of "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "R_query",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " is left open, the only behaviorally important aspects are that it emits an event that tells us when the image file is ready and has logic to cancel\/ignore the query if another PLOT happens. If you want to implement that with polling or some other method it's up to you."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Once the query finishes we enter the "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "drawing",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " state and draw the image on each frame."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Even for this simple example there are cases that are not covered like if the image fails to generate or maybe takes too long what should be do. We can easily specify that additional behavior:"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "machine Rplot {\n  on PLOT -> .querying do resetImage\n\n  initial state idle\n\n  state querying {\n    spawn R_query\n\n    from R_query {\n      on IMAGE_READY -> drawing do setImageFromFile\n      on ERROR -> idle do displayError\n    }\n\n    after 30s -> idle do showTimeoutError\n  }\n\n  state drawing {\n    on RENDER do drawImage\n  }\n}"
+                            }
+                        ],
+                        "border": 0
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UCUSW7WVD"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

@@ -1,0 +1,450 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:25</span><br/>
+Is there a parsing technique where you either make explicit which parts of the input are ignored and what the escape patterns are? Or parsing techniques where you selectively pick only parts of the input to begin with? (I realize that sounds like regular expressions as parsers, which I know is usually not a good idea — any other techniques beyond regex?)<br/><br/>Example: many programming languages skip comments in the lexer. Or think of string literals, where it pretty much doesn't matter what's inside the string, as long as you play by the escaping rules. If you take the strings example further, these strings often get parsed by a different parser at a different time, for instance when the string is a number or a date, or perhaps a regex.<br/><br/>Is there anything that makes these different "stages" of parsing explicit? (I'm obviously looking for a concept I don't know a name for…)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604500.298700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604500.298700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:28</span><br/>
+Let me jump right in and say that I'm aware of parser combinators, which allow you to have different parsers composed of different components that can stand in for different languages, e.g. the host language + the date formatter language used in particular string literals. However, there isn't really a way to just skip over the "I don't care about what's in here" strings without breaking the whole parser, or is there?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604595.298900"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604595.298900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:29</span><br/>
+Isn't this the difference between lexing and parsing as you alluded to yourself?<br/><br/>Otherwise, you can set it up as a pipeline, I guess. Do you have a more concrete example?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604718.300900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604718.300900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:31</span><br/>
+Yeah, I don't think so. If you skip over some text you want to make sure there isn't a <tt>#</tt> in there that disables everything you're parsing. And so on.<br/><br/>This is a key difference between tools and languages, IMO. Tools can be opt-in (though they don't have to be). But languages have to be all or nothing.<br/><br/>In Mu I tried as far as possible to do everything with partial on-demand syntax sugar. But there's still 2 points at which I need to draw a line and start parsing everything from scratch.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604859.301700"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-26/971836171367_2fdcf29b225b02e66825_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604859.301700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Sosic</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:34</span><br/>
+I am no expert in parsing but I don't see why you couldn't postpone parsing of string insides for later, as long as you can tell where the string starts and end? For that you would need to care about escaping, but that is it. But I guess I am getting smth wrong here?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604870.301900"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604870.301900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:34</span><br/>
+<span style="background-color:#ccf">@S.M Mukarram Nainar</span> The difference between lexing and parsing is not what I mean, although I understand that my examples fit that.<br/><br/>How about parsing source code where comments also have a certain structure — the compiler/interpreter doesn't care about the comments, a documentation generator doesn't care about the source code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604941.302100"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604941.302100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:35</span><br/>
+So is the problem that you'd want to reuse the original parser for both the compiler and the documentation generator?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604943.302300"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604943.302300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:35</span><br/>
+<span style="background-color:#ccf">@Martin Sosic</span> Yes, exactly, it's done all the time. I guess I'm looking for formalisms around that. Are there formalisms about escaping?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595604985.302500"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595604985.302500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:36</span><br/>
+I've bumped into this while I wrote a JSON parser in Standard ML, just for fun. I wanted the String and Number lexers to be pluggable. This won't help you much, but I decided to call them paralexers, because they sit beside and help the overall lexing phase.<br/><br/>I'd love to know if there's an established term for this type of parameterized lexers/parsers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595605022.302900"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595605022.302900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:37</span><br/>
+Not exactly what you are looking for, but I thought this was related enough to link to. The idea is a microgrammer where you just define the parts you care about and ignore everything else.<br/><br/><br/><a href="https://blog.acolyer.org/2016/05/31/how-to-build-static-checking-systems-using-orders-of-magnitude-less-code/">https://blog.acolyer.org/2016/05/31/how-to-build-static-chec&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595605067.303100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595605067.303100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:37</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> Uh, yes, that sounds interesting. I'll take a look. Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606130.303300"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-26/971836171367_2fdcf29b225b02e66825_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606130.303300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Sosic</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:55</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> I don't know of any formalisms, but here is couple of simple things we all see in practice:<br/>• Defined delimiters with defined escaping mechanism. Example: strings.<br/>• Defined delimiters with no escaping mechanism. Example: multiline comments in C++ (/<b> </b>/)  (not 100% sure about this but I think they can't be escaped).<br/>• If line starts with special sequence, whole line is considered as a thing. This is really just a specialized case of defined delimiters with no escaping mechanism, where ending delimiter is newline. Example: line comments.<br/>I have been playing with this lately because in compiler/parser we are building, we currently have the need to parse blocks of JS without actually parsing the JS -&gt; so I would say the same challenge as you are having.<br/>We decided to go with simple solution for now: Defined delimiters with no escaping mechanism. In our case we are going with <tt>{=js</tt> as starting delimiter and <tt>js=}</tt> as end delimiter. While situation could in theory happen where developer wants to have such sequence (<tt>js=}</tt>) in their code inside this JS block, as a part of string for example, I don't think it is a real problem in practice, and it can be easily circumvented (by breaking down the string or adding some whitespace or so on). So we basically parse these blocks as strings, and then process them later in the pipeline (some of them we even just copy paste and never process -&gt; but those are implementation details now).<br/><br/>As more advanced step, I see doing the following: once our parser hits the <tt>{=js</tt> , we switch to JS parser and let it parse whatever follows, JS statement by JS statement. After each JS statement, we can check if there is <tt>=js}</tt>  after if, and if so, we stop with parsing JS and continue with our parser. I believe JSX does something similar, although maybe somewhat simpler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606631.303900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606631.303900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:03</span><br/>
+You're right, this is something I've done many times but never seen a formalism for.<br/><br/>I just searched for 'hierarchical parsing' and the best I could find was <a href="https://alandix.com/blog/2011/03/12/hierarchical-grammars-for-more-human-like-compiler-parsing">https://alandix.com/blog/2011/03/12/hierarchical-grammars-fo&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606894.304100"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606894.304100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:08</span><br/>
+I think the formalism is called Island Grammar: <a href="https://en.wikipedia.org/wiki/Island_grammar">https://en.wikipedia.org/wiki/Island_grammar</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606933.304600"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606933.304600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:08</span><br/>
+Also: <a href="https://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2687313/Island+Grammars+Under+Parser+Control">https://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606948.304900"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606948.304900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:09</span><br/>
+<span style="background-color:#ccf">@Martin Sosic</span> Thanks, yes, that describes the cases for common text-based languages.<br/><br/>While we're at it, I'd also add the arguably simpler ways configuration files use tabs and newlines or sometimes \0 for structure. And I'd also mention fixed-size and length-based encoding used in some lower-level network protocols.<br/><br/>Totally get your challenges with JS. I'm actually looking at this from the other end — when you design a language (which in my case is more about data description than about programming at the moment), which of those formalisms should you use when? What are the benefits and drawbacks of each approach?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595606979.305100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595606979.305100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:09</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Uh, the references in that one look promising… thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595607171.305300"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595607171.305300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:12</span><br/>
+<span style="background-color:#ccf">@Ionuț G. Stan</span> Huh, never heard of Island Grammars before.<br/><br/>And oh, I guess template languages would've been a much better example to go with… :face_palm:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595607399.305500"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595607399.305500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:16</span><br/>
+This is great. Thanks everyone for trying to follow my weird train of thought and coming up with all these pointers. (Please keep going if you find anything else! Just wanted to show my appreciation as this is one of those things where a forum like this can really help; basically LMGTFY when you don't know the terms to search for.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595608371.305700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595608371.305700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:32</span><br/>
+It's actually interesting to think of lexing vs parsing as a single point in a more general space of possibilities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595609131.305900"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-26/971836171367_2fdcf29b225b02e66825_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595609131.305900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Sosic</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:45</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Aha got it, interesting that you are looking at it from that perspective: I would love to hear more about this if you manage to formalize this or write something!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595609395.306100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595609395.306100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:49</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Not sure what you mean, but it sounds intriguing. For me lexing and parsing are just about regular vs. context-free. But you seem to look at how these are often separate stages…? In that space I like the idea of micro-pass parsing, here's a good intro with links to relevant papers: <a href="https://blog.sigplan.org/2019/07/09/my-first-fifteen-compilers/">https://blog.sigplan.org/2019/07/09/my-first-fifteen-compilers/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595609957.306500"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595609957.306500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 09:59</span><br/>
+At the risk of derailing the thread, another concept I'd like to see as a "single point in a more general space of possibilities" is compile-time vs. run-time. It feels similar on a very abstract level.<br/><br/>If you think about it, there are more "times" than just the two: macro-expansion, compilation (perhaps with several stages of lowering into IL/IRs), static analysis, linking all fall into compile-time, and then at runtime we have configuration (as long as the config file doesn't change), execution (as long as the process is running), session (e.g. as long as a user is logged in), run-loop (as long as a single run loop or frame is processed), stack frame, instruction, etc.<br/><br/>What if type systems wouldn't (just) slice the space into possible values at runtime, but also across all these "stages"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595613185.307400"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595613185.307400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-24 10:53</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> I <em>believe</em> what you're describing is called multi-stage programming (<a href="https://en.wikipedia.org/wiki/Multi-stage_programming">https://en.wikipedia.org/wiki/Multi-stage_programming</a>). I don't have experience with it, but it looks like it might not exactly cover what we normally call runtime. However, it splits the compilation phase into multiple stages, so one stage is the program for a subsequent stage, and so on.<br/><br/>Having said that, I agree that sometimes it's not easy to explain some programs by splitting them just into compile-time and runtime. For example, an embedded DSL implementation might include a static analysis phase, but it's static only relative to the DSL, not to the host language. Similarly it might even contain a compile-time phase which is run as part of the meta-program runtime.<br/><br/>In addition, besides the classical compile time and runtime, I also like to think about <em>developer time</em>. There's a lot of computation happening at developer time and I guess what a lot of people in this community are trying to do is to improve exactly this phase.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595618569.308900"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595618569.308900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2020-07-24 12:22</span><br/>
+I'm a big fan of mutli-stage programming theory. You can also look at this through the dimension of location. Instead of "compile time" vs. "runtime", you have, "does this computation run on the developer machine or the deployment machine?"<br/><br/>compilation is just computation. It's all a mater of when and where different parts of a computation are run. There is no reason it can't be separated on both time and space dimensions... (I'm a static types person, but thinking this way made me hate dynamic typing less. I realized they are equivalent and it's a just an engineering trade-off about where the checking runs :stuck_out_tongue: )<br/><br/>At the risk of losing some important subtleties of the project, I think <span style="background-color:#ccf">@Kartik Agaram</span>'s Mu project can be seen as an effective multi-stage programming system. It's one of the things I really like about that project :heart:. Mu attempts to make sure all the stages are distinct, user understandable (and theoretically verifiable) and only build upon earlier stages (no inter-stage recursion, a problem that macro systems run into).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595622020.310000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595622020.310000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 13:20</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Yeah my thought was not very well-formed. Basic idea: I tend to visualize parsers as scans over streams that emit some sort of artifact as a side-effect. (Hence my original answer bluntly in the negative.) Hierarchical grammars seem to be scans that emit a stream as a side-effect, a stream that can itself be parsed by a different grammar. I've been doing this naturally for as long as I can remember.<br/><br/>Lexing feels like this sort of thing, a stream of bytes turned into a stream of tokens.<br/><br/>Compiler passes also feel vaguely in the same family/framework, though they of course can emit whole new languages (whether IR or VM bytecode or native code) as a side-effect. Nanopass is nice, but doesn't feel quite as rigorous as the taxonomy of languages and the correspondence results between classes of languages and automata.<br/><br/>In general, we humans seem to be good at creating and reasoning about formal systems in isolation. We have precious few results (to my knowledge) that apply to <em>arbitrary combinations</em> of formal systems. Every seam between formal systems (wormhole between universes) is a non-linearity that makes things harder to reason about. This is basically why my kick lately is minimizing the number of inter-language seams rather than maximizing intra-language power.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595622478.310200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595622478.310200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 13:27</span><br/>
+Looks like you've been noodling at this for a while now! <a href="1580798784.083500.html">1580798784.083500.html</a>. I'd love to hear where the journey of the past few months (passing through a wormhole between pre- and post-pandemic universes) has taken you.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595625150.342700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595625150.342700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-24 14:12</span><br/>
+You’re dangerously good with search, <span style="background-color:#ccf">@Kartik Agaram</span>.<br/><br/>Well, this parser thing is just a side project that keeps coming up every few months, usually when I get to a point where I need to either import or export some arbitrary data in some arbitrary format. I always try to take another stab at solving it properly before I go back to just using a library or cobbling something together myself. So, unfortunately I have to admit that I haven’t spend the last few months on just that and therefore haven’t made much progress. :-)<br/><br/>What I’m mostly trying to do is to transfer what I learned about cognitive science (categorization, metaphorical structuring, image schemas — the stuff you hear me talk about a lot here) to system and interface design. I’m practically trying to pull off what GoF did with Design Patterns in architecture from Christopher Alexander, but with Image Schemas in cognitive semantics from George Lakoff. Well, that’s the big dream. If I only get 5% there, it’ll be great.<br/><br/>To turn this rather theoretical endeavor into something more practical and technical, I’m currently trying to build a thinking tool that covers important parts of an individual’s personal knowledge management process. Think note taking, second brain, roam cult, digital garden. But trying to go a little beyond the “bi-directional links is how your brain works”.<br/><br/>It all comes together at designing the data model, both from a technical perspective (which isn’t that difficult) and from a user interface/experience perspective. I want end users without technical experience to ultimately build and modify the data model themselves — without having to understand what a data model is. I think I described it better here: <a href="https://stefan-lesser.com/2019/12/06/structure-and-behavior/">https://stefan-lesser.com/2019/12/06/structure-and-behavior/</a><br/><br/>Long story short: some of that image schema and metaphor stuff gave me some ideas and I’m trying to validate them. First just for myself, building something that improves my own process. If you see me pick up blogging again later this year it could mean that it worked…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595661754.374900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595661754.374900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-25 00:22</span><br/>
+Oh friends, here we have one of my favorite topics.<br/><br/>Let's with the specific question: parsing documentation out of comments.  If you have a whole language parser on hand (or just the lexer), then you may be able to use that to grab the comments, which you then parse separately.  Feels like overkill, right?  Why not just scan for the comments?  One way to think of it is that the full language parser has a simpler sub-parser that only cares about comments.  It's fun to think of how to automatically transform a full parser to one that just cares about comments.  Or another way is to be clever.  (See also XML where you can get a 90% good parser with 10% of the grammar.)  Your comment marker can only appear in strings of which there are two kinds, oh and regular expressions too, oh and... well at least you can be certain that literals don't cross line boundaries.  Still... something feels off.<br/><br/>Consider how algorithmic parsing (a parser for things is a function from strings to lists of pairs of strings and things) is at odds with how you as a programmer parse things (starting right in the middle looking for fencepost spacing and brackets rarely needing to see the whole file).  Instead of having a complete system, we look around a little bit and guess between with many partial systems (with simpler ones working most of the time) and end goals in mind.  If we see anything too weird, we fudge it to make things fit.  Try reading with a five-year old.  It can be a great challenge to have them focus on the letters in front of them over a fitting word in their head.  How would a more person-like parser work?<br/><br/>Separately, parsers are interesting for their close connection to all kinds of other traversals.  It's a small step from a streams of tokens (first, rest) to trees (node, left branch, right branch) to the world (here, north, east, south, west), and parsers are unique for how richly they interpret the stream.<br/><br/>A lot to explore.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595819368.409600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595819368.409600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-26 20:09</span><br/>
+It occurs to me that <a href="http://doc.cat-v.org/bell_labs/structural_regexps">http://doc.cat-v.org/bell_labs/structural_regexps</a> might be relevant to this thread. It makes a strong case that you <em>can</em> make rigorous parsers using regular expressions. You just have to let go of the line-oriented nature of our regex tools.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595825057.409800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595825057.409800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-26 21:44</span><br/>
+No, scratch that. Not sure what I was smoking. It's still <em>regular</em> expressions, so of course it can't handle nested brackets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595904145.414700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595904145.414700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-27 19:42</span><br/>
+That is correct.  They're useful, but you don't get free nesting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595904308.414900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595904308.414900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-27 19:45</span><br/>
+My father, by the way, has been using Sam since the 80's and still is.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595921270.418000"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595921270.418000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-28 00:27</span><br/>
+I've read the paper about structural regexes and maybe I'm thick, but it seems to me that it's not about an addition to the CS concept of regular expressions, it's just about the particularities of some implementations. Am I reading it wrong? What's special about them?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595922964.418200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595922964.418200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-28 00:56</span><br/>
+Nothing fundamental, just convenient for some tasks.  This is the other paper to read <a href="http://doc.cat-v.org/plan_9/4th_edition/papers/sam/">http://doc.cat-v.org/plan_9/4th_edition/papers/sam/</a>.  The biggest idea is that Sam's command language is expressive and terse so that you keep little command snippets around, which you then middle click to execute.  So instead of having a special find/replace window in your editor.  You keep open a text file that you use for the purpose.  It has a certain ease and elegance where modern text editors don't: even the strongly customizable ones.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595940920.422100"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595604347.298300.html#1595940920.422100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2020-07-28 05:55</span><br/>
+Thanks, William. I'll have a read through that other paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597783509.112700"></a>
+      <a href="../linking-together/1595604347.298300.html#1597783509.112700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-08-18 13:45</span><br/>
+Ooh, check out <a href="https://comby.dev/docs/overview">https://comby.dev/docs/overview</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

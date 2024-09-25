@@ -1,0 +1,367 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-02-19 00:15</span><br/>
+I built a prototype yesterday for that demonstrates an architecture that I think is really powerful: <a href="https://github.com/ccorcos/datalog-prototype/">https://github.com/ccorcos/datalog-prototype/</a><br/><br/>&gt;  A full-stack prototype of a collaborative web application backed by a Datalog-inspired database.<br/>Let me know what you guys think :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582120874.215800"></a>
+      <img src="https://secure.gravatar.com/avatar/4b6b8c8935300db9089a9277d7e76a88.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582120874.215800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Miller</b>
+<span style="margin:2em; color:#606060">2020-02-19 06:01</span><br/>
+Datomic is a great database for this kind of thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582132701.218500"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582132701.218500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 09:18</span><br/>
+If you’re inspired by Datalog, I’m curious about your reasons for choosing EAV over n-ary relations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582137485.220600"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582137485.220600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-02-19 10:38</span><br/>
+<span style="background-color:#ccf">@Peter Abrahamsen</span> I didnt find too much reading on the subject so please fill me in if I'm wrong -- the reason EAV is nice is because you can create 5 indexes to query 3-tuples in every possible way. Whereas large tuples are going to need larger sets of indexes which get expensive.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582138537.220800"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582138537.220800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 10:55</span><br/>
+Sure, or you need some system for determining what indexes you need.<br/>EAV databases would seem a natural fit for graph data, while n-ary relations more naturally capture the statements logic programmers want to make. Since they’re interchangeable, it might be primarily a matter of taste. I’m asking because I’m genuinely curious, and because I went the other way—and it was mostly a matter of taste :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582148951.221700"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582148951.221700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-02-19 13:49</span><br/>
+Yeah, deciding on the indexes your need is dependent on the ontology of the data you're storing. This is totally fine if you are designing a system and know exactly what the requirements are. But my goal is to build something more general so that I can represent any information I want and be able to query it effectively.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582148969.221900"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582148969.221900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-02-19 13:49</span><br/>
+I'd love to hear more about your project though :slightly_smiling_face: Do you have any code or prototypes you can share?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582171211.224800"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582171211.224800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 20:00</span><br/>
+My code isn’t accessible, but I should have a prototype ready in a few weeks. The database side of it will sound familiar: a “pretty much Datalog” inferential database, backed by sqlite, plus an event log. Events will be shared peer-to-peer and will grow monotonically.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582171259.225000"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582171259.225000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 20:00</span><br/>
+The network and database layers are in Rust, with platform-specific front ends (Swift on iOS for the moment).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582171616.225200"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582171616.225200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 20:06</span><br/>
+The product is a conversational environment plus a kind of knowledge base. An interpersonal memex, if you will. Cross-referencing, history, etc built in. The first use case is planning a road trip, but I intend to make it very general purpose, eventually with the free-form nature of a spreadsheet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582171627.225400"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582171627.225400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 20:07</span><br/>
+The magic is in not fucking it up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582171712.225600"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582171712.225600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-02-19 20:08</span><br/>
+When I say prototype I mean, you’ll be able to send messages back and forth, and maybe it will look okay.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582225528.232700"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582225528.232700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-02-20 11:05</span><br/>
+Wow, we're working on very similar projects! :slightly_smiling_face:<br/><br/>My goal is to built a distributed offline p2p database for personal users -- something that could replace iCloud, for example.  Also something that could enable developers to build entire applications writing only front-end code.<br/><br/>Lots more cool ideas to after that... I'd love to chat sometime if you're interested. Any chance you're in SF?<br/><br/><a href="mailto:ccorcos@gmail.com">ccorcos@gmail.com</a> 19165489415
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582311217.242100"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582311217.242100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-02-21 10:53</span><br/>
+I have just read through your code: it makes me discover and understand EAV and datalog that I didn't know before your introduction message.  Very nice code. Thanks! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1582311464.242300"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1582311464.242300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-02-21 10:57</span><br/>
+By the way, how do you envision the use of this for CRDT? When I played with CRDT/CausalTree, the root data structure   was an append only event log with carefully chosen timestamps. Do you think there is some interest to implement this with EAV like your prototype?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583542997.098000"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583542997.098000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-03-06 17:03</span><br/>
+Hey <span style="background-color:#ccf">@nicolas decoster</span> just seeing this. Definitely going to use an append only log. I have this feeling that I can design it in a way that doesn't need a vector clock for causal consistency, but I havent thought that through yet. Otherwise, CRDT is implemented as a higher-level concept on top of this database and required the developer to carefully model their data. For example, for good text editing CRDT, you need to model characters as a tree that you traverse depth-first to construct the string. This requires no changes to the underlying database architecture and the CRDT behavior is entirely at the application layer :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583604079.112700"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583604079.112700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-07 10:01</span><br/>
+&gt; I have this feeling that I can design it in a way that doesn't need a vector clock for causal consistency<br/>A way to have causal consistency in an append only log, is to use a combination of a Lamport timestamp and an unique session ID, i.e. an ID unique to each site of editing. You order events based on the timestamp and when two events from two sites have the same timestamp you use the ID to choose the order in a deterministic way. It is actually what I have successfully used for my implementation of CausalTree/CRDT. You can find more information about this here: <a href="http://archagon.net/blog/2018/03/24/data-laced-with-history/">http://archagon.net/blog/2018/03/24/data-laced-with-history/</a>. It is a very well written article and actually it is after reading it that I work on my Rust implementation of this. Here is en excerpt, explaining the ordering of the event log:<br/>&gt; "This won’t be convergent by default since the operations don’t have an inherent total order, but it’s easy to fix this by giving each one a globally-unique ID in the form of an owner UUID<br/>&gt;  <br/>&gt; plus a Lamport timestamp. (In the diagrams below, this is encoded as “SX@TY”, where “SX” represents the UUID for site X, and Y is just the timestamp.) With this scheme, no two operations can have the same ID: operations from the same owner will have different timestamps, while operations from different owners will have different UUIDs. The Lamport timestamps will be used to sort the operations into causal order, leaving the UUIDs for tiebreaking when concurrent operations happen to have the same timestamp." 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583604880.113600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583604880.113600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-07 10:14</span><br/>
+And in my demo, there is a dynamic illustration of this event log ID for eventual consistency. If you are interested, go there: <a href="https://ogadaki.gitlab.io/sunnytech-2019-wuer/">https://ogadaki.gitlab.io/sunnytech-2019-wuer/</a>, then click "show sequences" and then "play scenario". Or you can use the three editors to add some characters and sometime click on "broadcast content". I made this demo to help understand how Causal Trees work. If you happen to use it, any feedback would be very welcome! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583608327.115100"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583608327.115100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:12</span><br/>
+That post really made a lot of things click for me (as it did many others) when I found it. Will you be publishing your Rust implementation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583608582.117800"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583608582.117800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:16</span><br/>
+The problem with causal consistency is that the clock gets really large with an arbitrary number of collaborators... I’m hoping that I can come up with some way of indexing the transaction log so I can query for the last transaction involving some fact and enforce causality that way. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583608727.118500"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583608727.118500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:18</span><br/>
+This article looks great. Thanks for sharing :) 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583609312.120100"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583609312.120100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:28</span><br/>
+That’s a problem with Lamport clocks, but they give you more information than you generally need in practice. In collaborative text editing, as in git, the operations themselves form logical timelines, and the site ids of two operations are used just as tiebreakers, as Nicolas mentions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583609861.120700"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583609861.120700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:37</span><br/>
+If we’re talking about interactive, human-scale systems, though, eventual consistency isn’t that impressive a goal. There’s a lot of opportunity to explore different application-specific, visual presentations of timelines, for example, with or without divergence. Most of the time a user won’t care, but occasionally they might ask, was the person who made this change aware of this other change? Not all forms of inconsistency can be identified at the database or application layers, or indeed encoded at all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583609943.121100"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583609943.121100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-07 11:39</span><br/>
+I’m excited to get to the point where I can explore some of these ideas, but I have a lot to do before then.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583654680.182500"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583654680.182500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-08 00:04</span><br/>
+The Rust code of my implementation can be seen here : <a href="https://gitlab.com/ogadaki/sunnytech-2019-wuer">https://gitlab.com/ogadaki/sunnytech-2019-wuer</a>. But, it was only an implementation to show how to mix Rust and Vue.js using WebAssembly, so the Rust part doesn't comprise only the algorithm but also some code to communicate with JavaScript one. And it is just a prototype.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583656168.186400"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583656168.186400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-08 00:29</span><br/>
+<span style="background-color:#ccf">@Chet Corcos</span> wrote:<br/>&gt; The problem with causal consistency is that the clock gets really large with an arbitrary number of collaborators... I’m hoping that I can come up with some way of indexing the transaction log so I can query for the last transaction involving some fact and enforce causality that way.<br/>Yes, that concerns make me also not completely satisfied with this kind of implementation of event log. Let me know about your progress on this! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583656452.189800"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583656452.189800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-08 00:34</span><br/>
+<span style="background-color:#ccf">@Peter Abrahamsen</span> wrote:<br/>&gt; Not all forms of inconsistency can be identified at the database or application layers, or indeed encoded at all.<br/>I totally agree! The consistency addressed with the TimeStamp+SiteId is only to be sure the event log order is strictly the same on two sites, but it is a work at an upper abstraction to deal with the "user-faced" consistency, and maybe occasionally asking a user to manage manually the conflicts (à la merge conflict in git for example).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583658153.192600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583658153.192600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-08 01:02</span><br/>
+Coming back to the question of  "very large timestamp", the difficulty is that we need a way to keep the order of a long event log, in a robust a way regarding partition of appending in that log. This potentially large index seems necessary. Or maybe, one can store events as a basic list, and only when there is a fork there is a need  to maintain a kind of index offset in the list on all the branch of the fork? Then, when forked sites need to merge, they can give the index of the start of the fork + their offset from this, and I guess we have all the information to have nearly a similar behavior of Lamport TimeStamp? At least regarding our needs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583701157.203200"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583701157.203200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-08 13:59</span><br/>
+(Realizing I confused Lamport timestamps and vector clocks earlier.) Maybe I’m forgetting something, but I don’t think there is a problem for ORDTs? (I’m not using ORDTs, at least not yet.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1583701928.203500"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1582100143.211600.html#1583701928.203500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-08 14:12</span><br/>
+Chronological (wall time) LWW is sufficient for my purposes for the next while. Everything mutable is mutable only by a specific site, or several sites controlled by the same person. Once that becomes insufficient, I will start attaching some version metadata, but probably still bounded by the set of sites that can modify, or have modified, a particular entity.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,77 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1700066455.619009.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-15 08:40</span><br/>
+I seem to have renewed my collaboration for a tablet-friendly programming environment. For the current version (<a href="https://love2d.org/forums/viewtopic.php?t=94852">https://love2d.org/forums/viewtopic.php?t=94852</a>), my partner led and pushed for preserving LÖVE primitives. For example, the LÖVE event loop calls functions you define called <tt>love.draw</tt>, <tt>love.keypressed</tt>, etc., and it seems desirable to continue to support those for familiarity's sake. This can seem impossible if the environment is also built in LÖVE and uses those same functions for providing its infrastructure, but since Lua is a dynamic environment there are tricks to make it work reasonably nicely.<br/><br/>Lately I've been taking the lead on a riff of that project, and I find I'm advocating strongly to <em>not</em> do this. I want to define new handlers like <tt>shell.draw</tt> and <tt>shell.keypressed</tt> that programs within my environment will have to call. And I finally figured out why I feel so strongly about this:<br/>1. LÖVE has a function to return the bounds of the device/window. You typically can draw between x coordinates 0 and some width. And this information is often used to draw UI elements near the edges and corners. So should we now override functions like <tt>line</tt> to adjust coordinates and keep them in the client area? There's a lot of surface area to cover here. Bugs will inevitably happen, and when they do our attempts to create a seamless abstraction will cause more confusion.<br/>2. Ranting more broadly, the desire for a "seamless experience" is a disease. The provider wants to "own the customer relationship," so that the user can forget there's anything in the universe but themselves and the app. Just like a casino. I'd rather not pretend we can wish the universe away with its possibility of errors. Let's me and the user treat each other as grown-ups, and not hide irreducible complexity in our supply chains. Here are the functions I provide, here are the functions LÖVE provides. I recommend you use my stuff where possible, but you don't have to. Yes, it's confusing. Welcome.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700116864.029719"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1700066455.619009.html#1700116864.029719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-11-15 22:41</span><br/>
+The eternal issue of leaky abstractions (which in software means <em>any</em> abstraction). Either you restrict your universe to the point that the leaks become irrelevant, or you live with the leaks. The second path involves more suffering but also more power to its adepts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700200715.519059"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../devlog-together/1700066455.619009.html#1700200715.519059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-16 21:58</span><br/>
+Grown-ups can empathize with your irreducible complexity, but that’s different from disliking seamless experiences.<br/><br/>I think that desiring a seamless experience is less a disease than it is a consequence of being a busy grown-up. I would prefer one API to two overlapping APIs, but if you told me that that was too hard, I would understand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700232243.122339"></a>
+      <a href="../devlog-together/1700066455.619009.html#1700232243.122339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-17 06:44</span><br/>
+My original statement was incoherent and ungrammatical (<em>checks channel</em>; oh good :smile:) so let me clarify. By "disease" I meant something that impacts the longevity of a system. So really more like "health". The desire for seamless experience is bad for health the way sugar is bad for health. But even that isn't right. It <em>can be</em> bad for health. If acted on. But living with the desire is hard! I'm tempted by sugar everyday. I often wish I could just stop desiring sugar. Then it would be easier to not act in a sugar-seeking manner.<br/><br/>Hopefully that's all clear now :sweat_smile: I'm very happy to receive the work people put in to reduce the number of seams in my experience. But if a website lays out wrong and fixes itself after I resize a little and rejigger the fonts, I try to put that out of my mind. I want to focus on the important stuff. Is this website giving me useful information, is it respectful of my attention, is it relaxed around me (not squirming, squirming to get its tentacles deeper into me). A seamless experience can't compensate for failings in these areas, and it is all too common for seamless experiences to hide all manner of deeper malfeasance. When we push for more seamless experiences we're also encouraging the organisms we interact with to grow more tentacles, make them more muscular, use them more ceaselessly in search of advantage. This is not conducive to our long-term health, to put it mildly. Let's cut the mild grasshopper some slack; hopefully then it won't turn into a locust.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700250762.494819"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../devlog-together/1700066455.619009.html#1700250762.494819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-17 11:52</span><br/>
+I think I follow, thanks. :pray::skin-tone-3: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700287267.729549"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1700066455.619009.html#1700287267.729549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-11-17 22:01</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> A nice analogy. As with health, a key element is developing awareness, for everybody involved. Eating a sweet dessert is OK if it is done consciously, knowing that it should be something exceptional. It's the habit of eating sweet that is bad for health. Likewise, a seamless experience, at the price of agency, is perfectly fine if it remains restricted to appropriate settings, such as watching a movie or playing a game. It reduces agency only if it becomes a priority in digital life.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

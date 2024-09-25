@@ -1,0 +1,307 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-20 11:10</span><br/>
+I'm looking for a format to add a bit of semantic meaning to JSON (as minimal as possible).<br/><a href="https://github.com/cognitect/transit-format#transit">https://github.com/cognitect/transit-format#transit</a> is such a format, but I'd like to know if there are others.<br/><br/>For instance, imagine trying to represent JSON+Dates, and no other additional type.<br/>From: <tt>["a", 123, ..., "whatever", "~#date:1929292929"]</tt> ...<br/>... a JS decoder would see <tt>"~#date:1929292929"</tt> and convert that to <tt>["a", 123, ..., "whatever", new Date(1929292929)]</tt> .<br/>What if I wanted to encode the <tt>"~#date:1929292929"</tt> string verbatim? Now I have to come up with some escaping mechanism, say, <tt>~~</tt> : <tt>"~~~#date:1929292929"</tt> , etc.<br/><br/>So I could try to come up with a format to do what I need, but I wonder if there are already specs out there doing something similar other than transit.<br/><br/>I want something a bit easier to implement than Transit... it has a bit more features than I need (for instance, I don't really need caching or user defined types).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608494780.130500"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608494780.130500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2020-12-20 12:06</span><br/>
+This is basically embedding type information into JSON, so use dicts, add a "type" field and be done with it. There might? be a standard, but don't worth about it. If there is and you find it later, converting whatever you write to their standard should be solvable with a short python program
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608501107.130700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608501107.130700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-20 13:51</span><br/>
+Somebody correct me if I'm wrong, but YAML supports arbitrary Ruby types, and that's turned into a security morass and now considered a bad idea. So yeah, what <span style="background-color:#ccf">@Tyler Adams</span> said.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608507008.131300"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608507008.131300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-20 15:30</span><br/>
+guys, there's a spectrum ... I'm confused by the black and white answers I sometimes get from the "Future of Coding" forum. It seems the future is black and white...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608507024.131500"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608507024.131500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-20 15:30</span><br/>
+at one side, there's "just use maps". At the other, there's Transit. What's in the middle?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608507166.131700"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608507166.131700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-20 15:32</span><br/>
+I'm just curious how other people solved this issue, seems like a problem a lot of people may have tackled. For instance, if I "just use maps", then if I want to encode that map verbatim, I need to escape somehow. I'm curious how other dealt with this problem. Maybe the answer is to not worry about that case, reversibility, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608507914.131900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608507914.131900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-20 15:45</span><br/>
+Didn't intend to sound black and white! Just trying to answer the question to my knowledge. I'm not an expert here, so it's hard to be dogmatic :smile:<br/><br/>Encoding maps: just put them in quotes, use backslashes for escaping? I'm not familiar with Transit, unfortunately.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608508519.132300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608508519.132300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-20 15:55</span><br/>
+From the Transit page:<br/><br/>&gt; Users of data formats without such facilities must rely on either schemas, convention, or context to convey elements not included in the base set, making application code much more complex. With Transit, schemas, convention, and context-sensitive logic are not required.<br/><br/>I suppose conventions and schemas is what we're both reaching for. I just haven't felt this particular pain point yet..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608514525.132700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608514525.132700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-12-20 17:35</span><br/>
+You'll always run into escaping issues in principle, the trick is finding the way to avoid them in practice.  Depending on your context, the "~#" prefix might be enough, you might not even ever need to escape them.  Not if "~#" doesn't occur naturally.<br/><br/>Using a hash with a "type" key or perhaps a "~~type~~" key for extra safety is perhaps a more versatile (and verbose) solution.<br/><br/>The only downer of using extra ~s to meta-escape is that it can get silly sometime.  I vaguely recall a system wherein to write backslash I had to use the string <tt>"\\\\\\"</tt>.   So having another way to say backslash would have worked out better.<br/><br/>See also Quining <a href="https://en.wikipedia.org/wiki/Quine_%28computing%29">https://en.wikipedia.org/wiki/Quine_%28computing%29</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608520624.142500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608520624.142500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-12-20 19:17</span><br/>
+here’s an off the wall idea: you could have a companion “types” array whose keys are access instructions and whose values are enums representing the type. eg <tt>“person.birthday”: “date”</tt>. you could make it ad-hoc with relative positioning with a jq-like syntax, eg <tt>user: { createdAt: <a href="tel:17261669">17261669</a>, “.createdAt”: “date” }</tt>. idk if that’s too wacky 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608520815.143000"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608520815.143000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2020-12-20 19:20</span><br/>
+Hungarian notation for the key names
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608523225.144200"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608523225.144200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-12-20 20:00</span><br/>
+This may still be too heavy weight, but why not implement just a subset of transit? Iirc it should be possible
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608526138.144600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608526138.144600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-20 20:48</span><br/>
+A subset of transit could work, I was just curious about other options.<br/>Actual transit ends up looking like a lot of nested arrays, something like:<br/> <tt>["~#array", [1, 2, [~#date 1929292929], [~#json, [1, 2, 1929292929]]]</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608532574.144900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608532574.144900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-12-20 22:36</span><br/>
+I like Garth's idea. Send complementary JSON with the same structure, with the type names in the place of the values (you can omit unnecessary parts)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608535588.145100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608535588.145100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-12-20 23:26</span><br/>
+&gt; What if I wanted to encode the <tt>"~#date:1929292929"</tt> string verbatim? Now I have to come up with some escaping mechanism, say, <tt>~~</tt><br/><br/>Or you could use the same mechanism: <tt>"~#string:'~#date:...'"</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608539720.145300"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608539720.145300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-12-21 00:35</span><br/>
+<a href="https://github.com/edn-format/edn">EDN</a> is a simpler textual representation (Clojure's version of sexps) that includes reader extensibility ("tagged elements"). It's easy to emit and there are a fairly large number of reader implementations out there, including <a href="https://github.com/edporras/edn_turbo">a fast C parser</a> embedded into Ruby that we built at my last company. Would that work for you?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608539946.145600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608539946.145600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-21 00:39</span><br/>
+hey Jack, I think EDN is a good inspiration too, but is mostly a stand-alone textual format, I was thinking more of something more directly built on top of JSON
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608540176.145800"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608540176.145800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-12-21 00:42</span><br/>
+What would the layer above look like/seek to accomplish? That info might lead to a better suggestion :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608571266.147400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608571266.147400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-12-21 09:21</span><br/>
+if you end up going with my idea, please let me know how it works out for you! it’s basically half-assing infra’s method: <a href="http://www.christopherkhall.com/research.html">http://www.christopherkhall.com/research.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608589215.147900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608589215.147900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-21 14:20</span><br/>
+The details are a bit hazy ... very roughly, I've a PoC that takes <a href="https://gist.github.com/EmmanuelOga/0d626107e5ed2bc6f5e7bf3925d032fd">sources like this</a> and turn them into HTML. It works but it has quite some layers of complexity (RDF+XML/XSLT).<br/>It uses Saxon/JS. Saxon does what I'm asking: it expresses the full XSLT type system on top of JSON, it is just more than a bit hairy, as you can imagine... At the same time Saxon/JS lacks basic things like supporting async extension functions.<br/><br/>It occurred to me I could create a format to express both markup and graph data with an eye on building on top of JSON <b>from the start</b>, as opposed to the Frankenstein of tech I currently use.<br/>Something like <a href="https://github.com/thi-ng/umbrella/tree/develop/packages/egf">EGF</a> comes close but it is missing the markup part (mixed content).<br/><br/>For now I'm just looking at "prior art", specially if I can find very minimal formats that build on top of JSON without adding too much complexity to ... steal :slightly_smiling_face: .. some of the patterns people use when building on top of JSON.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608591454.148600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608591454.148600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-21 14:57</span><br/>
+<a href="https://concise-encoding.org/">https://concise-encoding.org/</a> is able to express both markup and graphs and apparently has a JSON representation as well, so I'll be looking at it too. C/E's scope seems a lot larger than what I'm looking for and I don't necessarily like its grammar.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608654281.149200"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-17/1606408855344_c6996cc757ff7fcedd95_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608654281.149200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Roman Sushkov</b>
+<span style="margin:2em; color:#606060">2020-12-22 08:24</span><br/>
+Not sure if this fits your use case, but there is also <a href="https://dhall-lang.org/">https://dhall-lang.org/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608675535.149900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608675535.149900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-22 14:18</span><br/>
+looks like dhall can tx to json but not the other way around, so given a piece of json you don't necessarily know the type of a k/v
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608712469.150100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608712469.150100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-12-23 00:34</span><br/>
+<span style="background-color:#ccf">@Emmanuel Oga</span> So, after sleeping on this, I kept coming back to the feeling that what you really want is a lisp and s-expressions, but barring that maybe your life would be simpler of you used something like Karsten's <a href="https://www.npmjs.com/package/@thi.ng/hiccup">hiccup library</a> for the markup instead of including HTML strings?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608722996.150500"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1608491424.130300.html#1608722996.150500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-23 03:29</span><br/>
+hiccup looks like a possible building block for the markup, not sure if I will be able to use it directly but maybe I can use some of its ideas
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

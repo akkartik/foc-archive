@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1547785034.337600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-01-17 20:17</span><br/>
+functional reactive programming and large datasets<br/><br/>any insights?<br/><br/>I wrote a native photo viewer (think Picasa or iPhoto). I set it to show 250k photos. With a naive implementation that had serious problems for the "reactive" part. For example there are settings on how to display the photos (with or without filename, with or without size, etc...).  My understanding of "reactive" effectively all 250k photos are connected in some way to the state of <tt>settings.showDate</tt> and <tt>settings.showFilename</tt>. Of course that 250k can possibly be trimmed to just those photos that are on display (*) but even then there might be 100 to 500 photos visible which just seemed to kill all perf.<br/><br/>Obviously there are ways to optimize but it did make me question if "reactive" stuff is really a solution for anything but relatively small forms.  For example one way to fix the perf was to basically move the reactive part much higher up. The "photo grid" is "reactive" to those settings, not each individual photo. Still in a way that doesn't seems to me the promise of "reactive" where I can just declare what I want to display and what state it depends on and "magic" happens so it's wonder if "reactive" is actually the best way.<br/><br/>I suppose I should define reactive. My understand is a reactive system is one in which a change to state triggers a change to all views of that state in some automated way. You don't have to declare the relationship between the state and the views. The fact the view used the state is enough for the system to figure out there's a connection.<br/><br/><br/>(*) given a pinterest style display, any change that affects the size an image is display requires a re-layout so even if you're only displaying a small portion of all photos you actually have to apply to setting to all photos above the ones being viewed in order to figure out what is actually visible given the re-layout.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1547817554.357100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1547785034.337600.html#1547817554.357100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-01-18 05:19</span><br/>
+If performance is what you’re after and the naive implementation doesn’t deliver on that, I’d suspect that it’s a combination of dealing with the large dataset as a whole plus working with image data. In a responsive implementation I’d expect the user interface determining (and drastically limiting) the amount of computation that is needed. <br/><br/>Part of that would be a step where the data source of 250k images is filtered for just the images that are currently displayed, plus a few rows before and after what’s visible currently, if you’re going for buttery-smooth scrolling. Coming from native mobile development, I’d also expect a custom rendering step that performs a downscaling operation to thumbnail-sized images so that only the pixels that are actually rendered are copied into memory; most frameworks take advantage of on-the-fly scaling of images but still copy the much bigger source image into memory and decoding and copying many large images into memory will reduce performance significantly. <br/><br/>Both filtering and scaling / thumbnail creation could be implemented as sequential operations on a source stream of images. The tricky part is that you do need in fact additional data for those operations that originate in the current view state, mainly the scroll view content offset to determine which images to display, and the current view size plus some configuration values to know what size the thumbnails should be. <br/><br/>As far as I understand reactive libraries, there should be primitives to combine your image source stream with a stream that supplies scroll view offset and another one that supplies view size changes, so that you have everything you need to implement the filtering and scaling steps, so that everything updates correctly as soon as one of the parameters changes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1547830152.357600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1547785034.337600.html#1547830152.357600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-01-18 08:49</span><br/>
+Certainly, any given reactive implementation is going to grief you in one way or another.  (Cross out "reactive" and the sentence is likely still true,)  Moreover, naive implementations usually do trade simplicity for non-specific scalability limits.  (Probably can cross out "naive".)  Still, reactive under your own definition <span style="background-color:#ccf">@Gregg Tavares</span> gives you options, "a reactive system is one in which a change to state triggers a change to all views of that state in <b>some</b> automated way."  It's the flexibility of some that gives you potential power.  As <span style="background-color:#ccf">@Stefan Lesser</span> went into details, but one classic idea is separating <b>what</b> you want to show from <b>when</b> you calculate it.  The pattern has been around for as long as there have been list views.  I suppose a system is more reactive when dependent calculations are handled in a principled way rather than a case-by-case textForRowAtIndex: implementation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1547865439.365700"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1547785034.337600.html#1547865439.365700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-01-18 18:37</span><br/>
+wrt your asterisk, Google Keep doesn’t bother calculating positions accurately. If you’re near the bottom of a long list of notes and scroll up to the top, it will just reposition things when you get there if its guess was wrong. I think Kindle does this too if you jump to a section late in the book, then start paging backward.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1547868637.367700"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1547785034.337600.html#1547868637.367700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-01-18 19:30</span><br/>
+Is your performance hit because all of the photos being displayed get the setting change signals independently, then they all independently trigger a relayout?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

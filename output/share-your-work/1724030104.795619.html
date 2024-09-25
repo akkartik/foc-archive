@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-18 18:15</span><br/>
+Call Return Spaghetti<br/>2024-08-18<br/>PAUL TARVYDAS<br/>AUG 19<br/><br/>In the essay referenced below, I examine why a diagram of a Call/Return system makes less sense than a diagram of a concurrent system.<br/><br/>Call/Return operates in a LIFO - last-in first-out, stack-like - manner.<br/><br/>Adopting an alternate perspective - FIFO, first-in first-out, queue-like manner - allows us to represent diagrams more easily.<br/><br/>CPU chips implement CALL and RETURN instructions as single opcodes, but, they do not implement queue behaviour as single opcodes.<br/><br/>Most popular languages are generally function-based, e.g. C, Haskell, Python, Javascript, Smalltalk, etc. Such function-based languages tend to adopt a LIFO (callstack) perspective and tend to use CALL and RETURN opcodes to fake out the function-based paradigm.<br/><br/>Such languages allow programmers to implement FIFO queues, but, such languages encourage the use of LIFO stacks. This seemingly small difference subtly affects designs with function-based - stack-based - thinking. This difference ultimately encourages single-threaded design while making multi-threaded design more difficult to imagine and to implement, as witnessed by the fact that most languages relegate multi-threading to hefty code libraries, while treating functions as basic building blocks.<br/><br/>This subtle encouragement towards function-based thinking has led to the general impression that Visual Programming Languages (VPLs), node-and-wire Diagrammatic Programming Languages (DPLs), Actors, etc., are ineffective programming tools.<br/><br/>I argue that VPLs, DPLs, Actors, etc. are effective programming tools, but that their use is are ultimately discouraged by the over-use of the function-based paradigm.<br/><br/>Further<br/><br/><a href="https://guitarvydas.github.io/2020/12/09/CALL-RETURN-Spaghetti.html">https://guitarvydas.github.io/2020/12/09/CALL-RETURN-Spaghetti.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724031881.734239"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724031881.734239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-18 18:44</span><br/>
+One thing I've tried to articulate to you in the past, might be worth trying again:<br/><br/>LIFO has one advantage over FIFO as you implement it so far in your projects:<br/>• call/return involves passing arbitrary numbers of values between a <b>single</b> producer and a <b>single</b> consumer (caller/callee).<br/>• FIFOs involve passing arbitrary numbers of values between <b>multiple</b> producers and a single consumer (or vice versa)<br/>I think the single/single constraint is easier to reason about. FIFOs might be easier to program with if you somehow preserve that constraint. It would certainly eliminate at a stroke a bunch of corner cases of timing and synchronization that bother me every time I think about your stuff.<br/><br/>One way to achieve this would be to say the nodes in the VPL can only have a single input port, but that port can take on arbitrarily structured types (records, arrays, etc.). Then you'd simulate multiple ports using tuple types, but the tuples would have to be explicitly created in a single node at a time.<br/><br/>Another way would be to restrict fan-in or fan-out somehow. Either input ports or output ports can only connect to a single wire. (I work at <a href="https://recroom.com">https://recroom.com</a>, and our VPL includes both the input and output constraints in different situations. Might be worth a look: <a href="https://blog.recroom.com/posts/2021/5/03/the-circuits-handbook.">https://blog.recroom.com/posts/2021/5/03/the-circuits-handbook.</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724086742.244679"></a>
+      <img src="https://secure.gravatar.com/avatar/bc993d98fe7bf26c048ac0818a598d4d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724086742.244679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mark Dewing</b>
+<span style="margin:2em; color:#606060">2024-08-19 09:59</span><br/>
+What is your opinion of Go?<br/>Multi-threading is much more fundamental to the language (and lighter weight).  Part of that is how it manages the stack memory for each thread.<br/>(Disclaimer: I don't know Go very well).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724088935.108219"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724088935.108219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2024-08-19 10:35</span><br/>
+(xpost from substack) What I am hearing is that dataflow notebooks, like ObservableHQ in my case, are a bit of an unholy matrimony between the two styles. FWIW I've been using their 'Runtime' dispatcher as a set of training wheels, given my heavy functional-programming bias. But my experience has been that important quality-of-life tools (map-reduce pipelines) that rely on the call stack are inherently hard to debug under the event-driven paradigm. And this seems to be the kernel of that idea.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724125330.342289"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724125330.342289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-19 20:42</span><br/>
+Yeah works for me just now. <br/><br/>(I didn't actually click on it this time because I've read it before :sweat_smile:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724178952.423689"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724178952.423689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2024-08-20 11:35</span><br/>
+I also got the 404, it's because a <tt>.</tt> is postpended to the URL. My best guess is that Slack on Windows -> Firefox behaves differently than Kartik's setup. This one works for me:<br/><a href="https://blog.recroom.com/posts/2021/5/03/the-circuits-handbook">https://blog.recroom.com/posts/2021/5/03/the-circuits-handbook</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724185403.702379"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724185403.702379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-08-20 13:23</span><br/>
+Ha, I totally misinterpreted which blog link we're talking about. Paul's blog link works fine for me, my recroom link does not. Unfortunately I can't edit that comment anymore.<br/><br/>At least Slack is consistent across platforms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724255897.662259"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724255897.662259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-21 08:58</span><br/>
+&gt; What is your opinion of Go?<br/>I have strong opinions about how to structure component-based programs while retaining both, FIFOs and LIFOs. 0D is but one manifestation of these opinions. Golang comes closer than most other languages but is more like an assembler for component-based programming rather than a structured way to compose component-based programs. ...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724256129.162559"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724256129.162559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-21 09:02</span><br/>
+<span style="background-color:#ccf">@Jasmine Otto</span> do you have a suggestion on how I might get a 50,000 foot overview of ObservableHQ and the 'Runtime' dispatcher?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724277445.592279"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724277445.592279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2024-08-21 14:57</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Yes! They've been shuffling their docs around, especially for the Framework release, so I really hope these don't get lost.<br/>syntax - <a href="https://observablehq.com/documentation/cells/observable-javascript">https://observablehq.com/documentation/cells/observable-javascript</a><br/>dispatcher - <a href="https://observablehq.com/@observablehq/how-observable-runs">https://observablehq.com/@observablehq/how-observable-runs</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724823541.527449"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724823541.527449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2024-08-27 22:39</span><br/>
+I’ve been working up to an asynchronous, continuation-passing style of system. This to me is the natural form of a distributed system — much of how we get bent out of shape in distributed systems is trying to make them regular function call-return systems when theyr’e not.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724831973.687639"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724831973.687639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-28 00:59</span><br/>
+&gt; we get bent out of shape in distributed systems is trying to make them regular function call-return systems when they’re not<br/>I fully agree with this. I would add that thinking of them as call-return systems stunts one’s ability to invent FoC-ish solutions.<br/><br/>Do you have any insights on?... I think of distributed systems as separate Arduinos or nodes on the internet. Is it reasonable to use asynchronous, continuation-passing style between physically separated nodes? My gut says that you can only use continuations if you share memory on the same computer / node.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724861466.424379"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1724030104.795619.html#1724861466.424379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2024-08-28 09:11</span><br/>
+When I say continuation, I mean you pass the address of where to send any results.<br/><br/><a href="https://frest.substack.com/p/distributed-relational">https://frest.substack.com/p/distributed-relational</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

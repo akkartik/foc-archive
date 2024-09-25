@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-10/1846261486882_9751078823a2ecfe91c4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1622986722.046000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rob Haisfield</b>
+<span style="margin:2em; color:#606060">2021-06-06 06:38</span><br/>
+What do you gain from being able to run a program in reverse? Just looking at <span style="background-color:#ccf">@Ivan Reese</span>’s Hest but curious more generally
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1622990028.049100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1622986722.046000.html#1622990028.049100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-06-06 07:33</span><br/>
+You can go from a bug (or any effect), to it's cause
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623015832.052100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1622986722.046000.html#1623015832.052100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-06-06 14:43</span><br/>
+There's full-blown <em>reverse execution</em>, which is code that can run forwards and backwards. This is hard.<br/><br/>Then there's just <em>rewind</em> (as I call it), which is just capturing and restoring past program states. (This is what the game Braid does, and what I'm planning to do for Hest, and I believe what omniscient debuggers do, and what you can easily do with immutable data structures a la Elm's time-travel debugging.)<br/><br/>• Both would let you run some code, stop, rewind a bit, make some changes, go forward again, rewind again, make more changes, etc. It would give you a programming experience that's sort of like editing music in a DAW, or editing a video in a <a href="https://en.wikipedia.org/wiki/Non-linear_editing">nonlinear editor</a>.<br/>• <span style="background-color:#ccf">@William Taysom</span> had a neat idea (hope this is okay to share) about using reverse execution as a way to start with some data in a desired final form, and to build backwards towards the inputs needed to get it in that form, interactively.<br/>• A difficult thing about pure reverse execution is that you can't have a function that would return the same result for two different inputs. For example, you can't have a function that does a multiply by zero (because you'd get the same result for any finite input). You need each input to uniquely map to an output. But — and this is wild — if you can achieve this property in hardware, reversible computers can be <a href="https://en.wikipedia.org/wiki/Reversible_computing#Reversibility">vastly more energy efficient</a> than non-reversible computers, because of thermodynamics: less information is being "lost", so there's less heat (entropy) as a result. (Vast simplification — others here could probably summarize this better than me)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1623028900.065900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1622986722.046000.html#1623028900.065900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-06-06 18:21</span><br/>
+Been summoned. :smiling_imp:  Often a person wants to answer "how did this happen?"  Reverse execution is one way to go back, which suffers from having too much detail usually.  So it's good to take the, usually incorrect, "how can is this even possible" value and just follow its data-flow but with surrounding context because (1) you're probably looking for a control flow branch not taken and (2) the data-flow tree itself is liable to be extra bushy yet easily pruned.  In contrast, stepping forward has the problem that a lot of initialization/configuration happens, especially in framework code, which is noisy and mostly irrelevant.<br/><br/>And for pure reverse execution, the trick is to automatically lift functions so that they pass whatever data is necessary to run in reverse in a hidden channel.  In general <tt>f' x = (f x, x)</tt> works, but sometimes you can use shortcuts.  But then you might as well use checkpoints like most people do.  And the <tt>f'</tt> above isn't so useful since it's referentially transparent and the whole point is that you want to look inside <tt>f</tt>.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

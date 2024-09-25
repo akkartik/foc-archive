@@ -1,0 +1,222 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-18 12:13</span><br/>
+<a href="https://www.youtube.com/watch?v=k0uE_chSnV8">https://www.youtube.com/watch?v=k0uE_chSnV8</a> TL;DR he should just read Alan Kay’s STEPS paper :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608446049.403200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608446049.403200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-19 22:34</span><br/>
+Number of processes on my Mac as I read this: 409 :joy:<br/><br/>But I don't really get why number of processes is such an obvious metric here. He gets into the need for kernels to be small and most work to be done in userland, which is reasonable. But when we have billions of cycles to work with, it seems reasonable to have lots of user processes doing useful work for, you know, the user. And user processes benefit just as much from shared libraries as kernel processes.<br/><br/>---<br/><br/>You're right that his desire for processes to communicate via shared memory without any marshalling or unmarshalling is straight out of the Smalltalk playbook.<br/><br/>More than STEPS, the work I'd point him at is <a href="https://arcan-fe.com">https://arcan-fe.com</a>. Particularly principle 6 of <a href="https://www.divergent-desktop.org/blog/2020/08/10/principles-overview/#p6">https://www.divergent-desktop.org/blog/2020/08/10/principles-overview/#p6</a>:<br/><br/>&gt; An application does not get to disturb you by ‘asking for permission’ just to steal data from a sensor – it always gets some kind of data. You decide, dynamically, which sensor that is actually sampled and what that entails. Access the ‘camera’ does not automatically imply sampling the actual device, it means being routed a video stream. The user decide what that stream covers and when.<br/>So yes, apps should be able to read the file system. They just shouldn't ever be sure it's the <em>real</em> file system.<br/><br/>Accessing the file system is the least of our privacy or security worries on a modern computer. All our data is over the network. Malicious code could read your data from one remote location and exfiltrate it to another remote location without ever hitting the local file system. Arcan thinks about the <em>entire</em> security envelope.<br/><br/>---<br/><br/>I feel for his desire to do away with device drivers and graphics accelerators, but it just doesn't reconcile with geopolitical realities. Companies control the hardware they produce. Consumers don't prioritize openness of interfaces. Incumbents don't care about enabling new OSs.<br/><br/>He's a game programmer and he needs the graphics acceleration. Sucks to be in that position. I feel fortunate that I can just say, "a pox on all your houses," and want less from my graphics card.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608484111.403800"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608484111.403800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-20 09:08</span><br/>
+yah I pretty much agree with all your points <span style="background-color:#ccf">@Kartik Agaram</span>. He also dismisses a question about what I can only interpret to mean “how do you overcome the network effects of existing software / apps?“.  People have tried late-stage mobile operating systems and they don’t work b/c people want their existing apps to just work. Ultimately his bias is definitely towards a simple, gardened computing system that works for him (runs games, creates slides, stream stuff, and be super fast &amp; light). But if a new cool sleek minimal OS can’t run Zoom or w/e, its gonna struggle.<br/><br/>As with most new paradigms, I personally think the only way we get new operating systems is in new modes of computing // major hardware changes. Windows OS in VR is a silly idea (its like how film was recorded plays for a while, not native to the medium). Same with AR / AR equivalents.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608485781.404000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608485781.404000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-20 09:36</span><br/>
+I actually agree with that answer of his. As I recall, he said a new OS doesn't have to run everything the current platform can run.<br/><br/>You can either try to reinvent OSs or you can try to run all software. Trying to do both fatally over-constrains the problem.<br/><br/>And we don't <em>need</em> to eradicate current computers. The number of devices per human is growing exponentially. No reason the new can't coexist with the old. "My other laptop is a Porsche."<br/><br/>---<br/><br/>Re VR: Any OS that just surfs hardware shifts is doomed to be as crappy as the old paradigm :smile: Chasing market share will take you, fast failing, to the same lucrative dead end the previous generation of chasing market share ended up. To be better you have to know what forces shaped the past, and which of those forces you are going to avoid.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608486042.404200"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608486042.404200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-20 09:40</span><br/>
+&gt;  As I recall, he said a new OS doesn’t have to run everything the current platform can run.<br/>&gt; <br/>&gt; You can either try to reinvent OSs or you can try to run all software. Trying to do both fatally over-constrains the problem.<br/>I don’t disagree but I think that new OS has to be much better / focused for a specific set of use cases where people are willing to let go of the network effects. That’s super super hard, especially in the networked computing world we live in
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608486065.404400"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608486065.404400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-20 09:41</span><br/>
+maybe back in the day, you could have an OS 100% optimized for artists / graphic designers / movie producers. But now they have to open up Word docs and join Zoom calls too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608486090.404600"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608486090.404600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-20 09:41</span><br/>
+I also think the funding model is hard. Just doing a “Simple OS” I don’t think really works. I think it’s gotta be the new paradigm (like VR) or a new use case
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608555906.406200"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1608555906.406200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2020-12-21 05:05</span><br/>
+lol not quite what I had in mind: <a href="https://www.riverlane.com/news/2020/12/riverlane-release-first-version-of-quantum-operating-system-deltaflow-os/">https://www.riverlane.com/news/2020/12/riverlane-release-fir&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609744430.433000"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609744430.433000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-03 23:13</span><br/>
+In my opinion STEPS was a very tragic event in regards to real live impact
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609744651.433200"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609744651.433200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-03 23:17</span><br/>
+Alan -Kay always likes to talk about how important science is but as far as I can percieve it STEPS was a very poorly executed project. Of course sure there maybe where funding or other issues but IMO its simply not viable  to proceed like how they did , IF you <em>really</em> care about your (research) idea.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609744666.433400"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609744666.433400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-03 23:17</span><br/>
+You may know it but some history can be found here: <a href="https://github.com/damelang/nile/issues/3">https://github.com/damelang/nile/issues/3</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609744756.433700"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609744756.433700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-03 23:19</span><br/>
+Which brings me ( again and again) to that point where I have to doubt the academic institutions ( at least entirely on their own) to bring about the computer revolution alan kay is speaking about.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609744907.433900"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609744907.433900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-03 23:21</span><br/>
+Why isn't more of the project open Source? . Could they have done live Coding sessions with the system in 2012? Why was funding <em>again</em> an issue? Should they have raised via a blockchain / web3 project? Could they have created a MOOC about the project while working on it? So many questions so few answers...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609767535.434200"></a>
+      <a href="../linking-together/1608322429.399200.html#1609767535.434200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2021-01-04 05:38</span><br/>
+heres what I got when I asked Alan about STEPS over email:<br/><br/>Screen Shot 2021-01-04 at 8.38.25 AM
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609787717.434700"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609787717.434700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-04 11:15</span><br/>
+Did you read the github issue history? Dame Lang the person behind nile and gezira said he would need about 6000$ a month and since he did not believe this amount could have been funded through crowdfunding he went on to create some proprietary business analyst toolset.  I really do think we are missing understanding and organisations and institutions. Which really understand resilience and simplicity
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609787839.434900"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609787839.434900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-01-04 11:17</span><br/>
+I'm almost pessimistic that anything interesting will emerge in the next 10 years. People can't even talk to each other , how should they even begin to conceive hardware and software that reflects their needs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609790227.436100"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609790227.436100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2021-01-04 11:57</span><br/>
+I did read it. I deeply empathize with Dan Amelang b/c .. yeah building 5-6k recurring research funding is nearly impossible. Andy Matuschak seems to have kinda done it, but I believe he has a bigger following and it took 2 years I think just to get to “pay my mortgage” level. And the churn rate from his recent patreon email is pretty high. I’m friends with Nicky Case but he’s not doing research per say, instead crowdfunding more real world things like explorables &amp; games (and also has a decent reach on social media).<br/><br/>Without an existing distribution channel, I don’t know how Dan would get the 6k needed to support his family
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609790269.436700"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../linking-together/1608322429.399200.html#1609790269.436700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2021-01-04 11:57</span><br/>
+I also understand your perspective <span style="background-color:#ccf">@Andreas S.</span> and it resonates with me a lot. It’s a bummer that academic institutions don’t support this type of research
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

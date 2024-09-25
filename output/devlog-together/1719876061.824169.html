@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-01 16:21</span><br/>
+Shower thought on yesterday's thread above: the painter's algorithm is a way to make an interface less stateful. It lets you specify shapes to draw in any order. However:<br/><br/>• It does this by adding <em>more</em> state to the implementation. You can't just draw each shape as you encounter it in the code. You have to shove them all into an array, sort by z value, and then draw them all.<br/>• It does this by adding more state to the communication channel. The human has to provide a z value now for each shape. Sometimes this is naturally obtained, sometimes it is not and the human now has to think in their heads about what z value to give their shapes to make the drawing come out as they want.<br/>Thinking about this, it feels like state is to some extent inevitable. There's some conservation of state going on. You can't really eliminate it. You squeeze it down in one area and like a balloon it pops up somewhere else.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719876198.719189"></a>
+      <img src="https://secure.gravatar.com/avatar/7fd1bd5c53681452a80086a54ebb2ad1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html#1719876198.719189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Personal Dynamic Media</b>
+<span style="margin:2em; color:#606060">2024-07-01 16:23</span><br/>
+<a href="https://wiki.c2.com/?ComplexityHasToGoSomewhere">https://wiki.c2.com/?ComplexityHasToGoSomewhere</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719901794.232609"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html#1719901794.232609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-01 23:29</span><br/>
+"you have to shove them all into an array" — Well, painter's algo is just one solution; a z-buffer remembering the depth of previously painted pixels <em>can</em> truely allow drawing in any order, as you encouter them in the code.  And by deciding per-pixel it avoids issues like <a href="https://en.wikipedia.org/wiki/Painter%27s_algorithm#Cyclical_overlapping">occlusion cycles</a>.<br/>Sure that doesn't "eliminate state", I added a whole-frame buffer!  But conceptually I think of it as a much smaller departure than "record, sort, replay".<br/><br/>Pedagogically I wouldn't get into either of this until the student (1) understands occlusion and paint order (2) feels that re-ordering code themselves (painter's algo being run in programmer's head not computer) got frustrating...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719901890.755729"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html#1719901890.755729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-01 23:31</span><br/>
+Also good old wireframe drawing can postpone worrying about occlusion for a while.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719935403.888229"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html#1719935403.888229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-02 08:50</span><br/>
+The err, if there is one, is forgetting that <b>source order is state</b>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719989980.390449"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1719876061.824169.html#1719989980.390449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2024-07-02 23:59</span><br/>
+But is it hidden state?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

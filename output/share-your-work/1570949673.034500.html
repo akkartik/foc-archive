@@ -1,0 +1,883 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-12 23:54</span><br/>
+Anybody have a half hour to read a draft blog post? <a href="http://akkartik.name/post/mu-2019">http://akkartik.name/post/mu-2019</a>. It deals with low-level programming details, but I don't want readers to have knowledge of low-level programming. So I'm particularly appreciative of someone pointing out large gaps where I forget to explain something basic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570950516.034600"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570950516.034600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:08</span><br/>
+Hey!<br/><br/>Would it be correct to say that Mu is a fancy assembler for existing architecture? Or Mu is a different CPU architecture that for now runs on top x86? Article says Mu is a "computing stack", but I am not sure I understand exactly what it is.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570950665.034900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570950665.034900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:11</span><br/>
+Thanks, <span style="background-color:#ccf">@Vladimir Gordeev</span>! It's a purely software stack. I have zero plans to build a new processor or anything like that. It's a new computer the way the BBC Sinclair or original Mac was a new computer, building on hardware supplied by others.<br/><br/>I may end up supporting other processors (maybe RISC-V?), but that'll happen in a fork. I don't plan to support multiple processors in a single repo/codebase.<br/><br/>Does this make sense? Let me think about how to make this clearer. Thanks again!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570950916.035300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570950916.035300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:15</span><br/>
+One of the key properties of assembly code is that it is machine dependent. By your description I get that Mu don't have to be machine dependent, may translate to different architectures.<br/><br/>Would it be correct to call Mu an IR (Intermediate representation), similar to LLVM IR?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570951289.035700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570951289.035700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:21</span><br/>
+Mu is in fact machine dependent, just like Assembly. I need to think about how to get that across more clearly.<br/><br/>It's not really an IR because IRs are designed to be compiler targets rather than for people to program manually. Mu on the other hand wants to design all levels of the stack to be fun to program manually.<br/><br/>IRs also tend to be designed keeping in mind multiple frontends and/or backends. Mu has only one backend, and so far there are no plans for a second frontend.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570951417.035900"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570951417.035900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:23</span><br/>
+Okay<br/><br/>&gt; Top priority is keeping the compiler implementation tiny and hackable over time.<br/><br/>Why ability to hack into compiler is important? You listed it as a top priority, what are the benefits? What could be done with this feature that hard or impossible to do with current tools?<br/><br/>&gt; You won't be able to use math notation like <tt>a + b*c</tt><br/><br/>Is this a typo? Maybe it should be "would be able"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570951589.036100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570951589.036100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:26</span><br/>
+Nope :smile: :cry:<br/><br/>I know it's a strange philosophy. Could you check out <a href="http://futureofautomation.wikidot.com/mu">http://futureofautomation.wikidot.com/mu</a> if you haven't already? It's my elevator pitch for this group. I wasn't sure how much to side-track this particular post with considerations of goals and philosophy. Hopefully I'll have some ideas as we continue chatting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570951617.036300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570951617.036300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-10-13 00:26</span><br/>
+:smiley:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570956351.036600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570956351.036600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-13 01:45</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I read your doc, but have no clue as to the types of programs you are trying to facilitate. A language is a tool, and like a hammer which is great for nails but lousy at being a screwdriver, every language has its natural problem space where it excels. You are clearly very concerned with compactness and performance, as your language maps directly to the Intel instruction set (which has 99% market share in desktop computers, but ARM has 99% share in mobile devices). Wouldn't you be better off first picking some test programs you want to build, little utility things that represent the kinds of things you want to build, and then by working from both ends meet in the middle, like the golden spike of the transcontinental railroad of the USA. Working from both ends at once is the only way design can work; after all you always have at least 3 layers in a compiler system, the source syntax, the intermediate representation, and the target machine + runtime. With no runtime mentioned, i cannot figure out what this project is for. You clearly have spent a great deal of time thinking about and building stuff, but honestly i can't figure out the "why".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570978880.036800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570978880.036800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 08:01</span><br/>
+Thanks Edward, I'll reflect on what you said.<br/><br/>I don't care about compactness or performance. My top priority is simple translation to machine code, using as little (machine) code as possible. I tried to say this in the second section ("constraints"), one screen down from the top. Any suggestions on how to reword?<br/><br/>What do you mean by 'runtime' beyond the processor? I'm not assuming anything else.<br/><br/>There's more about the 'why' at <a href="http://futureofautomation.wikidot.com/mu">http://futureofautomation.wikidot.com/mu</a>. Right now I just want to get my point across to you. Once we're on the same page I will have a better idea about how to rewrite things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570992520.041300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570992520.041300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-13 11:48</span><br/>
+going to spit out some feedback as a self-appointed assembler village idiot here: <br/><br/>first one: “It would be nice to be able to see at a glance which operands of an instruction are read, written or both.” it wasn’t clear to me from the 'op o1 o2' example that operates were a thing that could be written to. i read it as a normal function call in a call-by-value language (? always mixing the call-by language up)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570992658.042200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570992658.042200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-13 11:50</span><br/>
+never mind, i’m lost from that point onwards. would be helpful if you explained registers in this article
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570992791.045300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570992791.045300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-13 11:53</span><br/>
+also i know you link to a “why” post, but that’s probably your most important tagline and you should compress it and repeat it as often as possible. because most people don’t click links, do jump around and skim, and also need to constantly be reminded of how to contextualize explanations in a bigger picture
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570996959.046500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570996959.046500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:02</span><br/>
+Would it be correct to say mu is a language that compiles to x86 Assembly, with the goal of being easier to use than direct x86, but not to be far removed from x86 so that the programmer in mu is at all times aware of what the x86 machine is doing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997031.046700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997031.046700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:03</span><br/>
+If that's the case, and it's tightly bound to x86, then I think a worthwhile project (and you may already have this), is to take this (<a href="https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf">https://www.intel.com/content/dam/www/public/us/en/documents&hellip;</a>) and make a machine readable version (there may already be one)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997253.046900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997253.046900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:07</span><br/>
+my guess is only 1 out of 100 programmers knows x86, so you should either have the words x86 all over the place, and really target those users, or if your goal is to target a broader audience, it may help to explain more x86...perhaps some animated gifs would help, showing high level mu and the generated x86 and then what's happening on the processor (of course I'm glossing over microcode)..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997379.047100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997379.047100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:09</span><br/>
+my big picture feedback is that if you want it to be easy to understand and remain so over time, you are going to have to design new hardware
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997390.047300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997390.047300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:09</span><br/>
+or focus on RISC-V or something
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997448.047500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997448.047500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:10</span><br/>
+because if your users only understand things from the x86 level on up, they don't really understand things, imo
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997511.047700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997511.047700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:11</span><br/>
+are there no risc-v boards yet that people are making with open chip schemas?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570997627.047900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570997627.047900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:13</span><br/>
+it might be worthwhile to consider saying "screw x86" and ride the future open risc-v wave (or some other competing open architecture). perhaps it will take a few more years for that wave to get going, but then mu would be in a good spot
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570998309.048100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570998309.048100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:25</span><br/>
+&gt; because if your users only understand things from the x86 level on up, they don't really understand things, imo<br/><br/>Hmm, not sure why you think this. You have to accept <em>some</em> substrate.<br/><br/>I'm not a fan of x86, but it is easily accessible for anyone who wants to try Mu out on a whim.<br/><br/>&gt; Would it be correct to say Mu is a language that compiles to x86 Assembly, with the goal of being easier to use than direct x86, but not to be far removed from x86 so that the programmer is at all times aware of what the x86 machine is doing?<br/><br/>Yep! The Mu programmer can always bump down to machine code at a moment's notice, no matter how many levels of abstraction it gains over time. And all the tooling takes this capability for granted, so it can be less hermetically sealed and need less code at all levels of the stack.<br/><br/>If conventional stacks try to be like the <em>Starship Enterprise</em>, all gleaming chrome, Mu is designed like <em>Serenity</em>, with the ductwork hanging out.<br/><br/>&gt; it may help to explain more x86...<br/><br/>Yeah, this is the fundamental underlying struggle. Currently the Mu Readme tries to provide a crash course on x86 in ~500 words: <a href="https://github.com/akkartik/mu/blob/master/Readme.md#lengthy-interlude-how-x86-instructions-compute-operands">https://github.com/akkartik/mu/blob/master/Readme.md#lengthy&hellip;</a>. But I need to improve on that.<br/><br/>Thanks a lot for all the feedback, Breck!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570999758.048400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570999758.048400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:49</span><br/>
+&gt; Yep! The Mu programmer can always bump down to machine code at a moment's notice, no matter how many levels of abstraction it gains over time. And all the tooling takes this capability for granted, so it can be less hermetically sealed and need less code at all levels of the stack.<br/><br/>Ahhh! I get it now. I really like that idea. Again, I think it might be worth looking at RISC-V long term (or other competing open ISAs). Perhaps people would even go out and buy RISC-V boards just to use something like Mu. I know I would. I think otherwise your users will constantly run into the question, "well why is there this instruction?" and the answer will be "because intel says so!" and they will never be able to say "how does this instruction <b>actually</b> get executed on the processer" and they won't be able to say "I'd like a new instruction, how can I go about it"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570999804.048600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570999804.048600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:50</span><br/>
+I think perhaps the reason we've lost understandability over time has to do not with the language problem, but because of the closed source hardware/isa problem
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570999866.048800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570999866.048800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:51</span><br/>
+and perhaps there is a risc-v emulator, so in the interim you could have something that works?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570999907.049000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570999907.049000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:51</span><br/>
+i could be wrong, maybe the current ubiquity argument is a good reason to do the x86 route, but i think the puck is going to open ISAs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570999971.049200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1570999971.049200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:52</span><br/>
+and personally if Mu helped me learn the future (Risc-V or something), I'd be more excited about it than putting more time into x86 ISA, for the same reason I put zero time into learning the Windows API and all my time on Nix like things
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571000050.049400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571000050.049400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 13:54</span><br/>
+but I finally get what you are doing with Mu now, and i love it. Seems like it would be fun to be in a productive language but at the same time being able to seamlessly inspect a register or execute a particular instruction
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571001277.049700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571001277.049700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 14:14</span><br/>
+Glad I was able to convey it to <em>someone</em>! :smile:<br/><br/>I'm definitely keeping RISC-V on my radar. I don't want Mu to stay restricted to x86 forever: <a href="https://mastodon.social/@akkartik/100412831846978802">https://mastodon.social/@akkartik/100412831846978802</a>. But I think it'll lead to less bloat in the long term to keep each processor on a separate fork.<br/><br/>&gt; I think perhaps the reason we've lost understandability over time has to do not with the language problem, but because of the closed source hardware/isa problem<br/><br/>I'm skeptical. Programmers love creating abstractions so much that we have a bazillion of them above the processor. Portability is considered so important that our software supports multiple processors. It's not clear the ISA influences anything at the app tier. Except maybe for making everyone scramble for security fixes every so often.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571001679.050100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571001679.050100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-13 14:21</span><br/>
+Nothing wrong with picking intel. They make good chips and it is a simple enough chip to work with. But nowadays every shipping chip includes the AMD x64 extensions, which AMD licensed back to Intel. It adds enough registers so that you aren't constantly shuffling data in and out of the measly 2 registers EAX and EBX. Remember that multiply uses the ECX EDX registers, so intel x86 really is a 2 general purpose register machine, and a huge percentage of instructions are loading and storing data from those registers. Another thing to consider is that most of the work Intel has been doing in the last 5 years with their instruction set is adding crazy instructions that have zero actual practical value, but are solely designed to confound and raise costs for the cloners in China, who have caught up with the basic instruction set, and sell cut-rate intel clone chips. The only useful instruction intel has added in the last 10 years is a true random number generator, which uses electron noise conditioned to produce the first actual random numbers for computers. Part of the AES extensions. But i would ignore the batshit crazy instructions like the GF2P8AFFINEINVQB — Galois Field Affine Transformation Inverse, which not one person in a million will ever use, much less understand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571001893.050400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571001893.050400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 14:24</span><br/>
+IMUL actually uses EDX:EAX (<a href="https://c9x.me/x86/html/file_module_x86_id_138.html">https://c9x.me/x86/html/file_module_x86_id_138.html</a>). If we all stopped using EAX (the accumulator register) because of that, then x86 would not have taken over the world.<br/><br/>In the 40kLoC of x86 machine code I've written so far I've been using 6 registers: EAX ECX EDX EBX ESI EDI.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571002127.051000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571002127.051000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-13 14:28</span><br/>
+okay i corrected my comment. I wrote 1% of my Discus labeler in intel assembler because i needed to do various bitmap masking operations that are not part of Win32, but  present in Quicktime; but that was 15 years ago. The MS Assembler is a fantastic tool, with macros for IF, WHILE, etc.,; and with macros you are really quite productive, and readable. Just don't forget to restore a register or else you will be hounded by phantom bugs! That's the reason people abandoned assembler. Otherwise it was quite productive, and incredibly efficient.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571003936.051300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571003936.051300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 14:58</span><br/>
+<span style="background-color:#ccf">@breck7</span><br/><br/>&gt; otherwise your users will constantly run into the question, "well why is there this instruction?" and the answer will be "because intel says so!"<br/><br/>Totally valid point. I mitigate it somewhat by only supporting a fairly small, regular subset of x86. Try cloning the repo and running <tt>subx help opcodes</tt>. But I still end up with random-looking opcodes from all the picking and choosing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571007968.051800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571007968.051800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:06</span><br/>
+&gt; t by only supporting a fairly small, regular subset of x86. Try cloning the repo and running <tt>subx help opcodes</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571008013.052000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571008013.052000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:06</span><br/>
+This is interesting, and perhaps it would further help to clarify and mention this numerous times throughout the docs ("Mu compiles to a carefully chosen <b>subset</b> of x86")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571008057.052200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571008057.052200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:07</span><br/>
+and then it would be interesting to see the subset and understand why
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571008119.052400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571008119.052400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:08</span><br/>
+another general question: is there a way I can play with Mu without installing anything?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571008140.052600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571008140.052600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:09</span><br/>
+a web page or one click way to launch a disposable cloud VM with mu all ready to go?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571010970.052800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571010970.052800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 16:56</span><br/>
+That <em>would</em> be nice. Is there something like that available out there?<br/><br/>Turns out the repo has a snapshot of <tt>subx help opcodes</tt> :slightly_smiling_face: <a href="https://github.com/akkartik/mu/blob/master/opcodes">https://github.com/akkartik/mu/blob/master/opcodes</a><br/><br/>But now you'll have follow-up questions :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571011576.053000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571011576.053000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-13 17:06</span><br/>
+Another suggestion i have is to make the subset of Intel a bit more regular; in other words, tweak the intel architecture to fix the not-quite orthogonal instruction set. Add memory to memory moves for example (something so wonderful in the Motorola 68000 instruction set), and maybe offer more registers, etc. When Prof. N. Wirth made his Lilith computer, he created a compiler that generated code for the National chip, the Motorola 68k and the intel chip, and his code generator was smallest for the national chip, second best for motorola, and significantly bigger for the intel chip. Interestingly, the market success of the chips was inversely proportional to the easiest chip to program. There is strong evidence that whenever a major choices are made in the computer industry, the one that generates the most billable hours wins. This explains how COBOL beat out far superior languages, and why Java was selected, when it is an awful language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571012202.053300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571012202.053300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 17:16</span><br/>
+Mu used to build on emscripten. Let me see if I can resuscitate that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571019608.053500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571019608.053500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-13 19:20</span><br/>
+<a href="https://vfsync.org">https://vfsync.org</a> actually supports RISC-V!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571467262.063300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571467262.063300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-18 23:41</span><br/>
+Thanks everyone here for your comments! I ended up creating a prequel post describing the current state of Mu and publishing both:<br/><br/><a href="http://akkartik.name/post/mu-2019-1">http://akkartik.name/post/mu-2019-1</a><br/><br/><a href="http://akkartik.name/post/mu-2019-2">http://akkartik.name/post/mu-2019-2</a><br/><br/>I've credited everyone in this thread at the end of the second post; please let me know if you have a preferred link you'd like me to include for you there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571758378.103600"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571758378.103600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-22 08:32</span><br/>
+Hey <span style="background-color:#ccf">@Kartik Agaram</span>, I finally got to read your two published blog posts about mu. They were very useful to learn about what you are working on and also to understand your values. I like your focus on simplicity. Or maybe it's minimalism?<br/><br/>I couldn’t help but think of MLIR (<a href="https://github.com/tensorflow/mlir#mlir-talks">https://github.com/tensorflow/mlir#mlir-talks</a>), which seems strangely similar and different at the same time. You have very specific ideas about each of the three layers you propose. MLIR is obviously much more complex because its goals are different (e.g. optimization), but it is also fundamentally about layers between the machine and a high-level language. And it’s about multiple layers (which is how it differs from LLVM).<br/><br/>Mu also reminds me of <a href="http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf">http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf</a>. Again layers, here much more granular than what you’re up to.<br/><br/>I have also been fascinated by the idea of “cleaning up” the stack, remove all the cruft we don’t really need anymore, and design a more sleek and minimal base system that a single individual can comprehend completely. Much like in the spirit of Alan Kay's VPRI STEPS project.<br/><br/>A friend of mine is working on an interesting project that is also in a way related, however focusing on the past to remove complexity: <a href="https://www.pagetable.com/?p=1373">https://www.pagetable.com/?p=1373</a><br/><br/>It's tough for a single individual to build the whole stack, especially for today's hardware, even if you figure out an infrastructure that will save you so much time and effort to build things on — the figuring out part is what takes so long.<br/><br/>But if you can’t build the whole thing, then it's difficult to decide on which side of the spectrum to start. You (as many others) chose the low-level, bare metal side, and build it up from there. For sure that has potential to make these lower levels so much more effective. But it's a long way to get to a level that application programmers or even “end-users” will want to touch at all.<br/><br/>If you start on the other end, you can build pretty much anything on any hardware and focus on interaction, but you buy that flexibility with dependencies. And I haven’t seen many projects starting on that side tackling the dependency issue by methodically working on removing or replacing such dependencies. That could be a sign that figuring out the interaction is hard enough to never get to the cleaning up dependencies part, but frankly I think many developers are fine with the dependencies and probably don’t think about it too much. The web is often a good platform choice where you can make yourself feel better about dependencies “because they are (based on) open standards”. This never really worked for me (and clearly that's my problem, not the web's), but I doubt we get to a great place by piling onto a massive stack that gets more and more difficult to understand and maintain.<br/><br/>Ah, well, not sure where I was going with this… I enjoyed reading your blog posts and they made me think about this. So here you go. Not sure if that’s really useful feedback.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571758944.103800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1571758944.103800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-22 08:42</span><br/>
+Thanks <span style="background-color:#ccf">@Stefan Lesser</span>!<br/><br/>The way I see it, there's only one place to start if you want to disentangle the whole thing, since upper layers depend on lower ones but not <em>vice versa</em>. If the project takes longer than one lifetime, then it does.<br/><br/>The challenge of starting with an existing system and removing dependencies is that you have to already know the existing system well. And if the existing system is hard to get up to speed on, that's harder. My whole goal is to get to a comprehensible system, and that runs hard into a chicken-and-egg loop.<br/><br/>There <em>is</em> one project that tries to remove dependencies: <a href="http://landley.net/aboriginal">http://landley.net/aboriginal</a> (and descendants)<br/><br/>Someone inspired by Mu may one day port its ideas back to Linux. That would make me happy.<br/><br/>Re X16, I had another person get in touch after my posts with plans to build an 8-bit processor. So this seems like a very fertile connection to explore indeed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572020052.126200"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572020052.126200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:14</span><br/>
+It seems freekin crazy how much effort you put into Mu. How long did you work on it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572021247.128600"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572021247.128600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:34</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Sorry if you answered this already, but you are looking for feedback anyway, so here it goes. You define Mu as a "computing stack". That's the only definition you give on <a href="http://futureofautomation.wikidot.com/mu">http://futureofautomation.wikidot.com/mu</a> , and I may not be your target audience, but I honestly don't know what that means.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572021444.128800"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572021444.128800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:37</span><br/>
+How do you handle interface changes? That's an interesting topic. I try to keep them immutable in my project, and always introduce new VM instead of changing old interfaces, for example. Then phase the old one out if it's not used any more. Of course, it's not always possible, but works most of the time. It also helps me move faster by not worrying much about breaking things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572024474.131600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572024474.131600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:27</span><br/>
+Thanks for the comments!<br/><br/>&gt; You define Mu as a "computing stack". That's the only definition you give on <a href="http://futureofautomation.wikidot.com/mu">http://futureofautomation.wikidot.com/mu</a>.. I honestly don't know what that means.<br/><br/>If you haven't already, could you check out the start of the final version at <a href="http://akkartik.name/post/mu-2019-1">http://akkartik.name/post/mu-2019-1</a>, see if that's clearer?<br/><br/>Thanks for the reminder to update my "escalator pitch" :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572024545.131800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572024545.131800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:29</span><br/>
+&gt; How do you handle interface changes?<br/><br/>Do you mean the ones Mu provides, or the ones under Mu?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572024581.132000"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572024581.132000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:29</span><br/>
+those of Mu
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572024597.132200"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572024597.132200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:29</span><br/>
+sry, the ones it provides :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572024849.132400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572024849.132400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:34</span><br/>
+I don't have any users yet :smile: so this is still tentative, but the idea is to allow fragmentation of interfaces. Each person's computer should be internally consistent, but different Mu computers may have radical differences, either because their owners modified them or because I changed my mind about something.<br/><br/>Copying software from one instance to another is always assumed to require some manual changes. That's what you have to give up in exchange for avoiding bloat over time.<br/><br/>I have some ideas for tooling to help with this, but like I said it hasn't been a problem yet so they're vaporware.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025030.132600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025030.132600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:37</span><br/>
+Oh, how long did I work on it? I think a little over a year for this most recent iteration, including learning x86. Around 5 hours a week on average.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025032.132800"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025032.132800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:37</span><br/>
+That sounds dangerous to me. The biggest benefit of any platform is the available tooling, libraries, programs. It sounds to me like a guarantee that network effects won't help you. Did you have any thoughts about that?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025064.133000"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025064.133000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:37</span><br/>
+&gt; a little over a year<br/>Wow you must be 10x faster than I am :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025119.133200"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025119.133200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:38</span><br/>
+You have over 5k commits... Holy shit. That's over 10 commits <em>every day</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025215.133400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025215.133400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:40</span><br/>
+I don't care about adoption :slightly_smiling_face:<br/><br/>Mu is chasing longevity. I'll be happy with 200 users by the time I die. But I'd like it to grow past that. Even if it's not called Mu, I want to eventually kill compatibility constraints chasing short term adoption. It's killing for our shared infrastructure heritage.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025367.133600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025367.133600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:42</span><br/>
+No, that's what I was trying to indicate by "most recent iteration": the Mu repo is 4 years old, and I had a lot more time in the past.<br/><br/>I have a background in processor architecture and compilers. And I'd tried to wrap my head around x86 several times before it finally clicked last year.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025406.133800"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025406.133800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:43</span><br/>
+okay, you make me feel a bit better ^^
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025485.134000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025485.134000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:44</span><br/>
+:slightly_smiling_face: I'm fairly mediocre as a programmer. Just have a better memory than most of what it was like to learn this stuff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025568.134200"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025568.134200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:46</span><br/>
+&gt; I don't care about adoption<br/>Okay that's interesting. I can imagine being able to bend it to specific use cases is a selling point. But still, each of them will probably fork off "the main Mu". So that's still the common thread there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572025706.134400"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572025706.134400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 10:48</span><br/>
+&gt; just have a better memory than most<br/>Haha we are opposites then. I definitely got a 2nd grade memory on the assembly line. :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572027126.134600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572027126.134600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:12</span><br/>
+Thanks again! Just wanted to reiterate one question in case you missed it:<br/><br/><a href="1570949673.034500.html#1572024474.131600">1.572024.html&hellip;</a><br/><br/>If you haven't already, could you check out the start of the final version at <a href="http://akkartik.name/post/mu-2019-1">http://akkartik.name/post/mu-2019-1</a>, see if the meaning of "computing stack" is clearer?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028254.134900"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028254.134900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:30</span><br/>
+Yes I did miss it. Now you redefined it as:<br/>&gt; everything above the processor and OS kernel<br/>Does that mean I need an OS to run your stuff? When reading on, I would have thought that Mu is something I can put on raw hardware to make it run - basically like an OS, but one that is more like a library than a platform; one that I can bend to my needs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028260.135100"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028260.135100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:31</span><br/>
+So, which is it? :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028279.135300"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028279.135300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:31</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> mentioning to make sure you see it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028385.135500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028385.135500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:33</span><br/>
+:+1::skin-tone-3: mu uses a third-party OS. But it's packaged in. So you're right both ways. Let me think about how to make this clearer. Thank you! :bow:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028416.135700"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028416.135700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:33</span><br/>
+Yeah sorry. Btw, I didn't read the entire page as it was a bit too lengthy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028449.136000"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028449.136000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:34</span><br/>
+I guess we are fighting the same problem: how to condense WHAT it is we are working on :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028498.136200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028498.136200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:34</span><br/>
+And it's a common problem here! Designing the future requires breaking a few pigeonholes. And that makes communication harder.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028517.136400"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028517.136400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:35</span><br/>
+yeah, totally agree
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028542.136600"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-25/811091636935_3527ce71ac1fa089154e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1570949673.034500.html#1572028542.136600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tibor Halter</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:35</span><br/>
+Is Alan Kay in the group? Should be. :slightly_smiling_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

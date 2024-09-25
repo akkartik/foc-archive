@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-logic-programming</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-logic-programming/1624344009.026100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-06-21 23:40</span><br/>
+Been thinking a bit about "custom unification", or extensible unification. It seems it is a pretty common thing:<br/><br/>• <a href="https://www.lazutkin.com/blog/2014/06/10/heya-unify-custom-unification/">A library that implements unification / custom unification in JavaScript</a><br/>• <a href="https://github.com/clojure/core.logic/wiki/Extending-core.logic-%28Datomic-example%29">Extending unification in clojure's core.logic</a><br/>• <a href="https://github.com/mrocklin/unification">An unification library for Python</a><br/>• <a href="https://stackoverflow.com/a/27084453/855105">Also TIL SWI prolog supports maps/dictionaries</a><br/>Wondering how much it makes sense to use more complex data structures in prolog-like searches.<br/>Datalog seems to be an example that going "the other way", being more restrictive, may be more productive:<br/>&gt; Datalog disallows complex terms as arguments of predicates, e.g., p (1, 2) is admissible but not p (f (1), 2)<br/>Perhaps unification of complex/custom data structures is more productive for pattern matching than for general logic programming ... but not sure (SWI prolog's dict maybe contradicts this idea).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624345189.026700"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-logic-programming/1624344009.026100.html#1624345189.026700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-06-21 23:59</span><br/>
+Also trying to figure out why SWI's dicts include tags. My guess is that they needed the tag anyway so instead of giving it a fixed "functor", say <tt>dict</tt>, they allowed an arbitrary tag name to be used<br/><br/>Edit: the manual say dicts are "structs with named arguments", so they need a tag like any other structure, I guess
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624435131.028900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-logic-programming/1624344009.026100.html#1624435131.028900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-06-23 00:58</span><br/>
+FWIW I came to be interested in Datalog precisely  because it <b>didn't have</b> nested data structures. Nested data structures of arbitrary depth must be constructed and deconstructed using ordinary functional-style recursive algorithms, which goes against the whole philosophy of Datalog (in my opinion): performing <em>recursive</em> relational queries (select, join, union, etc.) on flat datasets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624435390.029100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-logic-programming/1624344009.026100.html#1624435390.029100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-06-23 01:03</span><br/>
+But I've since decided that Datalog isn't expressive enough. Its problem isn't the non-existence of hierarchical data though, it's the inability formally reason about program properties such as termination. (That is, unless you impose severe and/or complicated restrictions on which programs are considered "safe".)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624435483.029300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-logic-programming/1624344009.026100.html#1624435483.029300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-06-23 01:04</span><br/>
+The root of the problem is that rules in Prolog/Datalog don't <em>compose</em>. You can have two rulesets which terminate when run independently, but act non-deterministically (or fail to terminate) when combined.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

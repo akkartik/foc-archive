@@ -1,0 +1,89 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1722025110.960059.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-07-26 13:18</span><br/>
+Hello- little update on <a href="http://www.holograph.so">www.holograph.so</a> - formerly known as the <a href="../share-your-work/1716413598.853019.html">propagator simulator</a>- I am working on performance had had the nerdiest proud moment ever and figured of all people, ya'll would appreciate it.<br/><br/>I built a propagation speed profiler in holograph to test how fast propagation was occurring for a little recursively incrementing loop (in the grey box). Im using a buffer to collect and average the values over time and another buffer to collect and display averages as a chart. You can see the propagation speed and compare it with the total Propagations Per Second (PPS in the top left). Before this work i was at a hard cap of 60 pps and now total pps often gets over 300. Still a long road ahead but it feels like a big win right now :tada:<br/><br/>In any case, this example demonstrates major stuff added since my first post here:<br/>• Get and set shape properties<br/>• Trigger click events<br/>• Dashed arrows that don't fire propagators<br/>• Async functions/fetch/await syntax<br/>• Lots of cool examples to explore- including some made my folk here :)<br/>Hope ya'll enjoyed the update! If ya'll find anything wonky or have ideas let me know !
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722030718.393509"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722025110.960059.html#1722030718.393509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-26 14:51</span><br/>
+Do you know what the current bottleneck is?<br/><br/>Like, if you run this without rendering, does it get 100x faster?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722031389.546039"></a>
+      <a href="../devlog-together/1722025110.960059.html#1722031389.546039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-07-26 15:03</span><br/>
+I wish. Rendering is batched and throttled to requestAnimationFrame and rendering together takes maybe 10% cpu (purple)? The main propagate function is maybe 50% (cyan). Maybe 20% idle (all propagation is async/settimeout rn so min 4ms delay there). Going to have to really optimize the propagate function to really push the limit which shouldn’t be too bad since it’s currently garbage. And reduce unnecessary propagation. And parallelizing/webworkers. And eventually I’ll probs want the main propagation logic in c/wasm. Just gonna be a slog haha
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722061276.933679"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1722025110.960059.html#1722061276.933679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2024-07-26 23:21</span><br/>
+Are you still diffing tldraw nodes of each update?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722091824.516309"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722025110.960059.html#1722091824.516309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-07-27 07:50</span><br/>
+Each update is constructing a partial shape object, and if it causes a downstream update, it recurses. Upon user actions, TL is handling diffing and firing a callback with changes which initiates update loop. Does that answer your question?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726261157.024729"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-28/6396121022742_9eac202d45a2827e9fa6_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722025110.960059.html#1726261157.024729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2024-09-13 13:59</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> Got a bare-bones (no UI) propagator network running in C at 500k+ propagations per second (it runs primitive ops like add, multiply). So to answer your question: Yes. lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726264756.538639"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722025110.960059.html#1726264756.538639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-09-13 14:59</span><br/>
+Ahh nice
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

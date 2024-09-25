@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-30 07:46</span><br/>
+Does anyone have an idea of a type system (or design pattern) that can make it easy to specify a type with a feature set such as<br/><pre style="white-space:pre-wrap">type Video<br/>  capabilities:<br/>    Subtitles: ManyOf English, Spanish, Korean, etc<br/>    Encoding: OneOf AV1, MPEG-4 AVC, VP6, H.263, MVC, etc.<br/>    Container: OneOf 3GPP, 3GPP2, AVI, F4V, FLV, MP4, MKV, etc.<br/><br/>function &lt;V&gt; bake_subtitles_into_video(video: V)<br/>  where V: Video<br/>    which "supports encoding" one-of Encoding::MPEG-4, Encoding::H.263<br/>    which "has subtitles" any Subtitles::*<br/>{<br/>    ...<br/>}</pre><br/>So, I'm interested in asking what is currently available to my scope which can fit inside the <tt>bake_subtitles_into_video</tt> function.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601477239.038000"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601477239.038000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-30 07:47</span><br/>
+This feels very close to where we'd apply datalog/relational programming to load these rules, but I'm looking for how that kind of dynamic rule loading might be implemented in different ways.<br/>cc: <span style="background-color:#ccf">@Pete Vilter</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601483901.038500"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601483901.038500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 09:38</span><br/>
+if I get it right you have a bunch of videos and you want to find the ones that match a certain set of features. That  could be expressed very directly with RDF/SPARQL
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601483905.038700"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601483905.038700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 09:38</span><br/>
+<pre style="white-space:pre-wrap">Data:<br/><br/>&lt;someVideo&gt; a app:Video;<br/>  app:subtitles "en" , "es" ;<br/>  app:enncoding "av1", "vp6" ;<br/>  app:container "avi", "mp4" .<br/><br/>Query:<br/><br/>SELECT ?video<br/>WHERE { <br/>  ?video app:subtitles ?anything ;<br/>         app:encoding "h.263", "mp4" .<br/>}</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601483912.038900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601483912.038900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 09:38</span><br/>
+something like that, I think
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601483934.039100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601483934.039100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 09:38</span><br/>
+the query returns all the videos with subtitles and both encodings
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601484267.039400"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601484267.039400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-30 09:44</span><br/>
+Does something like SPARQL enable richer mismatch information? Say I want to check if a specific video meets the criteria of <tt>bake_subtitles_into_video</tt> and if it didn't have subtitles it could share an error like <tt>video1 isn't compatible with bake_subtitles_into_video because it fails "supports encoding" which expected one of MPEG-4 or H.263</tt> ?<br/>I'm essentially trying to create suggestions based on missed constraints (or partial rule satisfaction) as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601485613.039600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601485613.039600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 10:06</span><br/>
+there are various ways, yes. The rdf data is a graph, so you can explore it at your leisure. For instance you can perform an initial SPARQL query to retrieve some of the graph and then further explore it with "manual" code (imperative).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601485650.039800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601485650.039800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 10:07</span><br/>
+but there are also languages that attempt to validate  in a declarative way constraints in the graph data, like ShEx or SHACL
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601485682.040000"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601485682.040000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 10:08</span><br/>
+<a href="https://book.validatingrdf.com/bookHtml010.html#sec62">https://book.validatingrdf.com/bookHtml010.html#sec62</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601485705.040200"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601485705.040200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-09-30 10:08</span><br/>
+I'm learning SHACL at the moment :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601488555.040500"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601488555.040500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-30 10:55</span><br/>
+You could implement this in Rust traits.<br/><br/><pre style="white-space:pre-wrap">trait Video&lt;Subtitles, Encoding, Container&gt; { .. }<br/><br/>fn bake_subtitles_into_video&lt;V, S, E, C&gt;(video: V) <br/>where V: Video&lt;S, E, C&gt;,<br/>      E: Contains&lt;MPEG4, H263&gt;,<br/>      S: GreaterThan&lt;Len&lt;S&gt;, Zero&gt;<br/>{ .. }</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601488919.040800"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601488919.040800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-30 11:01</span><br/>
+The higher-level point being that the operators of <tt>ManyOf</tt>, <tt>OneOf</tt>, <tt>HasSubtitles</tt>, <tt>SupportsEncoding</tt>, so on can all be encoded into type-level operations on type-lists and type-sets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601488924.041000"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601488924.041000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-30 11:02</span><br/>
+Wow! Very interesting and scary at the same time. My language authoring environment and type system takes a lot of inspiration from Rust (which is easy to do, since we're building the complex parts in Rust). I am really interested in how a language like Rust could allow for annotations within the trait constraints to aid with troubleshooting rule mismatch. Rust and TypeScript do a great and pretty good job of sharing with the author why certain types are not being satisfied. But, what if they weren't bound to a plain text authoring experience? They could probably add natural language explanations for where things went wrong (as well as making the explanations i18n friendly).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601489105.041400"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1601477169.037900.html#1601489105.041400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-30 11:05</span><br/>
+Yeah that’s the classic issue with type-level encodings of rules: error messages are kind of awful. The documentation also tends to suck. But better tooling could help, like this research project that uses typestate to improve Java documentation: <a href="http://www.cs.cmu.edu/~jssunshi/pubs/thesis-extras/PlaiddocResultSet.html">http://www.cs.cmu.edu/~jssunshi/pubs/thesis-extras/PlaiddocResultSet.html</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

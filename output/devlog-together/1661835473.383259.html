@@ -1,0 +1,147 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1661835473.383259.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-08-29 21:57</span><br/>
+An impromptu demo of some recent features in my note-taking system: search and hyperlinks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668202655.743929"></a>
+      <a href="../devlog-together/1661835473.383259.html#1668202655.743929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-11 13:37</span><br/>
+I'm tugging on this thread today. Pensieve's 2D surface isn't actually very good at giving me a sense of space like say <a href="https://www.inkandswitch.com/capstone">https://www.inkandswitch.com/capstone</a>. I just spent some time trying to cross-link stories far apart in space and blowing my stack, copying ids laboriously into a scratch space outside pensive, then pasting it into hyperlinks in the right place in pensieve.<br/><br/>Then I realized, I should just use new kinds of links. The value of hyperlinks is when they're inline, whereas links just line up at the bottom of each note. But I currently can't linkify arbitrary text anyway. (<a href="https://www.inkandswitch.com/potluck/">Potluck</a> style automation might help me get there.) For now, links are the best way to do hyperlinks in Pensieve. I also get back-links for free.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669247205.071759"></a>
+      <a href="../devlog-together/1661835473.383259.html#1669247205.071759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-23 15:46</span><br/>
+One problem I've been having with my note-taking app is that it grows sluggish over time. This is an unavoidable tension: simple programs tend to be inefficient, and optimizations tend to make programs less approachable. Meditating on <a href="https://www.youtube.com/watch?v=rX0ItVEVjHc">https://www.youtube.com/watch?v=rX0ItVEVjHc</a> helped me speed things up significantly -- by reading data redundantly from disk. In the process I realized that garbage collection is missold as "automatic memory management". All memory management is manual. There's no substitute for thinking about your program's memory footprint. More details in :thread:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669247284.264359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669247284.264359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-23 15:48</span><br/>
+My note-taking app consists of multiple text-editor widgets arranged on a 2D surface. I tend to add notes to the surface but leave them lying around. Over a month or so of use things would get sluggish and I'd have to start closing notes.<br/><br/>Watching the Mike Acton talk got me to focus on this, and on ways to improve its memory footprint without complicating things too much. Lua doesn't have very good profiling tools, so I can't easily see where the bottleneck is. But I eventually hit upon a plan that worked very well: when a text editor widget goes out of view, just blow away the data backing it. When it comes back into view, read it from file. That's it!<br/><br/>It took me a while to convince myself that this would be a net win. I'm replacing reads from memory with reads from disk. The key realization: it's a trickle of reads to disk replacing an unbounded amount of stuff that's just always hanging around in memory.<br/><br/>I think this is a data-oriented solution in the footsteps of Mike Acton even though it didn't delete any fields from structs, or switch to struct of arrays or anything like that. Lua doesn't really give me control over how cache lines are packed or avoiding pointer indirection, but I was following the key principle Mike Acton articulated: you always have to manage your caches. Emphasis on the "you". No tool can do this.<br/><br/>This experience has changed how I think of garbage collection. I no longer think of it as "automated memory management". In my new worldview memory management is always manual. GC merely allows you to reduce the ceremony of deallocation. Where in C++ I had to maintain a bunch of destructors and explictly call delete, with a GC I can just assign a variable to nil to blow away everything inside it. This seems like a powerful insight. GC isn't magic. It's still the programmer's responsibility to point out what can be reclaimed.<br/><br/>This experience shouldn't be so surprising. I've been around enough to know the theory. I've heard the war stories about how Google ran successive generations of its search frontend off disk, then memory, then disk again. I think the surprise stems from seeing this dynamic in action in a tiny program with a memory footprint of 10-20MB. There's still plenty of room to trash your processor's cache (0.5MB in level 1, 8MB in level 3)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669273083.259989"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669273083.259989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-11-23 22:58</span><br/>
+&gt; The key realization: it's a trickle of reads to disk replacing an unbounded amount of stuff that's just always hanging around in memory.<br/>So you were doing some unhelpful work?  Disk reads to refresh data that wasn't actively being used?<br/><br/>In a way GC issues seem to be a symptom of the general problem that certain program aspects, like performance, are pretty opaque.<br/><br/>&gt; GC merely allows you to reduce the ceremony of deallocation.<br/>A good way to put it.  A problem with deallocation and naive GC is that the concern is too fine-grained.  Things like stack allocation and garbage generations can help.  I recall Lua handles it's closures relatively cleverly using "upvalues."  The gist, if I remember, being that (1) you don't even need to make closure if a function stays within its the lexical scope of its creation, and (2) when you do close you only keep references to necessary variables around other things, the rest of the lexical environment of the function definition can go away.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669274401.812309"></a>
+      <a href="../devlog-together/1661835473.383259.html#1669274401.812309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-23 23:20</span><br/>
+&gt; So you were doing some unhelpful work? Disk reads to refresh data that wasn't actively being used?<br/>The key commit is <a href="https://git.sr.ht/~akkartik/pensieve.love/commit/af7fba3263fbbdd1168ce7c941f9c6f79fca63d8">https://git.sr.ht/~akkartik/pensieve.love/commit/af7fba3263f&hellip;</a><br/><br/>I have around 9GB of notes on disk (including all my mail for over a decade, chat logs, stuff like that). But only a tiny sliver of them are on the surface at any time. Currently around 120 columns. Far less than 50 notes/files per column, average file size per note is probably less than 5KB. Before this change, I was loading everything on the surface at startup and holding it until I closed notes/columns from the surface. With this strategy, the heap footprint according to <tt>collectgarbage('count')</tt> (<a href="https://www.lua.org/manual/5.1/manual.html#pdf-collectgarbage">https://www.lua.org/manual/5.1/manual.html#pdf-collectgarbage</a>) was between 10 and 20MB. Initial load seemed instantaneous.<br/><br/>The commit above eagerly throws away file data that isn't in notes showing on screen right now. When the viewport moves, I load any newly visible files, and throw away any files that are no longer visible.<br/><br/>I continue to retain all metadata. It's just the raw strings that take up a lot of space.<br/><br/>Now my footprint is halved. But the key metric is how often I find myself distracted by what I'm doing to fix my note-taking system. Today I didn't perceive any sluggishness where earlier things would slow down any time I was editing a note with more than a couple of sentences. I think the full GC might be a lot less frequent now. (I'm still seeing some signs of collection every second or so; see screenshot.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669711087.096809"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669711087.096809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-11-29 00:38</span><br/>
+Are you sure the problem was memory use and not some crazy quadratic complexity algorithm that starts to choke the process when you have more than N items?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669711163.096799"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669711163.096799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-11-29 00:39</span><br/>
+(N.B. Whether or not memory was the cause of the slowdown, the observation that GC is just one strategy for deallocation is correct.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669712331.483739"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669712331.483739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-29 00:58</span><br/>
+Hmm, no I can't completely exclude a CPU bottleneck. I tend to assume GC if a program has non-deterministic pauses.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669718202.205249"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669718202.205249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-11-29 02:36</span><br/>
+Maybe I'm not understanding the situation :thinking_face: It seemed like you were loading your full dataset into some structure in memory (presumably a table, given the language). If you don't then get rid of that table, what would trigger GC?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669733667.335219"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669733667.335219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-29 06:54</span><br/>
+Yeah there's a few things I'm leaving out.<br/><br/>1. My programs in dynamic languages (and hopefully those of others) are just constantly generating a slow trickle of garbage. Cons cells in Lisp, lists in Python, tables in Lua, they're just so darned convenient, I use them everywhere.<br/>2. I've made other caching decisions. For example, rendering the prose requires translating strings into LÖVE's Text objects (which I imagine contain font glyphs). I don't want to perform this computation on every frame, so I try to save the text objects. But keeping them around for the entire data set is prohibitive. So I keep them for just currently rendered text and recreate them as needed on events like the viewport panning or edits. That adds to the constant churn of garbage.<br/>3. I do edit the data set and add new notes to it. So the surface is just naturally growing from day to day. Perhaps I should just spring clean my equivalent of 'browser tabs' more often. I think I started on this because the absolute numbers seemed so small, but it's totally reasonable for a minimalist program to limit the amount of data on surface.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1669743203.175719"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1661835473.383259.html#1669743203.175719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-29 09:33</span><br/>
+(I just noticed the video at the top of this thread has somehow gotten deleted. Fat finger? Slack shredders approaching? Anyways, you can see it at <a href="https://spectra.video/w/051fef50-a121-40c0-bf3c-ee0730fb4a07">https://spectra.video/w/051fef50-a121-40c0-bf3c-ee0730fb4a07</a>)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

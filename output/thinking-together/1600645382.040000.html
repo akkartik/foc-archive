@@ -1,0 +1,352 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1600645382.040000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 16:43</span><br/>
+I've been noodling for the umpteenth time on a representation for programs that reduces the need to "play computer". My post last night on #two-minute-week (<a href="../two-minute-week/1600587602.007800.html">../two-minute-week/1600587602.007800.html</a>) triggered enough unexpected thinking together to get me to write up my recent attempts and try to trigger more.<br/><br/>We all simulate programs in our heads. The activity seems to break down into two major use cases:<br/><li> Forward path: Extracting functions out of arbitrary computations.<br/><li> Backward path: Imagining the execution of arbitrary computations containing function calls.<br/><br/>The forward path fits very well with ideas like starting with concrete examples and emphasizing data at all times. Nobody should ever have to start with a function definition. Instead, start with an example computation like: <tt>18 * 9/5 + 32</tt>, and incrementally end up at a function like <tt>celsius-to-fahrenheit</tt>. The backward path fits with various metaphors for debugging programs. Debug by print, debug by step, time-travel debugging. A key concern is how to <em>uncoil</em> static computations (loops, recursion) into dynamic metaphors (traces, stack frames, interactive movements).<br/><br/>Postfix expressions fit beautifully with the backward path. As the demo of Brief (<a href="https://www.youtube.com/watch?v=R3MNcA2dpts">https://www.youtube.com/watch?v=R3MNcA2dpts</a>) showed, execution is already quite uncoiled, with no backward jumps. While the Brief demo didn't show it (it's easy to spot where the presenter plays computer in their heads), it's reasonable to imagine a way to drill down into function calls, replacing words with their definitions. By contrast, conventional expressions -- tree-shaped and using names -- immediately throw up impediments in understanding <em>what happens first</em>.<br/><br/>However, the forward path is thornier:<br/>1. It's common to claim that point-free programs make it easy to factor out new definitions, but that's only true when the definition consists of consecutive words. Consider how you would go from <tt>* 3 3</tt> to a definition of <tt>square</tt>, or from <tt>3 4 + 5 *</tt> to a definition of <tt>(a+b)*c</tt>.<br/>2. After they're extracted, point-free functions are harder to understand. What does the stack need to look like at the start? How many words, what types, how many words consumed, all these questions require simulating programs in your head. Or a manual comment.<br/><br/>This was the idea maze in my head until I saw LoGlo (<a href="https://loglo.app/2020-06-16">https://loglo.app/2020-06-16</a>). The cool idea here has taken me weeks to articulate: lines have names and get separate stacks. Forth typically writes to names within lines with words like <tt>!</tt>. Limiting definitions to one per line strikes me as an advance. And having names gives us a way to make Forth words less point-free. I start imagining flows like turning <tt>* 3 3</tt> into <tt>* x x</tt> using two 'rename' operations, and then turning the entire line into a new function. Like, imagine a UI with a code side on the left, and a scratch computation on the right:<br/><br/><pre style="white-space:pre-wrap">              │<br/>              │  x: 3<br/>              │  * x x<br/>              │</pre><br/>After defining a function it might look like this:<br/><br/><pre style="white-space:pre-wrap">              │<br/>   : sq x     │  sq 3<br/>        * x x │<br/>              │</pre><br/>Notice how the definition of <tt>x:</tt> above gets replaced by the call to <tt>sq</tt> below. That's kinda pleasing.<br/><br/>But there's issues. This manipulation requires modifying definitions of free variables. Worse, I ended up with the function call in <em>prefix</em> order. Trying to make things consistent got me stuck up on a tree with a 2D layout until I noticed I'd lost the benefits of postfix that got me on this road in the first place. I'll include it here just in case it sparks ideas for others, but I'm starting to think it's a dead end.<br/><br/>Anyways, that's where I am, still looking for a representation that's easy to uncoil and where inlining function calls is a 'smooth' visualization.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600645792.040300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600645792.040300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 16:49</span><br/>
+Wait, do I just need to switch how I define names?<br/><br/><pre style="white-space:pre-wrap">              │  3 :x<br/>              │  * x x<br/>              │<br/>=&gt;<br/>   : sq x     │  3 sq<br/>     * x x    │<br/>              │</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600651465.040500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600651465.040500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:24</span><br/>
+i have to read this in more detail later. you may be interested in <a href="http://www.nsl.com/k/xy/xy.htm">XY</a>, and <a href="https://hypercubed.github.io/joy/html/jp-flatjoy.html">Floy</a>, two concatenative languages that eschew nested quotations (what I think you’re dealing with that got you to the prefix stuff).<br/><br/>xy lets every program have both a stack (representing… the stack) and a queue (representing the stream of tokens that are the rest of the program). It’s an interesting route around the problem you’re talking about, and I feel like it’s either exactly right or maybe the inverse of right
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600651531.040800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600651531.040800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:25</span><br/>
+also: this got posted here a while ago and seems like an interesting route around the named variable problem: <a href="https://suhr.github.io/papers/calg.html">https://suhr.github.io/papers/calg.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600651836.041400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600651836.041400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:30</span><br/>
+if im understanding the way you’ve written the example code-with-scratchpad above, the forthy way to write assignment would be : DEFINE X 3; which could be sugared down to :x 3 and also maybe punned to read as “put the symbol :x on the stack” ? i dont think that would work actually
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600651939.041700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600651939.041700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:32</span><br/>
+Yeah, the idea is that naming is special syntax that doesn't sugar down to stack ops, and that happens outside the scope of any stack.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600651985.041900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600651985.041900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:33</span><br/>
+^^ that’s the same as forth. : enters immediate mode. dont really understand what that means but you stop interacting with the stack
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600652385.042100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600652385.042100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:39</span><br/>
+I was referring to Forth's two kinds of names: definitions and variables (memory locations). <tt>x: 3</tt> is intended to replace <tt>3 x !</tt> not <tt>: define x 3 ;</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600652730.043800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600652730.043800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:45</span><br/>
+oops i must have skimmed past that part in the stuff i’ve attempted to read on forth
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600652788.044300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600652788.044300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 18:46</span><br/>
+Ohhh this is the store and retrieve stuff 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600654435.046500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600654435.046500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 19:13</span><br/>
+i always spend time thinking about the define semantics because 1. the scoping is really weird and interesting and seems to “just work” even though they have a funky way of handling shadowing and 2. i think you can use the same thing for data if you just use quotations a la joy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600656498.046700"></a>
+      <a href="../thinking-together/1600645382.040000.html#1600656498.046700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 19:48</span><br/>
+Here's a diagram I scrawled of a more fully worked example (sum of squares). It shows 2 ways to imagine inlining. In option A we have a standard Forth, and inlining replaces words with their definitions. The stack stays the same, it just gets more intermediate steps.<br/><br/>In option B we still have a stack, but execution state also includes a namespace of values for (immutable?) variables. For example, adding <tt>:x</tt> to a line saves the top of the stack as the value of <tt>x</tt>. Every line starts with an empty stack, but can share data with previous lines via variables.<br/><br/>Now inlining shows a second stack in its own row. We might even want to expand the stack of the caller to fit the callee in, just one 'row' down to show that it's an independent, isolated stack. (The <tt>x</tt> in <tt>sq</tt> is unrelated to the <tt>x</tt> in the caller since each function has its own namespace.)<br/><br/>I think both are equally uncoiled. The big benefit of option B to me is that the accidental complexity of stack manipulation (<tt>swap</tt> and <tt>dup</tt>) has been eliminated.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600661790.063000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600661790.063000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 21:16</span><br/>
+we’re both in agreement that stack manipulation is bad and makes everyone feel bad for sure. <br/><br/>i’m not opposed to variables but i do think that B is more coiled—there’s shadowing in the example, which is hard for beginners (and sometimes annoying for experts), and you did draw a coil with your arrows to the inline function :wink:. <br/><br/>id argue that B is more readable/comprehensible but also more coiled. at the very least, it would be harder to communicate visually where exactly x and y are coming from with the same clean and regular table view as you were using before. and the definition of anything using x or y now depends on your environment which means it can’t be factored seamlessly anymore<br/><br/>factor, joy, and other modern concatenatives use quotations and combinators to get around a lot of the shuffling, but combinators IMO are just as bad (the canonical example is called “bi”, and i can never remember whether it expects two quotes on top of the stack and applies each to the next two items respectively, returning them in order, or some other permutation. even trying to describe my misunderstanding in words is hard). <br/><br/>i definitely don’t have any immediate solutions yet but the comma product article i posted is one attempt, i think pattern matching on the stack itself could be another, and (weirdly) thinking of variables as like almost vim macros that replace with values in-place could be a third direction (like some shells let you expand, eg, how <tt>rm *.txt</tt> <tt>&lt;tab&gt;</tt> can expand the text at your prompt <tt>rm hello.txt readme.txt getting_started.txt</tt> in a directory containing all those files) i think i have about 8 total options for this but my notecards aren’t with me and those are the ones i both know of and can remember off the top of my head
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600661890.066100"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600661890.066100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-20 21:18</span><br/>
+another option might be to have every stack also hold an environment, which is almost like an interface in that it just “expects” an x or y to be defined. so like your variable dictionary gets carried around with your stacks. that’s appealing to me, since i have the conspiratorial belief that variable assignment is just nested record modification that’s been hidden behind some weird syntax
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600663459.066500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600663459.066500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-20 21:44</span><br/>
+Yeah, you're mirroring many of my own concerns.<br/><br/>One thing I want to point out: the shadowing you mentioned is <em>essential</em> to this idea. Basically I rely on shadowing to avoid making decisions about variable names. However, once a function is defined it can now be invoked with entirely different names.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600677014.067000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600677014.067000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-09-21 01:30</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Could you say a few more words about what you dislike in defining <tt>square</tt> as <tt>dup *</tt>? I always liked that sort of thing in FORTH, which is clouding my understanding.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600702839.067500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600702839.067500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-09-21 08:40</span><br/>
+Me too! I always enjoy stack manipulation puzzles. This isn't about fixing something broken in Forth, but about seeing what part of Forth I can take with me to spreadsheets and example-oriented programming.<br/><br/>I'm probably still failing to internalize the previous discussion at <a href="../linking-together/1599496562.080600.html">../linking-together/1599496562.080600.html</a>, so this would be a great place for a rebuttal-by-screencast. Assume you've already run <tt>(* 13 13)</tt> (or its Forth equivalent) at your favorite REPL. How do you get from that expression to a definition of the function <tt>square</tt> in persistent form?<br/><br/>The assumption I'm making is that nobody calculates the square of 13 at the REPL by typing <tt>13 dup *</tt>. So it seems to me that we need some way to nudge people to massage <tt>13 13 *</tt> into a form that needs a single copy of the input(s).<br/><br/>It's just a thought experiment in the end. It's a frame of reference I'm taking on for the duration, and in the process I'm working against some of my own discomfort with spreadsheets and other 2D representations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600705869.068000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600705869.068000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-09-21 09:31</span><br/>
+This is an interesting question. When I look at <tt>(* 13 13)</tt> I see <tt>169</tt>. Or, to be more clear, when I see a form that operates only on <em>constants</em>, I think of it as a constant itself. So I would only execute a form like that one in a Lisp REPL using <tt>eval-and-replace</tt> semantics to calculate some constant I want to embed in the code. If, on the other had, I were planning to parameterize such a calculation I'd use a lambda (say, <tt>#(* % %)</tt> in Clojure notation), which lifts quite naturally to a <tt>def</tt> or <tt>defn</tt> if needed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600710069.068300"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600710069.068300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-09-21 10:41</span><br/>
+BTW, although I understand that you aren't trying to "fix FORTH" in any sense, some of what came up in these last few threads reminded me of this paper that talks about adding various functional programming constructs to FORTH starting from the fewest possible cominators:<br/><a href="http://soton.mpeforth.com/flag/jfar/vol4/no4/article6.pdf">http://soton.mpeforth.com/flag/jfar/vol4/no4/article6.pdf</a><br/>... and this classic about implementing a linear logic Lisp that compiles to FORTH:<br/><a href="https://hashingit.com/elements/research-resources/1994-03-ForthStack.pdf">https://hashingit.com/elements/research-resources/1994-03-ForthStack.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600725204.087700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600725204.087700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-21 14:53</span><br/>
+this is vague and maybe irresponsible spitballing from a staying-on-topic perspective, but what if there was a kind of a stack shuffling operator, that split the stack n items down, and then pattern matched them back on top. so maybe you’d pass a series of symbols into it and transform the stack. eg ( n1 n2 — n1 n1 n2 )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600725235.088400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600725235.088400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-21 14:53</span><br/>
+like... you could just pun the usual stack notation syntax 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600725251.089100"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600725251.089100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-21 14:54</span><br/>
+and from a ux perspective would feel a lot like drag and drop
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600725297.090200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600725297.090200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-21 14:54</span><br/>
+would that break the ability to break apart programs anywhere? i’m not sure but i suspect not
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600756228.096200"></a>
+      <img src="https://secure.gravatar.com/avatar/58ad4af42f7cff8698951a7befb26f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600756228.096200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksii Shmalko</b>
+<span style="margin:2em; color:#606060">2020-09-21 23:30</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> you can do that in gforth with <tt>{ n1 n2 } n1 n1 n2</tt> syntax. (<tt>{ ... }</tt> introduces local bindings which you can reference at any point later.) I find it quite a useful feature when the word definition grows and juggles 3+ pieces of data
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600837865.000600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600837865.000600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-09-22 22:11</span><br/>
+One advantage of <tt>dup</tt> and shuffling is that they force you to pay the cost of non-linearity.  Since named variables give you non-linearity for free, reference hydras sprout up easily.<br/><br/>I guess my bigger qualm is that catenative programs tend to feel less catenative and more conventually referential as they get larger.  How can one keep the catenative spirit in bigger programs?<br/><br/>Maybe some kind of dynamic scope?  Instead of one stack, each dynamic variable names the top of a stack.<br/><br/>With queues instead of stacks and you get to Lucid.  Concatenative reactive programming here we come!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600859146.003200"></a>
+      <a href="../thinking-together/1600645382.040000.html#1600859146.003200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-23 04:05</span><br/>
+lucid is really interesting, thanks for the reference! wish there was more than a short wikipedia article and a ~270 page book<br/><br/>that also lead me to lustre, which has a feature i didn’t know i wanted: you name the name of the variable you return <b>in the function signature</b>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600859206.004300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600859206.004300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-23 04:06</span><br/>
+seems obvious in retrospect since we basically do that with modules when we mark things as <tt>public</tt> or <tt>export</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600861221.004500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600861221.004500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-09-23 04:40</span><br/>
+Named returns are nice for bits of cleanup at the end.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600872932.006900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1600645382.040000.html#1600872932.006900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-09-23 07:55</span><br/>
+i just like it as like an outline—“heads up, this is the variable we’re going to finish with”. i guess it’s almost like a mental hyperlink to the answer to the question “ok... what are we doing this all for?”
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-23 03:15</span><br/>
+Is anyone aware of work on what I'd call "evolution-safe programming"? The question is how one can write software in such a way that every part in every layer can evolve freely without breaking everything depending on it. There are some aspect of this in [Dark](<a href="https://darklang.com/">https://darklang.com/</a>) (recently discussed here), and in [Unison](<a href="http://unisonweb.org/">http://unisonweb.org/</a>), but is there any work on theoretical foundations or practical evaluation of proposed approaches?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566583073.412500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566583073.412500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-23 10:57</span><br/>
+I've only heard this talked about in a rule-of-thumb or aspirational sense. For instance, that you should structure abstractions, or layers of your system, so that the things that are likely to be changed at the same time are easy to change at the same time, without needing to change any other things. Never really any explanation of how to do a good job of this. I've seen people say that composition via protocols (as opposed to class inheritance or interfaces) helps with this by allowing for better separation of concepts. The Clojure community is big on that. But again, nothing too formal. I believe the book Elements of Clojure by Zach Tellman (which is ostensibly more of a book of general principles than it is notions exclusive to Clojure) talks about this in more detail, but I haven't read it yet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566583374.412700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566583374.412700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-23 11:02</span><br/>
+Rails, Phoenix, and similar web frameworks are seemingly designed with this as an underlying goal. They make an attempt to help you organize your web service into conceptually separate slices of domain logic ("resources"), and to organize each piece of each slice into a purpose-specific area of the codebase (model, view, migration, controller, services, script, stylesheet, etc). They also create homes for code that <b>must</b> be shared, for cross-cutting concerns (literally called "concerns" in Rails).<br/><br/>So when you're working on a particular problem, you can think of it in terms of "I need to make a change that will affect just models", or "... a change that affects just the Users resource" and clearly identify which parts of the code need to be changed, and which don't.<br/><br/>Of course, this falls apart in the real world, because resources are often tightly interdependent and it's hard to draw clear boundaries.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566583674.413000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566583674.413000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-23 11:07</span><br/>
+Elm does a little bit of this by using static types to enforce automatic semantic versioning, but that only really helps at the library level, not within a single codebase.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566583742.413200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566583742.413200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-23 11:09</span><br/>
+Rich Hickey gave a talk about safely evolving software and what the semantics around it are, but his recommendations were pretty controversial. Here's the HN discussion, so that you can get some meta commentary along with the talk itself if you'd like. <a href="https://news.ycombinator.com/item?id=13085952">https://news.ycombinator.com/item?id=13085952</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566591371.417600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566591371.417600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-08-23 13:16</span><br/>
+Like "sheer layers" in buildings: Being able to change the drapes without having to rip up the carpet
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566661220.430200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566661220.430200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-24 08:40</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> Wow, that's a lot of stuff, thanks! I am mostly interested in the large scale, i.e. library and language dependencies, rather than the internal structure of a code base.<br/>Rich Hickey's talk addresses most of the issues I was thinking of, and the comments on Hacker News add various points of view.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566661676.430600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566661676.430600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-08-24 08:47</span><br/>
+That's funny, because I would have thought that the applicability was more the other way around -- I guess it works both ways. I do know he had a whole other presentation on package dependencies though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566664138.431200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566664138.431200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-24 09:28</span><br/>
+Oh, I thought this was the talk about package dependencies
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566664147.431600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566664147.431600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-24 09:29</span><br/>
+Maybe I linked the wrong talk
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566664190.432800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566664190.432800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-24 09:29</span><br/>
+I was thinking of the one where he proposed never making breaking changes. If you need to make a breaking change, make a new thing with a different name instead.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566809556.462500"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566809556.462500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2019-08-26 01:52</span><br/>
+We believe Storyscript could be a good fit for this idea because it’s simply a language for gluing microservices. Those microservices can evolve independently, AB test and micro-scale. Fully polyglot development, cloud-native at <a href="http://docs.storyscript.io">docs.storyscript.io</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566809794.462800"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566809794.462800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2019-08-26 01:56</span><br/>
+TBH I’m not sure a new language that replaces all other languages will truly transform the industry. IMO a new level of programming (call it top-level or cloud-native) should just be glue for polyglot microservices+functions+openapi+graphql+etc. — I’m still in shock that we (as a community) think a new one-size-fits-all language with an attitude of throw everything else out will resonate. It’s Smalltalk all over.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566832948.464200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566555331.405700.html#1566832948.464200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-26 08:22</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> You linked exactly that talk!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

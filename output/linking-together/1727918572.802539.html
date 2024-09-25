@@ -1,0 +1,66 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1727918572.802539.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-02 18:22</span><br/>
+<a href="https://www.youtube.com/watch?v=MJlBGZ-kpg0">A rare and precious video walking us through Boxer.</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727928632.882609"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../linking-together/1727918572.802539.html#1727928632.882609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-10-02 21:10</span><br/>
+This is fascinating. I've heard of boxer so many times, but never actually seen it before. It's funny to me that they bumped up against many of the same issues / questions we're grappling with in my current Ink &amp; Switch project:<br/>• When duplicating canvas objects that have behaviour, should those duplicates be a deep copy with no shared internals, or should there be some amount of sharing? How do you approach masters/instances? How do the answers change as a result of this taking place in a spatial environment? How do these answers relate to scoping?<br/>• What about names? Where do names live? Why do you give things a name? How do you refer to things that don't have a name?<br/>• How do you connect things together? How do you multiplex / split? How and when do you see the connections?<br/>• Where do values live? If you're going to execute some smaller part of a larger program, how do you feed it values? When do you see those values?<br/>• How do components nest? How do you expand / contract components? How does information flow across component boundaries?<br/>• What interface elements need to be big because they need to be easy to see, and which ones need to be big so you can touch them, and when are these in tension?<br/>etc etc.<br/><br/>These are all common questions when designing a visual programming system, naturally. But what's funny to me is just how damn similar Boxer looks to some of the hacky / placeholder prototype work we're doing right now, and the small handful of differences. (Wish I could link to it.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727995250.418579"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1727918572.802539.html#1727995250.418579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-03 15:40</span><br/>
+<span style="background-color:#ccf">@Samuel Timbó</span> Call out to unit.land at the end!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728378108.232499"></a>
+      <a href="../linking-together/1727918572.802539.html#1728378108.232499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-10-08 02:01</span><br/>
+see also some responses by diSessa: <a href="https://groups.io/g/boxer-sunrise/topic/108687245">https://groups.io/g/boxer-sunrise/topic/108687245</a>.<br/><br/>----<br/><br/>I'm fascinated with Boxer's <tt>tell</tt> (aka <tt>ask</tt>) mechanism for "OOP": It simply takes a piece of code to execute in another context.  E.g. if you have 2 turtles, you can <tt>tell turtle2 right 90</tt> (the inner code e.g. <tt>right 90</tt> can be wrapped in a box but that's optional for short things).  Pedagogically, this allows students to operate multiple stateful copies, without having to first learn encapsulation, interfaces, and having to expose a "method" for whatever you want to tell them to do (which requires being comfortable with defining functions).<br/><br/>The only other language I've seen with such model is <a href="https://snap.berkeley.edu/snap/help/SnapManual.pdf">Snap!</a> (see "Sending Messages to Sprites").<br/><br/>[Well, does JS depracted <tt>with</tt> statements count?  But JS has real methods too, plus it lacks an expression form.]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728378131.720669"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../linking-together/1727918572.802539.html#1728378131.720669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-10-08 02:02</span><br/>
+This mechanism however comes at pedagogical cost wrt. parameters, due to scoping :thinking_face::<br/>E.g. consider "firing an arrow" in Snap! where you want to initializing a new sprite at x,y position matching current sprite.<br/>You can't just tell new sprite to "move to x: (my x) y: (my y)" block to the new sprite since the whole thing including "my x" will be evaluated in new sprite context :disappointed:<br/>• In Snap!, the solution is to first introduce local variables, set them to parent's x and y, then you can refer to these variables inside the envelope.  (That works cause Snap does have Scheme-like lexical scoping, it's only "current sprite" operations like position that are affected by <tt>tell</tt> context.)  This is rather complex.<br/>• In Boxer, local variables wouldn't solve this either, <em>all</em> name lookups are affected by <tt>tell</tt>.  This is consistent with Boxer's "copy and execute" mental model of how calling a doit box works. (Opt-in lexical scope <em>is</em> possible via ports, but that's really an advanced escape hatch.)  So, how do you pass a block of code to be executed in new context yet <em>parametrize</em> it from current context?!  Boxer added a special <tt>^</tt> syntax just for that:<br/>&gt; For example, ASK JOE FORWARD X has JOE use <em>his</em> X, while ASK JOE FORWARD ^X has JOE use <em>the X available where ASK appears</em>.<br/>&gt;   — from "Boxer Structures"<br/>So, syntactically <tt>^X</tt> etc looks kinda like templating [btw Boxer has a generic "semiquote" too — <tt>build</tt>, with a different syntax].<br/>(Semantically, this is not really templating but a 2nd runtime context Boxer interpreter keeps track of)<br/>Like all templating, it'd get horrific if you need more levels deep...<br/><br/>In regular OOP, this Just Works when you do something like <tt>arrow.moveTo(this.x, this.y)</tt> — the argument expressions are computed in the caller's environment, then method body is evaluated in target's environment.  The call boundary is also the <tt>this</tt> switch boundary!  And one can become productive before having to think too deep about that.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-02 08:38</span><br/>
+Is there a formalization to add and validate constraints on the valid intervals in which particular events can be emitted in the system?<br/><br/>I mean there might be multiple services/objects around waiting for messages and due the combinatorical explosion we can't enumerate all the possible sequences of events. <br/><br/>I just can't believe there is no standard/proven way/know how to generate event sequences in any programming language. To me it seems it should be part of the testing libs maybe with additional abstractions for expressing the distinct "services"/"objects", but I don't see the need for a separate programming language for that, but still, I am not aware if that in the mainstream. <br/><br/>I am wondering why is that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572709674.479900"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572709674.479900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-11-02 08:47</span><br/>
+What would be the use case/domain this would be applied to? Something like a state machine?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572741455.025000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572741455.025000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 17:37</span><br/>
+What kind of events?<br/><br/>I assume you're not taking about code triggered events, since those can be triggered by code.<br/><br/>Java has something called "Robot" which lets you control the mouse and keyboard programmatically (for "testing purposes")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572758585.035800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572758585.035800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-11-02 22:23</span><br/>
+&gt; Is there a formalization to add and validate constraints on the valid intervals in which particular events can be emitted in the system?<br/><br/>This sounds like the raison d'être of state machines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572758973.036400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572758973.036400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-11-02 22:29</span><br/>
+&gt; I mean there might be multiple services/objects around waiting for messages and due the combinatorical explosion we can't enumerate all the possible sequences of events.<br/><br/>If those services or objects all share a thread of execution, then (possibly nested) state machines and their ilk are pretty much the bread and butter of organizing asynchrony.<br/><br/>If there's any kind of parallelism happening (whether locally or across a network), then you're entering into the domain of the CAP theorem, and can pull out the coordination schemes like Raft or Paxos and the guarantees like linearizability and serializability. These are the standard and <em>proven</em> (in that they're formally verifiable and rigorous) means of reasoning about distributed systems. Though good luck guaranteeing that your implementation is perfectly correct — cosmic rays and whatnot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572759059.036600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572759059.036600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-11-02 22:30</span><br/>
+This stuff is all programming language-agnostic — it's just the way we talk about properties of distributed software that emerge from the laws of physics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572778068.067400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572778068.067400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-03 02:47</span><br/>
+<span style="background-color:#ccf">@Cole Lawrence</span> just general verification. Yes exactly, I imagine a service/object like a state machine and my problem is that if there is a lot of them on top level then it is quite impossible to introduce a top level state machine (like hieararchical) without the combinatorical explosion :boom: .<br/><br/>What I would like to do instead is add constraints on the valid ordering of events and <br/>1. I would make sure the code really implements it. (Eg. if there is a constraint like: the eventstream can start off with E1 or there won't be any E1 in stream; I make sure the service emitting E1 is the first to emit events in my implementation and there is no other valid context in which the service is prompted to emit E1)<br/>2. I would enumerate all the eventstreams(event ordering) with the constrains to make sure there is no ordering I missed / I forgot about.<br/><br/>It reminds me a lot to automata theory/regexes, but to me they are closer to state machines.<br/><br/>To me state machines are "clean" and easy and what I am looking for is how to make "cleaner" the "dirty (combinatorical) space above top level clean state machines" via temporal constrains. By temporal I mean constraints on ordering (check out Temporal Logic, especially Computational Tree Logic).<br/><br/>I deeply believe adding/expressing constraints on ordering is REALLY easy compared to other techniques for verification. Furthermore, constraints on ordering of events has a lot to do the meaning of the software (for me), and it seems nice to me to make it explicit.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572778403.073300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572778403.073300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-03 02:53</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> I meant Events like messages between any separate Objects / Services. It can be a method call, it can be an event listened by another service, it does not matter. The only thing matters information gets through boundaries: making the clean/easy state machines/objects/services interacting with each other which is dirty and combinatorical because the timings (events emitted) are not constrained (at all).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572780113.075800"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572780113.075800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-03 03:21</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> yes, state machines are quite good, but my problem arises when there are many of them and I don't know how to add timing/event ordering constraints to enumerate all the valid possibilities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572780862.077000"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1572780862.077000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-03 03:34</span><br/>
+<a href="https://github.com/davidkpiano/xstate/issues/287">https://github.com/davidkpiano/xstate/issues/287</a><br/><br/>Here is one of my old questions in the topic. XState is a really cool State Machine lib.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1573269518.257500"></a>
+      <img src="https://secure.gravatar.com/avatar/c5602bab02fb00f0c9a052ee6c220513.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1573269518.257500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alan Johnson</b>
+<span style="margin:2em; color:#606060">2019-11-08 19:18</span><br/>
+i had this same issue trying to apply property testing to the reducer of an event sourcing system. it would have been cool to generate valid event sequences for the purpose of testing the change in state that should be produced by a new command
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1573269553.257700"></a>
+      <img src="https://secure.gravatar.com/avatar/c5602bab02fb00f0c9a052ee6c220513.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1573269553.257700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alan Johnson</b>
+<span style="margin:2em; color:#606060">2019-11-08 19:19</span><br/>
+would have been cool. never came up with a good solution
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1573296628.260900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1572709118.479700.html#1573296628.260900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-09 02:50</span><br/>
+That is exactly my wannabe usecase
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2022-12-29 04:59</span><br/>
+It seems to me that the whole construct of <em>functions</em> as primitives that take arguments and produce results leads to boilerplate and duplication because it needlessly privileges arguments as "independent variables". I'll use an example to elucidate:<br/><br/>Take a rectangle of base <tt>b</tt> and height <tt>h</tt>. It's common to think of these as "independent" variables and define quantities like the following as "dependent":<br/><br/>• <tt>perimeter(b, h) =&gt; 2*(b+h)</tt><br/>• <tt>area(b, h) =&gt; b*h</tt><br/>• <tt>diagonal(b, h) =&gt; sqrt(b^2+h^2)</tt><br/>But if I were to ask, what are the base and height of a rectangle whose area is <tt>a</tt> and diagonal is <tt>d</tt>, our programming languages have no tooling to do this (except the symbolic manipulation libraries for computer algebra). All the required information is there but we have privileged <tt>b</tt> and <tt>h</tt> over <tt>area</tt> and <tt>diagonal</tt> and thus, we now need to figure out the formula for side lengths and program it as the function <tt>sides(a, d)</tt><br/><br/>I should be able to describe a structure, and auto-generate all possible functions (including for currying and partial applications, and while we are at it, all the partial derivatives with respect to each other) so that i can just declare what is known and what I want to calculate. A rectangle can then be represented with any set of variables that make everything else determinable. I should get access to all possible constructors like  <tt>new Rectangle(area: a, diagonal: d)</tt>.<br/><br/>And I want to see this be available for all programming tasks, not just algebra/math. For creating a graph, is the constructor <tt>new Graph(Nodes[], Edges[])</tt> really the privileged one? Why not build languages in a way that I automatically get the constructor <tt>new Graph(AdjacencyMatrix)</tt> and the instance methods <tt>graph.getNodes()</tt> and <tt>graph.getEdges()?</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672319944.798189"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672319944.798189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2022-12-29 05:19</span><br/>
+Yes! Another example: <tt>range{start.inclusive, end.exclusive, domain is int{0..30}, end=start+length, midpoint?, length?}</tt> ; By using constraints to define relations, and invertable/full on algebraic operations; an expression could be automatically reworked to isolate different set of variables; and provide ability to change them. Eg, here, changing the length will lead to an ambiguous case (&gt;1 free variable), but with a structural editor, it may show all possible interpretations for you to select (eg. keep end or start fixed, or scale track around certain point, or add custom interpretation logic (eg. using non-linear scaling)). Integrating this system deeply with the UI would allow pretty much auto-generation of it just from the expression/range concept, auto supporting all interaction (drag track, endpoints, scale around scalepoint, etc), which would otherwise have been pages of code in eg. current web development...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672320081.637449"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672320081.637449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2022-12-29 05:21</span><br/>
+(Instead of generating function... why not just keep everything declarative at its core? :)) )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672323545.388619"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672323545.388619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2022-12-29 06:19</span><br/>
+See, also, PROLOG, miniKanren, constraints, unification.<br/><br/>My quickie tutorial <a href="https://www.youtube.com/watch?v=QOYAHoLiyg0">https://www.youtube.com/watch?v=QOYAHoLiyg0</a> includes converting a query result to JSON.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672327142.420499"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672327142.420499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-12-29 07:19</span><br/>
+You might enjoy <a href="https://dl.acm.org/doi/10.1145/3397537.3397546">https://dl.acm.org/doi/10.1145/3397537.3397546</a><br/><br/>But I’ll also just mention term rewriting in case you aren’t familiar. It’s how Mathematica is able to do the sorts of things you listed. It’s a shame there is no mainstream, non-proprietary language based on it. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672332259.123779"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672332259.123779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2022-12-29 08:44</span><br/>
+seems to me exactly what oo systems do, having different constructors, and providing methods on the objects?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672336993.777759"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672336993.777759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-12-29 10:03</span><br/>
+An OO system won't just casually reconstruct a side of a rectangle from the other side and the diagonal, no. TBH I'm leery of that sort of thing from a performance standpoint. I don't want to have to think too hard to know when my code is doing sqrt's. Logic programming is cool, but I definitely don't want it all the time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672342069.809789"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672342069.809789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2022-12-29 11:27</span><br/>
+aside: If you need to steal/get-ideas-from code: the yawningly easiest-to-understand implementation of PROLOG is Nils Holm’s <a href="http://www.t3x.org/bits/prolog6.html">http://www.t3x.org/bits/prolog6.html</a> (it’s so easy, that I ported it to 2 other languages - JavaScript and CL). If you want to dig in and make an optimized PROLOG, look at WAM (Warren Abstract Machine).  Ait Kaci’s tutorial is helpful <a href="https://en.wikipedia.org/wiki/Warren_Abstract_Machine">https://en.wikipedia.org/wiki/Warren_Abstract_Machine</a> (I had found a $0 download, but can’t find it at this moment). Gprolog is implemented with WAM and can be forced to show what WAM it generates. MiniKanren is relational programming done without backtracking <a href="http://minikanren.org">http://minikanren.org</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672342311.312259"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672342311.312259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-12-29 11:31</span><br/>
+This issue is quite serious in scientific computing. A mathematical equation is a lot more than a piece of code that implements a particular evaluation based on it. And yet, we see equations disappear, to be replaced by less valuable code.<br/><br/>My attempt to fix this is to move from <em>programming</em> to <em>specification</em> languages. You'd write equations defining the relations for a rectangle in the specification languages, and then either read them into your program, or derive your program from them.<br/><br/>Details: <a href="http://blog.khinsen.net/posts/2020/12/10/the-structure-and-interpretation-of-scientific-models/">http://blog.khinsen.net/posts/2020/12/10/the-structure-and-i&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672548569.820709"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672548569.820709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:49</span><br/>
+Relatedly, most if not all validation concerns arise from data dependencies.  Take, for instance, an <tt>Event</tt> with a <tt>start_date</tt> and an <tt>end_date</tt>.  Naturally, we should have <tt>start_date ≤ end_date</tt> in the end, but for a UI, it can be nice to choose them in either order or to have an <tt>InconsistentEvent</tt> that then gets fixed by the time you use it.  But some operations over regular events still sense for inconsistent events.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672549026.270759"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672549026.270759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:57</span><br/>
+Also thinking about scheduling dependencies from assembling LEGO with my son and his friend yesterday.  Friend's mind was blown to see son and I concurrently working on different steps.<br/><br/>Earlier this year, concurrency concerns lead me down a path to radically improving the expressivity of my software's model layer because being explicit about data-dependencies allowed for context-based resolution of references.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672722786.279259"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-21/1361648344759_467eec5533b7281db15a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672722786.279259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Hutchinson</b>
+<span style="margin:2em; color:#606060">2023-01-02 21:13</span><br/>
+Something similar to this approach is the <a href="https://pathom3.wsscode.com/">Pathom</a> Clojure library. At work we’re in the process of rewriting our solar/renewables viability assessment platform using it and it’s been fantastic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672723091.604169"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-21/1361648344759_467eec5533b7281db15a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672723091.604169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Hutchinson</b>
+<span style="margin:2em; color:#606060">2023-01-02 21:18</span><br/>
+You write your code in the form of “resolvers” which establish relationships between attributes, then you simply give it some input data (in the form of an immutable map) and make a query (in the form of <a href="https://edn-query-language.org">EQL</a>, more nested Clojure data) and the Pathom system determines the resolvers that need to run in order to fulfil your query.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672723731.014549"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-21/1361648344759_467eec5533b7281db15a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672723731.014549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Hutchinson</b>
+<span style="margin:2em; color:#606060">2023-01-02 21:28</span><br/>
+This video by the creator is good but a bit more focused on using it to combine APIs iirc <a href="https://www.youtube.com/watch?v=YaHiff2vZ_o">https://www.youtube.com/watch?v=YaHiff2vZ_o</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672743472.539819"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1672743472.539819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-01-03 02:57</span><br/>
+<span style="background-color:#ccf">@Tom Hutchinson</span> This was really interesting and highly relevant. Thanks for sharing!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1674091480.730559"></a>
+      <img src="https://avatars.slack-edge.com/2022-11-02/4314864832259_7358a16bdea535168748_72.png" style="float:left"/>
+      <a href="../thinking-together/1672318746.147299.html#1674091480.730559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Riley Stewart</b>
+<span style="margin:2em; color:#606060">2023-01-18 17:24</span><br/>
+There's also something like this in <a href="https://en.wikipedia.org/wiki/Modelica">Modelica</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

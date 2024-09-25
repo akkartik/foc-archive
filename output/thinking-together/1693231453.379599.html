@@ -1,0 +1,271 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-28 07:04</span><br/>
+For some time I've thought that type systems are essentially ad-hoc logic languages. So.. why not use a full on logic language (prolog or something) to statically analyze your codebase instead of keep patching onto a type system, it appears to me that logic languages are simpler &amp; more expressive than most type systems. I'm starting to work on this for my language, and creating a logic language in efforts to also understand logic programming better.<br/><br/>Another advantage I can think of is that if a the logic language is expressive enough to type even the most advanced languages as well as the weakest, it could be used as a shared interface between languages to understand at least parts of each others type systems, as well as be a tool for user extension for additional static analysis specific to their project.<br/><br/>I'm basically thinking something like this.<br/><pre style="white-space:pre-wrap"># here's a sample program in my (object oriented) language<br/>fn add(a, b) = a + b<br/>add(1, 2)</pre><br/>generated logic program in pseudo syntax (<tt>#A</tt> is a pattern to check value is type of <tt>A</tt>, <tt>?a</tt> is like prolog's <tt>A</tt>, <tt>{...}</tt>  is map literal.)<br/><pre style="white-space:pre-wrap">-- preloaded facts<br/>lookup(#Number, :+, {args: [#Number, #Number], ret: #Number}).<br/><br/>-- program<br/>add(?a, ?b, ?ret) :- lookup(?a, :+, {args: [?a, ?b], ret: ?ret}).<br/>?- add(1, 2, ?_).</pre><br/>The specifics of my logic language is likely flawed, but I'm curious about the general idea of using a fully-fledged logic language to generate a program in &amp; run instead of generated a typed AST and running ad-hoc type systems.<br/><br/>My question is, what are people's thoughts on this? Any previous work in this area? Any obvious flaws?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693234670.939129"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693234670.939129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-08-28 07:57</span><br/>
+Massive agreement. Wish: I wish that type-checking was built BESIDE languages instead of INSIDE-OF languages.  Observation: While sitting through a reading of PLFA (Agda) [with CompSci Cabal], I developed the distinct feeling that I was looking at 2 languages, one for programming a type system, and, one for programming an implementation (an after-thought in Agda, IMO) ; to me, “Dependent Types” is just more-programming-language-constructs for a type language (DT adds parameters) ; Agda, et al, seems to be inching towards the re-discovery that type systems can be / should be programmed.  The benefit of Relational Languages (PROLOG, miniKanren, etc). is that they specify “what is wanted” (relations) instead of “how to create steps for achieving what is wanted” (3GLs like Python, Rust, Haskell, etc.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693235859.178129"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693235859.178129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-28 08:17</span><br/>
+To me type systems are in the awkward position of trying to squeeze into an existing language (get out of the way), but also be powerful enough to express complex things like DSLs.<br/><br/>Type systems have to all sorts of optimizations to make unification manageable or querying the codebase.<br/><br/>Where it seems to me that these are solved problems - databases.<br/><br/>I imagine such a logic system that learns from the many decades of high performance databases, could be very fast (think indexes, query caching, materialized views etc.).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693239230.709679"></a>
+      <img src="https://secure.gravatar.com/avatar/6fceba60ff0c90dc32cbff29054b02c2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693239230.709679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Justin Blank</b>
+<span style="margin:2em; color:#606060">2023-08-28 09:13</span><br/>
+Rust embeds a datalog system in its type checker for borrow checking, if I’m not mistaken. <a href="https://github.com/rust-lang/datafrog">https://github.com/rust-lang/datafrog</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693248699.166509"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693248699.166509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-08-28 11:51</span><br/>
+The only example of a language with a "sidecar" type checker is Shen (<a href="https://shenlanguage.org/">https://shenlanguage.org/</a>). It's a Lisp that includes a logic engine (roughly Prolog with lispy syntax), which is used to implement the type checker that can be turned on and off as preferred. And the type checker is just another Shen program, so nothing (except the effort) prevents you from substituting your own.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693248848.074799"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693248848.074799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-08-28 11:54</span><br/>
+I'd also love to see static checkers outside of languages, allowing multiple checkers and in particular domain-specific ones. Ideally, I'd build my own checker as my understanding of my problem domain evolves.<br/><br/>I somewhat suspect that the traditional tight integration of type systems and languages comes from the benefit that type checking brings to optimization.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693249907.454979"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693249907.454979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-28 12:11</span><br/>
+Yea adding project specific rules was the original inspiration that got me thinking beyond conventional type systems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693250132.454309"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693250132.454309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-28 12:15</span><br/>
+linters can work, but its duplicating all the work of the original type system, and usually don't even do proper type checking... and they usually have their own build step etc.<br/><br/>What if my additional rules could be understood by a common LSP-like system?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693252545.445969"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693252545.445969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-28 12:55</span><br/>
+&gt; I somewhat suspect that the traditional tight integration of type systems and languages comes from the benefit that type checking brings to optimization.<br/>There's no reason why the database generated from the logic language can't stick around to be queried for optimizations, right?<br/><br/>One thing that I imagine will require some work is interpreting errors (no answers found) for the results of running these programs. I'm imagining when this logic program runs it'll have to keep track of which queries / predicates succeeded &amp; which didn't - and something to make something like a stacktrace, maybe even track that in a logic db that can also be queried to emit domain specific (nice) error messages.<br/><br/>I think the big idea is having a database that contains really detailed statically analyzed facts which can be used to check correctness, do optimizations, or even help with automated refactoring tools. So it might not even need to be 1 logic language, but a shared database system which all the logic languages can speak &amp; store facts &amp; query from.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693286528.265149"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693286528.265149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-08-28 22:22</span><br/>
+&gt;  There's no reason why the database generated from the logic language can't stick around to be queried for optimizations, right?<br/>Technically, no. Socially, it means that the generation of important information is no longer under control of the compiler writer, and even language designer. They would have to cooperate with the users of their language and tool, and negotiate protocols for information exchange. It's more convenient to be a dictator.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693292544.844609"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693292544.844609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-08-29 00:02</span><br/>
+It's curious that value types are so favored among all the useful summary/analysis operations we can do on programming languages.  I mean similar techniques can track references, side-effects, entity life-cycles, resource usage, even evaluation of the language itself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693368096.745299"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693368096.745299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-08-29 21:01</span><br/>
+One reason types are built inside languages is undecidability. We tend to want the type checker to always terminate, and to err on the side of soundness rather than completeness. This is why the type language is weaker, whereas the "main" language can be Turing-complete.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693386172.210129"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693386172.210129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-08-30 02:02</span><br/>
+I'd reverse the causality of that argument. It's because the type checker is part of the compiler that type checking has to be decidable and prioritize soundness over completeness (and lots of other nice properties we don't get, such as fitness for the application domain).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693404191.962399"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693404191.962399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-30 07:03</span><br/>
+I don't know if I understand all the arguments against turing complete type systems. Could someone spell it out for me?<br/><br/>Is it hard that it'd be hard to debug infinite recursion in type systems? Do you worry people will misuse it to write fancy compile-time programs that will delay builds?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693404713.585669"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693404713.585669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-30 07:11</span><br/>
+My second point seems to be possible in turing-incomplete languages too. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693405020.997229"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693405020.997229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-08-30 07:17</span><br/>
+Something that I think would be unique to bringing in something like prolog is you could use its time travelling debugger to debug especially tricky types. I'd argue against tricky types/constraints in general, but when you're stuck with a library that goes wild with types you could at least dig in vs just getting a dump of useless text.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693421682.938769"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693421682.938769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-08-30 11:54</span><br/>
+<span style="background-color:#ccf">@Marcelle Rusu</span> The main issue with a Turing-complete type system is that the compiler might get stuck in an endless loop.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693542230.321329"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693542230.321329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-08-31 21:23</span><br/>
+Turing-complete runtimes suffer from a similar problem.  :flushed:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693579300.272649"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693579300.272649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-09-01 07:41</span><br/>
+Turing completeness is indeed always a mixed blessing. But the problems matter more than the benefits at "meta" levels of scaffolding around a program. If you could get into an infinite loop before you even start <em>running your program</em>, the UX is much worse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693579885.040729"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693579885.040729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-09-01 07:51</span><br/>
+Hmm, going back to the original question it might work with some additional tooling. We typically have just a run command, but if the compiler supported running just the parser, or just up to the typechecker, maybe the UX becomes a non-issue. Yes, the programmer now needs to become aware of the internals of the compiler to some extent. But it might be a good trade-off.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693847276.616809"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693847276.616809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-09-04 10:07</span><br/>
+There is something a little silly about Turing-completeness since, practically speaking, anything that can't go on forever has to stop.  A question is what to about it.  One idea from "total functional programming" that sticks with me taking care to distinguish between recursive programs that ultimately operate on some sort of tree structure ultimately (the trace of recursive calls if nothing else) and corecursive programs that reliably yield intermediate results but might never come to the end — I guess ultimately, it's sort of like a breadth first search.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1693885865.326769"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1693231453.379599.html#1693885865.326769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-09-04 20:51</span><br/>
+Turing completeness applies to "a computation", which is by definition a process that proceeds from a well-defined initial state according to fixed rules. That's a decent approximation to running a compiler, but most of what we do with computers nowadays just doesn't fit this model.<br/>I'd love to see active development of different models of information processing. For now, it's only mathematicians that really care about this (e.g. total functional programming). I'd love to see more foundational models inspired by application domains, leading to the development of tools and techniques that really fit those domains. An example (from biology) is Kappa: <a href="https://kappalanguage.org/">https://kappalanguage.org/</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

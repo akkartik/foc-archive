@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../share-your-work/1706891711.247169.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 08:35</span><br/>
+Hey y'all. I'm working towards a library for rendering and adding direct-manipulation to infinite recursive things. I want to share this picture showing where I'm at.<br/><br/>On the left is the rendered infinite recursive thing. On the right is the diagrammatic specification for the thing on the left. The library interprets the diagrammatic spec and produces a program that takes the initial transformation (position, rotation, scale, and skew) of a shape (data for a <tt>t</tt> in the diagram), and then runs forever, adding more shapes to the left and the right as it runs.<br/><br/>The arrows in the spec mean "depends on", and the lines mean "depends on" both ways. I could have drawn the lines as two-sided arrows but I found that it was harder to read. Explaining this now I realize its kind of confusing tho lol.<br/><br/>The self-loop on the <tt>t</tt> in the spec is what makes the resulting diagram recursive, otherwise it would be a single red, green, and blue thing.<br/><br/>Currently the diagrammatic spec is actually specified in text :neutral_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706897534.334719"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706897534.334719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-02-02 10:12</span><br/>
+The little inline colored shape previews in the diagram are nice. <br/><br/>I'm excited to see more examples of different diagrams and recursive things, since at the moment I'm sort of guessing at what the diagram means :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706920681.747179"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706920681.747179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2024-02-02 16:38</span><br/>
+<span style="background-color:#ccf">@Elliot</span> i was wondering what the diagrammatic text for this example looks like?<br/><br/>Im still trying to understand what the visual diagram represents… but i really like this exploration! 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706922214.606009"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706922214.606009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 17:03</span><br/>
+Here's the actual code <span style="background-color:#ccf">@Christopher Shank</span> <a href="https://github.com/vezwork/polylab/blob/main/src/demo/drawTests/category3/index.ts">https://github.com/vezwork/polylab/blob/main/src/demo/drawTe&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706922731.691389"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706922731.691389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 17:12</span><br/>
+The diagram / code specifies the relationships between the various parts of the recursive diagram. The way things are specified is related to functional reactive programming/observables. For an example, the <tt>basis</tt> data is made out of <tt>red</tt> and <tt>blue</tt> vector data. If the <tt>red</tt> or <tt>blue</tt> vector data changes, then that causes the <tt>basis</tt> data to change.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706922988.282899"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706922988.282899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 17:16</span><br/>
+The nodes in the diagram are sort of like classes that get instantiated to render something. The funky thing about the library is that the classes can be related to themselves, and that's how you get recursion. For example, <tt>t</tt> is related to <tt>basis</tt> and <tt>origin</tt> (its made out of those two pieces of data joined together) and <tt>t</tt> is related to itself. So you get recursive copies of <tt>t</tt> and everything it is related to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706923022.228529"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706923022.228529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 17:17</span><br/>
+Let me know if that makes any sort of sense lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706924240.203509"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1706891711.247169.html#1706924240.203509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-02-02 17:37</span><br/>
+Sort of! I'm sure it'll make more sense as you do more with it and I have more exposure to it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

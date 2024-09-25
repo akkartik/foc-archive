@@ -1,0 +1,375 @@
+[
+    {
+        "user": "UA14TGLTC",
+        "type": "message",
+        "ts": "1696317636.012349",
+        "client_msg_id": "0398d206-aac7-4b1e-a964-c34ffebf5812",
+        "text": "Sure.  When small enough that the process doesn't get interrupted and large (or awkward) enough that no single expression won't do.  Whether the semantics of the program are imperative or not, you'll want to name intermediate results.  It shouldn't be too hard to find an example of pure functional \"step-by-step\" programming...  Here <https:\/\/hackage.haskell.org\/package\/base-4.18.1.0\/docs\/src\/GHC.IO.Exception.html#untangle>:\n```{-\n(untangle coded message) expects \"coded\" to be of the form\n        \"location|details\"\nIt prints\n        location message details\n-}\nuntangle :: Addr# -&gt; String -&gt; String\nuntangle coded message\n  =  location\n  ++ \": \"\n  ++ message\n  ++ details\n  ++ \"\\n\"\n  where\n    coded_str = unpackCStringUtf8# coded\n\n    (location, details)\n      = case (span not_bar coded_str) of { (loc, rest) -&gt;\n        case rest of\n          ('|':det) -&gt; (loc, ' ' : det)\n          _         -&gt; (loc, \"\")\n        }\n    not_bar c = c \/= '|'```\nConsider that order of expressions in the `where` clause doesn't matter, but even then the awkward nested `case` expressions might benefit from even more intermediate steps:\n```   (location, rest) = span not_bar coded_str\n   details | null rest = \"\"\n           | otherwise = ' ':(tail rest)```\nAnd maybe text is to blame for some awkwardness here.  Is jamming `message` between `location` and `details` intrinsically non-linear?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gae6d55db9d1",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png",
+            "first_name": "",
+            "real_name": "William Taysom",
+            "display_name": "wtaysom",
+            "team": "T5TCAFTA9",
+            "name": "wtaysom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1696030097.010469",
+        "parent_user_id": "UC2A2ARPT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Rt0cg",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Sure.  When small enough that the process doesn't get interrupted and large (or awkward) enough that no single expression won't do.  Whether the semantics of the program are imperative or not, you'll want to name intermediate results.  It shouldn't be too hard to find an example of pure functional \"step-by-step\" programming...  Here "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/hackage.haskell.org\/package\/base-4.18.1.0\/docs\/src\/GHC.IO.Exception.html#untangle"
+                            },
+                            {
+                                "type": "text",
+                                "text": ":\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "{-\n(untangle coded message) expects \"coded\" to be of the form\n        \"location|details\"\nIt prints\n        location message details\n-}\nuntangle :: Addr# -> String -> String\nuntangle coded message\n  =  location\n  ++ \": \"\n  ++ message\n  ++ details\n  ++ \"\\n\"\n  where\n    coded_str = unpackCStringUtf8# coded\n\n    (location, details)\n      = case (span not_bar coded_str) of { (loc, rest) ->\n        case rest of\n          ('|':det) -> (loc, ' ' : det)\n          _         -> (loc, \"\")\n        }\n    not_bar c = c \/= '|'"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Consider that order of expressions in the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "where",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " clause doesn't matter, but even then the awkward nested "
+                            },
+                            {
+                                "type": "text",
+                                "text": "case",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " expressions might benefit from even more intermediate steps:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "   (location, rest) = span not_bar coded_str\n   details | null rest = \"\"\n           | otherwise = ' ':(tail rest)"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "And maybe text is to blame for some awkwardness here.  Is jamming "
+                            },
+                            {
+                                "type": "text",
+                                "text": "message",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " between "
+                            },
+                            {
+                                "type": "text",
+                                "text": "location",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " and "
+                            },
+                            {
+                                "type": "text",
+                                "text": "details",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " intrinsically non-linear?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "text": "<@UK3LH8CF5> \nThe original paper by Charles Moore, FORTH – A Language for Interactive Computing, begins with a long complaint about the hierarchy of languages and abstractions between the programmer and the computer. The paper itself is a historical document that does not describe the way modern, or even old school Forth systems were implemented, but it is a fun read.\n<https:\/\/www.1strecon.org\/downloads\/Forth_Resources\/CM_ForthLanguageInteractiveComputing_1970.pdf|https:\/\/www.1strecon.org\/downloads\/Forth_Resources\/CM_ForthLanguageInteractiveComputing_1970.pdf>\n\nStarting Forth is an excellent introduction to old school Forth.\n<https:\/\/www.forth.com\/starting-forth\/|https:\/\/www.forth.com\/starting-forth\/>\n\nThinking Forth is an amazing software engineering book filled with interviews and philosophy that would be a widely studied classic if it were not written through the lens of a less popular language. Within its pages one can find foreshadowing of Extreme Programming and Agile Programming.\n<https:\/\/thinking-forth.sourceforge.net\/|https:\/\/thinking-forth.sourceforge.net\/>\n\nThreaded Interpretive Languages: Their Design and Implementation by R. G. Loeliger is the classic guide to implementing Forth on a Z80.\n<https:\/\/archive.org\/details\/R.G.LoeligerThreadedInterpretiveLanguagesTheirDesignAndImplementationByteBooks1981|https:\/\/archive.org\/details\/R.G.LoeligerThreadedInterpretiveLanguagesTheirDesignAndImplementationByteBooks1981>\n\nJonesforth is an x86 assembly language Forth implementation that is written as a tutorial with extensive comments. Or is it a Forth implementation tutorial that includes executable x86 assembly language code?\n<https:\/\/rwmj.wordpress.com\/2010\/08\/07\/jonesforth-git-repository\/|https:\/\/rwmj.wordpress.com\/2010\/08\/07\/jonesforth-git-repository\/>\n\nThis Byte Magazine article has an excellent discussion of how threaded code works (no relation to multi-threaded parallelism or concurrency).\n<https:\/\/archive.org\/details\/byte-magazine-1980-09\/page\/n207\/mode\/1up|https:\/\/archive.org\/details\/byte-magazine-1980-09\/page\/n207\/mode\/1up>\n\nAs you learn Forth, pay special attention to the concepts of immediate words, defining words, and compiling words. That is where you will find a level of magic roughly equivalent to that of Lisp macros, but implemented and used in a completely different manner.\n\nAnd of course, no discussion of Forth would be complete without some mention of Forth on the Atari. It's not a particularly good read, but it has one of the most amazing covers of any programming book.",
+        "files": [
+            {
+                "id": "F05UT44KYS1",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "U03CEGR3HSL",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "QzQlj",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UK3LH8CF5"
+                            },
+                            {
+                                "type": "text",
+                                "text": " \nThe original paper by Charles Moore, FORTH – A Language for Interactive Computing, begins with a long complaint about the hierarchy of languages and abstractions between the programmer and the computer. The paper itself is a historical document that does not describe the way modern, or even old school Forth systems were implemented, but it is a fun read.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.1strecon.org\/downloads\/Forth_Resources\/CM_ForthLanguageInteractiveComputing_1970.pdf",
+                                "text": "https:\/\/www.1strecon.org\/downloads\/Forth_Resources\/CM_ForthLanguageInteractiveComputing_1970.pdf"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nStarting Forth is an excellent introduction to old school Forth.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.forth.com\/starting-forth\/",
+                                "text": "https:\/\/www.forth.com\/starting-forth\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nThinking Forth is an amazing software engineering book filled with interviews and philosophy that would be a widely studied classic if it were not written through the lens of a less popular language. Within its pages one can find foreshadowing of Extreme Programming and Agile Programming.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/thinking-forth.sourceforge.net\/",
+                                "text": "https:\/\/thinking-forth.sourceforge.net\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nThreaded Interpretive Languages: Their Design and Implementation by R. G. Loeliger is the classic guide to implementing Forth on a Z80.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/archive.org\/details\/R.G.LoeligerThreadedInterpretiveLanguagesTheirDesignAndImplementationByteBooks1981",
+                                "text": "https:\/\/archive.org\/details\/R.G.LoeligerThreadedInterpretiveLanguagesTheirDesignAndImplementationByteBooks1981"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nJonesforth is an x86 assembly language Forth implementation that is written as a tutorial with extensive comments. Or is it a Forth implementation tutorial that includes executable x86 assembly language code?\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/rwmj.wordpress.com\/2010\/08\/07\/jonesforth-git-repository\/",
+                                "text": "https:\/\/rwmj.wordpress.com\/2010\/08\/07\/jonesforth-git-repository\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nThis Byte Magazine article has an excellent discussion of how threaded code works (no relation to multi-threaded parallelism or concurrency).\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/archive.org\/details\/byte-magazine-1980-09\/page\/n207\/mode\/1up",
+                                "text": "https:\/\/archive.org\/details\/byte-magazine-1980-09\/page\/n207\/mode\/1up"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nAs you learn Forth, pay special attention to the concepts of immediate words, defining words, and compiling words. That is where you will find a level of magic roughly equivalent to that of Lisp macros, but implemented and used in a completely different manner.\n\nAnd of course, no discussion of Forth would be complete without some mention of Forth on the Atari. It's not a particularly good read, but it has one of the most amazing covers of any programming book."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1696317850.324969",
+        "edited": {
+            "user": "U03CEGR3HSL",
+            "ts": "1696319606.000000"
+        },
+        "client_msg_id": "8af334f0-5442-4fb3-b6c7-e6aaa108b1cc",
+        "thread_ts": "1696030097.010469",
+        "parent_user_id": "UC2A2ARPT",
+        "reactions": [
+            {
+                "name": "fist",
+                "users": [
+                    "UA14TGLTC",
+                    "UK3LH8CF5"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "U03R0B9U1GD",
+        "type": "message",
+        "ts": "1696328329.087729",
+        "client_msg_id": "c0505aea-88ed-4414-ab19-572ce039ee70",
+        "text": "<@UC2A2ARPT> I guess that depends on how much heavy lifting the word \"most\" is doing there, but I'd say that some domain-specific languages like <https:\/\/github.com\/TodePond\/BerdLab\/blob\/main\/index.html|CSS> and <https:\/\/2023.splashcon.org\/details\/live-2023\/6\/CellPond-Spatial-programming-without-escape|CellPond> often don't involve step-by-step instructions (and try to actively avoid them).",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "78c476adad42",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-08-26\/3992499177765_78c476adad42ab6cfe32_72.png",
+            "first_name": "Lu",
+            "real_name": "Lu Wilson",
+            "display_name": "TodePond",
+            "team": "T5TCAFTA9",
+            "name": "l2wilson94",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1696030097.010469",
+        "parent_user_id": "UC2A2ARPT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ZMjUV",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UC2A2ARPT"
+                            },
+                            {
+                                "type": "text",
+                                "text": " I guess that depends on how much heavy lifting the word \"most\" is doing there, but I'd say that some domain-specific languages like "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/TodePond\/BerdLab\/blob\/main\/index.html",
+                                "text": "CSS"
+                            },
+                            {
+                                "type": "text",
+                                "text": " and "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/2023.splashcon.org\/details\/live-2023\/6\/CellPond-Spatial-programming-without-escape",
+                                "text": "CellPond"
+                            },
+                            {
+                                "type": "text",
+                                "text": " often don't involve step-by-step instructions (and try to actively avoid them)."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "point_up",
+                "users": [
+                    "UA14TGLTC"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "text": "Disappointed to see the newsletter fail to capture all the nuance added to this announcement within the intense debate that ensued here. :joy:",
+        "files": [
+            {
+                "id": "F06004NCYL9",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "UFEQUBNNT",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "cHu+X",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Disappointed to see the newsletter fail to capture all the nuance added to this announcement within the intense debate that ensued here. "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "joy",
+                                "unicode": "1f602"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1696387308.852359",
+        "client_msg_id": "4e120935-130a-454f-88c0-d2b7e3bd0e36",
+        "thread_ts": "1695817246.387939",
+        "parent_user_id": "U03R0B9U1GD",
+        "reactions": [
+            {
+                "name": "upside_down_face",
+                "users": [
+                    "UC2A2ARPT"
+                ],
+                "count": 1
+            },
+            {
+                "name": "laughing",
+                "users": [
+                    "U03R0B9U1GD"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

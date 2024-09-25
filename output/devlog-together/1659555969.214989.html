@@ -1,0 +1,210 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-03 12:46</span><br/>
+Firefly is a language with object capabilities for regaining control over I/O and with implicit async/await. Currently working on the build system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659556130.794369"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659556130.794369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-03 12:48</span><br/>
+In the <tt>build-system</tt> branch, the CLI has become incredibly simple. The only thing it can do is to run a main file:<br/><tt>firefly Main.ff</tt><br/>That main file may be a build script written in Firefly as below though.<br/>The next step is to get this working:<br/><pre style="white-space:pre-wrap">main(system: BuildSystem) {<br/>    system.compile("Main.ff")<br/>    system.bundle()<br/>    system.executable()<br/>}</pre><br/>To create a statically linked executable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659604525.823749"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659604525.823749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-08-04 02:15</span><br/>
+You're going to have to tell us more because at one level one can read this as, "good old fashioned structured programming that blocks on IO and uses 'files' as capabilities."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659611829.472249"></a>
+      <a href="../devlog-together/1659555969.214989.html#1659611829.472249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 04:17</span><br/>
+Gladly - here's an excerpt from the main file of the Firefly compiler, which is written in Firefly/ self-hosted. It showcases how effects are controlled via object capabilities, which is essentially just dependency injection taken to the logical conclusion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659612039.284449"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659612039.284449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 04:20</span><br/>
+The file system, the network, etc. is not globally available as in mainstream languages. The <tt>System</tt> object that is passed to <tt>main</tt> is the only way to get access to these things. It's just a value, so it can be passed on to other functions via their arguments. The FileSystem is a more narrow capability that can only be used to access the file system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659612211.061449"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659612211.061449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 04:23</span><br/>
+These posts explain the implicit async/await feature: <a href="https://www.ahnfelt.net/async-await-inference-in-firefly/amp/">https://www.ahnfelt.net/async-await-inference-in-firefly/amp/</a><br/>In addition to that there is a structured concurrency system and CSP-like channels.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659625149.730169"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659625149.730169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-08-04 07:59</span><br/>
+I really like this idea. Zig’s idea of passing around an allocator made so much sense for a low-level language. Passing around IO feels very similar, but for the needs of a higher level language.<br/><br/>I’m curious about global state. Seems like if I can have global state, I can get around these guarantees. Is that forbidden? Tracked? An idea to deal with later?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659625369.964729"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659625369.964729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:02</span><br/>
+Global state is forbidden in Firefly for that reason.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659625690.076489"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659625690.076489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:08</span><br/>
+Does System have any in-memory storage abilities? It would be pretty neat to have something exposed there. Often my desire for “global” state is for things like observablity and metrics. Having that available via System would be a nice explicitness.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626083.686589"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626083.686589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:14</span><br/>
+It currently only has logging as a "benign effect". It's safe because it can't be observed within the language (at least without a capability).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626132.085239"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626132.085239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:15</span><br/>
+I'd be interested in suggestions for a safe metrics/observability api.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626187.532609"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626187.532609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:16</span><br/>
+I definitely think it would be worth exploring adding something like a key value store of something in System. Maybe with the values being like clojure's atoms if you want some thread safety.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626196.854729"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626196.854729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:16</span><br/>
+You can pass mutable objects around at your hearts content though, it's only global mutability that's disallowed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626261.286959"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626261.286959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:17</span><br/>
+Ahh, yeah. So used to immutability by default that is where my brain was going. Guess if you have mutability everywhere you don't technically need that
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659626396.316229"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1659626396.316229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-04 08:19</span><br/>
+Everything is immutable by default, but you can explicitly make individual fields and variables mutable
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660143634.630249"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1660143634.630249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2022-08-10 08:00</span><br/>
+i just read like four of your blog posts—very cool. huge fan of the concurrency story in firefly
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660161832.937889"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-05/3210121425649_db778188df26a0e022f5_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659555969.214989.html#1660161832.937889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joakim Ahnfelt-Rønne</b>
+<span style="margin:2em; color:#606060">2022-08-10 13:03</span><br/>
+Thank you, it's always encouraging to hear such feedback.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

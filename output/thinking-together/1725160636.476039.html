@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-31 20:17</span><br/>
+Does anyone have thoughts about equality vs ordering in maps/sets?<br/><br/>I have some pondering here - <a href="https://www.scattered-thoughts.net/log/0048/#zest-ordering">https://www.scattered-thoughts.net/log/0048/#zest-ordering</a> but the decision tree at the end is the main thing:<br/><br/>• Order isn't observable at all.<br/>• Iteration order is either non-deterministic or expensive.<br/>• Determism can be manually recovered by storing both a map and a list of keys, but at the cost of storing two copies of each key.<br/>• Order is observable.<br/>• Order doesn't affect equality.<br/>    ◦ Equality is not extensional ie <tt>a == b</tt> does not imply that <tt>f(a) == f(b)</tt>.<br/>    ◦ If <tt>[a: 0, b: 1] == [b: 1, a: 0]</tt> then we must have <tt>struct[a: i64, b: i64] == struct[b: i64, a: i64]</tt>, but we still have to remember that the field order is different, which implies that type equality can't rely on interning and pointer comparison.<br/>• Order affects equality.<br/>    ◦ Sets become surprising / less useful.<br/>    ◦ If I want to add query planning, I can't promise that <tt>f(db) == optimize-query(f)(db)</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725160650.213549"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725160650.213549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-31 20:17</span><br/>
+Good job collapsing the tree slack :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725160671.159679"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725160671.159679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-31 20:17</span><br/>
+<pre style="white-space:pre-wrap">* Order isn't observable at all.<br/>  * Iteration order is either non-deterministic or expensive.<br/>  * Determism can be manually recovered by storing both a map and a list of keys, but at the cost of storing two copies of each key.<br/>* Order is observable.<br/>  * Order doesn't affect equality.<br/>    * Equality is not extensional ie `a == b` does not imply that `f(a) == f(b)`.<br/>    * If `[a: 0, b: 1] == [b: 1, a: 0]` then we must have `struct[a: i64, b: i64] == struct[b: i64, a: i64]`, but we still have to remember that the field order is different, which implies that type equality can't rely on interning and pointer comparison.<br/>  * Order affects equality.<br/>    * Sets become surprising / less useful.<br/>    * If I want to add query planning, I can't promise that `f(db) == optimize-query(f)(db)`.</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725183143.956889"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725183143.956889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-09-01 02:32</span><br/>
+I don't particularly like order being observable by your description. <br/><br/>Have you considered two iterators, akin to Lua's <tt>pairs</tt> and <tt>ipairs</tt>?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725211871.599639"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725211871.599639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2024-09-01 10:31</span><br/>
+What about non-ordered but supporting composite keys where one of the components is the order?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725223394.407399"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725223394.407399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2024-09-01 13:43</span><br/>
+It’s so refreshing to read a discussion of design tradeoffs rather than being presented with a post hoc rationalization. Your discussions heavily weigh performance, so it would make sense to avoid ordering and allow non-determinism. I favor order for user-friendliness. Translating into your terminology, I provide sets as maps to a unit value that are auto-sorted by key value.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725243105.721099"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725243105.721099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2024-09-01 19:11</span><br/>
+Do you see ordered objects as being mostly useful for users? Or mostly incidental and only occasionally useful? In general I prefer key/value bundles to be unordered. I can still add order by encoding another list on the side as you mention. It also seems easier to evolve the language from unordered to ordered iteration if needed, than to go in the other direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725293514.204999"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725293514.204999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2024-09-02 09:11</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> if you’re asking me, I want all data to be user-visible, and that visualization must be realistic. All collection visualizations I know of are ordered. So collections should be ordered. Jamie raises a good point that ordering interferes with transparent query optimization. I refuse to let performance override usability, so I leave that as a problem for future work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725299418.857169"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725299418.857169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-09-02 10:50</span><br/>
+But aren't unordered collections more basic than ordered? We've all had a bag of marbles growing up? Arguably that's more the default state of the world we've evolved for.<br/><br/>Even on the computer, I visualize unordered things all the time these days. The way I do it is I have a zone on screen and things I can move around continuously within it. Position has no semantics there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725304537.760049"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725304537.760049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2024-09-02 12:15</span><br/>
+Sets had to be invented. We are just so math-pilled that we no longer see them as an abstraction that has to be learned. That’s fine for us mathophiles but not so much for everyone else.<br/>Sets are also an abstraction in implementation: every practical implementation of sets has an order, because it needs to support iteration. You can ignore the order by squinting but it’s still there. Your bunch of things on the screen has an underlying order that you have chosen to ignore.<br/>So for both conceptual and implementation reasons I think ordered lists are more basic than sets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725305432.135749"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725305432.135749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2024-09-02 12:30</span><br/>
+Both are correct. Set has a more basic interface. List has a more basic implementation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725396449.014829"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725396449.014829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-09-03 13:47</span><br/>
+&gt; because it needs to support iteration<br/>Well, one solution to the dilemma is just not supporting iteration on maps/sets. If you want to iterate you have to keep a list of keys separately.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725396826.788009"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725396826.788009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-09-03 13:53</span><br/>
+&gt; Have you considered two iterators, akin to Lua's <tt>pairs</tt> and <tt>ipairs</tt>?<br/>But the order of iteration is still observable, no?<br/><br/>This does actually cause problems in practice. Eg to get reproducible builds a lot of compilers had to be refactored to never iterate over hashmaps.<br/><br/>If equality doesn't take iteration order into account then it also makes memoization hard:<br/><br/><pre style="white-space:pre-wrap">&gt;&gt;&gt; a = {'x': True, 'y': True}<br/>&gt;&gt;&gt; b = {'y': True, 'x': True}<br/>&gt;&gt;&gt; def f(x):<br/>...     return ''.join(x.keys())<br/>...<br/>&gt;&gt;&gt; a == b<br/>True<br/>&gt;&gt;&gt; f(a) == f(b)<br/>False</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725396951.701829"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725396951.701829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-09-03 13:55</span><br/>
+The options that appeal to me at the moment are:<br/>• Iteration is always in sorted order and we just pay the cost of trees instead of hashmaps.<br/>• Iteration is in insertion order and if you want to compare sets then you can sort them first.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725427193.422599"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725427193.422599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-09-03 22:19</span><br/>
+&gt; ordering interferes with transparent query optimization. I refuse to let performance override usability<br/>If you sort the keys that's actually less of a problem. You just have to sort at the end (and maybe before aggregations that you can't prove are commutative). But being able to observe insertion order means that you can't reorder loops into joins, which is a much bigger problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725434632.714179"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1725160636.476039.html#1725434632.714179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-09-04 00:23</span><br/>
+I think the most ergonomic is ordered Maps, thats where JS and python converged. If you want insanely fast then a data-structure for every occasion is where JVM and Rust converged to. I think from a pragmatic PoV having ordered datastrcutures will end up the least work overall coz you don't need to support less datastrcutures and your programs that require ordering will require less typing, but its at the ecosystem cost of a tiny bit of overhead.<br/>The consequence on ordering for join optimization is interesting. I kind of think contiguous memory access is super important for optimization and therefore forcing orders on everything might actually might still outweigh the drawbacks, like maybe more optimization oppertunities appear coz the set is not a primary collection (hashjoins?) (!?! dunno)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

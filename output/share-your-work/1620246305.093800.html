@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-05 13:25</span><br/>
+I just published a javascript Functional Reactive programming library @ <a href="https://github.com/YousefED/reactive">https://github.com/YousefED/reactive</a>. Goal was to make it super minimal to integrate into existing apps, so in React you only need to add one hook (useReactive). Feedback welcome!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621059006.138300"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621059006.138300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-05-14 23:10</span><br/>
+Cool stuff! :+1:<br/><br/>I am a big fan of reactivity in JavaScript. A long time ago I played with MobX (I see it is one of your's inspirations) and really enjoyed it. Now I am on the Vue side, and one of the reason I use Vue is its really nice reactive system (which similar to MobX) and especially the new Composition API (inspired by React hooks).<br/><br/>So something that is not clear for me: what differences between your library and MobX? And with Vue?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621152153.139200"></a>
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621152153.139200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-16 01:02</span><br/>
+Thanks <span style="background-color:#ccf">@nicolas decoster</span>!! In most cases it’s fairly similar to Vue / MobX.<br/><br/>The main innovation is the concept of an “implicit observer”. This means that we can store the “observing” context on the actual reactive / observable variable.<br/><br/>e.g.: <tt>const store = reactive({}, Observer)</tt> Assumes that all reads on store should be registered on <tt>Observer.</tt> .<br/><br/>This is a nifty trick on which we can build some things like:<br/>• Depend on observable state in React without having to wrap all code / components with <tt>observe(() =&gt; {..})</tt>  like you’d have to do in MobX. So we now only need to use the <tt>useReactive</tt> hook (source @ <a href="https://github.com/YousefED/reactive/blob/main/packages/reactive-react/src/useReactive.ts">https://github.com/YousefED/reactive/blob/main/packages/reac&hellip;</a>)<br/>• We could make observables work in <tt>async</tt> code. Other libraries can’t automatically track whatever observables you use after an <tt>await</tt> statement. (example @ <a href="https://github.com/YousefED/reactive/blob/39cee3d42a29696fa9f08eadf6567ec3c5aac01f/packages/reactive-core/test/autorun.test.ts#L37">https://github.com/YousefED/reactive/blob/39cee3d42a29696fa9&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621156327.139800"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621156327.139800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-05-16 02:12</span><br/>
+I am not sure that I properly understand what you mean by "We could make observables work in <tt>async</tt> code. Other libraries can’t automatically track whatever observables you use after an <tt>await</tt> statement.", because as I understand it you can do that in Vue. In fact it is one of the purposes of the Vue Composition API, doing some async stuff and set some reactive data with the response.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621157523.140000"></a>
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621157523.140000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-16 02:32</span><br/>
+Ah, my experience mostly is in MobX and my comment mostly related to that, my bad.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621157821.140300"></a>
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621157821.140300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-16 02:37</span><br/>
+I’ll check this out later (not a Vue expert). Perhaps the overall setup of Vue makes this work, but in the core of Vue’s reactivity library, watchEffect might not support it directly.<br/><br/>Of course Vue has a lot of reactivity already built in to the framework-level, so I don’t expect there to be any benefits to combine reactive and Vue directly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621167773.140600"></a>
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621167773.140600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-16 05:22</span><br/>
+<span style="background-color:#ccf">@nicolas decoster</span> this is the example pattern I meant: <a href="https://codesandbox.io/s/trusting-wildflower-10fsq?file=/src/index.ts">https://codesandbox.io/s/trusting-wildflower-10fsq?file=/src/index.ts</a><br/><br/>(Note that this is a pretty hypothetical scenario and in a Vue app you’d probably never need anything like this)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621185400.141000"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621185400.141000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-05-16 10:16</span><br/>
+Thanks for the explanations and the example. Now I see what you mean. And, yes, maybe this is an edge case for Vue apps. Usually you want to use async in watchEffect to trigger some side effect that you send using reactive data, i.e. usually you need reactive data before the await. But maybe there might be some rare cases when you reactive data after the await.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1621243680.141300"></a>
+      <img src="https://avatars.slack-edge.com/2022-01-31/3025191075606_a863c7a92962a53b14dd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1620246305.093800.html#1621243680.141300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yousef El-Dardiry</b>
+<span style="margin:2em; color:#606060">2021-05-17 02:28</span><br/>
+Cool! Probably it’d even be an anti-pattern in Vue :slightly_smiling_face:  But I thought the idea of “implicit observer” was quite fun, maybe I’ll share it in a blog. And at least in React / plain JS land it definitely has it’s benefits!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,583 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-03 09:44</span><br/>
+I guess I hadn't posted this here since it is about a "traditional language", but some of you may be interested: automatic ownership memory management in Lobster: <a href="http://aardappel.github.io/lobster/memory_management.html">http://aardappel.github.io/lobster/memory_management.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556901939.014900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556901939.014900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-03 09:45</span><br/>
+At least IMO there’s a far lower bar for ‘on topic’ in #share-your-work. I love seeing what people I chat with here are working on, no matter how indirectly relevant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556902336.015100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556902336.015100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-03 09:52</span><br/>
+Good to know :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556913352.015400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556913352.015400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-03 12:55</span><br/>
+Definitely hits my interests. I’m with you that the memory model is crucial and often under-studied. Languages make design choices there without much thought, just propagating mainstream choices.<br/><br/>&gt; I’ve personally always thought of reference counting as the “least bad” solution, which is why it was initially used for Lobster. Many people dismiss it out-right because it can’t collect cycles, but I’ve found that, in practical use, getting a “cycle report” at program exit that helps the programmer know where to break those cycles, is largely sufficient.<br/><br/>This hits at a frustration I often struggle to articulate[1]: I think people think of programming languages as platonic ideals when they’re really not in the platonic world at all. Error messages and your idea of “cycle reports” are perhaps the best examples of this disconnect. The warnings and errors a compiler generates should absolutely be considered part of the programming language “interface”, because languages often make decisions about syntax and semantics on the basis of what diagnostics they can print out in different situations. It’s not just about the characters you see in your text editor.<br/><br/>Thanks for sharing this!<br/><br/>[1] One past attempt: <a href="../thinking-together/1532963038.000621.html#1536959125.000100">../thinking-together/1.536959.html&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556923265.015700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556923265.015700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-03 15:41</span><br/>
+I like the idea of having refcounting by default but allowing the compiler to elide certain refcounting operations. I’m curious to see what concepts and syntax you introduce for specifying Rust-style linear types where the refcount can’t ever exceed 1.<br/><br/>I see your non-standard use of <tt>struct</tt> to mean “always passed by value”. Can structs contain pointers to heap allocations? A couple of years ago I built a VM for teaching programming (<a href="https://github.com/akkartik/mu/blob/master/Readme.md">https://github.com/akkartik/mu/blob/master/Readme.md</a>) which uses refcounting everywhere, mostly to insulate students from hairy use-after-free bugs. Updating refcounts inside structs became a hairy problem. Particularly in the presence of sum types, I ended up having to make checks like, “if offset x has value y, then increment offset z”. I have a lot more appreciation now for why Java never inlines one object within an other.<br/><br/>I’m also interested in schemes for managing memory manually that include runtime checks for use-after-free. My favorite consists of fat pointers that include an allocation id. When you dereference a pointer you also need to ensure that the pointer’s alloc id matches the payload’s alloc id. Just in case you like thinking about stuff like this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556980994.016200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556980994.016200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 07:43</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> yes, that is interesting: purity vs pragmatism. Designers often make strange contortions in the name of purity. The "cycle report" is very pragmatic, but purist will consider the model "broken". It's a "worse is better" solution :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556998003.016400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556998003.016400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:26</span><br/>
+Was reading <a href="http://akkartik.name/about">http://akkartik.name/about</a>, and in relation to how hard it is to remove/refactor code/features as a code base evolves, I think one of my other projects is relevant: <a href="http://strlen.com/restructor/">http://strlen.com/restructor/</a> This assumes that besides the reasons you mention, that refactoring is simply hard and scary for humans (what will break if I remove this? better leave it in), so that it is better done by machine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999102.016600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999102.016600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:45</span><br/>
+Most interesting. I’m familiar with <a href="http://strlen.com">strlen.com</a> but hadn’t seen this project somehow.<br/><br/>My approach so far has been in the direction of making refactoring less scary rather than automating it. I will mull your approach. My first reaction from reading two screenfuls: refactoring is not always the same as compression, and so a tool may end up making tasteless transformations. But this is just an initial knee-jerk reaction. Continuing to read.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999476.016900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999476.016900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:51</span><br/>
+yup, you are right.. the page also discusses plenty of downsides :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999578.017100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999578.017100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:52</span><br/>
+In your quoted post, I am not sure what you are referring to with "copy code from one codebase to another" and in particular "working with multiple runtimes" (language runtimes?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999676.017300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999676.017300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:54</span><br/>
+I think the syntax for only allowing a refc of 1 will be a var/field annotation, so something like <tt>let owned a = ...</tt>, though maybe I can think of something less verbose. Or maybe verbose is ok since I predict its use will be rare :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999781.017500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999781.017500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:56</span><br/>
+My non-standard use of <tt>struct</tt>.. this is actually borrowed from C#, which does the same thing. In fact it is the most mainstream precedent of distinquishing inline types per struct decl, as e.g. C++ does it on a per value/variable level
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999828.017700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999828.017700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:57</span><br/>
+yes, <tt>struct</tt> is meant to contain class or vector references, though that is currently disabled while I work out the consequences
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999900.017900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999900.017900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:58</span><br/>
+There are indeed a couple of places where this will be tricky
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999919.018100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999919.018100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:58</span><br/>
+though in my case it shouldn't require expensive runtime checks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556999985.018300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1556999985.018300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 12:59</span><br/>
+I think Nim (linked from my doc) essentially will have a runtime use after free check
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557000276.018500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557000276.018500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:04</span><br/>
+I did see this idea of allocation ids before.. do you have references which languages use these?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557001793.018800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557001793.018800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:29</span><br/>
+No languages, to my knowledge. I got the idea from reading some academic literature: <a href="http://www.cis.upenn.edu/acg/papers/ismm10_cets.pdf">http://www.cis.upenn.edu/acg/papers/ismm10_cets.pdf</a> (There’s a lot more there because they care about compatibility, but the alloc ids are the essence of the idea.)<br/><br/>(I found this paper via <a href="https://www.cs.kent.ac.uk/people/staff/srk21//research/papers/kell17some-preprint.pdf">https://www.cs.kent.ac.uk/people/staff/srk21//research/paper&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557002283.019000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557002283.019000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:38</span><br/>
+Ah cool, thanks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557002367.019200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557002367.019200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:39</span><br/>
+&gt; In <a href="../thinking-together/1532963038.000621.html#1536959125.000100">../thinking-together/1.536959.html&hellip;</a> I am not sure what you are referring to with “copy code from one codebase to another” and in particular “working with multiple runtimes” (language runtimes?)<br/><br/>Indeed. Basically I love the tactile feel of a codebase in my mind as I get into it, and I love that there’s lots of programs out there that make their sources available for me to construct “mind palaces” out of. But I’m frustrated that each codebase is isolated, and I can’t easily copy what I learn and appreciate from one program to another. Without it being stressful as you pointed out that I’m going to break something in the destination, and that I don’t really understand everything that needs to come along for the ride from the source.<br/><br/>The old ideal of ‘reuse’ is to achieve this without actually messing with the internals of the thing being copied. The metaphor everyone seems to like is that ‘components’ should be like blocks, and it should be easy to take a block out of one codebase and add it to another. But a) this doesn’t seem to have worked in spite of lots of attempts, and b) mindlessly putting blocks together takes all the fun out of programming for me :slightly_smiling_face: Fortunately for us all, reuse isn’t automatable so far. I’d like for “copying what you like” to be humanly tractable. (<a href="http://paulgraham.com/copy.html">http://paulgraham.com/copy.html</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557002807.019500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557002807.019500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:46</span><br/>
+Yup, black-box components were a pipe dream.. copy, paste, and wiggle until it fits is all we have. I can't even picture a better solution given the diversity of ways of expressing things in code we have
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557002994.019700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557002994.019700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:49</span><br/>
+Currently if you ask 100 random programmers to implement even a medium-complexity bit of software you'll end up with 100 wildly different code bases that have entirely incompatible structures. This "phenomenon" lies at the root of the problem why code reuse will never be plug and play. Or put the other way around, if you value this "code compatibility" above all else, your first step is to prioritize "there's only one way to do it" above all else in language design, such that those 100 code bases become more and more the same.. then your reuse will become likely easier too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557003108.020000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557003108.020000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:51</span><br/>
+I have no idea how you'd do that though.. likely using a language that is extremely limited in its code structures and data structures, such as an APL-alike
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557003195.020200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557003195.020200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 13:53</span><br/>
+Or put it this way, if you'd rank all programming languages on how they'd fare in my "100 programmers" thought experiment, I'd rank APL as "most likely similar", and C++ as "most likely diverse"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557003640.020500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557003640.020500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-04 14:00</span><br/>
+Totally. In addition to being difficult, I question if it’s desirable. Programmers love making analogies like “why can’t building software be as reliable as building bridges/houses/whatever.” Well, we’ve been building houses for a couple of millennia now. And the way we got good at it was by building lots of different houses, utterly decoupled from each other so that a flaw in one didn’t break every single house in the village/country/world. Fragmentation is desirable! It’s anti-fragile, and there’s a tendency to deemphasize anti-fragility when things are going well, and to over-optimize for efficiency.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557004252.020700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557004252.020700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 14:10</span><br/>
+haha yes, reuse also got us left-pad :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557009526.021400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557009526.021400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-04 15:38</span><br/>
+I think you hit the nail on the head here:<br/>&gt; Currently if you ask 100 random programmers to implement even a medium-complexity bit of software you'll end up with 100 wildly different code bases that have entirely incompatible structures. This "phenomenon" lies at the root of the problem why code reuse will never be plug and play.<br/><br/>Also agree in general with<br/>&gt; Fragmentation is desirable! It’s anti-fragile<br/><br/>Now some counter points:<br/><br/>&gt; your first step is to prioritize "there's only one way to do it" above all else in language design<br/>Yes, but I think this should rather be "there's only one way to do it" in <b>system composition</b>. If we look at how we get any reuse whatsover there seem to be two clear areas: One area is in-language composition with functions/types or whatever shareable artifacts it provides. Another area is cross process/library: C ABI, pipes, JSON+REST etc where you compose larger compiled bundles. The former is too transparent and the latter too opaque. These are the established composition methods but it there room to explore here? Maybe bundles of logic that provide encapsulation, yet allow late-binding with other bundles in ways that provide rich composition as well as performance?<br/><br/>Regarding fragmentation, the question is do we need fragmentation in composition methods? Consider the world before TCP/IP with large fragmentation of communication protocols. Or a world where bytes aren't all 8-bits. Or a web with various parallel alternatives for HTTP. In any case, while the whole world doesn't have to conform to the 'one way', it would be nice to have composition that is richer/deeper than 'API', i.e. more like in-language composition, yet allow a diversity of implementation methods. I don't have much clarity here, but it does seem the the two ways of doing composition are arbitrary.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557016495.021700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557016495.021700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 17:34</span><br/>
+First, I personally do not advocate "there's only one way to do it" style language design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557016613.021900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557016613.021900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 17:36</span><br/>
+certainly reuse where the edges are file formats seems to have been more effective than APIs :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557016700.022100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557016700.022100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-04 17:38</span><br/>
+I think the richer you make the glue system, the less reuse you get
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557075269.022400"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557075269.022400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-05-05 09:54</span><br/>
+"you declare an object with the <tt>struct</tt> keyword instead of the usual <tt>class</tt>" BTW I've found it also useful to be able to allocate and use structs directly on the heap, and I prefer 'struct' unless there's some reason it must always be on the heap. To this end, in C# I've sometimes defined a struct version of something with a corresponding class wrapper that contains all the same methods, e.g. DList&lt;T&gt; and InternalDList&lt;T&gt;: <a href="http://core.loyc.net/collections/dlist.html">http://core.loyc.net/collections/dlist.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557075604.022600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557075604.022600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:00</span><br/>
+Note that <tt>struct InternalDList</tt> also handles errors slightly differently, which reminds me of another design choice I intend to include in my next language design - a different flavor of generics in which modules, not classes, are parameterized. In particular I imagine enumerated options as part of module instantiations that could select at compile time among options like error-handling strategies (or memory management strategies, or whatever). The idea is to boost reusability by punting choices to a higher level (without the performance penalty associated with a dependency-injected <tt>interface</tt>). And parameterizing modules is simply easier for the programmer than separately parameterizing every class and function in a module (though the language would also support traditional type/function generics). In particular it is easier for consumers, not just producers, if you can mention a parameter once on the <tt>ìmport</tt> statement rather than <em>every time the type is mentioned</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557078110.023500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557078110.023500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:41</span><br/>
+so far I haven't had the need to dynamically allocate an existing struct, but I can imagine it being useful.. that's what you get in C++ with its inlining per use
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557078182.023700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557078182.023700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:43</span><br/>
+as for module parametrization.. that maybe cuts down on the amount of type parameters, but to me the real solution is to have most/all type parameters inferred. Lobster doesn't even have a way to specify a type parameter on a function, it is always automatic
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557078964.023900"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557078964.023900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:56</span><br/>
+Er... hum.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557079074.024100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557079074.024100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:57</span><br/>
+Parameterized modules like in ocaml? <a href="https://ocaml.org/learn/tutorials/modules.html">https://ocaml.org/learn/tutorials/modules.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557079122.024300"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557079122.024300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:58</span><br/>
+I was surprised by the question "Can structs contain pointers to heap allocations?" because the answer seems trivially yes - for those using using C# anyway. The really interesting question is the extent to which you can have references to structs. (The CLR's answer, IIUC, is that references to structs can only exist on the stack, but you can have references to any struct whether it exists on the stack or heap. I <em>think</em> you can now put references to structs inside other structs, but then cannot put those structs on the heap... or maybe that's just a special thing that only built-in types can do)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557079139.024500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557079139.024500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-05 10:58</span><br/>
+I quite like the fully inferred model, but it would be really nice if the compiler can be introspected to determine the types of parameters in a specific context, and text editors could overlay this useful info if they choose.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557079360.024900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557079360.024900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-05 11:02</span><br/>
+(in addition to introspecting the static call paths, etc. which the compiler has already determined). Really one advantage of manifest typing is just quick documentation, and while inference ensure correct use, it could really benefit from some introspection system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557080790.025100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557080790.025100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-05-05 11:26</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> looks like structs cannot contain references to other structs: <a href="https://blogs.msdn.microsoft.com/mazhou/2018/03/02/c-7-series-part-9-ref-structs">https://blogs.msdn.microsoft.com/mazhou/2018/03/02/c-7-series-part-9-ref-structs</a><br/><br/>C# is interesting for having several ideas I considered and then went, “nah, nobody could possibly use this correctly”. Have any other languages adopted ideas like value types and stack-only references?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557081549.025400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557081549.025400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-05 11:39</span><br/>
+Lobster doesn't allow references to structs.. they are always copied
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557081660.025600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557081660.025600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-05-05 11:41</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> yup, showing inferred types on hover over would be cool. One huge complication is that it depends on context for many functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557083533.025800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557083533.025800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-05-05 12:12</span><br/>
+That's understood. I was thinking you would set your entry functions (main, tests, etc.) and you'd be able to see types in that context. Unused code would be obvious too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557095894.026000"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557095894.026000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-05-05 15:38</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Ref structs can evidently contain managed pointers, which are basically references to structs, but this functionality of the CLR is not exposed by C#, likely due to the difficulty of ensuring a reference does not outlive a stack variable to which it points: <a href="http://tooslowexception.com/ref-struct-byref-like-type-and-byreference-byref-like-instance-field/">http://tooslowexception.com/ref-struct-byref-like-type-and-b&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557488858.028700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557488858.028700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-05-10 04:47</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span><br/>&gt;Have any other languages adopted ideas like value types and stack-only references?<br/>You might want to take a look at Swift which offers value and reference types, transparent copy-on-write semantics in its implementation, and automatic reference counting as the memory management default (as opposed to GC):<br/><a href="https://docs.swift.org/swift-book/LanguageGuide/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13-ID82">https://docs.swift.org/swift-book/LanguageGuide/ClassesAndSt&hellip;</a><br/><a href="https://developer.apple.com/videos/play/wwdc2015/414/">https://developer.apple.com/videos/play/wwdc2015/414/</a><br/><br/>If you wade through the evolution process proposals &lt;https://github.com/apple/swift-evolution/tree/master/proposals&gt;, you can likely find more details on the implementation and future direction, e.g., the plans to adopt a Rust-like memory ownership model, which should actually land quite soon.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1557489039.029000"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1557489039.029000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-05-10 04:50</span><br/>
+In particular Swift's ownership manifesto seems relevant to this discussion: <a href="https://github.com/apple/swift/blob/master/docs/OwnershipManifesto.md">https://github.com/apple/swift/blob/master/docs/OwnershipManifesto.md</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559892564.011100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1559892564.011100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-07 00:29</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> yup I refer to it in the doc at the start of this thread
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569379958.024300"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1556901860.014800.html#1569379958.024300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-09-24 19:52</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> I haven't used OCaml but yes, my idea of module parameterization resembles OCaml Functors, although my idea involves parameters with defaults that need not be replaced, and I don't think of it as a replacement for conventional generics (so it wouldn't be used for e.g. <tt>Set&lt;T&gt;</tt>)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

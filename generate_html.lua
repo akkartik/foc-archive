@@ -132,7 +132,7 @@ function emit_channel_index(channel, posts, output, channels, users)
   for _,ts in ipairs(sorted_ts) do
     local post = posts[ts]
     if post and post.subtype ~= 'bot_message' and post.subtype ~= 'file_comment' then
-      emit_post_body(outfile, post, '../', channel, channels, users)
+      emit_post_body(outfile, post, '../', channel, channels, users, --[[emit anchors]] true)
       outfile:write('  <tr>\n')
       if post.comments then
         outfile:write('    <td style="vertical-align:top; padding-bottom:1em">\n')
@@ -260,7 +260,7 @@ function emit_intro(outfilename, name, posts, channels, users)
   outfile:close()
 end
 
-function emit_post_body(outfile, post, site_prefix, channel, channels, users)
+function emit_post_body(outfile, post, site_prefix, channel, channels, users, emit_anchors)
   outfile:write('  <tr>\n')
   outfile:write('    <td style="width:72px; vertical-align:top; padding-bottom:1em">\n')
   if post.user_profile and post.user_profile.image_72 then
@@ -275,6 +275,9 @@ function emit_post_body(outfile, post, site_prefix, channel, channels, users)
     emit_name(outfile, post.user_profile, post.user or post.username, users)
   end
   emit_time(outfile, post.ts)
+  if emit_anchors then
+    outfile:write('      <a name="'..post.ts..'" href="#'..post.ts..'">#</a>\n')
+  end
   outfile:write('<br/>\n')
   emit_text(outfile, post.text, channel, channels, users)
   outfile:write('    </td>\n')

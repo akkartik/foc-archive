@@ -1,0 +1,703 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-05 22:22</span><br/>
+Warning: shower thoughts lie ahead.<br/><br/>I've been struck with the nagging thought that maybe "FoC" general-purpose languages (targeting extreme accessibility) have to be designed in such a way that they can run on (modern) GPUs rather than just CPUs. Even integrated GPUs nowadays have a minimum of 200-400 general purpose cores (albeit with a slant towards certain operations). We don't really know how to use those cores effectively for general purpose tasks because we're normally trying to program them using a C dialect (e.g. via CUDA, OpenCL, GLSL...). It's the same problem we have with multicore CPUs: writing massively-parallelizable code in an imperative language is (too) challenging, and we've known for decades that we'll need to solve the problem eventually, since parallelization is the only way to scale computation once we're building circuits out of individual atoms.<br/><br/>Only languages based on constructs that are implicitly parallelizable are going to be able to target GPUs effectively whilst remaining highly accessible. The alternative is to ask the user to explicitly divide their computation up into parallelizable work units (threads/actors), which is an immediate complexity trap. Programmer-led task division doesn't scale, and it's a deep rabbit hole that can require a PhD to be done effectively.<br/><br/>Some people might argue that parallelization is a performance optimization and that most end-user apps don't need it, but I think there are many occasions where the ceiling of what's possible is just too low to offer a bright future. There are always occasions where someone comes up with a need like "I want to process this entire spreadsheet / note collection / webpage" or "I want to make a picture" or "I want to do a simulation / animation of my idea", and they want that processing to be interactive (implying instantaneous), at which point most serial languages can't handle what's being asked for.<br/><br/>So, must a new generation of accessible programming languages be based on implicitly parallelizable constructs and 400 cores? The hardware APIs we need (Vulkan, WebGPU...) are finally becoming available. We just need to utilize them half-decently.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588742811.079800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588742811.079800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-05 22:26</span><br/>
+Non-parallelizable language constructs include call stacks/top-down recursion, and hierarchical data structures (anything based on unidirectional pointers and singular access paths).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588743798.080600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588743798.080600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-05-05 22:43</span><br/>
+I agree. One problem we have is our languages end up expressing a lot more than we need to. E.g. sequential imperative langs specify the order of execution even when it is not necessary (and then compliers get more complicated trying to unravel the data flow to optimize). Even with parallelelizable constructs, I think we'd want to minimize the inter 'cell' communication for practical reasons.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588746733.081300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588746733.081300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:32</span><br/>
+Yeah, sequences of instructions are a non-starter. I'm skeptical of the concept of "cells" too, though I'm not sure what you're thinking of. Cells = objects = actors (executing independently) are a form of explicit parallelization, even if you can justify them as representing parts of the problem domain (as OOP has always tried to do).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588747754.081700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588747754.081700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:49</span><br/>
+I'll agree, but maybe for a funny reason.  With at the level of most FoC projects, the execution model of hardware isn't of primary concern.  Most of us aren't aiming for portable assembly, rather something confluent with people's ways of thinking about problems.  Many things we want to express are non-strict: you want the computer to help you figure out something, but you don't care the order it computes things in so long as it remains responsive while working.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588747939.081900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588747939.081900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:52</span><br/>
+My perspective is: you can't be confluent with someone's way of thinking if you're asking them to express their thinking in terms of 400 parallelizable units (in order for their idea to be feasible to execute).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588747965.082100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588747965.082100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:52</span><br/>
+On the other hand, there are domains where you are describing a step-by-step process: be it card games or an assembly line.  However, in this these cases.  The domain specific imperative steps probably should not line up with some sort of CPU threaded execution mechanism.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588748097.082300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588748097.082300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:54</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> the kinds of things that I've done which parallelize to 400 units are all of the form, "check all the combinations and tell me the best fit."  And you don't even want the computers to check all the combinations because there's way too many.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588748118.082500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588748118.082500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-05 23:55</span><br/>
+I mean to <b>actually</b> check them all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588750144.084000"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588750144.084000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:29</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Why do you see the solution to this problem at the language design and not on the library level?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588750377.086900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588750377.086900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:32</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> What’s the difference between a library and a language? If the library is offering parallel computation, then the library will need to offer a language (API) to express the computation. Libraries don’t help solve the problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588750494.091500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588750494.091500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:34</span><br/>
+Also, libraries are usually designed to solve a specific problem (e.g. graphics, or matrix multiplication). If you want your arbitrary domain problems to be parallelised, you need to express them in terms of more general constructs. Those constructs are something a programming language is supposed to provide.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588751284.102400"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588751284.102400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:48</span><br/>
+Hmm… not sure I can follow. How can you solve an arbitrary problem with parallelization? Wouldn’t you have to know enough about it so it becomes domain-specific? At least specific enough to know if it makes sense to run it on GPU cores such that the setup costs are amortized?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588751563.107700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588751563.107700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:52</span><br/>
+There are libraries today that do exactly that transparently based on context like the amount of data to be crunched, so you as the developer don’t have to make that distinction… so I guess my question is — slightly reworded — what benefits would a language offer over a library for an already existing language? It seems a lot of work to invent a new language if you can just import a library…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588751772.108000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588751772.108000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 00:56</span><br/>
+If you run a whole app on the GPU then setup costs are less of a problem (from what I know). Setup costs are a problem when you try and do some tasks on the GPU and some on the CPU, and they have to constantly communicate. Setup costs are also higher in outdated APIs like OpenGL, and very low in newer APIs since the GPU program is compiled at app startup rather than mid-frame.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588752031.109700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588752031.109700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:00</span><br/>
+Or at program compile time even. <br/>So do I understand you correctly that you want a programming language that does everything on the GPU?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588752032.109900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588752032.109900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:00</span><br/>
+To have everyday computations be massively parallelizable they firstly need to be large enough that it matters. If your app is just a digital clock (incrementing a counter), then yeah, it can't be parallelized and it doesn't need to be.<br/>Once you have a computation large enough to be worth parallelizing, then automatic parallelization depends on having the problem expressed in a form that does not introduce artificial sequentiality (i.e. avoids instruction sequences, top-down recursion, and hierarchical data structures). What these constructs should be is an open problem. I have a hunch that relational/logic languages provide a good foundation and we need some novel ideas atop that foundation. That's what I've been focusing on for the last six months. I'm hoping to be able to share more at some point, if I find a promising path.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588752145.110300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588752145.110300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:02</span><br/>
+Yes, I want to <em>consider</em> a language that does everything on the GPU that is possible with today's hardware.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588752355.112500"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588752355.112500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:05</span><br/>
+&gt; What these constructs should be is an open problem.<br/>&gt; <br/>Sounds like the distinction between applicative functors and monads might be relevant to your investigations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588752489.113500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588752489.113500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:08</span><br/>
+I've been down the route of FP, and I know about those concepts, but I don't think they're applicable in any substantial way (pun intended).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753212.123800"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753212.123800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:20</span><br/>
+I was more talking about math than FP here, but it seems that might just make it even less attractive to you…<br/><br/>Regardless, there are (imperative) languages that take advantage of the programmer specifying something as applicative, ie. “sequence of operation not important” to run them in parallel. And at the call site it looks just like your usual map over an array, just that it runs faster.<br/><br/>On the other hand I do think a functional language like Haskell is a good example to see what design questions are raised when a language restricts specifying operations where order is important in general, and only allows that with additional effort in form of monads and syntactic sugar like do-notation.<br/><br/>I’m genuinely interested in what you are thinking about and look forward to learn more about what you’ve been working on.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753427.124500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753427.124500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:23</span><br/>
+It's definitely necessary to exploit associativity and commutativity of operations for parallelization, which I think covers what you're referring to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753540.125700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753540.125700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:25</span><br/>
+Haskell isn't really orderless. It's built atop a foundation of recursion and hierarchical data structures. Even if its operations aren't specified as a strict sequence (a total order), those constructs impose (inessential) order.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753607.125900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753607.125900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:26</span><br/>
+Thank you :slightly_smiling_face: I'll be reporting progress when I think I have a story to tell! (will try #two-minute-week at some point too).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753687.126300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753687.126300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:28</span><br/>
+In Onex there are two forms of parallelism that can be exploited. There's the coarse grained parallelism that you'd probably understand as the actors or agents or live objects. And there's the finer term reduction familiar to FP folk, where you can reduce a tree by rewriting many branches at once.<br/><br/>Neither of which the programmer needs to be conscious of!<br/><br/>I mean, they will get the sense that the coarse objects seem to have their own animation, but that's what they'd expect given that that's how reality also works!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753792.126500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753792.126500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:29</span><br/>
+So to return to your point, Onex programs can be parallelised without end user involvement, including on GPUs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753838.126700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753838.126700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:30</span><br/>
+Oh, and I use Vulkan but haven't got a clue what I'm doing.. :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588753991.127100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588753991.127100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:33</span><br/>
+Have you actually got it (the whole language) running on GPUs? GPUs don't handle tree-like data very well, from what I know.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588754053.127500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588754053.127500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:34</span><br/>
+Soz I meant I use Vulkan for the UI so in theory it would be easy to use the API for processing but that's a long way off..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588754161.127700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588754161.127700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 01:36</span><br/>
+Seems like a stretch to say that you can compute on GPUs then :slightly_smiling_face:. Let me know if you make progress in that direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588761063.129200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588761063.129200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-06 03:31</span><br/>
+Friends, let's be clear about the old difference between parallelism (doing two things at once) and concurrency (coordinating activities that are happening at about the same time).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588770069.130100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588770069.130100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-05-06 06:01</span><br/>
+There's been a lot of activity over the past few years in defining high level GPU languages that address these issues.<br/>• co-dfns is a data-parallel and functional dialect of APL that runs on GPUs. What blew my mind is that the compiler itself is written in co-dfns, and so you can compile your co-dfns programs into GPU code using the GPU. Prior to seeing this, I did not think that a compiler was the kind of program suitable for parallel execution on a GPU. Turns out that the choice of data structures is very important.<br/>• Taichi is a DSL for defining fixed-height hierarchical data structures (which behave like sparse arrays). Thousands of lines of CUDA that only one guy in your organization understands can be replaced by tens of lines of taichi code. It's very instructive to look at the GPU-specific data types and compiler optimizations exposed by the Taichi language.<br/>• TensorFlow is implemented as a library that you call from C++ or Python. Using this library, you construct what is essentially a parse tree for a program using APL-like data parallel operations. The library compiles this parse tree into GPU code and executes it. Stefan asked why this is a language issue, not a library issue. Well, it's easier to write code directly in a language, than to use a library interface that consumes source code written in another language and compiles it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588770333.130300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588770333.130300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-05-06 06:05</span><br/>
+My Curv language already compiles into GPU code, but it's not general enough to do everything I want. Support for hierarchical data structures is the next big thing (along with the ability to automatically generate compute shader pipelines). The use case will involve hundreds of cores traversing the same hierarchical data structure in parallel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588772151.140100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588772151.140100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 06:35</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> co-dfns looks super interesting — thanks for sharing that! I hadn’t heard about it, although Raph Levien’s <em>A taste of GPU compute</em> is sitting at the top spot of my to-watch list and it seems I would’ve picked it up there soon… fascinating. I’d love to dig deeper into the data structures part — why is it that every project you’re currently not working on looks more attractive than the one you are working on?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588772334.142400"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588772334.142400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-05-06 06:38</span><br/>
+I also have a feeling that the C++ superset approach used for Apple’s Metal Shading Language isn’t the end of that story…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588793483.160500"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588793483.160500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-05-06 12:31</span><br/>
+Database folks have been attacking sql-on-gpu for a long time but there are no real successes yet. The core problem at the moment is memory bandwidth and latency. Getting data in and out of gpus is slow, and gpus aren't very good at branchy workloads so you inevitably need to do some stuff on the cpu. Often the result is that actual query execution is somewhat faster but the speedup is dwarfed by the time spent fetching the data.<br/><br/>Looking at games gives a good idea of the division of work - game programmers are among the most experienced at writing gpu-friendly code but they still typically choose to put game logic, AI, pathing etc on the cpu.<br/><br/>Also modern cpus are actually pretty wide if you write code that is friendly to out-of-order execution and memory pre-fetching, but modern high-level languages go almost out of their way to be hostile to both. My bet is that designing a language to reduce false data dependencies and allow for more sequential memory access is a more viable target than designing a general purpose language for the gpu.<br/><br/>This might change though in the next decade as new gpu designs offer to share general memory with the cpu, so switching back and forth becomes more practical.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588795616.164000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588795616.164000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-06 13:06</span><br/>
+One thing is many programming models that are friendly for GPU also run significantly faster in CPUs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588795972.164300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588795972.164300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-06 13:12</span><br/>
+Game code runs on CPUs, sure, but if you look at what Unity is doing with DOTS, or ISPC, you'll see that on CPU you can get orders of magnitude better performance, most game code doesn't run on the GPU because the GPU is budgeted for graphics work, but more and more graphics (culling, sorting) and graphics adjacent (animation, VFX) work that traditionally happened on the CPU is happening on the GPU
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588810344.170900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588810344.170900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-05-06 17:12</span><br/>
+the co-dfns author did a workshop on how he made trees parallel by construction that i will probably have to digest for a full year: <a href="https://youtu.be/lc4IjR1iJTg">https://youtu.be/lc4IjR1iJTg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588814521.178400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588814521.178400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 18:22</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Thanks for all those links! You seem like you know what's going on in the GPU space, I'll have to tap your brain :slightly_smiling_face:. And wow, I've never looked into Tensorflow because my eyes glaze over when people start talking about machine learning. I didn't realise it was a more general platform. Time to pay attention!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588815736.178600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588815736.178600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 18:42</span><br/>
+<span style="background-color:#ccf">@Jamie Brandon</span> Couldn't the fact that game programmers still do a lot of work on the CPU be explained by the fact that:<br/>• It's hard to write massively parallel code in traditional languages<br/>• GPUs are very hard to program, especially with pre-2016 APIs<br/>• Not all work is slow enough to benefit from extensive parallelization<br/>• Everyone thinks CPUs are "normal" and GPUs are "special"<br/>None of those factors imply that GPUs would be a performance <em>regression</em>, they just imply that CPUs are the easy or "good enough" path.<br/>I mean... I've made some small video games before, and I never decided to use a CPU because a GPU <em>wouldn't work.</em> It's more that CPUs are the default choice.<br/>On the other hand, I can see how an SQL database would be a problem on the GPU since you have to shuffle a ton of data around and disk/memory speed would limit any potential gains. I'm not personally interested in "big data" apps thankfully, so I'm happy to presume my language only works with &lt;~2 GB workloads.<br/>And yeah, I think "the future" is integration of CPU and GPU cores such that there is no perceivable communication overhead. It might be reasonable to take that as an assumption, if helpful.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588818223.179300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588818223.179300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-05-06 19:23</span><br/>
+&gt; <span style="background-color:#ccf">@Nick Smith</span> I think the future is integration of CPU and GPU cores such that there is no perceivable communication overhead.<br/>So AMD has been pushing this idea for 8 years with their HSA architecture. If it is such a great idea, why are Intel and nVidia not doing it? An honest question, I know very little about HSA or about any engineering tradeoffs that might be involved. <a href="https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture">https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588818363.181500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588818363.181500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 19:26</span><br/>
+My first guess would be Nvidia doesn’t see itself as a CPU company and Intel doesn’t see itself as a GPU company. They’re focused on their own niches. AMD has an equal focus on both technologies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588818406.182400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588818406.182400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-06 19:26</span><br/>
+Of course all companies have crossed into both technologies, but not deeply.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588873089.211600"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588873089.211600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:38</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> see my response above, none of those things are true for the current state of the AAA game industry, game engines are using (less) massively parallel code on the CPU by default, the main reason now is resource allocation, and once again many workloads that were CPU only are moving to the GPU now
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588873104.211800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588873104.211800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:38</span><br/>
+sure there is a lot of game code that is still single threaded
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588873156.212000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588873156.212000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:39</span><br/>
+Also one thing about the memory issue is game consoles already almost universally have unified memory
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588873161.212200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588873161.212200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:39</span><br/>
+and have had it for years
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588873923.213700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588873923.213700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:52</span><br/>
+on consoles there often is very little communication overhead, consoles use AMD (or Nvidia with Switch) SOCs, there are still many reasons why you can't or don't want the CPU and GPU operating on the exact same data and you don't want the CPU waiting for the GPU or vice a versa. GPU and CPU don't share caches, GPU prefers large pipelined workloads to hide memory latency and wants to saturate bandwidth, etc. but many of those same rules apply to any multiprocessor system and are valid if you want good performance with multithreaded CPU code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588874243.214600"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588874243.214600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:57</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Intel is working on a discrete GPU (that will actually ship, I think), so maybe that will change.  I think Intel is more of a GPU company than Nvidia is a CPU company
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588874348.214800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588874348.214800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 10:59</span><br/>
+There is also this idea that, everyone has a integrated GPU sitting in their Intel CPU, and that thing is often idle if a discrete GPU is active
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588874542.215000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588874542.215000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 11:02</span><br/>
+and sure its under-powered, but it still has some compute capability that's non-trivial
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588874560.215200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588874560.215200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 11:02</span><br/>
+its under-powered compared to high end discrete GPUs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588874583.215400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588874583.215400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-07 11:03</span><br/>
+also integrated GPUs on PC are UMA
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588893263.242700"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588893263.242700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-07 16:14</span><br/>
+I haven't seen anyone mention Halide ... I don't know how to build a programming language where massive parallelism is easy, but Halide is the obvious starting point. <a href="https://halide-lang.org/">https://halide-lang.org/</a><br/><br/>To a large extent I think the ball is in the hardware people's court. I remember seeing a proposal for a CPU architecture, can't remember where I saw it or what it is called... it was similar to SIMD but instead of the concept being "provide a bunch of instructions and hope developers use them" it was "run arbitrary C loops in parallel" - it was an architecture designed specifically to allow the vast majority of loops to "implicitly" run in parallel (meaning, the compiler would have to emit "vector" instructions as in standard SIMD, but the instructions themselves were more powerful than standard SIMD, enabling most loops to be automatically parallelized instead of the status quo where only a fraction of all loops can be automatically converted to SIMD form.) So, like, this needs to be a standard.<br/><br/>Meanwhile on the GPU side, there is a large physical distance and slow bus separating it from the CPU, as well as a separate memory pool... and GPUs are bad at running code that is serial in nature. If AMD/NVIDIA can come up with a hybrid architecture that is capable of running both parallel code and mostly-serial efficiently, then it will become possible to "just compile your code for the GPU" (or in case of JIT languages, "just flip a switch and it runs on the GPU"), and then the GPU will be a more popular target.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588907827.246300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588907827.246300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-05-07 20:17</span><br/>
+This is a long thread I can't read through yet, so I risk repeating ideas, but here are my thoughts:<br/><br/>There are many projects here that consider using a DAG representation for code or logic. That's something that can be automatically parallelized (where the only blocks are dependencies). Except that each branch is probably not doing the same thing, so not SIMD.<br/><br/>Most loops can be replaced with map / reduce / filter / join / etc. (this is becoming a big thing in JavaScript, or LINQ in C#). If we keep heading that way, a lot of that stuff can be replaced with SIMD. Might not be possible wherever there are side effects, but some might be reducible to a formula?<br/><br/>For things that are sequential, maybe a model more like fields + particles, like Alan Kay has suggested before. Maybe that's actors all over again though? But maybe there's a way to make that easier to deal with than in traditional general purpose languages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588916861.247600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588916861.247600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-05-07 22:47</span><br/>
+<span style="background-color:#ccf">@Scott Anderson</span> I just stalked your LinkedIn so I believe you know what you're talking about :slightly_smiling_face:. It's good to hear that AAA studios are taking GPU compute seriously.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588951016.250700"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588742541.079700.html#1588951016.250700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-08 08:16</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> Well, Parallel LINQ (parallel map / reduce / filter / join / etc for C#) has been available for many years, but I don't generally feel like just using it all the time instead of standard serial LINQ. The problem is that often we're operating on a small collection, and the overhead of coordinating the behavior of even two threads is not worthwhile if the collection is smaller than, I don't know, 100 elements or something. Throughout my career I've spent most of my time dealing with many <em>small</em> collections with less than 5 or 50 elements each, and when I'm dealing with medium-size collections of 100-1000 elements, it's often a hashtable, sorted list or array that I'm using as a lookup table in a bigger calculation, rather than something I'm directly using with map/filter/reduce. (I do <em>also</em> process larger lists, it's just that the fraction of code doing highly parallelizable work is small.)<br/><br/>Sometimes one can rearrange lots of small collections into big arrays to allow more parallelism, but sometimes I can't think of a way to parallelize a lot of this work, e.g. algorithms on tree structures like Loyc trees (code) don't seem parallelizable, generally, although I did design my LES language intentionally to have a "context-insensitive" syntax, so at least you can parse all your files in parallel. For these kinds of workloads I really want hardware like I described, which can parallelize short loops efficiently.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

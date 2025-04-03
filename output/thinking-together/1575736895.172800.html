@@ -1,0 +1,126 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-12-07 08:41</span><br/>
+Hello, I'm working on an in-house forms library (managing user input validation and submission, and establishing controlled inputs in HTML) does anyone have advice on favorite forms/input management patterns they've used? I'm most interested in separating view and state management as much as possible. I have a strong preference towards FRP.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575737238.172900"></a>
+      <a href="../thinking-together/1575736895.172800.html#1575737238.172900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-12-07 08:47</span><br/>
+In the past, I approached this problem by establishing a <tt>Model</tt> type for every input that would hang onto a few interesting props—<br/><pre style="white-space:pre-wrap">{<br/>  value: T, <br/>  isTouched: boolean,<br/>  errors: Array&lt;{id, display}&gt;,<br/>  warnings: Array&lt;{id, display}&gt;,<br/>  notes: Array&lt;{id, display}&gt;<br/>}</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575737308.173200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575737308.173200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-12-07 08:48</span><br/>
+This was a good approach imo due to the ability to aggregate models into larger models—for example only if all child models are touch is the super model touched.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575772045.173900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575772045.173900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-12-07 18:27</span><br/>
+Pay attention to representing invalid states.  For instance, two fields who values must agree in some way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575831337.180000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575831337.180000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-12-08 10:55</span><br/>
+i think microstates.js and maybe orbit.js have interesting ideas about this
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575831962.180200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575831962.180200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-12-08 11:06</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> thanks for the input. Validation is something I certainly see as something that can be applied to existing models in the context of forms. Then, we can apply the validation at any level in the form.<br/><br/><br/><span style="background-color:#ccf">@Garth Goldwater</span> I experimented with microstates.js in the past and found it to be a little too generalized for my purposes. I had a hard time understanding the advantages of using microstates over JavaScript classes or groups of behavior subjects.<br/>Orbit looks very interesting and pretty ambitious as well. Thank you for sharing both of these. I'm sure there are parts of both that I can find inspirations from
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575833904.183200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575833904.183200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-12-08 11:38</span><br/>
+i think the talks on microstates you can find on youtube do a lot better job of justifying its purpose than anything i’ve found on the web—essentially you get the benefits of immutability (rollback/history/undo, track who changes what) without a lot of the syntactical baggage.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575833940.184500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575833940.184500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-12-08 11:39</span><br/>
+oh! fulcro and pathom have some really really cool tools for forms (in clojure) but it’s a lot to learn at once
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575834020.184900"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575834020.184900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2019-12-08 11:40</span><br/>
+I'll look into fulcro and pathom. I have a soft spot for clojure and the macro system. I'm really happy you shared those options! Some of the best DSLs come out of the clojure community
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575834029.185400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1575736895.172800.html#1575834029.185400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-12-08 11:40</span><br/>
+<a href="https://youtu.be/IS3i3DTUnAI">https://youtu.be/IS3i3DTUnAI</a> is a pretty solid intro to the techniques if not the technology so much
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,451 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-03-10 09:04</span><br/>
+It seems like a lot of you guys have looked into structured / ast-based editors previously or even tried to implement an editor. I'd be interested to hear your thoughts about why these kinds of editors haven't been widely adopted. What are the challenges (both technical and social), what are the open questions, ...?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552235630.254000"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552235630.254000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-10 09:33</span><br/>
+The experience in text editing, which we call “WYTIWYS” for “What you type is what you see” is “natural” and does not require an additional learning curve.<br/><br/>Many structured editors diverged from WYTIWIS and I believe this has hurt their experience. Some exceptions to this are Lamdu (which I’m working on) and MPS which do attempt to retain a WYTIWYS experience.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552235835.254200"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552235835.254200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2019-03-10 09:37</span><br/>
+The classic answer is that they are not fluid enough.   Computers are especially designed for text editing  (keyboard and mouse) so it takes a lot of effort to compete. <br/><br/>The most successful one seems to be embeddr. In their papers, they have good analysis of the challenges and some solutions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552235878.254400"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552235878.254400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-10 09:37</span><br/>
+btw iiuc mbeddr is based on MPS
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552236184.254600"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552236184.254600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-10 09:43</span><br/>
+Another challenge is that none of the various popular UI frameworks are really well suitable for creating code editors or rich keyboard oriented interfaces. That’s why we’ve needed to create our own UI framework for Lamdu.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552237609.255000"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-20/529811744742_ca63ca2aa38fa658cc4f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552237609.255000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Woods</b>
+<span style="margin:2em; color:#606060">2019-03-10 10:06</span><br/>
+One issue is the goal of "always be valid" - I don't think it's even desirable and makes such tools very poor creative tools.<br/><br/>When you need to refactor something from structure A to structure B it's almost essential to go via invalid transitional stages. Using any non-text editor I inevitably need a workflow of <tt>export to text -&gt; mangle -&gt; import text</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552238199.255200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552238199.255200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-03-10 10:16</span><br/>
+Thanks for the responses! <span style="background-color:#ccf">@Steve Krouse</span> I'll take a(nother) look at mbeddr. <span style="background-color:#ccf">@Yair Chuchem</span> Could you describe what popular UI frameworks were missing and what you did differently in your own one? <span style="background-color:#ccf">@Duncan Woods</span> That's right, I've had these kinds of problems before too...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552238662.255400"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552238662.255400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-10 10:24</span><br/>
+<span style="background-color:#ccf">@Felix Kohlgrüber</span><br/>A few things a UI framework needs:<br/><br/>• Stuff you’re used to having in text editors, such as moving the cursor from the end of a long line to a shorter line and then moving it back and expecting it to be at that spot (and not at the long line in the position of the end of the short line)<br/>• Responsive layout suitable for laying out code/ASTs without horizontal scroll<br/>• Animations so that the user can easily comprehend what happens in refactorings (such as “extract to let item”) and layout changes (if the layout is responsive and automatic)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552276879.258500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-03/565459439473_7af440990a8e3cbe92ff_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552276879.258500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jake Brownson</b>
+<span style="margin:2em; color:#606060">2019-03-10 21:01</span><br/>
+If text is really such a natural way of working why don't we use it more for non-programmer UIs? It seems to me we've all spent so long learning the skills associated w/ text editing it feels natural, and even if there was a "more natural" UI devised in which you could be as productive with half thee training the existing set of programmers would have to re-learn a great deal of their skills
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552281961.259000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552281961.259000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-03-10 22:26</span><br/>
+I'd recommend everyone to check out <a href="http://hazel.org">hazel.org</a> as an example of a structured editor (/research project) that aims to solve some historical problems. In particular, it formalizes the notion of incomplete programs (programs with holes) for structured editing so that not only can you manipulate arbitrary fragments of code (as with a text editor), but you can also <b>run</b> them and they'll compute the fraction of the result that there exists code for. The current demo of Hazel is a bit basic and isn't necessarily representative of the end-goal, but it's under heavy development. <span style="background-color:#ccf">@Cyrus Omar</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552289286.259300"></a>
+      <img src="https://secure.gravatar.com/avatar/c4c54a8f7c01b3e22a1e82ae29c85f70.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552289286.259300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Swirsky</b>
+<span style="margin:2em; color:#606060">2019-03-11 00:28</span><br/>
+I'm designing a structured editor for text-based coding, where tapping/clicking any text element brings up a context-sensitive menu for editing the text element and/or for spawning additional text elements. See <a href="https://www.slideshare.net/secret/4AG6fsd0t3tCNi">https://www.slideshare.net/secret/4AG6fsd0t3tCNi</a> if you're curious.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552289573.262300"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552289573.262300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-11 00:32</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> have you checked out Lamdu? Basically your very description of Hazel applies to Lamdu as well, except its current state is slightly less basic because we’ve been working on it hard for quite some time
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552290306.262500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552290306.262500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-03-11 00:45</span><br/>
+<span style="background-color:#ccf">@Yair Chuchem</span> I have, and it's pretty cool :slightly_smiling_face:. I would still consider them distinct, and I'm sure they'll make different design decisions as they grow.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552296736.263000"></a>
+      <img src="https://secure.gravatar.com/avatar/a52d221ae708f36674644a348005633a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552296736.263000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Janne Aukia</b>
+<span style="margin:2em; color:#606060">2019-03-11 02:32</span><br/>
+Perhaps not enough attention has been put into user testing and UX when creating structured editors?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552298257.263200"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552298257.263200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-11 02:57</span><br/>
+<span style="background-color:#ccf">@Janne Aukia</span> it takes a lot of work to make a structured editor with a good enough experience to “be worthy” of a good user/UX testing.<br/><br/>Note that MPS/mbeddr have actually done several formal user studies - [example](<a href="https://www.reddit.com/r/nosyntax/comments/93317x/towards_userfriendly_projectional_editors/">https://www.reddit.com/r/nosyntax/comments/93317x/towards_us&hellip;</a>)<br/><br/>For Lamdu we’ve made some informal user testing and some extensive personal dog-fooding (writing apps with the system), and we got invaluable feedback which made us improve Lamdu a lot by going for WYTIWYS and working on good responsive layout (at first big programs required horizontal scroll which we found is horrible)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552299569.263600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552299569.263600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-11 03:19</span><br/>
+<span style="background-color:#ccf">@Jake Brownson</span> it seems to me that we do use plain text for the closest thing to programmer UIs: spreadsheets and instructions from humans to other humans (pictograms may be used for the latter, but only in certain cases, and I think the same applies to graphical programming - it's useful only sometimes.) And note that the non-text disk format of the spreadsheet thwarts diff tools.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552302137.264400"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-20/529811744742_ca63ca2aa38fa658cc4f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552302137.264400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Woods</b>
+<span style="margin:2em; color:#606060">2019-03-11 04:02</span><br/>
+Something I experience which is quite subtle... kind of related <span style="background-color:#ccf">@Yair Chuchem</span> and WYTIWYS:<br/><br/>It's mistrust. It's very psychological and hangs like a cloud of unease over all high-level editors including e.g. wyswyg word processors.<br/><br/>Higher level editors are buggy and have invisible state that comes back to bite you in unpredictable and frustrating ways. This applies to basic things e.g. I still can't rely on bullet point lists or indentation in Google Docs.<br/><br/>In contrast, text feels like a raw material that can't lie to you. The ground under your feet is solid and there won't be any nasty surprises. Very few high level editors get to the point of feeling "safe".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552302661.264600"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-20/529811744742_ca63ca2aa38fa658cc4f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552302661.264600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Woods</b>
+<span style="margin:2em; color:#606060">2019-03-11 04:11</span><br/>
+<span style="background-color:#ccf">@Jake Brownson</span><br/><br/>&gt; If text is really such a natural way of working why don't we use it more for non-programmer UIs?<br/><br/>I've thought about this too.<br/><br/>I think for a constrained task, a constrained high level UI is the best. A lot of end user UI is task specific so that is the better choice.<br/><br/>For creative tasks however, the use case is more like putting a lump of clay on a potter's wheel and then massaging it into your end result with the ability to explore lots of different paths. If a high level editor adds constraints and abstractions that means you can't do this, it becomes a bad editor.<br/><br/>I am quite interested in the philosophy of craftsmanship which has a lot to do with interaction between a craftsman and material. I think a structured editor can achieve the same certainty as text if it's fundamental unit of material has the right properties.<br/><br/>I'm not sure what these properties are but it's something like:<br/>- predicatable rules of combination<br/>- always possible to add or remove anything<br/>- no hidden state<br/>- can act on groups as you can on individuals<br/><br/>Spreadsheets work quite well with cells as materials. It's not perfect but you know where they are and how to combine them so it feels solid. Spreadsheet formulas however, eh, not so much!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552313033.266100"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552313033.266100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-03-11 07:03</span><br/>
+Hypothesis: 80% of the benefit of structured editing is not the structure per-say, but in the shift in mindset such that you should provide tooling right next to and spatially integrated with the display of code—refactoring tools, debugging info, performance info, live feedback, related code search, etc. There’s no reason you can’t provide the same advanced tooling for text buffers—only that text buffers lock you (the IDE designer) into thinking about text manipulations and thinking that you are locked into a rigid display of the program. The value of the structured editor is that, because you are rethinking the code display, you are freed up to offer rich program insights and manipulations close to and interspersed with the code. It’s those tools, not the structural tree manipulations, where the real value is.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552327787.267600"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-02/652395123492_3f471057576c27bcd486_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552327787.267600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Moon</b>
+<span style="margin:2em; color:#606060">2019-03-11 11:09</span><br/>
+An issue with “classical” structure editors is the cursor UI, where the thing that is selected at any time is a subexpression (i.e., some subtree within your AST), and any edit you make targets that selected subexpression. This causes awkwardness in situations where we’d rather have text-like entry that relies on operator precedence to construct the tree appropriately. Say we want to type <tt>2 * 3 + 4</tt>. We get to <tt>2 * [3]</tt>, where <tt>3</tt> is selected because we just constructed it. Then we hit plus. A simple structure editor implementation would lead to <tt>2 * (3 + [_])</tt>, which is not what we want. In this implementation, we’d have to first navigate up to select the multiplication expression (<tt>[2 * 3]</tt>) and then hit plus. This kind of mode switching is annoying.  <a href="http://www.cs.ox.ac.uk/bernard.sufrin/edit.pdf">http://www.cs.ox.ac.uk/bernard.sufrin/edit.pdf</a> gives a solution to this that leverages online precedence parsing on insertion commands. Hazel does a form of this, I believe Lamdu and mbeddr do as well. Independently of whether we’re switching modes, AST navigation via ‘parent node’ and ‘child node’ commands can also be at odds with an interface that presents things as a linear sequence of characters.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552327876.267900"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-02/652395123492_3f471057576c27bcd486_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552327876.267900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Moon</b>
+<span style="margin:2em; color:#606060">2019-03-11 11:11</span><br/>
+I think another fundamental issue with structure editors today is the implicit assumption that constructing an expression node needs to happen “all at once”. Suppose we have an AST structure that represents a parenthesized expression as a parentheses node with a single subexpression child node, and say we want to place <tt>1 + 2 + 3</tt> in parentheses. Because we’re creating a single node, it seems to make sense that this should be a single ‘parenthesize’ command. This requires the user first to select the entire expression <tt>1 + 2 + 3</tt>, then do ‘parenthesize’. So this requires the expression selection cursor UI, which has issues as described above. One thing that’s nice about a text interface is you can break up expression node construction into multiple insertions. Given <tt>|1 + 2 + 3</tt>, I can type <tt>(</tt>, then move over to the end of the desired subexpression, then type <tt>)</tt>. One approach I’m exploring and implementing in Hazel is having an expression construction mode, where you can similarly rely on multiple keystrokes to specify how to construct an expression node. Given <tt>|1 + 2 + 3</tt>, I type <tt>(</tt>. This gives me <tt>(1[)] + 2 + 3</tt> in expression construction mode, where the right parentheses is selected for moving to the appropriate spot. I hit right, that gives me <tt>(1 + 2[)] + 3</tt>. Hit right again, I get <tt>(1 + 2 + 3[)]</tt>. I then hit enter or <tt>)</tt> and that returns me to the regular edit mode. People like to hate on modes, but it’s not that different from selecting autocomplete suggestions, which people like. The important thing is for that mode to be made visually clear and to be automatically entered/exited at expected times. This is what distinguishes this expression construction / autocomplete modality from the classical structure editing modality described above.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552336403.276500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552336403.276500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-03-11 13:33</span><br/>
+Thanks for all of your input, I really appreciate it :+1:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552369220.296300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552369220.296300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-03-11 22:40</span><br/>
+<span style="background-color:#ccf">@Steve Krouse</span> Can we migrate to Zulip now so that threads like these aren't crammed into a tiny sidebar? :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552387039.297300"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552387039.297300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2019-03-12 03:37</span><br/>
+I set up <a href="http://futureofcoding.zulipchat.com">futureofcoding.zulipchat.com</a> and you can login by resetting your password. Some of us tried it out (I don't know if you were one of us) but I didn't love it. The threads are nicer but the rest of the UI is a bit awkward. It's not clear to me either way
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552426936.298800"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-24/1392332871012_8d5fa305f272f9d0c9e3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552426936.298800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Roben Kleene</b>
+<span style="margin:2em; color:#606060">2019-03-12 14:42</span><br/>
+A quick addition regarding the supremacy of plain text: No one has mentioned Unix. The "Unix Programming Environment" has completely dominated the programming industry. Text files are a core tenet of Unix (e.g., <a href="https://en.wikipedia.org/wiki/Unix_philosophy">https://en.wikipedia.org/wiki/Unix_philosophy</a>).<br/><br/>Unix is is just as completely unimportant in all other industries, so you don't have the supremacy of text files anywhere else.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552436107.299900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552436107.299900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-03-12 17:15</span><br/>
+<span style="background-color:#ccf">@Roben Kleene</span> If only Unix kept up with the Unix philosophy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552517892.310200"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552517892.310200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-03-13 15:58</span><br/>
+I agree strongly with <span style="background-color:#ccf">@David Moon</span> that fluent cursor is the pain point. I have done some structural domain specific XML editor and while not FOP thing strictly issue was there close too. When you are implementing your own solution you are usually not alone. System will bring it's own limited cursor and selection that you have to somehow tolerate.<br/><br/>Just ideas for your example: don't use parenthesis directly but somehow add one middle step there. For example: you cannot create real parenthesis but only 'suggestions'. Like: <tt>( 2 * [{] )</tt> -&gt; <tt>( 2 * { 1 + 3 [}] )</tt> -&gt; <tt>( 2 * ( 1 + 3 )[] )</tt> (suggestions will upgrade automatically as real parenthesis when match is found). Therefore editor is aware which parenthesis are connected and structure won't be completely broken in middle way. Or maybe selection itself can be considered by inputting that {} and adding node is separated concern.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552519491.310400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552519491.310400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-13 16:24</span><br/>
+All great points above. One thing I didn't see mentioned is integration with the entrenched tooling. This is as much a technical issue (git compatible) as a cultural one ("I wont give up my editor!").
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552523437.313700"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-02/652395123492_3f471057576c27bcd486_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552523437.313700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Moon</b>
+<span style="margin:2em; color:#606060">2019-03-13 17:30</span><br/>
+<span style="background-color:#ccf">@Niko Autio</span> Ah interesting. So I’ve also been thinking about transient edit states, where the parentheses node isn’t constructed in expression construction mode until you move the delimiters and “commit” them. Your idea seems similar, but perhaps with the added benefit of not forcing you to think about where a delimiter (in your example, the right parentheses) should go until you’ve written the inner subexpression. Then again, a lot of people are used to bracket autocompletion, so I could see it being acceptable that you have a balanced pair of parentheses before constructing the inner subexpression. I also wonder what should happen in the case of Hazel, where every edit state has a live computed result, when you have a left parentheses but not the right one. For example, if I have <tt>2 * (3 + 4</tt>, should I assume there is no parentheses and compute <tt>2 * 3 + 4</tt>, or should I assume some default position for the closing parentheses and compute <tt>2 * (3 + 4)</tt>? I wonder if there would always be such a reasonable default position.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552524338.314000"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-02/652395123492_3f471057576c27bcd486_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552524338.314000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Moon</b>
+<span style="margin:2em; color:#606060">2019-03-13 17:45</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> One way I could see structure editing start to get integrated with existing tooling is as an editor plugin. What you store in version control is plain text, but the plugin can parse the program and then provide a structure editing interface that is automatically generated from compatible language grammars. It would be sweet if you had a Hazel-like editor plugin that takes a compatible language, detects which parts of it are purely functional (as needed for Hazel’s current model of liveness), then overlays those chunks of code with a live computation cell, where you can see a live result getting updated inline as you edit that piece of code. Underneath, the plugin is just making appropriate text changes to the file and that’s what gets committed to VC.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552564877.319100"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552564877.319100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-14 05:01</span><br/>
+<span style="background-color:#ccf">@David Moon</span> IIUC that’s kind of similar to Unison’s current approach
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552571184.319300"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-20/529811744742_ca63ca2aa38fa658cc4f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552571184.319300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Woods</b>
+<span style="margin:2em; color:#606060">2019-03-14 06:46</span><br/>
+<span style="background-color:#ccf">@David Moon</span><br/>I think you are right but it is also a potential disproof of the value of structure editing. This type of thing is quite easy to add to existing IDEs like Visual Studio but there aren't a lot of compelling use cases. What actually gets much easier with a non-textual ide? If I had such a use case, I would create myself a plugin!<br/><br/>For example, the most common "extra UI" you can pop up these days is for refactoring.<br/><br/>The simplest example might be Resharper bringing up a dialog box to rename all instances of an element.<br/><br/>However, the standard VS method to do this inline as text is a bit slicker and lower mental overhead - it highlights the text you are renaming in a special way and then dynamically updates all the references as you type.<br/><br/>So :shrug: - I have plugins for visualizing code but I'm a little mixed on having them inside the IDE as yet-another-window. There are times that spinning them out into their own app makes them easier to use and compartmentalizes activities a bit better.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552600260.334600"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552600260.334600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-03-14 14:51</span><br/>
+<span style="background-color:#ccf">@Duncan Woods</span> One potential target is for using multiple languages. Let's say you are building HTML with JS. How do you offer all the HTML candies for HTML and JS candies for JS when they are side by side without creating completely new monster like JSX. Such things is not maybe super common it's good to think how does it effect on development when mixing languages is easy? For example having general purpose macro language and commenting semantics would be nice.<br/><br/>However I am mostly considering structural editing as base for more powerful end-user GUI:s at first. Developing GUI:s is huge time sink and for complex problems having text inputs, checkboxes and selections is simply way too limited.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552604536.335800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552604536.335800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-14 16:02</span><br/>
+Slapping on a structured editor on top the existing languages will only have limited benefit - this is because the current languages are designed from a completely different mindset. It would be much nicer to have a top-to-bottom redesign where the UI and tooling isn't designed after the syntax and semantics, but they are in fact all designed holistically. E.g. we can't slap on an 'excel view' onto Python. Any view cannot escape from the Python-ness of the concepts you're working with. I agree strongly with <span style="background-color:#ccf">@Brian Hempel</span> - it's not the structure but that the <b>medium</b> you use to interact is itself more powerful. Not sure this makes sense but I see the static-document nature of the programming medium as something that we need to look beyond.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552614248.337800"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-02/652395123492_3f471057576c27bcd486_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552614248.337800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Moon</b>
+<span style="margin:2em; color:#606060">2019-03-14 18:44</span><br/>
+My conception of this structure editor plugin goes beyond the editing mechanics. I guess I’m really imagining a full IDE-like GUI overlay with editor services acting on the syntax tree getting structure-edited. As <span style="background-color:#ccf">@Brian Hempel</span> was describing, this could be a richer medium in which the results of editor services interspersed with the code being written. Maybe this isn’t quite possible with today’s plugin architectures (could you do this in Glamorous Toolkit? haven’t looked into it much). But if you could (which sounds feasible both technically and culturally given editor trends over the past ten years), then you could have a rich medium of interaction but still rely on existing text-based tooling for persistence and version control. <span style="background-color:#ccf">@Shalabh</span> I agree that you’re fundamentally limited by the underlying language and that there would be benefit in designing languages from the ground up with the UI in mind, but I don’t see why those richer interaction mediums have to be at odds with current VC tooling. Maybe I’m missing a point/example here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552622557.338000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552622557.338000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-14 21:02</span><br/>
+<span style="background-color:#ccf">@David Moon</span> - you can decompose the idea of a program into 'language + UI views'. But this presumes you have an underlying language. Instead, a deeper redesign would be 'model + UI views'. Here text could be used as a serialization format for the model, but being a serialization format it may not be readable. Instead you'd always want to look at the model through the UI views. As an example consider if we had to fit spreadsheets into git (with fine grained versioning of cells). You'd want to preserve identity of elements across versions in any decent structural editor.<br/><br/>So it's not at odds, and can be made to work but there's an impedance mismatch. You can still use git, by reducing to a versioned key value store. So 'git log' may be useful but 'git diff' or browsing the repo in github would be meaningless since you are looking at some serialization of a model where the optimum view isn't text lines.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552622769.338200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552233851.253900.html#1552622769.338200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-14 21:06</span><br/>
+Related thread: <a href="1548823279.730200.html#1548964100.778700">1.548964.html&hellip;</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

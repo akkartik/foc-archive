@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #introduce-yourself</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-06-27/3724855944404_78abc9cc9c439c8d8a7b_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Amin Dorostanian</b>
+<span style="margin:2em; color:#606060">2019-07-31 02:59</span><br/>
+Hello people,<br/>I found this community while searching for people who are into Flow-Based Programming projects. I am working on a DSL to build up my own FBP over Kotlin. One of the main problems with FBP I faced so far is "Performance Issues". Since you are dealing with some way of communication among the blocks of codes (typically a protocol over socket). I wonder how others see FBP as a general purpose way of coding  while dealing with it's disadvantages like performance issues.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1564571628.055700"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1564571628.055700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2019-07-31 04:13</span><br/>
+IMO closures (<em>was: continuations</em>) (lambdas) are like processes at the language level.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1564624723.060200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1564624723.060200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-07-31 18:58</span><br/>
+Paul, are you taking about continuation-passing-style?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1564695988.063600"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1564695988.063600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2019-08-01 14:46</span><br/>
+Hi <span style="background-color:#ccf">@Dan Cook</span>, I definitely don’t mean CPS.  I might have said “closures” (or callbacks, or...) instead of “continuations”.  I don’t know if there’s a name for this technique, so I will provide a (simple) recipe for it rsn...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1564734436.063900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1564734436.063900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-08-02 01:27</span><br/>
+The simplest implementation of CPS is just replacing call &amp; return semantics with passing callback functions (lambdas) into tailcalls. This can be done explicitly in source code, or compiled from what looks like standard call syntax.<br/><br/>But I think I've heard of it also implemented by manually copying and restoring actual call-stacks / activation records.<br/><br/>Is one of those more or less relevant?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1564750193.064300"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1564750193.064300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2019-08-02 05:49</span><br/>
+Hi <span style="background-color:#ccf">@Dan Cook</span><br/><br/>This used to be called cooperative multitasking.  It was discredited in Windows 3.1, and then never(?) tried in an application setting (instead of in an O/S setting).<br/><br/>I believe that we need to get rid of the call-stack.  Esp. in a world where “everything is smart” and cpus are cheap.  The only (reasonable) way in which things can talk to each other is over a wire, not using a call-stack (for the comms/IPC part).<br/><br/>In that kind of world, all software components must be designed to be concurrent.  [Hence, my interest in FBP.  I used to conflate “concurrency” with “parallelism” until I saw Rob Pike’s talk “Concurrency is not Parallelism (It’s Better)“.  (If you search for the talk, note that it has been renamed to drop the parenthsized bit)].<br/><br/>It is nearly trivial to implement cooperative multitasking using closures. A list of closures is randomly walked by a single routine - the Dispatcher.  The Dispatcher calls a closure.  Then, when the closure returns, the Dispatcher calls another closure.  The closures cannot (must not) directly call each other, they can communicate only by leaving events (short messages) in queues.  In this way, the call-stack only becomes 1 level deep.<br/><br/>Cooperative multitasking works in an application setting because, a bug - anywhere in the app - is - just a bug.  We don’t need MMUs to protect one subroutine from another inside an app.<br/><br/>This matches the FBP model and the thing I’m working on (incl. a set of rules to “structure” message passing).<br/><br/>If early OS developers didn’t have a disdain for Lisp and friends, they might have used closures instead of manually building closures in C and assembler (aka multiple stacks).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1565042687.070900"></a>
+      <img src="https://secure.gravatar.com/avatar/4c357041ad053c323f203260530f1fdc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1565042687.070900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kai Richard König</b>
+<span style="margin:2em; color:#606060">2019-08-05 15:04</span><br/>
+<span style="background-color:#ccf">@Amin Dorostanian</span> I know I am late to answer, but I wanted to tell you that we thought of this too before implementing our runtime. We ended up choosing golang which allowed us to connect all elements via channels (<a href="https://gobyexample.com/channels">https://gobyexample.com/channels</a>). This implementation scaled really well on a single node. Without doing any optimization we where able to match the speed of Apache Storm on the Yahoo Stream Benchmark
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1565042699.071100"></a>
+      <img src="https://secure.gravatar.com/avatar/4c357041ad053c323f203260530f1fdc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../introduce-yourself/1564567151.055300.html#1565042699.071100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kai Richard König</b>
+<span style="margin:2em; color:#606060">2019-08-05 15:04</span><br/>
+You can read more on the results here - <a href="https://bitspark.de/blog/benchmarking-slang">https://bitspark.de/blog/benchmarking-slang</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

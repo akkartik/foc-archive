@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-07 04:06</span><br/>
+Why is shared mutable state considered bad? Isn't it an accurate reflection of the universe we live in?<br/><br/>The problem with SMS seems to be that it allows for an explosion in possible execution paths that the programmer didn't anticipate. A more natural way to solve this problem might be to make the programmer more aware of what is actually happening, rather than limiting the use of SMS.<br/><br/>I think this whole thing is a symptom of programming languages introducing parallelism <b>after</b> the "read-lines-one-by-one-and-track-state-in-your-head" paradigm of coding was already set in. If an IDE showed you a lockless function that mutates state, not as a clean one-by-one list of instructions, but as the bizarre tangle of spaghetti it actually is, people would avoid issues in a more natural way. Another way to think of this is two programmers sitting side by debugging the same function out loud...<br/><pre style="white-space:pre-wrap">programmer 1: Ok... if x is less than 5, set y to 3<br/>programmer 2: Ok... set y to -5, then if...<br/>programmer 1: Hey what are you doing? I want y to be 3<br/>programmer 2: No I just set it -5<br/>...</pre><br/>Yeah, this is kind of chaotic but it's actually, in a way, very "natural" and "easy to understand". Not easy to <b>solve</b>, but very natural <em>to see that it's difficult to solve</em>.<br/><br/>Basically I think that mutating global variables are actually the most natural way for a human to understand procedures, and supposedly "clearer" methods like FP are only popular among people with very strong mathematical ability, who have <b>also</b> already internalized powerful abstraction abilities that they no longer realize are unnatural, and have <em>also</em> already experienced the difficulty of trying to understand parallelism with only their brains. These people welcome the unnatural constraints of FP with open arms. People coming to programming from the real world, do not (in my experience) welcome the constraints of FP at all.<br/><br/>It's very interesting to me that Dynamicland appears (from afar, I've never been there), in it's pursuit of a more natural and "humane" programming, to have basically gone completely the opposite direction to FP. As far as I can tell the entire room/operating system operates on a single massive global database.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559921796.117500"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559921796.117500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2019-06-07 08:36</span><br/>
+Bret Victor’s perspective when I asked about this: <a href="https://twitter.com/worrydream/status/1097521873905217536">https://twitter.com/worrydream/status/1097521873905217536</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559922770.118400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559922770.118400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-07 08:52</span><br/>
+Very interesting response from Bret but I don't think it quite addresses the issue head-on. It's very difficult to say without knowing the details of how Realtalk works.<br/><br/>How do I program something that closes the door, <b>then</b> dead-bolts the door? How do I do that in a world where someone else wants to open the door and drive a robot through? This sort of thing requires ordering and locking across wishes, surely?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559922966.118600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559922966.118600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-07 08:56</span><br/>
+I'm essentially on his side, and obviously the physical nature of Dynamicland is a major help because the real world is, unquestionably, shared mutable state, but he doesn't really explain how the <b>problems</b> of SMS are solved. This is basically the area I am most interested in. I think it needs new ideas in visualization to express the inherent complexity in something like the door locking example and then make it easy to express a solution
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559929646.125700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559929646.125700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-06-07 10:47</span><br/>
+one thing I find interesting about his point #3 is that the primary i/o device for DL is physical state, and the machine has been designed around it. I often feel like the problems with programming languages boil down to the gap between doing something trivial and useless ("hello world") and something useful (todo list). at least, that was my experience when I learned programming a few years ago. I think that designing DL from the inputs outwards has been a pretty unique philosophy that affected how intuitive it is for kids to start using it (very papert)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559935296.135100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559935296.135100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-06-07 12:21</span><br/>
+It's a solved problem. As long as you give up your FP straitjacket!<br/>It's not either/or.. you can have:<br/>&gt;  the real world [being], unquestionably, shared mutable state<br/><em>and</em> pure (non-Turing Complete, non-tail-recursive, fixed-point-seeking, finite-iterating) functions to transform between successive evolutions / mutations of bits of that state.<br/>I sometimes think both sides, FP-based thinkers and shared-state thinkers are blinded to the obvious.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559935442.135300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559935442.135300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-06-07 12:24</span><br/>
+Looking forward to the Realtalk write-up as it sounds like it may have similarities to this approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559936111.135500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559936111.135500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-06-07 12:35</span><br/>
+Give me a problem and I'll show you how to solve it this way!<br/>Not sure I understand what's the issue in the challenge above, though:<br/>&gt; How do I program something that closes the door, <b>then</b> dead-bolts the door? How do I do that in a world where someone else wants to open the door and drive a robot through? This sort of thing requires ordering and locking across wishes, surely?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559936166.135700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559936166.135700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-06-07 12:36</span><br/>
+In the Real World, the person who wants to open the dead-bolted door can't get in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559936576.135900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559936576.135900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-07 12:42</span><br/>
+I mean how do you ensure the "lock door" wish is only fulfilled when the door is closed, without coordination between wishes, couldn't the "open door" wish from user 2 be fulfilled in between user 1's "close door" and "lock door" wishes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559937869.136400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559937869.136400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-06-07 13:04</span><br/>
+Yes. Just like in Real Life. :grin:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559955132.148200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1559905595.077200.html#1559955132.148200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-06-07 17:52</span><br/>
+In a way, space is nothing but the causal disconnection of things.  Mechanical mechanisms are comprehensible in a way since you always need a shaft or a line connecting things that interact.  Without those limits in a SMS system almost anything can happen.  So yes isolating things helps and sometimes is enough but not always and then what?  As <span style="background-color:#ccf">@Chris Knott</span> suggests, making the invisible connections visible can help reveal how knotty a system is.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

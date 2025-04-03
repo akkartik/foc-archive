@@ -1,0 +1,474 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-16 21:44</span><br/>
+Has the utterly brutalist approach to end-user programming ever been tried? Just forcibly package up apps with all their dependencies, along with all the tools needed to edit, build and run them?<br/><br/>For a while now, we've had this notion of "end-user programming" in this community: the ability to modify software while we use it.<br/><br/><a href="https://futureofcoding.org/episodes/033.html">https://futureofcoding.org/episodes/033.html</a> by <span style="background-color:#ccf">@Steve Krouse</span><br/><a href="https://www.inkandswitch.com/end-user-programming/">https://www.inkandswitch.com/end-user-programming/</a> by <span style="background-color:#ccf">@Szymon Kaliski</span><br/><a href="https://malleable.systems">https://malleable.systems</a> by <span style="background-color:#ccf">@J. Ryan Stinnett</span> is also relevant<br/><br/>Here's a sketch for an MVP that provides this experience in the bluntest, most obvious way possible:<br/>• Download a framework packaged as a single file, including all necessary dependencies. You download it from an https URL, and that's it, you're good to go.<br/>• It only supports *nix platforms on desktop machines. Linux, BSD, maybe Windows Subsystem for Linux. Macs are explicitly out because they're basically not an open platform anymore[1]. And we're going to need an open platform for the sorts of stuff we're planning below.<br/>• You can install arbitrary apps from arbitrary sources that run atop the framework. The apps are in interpreted languages and always come with source code.<br/>• When you run an app, it always opens on the app first. This is important. There's no REPL or IDE front and center. The interaction modes are whatever the app chooses.<br/>• When you run an app, the framework always shows the privileges it has in some consistent part of the screen. The vocabulary and enforcement of those privileges is the major responsibility of the framework. Needing it to be always visible is why you need a desktop machine with a large screen.<br/>• The app can ask for privileges, but the framework gives you the ability to lie to the app. Here's a simulated network environment that looks offline or has these honeypots. Here's a simulated file system with almost nothing or a few honeypot files. (Inspired by the Arcan project: <a href="https://www.divergent-desktop.org/blog/2020/08/10/principles-overview/#p6">https://www.divergent-desktop.org/blog/2020/08/10/principles-overview/#p6</a>)<br/>• While running any app, the framework always provides a consistent set of primitives for interacting with the interpreted sources for that app. Imagine a button in the corner that flips a Hypercard over to open an editor on its sources, or something like that. Once you're in the editor you can modify it, run it, get syntax errors, test failures, etc. The editor and build environment themselves are implemented in the framework; for the MVP we'll assume we don't need to support modifying the framework.<br/>I wonder how far Glamorous Toolkit is from this sort of experience, <span style="background-color:#ccf">@Tudor Girba</span> <span style="background-color:#ccf">@Konrad Hinsen</span>. On one hand it massively over-delivers on the editing framework. The sandboxing stuff is a new frontier with lots of open-ended questions on the best experience to avoid confusing people before they understand how things work.<br/><br/>I'm also thinking about building on something less ambitious for an MVP, like libSDL atop femtolisp or LuaJIT. Maybe also JavaScript :grimacing:<br/><br/>[1] Like, it's great Apple that you eliminated vectors for malicious apps with all the restrictions on installing software. But I already had a perfectly good and healthy and functional relationship with the folks who provide gdb. When you prevent me from installing gdb, that's not cool. It's good to want to protect people from dysfunctional relationships. But to require all relationships to go through a single point is not. /rant
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634462651.388300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634462651.388300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-17 02:24</span><br/>
+I am not aware of anything like that that has actually been tried on a large enough scale. The closest I have seen proposed recently is <a href="https://playb.it/">https://playb.it/</a>. I suspect that in today's economic environment, it is not obvious how to develop such a platform commercially, nor as an Open Source commons, but I'd love to be proven wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634462793.388500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634462793.388500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-17 02:26</span><br/>
+My view of Glamorous Toolkit in this context is as a tool for developers and power users, not as the framework you describe. Technically it would be one app among others.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634462847.388700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634462847.388700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-17 02:27</span><br/>
+Another interesting question: how far are the JVM and .NET ecosystems from the view you describe? After all, they were designed as frameworks that share some of the listed goals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634466490.389000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634466490.389000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-17 03:28</span><br/>
+a web browser? :upside_down_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634466535.389200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634466535.389200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-17 03:28</span><br/>
+an android emulator :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634466581.389400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634466581.389400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-17 03:29</span><br/>
+<a href="https://www.lexaloffle.com/pico-8.php">https://www.lexaloffle.com/pico-8.php</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634466619.389700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634466619.389700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-17 03:30</span><br/>
+T2 Tile talked about packaging all in a single file recently <a href="https://www.youtube.com/watch?v=kXrD-mrQ4QA">https://www.youtube.com/watch?v=kXrD-mrQ4QA</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634478167.390000"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-09/2610495978720_72578ab3b4f8ab9ef250_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634478167.390000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Srini K</b>
+<span style="margin:2em; color:#606060">2021-10-17 06:42</span><br/>
+don’t have a video off hand but I believe Jonathan Blow has talked about this as well. The pitfalls of universally reference-able packages &amp; package versions in an OS environment, vs each one just bringing their requirements with them
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634483411.390500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634483411.390500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-17 08:10</span><br/>
+The idea of packaging apps with all their dependencies has been proposed and implemented many times. What's new in <span style="background-color:#ccf">@Kartik Agaram</span> proposal is "long with all the tools needed to edit, build and run them". That implies full transparency, which is very far from how we use containers nowadays.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634484000.390800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634484000.390800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-17 08:20</span><br/>
+PICO-8 is a great point. It has editing tools and everything right within the same 128x128px screen.<br/><br/>The Android development environment is a thought-provoking answer as well. .apk is a single file. Can you run it just by passing it to the Android environment? Even if it opens in the IDE, hitting one keystroke to get to the simulator doesn't seem such a big deal. Seems akin to the Borland tools from the '90s which were pretty nice.<br/><br/>Which has me wondering what other requirements I need to add :stuck_out_tongue: I think a key piece is: the only way to run the app is from within the development framework. It's impossible to run in isolation.<br/><br/>Zooming out to a whole computer is a way to trivially satisfy these criteria. Hence my attempt to start out focused on a single app that the end-user is using.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634484364.391100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634484364.391100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-17 08:26</span><br/>
+Ever since I learned programming I wanted to build polished apps like the ones I used to learn programming. For example, I was never satisfied with the programs I built on my BASIC interpreter because it forced me to hit Enter after pressing a key, where I could see the professional apps respond instantly to any key. I think this instinct is widespread and has basically been leading us all astray. If we just commit to never bundling apps without their development environment, never completely hiding the development environment, I think that one constraint, that commitment to a little less polish and a little more overhead, might have cascading benefits.<br/><br/>We'll have to fake it till we make it for a while, because clearly there's no market pressure to do this today. "Forgive them God, for they know not what they do."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634484559.391400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634484559.391400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-17 08:29</span><br/>
+I've read something similar about scratch, students don't like to learn with a toy environment since they know professionals don't use that. They want to learn "the real stuff"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634494630.391900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634494630.391900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-17 11:17</span><br/>
+I know the feeling. When I learnt to program the most important thing was that my program had a custom icon and appeared under Programs on the Start menu - like Real Software. What it actually <em>did</em> not so important.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634494789.392100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634494789.392100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-17 11:19</span><br/>
+Not sure how to reconcile that with something like TikTok where people don't mind about not using Real video editing software.<br/><br/>I think one aspect might be that they are seen as "a TikTok" rather than "an edited video". In this paradigm it might be seen as inauthentic to edit it outside the app on a Hollywood editing desk, then somehow upload it. Kind of like writing a compiler that targeted minified PICO-8 - it would be seen as dishonest.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634495339.392400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634495339.392400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-17 11:28</span><br/>
+Probably it's comes from the privilege of not having a real need.<br/><br/>If you actually just want to plan reservations at your restaurant, organising training sessions for your cricket club, budget your wedding etc (i.e. what people use Excel for atm) then you don't care what it looks like, only what it does
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634534011.392800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634534011.392800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-17 22:13</span><br/>
+I think DOS-like (<a href="https://github.com/mattiasgustavsson/dos-like">https://github.com/mattiasgustavsson/dos-like</a>) fits into this also. It comes with a C compiler (tcc)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634544997.393400"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634544997.393400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2021-10-18 01:16</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Thanks for sharing this MVP sketch! Indeed as you guessed, it overlaps with bits and pieces of ideas I've had for how we might achieve more malleability. :smile:<br/><br/>I'm not aware of any efforts that have actually built this kind of "tools packaged with apps" scheme on the scale you're describing... While we surely agree it's perhaps not the most elegant approach, it would at least bring some tools closer to hand for more people, so it does seem like a step worth trying. (Of course, the tools this plan would provide are still meant for expert programmers, so it doesn't much help other kinds of people quite yet, but anyway, it's still more than exists today.)<br/><br/>It would be ideal if such an approach could understand and automate as much of the build pipeline as possible... perhaps in your model, that's handled by the integration with a common framework? Capturing those data flow dependencies so that making a change in the tools can get as close to becoming live with as little human work as possible seems like it would bring a large benefit to user modification.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634559324.397000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634559324.397000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-18 05:15</span><br/>
+How about « no build pipelines »?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634559593.397200"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634559593.397200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2021-10-18 05:19</span><br/>
+Ah sure, that's one way to remove the issue. :slightly_smiling_face: I am perhaps mentally blending my own ideas of meeting existing apps where they are (which may require contending in some way with build pipelines) vs. a wholly new framework which perhaps outlaws them from the start.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634560848.397400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634560848.397400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-18 05:40</span><br/>
+See <a href="https://gbracha.blogspot.com/2020/01/the-build-is-always-broken.html">The build is always broken</a>. I think "no build pipelines" should be the default for anything aimed at end users. That doesn't exclude exceptions, in well-motivated cases.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634568488.400100"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634568488.400100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:48</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> This sounds like Squeak/Pharo running baremetal on a machine (like the original Smalltalks)? Alan Kay has often mentioned that Squeak contained all the tools to build a better version of itself - basically a kernel of an object-based VM, plus a set of classes/objects that encompassed the system they wanted to build (a personal computer for all ages). I've been slowly investigating how easy it would be to run Squeak directly on a raspberry pi or other small computer (maybe with a minimal linux system to support some hardware drivers)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634568620.400300"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634568620.400300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:50</span><br/>
+The privelege bit could be done with object capabilities - since it's objects all the way down - you could substitute proxy objects for functionality/access that you'd want to honeypot
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634572075.401600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634572075.401600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-18 08:47</span><br/>
+Yes, I've been enamored lately by the Smalltalk way. As I said to a friend recently, I no longer think God programs in Lisp. Smalltalk seems a more likely answer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634577963.402900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634577963.402900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-18 10:26</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> have you seen Stephen Kell's talk "The Smalltalk Hiding in C"? I think it's very relevant to this thread
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634578006.403100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634578006.403100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-18 10:26</span><br/>
+<li>lurking in C <a href="https://youtu.be/LwicN2u6Dro">https://youtu.be/LwicN2u6Dro</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634578496.403500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634578496.403500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-10-18 10:34</span><br/>
+I think that <em>to the original Bell Labs people</em>, UNIX pretty much was the mythical, interoperable, easily programmable environment many of us dream about.<br/><br/>Just need to do UNIX again but with a PL that the normal people of the world can use as well as Ritchie et al used C.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634586029.403700"></a>
+      <a href="../thinking-together/1634445846.387500.html#1634586029.403700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>𝖗𝖊𝖊𝖉</b>
+<span style="margin:2em; color:#606060">2021-10-18 12:40</span><br/>
+Is it maybe a dead-end to tie it to a specific language? I mean, as long as we're talking about writing an entire new programmable environment, it seems to me that creating some kind of easy-to-use, highly-documented API would be the ideal route, and then you can use any language you like. Otherwise you're going to have to do it all over again when the language you've written it for goes out of date/style/use.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634588348.404000"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634588348.404000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2021-10-18 13:19</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Well, as Alan Kay has often said in his talks/emails, Smalltalk was great for its time 30-40 yrs ago, but today we should do better by programming the whats instead of the hows. That also matches God's proclamation "Let there be light" :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634599787.404300"></a>
+      <img src="https://avatars.slack-edge.com/2021-06-24/2193499626679_e3142da7de3f64211bb6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634599787.404300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tony O'Dell</b>
+<span style="margin:2em; color:#606060">2021-10-18 16:29</span><br/>
+<span style="background-color:#ccf">@Naveen Michaud-Agrawal</span> in a lot of ways we should have a better smalltalk by now rather than the tedium imposed by the "modern" options.  Rust is arguably the only real innovation in language in the last few years and it's only freed us of trying to determine when to <tt>free</tt>  and language designers from piling more trash onto the garbage collection design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634858003.000700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634858003.000700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-21 16:13</span><br/>
+Oh Processing is an extremely successful version of this btw.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634858060.000900"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634858060.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-21 16:14</span><br/>
+And I wouldn't call it a toy, it is used by professionals
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634872868.001100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634872868.001100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-21 20:21</span><br/>
+Thanks for reminding me of Processing! This does seem awfully close. Just start with a page like <a href="https://hello.processing.org/display/#@-KxziqduWvnsowVNxaPv">https://hello.processing.org/display/#@-KxziqduWvnsowVNxaPv</a> and reduce the friction to opening up the program in the editing environment. Right now I have to download the code, open it somehow, copy it to clipboard, open tutorial, switch to editor, paste.<br/><br/>(There's also the sandboxing component, which isn't really exercised here. But I think my MVP was too ambitious, as often happens.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634954236.001300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634954236.001300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-22 18:57</span><br/>
+The one thing about processing is it is harder to modify the environment itself, I like the philosophy behind Mu, MakePad and Picotron (<a href="https://www.lexaloffle.com/picotron.php">https://www.lexaloffle.com/picotron.php</a>) where you get most of the code of the environment as part of the environment and are encouraged to modify for your needs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634954800.001500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634954800.001500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-22 19:06</span><br/>
+I hadn't seen Picotron before, thanks. I thought Pico-8 isn't open source? Is Picotron different? Otherwise I don't follow what you mean by getting most of the source of the environment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634954910.001700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634954910.001700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-22 19:08</span><br/>
+Processing actually seems just as good as Mu in these respects. It's just as open source. And if you can't modify the environment from within the environment, Mu too needs to be built from outside a Mu machine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634963940.001900"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634963940.001900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-22 21:39</span><br/>
+Picotron isn't released yet so I don't know many details, and I'm not sure if Joseph White even knows at this point. It will likely not be fully open-source, but he says most of picotron is made in picotron and it's highly customizable/hackable. So I imagine most of the Lua code shipping with the environment with the core exe/C code being closed source
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634964008.002100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634964008.002100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-10-22 21:40</span><br/>
+But yeah that's not quite the same as a fully open source environment
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634964325.002300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1634445846.387500.html#1634964325.002300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-10-22 21:45</span><br/>
+I see, so it sounds like it'll be different than Pico-8 in that regard. Exciting! Also cool that it's in Lua. I'm just starting to play with it for multiple reasons (random tinkering around this thread, learning Arcan)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

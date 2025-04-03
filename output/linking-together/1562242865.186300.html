@@ -1,0 +1,124 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../linking-together/1562242865.186300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>prax08</b>
+<span style="margin:2em; color:#606060">2019-07-04 05:21</span><br/>
+This is kind of a sanity check / knowledge representation question thats been bothering me for quite some time now. Whenever I end up modelling systems on a big scale, I end up drawing things like. So this is like layers of the system with each layer containing subsystems that can be layered or are graphs in themselves. Now these entities are in flux in that they change their topology as time progresses. This is the biggest model I can conjure up to visually articulate my conceptual understanding of most systems.<br/><br/>My question is, are these the natural concepts to represent complex systems or are there simpler fundamental units that can be composed to build bigger systems that generate the desired system dynamics? Have you guys come across anything in the literature? I have this inkling that graphs . could probably be expressed with some sort of simple units of composition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562243704.190600"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562243704.190600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-07-04 05:35</span><br/>
+This reminds me of three random things you might or might not find helpful:<br/><br/>1. The Architecture of Complexity (<a href="http://www2.econ.iastate.edu/tesfatsi/ArchitectureOfComplexity.HSimon1962.pdf">http://www2.econ.iastate.edu/tesfatsi/ArchitectureOfComplexity.HSimon1962.pdf</a>)<br/>2. The pattern of composition over monoidal structures could be an alternative model I just mentioned here: <a href="1562107818.137200.html#1562155840.164900">1.562155.html&hellip;</a><br/>3. This touches on category theory somewhat, but then everything kind of does. Not sure if you want to explore that rabbit hole… if so, come join us in #category-theory.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562254449.191100"></a>
+      <img src="https://secure.gravatar.com/avatar/deb6636f344e6071fd9fe70724825ac6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562254449.191100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sébastien</b>
+<span style="margin:2em; color:#606060">2019-07-04 08:34</span><br/>
+Does the <tt>i</tt>, <tt>i + 1</tt> represent time/evolution of your systems? Capturing both structural and evolution (or dynamics/interactions) on the same diagram is certainly challenging, but what you have here makes sense, visually. I think Time Machine on OSX has a similar way of representing evolution/versions. <a href="https://www.simplehelp.net/images/timemachine/tm11.jpg">https://www.simplehelp.net/images/timemachine/tm11.jpg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562257927.191500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562257927.191500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-07-04 09:32</span><br/>
+<span style="background-color:#ccf">@prax08</span> This is exactly how I envisioned the abstraction mechanism in Hest <em>looking</em>. The nesting would happen along the z-axis, into the screen, so it'd be as if your camera were at the top of that image pointing down.<br/><br/>So to answer your question... for me, yes, this is the most natural way to mentally visualize complex systems.<br/><br/>One aspect not shown in this image is that this you'd need the outer structure to be a graph, not a tree. For instance, a math utility library that helps you deal with real numbers might be referenced in many otherwise separate systems.<br/><br/>This can still be visualized as <em>layers, where when travelling from one layer down to the next, each point in the upper layer expands—like a cone—into a region of the lower layer</em>, you'd just have some of the points expand down to the same region in the layer below.<br/><br/>There are other similar tweaks you'd need to make to account for recursion, or the fact that the same shared code might be referenced from many different layers (eg: if the top layer references the math library, and a lower layer does too).<br/><br/>But in the most simple form, your image is fantastic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562349106.194300"></a>
+      <a href="../linking-together/1562242865.186300.html#1562349106.194300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>prax08</b>
+<span style="margin:2em; color:#606060">2019-07-05 10:51</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Thanks a lot for the input on this! Love that Herbert Simon paper. I could be wrong here but I think whole of category theory as a study of morphisms over topological entities has the same layered graph idea as the it's central unifying metaphor. I am thinking more about things like perceptrons of Minsky (which is again a neural network ~ graph), or Ulf Grenander like pattern generators, may be even composing cellular automata together to build and reason about complex systems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562349235.194700"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562349235.194700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2019-07-05 10:53</span><br/>
+<span style="background-color:#ccf">@Sébastien</span> No, i and i + 1, I consider as discrete computations which may or may not have the same time (concurrent computations). I am aware about TimeCapsule and there's this whole paper on state of the art graph visualization techniques here: <a href="https://pdfs.semanticscholar.org/a4db/7fdb7224456e98bd41b6803b5fb29296ec01.pdf">https://pdfs.semanticscholar.org/a4db/7fdb7224456e98bd41b6803b5fb29296ec01.pdf</a> I want to explore more fundamental building blocks other than dot and arrow model of graph theory to build bigger systems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562349815.194900"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562349815.194900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2019-07-05 11:03</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> I think graph based domain modelling is indeed in some sense natural and the predominant organizing model in most of knowledge representation, but something tells me that there are alternative models with better trade-offs. Check out those pattern generators by Grenander. You Hest is also a very welcome change in the way we directly manipulate behaviour on screen. Really great job on building something like that.<br/><br/>Now that image is from a paper I stumbled on about managing complexity called "Systems Theoretic Techniques for Modeling, Control and Decision Support in Complex Dynamic Systems" It has got more cool images: <a href="https://arxiv.org/pdf/1008.0775.pdf">https://arxiv.org/pdf/1008.0775.pdf</a> And I think he does indeed think of the predominant model as another graph instead of being a tree with cross references.<br/><br/>My only gripe with such a model is that once you bring in time to track the topological changes, it quickly has a chance to devolve into a messy hairball that then displays multiple conformations over time, to which the only sane approach is to divide it into domains of interest and then inspect the pieces one by one.<br/><br/>I am thinking out loud what other units of composition might be out there to build systems up from scratch and what kind of trade offs they might have.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562359362.195500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1562359362.195500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-07-05 13:42</span><br/>
+From <span style="background-color:#ccf">@Stefan Lesser</span>’s pointer to <em>The architecture of complexity</em> (pg 8):<br/><br/>&gt; Philip assembled his Macedonian empire and gave it to his son, to be later combined with the Persian subassembly and others into Alexander's greater system. On Alexander's death, his empire did not crumble to dust, but fragmented into some of the major subsystems that had composed it. If one would be Alexander, one should be born into a world where large stable political systems already exist. Where this condition was not fulfilled, as on the Scythian and Indian frontiers, Alexander found empire building a slippery business. So too, T. E. Lawrence's organizing of the Arabian revolt against the Turks was limited by the character of his largest stable building blocks, the separate, suspicious desert tribes..<br/><br/>I'm not an expert on any of this, but it's just delightful to see a reference to history in a technical paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1562684588.206800"></a>
+      <a href="../linking-together/1562242865.186300.html#1562684588.206800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>prax08</b>
+<span style="margin:2em; color:#606060">2019-07-09 08:03</span><br/>
+I think this idea of knowledge representation gets generalized with multi agents: <a href="http://www.illc.uva.nl/Research/Publications/Reports/PP-2004-20.text.pdf">http://www.illc.uva.nl/Research/Publications/Reports/PP-2004-20.text.pdf</a> Also, found out about Lazzarini's network chains a few days ago:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563801949.003200"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../linking-together/1562242865.186300.html#1563801949.003200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2019-07-22 06:25</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Finished reading Herbert Simon paper. It was such a great recommendation. Didn't understand all the parts but I could see how thorough his computational thinking style was. May be reading more of his works would provide better context for the cross-disciplinary approach he followed. Also,  as a trivia learned about IPL and how it influenced LISP. Thank you!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

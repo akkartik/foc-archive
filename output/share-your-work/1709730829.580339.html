@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:13</span><br/>
+Alrighty, here's the post I mentioned I'd make in #introduce-yourself:<br/>I want to create a computing ecosystem that solves most of the problems in what I call 'unregulated I/O'.<br/>It is quite possibly mad. Or it might work, and I will be surprised.<br/>It takes design cues from <a href="https://en.wikipedia.org/wiki/Oberon_(operating_system)">Oberon</a>, <a href="https://github.com/google/flatbuffers">FlatBuffers</a>, <a href="https://ipfs.tech/">IPFS</a>, <a href="https://git-scm.com/">Git</a>, <a href="https://www.rust-lang.org/">Rust</a>.<br/>It also sounds dangerously close to the kind of "great idea" a compsci undergrad would come out with. Yet, I am running out of reasons why this isn't possible (at the very least). This is why I want your opinions :sweat_smile:<br/>That's all I'll say here - rest is in the :thread:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709730873.830819"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709730873.830819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:14</span><br/>
+So, I've got a problem with this thing I called 'unregulated I/O'. Here's what I mean by this:<br/><br/>• Unix set the standard of modelling files as byte arrays in the 70s.<br/>• Likewise, storage I/O, IPC and RPC is mostly done via byte array. There are some exceptions - for example:<br/>    ◦ The OS normally abstracts away most packet handling up to the transport layer.<br/>    ◦ Windows has dabbled with wacky ports (COM1 et al.)<br/>• This means that application programs have the responsibility of validating the binary data loaded via I/O.<br/>    ◦ Improper validation accounts for the vast majority of attack vectors (especially if we include memory management bugs).<br/>    ◦ Most modern applications employ widely-used libraries to minimise the amount of custom validation they have to perform, which is fair, because more eyes are on the libraries.<br/>Nevertheless, SQL injection and buffer overflows still happen in 2024. Exploit accessibility seems (to me) likely to increase with the employment of LLMs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709730888.708659"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709730888.708659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:14</span><br/>
+I'm proposing that the Unix model should be replaced with something more secure by design:<br/><br/>• An abstract data model should be established for I/O:<br/>    ◦ The OS should abstract away a reasonable amount of validation.<br/>        ▪︎ Syscalls in applications would be typed. For Rustaceans, I/O calls would yield something like a <tt>std::io::Result&lt;T&gt;</tt>.<br/>    ◦ The available types should include those that application programmers want to get I/O'd data into ASAP: scalars, arrays, maps, tuples/structs/enums (the latter of which should be <a href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html">Rusty</a>).<br/>    ◦ We would certainly require encapsulation, and (possibly) higher-kinded facilities like mixins.<br/>    ◦ <b>All</b> data in this system should be represented this way, including programs themselves.<br/>        ▪︎ This means that program source code is "already an AST".<br/>        ▪︎ Plain text would not be used for source code.<br/>        ▪︎ UI development for these 'structured languages' must be improved. (maybe I should've said Scratch was an influence? :smirk:)<br/>        ▪︎ These ASTs should be transformed by the OS into machine code (which can also be represented with this model: a <tt>.s</tt> file becomes an array of instruction enums).<br/>        ▪︎ Eventually, the OS running this should be able to self-host in this way.<br/>    ◦ Applications should barely ever concern themselves with any kind of binary data, though this is of course impossible to prevent in a Turing-complete environment.<br/>• Data, as stored, should be content-addressable:<br/>    ◦ <a href="https://www.youtube.com/watch?v=lKXe3HUG2l4">Joe Armstrong</a> has plenty of reasons why this is a good idea (especially for greenfield).<br/>    ◦ The equivalent of a 'filesystem' for this ecosystem would instead be what is effectively a hashmap with wear leveling.<br/>        ▪︎ Or, <a href="https://www.theregister.com/2022/08/01/optane_intel_cancellation/">Optane</a> could be revived (some hope). Would be nice to design around this possibility.<br/>    ◦ 'Files', now more accurately 'objects', are stored by a hash of their contents.<br/>        ▪︎ Important note: this is <em>not</em> object-oriented computing. We don't want to be piping vtables.<br/>    ◦ The need for encapsulation means that our 'filesystem' effectively becomes a <a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.<br/>    ◦ In order to prevent massive hash cascades when writing to storage, we would need to employ mutable references (in a similar manner to symlinks).<br/>    ◦ Fast random-access updates to very large objects could be achieved with a hasher suited to incremental verification, such as <a href="https://github.com/BLAKE3-team/BLAKE3">BLAKE3</a>.<br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709730914.140699"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709730914.140699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:15</span><br/>
+Here are some fun implications of such a design:<br/><br/>• New programming languages would be required.<br/>• Deduplication of data becomes trivial.<br/>    ◦ On the subject, we'd need to be mindful of granular we are with the storage of heavily-encapsulated objects.<br/>    ◦ Denormalisation should probably happen when eg. objects' raw data is less than the size of a hash digest (at the very least).<br/>• Transfer of large objects over a network can be heavily optimised. Downloads effectively become a <tt>git pull</tt>.<br/>• Core web technologies such as HTTP, HTML, CSS &amp; JavaScript are no longer kosher, because they are based on plaintext.<br/>    ◦ "This obsoletes the web" is a silly thing to say, but could be fun in the pitch.<br/>    ◦ All of these formats <em>could</em> be transformed into the strongly-typed model presented above, though.<br/>• Tabs vs spaces is no longer a concern, because formatting is no longer a concern for plaintext. That's now the UI's responsibility.<br/>• Entire classes of attack should be all but eliminated (eg. injection).<br/>• The types used in the data model can themselves be represented in the data model, and we can relatively easily implement internationalisation for code:<br/>    ◦ Here's a horrible illustration: <tt>Enum Type { i8, i16, i32, i64, u8, u16, u32, u64, Array&lt;Type&gt;, Map&lt;Type, Type&gt;, Tuple&lt;Type, ...&gt;, Enum&lt;Array&lt;Type&gt;&gt; }</tt><br/>    ◦ These types don't have canon names, and I don't think they should.<br/>    ◦ They do have hashes, though. So we can refer to types by their hash.<br/>    ◦ We can then map human translations for these types and their encapsulated members in any number of natural languages: <tt>Map Translations&lt;Tuple&lt;[Locale, Type]&gt;, Array&lt;String&gt;&gt;</tt><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709730939.830439"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709730939.830439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:15</span><br/>
+I appreciate this is a lot, so if you've taken the time to read this, thank you :heart:<br/>Please shoot with your questions and comments. I've got some visual explainers for this stuff lying around which I'll probably add too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709731166.131149"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709731166.131149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-06 05:19</span><br/>
+...oh, and: much as I've searched, I can't find a project that's attempting to create an entire ecosystem out of these principles (even if it's just using VMs rather than an entire OS). If you know of any project doing this, please let me know, because I suspect they're probably doing a better job.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1709746806.845039"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1709746806.845039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-03-06 09:40</span><br/>
+I see the main problem of your project in the wish to design a complex system from scratch. Such projects have basically always failed, for running out of steam before accomplishing anything useful.<br/><br/>One of the insights from John Gall's "Systems Bible" (highly recommended!) is (chapter 11):  "A complex system that works is invariably found to have evolved from a simple system that worked" with the corollary that "A complex system designed from scratch never works and cannot be made to work. you have to start over, beginning with a working simple system."<br/><br/>That's in fact how today's computing systems evolved over a few decades. The result is a bit of a mess, but it works. And it's so big by now that it cannot be replaced, only evolved.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710038518.826549"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710038518.826549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2024-03-09 18:41</span><br/>
+Are you familiar with <a href="https://www.unison-lang.org">unison lang</a> ? As you mentioned they aren’t attempting to create an entire ecosystem, but I think has a lot of overlap with your ideas
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710057375.774569"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710057375.774569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-03-09 23:56</span><br/>
+Unison and IPFS are indeed the two main existing projects that have the most overlap. Neither tries a from-scratch approach. But unfortunately, the two don't really coexist well either, having their own content-addressing scheme each.<br/>Another language in that space is <a href="https://scrapscript.org/">scrapscript</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710150360.473539"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-04/6762950133888_a2bf8d8a3fb08a08ee17_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710150360.473539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Thompson</b>
+<span style="margin:2em; color:#606060">2024-03-11 02:46</span><br/>
+Thanks <span style="background-color:#ccf">@Konrad Hinsen</span> <span style="background-color:#ccf">@Daniel Garcia</span> - those are exactly what I'm looking for :pray:<br/><br/>I actually don't want to have to "make something big", because yeah, I've also seen countless examples of things of this scale failing (or worse, leaving a stain on its surroundings... (cough) Windows Registry). I don't want to have to make an OS, but having the entire software ecosystem playing to the same conceptual tune is going to make things all the more sound - if that makes sense.<br/><br/>Making a VM of it, in the same way as Unison or Scrapscript are doing (if I'm understanding them correctly), is where I'd want to start too. So I think I'm going to reach out to the authors of both and ask what they think about scaling them up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710176992.167739"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710176992.167739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2024-03-11 10:09</span><br/>
+<span style="background-color:#ccf">@Doug Thompson</span> So excited to have found another one with similar ideas! YES! It seems "soo obvious", yet we're stuck with architectural in-optimalities stemming from decade old choices! And yes, <span style="background-color:#ccf">@Konrad Hinsen</span> , you do have a valid point. It requires some unusual longterm determination to see it through. You might get a more established foundation starting "simple" and growing into complexity along with usage, but real simplicity requires a deeper level of thought, where, when it fully connects, it stays simple even with scale.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710226965.961379"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710226965.961379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-03-12 00:02</span><br/>
+I wish I knew how to achieve "real simplicity". Sometimes I wonder if the rare documented cases of widely used and long-lived technology remaining simple (e.g. TCP/IP) were just a matter of luck. As you say, designing large systems that are simple requires a lot of thought, but also, in my opinion, several iterations on feedback loops. It's nice to think that it can be done, given enough time, but I can't think of many successful examples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710239780.311269"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710239780.311269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2024-03-12 03:36</span><br/>
+I really struggle with simplifying because it involves finding that exact sweet spot where you've dumped all the decorative bits but haven't cut away things are essential. Both feel good - dumping and cutting always feels good if you think it's about homing in on the core clean aspects of something, but it's sooo easy to go too far and chop off too much, simply because <em>that</em> good feeling isn't the same as the good feeling of Finding That Essence.<br/><br/>And if you're developing something, by definition, you're starting with <em>nothing</em> and working up to the something that's in that sweet spot, so going in the other direction. You need a First Goal that's small enough but essential enough.<br/><br/>I spend hours and hours thinking about this kind of thing, and switching between coding and "checking where I am in the Bigger Vision".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710239978.240029"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1709730829.580339.html#1710239978.240029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2024-03-12 03:39</span><br/>
+And it's funny how "pragmatic" and "clean" often align, which is when you know you've got something important.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

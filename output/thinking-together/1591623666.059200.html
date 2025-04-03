@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-08 06:41</span><br/>
+What are best practices for writing a projectional code editor? What data structures do I use?<br/><br/>Source code isn't text, it is a tree. Probably the tree is annotated with semantic information: What binding is this identifier bound to (if known)? What is the type of this subexpression (if known)? How do you keep the annotations up to date while the code is being edited?<br/><br/>Commentary is obviously treated differently. In old school text based languages, a comment is /<b>...</b>/ or //...\n, is treated as white space by the lexical analyzer and discarded early: they don't appear in the AST. In a tree language, comments must work differently. They aren't a kind of white space that appears between tokens, they are either tree nodes or attributes attached to tree nodes. Examples of how this works? What is the syntax of a comment, and are there different kinds, depending on the part of a code tree they are annotating? For example, within a module (a list of definitions), a "section header" comment that introduces a block of definitions might be treated differently from a comment that describes a single definition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591628305.059400"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-13/1262329708080_d9087b7dc5a6a8e2dc86_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591628305.059400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aleks Litynski</b>
+<span style="margin:2em; color:#606060">2020-06-08 07:58</span><br/>
+I'm brand new here, but I've been spending the past few weeks cobbling together something similar to what you're talking about.<br/><br/>I took inspiration from something Joe Armstrong said in this article regarding comments [1].<br/><br/>Namely, that comments don't really come before or after a block of text. They're an annotation <em>on</em> that block of text. In most programming languages, that means putting the comment directly above or below a block.<br/><br/>With a projectional editor, you have the luxury of attaching a comment directly to a node in your language tree.<br/><br/>In the tool I'm hacking on, I represent code on disk as json, and every object in the json file can have a "comment" property.<br/><br/>[1] <a href="https://joearms.github.io/published/2013-05-31-a-week-with-elixir.html">https://joearms.github.io/published/2013-05-31-a-week-with-elixir.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591628853.059600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-13/1262329708080_d9087b7dc5a6a8e2dc86_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591628853.059600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aleks Litynski</b>
+<span style="margin:2em; color:#606060">2020-06-08 08:07</span><br/>
+I guess that doesn't actually answer your question. I don't have any formal justification for what I'm doing. Having different types of comments reminds me of the docstrings some languages use to auto-generate documentation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591639097.066400"></a>
+      <img src="https://secure.gravatar.com/avatar/67ec98818d7fb6395d9a327081cd5472.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591639097.066400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Zubair Quraishi</b>
+<span style="margin:2em; color:#606060">2020-06-08 10:58</span><br/>
+How do you define a projectional editor? If you define it as a non text editor projecting code into text then yazz pilot works in exactly that way having a text editor projection, a vb drag and drop editor projection, a database schema projection, and smaller projections for individual components too. Also considering building a VR projection
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591644122.072600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591644122.072600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-08 12:22</span><br/>
+I want to build a projectional editor for a general purpose programming language. Right now, I have an interpreter and compiler for a text based language.<br/>• The parser converts text to a parse tree;<br/>• the semantic analyser converts the parse tree to an intermediate representation (IR) that can be either directly interpreted, or<br/>• The code generator converts IR to code.<br/>To make a projectional editor for this language, I need different internal data structures.<br/>Rather than grope in the dark, I was hoping to learn lessons from an existing successful design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591660074.077600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591660074.077600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-06-08 16:47</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span><br/>Disclaimer: this is not informed by any other projects or literature, but just what I came up with.<br/>Regarding comments, in alv I do also need to keep comments in the parsed tree rather than just ignore them during parsing (I need that for the editor prototype, although that is a minor interest, but mainly to be able to turn the parsed tree back into the exact string it was parsed from. You'll need that for a projectional editor too I guess). To do that, I firstly consider comments as whitespace. In my syntax grammar, all bottom-level constructs (literals) contain no whitespace, but there is a piece of "required whitespace" between arguments in an S-expression and a piece of "optional whitespace" after the opening and before the closing parenthesis. So an S-Expression contains N child-expressions and N+1 (potentially empty) whitespace segments. I do not parse the comments especially or associate them to other elements, but your whitespace could also be a structure that explicitly stores comments as separate entities.<br/><br/><b>EDIT:</b> in case it's not clear, the structure I use is an AST.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591668214.078600"></a>
+      <img src="https://secure.gravatar.com/avatar/c7a597049d4fb3cb4b2f2c641f3fa71f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591668214.078600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Hart</b>
+<span style="margin:2em; color:#606060">2020-06-08 19:03</span><br/>
+are you familiar with zipper datastructures? A zipper is a good starting point for the datastructure representing your editor state
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591673835.080300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591673835.080300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-06-08 20:37</span><br/>
+<span style="background-color:#ccf">@Aleks Litynski</span> - I think you <em>did</em> answer the question, because the goal is not to have a perfect representation of textual code, but to capture the information that the textual source code is otherwise attempting to represent.<br/><br/>For example, you don't so much need to represent a comment before, after, or inline with a line of code. Instead, such comments are the only means for providing metadata (annotations) to parts of a program. So do <em>that</em>, and then if you need to generate source code from it, then you could inject comments as the only way to capture that metadata in the output. Not the other way around.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591718799.117500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591718799.117500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-06-09 09:06</span><br/>
+slightly tangential, but HTML natively includes comments in the source tree: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Comment">https://developer.mozilla.org/en-US/docs/Web/API/Comment</a> 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591718816.118300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1591718816.118300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-06-09 09:06</span><br/>
+not recommending you take the same approach, just think it’s interesting
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592023174.240100"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1591623666.059200.html#1592023174.240100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-06-12 21:39</span><br/>
+FWIW, when I wrote a browser-based projectional editor for a blocks language, I found it easiest to write it just like I would any other form on the web.<br/><br/>I had one UI component per type of AST node. The components rendered text fields and drop targets and other standard web UI affordances to support editability.<br/><br/>Variable bindings, types, etc, are derivative information that I could cache when necessary, or just recompute from the AST as-needed. I mostly did the latter.<br/><br/>Because I designed the AST for projectional editing, there were comment slots on any node that would benefit from special rendering of comments, and I had a comment block node that you could wrap any other block of code in to describe what that block did. If you’re using someone else’s AST, you may not have that luxury, but you may be able to write your own AST for editing and a translation layer between yours and the executable AST. I have parsed JavaScript ASTs to guess which comments document which other nodes and with some heuristics you can guess pretty well.<br/><br/>Hope this helps!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

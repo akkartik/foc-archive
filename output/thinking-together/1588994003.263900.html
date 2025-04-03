@@ -1,0 +1,283 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-08 20:13</span><br/>
+Is anyone aware of a programming language or library that efficiently solves the problem of incremental reactive recalculations involving collections? I'm a fan of libraries that support reactive updates, such as Assisticant, KnockoutJS, MobX, Vue.js and SwiftUI, but I don't know of one that contains the algorithm I want. I'll explain the problem by example. Suppose you have:<br/><br/>1. an "observable" list of a million items, and you insert or remove an item somewhere in the list<br/>2. a filtered list based on the million items showing perhaps a thousand of the items<br/>3. a projection of the filtered list (map/select)<br/>So, when you insert or remove the item, the library should efficiently (and automatically!) propagate the change through the filtered list to the projected list. If the new or removed item is filtered out anyway, propagation should stop so the projected list is not notified of a change. Ideally, change notifications should be deferred in some way so that if several changes are made to the same list item in rapid succession, the derived items (2 and 3) would only be notified once.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588994861.271000"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1588994861.271000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-08 20:27</span><br/>
+I’m trying to solve this exact problem right now! I’m very close to trying to roll my own solution. I’m thinking of shifting from observables to a more decoupled event system. I find they are creating unintended side effects and are difficult to debug (and I need events for undo functionality). Anyway, let me know if you find a solution - or would like to help build one!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588997342.273200"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1588997342.273200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-05-08 21:09</span><br/>
+Are you looking for something in-memory or a database?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588998972.274000"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1588998972.274000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-08 21:36</span><br/>
+In memory 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589006569.274200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589006569.274200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-08 23:42</span><br/>
+I am sure that in Excel which can handle about a million rows before it tops out, that they are using some paginated system, whereby if something changes in a chunk the whole chunk is rebuilt but otherwise intermediate chunks with their subtotals is maintained. A lot of the code in Excel is about handling the scale of the databases that people are throwing at Excel. The lower scale functionality is pretty easy, having written a spreadsheet before. Very important to cluster the data otherwise your CPU will almost come to a halt. This is a very tricky area that takes lots of testing to verify that your algorithm interacts well with the CPU. Since you have a very specific set of requirements you will need to roll your own; the conventional systems are not built for this kind of load.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589024801.278100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589024801.278100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-05-09 04:46</span><br/>
+I'm starting to investigate the use of Lenses to address this problem, but I don't have any concrete solutions yet. I just discovered this week the existence of a long running "bx" community (bidirectional transformation) who work on these problems. EDIT: I checked, and the BX people mostly use Haskell, so their code probably won't help you, due to their library dependencies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589036571.279900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589036571.279900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-05-09 08:02</span><br/>
+I believe transducers in Clojure were designed to allow you to build data structures and operations that can be composed in this way.<br/><br/>But if perf is your main concern, it probably should be easy enough to roll your own in any language. Us front end devs have to do very similar things to efficiently render large table views in the browser.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589037901.280400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589037901.280400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-05-09 08:25</span><br/>
+In BV's "Future of Programming", he talks about how memory and processors are made of the same material (transistors), so eventually it should all just be a bunch of processors.<br/><br/>I think this is the kind of application where something like that would work: where a bunch of units are constantly a function of others. So like if you could allocate arbitrary chunks of memory and "assign" an operation relative to some other chunk.<br/><br/>Maybe that's more like PLA than a bunch of "processors", but maybe that's the goal: being able to reduce pure functional operations down to programmed logic on the hardware that's constantly updating, without all having to be cycled single-file through a CPU.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589041273.280700"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589041273.280700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-09 09:21</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> If it's easy enough, could you enlighten us? I've been thinking about this problem occasionally for several years and never fully cracked it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589044812.280900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589044812.280900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-05-09 10:20</span><br/>
+transducers in Clojure are unidirectional. In David's context, you can transform the model to the view, but you cannot modify the view and propagate the changes back to the model.<br/><br/>Lenses are like transducers, except that they are bidirectional, which is needed for David's "reactive updates". That's why I was talking about "bx" or bidirectional transformation.<br/><br/>Lenses look easy enough (I'm going to try my first implementation of them soon enough). But the requirement is for efficient bidirectional transformation of a million items. Surely that requires more thought than the usual simple Lens implementation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589049514.281600"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589049514.281600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-05-09 11:38</span><br/>
+I mocked something out that should effectively do what you're looking for:<br/><pre style="white-space:pre-wrap"><br/>type Paper = {<br/>	id: string<br/>	subject: string<br/>	date: string // ISO<br/>}<br/><br/>const collection: Record&lt;string, Paper&gt; = {}<br/><br/>// This is the query I want to index:<br/>// Filter for nutrition items this year, range 20-40.<br/>Object.values(collection)<br/>	.filter((item) =&gt; item.subject === "Nutrition" &amp;&amp; item.date &gt; "2020-01-01")<br/>	.slice(20, 40)<br/><br/>// First, lets translate this into a composite index.<br/>const filterIndex: Array&lt;[string, string, string]&gt; = [] // [subject, date, id]<br/>for (const item of Object.values(collection)) {<br/>	// uses binary search to insert in sorted order.<br/>	addToIndex(filterIndex, [item.subject, item.date])<br/>}<br/><br/>// Translate your query into subscriptions.<br/>const subscriptions = [<br/>	[<br/>		"date",<br/>		"2020-01-01",<br/>		() =&gt; {<br/>			/* Update callback */<br/>		},<br/>	],<br/>	[<br/>		"filterIndex",<br/>		20,<br/>		40,<br/>		() =&gt; {<br/>			/* Update callback */<br/>		},<br/>	],<br/>	[<br/>		"subject",<br/>		"Nutrition",<br/>		() =&gt; {<br/>			/* Update callback */<br/>		},<br/>	],<br/>]<br/><br/>function updateItem(id: string, update: Partial&lt;Paper&gt;) {<br/>	// Emit on the old key-value because this will be removed from result set.<br/>	for (const key in update) {<br/>		subscriptions<br/>			.filter(([a, b]) =&gt; a === key &amp;&amp; b === collection[id][key])<br/>			.forEach(([_a, _b, callback]) =&gt; callback())<br/>	}<br/><br/>	const beforeIndex = removeFromIndex(filterIndex, collection[id])<br/>	Object.assign(collection[id], update)<br/>	const afterIndex = addToIndex(filterIndex, collection[id])<br/><br/>	// Emit on the new key value because this will be added to result set.<br/>	for (const key in update) {<br/>		subscriptions<br/>			.filter(([a, b]) =&gt; a === key &amp;&amp; b === collection[id][key])<br/>			.forEach(([_a, _b, callback]) =&gt; callback())<br/>	}<br/><br/>	if (beforeIndex !== afterIndex) {<br/>		// Emit an update for all listeners on filterIndex between before and after.<br/>	}<br/>}</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589049571.281800"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589049571.281800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-05-09 11:39</span><br/>
+This pattern is something I discovered when I was building a datalog prototype. Using reified indexes on your queries makes subscriptions a lot easier.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589049574.282000"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589049574.282000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-05-09 11:39</span><br/>
+<a href="https://github.com/ccorcos/datalog-prototype/tree/master/src/shared/database">https://github.com/ccorcos/datalog-prototype/tree/master/src/shared/database</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589072688.290300"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589072688.290300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-05-09 18:04</span><br/>
+I guess my point is: it sounds like you want a reactive database.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589079232.292300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589079232.292300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-09 19:53</span><br/>
+In general it is not easy to make controls bidirectional. There are host of ergonomic decisions that are asymmetrical, and I don't believe any general system could handle a wide range of widgets. I just posted a dual simultaneous temperature control sample, where you can set the temp any of two ways, and it feeds back to the model which then automatically re-renders the widges. But you still have to manually code how you want the cursor to behave, and the scaling factors for the mouse, and how you want to clip movement. User input is rather different than rendering  a control. It is good however, to try an make things as bidirectional as possible, as it would save a ton of code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589082857.292500"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589082857.292500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-05-09 20:54</span><br/>
+<a href="https://github.com/TimelyDataflow/differential-dataflow/">https://github.com/TimelyDataflow/differential-dataflow/</a> is state of the art, although the UX can be iffy if you aren't up to speed with Rust.<br/><br/><a href="https://opensource.janestreet.com/incremental/">https://opensource.janestreet.com/incremental/</a> is also good. It can handle updates to nested collections, unlike differential, but can't easily handle maintenance of nested loops.<br/><br/>I wrote a bit about applying similar ideas to UI - <a href="https://scattered-thoughts.net/writing/relational-ui/">https://scattered-thoughts.net/writing/relational-ui/</a> - and a friend of mine is building something in the same family for javascript/react, not sure how mature it is yet - <a href="https://datalogui.dev/">https://datalogui.dev/</a><br/><br/>I'm also working on a language that is designed to be efficiently incrementally maintained, although I haven't actually mapped it to the incremental layer yet - <a href="https://scattered-thoughts.net/writing/imp-intro/">https://scattered-thoughts.net/writing/imp-intro/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589082986.292900"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589082986.292900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-05-09 20:56</span><br/>
+I also did a bunch of work for <a href="http://materialize.io">materialize.io</a> which is a proprietary SQL database that compiles down to differential dataflow. There's some interesting stuff on the blog about eg incremental maintenance on non-abelian aggregates.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589084581.293100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589084581.293100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-05-09 21:23</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> You're not actually looking for bidirectionality, are you? That seems like an additional wrinkle introduced by Doug Moen.<br/><br/>In the case of unidirectionality, you'd have some function responsible for insertion into the large list. That function also runs the filter on each newly inserted item, and if an item passes the filter, add it to the filtered list too. If you're doing this in terms of some reactive library, the library should (caveat emptor) be smart enough to not re-filter the entire list on every change, and instead just apply the filter to new items.<br/><br/>To batch together rapid updates, you'd want a debounce or a throttle — high likelihood your reactive library of choice has those. Otherwise, you can just roll this yourself — you just need <em>some</em> way to schedule code to run after a certain amount of time has passed, and a place to store some intermediate state.<br/><br/>As for recalculating the projection, mapping should be just as easy as filtering — just do it to each new item as it comes in. Again, all the Rx libraries I've seen are smart about this.<br/><br/>Finally, for reducing, efficiency will depend on the properties of the operation: is it associative? Commutative? Approximate? Can you build a small intermediate result that's easy to incrementally modify and recompute? Etc. This talk gives a nice summary of some good strategies: <a href="https://www.infoq.com/presentations/abstract-algebra-analytics/">https://www.infoq.com/presentations/abstract-algebra-analytics/</a><br/><br/>It's entirely possible I'm missing details that make this problem far harder than I'm imagining. But I feel like I've done this exact thing a handful of times, both with an without reactive libraries, so hopefully this helps somewhat.<br/><br/>One more bonus link — all the features you've asked for are documented visually/interactively here: <a href="https://rxmarbles.com/">https://rxmarbles.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589112214.295900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589112214.295900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-05-10 05:03</span><br/>
+Associative? Commutative? Approximate? — In other words, qualities of the kind of aggregation make the difference.  Filtering, though a special kind of aggregation, can be easy to recalculate or hard depending.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589379810.377000"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589379810.377000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-05-13 07:23</span><br/>
+Hmmm <span style="background-color:#ccf">@David Piepgrass</span> in general or UI-wise? Check out how jetpack compose does this behind the scenes - <a href="https://youtu.be/Q9MtlmmN4Q0">https://youtu.be/Q9MtlmmN4Q0</a> - pretty cheap inserts in the UI tree, if that’s what you’re looking for. Not sure I understand the question.<br/><br/>But as far as I get it, your logic (observe, filter, map) is not UI related, so the UI could belong to any library , the logic is behind it. You could do that in Kotlin (Kotlin Flow), in Dart (RxDart and Freezed), in JS (Uhh RxJS &amp; Collections.JS if you wanna use a baked solution), most languages have their own implementation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589379851.377400"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589379851.377400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-05-13 07:24</span><br/>
+You could even do DOM patching on your own
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589384095.377900"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589384095.377900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-13 08:34</span><br/>
+<span style="background-color:#ccf">@Ian Rumac</span> I am interested in a general solution for efficient recomputation - UI updates are the most well-known use case, but far from the only one. Compose is interesting... it is demonstrated as a thing for building UIs but I wonder if it could be used for other things. Their Gap Buffer approach might not scale well, but given a different data structure like AList (<a href="http://core.loyc.net/collections/">http://core.loyc.net/collections/</a>) the worst-case performance should be better (though average perf may be worse). However, it does not appear to solve the "filter on large collection" scenario.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589463703.383700"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588994003.263900.html#1589463703.383700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-05-14 06:41</span><br/>
+it’s not just for UI-s, states and effects are also memoized and reused instead of being recomputed. From your examples, thought you were talking about UI :slightly_smiling_face:<br/><br/>Otherwise, it’s simple reactive programming, it’s just up to you how you’ll implement it. I’d do event-based granular updates to minimize recomputation tbh, if it’s just a list sending transactionable updates is the best way.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

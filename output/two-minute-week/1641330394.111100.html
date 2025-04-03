@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-04 13:06</span><br/>
+Hey everyone! Here is a very brief overview of what we’ve been building to enable us developers to <b>create and share full-stack web apps without storing each other’s data</b>. We’ll be providing more details each week! Don’t hesitate to drop any questions below  <a href="https://share.descript.com/view/LW69H0AkbuM?transcript=false">https://share.descript.com/view/LW69H0AkbuM?transcript=false</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641367577.111500"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-22/2770197337937_e1a019c028c176591195_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641367577.111500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy Jakubowski</b>
+<span style="margin:2em; color:#606060">2022-01-04 23:26</span><br/>
+Cool! Do you have some kind of protocol to ensure the web apps can access and use the personal cloud data in a reliable way?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641375963.111800"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641375963.111800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-01-05 01:46</span><br/>
+Do you have a longer writeup somewhere?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641394131.112000"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641394131.112000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-05 06:48</span><br/>
+<span style="background-color:#ccf">@Andy Jakubowski</span> yep! Currently it’s pretty simple but each web app is served on its own subdomain with strict <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">CSP rules</a> to prevent sending data to external servers. To actually persist data an app can connect to any number of “agents” (which are hosted isolated backends) but it must declare which ones it connects to in its manifest so the user can see. Each agent will have access to a separate, isolated part of the users database and are decoupled from the frontend app. So, for example, that means the “calendar agent” can be used by multiple apps so that you can have a canonical place for all your events. And in your frontend app, you don’t have to do <em>any</em> authentication, authorization, or API-key management. You just declare in your config/manifest which agents your app interacts with and then you can use those API’s directly. Does that makes sense?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641394361.112300"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641394361.112300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-05 06:52</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> ^ my response above might shed some light but we are working on a written overview as well as some preliminary documentation. We’ve also begun pulling out and open-sourcing our Agent runtime (effectively serverless, isolated JS functions) if you’re interested in following that: <a href="https://github.com/aspen-cloud/runtime">https://github.com/aspen-cloud/runtime</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641398634.112600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-22/2770197337937_e1a019c028c176591195_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641398634.112600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy Jakubowski</b>
+<span style="margin:2em; color:#606060">2022-01-05 08:03</span><br/>
+<span style="background-color:#ccf">@Matthew Linkous</span> It does make sense—thanks! I like the idea of owning my data and letting third parties access it in a controllable way.<br/><br/>Two thoughts come to mind.<br/><br/>One, it seems similar to how Apple and Google let apps access location, photos, health etc. data. Would you want people to clone this data somehow, or start from scratch?<br/><br/>Two, why don’t we have something like that already? The idea seems good for the user in principle, so I wonder what may be the reasons it hasn’t really materialized in the past, and what may be different now.<br/><br/>I think what you’re working on could be really awesome!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641404314.112800"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641404314.112800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-05 09:38</span><br/>
+<span style="background-color:#ccf">@Andy Jakubowski</span> Great observation! We model a lot of ideas around permissions on the patterns used in mobile app ecosystems, and even take it step further by limiting networking.<br/>1. Re: cloning existing data vs starting anew, we decided to build from scratch so a user will have a clean, single source of truth while still having the ability to write some code (and potentially publish it for others to install with a click!) that can import data from other sources with an API.  We would happily assist someone in making an agent that pulled, for example, Google calendar data into your Aspen calendar.  <br/>2.  It’s a great question. I think previous attempts at creating personal servers with one-click installable apps have started with existing open-source projects and used ordinary linux VM’s; this however, is fairly costly to the user (paying when not using), still fairly technical to manage, and the existing apps tend to be either low quality or aimed towards developers. Our platform is effectively “serverless” so it is much less expensive to run, has a uniform application model so you can much more easily work with the underlying data and API’s, and should be much easier for non-technical users to use. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641404440.113000"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641404440.113000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-05 09:40</span><br/>
+The other problem is existing apps tend to roll their own authentication and data storage so making them work with an existing platform is very difficult. What ends up happening is, you log into the “platform” and then have to again log into each app which likely has it’s own Postgres process running, etc. Overall, the existing solutions are very clunky and inefficient.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641454005.000300"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-22/2770197337937_e1a019c028c176591195_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641454005.000300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy Jakubowski</b>
+<span style="margin:2em; color:#606060">2022-01-05 23:26</span><br/>
+Great follow-up, thanks <span style="background-color:#ccf">@Matthew Linkous</span>.<br/><br/>This makes sense to me. It may be indeed the case that nobody’s come up with a working, easy to use solution to this.<br/><br/>Your mention of your platform being serverless stood out to me, because I assume data can be both written and read in my personal cloud. I saw your GitHub repo mentioned an append-only log, I wonder if that has something to do with it? You write by appending, and reading is a matter of reading a “static file”?<br/><br/>I’m interested in your approach because I was thinking of making a similar thing for UI on the web. Many UI elements reuse the same logic, and only differ in styling. So you could define the logic once with statecharts, for example, and then let people style those elements with styles from their “personal style cloud”.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641459983.000600"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641459983.000600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-01-06 01:06</span><br/>
+I built a prototype of a thing like this in 2010. The main problems with adoption were: app devs aren't interested in building for a platform without users, and users aren't interested in signing up for a service unless it has a killer app. Do you have any plans to overcome this trap?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641478803.000800"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641478803.000800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-06 06:20</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> yeah that’s exactly right and easily the biggest risk in building something like this. I think it’s going to be very difficult to overcome no matter what. But we’re trying a couple things:<br/><br/>First, we’re prioritizing getting Aspen in to the hands of people that are both devs <em>and</em> users (like the lovely folks in this community!) so we can all build apps for ourselves and each other.<br/><br/>Second, while we probably won’t directly come up with the killer app on our own, we’re working really hard to provide the right tools and complementary API’s for the developer or designer who does have the brilliant idea. For example, we’ve noticed a lot of really cool productivity apps like Superhuman or Cron, are primarily innovating on the frontend. So we’re trying to provide robust, canonical agent (i.e. backend) implementations of common API’s like calendar, messaging, documents, etc. This way if someone has a great idea for an app, they can skip all the of the tedious authentication, authorization, db management, token management, etc and just build the frontend of their dreams. Same goes for backend devs who don’t want to bother with a frontend: they can just build and upload an agent for others to use from the terminal or connect to their own frontend.<br/><br/>It’s going to be a challenge but we’re very committed to our mission and will spend whatever time and effort it takes to polish the UI, refine the API,  and support the developers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641479486.001000"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641479486.001000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-06 06:31</span><br/>
+<span style="background-color:#ccf">@Andy Jakubowski</span> yeah that’s pretty much it. We’re working on a more detailed overview with explainer graphics to fully illustrate how persistence works. But the main way to persist data is to store events on an append-only log. It’s not a static file but we inject a runtime object into the agents code so they can call methods like <tt>pushEvent</tt> and create projections of the data through aggregations. If you’ve used Redux, it’s a very similar pattern except in Aspen it runs on the server and is automatically persisted.<br/><br/>Here is an example of a task manager agent I made: <a href="https://github.com/matlin/todos-backend/blob/main/src/index.ts">https://github.com/matlin/todos-backend/blob/main/src/index.ts</a><br/>Disclaimer: some of these API’s will very likely change
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641479604.001300"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641479604.001300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-06 06:33</span><br/>
+The main thing to note with that example agent is that it’s a complete backend for multi-tenant, multi-list task manager all in ~100 lines of Typescript
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641484665.001500"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-22/2770197337937_e1a019c028c176591195_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641484665.001500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy Jakubowski</b>
+<span style="margin:2em; color:#606060">2022-01-06 07:57</span><br/>
+Nice! I haven’t worked with Redux, but I have worked with XState, which also combines all logic in one massive object.<br/><br/>Will be interested to read that overview of your persistence implementation details. In particular, timing and syncing events. Martin Kleppmann’s Designing Data-Intensive Applications had some interesting discussion of this, but I’m sure you know that one already!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641508317.001700"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-21/5459215329909_c32c2c4d6375f7ce1819_72.png" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641508317.001700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matthew Linkous</b>
+<span style="margin:2em; color:#606060">2022-01-06 14:31</span><br/>
+Martin’s work is definitely a big influence. Currently everything is serialized on the server but this obviously doesn’t scale in terms of latency from the client so we have an implementation that acts mostly like a CRDT that we’ll share more details on in the future!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641558649.002000"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-22/2770197337937_e1a019c028c176591195_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1641330394.111100.html#1641558649.002000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy Jakubowski</b>
+<span style="margin:2em; color:#606060">2022-01-07 04:30</span><br/>
+Good luck and keep us posted :slightly_smiling_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

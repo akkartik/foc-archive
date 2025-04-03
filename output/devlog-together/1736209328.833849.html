@@ -1,0 +1,78 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1736209328.833849.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-06 16:22</span><br/>
+Progress on "Emacs for visualizing LÖVE apps": I have the first message between windows. I press a key, the key gets processed by the first window's keymap and dispatched to a function, which reads the selection, parses it and sends a message to the second window. The second window then responds to the message by adding a new object into its scene.<br/><br/>In principle, this approach feels nice and timeless. I think "every window is a scene and runs its own event loop" is more general a foundation than Emacs's "every window is a buffer containing text." It feels realistic to provide this foundation alongside a wide library of primitives for text rendering and analysis.<br/><br/>In practice, I've been struggling to find a focus, and I'm probably going to focus on creating tools for myself to more visually debug the LÖVE apps I create. I'm not going to focus at the moment on:<br/>• editing the source code for the environment <em>in</em> the environment, the way you can modify Emacs sources from within Emacs. I already have a way to do that: you open <a href="https://git.sr.ht/~akkartik/driver.love">a second window</a> and modify the app live as it runs.<br/>• interfacing with other processes or tools besides LÖVE, the way Emacs lets you connect to any programming language REPL.<br/>Both these are totally feasible. I don't think any crucial infrastructure is missing here. They're just not priorities for me right now. I plan to focus on more easily adding new windows to a LÖVE app, and creating new kinds of debug UIs in them.<br/><br/>One open question: supporting focus follows mouse. I don't know if it's possible in Emacs, and even if not I think it makes a lot more sense in a more graphics- and mouse-centered environment. Again, not a priority but perhaps this is a sign this foundation is not quite as timeless as I would like.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736232973.451209"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1736209328.833849.html#1736232973.451209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-06 22:56</span><br/>
+Nice!<br/><br/>I suspect that focussing on your own immediate needs is the only way to make good tools that are not simply clones of mainstream things. And I doubt there is much value in making an Emacs clone in LÖVE. You'd be eternally trying to catch up with Emacs' 40 years of advance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736949134.393919"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1736209328.833849.html#1736949134.393919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-01-15 05:52</span><br/>
+&gt;  One open question: supporting focus follows mouse. I don't know if it's possible in Emacs ...<br/>sure it is, just customize <tt>focus-follows-mouse</tt> to <tt>t</tt>.<br/>Question is, what does "focus" mean for non-textual "windows" (=panes).  But if your non-textual UIs still respond to kbd via a keymap-&gt;function, that part means same as in emacs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736949144.380819"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1736209328.833849.html#1736949144.380819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-01-15 05:52</span><br/>
+>  "every window is a scene and runs its own event loop"<br/>Do you mean actually separate process/thread, like a window system multiplexes display between processes?<br/>Or did you mean "you can think of it as event loop" but actually they all expose key-/event-maps and there is 1 central loop dispatching events to functions?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736956650.081859"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1736209328.833849.html#1736956650.081859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-15 07:57</span><br/>
+Yeah, just 1 central event loop doing the dispatching.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737021580.827859"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1736209328.833849.html#1737021580.827859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-16 01:59</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Something you might want to look at for inspiration is <a href="https://stumpwm.github.io/">StumpWM</a>, an Emacs-inspired window manager for X11. I have been test-driving it for a while, and I expect to adopt it completely over the coming weeks, as my configuration improves.<br/>StumpWM implements "every window is a scene and runs its own event loop" by running an X11 application in every window.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

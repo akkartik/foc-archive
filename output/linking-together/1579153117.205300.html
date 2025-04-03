@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-01-15 21:38</span><br/>
+I just wrote <a href="https://lobste.rs/s/6gzmym/static_types_are_dangerously#c_9lzbuq">https://lobste.rs/s/6gzmym/static_types_are_dangerously#c_9lzbuq</a><br/><br/>A couple of crazy ideas on types:<br/><br/>1. The Right Way is for product types to be nominative and sum types to be structural.<br/><br/>2. Maybe we need tags for product types as well? Then unify types on the names not of types but of their constituent tags, whether sums or products.<br/><br/>e.g. <tt>Foo</tt> and <tt>Bar</tt> can be automatically coerced in:<br/><br/><pre style="white-space:pre-wrap">type Foo = A int * B boolean<br/>type Bar = A int * B boolean</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579153921.205600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579153921.205600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-01-15 21:52</span><br/>
+My newish take on types in PLs is that they're all at the wrong level of abstraction. ADTs don't get it right either. We don't want to model types (which containerized the information, and overspecify the proximity of values), we want to model the information in some other normal form (kinda like 6NF in relational). Then separately we may want to define memory layout types (views on the normal form) that are materialized. The 'domain model' should only affect the normal form. The practical and optimization concerns should only affect the materialized views.<br/><br/><a href="https://twitter.com/chatur_shalabh/status/1201989863660122112">https://twitter.com/chatur_shalabh/status/1201989863660122112</a><br/><a href="https://twitter.com/BrandonBloom/status/1202001092248141824">https://twitter.com/BrandonBloom/status/1202001092248141824</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579156684.206000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579156684.206000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-01-15 22:38</span><br/>
+Why do ADTs not satisfy your criteria? The classic example of an ADT on Wikipedia is the integers: <a href="https://en.wikipedia.org/wiki/Abstract_data_type">https://en.wikipedia.org/wiki/Abstract_data_type</a>. Are you saying that including relations between 1 and 2 in the type is over-specific?<br/><br/>There's certainly a large state space here, and it's been done to death on LtU :stuck_out_tongue:. For example, I could generalize from my previous comment to unification between two types (or type and value, or two values) stemming from some combination of:<br/><br/>a) the type name<br/>b) the set of members<br/>c) the set of methods<br/><br/>For example, Java unification (just classes) requires the name to match, which indirectly requires a superset of members and methods. Go unification (interfaces) requires just superset of methods. OCaml (I think?) is the same as Go. I'm sure lots of niche languages have explored other points in this state space.<br/><br/>But really all this gets deep into architecture astronaut territory. There's a lot of wisdom in the idea to ignore inheritance in favor of composition. The use case I use to ground my uses of types is: what is the minimum we need to add to Hindley-Milner (basically structs and tagged unions) to avoid the NASA Mars Orbiter disaster? Basically assigning units to numbers. The nice thing about this use case is that it requires balancing usability with correctness. Nobody's going to create a unique struct for every numeric use case in their program. (And the long saga of <tt>signed</tt> vs <tt>unsigned</tt> in C shows that this path has correctness problems as well.)<br/><br/>So yeah, there are rarefied use cases where you want to distinguish between interface+relations and a materialized view. But it seems excessive to require that two-level framework all the time.<br/><br/><span style="background-color:#ccf">@magicmouse94937</span> has units, if I recall correctly. Have you written up a description anywhere of Beads's type system?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579199901.216300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579199901.216300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-01-16 10:38</span><br/>
+&gt; <span style="background-color:#ccf">@Shalabh</span> "We don't want to model types (which containerized the information, and overspecify the proximity of values), we want to model the information in some other normal form (kinda like 6NF in relational)."<br/>I think there are "functional" and "relational" styles of programming, which are appropriate in different contexts.<br/><br/>In my project (Curv), there is currently no state. It is purely functional. You build up geometric shapes using function composition: applying shape operators to shape values. The functional style is focussed on values, which containerize information and force it to be hierarchical. But, this style works really well in Curv. <span style="background-color:#ccf">@Kartik Agaram</span> Integers &amp; arithmetic are another example where functional style works well.<br/><br/>The functional style, with its containerized, hierarchical data, seems to be bad for modelling "real world" data, with its non-hierarchical relationships, and seems to be bad for managing state in game programming. For that, you want "relational" programming, which is what I think is what Shalabh is talking about. I'm using this term loosely to describe Entity Component Systems, Datalog, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579201258.216900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579201258.216900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-01-16 11:00</span><br/>
+Here's a well reasoned discussion of "relational programming" in the context of the Cell programming language, which explains the issues better than I can: <a href="http://cell-lang.net/relations.html">http://cell-lang.net/relations.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579246421.000500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579246421.000500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-01-16 23:33</span><br/>
+My take on this: types are fine, it's type systems that are a problem. All type systems I know impose a single type structure on "everything", typically meaning "a program", which is a somewhat arbitrarily defined subsystem of a computing system.<br/>Every type system I have seen is great for some use cases and horrible for others. So either we need to find the one type system that's good for everything, or admit that we need different type systems and find a way to make them collaborate.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579247011.000700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579247011.000700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-01-16 23:43</span><br/>
+ADTs don't really work because record types do not satisfy my criteria. It's the <tt>car.wheels</tt> vs <tt>wheel.car</tt> problem. In the information model there is only one relationship between the car and the wheels. (This goes back to the domain types vs machine types discussion we had at some point.) In something like RDF, or any graph model there is only one (obvious) way to model the car-wheel relationship: there's a car, there's a wheel, there's a 1:many relationship between car and wheels.<br/><br/>When using record types, you have to partition the information into two records - now you must decide where the link goes. This is what I mean by the 'relationship should be outside the entity' but it is inside in records. Sometimes I might want to lookup the car for a given wheel. Now I have a few options: Loop over all the cars and see if they contain this wheel, construct a reverse mapping using a new data structure <tt>Dict[Wheel, Car]</tt>. If you do that and it's somewhat long lived, you now have to keep the data consistent. The point is your code is not written to fit the domain model but it is written to fit this type model that contains various projections of the domain model. Importantly these projections are manually constructed and maintained. Other concerns (such as optimization) might lead to decisions like lets keep both <tt>car.wheels</tt> and <tt>wheel.car</tt> because we need fast lookup in both directions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579249905.005400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../linking-together/1579153117.205300.html#1579249905.005400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2020-01-17 00:31</span><br/>
+This is actually an interesting case and way easier in a dependently typed language. Why? Because if you add two measurements with different units, the return value type isn't obvious, and likely the result type is only known at runtime (aka you're likely passing types as values). The approach that keeps rows of each unit until you "flatten" it out to a single unit is a good one too, though clearly keeps more around than flattening (and disregarding rounding error you should be able to store everything as one unit). Fun times though: in this example, time affects the conversion rate between currencies, so it <b>almost</b> could be seen as 3-dimenensional (amount, currency, and time of conversion)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

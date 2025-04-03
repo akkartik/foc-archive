@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-05 04:25</span><br/>
+Hi, here's a short introduction video about my flow-based-programming project: <a href="https://youtu.be/zckUSrZX2co">https://youtu.be/zckUSrZX2co</a> . In the near future I'll upload more videos to talk and show more deeply about the project, but I hope that this video already gives you an idea of what I am creating
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588678696.203700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588678696.203700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-05-05 04:38</span><br/>
+Looks good. Am I understanding right that the nodes/arrows only show what are the inputs, and all actually calculations are specified in (textual) code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588679678.212700"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588679678.212700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-05 04:54</span><br/>
+Thanks, and I'll try to explain: Each node has a property taskType which specifies the plugin which is used when the node is executed. The plugins determine the parameters that they need. The expression task which calculates the body mass index is an example of such a plugin. The whole flow is actually stored in json format as an array : both nodes and connections are stored in that array. The json is executed by code, and it is used to setup rxjs observables and trigger the attached plugins
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588783226.214200"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588783226.214200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-05-06 09:40</span><br/>
+What happens if two branches - or conditions - overlap? Or put in another way: What happens at the point where you have multiple arrows as input?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588789301.224000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588789301.224000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-06 11:21</span><br/>
+Basically a node gets executed when it gets called via an input. A node can be triggered multiple times, so if it has 10000 inputs, it gets triggered 10000 times. At least in theory because it depends on the type of nodes and how the flow is setup, for example if the flow has conditional nodes it can happen that nodes don't trigger their output. And some nodes trigger multiple times (in the typescript implementation a node can return an observable which can trigger multiple times)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588789806.227500"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588789806.227500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-06 11:30</span><br/>
+There's also support for functions and even recursive functions within the flow. I already built a quicksort implementation with this just for testing purposes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588867746.252900"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588867746.252900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-05-07 09:09</span><br/>
+Ok, so, the rightmost box. What color does it get when multiple things 'trigger' it with different values?<br/><br/>You'd need some order of execution, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588869578.255800"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588869578.255800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-07 09:39</span><br/>
+It gets the last color it got triggered with
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588953192.264300"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588953192.264300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-08 08:53</span><br/>
+What sort of audience do you envision using it, and what kind of analysis/apps do you imagine it being used for?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588959159.275900"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588959159.275900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-08 10:32</span><br/>
+That are actually the big questions I have myself. I know that I would like to use it myself in production for web and apps which have complex forms which need calculations. But I probably wouldn't use this myself if I wouldn't be in control of the underlaying code and I assume that a lot of other developers who code a lot (and like to code) also think like that. "Citizen developers" could be a potential audience though. I would use it myself on application level and not so much the deep specialized code on lower levels. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588971025.276800"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1588971025.276800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-05-08 13:50</span><br/>
+I'm attracted to the general approach of being able to write arbitrary expressions or code blocks in the individual blocks (as text) but use a diagram for higher-level code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589006015.296200"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1589006015.296200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-08 23:33</span><br/>
+One of the current supported use-cases is that you can use the editor locally and run it beside your dev environment. The editor can be easily extended with your own tasks which you can develop in your dev environment. For example if you have a frontend workflow you code the tasks in vs.code in typescript. The same can be done with backend code, I do this myself with a php project. A lot of the typescript code that I've build can already be installed via npm but I am not actively promoting or documenting that, it's there to make it easier for myself at least. But I am also a bit reluctant in putting everything online for free because I am still thinking about a business model
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589006112.298000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1589006112.298000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-08 23:35</span><br/>
+Maybe the above will be the topic for my next 2 minute video, but that will be a real challenge to stay below that limit
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589039029.299000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1589039029.299000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-05-09 08:43</span><br/>
+It would interesting if a node could output the JSON for another graph of nodes (which would probably require a diffing algorithm to prevent having to recreate the whole thing each time, like a vdom)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589047786.307000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1588677924.203300.html#1589047786.307000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-09 11:09</span><br/>
+One of the items on my backlog is to load parts of the flow dynamically to be able to run flows at scale. My concerns is that this cannot grow indefinitely, parts of the flow also need to be removed from memory dynamically and loaded again when needed. Probably a flow needs to be really really big before this is a problem nowadays. Is this what you meant?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

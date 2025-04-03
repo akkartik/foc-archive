@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-15 13:44</span><br/>
+A single all-encompassing FoC language, for all domains, is unlikely. The future is DSLs. Some arguments for this. Also, how can we improve interoperability between DSLs? Requested by <span style="background-color:#ccf">@Duncan Cragg</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571175351.365700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571175351.365700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-15 14:35</span><br/>
+What numeric types should your wide-spectrum, all-domain FoC language support?<br/><br/>Douglas Crockford &lt;http://dec64.com/&gt; claims that decimal floating point (his DEC64 data type) should be "the only number type in the next generation of application programming languages". Binary floating point is unsafe for financial calculations, so DEC64 is a good choice for spreadsheets or any language that does financial calculations. But Crockford also says DEC64 is "well suited to most scientific applications", and that's less clear.<br/><br/>I do agree that for an end-user programming language focused on a specific domain, the simplicity of a single numeric type is valuable. And DEC64 is a good choice <b>if</b> the domain involves finance. For my language Curv, a DSL for 3D graphics, the best choice is IEEE binary floating point as the single numeric type.<br/><br/>For scientific computation, the popular choice is a batteries-included language with all the features needed by experts. Experts also need speed, because some scientific computations take a long time to run. That means you need vectorized IEEE binary floating point. Nobody will ever port BLAS and LAPACK to DEC64. Ditto for Machine Learning and 3D Graphics (which run on a GPU): you need vectorized binary floating point, because that's what the hardware supports.<br/><br/>For a functional language like Idris, where you use dependent types to prove programs correct, you need a natural number type, Nat, which implements the Peano axioms directly. In the Idris standard library, <tt>data Nat = Z | S Nat</tt>. You need this so that you can perform inductive proofs over the natural numbers. You need other numeric types as well (Nat doesn't include negative numbers or fractions).<br/><br/>In systems languages like C, C++ and Rust, you need the full set of numeric types supported by the hardware, including int8, int16, int32 and int64, so that you can write high performance code that optimizes memory consumption and memory access patterns and uses the L1 cache efficiently.<br/><br/>A true wide spectrum language would presumably need to support all of these different kinds of numeric computation, and in each case, do as good a job as more specialized languages designed by domain experts. And that would make the language much more complicated than a domain specific language. For any given task, a DSL is probably a better choice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571177686.366000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571177686.366000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-15 15:14</span><br/>
+DSLs are better than wide spectrum languages because they are simpler. There is less to learn. The syntax can be specialized for the task. The semantics can be restricted to only what is needed for the task, which leads to cleaner, simpler semantics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571179223.366400"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571179223.366400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-10-15 15:40</span><br/>
+I rather like the way Haskell deals with numbers— most literals are the most general class of Number that can hold them, and usage will refine it to a narrower type where necessary. That seems to me like a decent compromise between ergonomics and flexibility, and it's especially nice because the system does a lot of work for the user to figure out what data type is appropriate.<br/><br/>I think any "serious" language must at least provide the capability for a user to <em>implement</em> those data types, even if they are not built into the language. And obviously the exposed "batteries-in" types strongly set the tone for the user about what it's like to work with the language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571179531.367100"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571179531.367100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-10-15 15:45</span><br/>
+I currently distinguish between integers and reals in my system, but I don't like it. I strongly agree with the spirit of your "single numeric type is simpler" sentiment. I have aims of moving to a more Haskell-y system in my platform. (Hindley-milner is already there, so a good chunk groundwork is laid)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571181030.367900"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571181030.367900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-10-15 16:10</span><br/>
+Although if you want One Format To Rule Them All, quad-precision float has an appeal— the mantissa is 112 bits (which means integers 112 bits or smaller are exact), and my favorite fact about quad floats is that if 1.0 is 1 AU, then (1ulp) : (the radius of a hydrogen atom) :: (radius of hydrogen atom) : (radius of Earth).<br/><br/>"128 bits ought to be enough for anybody."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571184155.369700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571184155.369700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-15 17:02</span><br/>
+what would you propose the DSLs should be implemented in? otherwise i see this as being another brick balanced on top of the host language pyramid
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571189457.374300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571189457.374300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-15 18:30</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> I'm not sure I understand your post. I would implement a virtual machine, garbage collector, etc, in a systems programming language: something that provides direct access to machine data types, full control over memory layout of objects, and lets me write unsafe code where necessary. You know: like C, C++, maybe Rust. I consider these DSLs, and I wouldn't want to use these languages for everything. A compiler, on the other hand, can quite reasonably be written in a higher level language. What's your proposal, and what about the "brick balancing" metaphor?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571211437.386200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571211437.386200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-16 00:37</span><br/>
+Racket is a nice example of a platform designed for making interoperable DSLs. Assuming that everyone adopts it, of course, which is unlikely.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571213130.386700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571213130.386700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-10-16 01:05</span><br/>
+About 40 yrs ago I coined the acronym DTIL - Domain and Target Independent Language - as the definition of what I was striving for, and have been ever since. The Target independence meaning nothing in the language was affected by how the underlying hardware likes to work. Hence efficiency has to be achieved by whatever cleverness the language implementation can deploy; plus I expected hardware to get very much faster in the future (it did).<br/><br/>Thus DSLs are the opposite of DTILs, as indeed would a "TSL" be - a Target Specific Language. C is a TSL - you can specify <tt>uint16</tt>, etc and fiddle with bits. It's very close to the metal. I guess GLSL and OpenCL are also kinds of TSL: any language that is a wrapper for a machine type.<br/><br/>So I'm not interested in a number type that is machine-specific, or that makes things faster. If needed, that speed can be achieved by handing-off or wrapping or clever tricks.<br/><br/>And I am not interested in <tt>data Nat = Z | S Nat</tt> as my pos-int number system, because no-one talks of three bananas by saying <tt>S S S Z bananas</tt>!<br/><br/>I store numbers as strings, so they can be any length. My challenge of course, is that's not efficient, but I'm on this forum to ask for help with that, amongst other things!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571375817.487900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571375817.487900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-17 22:16</span><br/>
+Mathematica stores numbers as strings also, and they get away with it no problem, and offer as much precision as you request. So clever. So there is something to be said for ditching IEEE floating point and its crazy parts, like NaN not equalling NaN, and having many thousands of NaN's but the hardware only supporting silent NaN. The number of errors stemming from the fact that 0.1 + 0.2 does not equal 0.3 is staggering.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571389838.493200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571389838.493200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-10-18 02:10</span><br/>
+Thanks for that tip-off; I wonder how they make that work underneath?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571391313.493400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1571391313.493400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-10-18 02:35</span><br/>
+Related, see also <a href="https://en.wikipedia.org/wiki/Unum_(number_format)">https://en.wikipedia.org/wiki/Unum_(number_format)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1573499356.339900"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1571172258.364800.html#1573499356.339900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-11-11 11:09</span><br/>
+I'm glad this thread happened— it's this discussion that has prompted me to switch Lynx to quad precision floats (which LLVM supports: <a href="https://llvm.org/doxygen/group_<em>LLVMCCoreTypeFloat.html#ga1c02fb08f9ae12a719ed42099d42ccd8">https://llvm.org/doxygen/group</em>_LLVMCCoreTypeFloat.html#ga1c&hellip;</a>). Other numerical types will be supported eventually, but this will fend off users from having to understand and distinguish the difference between an integer and a real, which they really shouldn't have to worry about. A 112 bit mantissa is more than enough to count anything, and should also be enough to do finance calcs in any reasonable currency.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

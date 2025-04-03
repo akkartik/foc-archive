@@ -1,0 +1,137 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-08-10 00:25</span><br/>
+So I have this c/c++ codebase, around 116,000 lines of code. A full release compilation takes 6:25 minutes. Not too bad to work on.<br/><br/>If I break this down, a single line of c/c++ code takes 0.0033s (3.3 miliseconds). For comparison, a game that runs at 60 fps, draws a new frame in under 16 miliseconds. So while a game simulates and renders a frame, a c/c++ compiler compiles 5 lines of code. That is usually not even a single function.<br/><br/>My cpu avarages at around 10 instructions per clock cycle. At 3.6Ghz it can do 3.6 <b> 10 </b> 1,000,000,000 instructions on each core, per second. That's 36,000,000 per milisecond, on 8 cores.. but let's add some cache misses, any instructions can either go full speed 1x or go to main memory around 200x slower.<br/>We are looking at around 5 million instructions per milisecond.<br/><br/>If we print out (9pt font) all instructions executed to compile a single line of c/c++ code, we'd end up with over 6 kilometer long paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723307352.502779"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723307352.502779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2024-08-10 09:29</span><br/>
+I'm curious about gpu based compiling; eg. 100k lines at avg 80char/line = 8MB ≈ one 4k frame at single channel u8. Tokenizing this and astifying this may require a few passes, but still think this theoretically could be done multiple orders of magnitude faster... 400s to sub 400ms?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723317657.788809"></a>
+      <a href="../present-company/1723274705.524589.html#1723317657.788809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-10 12:20</span><br/>
+Gcc and clang are really not tuned for compile latency. Compare to eg <a href="https://home.in.tum.de/~engelke/pubs/2403-cgo.pdf">https://home.in.tum.de/~engelke/pubs/2403-cgo.pdf</a> or <a href="https://arxiv.org/pdf/2305.13241">https://arxiv.org/pdf/2305.13241</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723317815.090089"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723317815.090089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-10 12:23</span><br/>
+Computer graphics are also well suited to data-parallel hardware, which has several orders of magnitude better throughput than serial hardware.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723318173.843669"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723318173.843669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-10 12:29</span><br/>
+There's been some work on compiling on gpus (eg <a href="https://onedrive.live.com/?authkey=%21AN3eH7D93Q8%2Dxzs&cid=0CFFDB1C3A2F95F6&id=CFFDB1C3A2F95F6%21702303&parId=CFFDB1C3A2F95F6%21184476&o=OneUp">https://onedrive.live.com/?authkey=%21AN3eH7D93Q8%2Dxzs&cid=&hellip;</a>) but it's very basic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723318218.979639"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723318218.979639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-10 12:30</span><br/>
+A lot of basic tasks (eg representing changes to code during optimization) don't have good solutions yet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723444700.903799"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723444700.903799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-08-11 23:38</span><br/>
+I don't think adding more compute is helping. It's absolutely abysmal that a c++ compiler executes around 40MB of code just to compile a single line. And most lines are not complex at all, assignments and such. It probably re-compiles the standard library for each line. :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723587439.918879"></a>
+      <a href="../present-company/1723274705.524589.html#1723587439.918879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-13 15:17</span><br/>
+Most of the work is not per-line, but finding good approximations to np-complete problems that span entire functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723587808.281139"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723587808.281139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-13 15:23</span><br/>
+LLVM could certainly be faster (pointer heavy ir, lots of dynamic function calls for extensibility, mandatory linking phase even when only compiling a single compilation unit). I could believe getting a single order of magnitude improvement while achieving the same code quality.<br/><br/>You can also get 2-3 orders of magnitude improvement today from baseline compilers, but typically at the expense of 2-5x worse runtime performance. That's absolutely the wrong tradeoff for release builds in large deployment, since it translates directly to either increased datacenter costs or reduced battery life on laptops/mobile.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723587918.175699"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723587918.175699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-13 15:25</span><br/>
+Another consideration that's specific to c/c++ is that if you count how many times your includes get duplicated, the compiler is probably dealing with far more lines of code than you actually wrote.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1723588237.056619"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../present-company/1723274705.524589.html#1723588237.056619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-08-13 15:30</span><br/>
+&gt; let's add some cache misses<br/>Just a guess, but with llvm being so pointer heavy I'd not be surprised if you have many more cache misses than you're guesstimating. If you have a fairly recent intel cpu you can measure both cache misses and instructions executed with <tt>perf stat -e cycles,instructions,cache_misses -- $BUILD_MY_THING</tt>.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

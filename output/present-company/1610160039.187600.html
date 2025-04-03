@@ -1,0 +1,270 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-01-08 18:40</span><br/>
+Anyone have a favourite JS library for working with CRDTs? Or even something a little more high-level, for doing collaborative editing? I control the editor (clients), the data model, and the server. I'd like something that helps handle ~conflict resolution~ concurrent changes to the structure of data. Curious to see what options are available. I'm definitely not looking for something tied to any particular framework (eg: React, Express, etc) — just something that works with vanilla JS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610160807.187800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610160807.187800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-01-08 18:53</span><br/>
+Examples of things that might work, since they give you control over the server:<br/><br/>• <a href="https://github.com/automerge/automerge">https://github.com/automerge/automerge</a><br/>• <a href="https://github.com/yjs/yjs/">https://github.com/yjs/yjs/</a><br/>• <a href="https://github.com/share/sharedb">https://github.com/share/sharedb</a><br/>Examples of things that might not work, since they seem to prefer to use a public or private server that isn't your own:<br/><br/>• <a href="https://gun.eco">https://gun.eco</a><br/>• <a href="https://pusher.com">https://pusher.com</a><br/>• <a href="https://firebase.google.com">https://firebase.google.com</a><br/>Would love more suggestions if you know of anything.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610165142.196600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610165142.196600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-01-08 20:05</span><br/>
+I’ve never tried to build a conflict resolution system, but one thing I believe to be true is that it’s impossible to automatically merge truly conflicting edits using a generic algorithm whilst preserving intent. If two people change the same piece/region of data asynchronously, they did so with the intent of giving the data a certain shape/property/meaning. To offer “automatic conflict resolution” is to offer “merger of meaning” which is never going to be solvable via a generic algorithm. What is the problem that CRDT libraries claim to be solving? What is an example CRDT that an app has actually used that doesn’t employ a trivial resolution algorithm? You’re always going to need to encode domain-specific knowledge in any non-trivial resolution algorithm, to ensure the resolution captures user intent.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610184797.196900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610184797.196900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-01-09 01:33</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Definitely. However, with collaborative editing, you are in a domain where it is cheap enough to correct problems if they appear.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610185144.197700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610185144.197700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-01-09 01:39</span><br/>
+I suppose if it’s real-time collaboration, yes!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610209895.198000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610209895.198000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-01-09 08:31</span><br/>
+Yeah — I'm not looking for something <em>magic</em>. I'm happy with LWW (or whatever) at the level of individual leaf nodes within a big structure of CRDTs (or whatever). I just don't want to have to implement said CRDTs myself.<br/><br/>In other words — I'm happy to write the logic for "What should happen when one element of this CRDT set has multiple divergent edits?" as long as I don't have to write the logic for "What should happen when two separate elements of this CRDT set have independent edits?"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610212503.201700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610212503.201700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 09:15</span><br/>
+Be careful with CRDTs as they have tradeoffs and aren’t as simple as “pick a library.” I’d recommend operational transforms if you have a server involved.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610212650.203600"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610212650.203600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 09:17</span><br/>
+Even with OTs though, you need to decide exactly what your atoms are (Words, characters, html tags, etc)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610212773.204200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610212773.204200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 09:19</span><br/>
+This is the classic js lib: <a href="https://github.com/josephg/ShareJS">https://github.com/josephg/ShareJS</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610212943.204500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610212943.204500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-01-09 09:22</span><br/>
+The atoms are individual leaf nodes in a tree. If there's a conflict at the node level, I'm happy with LWW. The thing I'm looking for help with is edits to the structure of the tree (nodes being added, removed, and moved).<br/><br/>I'd love to know what some of the tradeoffs with CRDTs are. I'm happy to go with OT, too. I don't care too much about the particular algorithms involved, no more than other implementation details like what the API surface is like, how mature the library is, how many active users it has, etc. I'm just saying "CRDT" since that's a term in common parlance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610215294.205700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610215294.205700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 10:01</span><br/>
+Is there any invalid configuration of said tree? If so, CRDTs can get you in trouble
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610215337.206700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610215337.206700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 10:02</span><br/>
+(For example, we hit problems with this in a screen design tool)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610215746.208300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610215746.208300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-09 10:09</span><br/>
+CRDTs have memory growth problems and you need to make strict decisions on how you “refresh” when clients disconnect
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610225568.209900"></a>
+      <a href="../present-company/1610160039.187600.html#1610225568.209900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-01-09 12:52</span><br/>
+i don’t think gun requires an external server except for webrtc connections, which do by design: <br/><br/>they used to have a fallback. i feel like their documentation has gotten more friendly, but also worse somehow lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610229728.213600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610229728.213600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-01-09 14:02</span><br/>
+Regarding “I don’t want to have to implement CRDTs”, isn’t the logic really damn simple? That’s why the whole notion of “CRDT libraries” has always perplexed me: the simple resolution schemes are easy to implement manually, and the complex ones MUST be implemented manually because they aren’t going to be generic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610229984.217400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610229984.217400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-01-09 14:06</span><br/>
+Perhaps the only useful CRDT libraries are ones that provide a resolution algorithm for edits to sequences (text strings), because you need some kind of heuristic in order to figure out how several length-changing edits should combine. But we should just call those “collaborative text editing libraries” and put the term CRDT to bed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610289875.217600"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610289875.217600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-01-10 06:44</span><br/>
+What kind of data? Is it something like a node &amp; edge based editor or something more like structured text? Depending on how far along you are, you may want to ensure your underlying editor makes it easy to add OT or concurrent editing.<br/><br/>Do you have offline editing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610306435.219000"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610306435.219000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-01-10 11:20</span><br/>
+If that can be of any interest, there is a web site about CRDTs -&gt; <a href="https://crdt.tech/">https://crdt.tech/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610307216.219400"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610307216.219400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-01-10 11:33</span><br/>
+I discovered CRDTs two years ago, and at that time I was interested by automerge and Yjs. I played a bit with automerge at that time and it seems good. I am on the automerge slack, and the project is very active.<br/><br/>I also will use CRDT in some future work for offline first collaborative editing. But I don't know what I will use. I guess I will try automerge and Yjs.<br/><br/>I also played a bit with CRDTs (simple implementation in Rust which compiles to WASM) so I understand how they work and maybe will use a custom implementation that will fit my needs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610308022.219600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610308022.219600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-01-10 11:47</span><br/>
+&gt; The atoms are individual leaf nodes in a tree. If there's a conflict at the node level, I'm happy with LWW. The thing I'm looking for help with is edits to the structure of the tree (nodes being added, removed, and moved).<br/>I guess it is the tricky part for CRDT (and I guess for OT too): editing structured data. I don't know how well automerge and Yjs manage these kind of data.<br/><br/>But I have similar needs and it something I want to explore. If you need help (discuss, test things...) just tell me, it will be the occasion for me to move forward on that subject!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610383885.221000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610383885.221000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-01-11 08:51</span><br/>
+Thanks for the thoughts everyone. Replies in order.<br/><br/>&gt; <span style="background-color:#ccf">@Don Abrams</span>: I’d recommend operational transforms if you have a server involved.<br/>My server is just dumb data storage and presence for clients. It's not going to be running any of the editor logic, and I think the cost of involving it in the concurrent editing (eg: having it update a canonical copy after each edit) would outweigh the benefit of using OT instead of CRDTs. I'm not worried about the memory growth of CRDTs at the scale I'd be using them (fairly coarse), and I'm not worried about invalid states, but it's good to know that those are sticking points. Thanks!<br/><br/>&gt; <span style="background-color:#ccf">@Nick Smith</span>: Regarding “I don’t want to have to implement CRDTs”, isn’t the logic really damn simple? [...]<br/>Simple or not, there's a bunch of factors and tradeoffs to consider when writing something like CRDT structures/functions: correctness, performance, memory, API design, quality-of-life features, identification of common pitfalls, development time cost, mental overhead, and umpteen more. I'm currently just <em>considering</em> using CRDTs (or OT, or something else) in service of adding collaborative editing features to a tool I'm building. The collaborative editing is not a key feature, it's something I'm exploring as a might-be-cool option. I need to keep most of my focus on the domain problem my tool is addressing. This is why a library that already weighed those tradeoffs and made some coherent and well-justified decisions about them would be nice.<br/><br/>&gt; <span style="background-color:#ccf">@Cole Lawrence</span>: What kind of data? Is it something like a node &amp; edge based editor or something more like structured text? [...] Do you have offline editing?<br/>It's sort of like a small spreadsheet, without formulas, where the main interaction is that you can swap any two cells. Stupidly simple. There will be offline editing, but I'm not worried about the case where wildly divergent offline edits need to be coherently reconciled later. There will be versioning (outside/above the level where CRDTs / collaborative editing comes into play), and that's where conflicting divergent offline edits can be resolved.<br/><br/>Thanks again everyone!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610463357.236200"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1610160039.187600.html#1610463357.236200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-01-12 06:55</span><br/>
+You might enjoy hybrid logical clocks: <a href="https://github.com/jlongster/crdt-example-app">https://github.com/jlongster/crdt-example-app</a> (talk <a href="https://archive.jlongster.com/s/dotjs-crdt-slides.pdf">slides</a>)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

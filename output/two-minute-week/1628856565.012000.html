@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2021-08-13 05:09</span><br/>
+Hi, in my last update I promised to make a video on the visual webassembly compiler that I am working on as a subproject of my flow-based-programming editor. So, here it is :-) <a href="https://youtu.be/hxCrRkkhgiM">https://youtu.be/hxCrRkkhgiM</a> . I'll share some more info in the thread of this post and a picture of the whole flow as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628856857.012200"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1628856857.012200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2021-08-13 05:14</span><br/>
+Some more details:<br/>To take a little step back, I want to illustrate the differences between what you see here in comparison to the flows that I’ve shown in other videos on this channel. The thing that they are sharing is the editor, which is a react component I build. But the way the flows are running, is totally different. <br/><br/>The earlier flows are interpreted and event handlers are created based on the nodes in the flow. An event handler calls the node-tasks when it receives an event. The connections represent the events. When a node-tasks is done, it calls its output events.<br/>The node-tasks can contain quite some code themselves and from flow perspective they are much more high level. <br/><br/>But the flow that you see in this video contains much smaller blocks which get compiled to webassembly in real-time in the browser using javascript when you add or change nodes.<br/> <br/>It somehow made more sense to layout this flow from top to bottom instead of left to right.<br/><br/>I’ve color coded some blocks to help understand what is going on:<br/><br/>the blue node is the start point<br/>yellow nodes are function definitions or the calling of a function<br/>orange nodes are subflow definitions and the inserting points for a subflow<br/><br/>This flow contains two while loops for the x and y of the canvas so that we can calculate the color for each pixel. The inspiration for this was the tixyland demo from last year. So the flow also has a time parameter that is handled internally by the component that calls the compiled webassembly code from within a requestAnimationFrame.<br/><br/>There are some helper variables which define 3 points and for each pixel the distance is calculated to these points. These 3 points are moving using a sine calculation. The sine function is actually the only javascript function that is called from within the webassembly code because webassembly has no sine function itself and my knowledge is too little to implement it in webassembly myself.<br/><br/>In the future I hope to extend this flow to webassembly compiler to make it Turing complete and I also hope to add some features so that it can be used in more business line of applications and combine it with the other flow solution.<br/><br/>In the editor I’ve added a feature so that I can move through a flow automatically while recording a video. I’ve tried to make it a smooth as possible but I am running into limitations of the browser or my programming capabilities. The problem is probably that it’s a hybrid model that uses both canvas and html for showing a flow. So, I am still thinking of doing a big rewrite using webgl and webassembly. If anybody has some suggestions on how to improve the performance then please let me know.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628857011.012400"></a>
+      <a href="../two-minute-week/1628856565.012000.html#1628857011.012400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2021-08-13 05:16</span><br/>
+This is the whole flow as an image, it was made manually using a lot of separate images and stiched together in photoshop since I can't easily export it as one readable image because of the hybrid model... although the readibility of this image can also be improved:sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628890790.012800"></a>
+      <img src="https://avatars.slack-edge.com/2021-08-05/2353581298866_7b07be04e1f4d03e0a10_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1628890790.012800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tomas Čerkasas</b>
+<span style="margin:2em; color:#606060">2021-08-13 14:39</span><br/>
+So cool, thanks a lot for sharing and taking time to record video!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628893857.013000"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1628893857.013000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2021-08-13 15:30</span><br/>
+I loved the feature to move through the flow while recording, but the acceleration from node to node is a bit fast for me. I'm afraid I got a little dizzy in some parts!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628918348.015500"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1628918348.015500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2021-08-13 22:19</span><br/>
+Thanks for the feedback about the acceleration, in future video's I'll take that into account or maybe make the project available to play with it yourselves so you are more in control
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629100832.016200"></a>
+      <img src="https://avatars.slack-edge.com/2021-05-26/2104531310403_4d4f0ee36615313d19e3_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1629100832.016200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Schulz</b>
+<span style="margin:2em; color:#606060">2021-08-16 01:00</span><br/>
+&gt;  In the editor I’ve added a feature so that I can move through a flow automatically while recording a video. <br/>So cool! Love seeing this after discovering the Code Tours Extension in VS Code last week. Really digging this!<br/><br/>I also like the spatial organisation and color coding of your environment. Together with the tour, you’re starting to build a map of a program with different islands but instead of just dropping someone into this new world, you offer a map/tour guide with it. This is fantastic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629109580.018700"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1628856565.012000.html#1629109580.018700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2021-08-16 03:26</span><br/>
+Thanks! I am going to check out that extension in vs.code, I hadn't heard of it yet
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

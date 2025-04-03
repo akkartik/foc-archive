@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-20/1888317604340_4b73abdedee9e96fe9ff_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dane Filipczak</b>
+<span style="margin:2em; color:#606060">2023-11-10 15:54</span><br/>
+What are some examples of successful UIs over constraint solving systems?<br/>I'm about to do a bit of research on this topic but thought I'd start here.<br/>Off the dome I can think of excel (numerical constraints) and rhino grasshopper (architectural / physical constraints).<br/>I realize this is vague, but what I have in mind is a UI that allows for constraints to be defined which are then composed together and solved behind the scenes.<br/>In particular, I'm wondering how to represent the case where there are multiple valid solutions and offer cycling through them to the user.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699661473.275579"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699661473.275579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2023-11-10 16:11</span><br/>
+This is exactly what I'm working on at Ink &amp; Switch, but I'm not sure how much I can talk about it publicly yet. I'll get back to you in a bit!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699662531.480279"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699662531.480279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2023-11-10 16:28</span><br/>
+parametric CAD like solidworks/fussion 360/onshape are very successful
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699677694.066289"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699677694.066289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2023-11-10 20:41</span><br/>
+So yeah! I don't have anything I can show yet, but I'll talk about some stuff that's relevant here.<br/><br/>George mentioned parametric CAD, and that's an excellent example. I'd also point to video games — the way their physics engines work is often quite similar to a constraint solver, and the "UI" over the solver is the game itself. Some games like World of Goo or the new Legend of Zelda: Tears of the Kingdom expose the constraint system quite directly as a core part of the gameplay. I'd also point to artistic 3D modelling tools, which differ a bit from CAD in that the interface(s) to the constraint system(s) are more focused on creative expression (eg: "make this thing 'look at' that thing") rather than precision (eg: "make the angle between these two lines 90º").<br/><br/>For the part where you're wondering about multiple valid solutions, I think it depends on how continuous vs discrete your domain feels. If it's very continuous, you might want some of the approaches in Bret Victor's essay <a href="http://worrydream.com/LadderOfAbstraction/">Ladder of Abstraction</a>. If it's more discrete, check out the Ink &amp; Switch essay <a href="https://www.inkandswitch.com/untangle/">Untangle</a>.<br/><br/>I hope that helps. Feel free to ask for more examples or more explanation of anything I referenced.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699685810.387599"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699685810.387599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2023-11-10 22:56</span><br/>
+I've had some success with various flavors of heatmap ('expressive range analysis'), similar to 'three steps up' in Ladder of Abstraction but whose axes arise from either parameter space (as shown) or phase space (esp. time, in the special case where artifacts are sequences of events). If you can picture the latent space that artifacts are drawn from by queries (going through the constraint solver), that can help to discover something cleverer.<br/><br/>Tbh, I'm abusing heatmap here to describe density distributions of artifacts in latent space (to be accessed by drilling down, although the selection can be multiple) - not the uniform parameter grid that Victor shows, although that could be understood as the empty query.<br/><br/>(I'm assuming you do want to mingle phase space with parameter space - rather than animating the constraint like in Zelda, or building it into the user's brushes like in CAD, if I understand.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699688436.917549"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699688436.917549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-11-10 23:40</span><br/>
+Depending how you mean the question, you might want to check out the gemstone systems from Brad Myers (amethyst, garnet, &amp;c), in which UIs are built using constraint satisfaction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699713226.293459"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-20/1888317604340_4b73abdedee9e96fe9ff_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699713226.293459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dane Filipczak</b>
+<span style="margin:2em; color:#606060">2023-11-11 06:33</span><br/>
+Thanks everyone for the interesting pointers.<br/><br/><span style="background-color:#ccf">@Ivan Reese</span> I'm in the domain of music composition, which has continuous and discreet aspects. The most straightforward applications of constraints would be in the discreet areas, and I'm intrigued by the untangle work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699721998.623969"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699721998.623969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2023-11-11 08:59</span><br/>
+Oh, fantastic. Oxman's work was not on my radar; I see why you mention them in the same breath as DeLanda. Very excited to read your thesis. I will point at the 'musical metacreation' literature over at the ICCC and AIIDE conferences, although the selective pressures are very CS and tend to screen out interface work.<br/><br/>Here's folks using non-diatonic notes in chord progressions, from this year: HarmonyMapper: Generating Emotionally Diverse Chord Progressions for Games<br/><a href="https://www.exag.org/papers/HarmonyMapper%20Generating%20Emotionally%20Diverse%20Chord%20Progressions%20for%20Games.pdf">https://www.exag.org/papers/HarmonyMapper%20Generating%20Emo&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699722033.287799"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699722033.287799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2023-11-11 09:00</span><br/>
+and here's an incredibly search-oriented survey paper from '09 (sections 5.3 and 5.4 briefly discuss frontend): Constraint Programming Systems for Modeling Music Theories and Composition<br/><a href="https://www.researchgate.net/publication/235925975_Constraint_Programming_Systems_for_Modeling_Music_Theories_and_Composition">https://www.researchgate.net/publication/235925975_Constrain&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699738279.647619"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-20/1888317604340_4b73abdedee9e96fe9ff_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699738279.647619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dane Filipczak</b>
+<span style="margin:2em; color:#606060">2023-11-11 13:31</span><br/>
+<span style="background-color:#ccf">@Jasmine Otto</span> I'm embarrassed that you found my thesis :see_no_evil: : )<br/>there's some interesting conceptual stuff at the beginning but the work feels very primitive to me now.<br/>Thanks for the links - I gave a paper at ICCC/MuMe once and love a lot of the work that comes out of there.<br/>As with many areas in academia, the literature is overflowing with great ideas but I'm frustrated by the lack of a stable platform by which to compare and contrast the various approaches and expose them to non-expert users - one of the goals of this project is to reach towards a 'productization' of such research.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699859659.176929"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699859659.176929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-11-12 23:14</span><br/>
+Ah, my previous answer is not germane! Can you tell us a bit about your composition system? I’ve build tools for this kind of thing in Lisp and Prolog over the years, and always enjoy hearing about others systems :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699996177.974569"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-20/1888317604340_4b73abdedee9e96fe9ff_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1699996177.974569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dane Filipczak</b>
+<span style="margin:2em; color:#606060">2023-11-14 13:09</span><br/>
+It's something like an updated OpenMusic / OpusModus with a deeply integrated constraint system, support for continuous as well as discreet signals, 'gradual' scripting (a la blender or max for live - your basic user will have a UI but scripting is well supported), a much better score input experience (should feel more like LISP editing and less like the horror of sibelius / finale input) and that is web-first with optional local desktop (though probably non-electron - the desktop solver should be multithreaded and fast). This is enabled by a clojure DSL for representing values in time that takes the idea of proportional timing via nested sequences from tidalcycles and arbitrary series/parallel temporal composition from haskore. It compiles to musicXML, midi, and supercollider patterns - bounce to your medium of choice.<br/><br/>I'm disappointed at the progress that has been made since Laurie Spiegel called for a program that could express transformations in musical ideas at the same level of abstraction as composers conceive of them, and am motivated by the innovation that could occur if composers had a wide array of "operations they could perform without thinking about them", a la Whitehead. The academic literature of 'how to compose via computer' is embarrassingly rich, and it offends me that those abilities aren't readily accessible to any clever 12 year old that wants to fiddle with them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700012993.604519"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-20/1888317604340_4b73abdedee9e96fe9ff_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1700012993.604519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dane Filipczak</b>
+<span style="margin:2em; color:#606060">2023-11-14 17:49</span><br/>
+I should clarify that the above is more like the 'dream laundry list' - currently I've got most of the semantics of the dsl worked out and compiling to midi, as well as a jumble of buggy code to convert music xml to the dsl and a few concept UIs. I'm interested primarily in making new music, so this stuff gets chiseled at to the extend that I'm frustrated enough with my current tools : )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700033523.216859"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1699660446.577069.html#1700033523.216859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-11-14 23:32</span><br/>
+Do you have anything about the DSL posted anywhere?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

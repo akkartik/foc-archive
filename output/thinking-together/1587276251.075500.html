@@ -1,0 +1,283 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/dc472895c1aaf37f7c5e576c6cc5b881.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Chapman</b>
+<span style="margin:2em; color:#606060">2020-04-18 23:04</span><br/>
+has anyone seen this?<br/><br/><a href="http://www.try-alf.org/blog/2013-10-21-relations-as-first-class-citizen">http://www.try-alf.org/blog/2013-10-21-relations-as-first-class-citizen</a><br/><br/>I think it's an interesting idea... I think almost all high-level programming can be done with only types, relations, and pattern-matching/destructuring. (of course, we will always need people or Machine Learning to find how to execute the high level code in efficient ways)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587316487.080100"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587316487.080100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-19 10:14</span><br/>
+I haven't, but thanks, I love it! I'm curious to hear other opinions, though, because I hashed out a related API in here a while back without being able to explain my motivation nearly as well, and seemed to get mostly confused looks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587375028.086300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587375028.086300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-20 02:30</span><br/>
+"Almost all high-level programming" sounds like a huge claim for something that looks specific to databases. Am I overlooking something that makes this idea much more general?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587397503.088600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587397503.088600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-20 08:45</span><br/>
+This idea is more general than relational databases.<br/>1. The author references "Out of the Tar Pit", which persuasively argues that relational programming should be used for general purpose programming. <a href="http://curtclifton.net/papers/MoseleyMarks06a.pdf">http://curtclifton.net/papers/MoseleyMarks06a.pdf</a><br/>2. Every general purpose language has hierarchical data structures, and means for querying and updating these data structures. For my Curv language, I started by copying these features from popular languages. So, I have records and arrays; R.foo selects field 'foo' from R; A[i] selects element 'i' from A; etc. And I have multi-dimensional array slices. But I discovered you can't abstract properly over these language features, and they aren't properly composable. So I've broken down these features into orthogonal, composable query and update operators, and I have rediscovered the "Lens", popularized by Haskell, but Lens packages are popping up in every language. And I discovered that Lenses are good for building pure functional GUIs that are modular and composable (you use them to connect the model with the view and controller). And I noticed that my new query / update operators resemble relational algebra without the "join". So I'm looking at Tarpit and this paper, and wondering if I should just add a join.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587404874.089400"></a>
+      <img src="https://secure.gravatar.com/avatar/5231a4183b420b2f43a0acdf4330550d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587404874.089400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Samuel Squire</b>
+<span style="margin:2em; color:#606060">2020-04-20 10:47</span><br/>
+I don't understand this at all. The low level relational algebrea is handled by the SQL engine itself. What is any of this work buying you?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587406495.091900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587406495.091900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:14</span><br/>
+<span style="background-color:#ccf">@Samuel Squire</span> The relational algebra is a more suitable abstraction for programming than SQL (aka the relational calculus). Quote:<br/>• SQL has not been designed with composition and separation of concerns in mind,<br/>• Avoiding strong coupling between subqueries tends to be very difficult in practice,<br/>• Coupling hurts separation of concerns and software design.<br/>This shows that embedding SQL in a programming language is not a great idea. It is a poor API, and this paper demonstrates a better alternative (the relational algebra).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587406691.092100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587406691.092100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:18</span><br/>
+<span style="background-color:#ccf">@Samuel Squire</span> The relational algebra is a general purpose API for querying and updating data structures. You don't need a relational database for it to be useful. Alf allows you to query .json, .csv, .yaml files and convert from one format to the other with ease. Microsoft has created Linq based on the same principles: relational algebra as a general purpose API for query and update, not restricted to relational databases. Microsoft has embedded Linq in all of their programming languages: C#, F# and so on.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587406832.092300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587406832.092300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:20</span><br/>
+LINQ: <a href="https://en.wikipedia.org/wiki/Language_Integrated_Query">https://en.wikipedia.org/wiki/Language_Integrated_Query</a><br/>LINQ is based on the relational algebra: <a href="https://news.ycombinator.com/item?id=9116884">https://news.ycombinator.com/item?id=9116884</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587407780.092700"></a>
+      <img src="https://avatars.slack-edge.com/2020-04-20/1067569014342_3e6a851923d262ea9e74_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587407780.092700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy F</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:36</span><br/>
+awesome, I like this direction a lot, I’ve also had a nagging hunch that all program data can (and maybe should) be stored as relations
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587407802.092900"></a>
+      <img src="https://avatars.slack-edge.com/2020-04-20/1067569014342_3e6a851923d262ea9e74_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587407802.092900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy F</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:36</span><br/>
+if we look at the work that human programmers do all day, so much of it is taking things that are relational (at least in the abstract) and turning it into more-specific implementations, for example, any object-oriented code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587408800.093100"></a>
+      <img src="https://secure.gravatar.com/avatar/5231a4183b420b2f43a0acdf4330550d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587408800.093100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Samuel Squire</b>
+<span style="margin:2em; color:#606060">2020-04-20 11:53</span><br/>
+LINQ I understand and it is good. I'm not seeing the connection between this and LINQ
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587409365.093600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587409365.093600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-20 12:02</span><br/>
+<span style="background-color:#ccf">@Andy F</span> I don't agree with the Tarpit paper that <b>all</b> program data should be stored as relational tables. For my domain (computer graphics), you need multi-dimensional arrays and linear algebra. Storing a 4x4 transformation matrix as 16 individual cells in a relational database seems crazy. ADTs are heavily overused in OOP programming, and I'm not a fan of the style, but I still think we need abstract data types for at least some use cases. The ability to perform relational queries on compound data encapsulated in ADTs is cool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587411151.093900"></a>
+      <img src="https://avatars.slack-edge.com/2020-04-20/1067569014342_3e6a851923d262ea9e74_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587411151.093900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy F</b>
+<span style="margin:2em; color:#606060">2020-04-20 12:32</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Something I’m optimistic about (and I have a baby side project in this area) is that a compiler could code-generate a fast path that doesn’t run full database queries at runtime. The programmer would need to declare all data access patterns upfront, and maybe give some implementation hints too. Then the compiler converts those access patterns into efficient in-memory operations and data structures. So the final program ends up doing the same stuff
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587411920.094100"></a>
+      <img src="https://secure.gravatar.com/avatar/5231a4183b420b2f43a0acdf4330550d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587411920.094100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Samuel Squire</b>
+<span style="margin:2em; color:#606060">2020-04-20 12:45</span><br/>
+If a <a href="https://github.com/samsquire/ideas3#17-query-database">database stores queries themselves</a>, it can make data layout and storage decisions that are fast
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587488047.100200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587488047.100200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-04-21 09:54</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Interesting, thanks for the explanations!<br/>Are there any examples of non-database code using relations and relational algebra? I remember being rather disappointed by the tarpit paper recommending this style but not giving any concrete examples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587491001.104200"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587491001.104200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-21 10:43</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Eve puts almost everything into a database. IIRC, it didn't put much of a spotlight on the acts of projecting and joining, since they were so basic to the execution model.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587491106.104400"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587491106.104400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-21 10:45</span><br/>
+This sounds cool, but I don't quite "get" the new algebra he is introducing. For one thing, in what sense are relations "first-class citizens"? Maybe I don't know the definition of a "relation". Also, why does the join work?<br/><pre style="white-space:pre-wrap">project(<br/>  join(suppliers, cities),<br/>  [:sid, :name, :city, :country])</pre><br/>does it choose implicitly to join on "city" just because the two tables both have a city column? But what if the column names don't match, and how is this going to work if two tables happen to share a column name but it is just a coincidence and not intended for joining?<br/><br/>I have always found relational algebra unnatural. In non-DB code, if you want to know what city a person lives in, it's just <tt>person.address.city</tt>... DBs are so clumsy in comparison, constantly making you think about how to join tables together while including and excluding the right data. You might say "well what if you want to know what people are associated with an address... not so easy then, huh?" Yeah, then I'd have to run a query like <tt>people.Select(p =&gt; p.address).Where(a =&gt; a == address)</tt>, but by golly, simple paths like <tt>person.address.city</tt>  are both very convenient and maximally efficient computationally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587491368.104900"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587491368.104900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-21 10:49</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> AFAICT, it's just the natural join from relational algebra, with formal definition here: <a href="https://en.wikipedia.org/wiki/Relational_algebra#Natural_join_(%E2%8B%88)">https://en.wikipedia.org/wiki/Relational_algebra#Natural_join_(%E2%8B%88)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587491584.105300"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587491584.105300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-21 10:53</span><br/>
+I can't argue with the inconvenience of your implementation of <tt>people.address.city</tt> except to say that the way you get the convenient <tt>people.address.city</tt> syntax with an ORM is to define the relations between people and addresses and cities, so a language based on relations would probably have that too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587497557.107000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587497557.107000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-04-21 12:32</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> A relation is just what you probably think: a table, or a set of tuples. Relations are first class in Alf because relations can be directly manipulated as first class objects (of class "Relation") in the host language, Ruby. This is in contrast with the software he is comparing Alf to, which allow you to run SQL queries against an external relational database, but don't model the relations as objects. In 2013, maybe this was a bigger deal than it is today.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587572583.114700"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587572583.114700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-22 09:23</span><br/>
+The analogue of implementing an interface for a struct in Go in order to call a function like sort.Sort would be to project/join your way to having the right fields for applying another, first class relation. Like a SQL statement with parameters, such as <tt>SELECT a FROM $tbl</tt> .
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587670819.150400"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587670819.150400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-23 12:40</span><br/>
+Okay, so relations are not relationships (which certainly feel second-class in SQL). But what does it mean for tables to be first class? Couldn't we say, for example, that that a growable list of records (objects with properties) in C# is basically the same as a table, and that it is first-class in some sense? It seems like maybe the goal is to make "query composition" first class, or something like that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1587692682.153000"></a>
+      <img src="https://secure.gravatar.com/avatar/5231a4183b420b2f43a0acdf4330550d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1587276251.075500.html#1587692682.153000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Samuel Squire</b>
+<span style="margin:2em; color:#606060">2020-04-23 18:44</span><br/>
+i've come around to this idea now. It's a good idea.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

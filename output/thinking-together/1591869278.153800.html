@@ -1,0 +1,475 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 02:54</span><br/>
+Has anyone ever seen an implementation of arbitrary-precision floats (N.B: not rationals) where you don't actually have to set the precision BEFORE you perform an operation? I want to do a sequence of operations and then round the final result, not round constantly and incessantly. It seems like no human on earth has ever implemented this before, which baffles me. (Edit: division is allowed to be rounded)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591869758.154200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591869758.154200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:02</span><br/>
+If you don't mean rationals, what do you mean?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591869823.154400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591869823.154400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:03</span><br/>
+Just floats! But where the mantissa and exponent are BigInts, not fixed-size bit fields. I want to be able to add or multiply two floats and get an exact result, unless I explicitly ask for rounding.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591870142.154600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-12/502004543669_540fc50d2192cc8aba20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591870142.154600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Goethals</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:09</span><br/>
+Probably not what you’re looking for but: <a href="https://en.wikipedia.org/wiki/Unum_(number_format)">https://en.wikipedia.org/wiki/Unum_(number_format)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591870196.155000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591870196.155000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:09</span><br/>
+Unums don't provide exact results, despite the marketing type. Interval arithmetic (which floats or unums can be used for) provides a guarantee that the true result lies within an interval, but I'm not really interested in interval arithmetic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591870376.155300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591870376.155300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:12</span><br/>
+probably you know about this and I'm not sure it solves your problem, but just in case: <a href="https://gmplib.org/">https://gmplib.org/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591870560.155500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591870560.155500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:16</span><br/>
+Unfortunately, you have to specify the precision of GMP floats before each operation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591870598.155700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591870598.155700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 03:16</span><br/>
+I could "hack" these existing libraries by setting the target precision insanely high (kilobytes), but it's a dodgy solution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591876428.155900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591876428.155900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-06-11 04:53</span><br/>
+The kind of hack I've done is to have arithmetic operations build an expression tree, which you then reduce in some special way later.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591880506.156500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591880506.156500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-06-11 06:01</span><br/>
+^^that’s what i would do
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591885719.157000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591885719.157000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 07:28</span><br/>
+How does that give me an associative SUM()?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591888057.158100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591888057.158100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-11 08:07</span><br/>
+This is a rabbit hole I went <a href="https://twitter.com/spiralganglion/status/1141913756923912192">exploring</a> about a year ago. Some of the libraries had a maximum precision threshold you could set, which sounds like the thing you want to avoid. Other libraries dodged that by doing all calculations in a <a href="http://algebrite.org">symbolic way</a> (<a href="https://github.com/davidedc/Algebrite#references">see also</a>). There were a bunch of libraries I came across, but I didn't end up saving links to them because I never found one that fit my performance needs (ie: perfect precision with relatively constant execution time that handles the accumulation of millions of operations).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591891350.165000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591891350.165000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-06-11 09:02</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> If I understand correctly what you are looking for, it's impossible. The very principle of floating-point arithmetic is to make the precision part of the storage format for each number, in order to ensure a constant storage size, no matter which operations you do. If you are OK with indefinite storage size, as for big integers, then go for rational numbers.<br/><br/>Something that many people don't realize is that floats a <em>subset</em> of rationals with fixed storage size. Perhaps it's because so many languages call them "reals" that so many people think floats are a <em>superset</em> of rationals, whereas reality is the exact opposite.<br/><br/>If what you want is a superset of rationals, go for computable numbers (the subject of Alan Turing's famous paper that introduced the Turing machines). A number is then represented by a procedure that you call with the requested precision. But this is rarely what you really want, once you understand all the consequences, for example the impossibility to test for equality.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591891977.165200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591891977.165200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-06-11 09:12</span><br/>
+I wonder if there's some solution that carries several representations, and is aware of their accuracy, so it can fall back to an expensive symbolic calculation if it knows the test is outside float accuracy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591893143.165400"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591893143.165400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-11 09:32</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> the reason it doesn't exist is that not all numbers are representable in base 2 float, even with infinite precision. For example: 0.1 is 0.00011001100110011...2 (with the 0011 part repeating forever). So, you literally can't represent all numbers of even a finite base 10 decimal space without infinite precision. See this for a more detailed
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591893164.165600"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591893164.165600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-06-11 09:32</span><br/>
+Forgot the link: <a href="https://softwareengineering.stackexchange.com/questions/237014/are-there-numbers-that-are-not-representable-in-base-10-but-can-be-represented-i">https://softwareengineering.stackexchange.com/questions/2370&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591899671.166800"></a>
+      <img src="https://avatars.slack-edge.com/2020-04-20/1067569014342_3e6a851923d262ea9e74_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591899671.166800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andy F</b>
+<span style="margin:2em; color:#606060">2020-06-11 11:21</span><br/>
+there’s systems like Common Lisp that support arbitrary-sized rational numbers, any rational can be stored as a fraction of (bigint) / (bigint)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591905760.168500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591905760.168500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-11 13:02</span><br/>
+there is an excellent youtube video and code sample by Crockford on the DEC64 floating point representation, which is far superior to stupid IEEE double precision format. It was a tragedy that the committee sought to save a few transistors and used  binary exponents.  Countless programs wrestle with this, and i believe it is one of the reasons COBOL still runs in many industries because COBOL for all its verbosity and ugliness contains BCD arithmetic in its syntax and computation model.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591905873.168800"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591905873.168800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-11 13:04</span><br/>
+And let's not forget mathematica, which as a symbolic language, will deliver whatever precision you wish to ask for. It is one of its "superpowers".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591908476.171600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591908476.171600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-11 13:47</span><br/>
+Yeah, DEC64 is nice. Wish we had that in JS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591915744.176500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591915744.176500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-11 15:49</span><br/>
+Konrad is right that this is generally impossible. As soon as you compute 1/3, it's impossible to represent that exactly in either binary or decimal floating point. However, if you use decimal notation for your floating point inputs, use decimal floating point representation, and restrict your operations to add, subtract and multiply (no division, no exponentials or trigonometry), then I think it could be done. If you extend this system of exact arithmetic to support division, then you need to store a denominator, which means you are using rationals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591928271.176800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591928271.176800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 19:17</span><br/>
+Just to address everyone at once: <b>I'm sure that I do NOT want a rational number type.</b> I don't really care about exact division, I just want exact addition and multiplication. For those talking about 0.1 (1/10) and 1/3, those are both division operations, and I do not want them to be exact. I probably wasn't clear enough about my stance on division.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591928338.177000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591928338.177000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 19:18</span><br/>
+And a decimal number type doesn't help me out at all, because all it gives you is exact division by 10.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591928626.177200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591928626.177200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 19:23</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I'm not sure what the agreement is on the definition of "floating-point", but constant storage size isn't one of my constraints. You can define a broader subset of rationals than IEEE floats: any integer multiplied by any power of two, they're called the dyadic rationals and I guess that's what I'm talking about. I want to see a library for dyadic rational arithmetic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591929752.177700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591929752.177700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 19:42</span><br/>
+The reason I don't care about exact division is that division is relatively uncommon compared to addition and multiplication, and if you start trying to address the uncommon cases you end up going down a rabbit hole where you want exact roots, exponentials, logarithms, and trigonometry. In other words, you want Mathematica. I'm not going that far. I'm happy for division and transcendental functions to be rounded. The key thing I want is <b>associativity</b> of addition and multiplication, because my programming language avoids inessential ordering of values (it has no "default ordering"). Division isn't associative, so it's fine for it to be inexact.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941255.180000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591941255.180000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-06-11 22:54</span><br/>
+The topic of symbolic computation makes me miss my TI-89
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941620.181000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591941620.181000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-11 23:00</span><br/>
+Mathematica lets you request a desired precision for the results. Also, the Intel 8087 subunit  which is inside every Intel compatible chip for over 20 years has operations that do everything in 80 bits precision, and is then downconverting to 64 bits after you run a long sequence of operations and store the result into a double precision result. In this way they avoid rounding errors from creeping in. It is extremely clever and although not amenable to parallel operation, is still the preferred way to do floating point in the intel world because it doesn't accumulate error like everyone else's 64 bit arithmetic operations, which accumulate error rather quickly. 80 bits is 10 bytes, and there are even BCD instructions in the 8087 unit which i have occasionally used. They are nearly forgotten nowadays as no higher level language i know of lets you access them, you have to write in Assembler. A tiny bit of assembler can ofttimes do some very clever things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591941728.181300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591941728.181300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-11 23:02</span><br/>
+But that still doesn't enable associative addition and multiplication :confused: I'm looking for conceptual simplicity. Users of my programming environment should have addition and multiplication that "just work", no strings attached, no land mines, no cognitive overhead.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591948865.183700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591948865.183700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-06-12 01:01</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> It seems that what you want is scaled integers, right? Maybe <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0828r1.html">this proposal</a> would work for you. There even seems to be <a href="https://github.com/johnmcfarlane/cnl">an implementation</a> (in C++).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591949060.185900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591949060.185900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-06-12 01:04</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> DEC64 follows different priorities than IEEE 754. If your needs are closer to DEC64, that’s fine, but not a reason to call IEEE754 stupid.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591953177.188100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591953177.188100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-12 02:12</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I want fractional numbers like 1.5, and dynamic range (compact representations of 2^100 and 2^-100) and I don’t think that proposal addresses that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591953212.188700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591953212.188700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-12 02:13</span><br/>
+(Though I appreciate the suggestions)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591965671.200900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591965671.200900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-12 05:41</span><br/>
+&gt; I want to see a library for dyadic rational arithmetic.<br/>I googled that, and got:<br/>• <a href="https://github.com/SRI-CSL/libpoly/tree/master/src/number">https://github.com/SRI-CSL/libpoly/tree/master/src/number</a><br/>The code for exact dyadic rational addition and multiplication is actually quite simple.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591968862.201100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591968862.201100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-06-12 06:34</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> please remind us what operations you want to do.  You've mentioned addition and multiplication, sometimes division.  What else?  Roots?  Trig?  What?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591979080.202900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1591979080.202900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-06-12 09:24</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Oops, right, I have filed that library under the wrong heading in my notes. Which leaves... no library I know about for scaled integers. Which have nevertheless been widely used, as they are very simple to implement in many situations. Addition, subtraction, and multiplications are nearly trivial.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592005065.204400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1592005065.204400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-12 16:37</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Ah, I couldn't find anything like this when I looked, thank you! Yes, it does seem that an implementation won't be too challenging, so I'm probably going to write my own from scratch. Truncated division (to custom precision) might be tricky. I guess I'll find out!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592005378.204700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1592005378.204700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-12 16:42</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> "Scaled integers" is a legacy term, right? Most of the sources seem to be referring to older systems and hardware design (or conflate them with fixed-point numbers). I can't seem to find anything interesting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592005563.204900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1592005563.204900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-06-12 16:46</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Basically all the operations you can do on floats today, except those that consume/produce non-arithmetic values like -0, NaN, and infinities. So yeah, I'd want rounded roots and transcendental functions. But I will probably have to implement those myself, which is acceptable, because I don't need them in my initial prototyping.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592047355.248300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1591869278.153800.html#1592047355.248300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-06-13 04:22</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Well possible that it’s an old-fashioned term. I learned about this 25 years ago.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

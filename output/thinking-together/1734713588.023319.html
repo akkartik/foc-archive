@@ -1,0 +1,343 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-20 08:53</span><br/>
+I have been working with large-ish knowledge graphs on and off over the course of the year, and I keep running into the same problem... my intuition for what I have done when I modify the graph and how it will effect everything else is just dismally bad. I make what seems like will be an incremental change, and it doesn't do what I expected, or if it does, it breaks all my algorithms. This happens with other data structures, too, obviously. But with graph data it happens far more often, as in nearly always, and the time between "it isn't working" and "oh, I know how I broke it" is much longer. So I'm wondering, assuming that my experience is not unique, is there something about graphs that makes them harder to grok? The absence of a clear serialization, the absence of order, complexity of structure? Or is it a UI problem, and if I could just see what I was doing it wouldn't be so bad... Often, when I come to a particularly hard problem, I sample and visualize the graph, and learn that the previous three problems were not correctly solved. So visualization helps, but is that enough? Or is there something fundamentally inhuman about large, dense graphs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734734360.545979"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1734734360.545979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2024-12-20 14:39</span><br/>
+can you give an example of issue you encountered?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734735784.693669"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1734735784.693669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-20 15:03</span><br/>
+In general, maybe? Like I have at least twice added edges of a different type to reflect a different relationship, and failed to appreciate the need to exclude those edges from how other algorithms in the system work, because the new edges represent relationships of a different type. And that mess-up has been invisible to me until I was investigating why steps far after that algorithm was applied were broken. But that's just one example, and it's not about the specifics. It's a pattern I'm beginning to see, and I wonder if it represents something, or if it's just the effects of a leaning curve, or what.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734740814.524289"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1734740814.524289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2024-12-20 16:26</span><br/>
+In my experience, even linked lists are hard like that. It doesn’t seem like the problem goes away until you eliminate edges entirely and have arrays.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734741252.109909"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1734741252.109909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2024-12-20 16:34</span><br/>
+In trees whose shape mirrors the shape of the recursive computation exactly, things can be simple. Thinking locally works.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734767439.777079"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1734767439.777079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2024-12-20 23:50</span><br/>
+"working with <b>knowledge</b> graphs" makes it sound like you are clicking away in some notetaking™ UI, and not programmatically modifying particular data structure.<br/><br/>if "mistakes while programmatically modifying" is the case – it is similar to working with dynamic (python/clojure) vs static (java/haskel) lang codebase: you know the general rules "how to call method on thing/get attribute of thing", but dynamic-lang env (generally) hits you with "that thing has no such method/attribute" at runtime, static (generally) – at compile/IDE time.<br/><br/>maybe it can be generalized as: there are rules either 1) you are unaware of, or 2) are not enforced "in time"<br/>(whatever "enforced" and "in time" mean for you, eg. red squiggly line in IDE, or absence of method in autocomplete dropdown, etc.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735100761.836229"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735100761.836229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2024-12-24 20:26</span><br/>
+This post covered the challenges with graphs : <a href="https://www.hillelwayne.com/post/graph-types/">https://www.hillelwayne.com/post/graph-types/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735103962.024699"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735103962.024699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-24 21:19</span><br/>
+<span style="background-color:#ccf">@misha</span>, the problem is not using the library. The problem is that after I do something using the library, the representation in my head of what the output will be and how it will behave elsewhere in the code is dramatically wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735104043.918729"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735104043.918729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-24 21:20</span><br/>
+<span style="background-color:#ccf">@Nilesh Trivedi</span> thanks for the Hillel link. I'm a fan of his and hadn't seen it before. But again, that's addressing bad libraries.. The problem I'm describing is with me.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735107542.432769"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735107542.432769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-24 22:19</span><br/>
+But I wonder if this isn't the same category of problem that strict typing is supposed to solve, where it detects for you when the shape you are expecting is not the shape that will arrive. But some of the properties that I would need to specify would be across wide portions of the graph, at arbitrary levels of complexity. I could define two OWL ontologies, and use reasoners to validate the before and after versions of the graph data. But that seems like a nightmarish level of overhead. Pydantic for graphs, maybe. :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735134263.293849"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735134263.293849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2024-12-25 05:44</span><br/>
+when in doubt – print it out!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735405251.972649"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735405251.972649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2024-12-28 09:00</span><br/>
+There's a great book on this, <a href="https://www.amazon.com/Constraint-Theory-Multidimensional-Mathematical-International/dp/3319854836">Constraint Theory by Friedman and Phan</a>. It starts with a description of how much of a graph someone can fit in their head and reason about, then describes how to make a graph out of your models, then how you can develop some intuition of what to look for, and finally ends with how to automate these to much larger graphs semi-efficiently
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735405479.746419"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735405479.746419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2024-12-28 09:04</span><br/>
+However, their technique was designed for aerospace engineering, so generally it focuses on feasibility (detecting over/exact constraint) and what questions we can ask the data ("is x vs y with z held constant meaningful/possible?") rather than an executable single output
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735548475.479509"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735548475.479509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-12-30 00:47</span><br/>
+At work we have a user defined graph structure. Its a source of enough bugs we had a whole project dedicated to "no broken graphs". We stopped trying to be clever and literally do a graph walk every modification to ensure our constraints hold, e.g. its still a DAG, every split node has a corresponding merge node. Every node pointer is pointing at a node etc. so bugs in one part of the system could not spill into the database.<br/>When the product started there were lofty expectations we would be able to implement graph patching incrementally etc. but the practical reality we had to sacrifice fancy algorithms for constant brute force validation of the structure.<br/>I think graph maintenance is tricky coz we know the incremental approach is possible but there is no nice out-of-the-box safe way of specifying it so you are essentially working with an unconstrained dynamic model, in our case mistakes were quite costly and the graphs were not that big so it was better ROI to enforce global constrains the dumb but reliable way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735584712.967259"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1735584712.967259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2024-12-30 10:51</span><br/>
+Yeah, I'm getting the feeling that shcema-free is like a double-edged nunchuck, where you spend more time hitting yourself in the armpit than hitting the thing you are trying to kill. Thanks for the feedback, everyone, it's helped a lot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736137849.237969"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-05/8244024349030_1e87ddc396c8973263cb_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736137849.237969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Rasmussen</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:30</span><br/>
+Can you think of this as missing a test suite for your graph + algorithms? Do you feel this is different than adding a change to code and then proving you didn't break anything? If it's not that different then perhaps if you built up a good suite you could run it periodically as you change your graph
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138010.180899"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138010.180899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:33</span><br/>
+I think of it more like missing Pydantic for graphs. I just need to validate the data shape against my expectations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138066.754279"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-05/8244024349030_1e87ddc396c8973263cb_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138066.754279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Rasmussen</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:34</span><br/>
+There are tools for writing "unit tests for data", like great expectations, etc. if you need more inspiration to read up on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138073.316079"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-05/8244024349030_1e87ddc396c8973263cb_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138073.316079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Rasmussen</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:34</span><br/>
+Ah ok
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138211.485109"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-05/8244024349030_1e87ddc396c8973263cb_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138211.485109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Rasmussen</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:36</span><br/>
+If the structure you're trying to test is more arbitrary, only then is running a test suite necessary. Simpler checks would be schema validation like you say
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138284.055269"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-05/8244024349030_1e87ddc396c8973263cb_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138284.055269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Rasmussen</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:38</span><br/>
+I have found data test suites helpful for cases where it's really hard to predict how you might break something and it can't be expressed in just the schema
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736138343.702879"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736138343.702879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-01-05 20:39</span><br/>
+Yeah, I think I could see getting to the point where that would help a lot. For now, my problems are lower level.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736171176.976739"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736171176.976739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-06 05:46</span><br/>
+the outcome of our "no broken graphs" project was adding transactional modification, so instead of mutating graphs one node/edge at a time, you applied a patch all-or-nothing, and we check the post conditions before committing the transaction.<br/><br/>For us, our graphs needed certain matching nodes, a bit like making sure every "(" has a ")" but where the bit in the middle is a graph walks. Impossible to verify if you add one node/edge at a time, but totally possible when you apply transactional batches and maintain the invariants between transactions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736181836.974379"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736181836.974379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2025-01-06 08:43</span><br/>
+It sounds like most of you have graphs embedded into a non-graph structure<br/>I wish it was easier to find a data structure/representation that makes graph-breaking operations non-representable (aka generate a data structure for a schema that includes read/write constraints)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736183128.179289"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736183128.179289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-01-06 09:05</span><br/>
+That's actually not my issue. But it's not as if "node" and "edge" and "graph" are first order types in any language I'm using, so technically I suppose it's always a graph embedded in a non-graph structure!? My API doesn't let me do anything that would make it "not a graph". The problem is just that I am constantly creating "not the shape of graph I was expecting".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736185579.489909"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736185579.489909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2025-01-06 09:46</span><br/>
+I thought this was a fun, related article. It won’t be of much help pragmatically, but may provide some catharsis.<br/><br/>&gt; So which algorithms should come with the library? “The amount of things people want to do with graphs is absurd,” Kelly told me. That matches my experience, and the experiences of all my interviewees. It sometimes seems like graphs are <em>too powerful,</em> that all their possibilities are beyond my understanding.<br/><a href="https://www.hillelwayne.com/post/graph-types/">https://www.hillelwayne.com/post/graph-types/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736236759.968469"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736236759.968469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2025-01-06 23:59</span><br/>
+I am having trouble understanding the problem and I would appreciate more concrete examples. Is it syntactical shapes don't align with expectations, or is it the semantics of the query and the representation don't sufficiently match to get the right answer after an evolution of the KG? Each of these need very different approaches to improve the situation. I have worked with very large KGs, and found them very workable, but you need to constantly garden them, preferably automatically detecting issues, and adding a lot of tests / constraints that are automatically checked, to your data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736259755.497859"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../thinking-together/1734713588.023319.html#1736259755.497859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2025-01-07 06:22</span><br/>
+&gt; The problem is just that I am constantly creating "not the shape of graph I was expecting".<br/>&gt; <br/>What I mean is a generated data structure that can only express the shapes you expect; aka any operation on the data structure keeps it valid. Preferably without an expensive/exhaustive "check if the entire graph is valid if I make this change"
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

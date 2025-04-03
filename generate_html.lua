@@ -166,11 +166,14 @@ function read_items(filename, out)
     else
       -- comment on a top-level post
       local parent = out[item.thread_ts]
-      assert(parent)
-      if parent.comments == nil then
-        parent.comments = {item}
+      if parent == nil then
+        print("couldn't find parent "..item.thread_ts.." in "..filename)
       else
-        table.insert(parent.comments, item)
+        if parent.comments == nil then
+          parent.comments = {item}
+        else
+          table.insert(parent.comments, item)
+        end
       end
     end
   end

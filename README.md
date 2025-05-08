@@ -1,7 +1,8 @@
 [Yet](http://history.futureofcoding.org)
 [another](https://github.com/akkartik/mu/tree/main/browse-slack) browser for
 the [Future of Coding Slack](https://futureofcoding.org/community) archives,
-this time as a purely static set of html files.
+this time as a purely static set of html files. Based on [this generic
+tool](https://github.com/akkartik/slack-archive).
 
 This repo is also served online at http://akkartik.name/archives/foc.
 

@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-functional-programming</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-06-01 04:17</span><br/>
+Anyone here implementing a functional language themselves?<br/><br/>I'm interested in: how you do lazy evaluation and how you do any parallelisation (or is that concurrency?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591011718.029000"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591011718.029000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-06-01 04:41</span><br/>
+We're implementing an eager language (Lamdu), with explicit laziness (actually call by name) via ordinary lam-of-unit.<br/><br/>For example, a lazy "List" type uses a lam-of-unit around the "rest of list elements".<br/><br/>For concurrency, we compile to nodejs, and use its concurrency model behind the scenes. But we hide the callbacks behind our "IO" monad (called Mut) so that the callbacks are just the ordinary monadic bind arguments
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591033694.029300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591033694.029300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-01 10:48</span><br/>
+I am implementing a dynamically typed, pure functional language (<a href="http://github.com/curv3d/curv">github.com/curv3d/curv</a>). It's a work in progress.<br/><br/>Data parallelism and concurrency are quite different.<br/><br/>My language is data parallel. It compiles into data parallel GPU code (GLSL shader programs) or C++. Curv is an array language with array operations that can be executed in parallel, eg using hardware vector instructions. And since all functions are pure, there is no problem mapping a function over each element of an array, and executing all of the function calls in parallel on different cores (calls to pure functions can't interfere with each other via side effects).<br/><br/>General purpose concurrent programming isn't a goal, although I am planning to add support for creating user interfaces via some form of Functional Reactive Programming, and UI programming normally involves concurrency.<br/><br/>Haskell style lazy evaluation is incompatible with my design goals, so it probably won't be added to Curv. As a result, I'm biased, and I don't consider Haskell-style lazy evaluation to be essential to pure functional programming. The real essence is denotative semantics, referential transparency, equational reasoning.<br/><br/>A key problem is that Haskell's model of lazy evaluation is inherently single threaded. It can't be implemented efficiently on a GPU. It is incompatible with data parallelism. There are also problems relating to ease of use, debuggability, the developers ability to understand memory consumption and performance.<br/><br/>Function calls are strict in Curv. Aside from this being a requirement for GPU compilation, I also think that the downsides of lazy function calls outweigh the benefits, and I don't think that normal order evaluation should be the default.<br/><br/>Haskell lazy lists are a special case of a more general idea of "procedural data structures". These are values that behave like data structures, but code is executed when you access data structure elements. Haskell lazy lists are inherently sequential and single threaded, and are impossible to implement on a GPU. I am more interested in exploring a general notion of procedural data that supports data parallelism and can be executed on a GPU.<br/><br/><span style="background-color:#ccf">@Eyal Lotem</span> mentions that explicit laziness in Lamdu is actually "call by name". This is a form of laziness that is compatible with data parallelism. There is some "call by name" semantics buried in the Curv implementation, but I so far haven't found the need to document it and expose it in a language primitive. But that might happen once the language is fully designed and implemented.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591090165.029500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591090165.029500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-06-02 02:29</span><br/>
+Well, I'm still quite new to this in a way, but as I see it, both lazy evaluation and parallel term reduction are meant to increase efficiency (don't eval stuff you don't need, don't eval the same thing twice; eval in parallel if they're independent).<br/><br/>So putting the specifics of Haskell and Lamdu choices and implementation aside, I was wondering if it's possible to have a model of graph/DAG reduction that is both lazy and parallelisable?<br/><br/>First thought is that you need a results lookup that can be shared amongst threads. A thread would have to "claim" a result slot even before evaluating it, to prevent two threads seeing no result and eval'ing simultaneously.<br/><br/>Anyway, just shower thoughts, I'm not building this yet..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591090207.029700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591090207.029700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-06-02 02:30</span><br/>
+I guess the lookup is like a bucket of thunks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591095684.029900"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591095684.029900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-06-02 04:01</span><br/>
+I think the Haskell attempts at tackling auto-parallelism resulted in failures, and they found the difficult part to be granularity of work.<br/><br/>Cross-core talk is expensive, cache sharing and invalidation is expensive, locks/barriers are expensive -- all of this is overhead that better be paid for work that is large enough to justify it.<br/><br/>Inferring which work is large enough to be worth sending to a different processor is not an easy problem
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591095731.030100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591095731.030100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-02 04:02</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> Lazy evaluation does not increase efficiency. Haskell people often say this, but it is pure marketing. Haskell's lazy evaluation decreases efficiency, but this was an intentional tradeoff, because the goal (of the original language designers) was to increase expressive power. There's so much to say about this. I'll drop one factoid. Idris is an offshoot of Haskell that is designed to have even more expressive power than Haskell, due to its dependent type system. But Idris uses strict evaluation by default. The Idris 2 compiler was rewritten in Idris (formerly written in Haskell), and now runs 15 times faster. Lazy evaluation in the old Haskell version was a major contributor to slowness. <a href="https://www.type-driven.org.uk/edwinb/why-is-idris-2-so-much-faster-than-idris-1.html">https://www.type-driven.org.uk/edwinb/why-is-idris-2-so-much&hellip;</a><br/><br/>I'm not an expert on graph reduction engines, but I have to ask: how high a priority is efficiency for you, vs ease of programming, and vs expressive power?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591095799.030300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591095799.030300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-06-02 04:03</span><br/>
+Well the goal is to be transparent to the programmer, just optimisation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591095853.030500"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591095853.030500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-06-02 04:04</span><br/>
+Lazy evaluation adds overhead (inefficiency), but often the efficient solution is lazy.<br/><br/>Eager languages allow you to be lazy explicitly for the cases that's needed (e.g: for efficiency), and that's why <span style="background-color:#ccf">@Doug Moen</span> is right -- pervasive / implicit laziness isn't efficient.  But it can make code written with less effort perform better (if laziness is needed, you get it for no extra work)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591097607.030700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1591097607.030700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-02 04:33</span><br/>
+Data parallelism in Curv is explicit, because I don't know how to do otherwise and meet my performance goals. But the intention is that most Curv users will not need to deal with performance annotations: these will be hidden away behind high level interfaces, inside library code written by experts. So the language design goal is to allow non-experts to use optimized library abstractions without having to be explicitly aware of the optimization (you shouldn't need to change the way you write high level code to get a performance benefit). High level code is meant to be purely declarative.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597484528.033100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1597484528.033100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2020-08-15 02:42</span><br/>
+C'mon, you can force strict eval with Haskell any time if you need to worry about performance! Dually, in OCaml you can decorate a function to be lazy when you want to avoid calculating values you may not need.<br/><br/>The real answer to "how do you do laziness" is usually compiling to a smaller core language (systemF in Haskell, OCaml bytecode, and QTT in Idris2) that does the eval, otherwise you trip over corner cases.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597485286.033300"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1597485286.033300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-08-15 02:54</span><br/>
+You can, but then you cannot re-use a whole lot of the standard library which is pervasively lazy, and have to pay attention to every single sub-expression which can hide lazy thunks within it.<br/><br/>I think (have no empirical data to back it up) that starting with an overly strict solution, you typically need to decorate a lot less subexpressions as lazy to reach an efficient algorithm, than vice versa.<br/><br/>In other words, the right amount of laziness is usually within just a few subexpressions - that are expensive to compute and not always needed. So a default where all subexpressions are lazy is very difficult to start with.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597489763.033500"></a>
+      <img src="https://secure.gravatar.com/avatar/da3a20a76a69532fa83e790e89cb4c6c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../of-functional-programming/1591010264.028900.html#1597489763.033500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eyal Lotem</b>
+<span style="margin:2em; color:#606060">2020-08-15 04:09</span><br/>
+Also: The "strictness analyzer" adds eagerness where it can detect that laziness won't help. That's useful, but it makes things even harder - innocent changes can break the optimization.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

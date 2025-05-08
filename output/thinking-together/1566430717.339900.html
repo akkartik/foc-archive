@@ -1,0 +1,271 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-21 16:38</span><br/>
+The late Joe Armstrong was experimenting with making everything a chunk in a universe of chunks, and each chunk had a SHA hash as its address, and then everything was immutable, and you could never break a link in a web page. He has a bunch of lectures about it. He did not like file systems either. When you build a languages like Erlang on top of the concept that things are immutable, a filesystem is a glaring violation of that principle!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566430784.340800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566430784.340800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-21 16:39</span><br/>
+Yeah immutability is great. I think my link wants mutable databases, though..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566461461.344700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566461461.344700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-22 01:11</span><br/>
+What you describe sounds very much like IPFS (though I suspect Armstrong had the idea before). I have been playing with IPFS recently, and it's indeed amazing how many problems simply go away. On the other hand, representing mutable things ("my blog") on IPFS is a bit of a pain because mutable references without a central namespace are tricky.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566462182.344900"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566462182.344900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-08-22 01:23</span><br/>
+I think it's important to recognize that both immutability and mutability are important and should be possible in a (file) system. Immutability (like IPFS uses) makes things like sharing data, caching, ... trivial because an address unambiguously describes the content it links to. On the other hand, you sometimes want to link to something more abstract, e.g. a blog post or a wiki article that might be modified after the link was created. This can be thought of as an interface ("I don't care what exact content I'm linking to as long as it has a certain set of properties"). You can see the difference between unambiguous links and interfaces in many areas, e.g. dependency specifications (interface) and pinned dependencies / lock files (unambiguous link).<br/>Traditional file systems and the web only support (weak) interface links by location. IPFS focuses on unambiguous links mostly. The future "file system" should probably support both types of links by design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566492024.346200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566492024.346200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-22 09:40</span><br/>
+<span style="background-color:#ccf">@Felix Kohlgrüber</span> I think one lesson of the last 10 years (that has been independently learned in several areas) is that in environments of abundant storage it's better to build mutable interfaces out of immutable primitives rather than vice versa.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566520530.371900"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566520530.371900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-08-22 17:35</span><br/>
+Datomic is immutable data in one storage, and mutable references to the immutable data in another. I always liked the split, but have never had occasion to try actually making anything within those constraints.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566546759.390100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566546759.390100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-23 00:52</span><br/>
+Since John Backus invented his Red programming language (never released publicly) around 1972, functional programming with its insistence on immutability has been trying to win over hearts and minds for almost 50 years. Certainly in the last 10 years it has had a big uptick in popularity. However, it is an illusion, as both the Intel and ARM instruction sets have registers that mutate, and in fact there is nothing in the instruction set of either CPU architecture that makes immutability practical. The hardware is going to mutate, and the only way to create immutability is to use the "mad hatter's tea party" approach to memory. So there is going to be some resistance to immutability from the people who notice all the memory cache misses. Remember that it takes 100 clocks to get a piece of RAM that isn't in the cache. So you are going to pay dearly for immutability. It's a very interesting tension. Obviously they could change how CPU's work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566554252.402800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566554252.402800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-08-23 02:57</span><br/>
+I like the way Richard Hickey put it: "Immutability is the right default". Mutability can be required either as part of requirements (e.g. in a file system) or for optimization (those cache misses), but it should be opt-in, by explicit choice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566592666.420800"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566592666.420800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-23 13:37</span><br/>
+The future of programming is making programming much simpler, less frustrating, and more fun to do. It's about opening it up to a wider variety of people. I don't think Rich Hickey's products represent the future of ease of use. Clojure is a LISP derivative, and that is not a user friendly language. Clojure and ClojureScript are incredibly productive, but they don't solve interchangeable parts or simplify the biggest time suck of programming, which is debugging. That's why there are so many people in this group, but we know it can be much improved. The whole regime of deciding if something should be immutable, and trying to recast things awkwardly so that is true, is extra work and complexity. i don't think the programmer should have to bother considering that; it is like worrying about which register the CPU uses; that decision is all automated now, and I don't know or don't care how many registers my CPU has.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566593111.421000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566593111.421000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-23 13:45</span><br/>
+You've mentioned "interchangeable parts" a couple of times, but could you elaborate? I am aware of <a href="https://en.wikipedia.org/wiki/Gribeauval_system">https://en.wikipedia.org/wiki/Gribeauval_system</a> and its descendants, but do you mean more by this than the conventional goal of 'reuse'?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566609446.421500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566609446.421500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-23 18:17</span><br/>
+Interchangeable parts were indeed pioneered by military suppliers. There is a famous anecdote about how the salesman showing president Abraham Lincoln how a gun could be assembled by picking a part from a series of tables, where the parts were pre-selected because the tolerances were not yet good enough to actually work. But the system was used to generate guns for the American Civil War, and it remains the most costly war in American history in terms of lives lost. Anyway interchangeable parts in software have been done a few times for selected ecosystems. Microsoft's VB6 was the high water mark in my opinion; they had a thriving marketplace of components for sale, and people were assembling products out of components that fit well together. To a smaller level of success but still a success the Borland Delphi system also has this going. They don't get any love from people as it is an old product, but it was well designed. If i am not mistake Anders Hejlsberg designed it, and he also designed TypeScript, so he is supremely accomplished tool developer.<br/><br/>We are definitely not in an era of interchangeable parts for software. If i have a project i am building and i peruse GitHub, i can search millions of repositories of code, yet I can't easily use any of it. There are too many framework and toolchain dependencies, and you either get a gigantic pile of dependencies, or it doesn't even work because things depend on conflicting versions of libraries. And the quality of the work is highly uncertain. You can't report a bug and be assured it will be fixed promptly because there is no incentive other than "brownie points" for keeping it up to date. You can't pay your mortgage with GitHub stars. And one cannot tell on these repositories how solid a piece of code is, and because of the tyranny of people who viciously attack any one daring to try and make a living directly and honestly from software, there is no marketplace for software components like the Apple iTunes app store or Google Play store. We really need a marketplace so people can be compensated for developing and maintaining components. For 3D models there are many marketplaces, like TurboSquid where you can pay a few dollars for a model of a ferrari that would take you 100 hours to build. A thriving business they have.<br/><br/>In this glorious future world, software will be more like Lego, with snap together pieces. Interestingly, there are some gigantic VC funded unicorns like Tableau which purports to offer interchangeable parts, but actually it is a bit of misdirection, as it is really just a collection of pre-made components all from one company, and it only works with their chassis. It is more like Excel with each special feature sold a-la-carte, which to me is more of a product marketing strategy than a technical breakthrough. You have to solve the dependency problem, the data interchange problem, and have a consistent drawing model for components to work harmoniously in a graphical interactive world. This is the tripartite challenge that makes it so difficult to achieve interchangeable parts. A gun is perhaps 30 pieces; compared to software a gun or a cannon is a very simple device. The whole motivation behind my Beads project is to create the possibility for interchangeable parts, which is why Beads includes a graph database, and a drawing/event model, and an automatic dependency analyzer so pieces stay untangled. If you leave out any one of those 3 pieces, such as leaving the database outside the language, then people will choose a wide variety of databases, and then you can't mix part A with part B because one uses MySQL and the other Oracle. In toy systems like Scratch, they can achieve some interchangeability, but those kinds of systems have what i call a "low ceiling" where a product past a certain complexity level becomes burdensome, clumsy and clearly beyond the design vision of the original system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566610324.421700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566610324.421700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-23 18:32</span><br/>
+The great American inventor Eli Whitney was part of the group of Americans promoting interchangeable parts. As is so common in tech, military R&amp;D drove this technology forward.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566611906.422000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566611906.422000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-23 18:58</span><br/>
+Ok, so just reuse then. I don't buy it. People have been chasing reuse for 50 years now, and I expect them to still be looking for it long after I'm dead.<br/><br/>And it's totally unnecessary. The programs we write are already boundless, factory-like desire amplifiers at runtime. Life can be pretty good even if the factories themselves need to be created in a bespoke, one-off manner.<br/><br/>Legos are great, but playing with Legos is not programming, and it's not what I got into programming for. Programming is about bouncing between levels of abstraction, now high, now low. That's the superpower we should be trying to bring to everyone. Not infantilizing toys.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566706581.443500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566706581.443500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-24 21:16</span><br/>
+With all due respect Kartik, almost the entire electronics industry is based on interchangeable parts. Within a family of chips like Schottky TTL, there were 100,000 chips you could freely interconnect, and build amazing stuff with, and not one in a 100 companies needed to drop down to custom programmed logic. Not every one wants to fiddle with NAND gates and flip-flops. A marketplace of interchangeable parts would be a boon to mankind, and if people could get rewarded for making a great looking pie chart module, why shouldn't they get rewarded? Isn't programming in the end a form of writing, of intellectual property creation, that should be protected and paid for just like we pay writers of novels and short stories and newspaper articles? If someone writes a great 500 words of code, and a million other programmers use it, if they get 10 cents each for each person who used it, that is good money. I find the open source movement tyrannical, because it is hostile to people being compensated. If we refuse to pay creative people, it will make the world a barren place. Look at how influential culturally the UK is; a fairly small country whose contributions in literature, art and film impact the world massively. That is because the Brits protect copyright very strongly. Compare that with a similar sized country where copyright and the status of IP creatives is negligible; they have art industry, and are stuck importing british materials because their own artists either starve, or move to the UK or some other better place. Re-inventing the wheel is a massive problem in computers, and i couldn't disagree more with your attitude.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566707337.443700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566707337.443700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 21:28</span><br/>
+Yes I'm certainly aware that my opinion/attitude is less mainstream than yours. Also, I know computer chips exist; my claim is about software. I also think IP in software (including copyright of all kinds) has long been a net negative to mankind.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566707378.443900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566707378.443900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-24 21:29</span><br/>
+And I would disagree that people have been chasing re-use for 50 years. What has been chased for the last 50 years (and my 50th year of programming comes up next year), is vendor lock-in. Each dominant company develops their own operating systems, languages, and toolchains that are unique and separate from others, and sufficiently different so as to confound product vendors who interests naturally lie in reaching as many customers as possible. The tension between 3rd party developers and platform owners has always been one of mutual dislike. Without developers your platform dies a horrible death. Constant platform churn like Google and Apple make it a situation where you run as fast as you can to stay in the same place. I have seen Apple in the last few years kick out 50 of my iPhone Apps because i didn't update them for the notch, and just around the corner is OSX 10.15 which will kill off my Discus labeler, which sold a million copies and fed my family for 15 years, soon to be dead because they control one critical library that they are not going to update, and it is too much work to reinvent it. I want not only re-usable parts, but better software longevity, by avoiding as much as possible references to the OS in the code, so as to insulate it from disruption/death. I have a painting program for kids called Flying Colors that is now freeware, and amazingly on Windows, it still runs in 256 color mode, because the hardware color cycling still works because the IBM PC hardware modes are still supported on all the video cards of today, and Windows 10 still allows 256 color mode by some miracle. That product is over 20 years old with zero modifications.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566709350.444100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566709350.444100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 22:02</span><br/>
+That feels like a <em>non sequitur</em>. Sure, people have also been chasing other things for the last 50 years.<br/><br/>It's fair to disagree about the prospects of reuse. But I don't think it's contestable that it's an old dream.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566711897.444300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566711897.444300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-24 22:44</span><br/>
+excuse my bad writing, my point was that the Win32 graphics API was simple enough to emulate in the Microsoft OS as it evolved, and programs that strictly adhered to that API set still work well. That is to microsoft's credit, and shows that a fixed layer at the bottom can create stability. And you are correct that some people have pursued software components, and for brief periods of time such as with VB6 and Delphi, achieved it to some degree. However, the powers that be have done their level best to prevent it, because at present the Apple developer community is like Apple's private army of programmers, and they can't move their Swift code with the 10,000 API calls to OSX to other platforms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566712809.444600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566712809.444600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 23:00</span><br/>
+I see. Interesting, thank you.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566712895.444800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566712895.444800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 23:01</span><br/>
+How do you propose to oppose the powers that be in bringing about interchangeable parts?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566713516.445000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1566713516.445000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-24 23:11</span><br/>
+It sounds like you're saying that there's a difference between a stable API and reusable components. A stable but complex and constantly growing API can create lock-in. To support exchange the API has to be simple and stay simple so that it can admit diverse implementations. Is that accurate?<br/><br/>I agree with that. But there's more to reusable components than a simple, stable API with diverse implementations:<br/><br/>• The universe of useful programs has to be codified into simple, stable APIs that all compose well with each other.<br/>• The diverse implementations have to have predictable guarantees on cross-cutting concerns like performance. See <a href="http://akkartik.name/images/kiczales-oopsla94-black-boxes-reuse.ps">http://akkartik.name/images/kiczales-oopsla94-black-boxes-reuse.ps</a> (there also seems to be a video for it at <a href="https://www.youtube.com/watch?v=5l2wMgm7ZOk">https://www.youtube.com/watch?v=5l2wMgm7ZOk</a>)<br/>• There have to be incentives for creating diverse implementations. (Legos themselves are a locked-in monopoly.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1567219374.040300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430717.339900.html#1567219374.040300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-30 19:42</span><br/>
+That is a great lecture. Thanks for posting that. Not many lectures are still relevant after 25 years, but Xerox PARC was decades ahead of the rest of the world, so it hold up better than one could expect. Nice to see him mention Nicklaus Wirth's paper. I followed Wirth's approach in making software that avoids mapping conflicts because it is so low level; the improvement from Modula-2 is that I presume a new kind of reversible computer that has a protected arithmetic and dependency analyzer that is in Excel. So a simple computer of an idealized futuristic kind that doesn't exist in hardware yet, but anticipates what will be in 20 years, that is not wedded to Intel/ARM architectures which today are in 99% of all computers. The real problem is with Intel farting around adding crazy new instructions instead of fixing their messes. Almost all of Intel's "innovations" are mostly aimed at slowing down Chinese cloners, which are chipping away at their lead.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

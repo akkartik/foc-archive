@@ -1,0 +1,138 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-16 01:16</span><br/>
+#language-design-philosophy<br/>A data structure that’s orthogonal at its core? Why is that so hard to think of? Why is there such a strong tradition in CS/PLD to think in composition by nesting but not of orthogonal composition? What if we (language designers, at least) are missing something here?<br/><br/>Why do I post such an underspecified topic? I think there is little doubt that perceiving orthogonally is a fundamental feature of human cognition, and that current language design fails to support this.<br/><br/>And, yes, I don’t even know how to argue for this. This may be frustrating to try to think of. I must admit; I’ve learned to appreciate the feeling that there does exist something, that it must exist, but I can only just almost try and grasp it.<br/><br/>What do you do in similar mental configurations? Grab a whiteboard? Begin writing an essay? Write some code that assumes the <tt>thing</tt> exists in order to reach your intuition for it (“air coding”)?<br/><br/>Your..<br/>+ thoughts on this experience<br/>+ ideas for an attack on this problem<br/>.. are welcome! :slightly_smiling_face: :heart:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639646991.271800"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639646991.271800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-16 01:29</span><br/>
+If by orthogonality you mean cross product kind of things, I think Concurrent Hierarchical State Machines / UML statecharts can represent orthogonality well with a closed form PARALLEL operator for two state machines.<br/><br/>But this is orthogonal in the sense the two things are independant, the state of the system is the cross product. In the simplest form they do not interact, though it does have mechanisms for communicating.<br/><br/><a href="https://link.springer.com/content/pdf/10.1007/3-540-44929-9_24.pdf">https://link.springer.com/content/pdf/10.1007/3-540-44929-9_24.pdf</a><br/><br/>Is this the right lines of thinking?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639647323.272100"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639647323.272100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-16 01:35</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> You are reading my thoughts!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639647680.272300"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639647680.272300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-16 01:41</span><br/>
+cool, so the root of these machines is the ragular language thingys. So maybe a regex can be considered a representation with orthogonality at its core too (you can concatenate and | regex expressions). I like HSM formalisms though because they play well with formal verification and somewhat resemble normal programming if you squint really hard.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639649195.272600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639649195.272600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-16 02:06</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> Yes, I think HSM takes state machines in a great direction! I am pondering the following way to perceive orthogonality in HSM’s. Traditionally we would look at is as the typical concrete representation invites: <tt>{ a: { b: { c: ... } }, d: ..., e: ...}</tt> .  So I consider the idea that this is more concrete  than it need be philosophically. Here is an attack: Let’s define two operators: <tt>&amp;</tt> for combining values into and-states, and <tt>:</tt> for combining values into hierarchies. Then we write <tt>a:b:c  &amp; d &amp; e</tt> . Traditionally, the CS practitioner and programmer would ask for precedence rules or brackets to disambiguate the expression:<br/> <tt>{(a:b:c), d, e}</tt> or  <tt>{a:(b:c) , d , e }</tt> . Here is the point where an alternative orthogonal model might be possible and might be valuable from a language-design point-of-view: In stead of nesting we lay out the values in a two-dimensional grid, e.g. drawing the  <tt>&amp;</tt> relation horizontally, and the <tt>:</tt> vertically upwards. Then, a noteworthy thing can be observed: _The <tt>a</tt> value is now both an element in the and-state (horizontal relation) and the first element in the hierarchy (vertical relation)._ This is my criteria for detecting of orthogonality, as I meant it in the OP.<br/><br/><em>Wow thanks!, it was kind of cool to actually write it down.</em> <br/><br/>Follow-up question: So, while this evidently is drawable; does it map well to cognition, implementation? Is it view-point in the eye of the beholder, or does it open up them HSM model for e.g. generalization/deeper understanding?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639649913.273100"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639649913.273100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-16 02:18</span><br/>
+My own experience is that HSMs are hard to program, but they are amenable to machine verification because their state space is enumerable. So thats useful, and in practice the paxos protocol is a runner for state machines, so they are used in technical domains for real (not sure about flavour of state machiens though, maybe not HSM).<br/><br/>I also see them in realtime systems (<a href="https://www.state-machine.com/">https://www.state-machine.com/</a>) again, coz they are complex enough to be useful, but simple enough to really figure out and trace symbolically.<br/><br/>The QP frameworks people make a strong argument that HSM is necessary to avoid the state space explosion problem that basic state machines suffer from. This is directly because of the orthogonality. When you can express things as two orthogonal basis vectors you avoid having to flatten them into their non orthogonal space (the cross product). So yeah, I would say orthogonality has made state machine scale to the realtime systems domain. Of course, HSM are still less expressive than turing machines so they clearly are not used much when we have access to higher level languages and want to move fast and break things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639650012.273400"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639650012.273400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-16 02:20</span><br/>
+This page expresses it much better and I think it is about orthogonality <a href="https://www.state-machine.com/fsm">https://www.state-machine.com/fsm</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639651415.274000"></a>
+      <a href="../thinking-together/1639646202.271700.html#1639651415.274000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-12-16 02:43</span><br/>
+(yes I agree with your orthogonality picture, except that the H itself is an orthogonal, so we don't really need the concurrency bit for HSM to add orthogonality to FSMs). I think in this diagram the edges are dimension in your orthogonal space diagram
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639719263.275800"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-20/1137095139906_6bd6fe3fcf91b6f41781_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639719263.275800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dalton Banks</b>
+<span style="margin:2em; color:#606060">2021-12-16 21:34</span><br/>
+two, maybe three axes of orthogonality is nice for cognition. nesting is one way to manage more dimensions than that. seems to me you want to make it easy to navigate a variety of representations without losing context. <a href="https://www.quantamagazine.org/the-brain-maps-out-ideas-and-memories-like-spaces-20190114/">https://www.quantamagazine.org/the-brain-maps-out-ideas-and-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639730813.277600"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639730813.277600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2021-12-17 00:46</span><br/>
+So many interesting ideas! There may be many features that is prevalent in perception, but under-supported in the PL tradition for mundane reasons; e.g. Regular Expressions/ matching on pure text; I see at least two perceptual features that could be nice to support: Context/Refinement and Othogonality of Horizontal/Vertical directions (2D): Refinement of selections are described e.g. in Structural Regular Expressions by Rob Pike [ <a href="http://9p.io/sources/contrib/steve/other-docs/struct-regex.pdf">pdf</a> ]. But I’m not aware of Regexp’s that do 2D matching. It’s pretty clear programmers make use of the vertical dimension e.g. by the tradition to align similar lines of code (pervasively done in Haskell and similar languages.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1639755918.278100"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1639646202.271700.html#1639755918.278100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2021-12-17 07:45</span><br/>
+&gt; The a <em>value is now both an element in the and-state (horizontal relation) and the first element in the hierarchy (vertical relation).</em> This is my criteria for detecting of orthogonality...<br/>&gt; <br/>Is this not satisfied any time the stuff nested under a is fully contained inside it?<br/><br/>I'm having trouble seeing this as anything other than a syntactic change. Nesting is still going to crop up in the semantics, or at least, it will cause a lot more trouble to get rid of it than you could possibly benefit from. Syntax should clearly express that.<br/><br/>I do think things that don't explicitly depend on each other should be allowed to be going independent. For instance, finding all the natural concurrency in a program. I don't know if this is exactly what you're saying, but I think it's related.<br/><br/>Somewhat aside: I've come to think of nesting and sequencing as being different sides of the same concept, namely dependency. I think this is supported by the way nesting-based encodings of sequences, like linked lists and fixed points, keep cropping up.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

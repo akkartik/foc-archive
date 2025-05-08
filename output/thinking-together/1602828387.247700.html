@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-10-15 23:06</span><br/>
+I'm in the middle of writing an assembler for uCISC in uCISC assembly (bootstrapping a language is fun). I'm happy with the progress I'm making, but a few things are standing out. 1) structuring the code is challenging since I don't yet have the higher level language paradigms (don't even have function syntax sugar at the level I'm at right now). 2) stack counting is tedious and I constantly get it wrong. I'm wondering if there are any resources, techniques or ideas on how to structure assembly code effectively. I feel like this may be a bit of a lost art.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602828417.247800"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602828417.247800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-10-15 23:06</span><br/>
+Taking it a step further, I also realize that large computer systems need large complex structures to manage them. I'm wondering if, at some level, the complex structures in our higher level languages are only needed because of the large systems they were designed to enable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602832945.248100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602832945.248100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-16 00:22</span><br/>
+How many registers do you have at this point?<br/><br/>With 6 general-purpose registers (excluding stack management), I almost never had to use variables directly from the stack.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602833461.248300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602833461.248300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-10-16 00:31</span><br/>
+A left-field suggestion: Human Resource Machine winds up broadening your Assembly language skills.  I found I learned a lot of things I'd forgotten; and it's fun to play :wink: <a href="https://tomorrowcorporation.com/humanresourcemachine">https://tomorrowcorporation.com/humanresourcemachine</a><br/>Regarding your stack problem, I'm wondering if you could write some helper subroutines to manage the stack?  A call to store the contents of the A register on the stack, for example, and one to retrieve it.  You could store a stack count and inc/dec it.  At the least you could error when you pop too far off the stack, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602866455.249200"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602866455.249200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-10-16 09:40</span><br/>
+Back in the old days, assembly languages were intended for use by human programmers, and they were more sophisticated than those of today, which are really only intended for compiler code generation. Macro assemblers allowed you to write and use macros such as IF, SWITCH, FOR, WHILE, PROC, CALL. Expression-oriented assemblers allowed you to write more than one arithmetic opcode on the same line, using a syntax similar to arithmetic expressions. Try googling "macro assembler" or "high level assembler". Consider adding macros or high level features to the uCISC assembler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602867094.249400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602867094.249400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-16 09:51</span><br/>
+I've been starting to feel the need for macros in Mu, just because of the constraint that addresses can't escape functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602872638.256900"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602872638.256900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-10-16 11:23</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I technically have 6 general purpose registers, but 3 are used for device access by convention. My guess is that I will end up being able to use 4 GP registers, one of which is the SP so an effective 3. One of the places I’m finding challenging is the function call boundaries. I recently ended up with a method that eats 1 position off the stack somewhere, but the function works perfectly if you don’t count the side effects. Then again, maybe I’m just doing it wrong :thinking_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602873028.260400"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1602828387.247700.html#1602873028.260400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-10-16 11:30</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> <span style="background-color:#ccf">@Doug Moen</span> sounds like I just need to do the work for some macro basics. The lack of CALL macros in particular is tedious because there are a couple of boiler plate instructions needed to call a function and if I forget one, I just messed up my stack. Thanks for the tips. I’ll check out the game for fun and profit and google macro assembler.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

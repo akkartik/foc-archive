@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #reading-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/ab6480f198d285d8f1c8d27be7c7ad13.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../reading-together/1720203029.699949.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Polly</b>
+<span style="margin:2em; color:#606060">2024-07-05 11:10</span><br/>
+I've been kinda obsessed with this paper, "Weird Machines, Exploitability, and Provable Unexploitability" since October last year.<br/><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=8226852">https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=8226852</a><br/><a href="https://www.youtube.com/watch?v=1ynkWcfiwOk">https://www.youtube.com/watch?v=1ynkWcfiwOk</a><br/>(I think starting with the talk is a good idea)<br/><br/>After hearing about robust first computing I've been pondering the connection for a bit. I'm not really sure what to make of it, but there has to be some connection. In <a href="https://www.youtube.com/watch?v=Dmlm6mtnSZs">this talk</a> by Dave Ackley he specifically mentions that "flipping one bit" (paraphrasing) can be enough to destroy a lot of software, which is the exact attack model that Dullien uses. It would be nice if software could maintain security invariants despite memory corruption (which Dullien proves for a small piece of software that he writes) so in that sense the two concepts allign. But I find that "continuing despite an error" or "return a best-effort answer" is the source of many security vulnerabilities, (mid example: database lookup fails, code is written in a way that forgot to handle that case, code continues anyway and returns admin data that shouldn't be shown). I wonder if any of y'all have read this or have thoughts about it. :))
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720221975.552169"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../reading-together/1720203029.699949.html#1720221975.552169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-05 16:26</span><br/>
+I'm still thinking about this one, but want to share something I wrote a few years that starts out from a similar framing: <a href="https://akkartik.name/post/modularity">https://akkartik.name/post/modularity</a><br/><br/>OP is much cleaner. What I refer to fuzzily as "territories of programs", OP makes precise as the distinction between the intended finite state machine and its <em>emulation</em> on a (fixed-memory, so you end up padding a bunch of don't-care bits in the address space) real computer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720254838.939829"></a>
+      <img src="https://secure.gravatar.com/avatar/ab6480f198d285d8f1c8d27be7c7ad13.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../reading-together/1720203029.699949.html#1720254838.939829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Polly</b>
+<span style="margin:2em; color:#606060">2024-07-06 01:33</span><br/>
+Ah, I see the connection! And I see how tests are a good aid for this. My take on tests is that everyone who cares about their software being correct should do them, because I don't believe anyone can make and maintain correct software, so tests will be useful to show how and where you fail. But also they don't give correctness under typical use and definitely not security (read: correctness) under adversarial conditions. And and they don't give robustness, but also i'm not quite sure what robustness is really but i think my software should have it<br/><br/>>  OP is much cleaner<br/>More formal at least, your writing is very clear.<br/><br/>I feel like there's a tension between formal correctness and robustness. The whole "correctness and efficiency only" goal of current software methods means we don't think about what happens after faults or memory vulnerabilities. I think I'd like to have correctness despite faults, which is different from what Robust-first computing seems to do? I'm not sure
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720360934.437349"></a>
+      <img src="https://secure.gravatar.com/avatar/41992d2969009191f2393d210b681744.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../reading-together/1720203029.699949.html#1720360934.437349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Noel</b>
+<span style="margin:2em; color:#606060">2024-07-07 07:02</span><br/>
+All I know about robust computing comes from the Future of Coding episode on it, so this response is probably steeped in ignorance. One thing not mentioned in the episode is probabilistic algorithms. The usual setup is to assume a deterministic computer, and then introduce imperfect information (often via a hash function) giving a small probability of error but achieving a large reduction in time or space requirements. Perhaps the most used algorithm is [HyperLogLog](<a href="https://en.wikipedia.org/wiki/HyperLogLog">https://en.wikipedia.org/wiki/HyperLogLog</a>), but I think [MinHash](<a href="https://en.wikipedia.org/wiki/MinHash">https://en.wikipedia.org/wiki/MinHash</a>) is particularly easy to understand. This isn't the same as assuming any part of the algorithm can fail, but it might provide a pathway to that model.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

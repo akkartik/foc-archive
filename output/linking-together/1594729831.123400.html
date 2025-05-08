@@ -1,0 +1,175 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-09-07/1332132689671_50ac71870b024b2ae2ab_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Plotnikov</b>
+<span style="margin:2em; color:#606060">2020-07-14 05:30</span><br/>
+Hey folks!<br/>Right now I explore an idea about bringing some of the ideas of Functional Relational Programming (“Out of the tar pit” paper, here is a <a href="http://kmdouglass.github.io/posts/summary-out-of-the-tar-pit/">quick summary</a>) to the mainstream development.<br/>I have a problem and thought maybe somebody could help me here :slightly_smiling_face:<br/><br/>In my app, I have two variables in state and they are somewhat connected: one can be changed programmatically and another one is changed by the underlying system when an event happens. If one of them changed, another one should be changed too to stay in sync. Right now each variable has its own place, its own change callback and basically there are 2 places where code should be written.<br/>What I want to do is to create some kind of “relation” between those two in a declarative manner and store it (or just have in code).<br/>So, when one of the variables changes, other changes too automatically and in one place.<br/>And also, it’ll be nice to create an ability to subscribe to the relation (and not particular variable), maybe put some constrains on it, etc.<br/><br/>But I’m struggling with creating that “Relation” entity. What it should be? An object? A function? How can I create a declarative way for creating relations?<br/>Does somebody have ideas or thoughts?<br/><br/>Thanks in advance!<br/><br/><em>P.S. I do UI development mainly (swift, kotlin, iOS, Andoid), but feel free to elaborate in any language or system, I think I could adapt</em> :wink: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594731059.123800"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594731059.123800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-07-14 05:50</span><br/>
+This sounds like Rx observables
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594731442.124000"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594731442.124000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-07-14 05:57</span><br/>
+So, if you were building a product detail page, which shows the quantity left in stock, and the price of adding the selected quantity, you could set up a relationship like the following:<br/><pre style="white-space:pre-wrap">$quantityInStock = subscribeToItemQuantity(itemId)<br/>$currentPrice = subscribeToItemPrice(itemId)<br/>$quantitySelected = ReactiveValue(1)</pre><br/><pre style="white-space:pre-wrap">// shown in UI view<br/>$validSelected = minOfLatest($quantitySelected, $quantityInStock) <br/><br/>$totalCostOfSelection = combineLatest($currentPrice, $validSelected).pipe(map(([price, selected]) =&gt; multiplyMoney(price, selected))<br/>$displayTotalCostOfSelection = $totalCostOfSelection.pipe(map(formatMoneyFn))</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594731592.124200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594731592.124200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-07-14 05:59</span><br/>
+I believe the Swift community has been promoting parts of this pattern with the name Model-View View-Model (MVVM).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594732164.124400"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-07/1332132689671_50ac71870b024b2ae2ab_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594732164.124400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Plotnikov</b>
+<span style="margin:2em; color:#606060">2020-07-14 06:09</span><br/>
+Yeah, Rx is the way definitely, i’ll try that, thanks! Also, maybe I’ll find something in clojure’s atom, its also an interesting concept.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594732319.124600"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594732319.124600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-07-14 06:11</span><br/>
+I have a few write-ups which talk about MVVM in a way which completely separates the "View" from the "Business logic". I've given a couple talks about it, and you can find some of the content here<br/><a href="https://refactorordie.com/#todo-app-sample">https://refactorordie.com/#todo-app-sample</a><br/><a href="https://github.com/RefactorOrDie/refactorordie.com/blob/master/storybook/stories/writing/presentations/ObservableStateOct2019/TodoApp/src/app/TodoState.js">https://github.com/RefactorOrDie/refactorordie.com/blob/mast&hellip;</a><br/>It's in JS/React built on top of RxJS, but the concepts work well for many languages
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594732709.125300"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-07/1332132689671_50ac71870b024b2ae2ab_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594732709.125300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Plotnikov</b>
+<span style="margin:2em; color:#606060">2020-07-14 06:18</span><br/>
+Thanks! I’ll do!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594746526.127400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594746526.127400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-14 10:08</span><br/>
+You didn't make the question clear enough to give an answer.  In Physics you have independent variables, like an XYZ coordinate, and they are somewhat connected in that the object that possesses those coordinates might be redrawn on the screen. So the screen re-render becomes a process that is activated by some mechanism when the X, Y, or Z (any of the 3) changes. And if you have other objects flying around, then collision detection must be performed. And maybe if the XYZ is past a boundary, then something has to happen; a sound effect or a deformation of the shape to prevent moving past a point, or it bounces. In interactive graphics you have perhaps 100 things on the screen, and depending on state changes, regeneration of some widget or visualization of the model has to change.<br/><br/>If you are talking about a derived quantity, it is an entirely different thing, and in a spreadsheet you have automatic natural order of recomputation, so that if B = A * 2, when A changes B is updated automatically.  Under the hood of every spreadsheet is a topological sort of the dependencies of each formula, and of course this means circularity can be detected and the user warned.<br/><br/>So if your variables have a single direction dependency, then the spreadsheet works well. TK/Sover, which was Visicalc's sequel product, introduced bidirectional formula modification, so that if you changed B  in the above formula it would then fix A based on the mutual constraint. Once you have multiple variables and complicated formulae TK/Solver got a bit gnarly, and so few people are doing reverse modeling the product is long forgotten. It was actually a far more clever product than Visicalc.<br/><br/>In the model/view world you have the model generating visualizations, which are dependent on the model variables for how they are drawn, then the rendered visualizations are interacted with, and user clicks/gestures feed back into the model, which then triggers the re-render of the visualization to track the input. When this happens at 60 frames per second, the user doesn't realize how much work is being done.<br/><br/>Anyway it would be helpful if you gave a very specific example. The are only 6 permutations of 3 things, and 8 combinations of 3 things, so that is only 14 ways to think about 3 things. A concrete example would clarify which of the scenarios you are trying to encode. A subscription to a relation between A and B creates a third thing C which is watching.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594762190.127700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594762190.127700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-14 14:29</span><br/>
+The Cell programming language is a very interesting take on functional relational programming. I think there's a difference between expressing functional/relational logic in a high level declarative language, as you can do in Cell, vs encoding that logic in a lower level language like Javascript + Rx using shared mutable state and callbacks. <a href="http://cell-lang.net">http://cell-lang.net</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594791640.128000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594791640.128000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-14 22:40</span><br/>
+Cell is kind of odd beast. It has some elements of Neo4J, in that it promotes using directed graphs instead of OOP (which is a superior way to do things IMHO). It wasn't clear whether he was building a whole new language or trying to augment existing ones.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594801167.128700"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-07/1332132689671_50ac71870b024b2ae2ab_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594801167.128700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Plotnikov</b>
+<span style="margin:2em; color:#606060">2020-07-15 01:19</span><br/>
+Thanks <span style="background-color:#ccf">@Doug Moen</span>, this is very interesting, haven’t heard about Cell. It has a lot of information on the site, seems exactly what I needed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594801589.128900"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-07/1332132689671_50ac71870b024b2ae2ab_72.png" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594801589.128900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Plotnikov</b>
+<span style="margin:2em; color:#606060">2020-07-15 01:26</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> I don’t have more concrete question because I’m in the position of thinking and researching :slightly_smiling_face:<br/>As mentioned, I seek a way to reduce amount of code and accidental complexity in my day-to-day work. One path is to try relational programming and see if its gonna reduce amount of code and increase ability to understand a system.<br/>Now I’m looking how to implement “relational ideas” in code and just see what happens. And it seems The Cell Programming Language done exactly this, so I’m gonna inspect it :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594859507.132900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594859507.132900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-07-15 17:31</span><br/>
+While you're researching 'constraint connectors' may also be of interest <a href="https://www.hpi.uni-potsdam.de/hirschfeld/publications/media/WeiherHirschfeld_2016_ConstraintsAsPolymorphicConnectors_AuthorsVersion.pdf">https://www.hpi.uni-potsdam.de/hirschfeld/publications/media&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594863258.133200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../linking-together/1594729831.123400.html#1594863258.133200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-15 18:34</span><br/>
+The Hirschfeld article uses the example of a dual temperature control UI, where one has both degF and degC on the screen at the same time; any change to one causes the other to be updated. They talk in the paper about "push" and "pull" approaches. They did not however imagine that the underlying runtime would solve this problem for them, and allow a single temperature value to exist in the program. See the Beads dual thermometer example code to see how easy this problem becomes when the language has embedded in the runtime the concept of dependency checking.  <a href="https://github.com/magicmouse/beads-examples/tree/master/Example%20-temperature">https://github.com/magicmouse/beads-examples/tree/master/Example%20-temperature</a><br/><br/>The amount of code related to tracking which thing should thing be drawn is considerable in many graphical interactive products. The Cell programming language has an interesting approach to finite state machines, but doesn't address drawing, which is more than 60% of all the code in a graphical interactive product.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

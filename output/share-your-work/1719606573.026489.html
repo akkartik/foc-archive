@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-28 13:29</span><br/>
+In my demo, I made the statement "... t2t doesn't need the full power of OhmJS ...", but, I didn't clarify.<br/><br/>For t2t - text to text transpilation - primarily, you need to pattern-match incoming text, then emit text based on the input.<br/><br/>OhmJS parses incoming text, then gives you the full power of JavaScript to do anything you want with the parse tree.<br/><br/>For t2t, you don't need to resort to class hierarchies, functions, closures, etc., etc. You primarily need to pattern match, then, create and modify text. In addition to OhmJS' ability to pattern-match, Javascript's "template strings" are about all you need - the ability to create text and to interpolate text from the tree walk of the parsed input.<br/><br/>This <em>seems</em> to be unnecessarily restrictive, but, turns out to be quite powerful and mind-freeing. Fewer options -> less clutter -> increased ability to think about interesting issues. After all, "simplicity" == "lack of nuance", and, my goal is to simplify DX.<br/><br/>[Infrequently, one needs to do a tiny bit more (like gensym() a new symbol and leave it on a scoped stack for use during the tree-walk), so I provide a way to break out and call a Javascript function, but, this kind of power is not needed in most cases. I guess that, in the future, I will restrict this some more, but, I'm still experimenting].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719607280.641969"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html#1719607280.641969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-28 13:41</span><br/>
+Given this simplification, I easily invented a nano-DSL to handle the string building bit. I call it RWR (for ReWRite). RWR is, itself, just t2t - it transpiles the RWR spec into Javascript that is compatible with OhmJS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719647021.745029"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html#1719647021.745029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-29 00:43</span><br/>
+What are your use cases for t2t? Code transformation, data transformation, or both?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719654413.433109"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html#1719654413.433109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-29 02:46</span><br/>
+I’ve used t2t for both, but, emphasize code transformation because I feel that the idea of code transformation is under-utilized. It drastically changes the realm of compiler writing. One can create new languages, but does not need to write whole compilers (simply lean on existing compilers). When one can create new languages in minutes/hours instead of months, it changes one’s approach to problem solving, e.g. one can create multiple nano-DSLs on a per-project basis (“awk” and REGEX on steroids) instead of building general purpose languages. It makes it reasonable to create S/W Architecture languages that describe Design Intent instead of Implementation and Production Engineering. To me, Python, Common Lisp, Javascript, Odin, (Haskell, Rust, …), etc., are just assemblers for HHLLs (higher-than-high-level languages). This is like Lisp macros and Functional Programming done by pipelining instead of cramming all of the concepts into a single hair-ball of complexity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719666061.529359"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html#1719666061.529359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-29 06:01</span><br/>
+What I find most attractive about t2t for code is that I can look at the intermediate code. The idea of taking many small steps towards the goal rather than a big obscure one sounds tempting (though I haven't ever done multi-step t2t).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719666713.459399"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719606573.026489.html#1719666713.459399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-29 06:11</span><br/>
+There are side-benefits, too. Like, if you own the transpiler, you can easily insert tracing/debugging/instrumentation tidbits. Like, "macros" for textual languages instead of only for list-based languages (like Lisp, Scheme). A down-side is that, to really do t2t in small steps, you need to emphasize machine-readability (easy to do), but, machine-readable code not= human-readable code (machine-readable code is more verbose and repetitive, but, understandable to humans, albeit boring and TL;DR). FYI at one point, I got up to 15 steps in building a Ceptre-to-Prolog transpiler before I veered off in some other direction. I would be happy to kibitz if anyone wants to try out the stuff I've got - I imagine that it ain't packaged in pristine shrink-wrapped form yet...
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

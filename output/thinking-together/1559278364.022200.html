@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1559278364.022200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-05-30 21:52</span><br/>
+open to voting: which is a better name for the record structure holding a 2d point with fields x, y, and a record structure holding a 3D point (x y z).? Since record names by convention in my language always begin with a_ to give clue as to the name kind, the two logical alternatives are:  a_point, a_point3, or the two records could be called a_xy, a_xyz?  which do you think is better? a_xy is shorter, but not that much faster than a word like point which happens to have the letters in adjacent fingers for the first 4 letters, which is very fast to type...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559279030.022400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1559278364.022200.html#1559279030.022400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-05-30 22:03</span><br/>
+I like how <a href="http://thi.ng">thi.ng</a> handles this. You have explicit vec2 and vec3 when you want to use performance-optimized functions to manipulate them. But you can also just use arbitrarily long arrays of numbers, and treat them as 2d or 3d or 4d (etc) vecs using functions that work in arbitrary dimensions when that's more convenient.<br/><br/>So I'd say go with a_point2 and a_point3 when you have an explicit number of dimensions, and a_point when you want to be unspecific.<br/><br/>Also, saying a_xy and a_xyz means you're assuming these are cartesian coordinates. Often, in cases where you're doing work in 2-space or 3-space, you're also doing work in color space (rgb) or texture space (ts) or normal space (uvw). By keeping your linear algebra library generic, and not baking in the assumption that you're only ever working with cartesian coords, you save yourself some pain when it comes time to use these points (or vectors) in different ways.<br/><br/>Lastly, it's worth thinking about whether you're someday going to have matrices (where your vectors might be column or row matrices), or use homogenous coordinates (where a 3d point or vector in space is represented by 4 values, where the 4th represents whether it's a point or a vector), or a Clifford algebra (where you have a bivector instead of a cross product). In these cases, sticking with terms like "point" and "vector" is more useful than using "xyz" to establish the name, since not all things that have an x, y, and z are the same.<br/><br/>Summary: Go with "point".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559316740.037100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1559278364.022200.html#1559316740.037100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-05-31 08:32</span><br/>
+In this kind of circumstance I look to see if there is a de-facto name for the concept that is already in widespread use. For these types, I use the names <tt>vec2</tt> and <tt>vec3</tt>, copied from GLSL. Several of my C++ library dependencies also use these names. (This assumes that 3D point and 3D vector are represented by the same type, which might not be true for your system.)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

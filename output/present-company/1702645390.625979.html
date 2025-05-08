@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:03</span><br/>
+Today, is there a way to build state-driven UI components (like React/Vue/Svelte) where some of the state, but not all, can be persisted periodically in the backend perhaps as an event log which would enable things like playback of past interactions? How would you go about creating something like this with usual tools like Javascript, REST and Postgresql? :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702645519.828639"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702645519.828639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:05</span><br/>
+• see <a href="http://sqlsync.dev">http://sqlsync.dev</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702646104.563649"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702646104.563649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:15</span><br/>
+I can’t vouch directly for this tool, but it sounds a bit like <a href="https://electric-sql.com/">https://electric-sql.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702646362.192089"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702646362.192089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:19</span><br/>
+Amazing resources! Thanks <span style="background-color:#ccf">@Leonard Pauli</span> <span style="background-color:#ccf">@Cole Lawrence</span><br/><br/>One reason I mentioned PARTIAL sync is for interactivity like  dragging and dropping (which requires tracking cursor position in the state) which is too costly to store for long-term.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702646500.829869"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702646500.829869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:21</span><br/>
+YES! Working on the same!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702647351.346089"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702647351.346089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:35</span><br/>
+You might like to read about how Kinopio solved this by simply separating the events relevant to “realtime” from the events relevant to “persistence”<br/><a href="https://pketh.org/how-kinopio-is-made.html">https://pketh.org/how-kinopio-is-made.html</a><br/>&gt; <b>Websockets</b> create that magical collaboration feeling by enabling a real-time stream of messages to be sent and received by a client, e.g. <tt>Pirijan moved cardId ABC123 to position {x: 100, y: 200}</tt>. These messages are relayed by the server to collaborators whose space state is updated. e.g. updating the position of the card.<br/>&gt; The problem with saving data with websockets is that they’re <em>too</em> fast. Authenticating that many messages per second and writing them to disk would be really inefficient. E.g. If you’re moving a card from position <tt>x: 20</tt> to <tt>x: 420</tt>, Kinopio will use websockets to broadcast many updates during the move: <tt>moving card x to 21</tt>, <tt>moving card x to 24</tt>, <tt>moving card x to 28</tt>… potentially hundreds of messages. Or you could send a single API request after you’ve moved the card, <tt>PATCH card.x = 420</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702648470.520019"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702648470.520019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-12-15 05:54</span><br/>
+My kid just showed me this example at KhanAcademy where you can play back a video but also make changes to the state at any time: <a href="https://www.khanacademy.org/computing/computer-programming/html-css/intro-to-css/pt/css-basics">https://www.khanacademy.org/computing/computer-programming/h&hellip;</a><br/><br/>If you resume the playback, your changes get lost so the integrity of the standard history remains.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702657954.864259"></a>
+      <img src="https://secure.gravatar.com/avatar/0f75aaf019cc59e83fd3321b64a36508.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702657954.864259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Krycho</b>
+<span style="margin:2em; color:#606060">2023-12-15 08:32</span><br/>
+You could build that fairly straightforwardly with Redux, and MobX might also be able to do that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702657977.351489"></a>
+      <img src="https://secure.gravatar.com/avatar/0f75aaf019cc59e83fd3321b64a36508.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702657977.351489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Krycho</b>
+<span style="margin:2em; color:#606060">2023-12-15 08:32</span><br/>
+The folks at <a href="https://www.replay.io">Replay</a> have also productized something shaped like that for debugging.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1702658040.497059"></a>
+      <img src="https://secure.gravatar.com/avatar/0f75aaf019cc59e83fd3321b64a36508.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../present-company/1702645390.625979.html#1702658040.497059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Krycho</b>
+<span style="margin:2em; color:#606060">2023-12-15 08:34</span><br/>
+(Mark Erikson, one of the Redux maintainers for the past several years, works there. He would probably be happy to chat about some of the things they do, and they do a lot of “working in public” as well. I can put you in touch with him if you like!)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

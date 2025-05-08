@@ -1,0 +1,182 @@
+[
+    {
+        "text": "Another screenshot update.\nSlow progress on making the audio side of the project into something more robust and useful.\n• Added audio configuration for choosing sound device (on the top right of the screenshot)\n• Added a spectrum analysis window.  If this looks familiar, it's the same FFT\/GUI code I contributed to Sonic Pi, although here it is using ImGui\n• Continuing work on dock windows\/gui setup.",
+        "files": [
+            {
+                "id": "F01DWH2NW05",
+                "mode": "tombstone"
+            }
+        ],
+        "upload": false,
+        "user": "UUQ2EQW21",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "R\/9y",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Another screenshot update.\nSlow progress on making the audio side of the project into something more robust and useful.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Added audio configuration for choosing sound device (on the top right of the screenshot)"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Added a spectrum analysis window.  If this looks familiar, it's the same FFT\/GUI code I contributed to Sonic Pi, although here it is using ImGui"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Continuing work on dock windows\/gui setup."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1604481215.084900",
+        "thread_ts": "1604481215.084900",
+        "reply_count": 2,
+        "reply_users_count": 1,
+        "latest_reply": "1604481645.085400",
+        "reply_users": [
+            "UUQ2EQW21"
+        ],
+        "replies": [
+            {
+                "user": "UUQ2EQW21",
+                "ts": "1604481551.085200"
+            },
+            {
+                "user": "UUQ2EQW21",
+                "ts": "1604481645.085400"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "U013BB9KZV1",
+                    "U0123H7JRDM",
+                    "U013HU44GLS",
+                    "UA14TGLTC",
+                    "U019PRL1BNU",
+                    "UN9SCH5RD",
+                    "U013ZLJARC7",
+                    "U019CPED6T1"
+                ],
+                "count": 8
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1604481551.085200",
+        "client_msg_id": "0d56e789-e96f-4080-b623-a23356a427c4",
+        "text": "The technical challenge of adding the sound options was really in cleaning up the generation of the graphs when the audio changes.  Since many nodes in the graph might be processing music data at the current audio rate, I needed to shut the graph down, reconfigure the nodes, and restart.\nThis builds on previous work I've done to manage the graphs inside the audio pipeline.  Effectively a graph is either 'Active' or 'Inactive'; the distinction is that an active graph can be run inside the audio thread.  A graph is made inactive by quickly swapping pointers under a spin-lock.  This means that the audio thread never waits for a graph, and never does a mutex lock which can schedule away from the audio thread when the lock is freed.\nTechnical details aside, this is tricky to make clean and robust, but I think I'm there.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1604481215.084900",
+        "parent_user_id": "UUQ2EQW21",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "dYsv",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "The technical challenge of adding the sound options was really in cleaning up the generation of the graphs when the audio changes.  Since many nodes in the graph might be processing music data at the current audio rate, I needed to shut the graph down, reconfigure the nodes, and restart.\nThis builds on previous work I've done to manage the graphs inside the audio pipeline.  Effectively a graph is either 'Active' or 'Inactive'; the distinction is that an active graph can be run inside the audio thread.  A graph is made inactive by quickly swapping pointers under a spin-lock.  This means that the audio thread never waits for a graph, and never does a mutex lock which can schedule away from the audio thread when the lock is freed.\nTechnical details aside, this is tricky to make clean and robust, but I think I'm there."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1604481645.085400",
+        "client_msg_id": "19015e5d-c609-41c6-ba48-801c1a925df8",
+        "text": "The output sound data in the audio side is also copied into a buffer and pointer-swapped so it can be processed in other threads.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1604481215.084900",
+        "parent_user_id": "UUQ2EQW21",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "zcPu",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "The output sound data in the audio side is also copied into a buffer and pointer-swapped so it can be processed in other threads."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

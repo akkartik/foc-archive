@@ -1,0 +1,427 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-02 16:20</span><br/>
+I’ve been thinking about how languages taught at the intro level are usually taught with lots of white lies about how they work, out of necessity. For example, Python’s actual underlying memory model (how everything’s a reference and isn’t copied around) is confusing (arguably), so we avoid teaching that part and oftentimes make all these distinctions between references and primitives (even though everything’s an object). Teaching something more accurate (everything’s an object with references, and oh sometimes values are even referenced via referenced counting) would actually lead to confusion when trying to translate some of this in other languages like C, where everything’s actually a value (pointers are just ints purposed for addressing things).<br/><br/>Java is also confusing with all the GC stuff and opinions it has about memory and memory behavior.<br/><br/>I would like a first-learner’s language that has the arguably-more-consistent semantics of something like C (“everything’s a value”), but is closer to Python. So I can feel like I’m not “lying” so much. I think the closest thing is C itself, unfortunately, or C++ with a custom allocator thing.<br/><br/>Or maybe a hot-take: objective C / ARC are the closest.<br/><br/>But really I’d just like a Python with less obfuscation and inconsistency, so it looks more like C with safety on-top and better file imports.<br/><br/>Essentially, Python with proper value types for everything, even if a little more challenging. The most explainable language closest to hardware, but easier to use.<br/><br/>Just thinking out-loud. I think a Python 3 subset preprocessor that outputs raw C would look close to the language I have in-mind. (I’d like <tt>end</tt> for blocks too).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743641816.237779"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743641816.237779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-04-02 17:56</span><br/>
+Could you elaborate on where beginners might get tripped up by memory model gotchas in these languages? Basically I'm wondering how to build up to a worldview that this is a major issue. For example, if you had a list of gotcha programs in Python that would be very interesting to go through. I can think of one gotcha in Python (appending to a default arg that is initialized to an empty list, or something like that). Is it a jungle out there, or is it just a couple of things like that in each language that people hit and learn to avoid?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743655520.625789"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743655520.625789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-02 21:45</span><br/>
+e.g. “Why you can modify a list passed to a function and not a non-container type” ; “Why does setting a variable equal to a list / object type make for a reference to the list / object type, whereas ints/floats/strs don’t have this behavior?<br/><br/>In general you explain this in intro by describing copying of values and treating container/object types as references, but in Python that’s not actually how it works. These are not SUPER major issues, but any attempt to explain correctly leads to more complexity than an intro student can normally handle. Python’s a bit messy unless you just suspend disbelief and pretend things work a certain way without explaining why.<br/><br/>I’d like a language that doesn’t hide things like that quite as much, even if arguably it’s not a huge issue for intro.<br/><br/>I do think a simplified C is slightly better because the copying semantics is pretty well-defined vs Python’s reference counting stuff.<br/><br/><a href="https://nedbatchelder.com/text/names1.html">Good talk and page on how Python variables work</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743663696.789849"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743663696.789849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-04-03 00:01</span><br/>
+C++ is value oriented and low level. Passing a container into a function creates a copy of that container (unless it's passed as a pointer). So the "reference vs value" gotcha can be mostly avoided while teaching. There is a sea of other gotchas in the language though.<br/><br/>IMO the value vs reference may not be such a big issue if explained directly through exercises. A couple tasks where the student has to directly experience how values and references behave should be enough to form a correct mental model. May be easier than chosing a different language altogether.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743664412.331849"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743664412.331849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2025-04-03 00:13</span><br/>
+does <a href="https://pyret.org/">https://pyret.org/</a> check any of your boxes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743667257.076089"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743667257.076089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-04-03 01:00</span><br/>
+When I started advocating and teaching Python to scientists, around 1996, I tried to avoid the hard parts indeed. But not for long. After a few years, I covered the memory model in the very first session, to get that out of the way. It worked well, and I think it was helpful in particular for the many participants who grew up with Fortran.<br/>That said, I never covered the more subtle gotchas of Python, such as the messy scoping rules.<br/><br/>I am ambivalent about teaching languages that avoid thorny issues but don't aim to be usable in real life. Whatever language is used for teaching should also permit learners to solve real problems that matter to them (though not necessarily to get a job in the software industry).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743669610.818729"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743669610.818729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-04-03 01:40</span><br/>
+What isn't a gotcha in Python? lol. Cyclic imports, WTF is a <tt>__init__.py</tt> , imports are executing. setup.py is executed. package resolution. Nothing can be trusted due to monkey patching (which I like BTW). <tt>from {foo} import</tt> vs. <tt>import foo</tt> import-by-reference vs  import-by-value subtleties. module unloading. white space. Forgetting an f in a multi-line f string (I caused a prod outage coz of that, it is also unlintable). Can't put functions in a string interpolation. Single line lambdas only (?!).  the GIL. async. multi-processing. the list is endless with that language.<br/>The default value being persistent in args is a steady cause of bugs which we can at least lint around. The memory model is not not my main source of problems though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743684629.405769"></a>
+      <img src="https://secure.gravatar.com/avatar/0f75aaf019cc59e83fd3321b64a36508.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743684629.405769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Krycho</b>
+<span style="margin:2em; color:#606060">2025-04-03 05:50</span><br/>
+You <em>can</em> write C++ in a value-oriented way, but you have to internalize a <em>lot</em> of things about it to know how to do that consistently and effectively, so it’s a poor fit for the pedagogical context here I think… but folks with strong positive experiences using C++ in that value-oriented way as well as a lot of time using Swift (which obviously draws a <em>lot</em> on the “C + ARC” model) are behind <a href="https://www.hylo-lang.org">Hylo</a>, which might be interesting to poke at here. <em>Caveat emptor</em>: I haven’t used it, just read the docs, and it’s still quite early!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743688300.994929"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743688300.994929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-04-03 06:51</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> Your list contains mostly features that easily become problems in practice when developing large programs. That's not the same as features that require a precise mental model. It's easy to see why the f matters in f-strings, but that doesn't protect you from forgetting it.<br/><br/>Good language design should of course avoid both types of issues.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743689458.220609"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743689458.220609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 07:10</span><br/>
+I’m thinking also in terms of curriculum. Going from python in intro straight to java then C seems like the wrong order because in a way, Python’s more complicated and unique than Java than C in that everything’s a reference, then most things are references / some are values, then everything’s a value in C (and pointers are values that can refer to other values).<br/><br/>It’s not a giant issue if you do handwaving and don’t explain how things work, but if you try to explain Python’s model for names/labels, I think it can cause friction if then trying to learn general-purpose things or other languages. The fact that python is all references/no copying is just a little weird.<br/><br/>I like python for a lot of things, but not for this aspect (and not for its lack of graphics and web support).<br/><br/>For me it’s major because stylistically, I like not to handwave.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743696562.102709"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743696562.102709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-04-03 09:09</span><br/>
+Racket is a great teaching language with loads of pedagogical material available. If you hate s-expressions, then Pyret (mentioned above) and Rombus are very good choices. These languages have all been designed by people with decades of teaching programming and researching what works for language learners.<br/><br/><a href="https://rhombus-lang.org">https://rhombus-lang.org</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699546.806559"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699546.806559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 09:59</span><br/>
+btw I don’t have a way to change the language since I don’t design the university curriculum. It’s more me thinking out-loud. I saw racket before, it’s cool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699609.044449"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699609.044449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:00</span><br/>
+I would still recommend C but without the stdlib ... perhaps an alternate stdlib library.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699630.386399"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699630.386399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:00</span><br/>
+That’s what CS50 does
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699664.528169"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699664.528169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:01</span><br/>
+I’d do that and maybe provide wrappers around regular stdlib so people could check the innards if they wanted.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699936.876709"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699936.876709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:05</span><br/>
+Perhaps add  a defer as well. I like D .... its just that the problem with  D is C library people write horrible APIs which abuse the C preprocessor. I hate C preprocessor .... people do some scary stuff with it, which is always intimidating for beginners.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699951.427309"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699951.427309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:05</span><br/>
+Have you seen Odin?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699983.572169"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699983.572169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:06</span><br/>
+Yeah all of them have the .... need C to do anything useful problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743699990.833399"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743699990.833399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:06</span><br/>
+except go
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700005.055729"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700005.055729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:06</span><br/>
+It’s basically what we’re talking about. Better allocator support, better imports, built-in allocator context, defer.<br/><br/>C’s worst offsense to me is the includes and headers
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700023.413369"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700023.413369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:07</span><br/>
+Actually I think Odin’s pretty good.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700115.825579"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700115.825579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:08</span><br/>
+Zig / Odin change the syntax way too much.<br/>At best I would be happy with just changes in the declaration syntax<br/><br/><tt>main(argc :int, argv :char[]) :: int</tt><br/><br/>but they change a whole lot. D is definitely more consistent.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700280.767959"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700280.767959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:11</span><br/>
+objective C is really not a bad deal only issue with it is ... lack of win / linux support
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700427.343529"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700427.343529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:13</span><br/>
+I think C’s syntax is okay except the square brackets in declaring an array and the includes / headers are BLA. But yeah. A C with a custom course stdlib would be enough. Even if the allocation / deallocation straegy is not super efficient, having something automatic in-place could help. Just a big arena.<br/><br/>Or a Python with less magic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700604.986719"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700604.986719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:16</span><br/>
+C + Lua is a good combo as the world of warcarft players might pay more a attention in class I guess :grin:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743700633.483729"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743700633.483729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-03 10:17</span><br/>
+Realistically just C with classes (barebones C++ with methods and basic templates)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743747196.577179"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743747196.577179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-04-03 23:13</span><br/>
+Boosting <span style="background-color:#ccf">@Jack Rusher</span>’s recommendation for Racket. It has not only extensive teaching experience behind it, but it is also very usable in real life. Not for all domains, of course. Nothing is. But it's not just a toy language that you need to move on from rapidly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743982213.167019"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743982213.167019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2025-04-06 16:30</span><br/>
+Why not Smalltalk?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743982359.032369"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743982359.032369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-06 16:32</span><br/>
+We’re in university territory here. They only do python, java, and c-likes. So I’m sort of compromising. I imagine a version of python with more C-like behavior, or just using a variant of C.<br/><br/>I think why not because it behaves too differently and at a too high level from others, but that doesn’t mean smalltalk isn’t cool. It is cool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743983039.888459"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743983039.888459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2025-04-06 16:43</span><br/>
+How about ES6 JavaScript then?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743983271.160299"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743983271.160299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-04-06 16:47</span><br/>
+The problem feels overconstrained as stated. You want a good language but also need it to run the gauntlet of a large bureaucracy like a university. Any attempt to improve on a mainstream language will be definition not be mainstream, at least at the start. Someone has to do the work to get it approved.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743983506.111609"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1743983506.111609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-06 16:51</span><br/>
+True. This all started with me being a bit frustrated at Python for hiding too many things. Among the existing languages, to me, some kind of constrained C makes sense. If there were a new language (insert “let’s make a new standard” meme), then yes. Maybe something with a simple simple runtime and smalltalk-esque syntax.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1744029534.351519"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1744029534.351519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-04-07 05:38</span><br/>
+Odin (very modern) or assembler for one of the early CPU architectures (PDP-11, Vax, MC6809, NS32016, etc.). I've never used Turing (nor Turing+), but it is a language designed for teaching during the era when garbage collection was considered to be a dirty subject. In particular, I like CSRI's approach towards simplicity, esp. Holt's and Cordy's. Note that Kernighan was an undergrad at UofT and Rob Pike was at least seen at CSRI (I remember being convinced that Pike was an overgrad there, but, can't confirm) (CSRI was in the same small building as Marshall McLuhan's office). FWIW, further on my feelings about <a href="https://programmingsimplicity.substack.com/p/remics-the-study-of-the-fundamentals?r=1egdky">Remics - the study of the fundamentals of reprogrammable machines</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1744030433.032079"></a>
+      <img src="https://avatars.slack-edge.com/2025-01-13/8273414548951_ee4ab31ddf7a86143d34_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1744030433.032079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Karl Toby Rosenberg</b>
+<span style="margin:2em; color:#606060">2025-04-07 05:53</span><br/>
+Yep, I’ve been following Odin. Pretty nice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1744095507.157679"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1743636013.171319.html#1744095507.157679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-04-07 23:58</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span> Why not Smalltalk? From my perspective, Smalltalk would probably make a good system for starting with computing, but there isn't much teaching material for it, nor much teaching experience with it.<br/><br/>The same argument holds against Odin (just mentioned) and many other recent languages, including languages like Hedy which are designed for teaching. If you adopt any of them, you should be doing research in computing education, not large-scale teaching. Which is fine, I think that needs to be done, but it's another objective.<br/><br/>If you pick a language for teaching based on your gut feelings about that language being good for teaching, you are doing vibe teaching. Which is perhaps the next fashion, but it's not something I'd recommend based on my own (limited, of course) teaching experience.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

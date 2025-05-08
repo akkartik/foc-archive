@@ -1,0 +1,89 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1743284789.331059.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-29 14:46</span><br/>
+I am back to bug hunting. Reactive live coding is great when it works but the bugs can be devilishly difficult. The best methodology I have is plotting all the transitions on a timeseries and zooming RIGHT IN. Its a technique I keep coming back to and it has fixed quite a few subtle issues. I used to think the dependancy graph would be useful but actually a lot of the reactivity bugs occur via hidden event coupling occurring outside the programming model, for example, mouse events, url events, local storage events. They can cause different cells to trigger each other but not through the normal notification mechanisms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743488093.771509"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1743284789.331059.html#1743488093.771509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-03-31 23:14</span><br/>
+Yay for visualizing execution across time. Crying out for a band-select zoom :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743490126.019959"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../two-minute-week/1743284789.331059.html#1743490126.019959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-31 23:48</span><br/>
+Oh yeah, totally. I keep squinting and increasing my browser zoom, lol.<br/><br/>Thing is, I don't care about this tool. I invest the absolute minimum needed to solve the specific tactical problem I have at the time, because my main aim to solve something else. So I have spend close to zero time thinking about it as an actual feature. But I keep coming back to it and adding little tweaks for over a year now, so I recently concluded you can't really do reactive programming without something like this. The bugs are too hard otherwise. It might be Observable brand of reactivity but I felt like this in RxJS as well, reactivity is good until you get out of the toy zone. So now I promoted it to core tooling, and I guess that means I need to think about it being easier to use. I was actually thinking about cells want to display with a search field or something coz the vertical dimension doesn't really mean anything (categorical). Good feedback, thanks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743516946.198309"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1743284789.331059.html#1743516946.198309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-04-01 07:15</span><br/>
+Would be nice if the environment we were working in made the "easy" thing the "right" thing. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743528430.942399"></a>
+      <a href="../two-minute-week/1743284789.331059.html#1743528430.942399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-04-01 10:27</span><br/>
+Yeah I do think often "what are the rules of reactivity to avoid these situations?". I think one risky problem class is joining async streams via different paths, it often ends up double triggering the common one, in a non-deterministic way because of the async tasks in the middle, whereas in normal programming you would join with <tt>await Promise.all([task1, task2])</tt> . In Rx this is a <a href="https://www.learnrxjs.io/learn-rxjs/operators/combination/zip">zip</a>. Observable went for limited stream combine operators, but even in Rx world, if you zip and then accidentally go out of sync, you get a different type of reactivity bug, so zip is not really the correct answer either, coz there is nothing enforcing the streams are publishing at the same rate.<br/><br/>I look at Rust borrow checker and that it does some kind of resource counting in the type system, so that seems kinda like it might be the right path, but its not "easy", either to develop or for people to use. So I dunno. Its an outstanding problem with reactive systems: joining streams in a non-fragile way. When you visualize it at least the problem sometimes becomes apparent, and visualization also catches the unintended coupling that occurs as well in impure systems. So thats my best workable solution for now.<br/><br/><pre style="white-space:pre-wrap">            Parent<br/>           /     \<br/> async task1     async task2<br/>            \   /<br/>           common</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743572777.539859"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1743284789.331059.html#1743572777.539859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-04-01 22:46</span><br/>
+I'll just leave <a href="https://www.scattered-thoughts.net/writing/internal-consistency-in-streaming-systems/">https://www.scattered-thoughts.net/writing/internal-consiste&hellip;</a> lying around here...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743577503.308309"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../two-minute-week/1743284789.331059.html#1743577503.308309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-04-02 00:05</span><br/>
+I love that article. Read it a few times! I also think Observable does a good job at transitioning the system between internally consistent snapshots, the <a href="https://github.com/observablehq/runtime/blob/622a1974087f03545b5e91c8625b46874e82e4df/src/runtime.js#L111">schedular and invalidation logic is quite sophisticated</a>. Maybe its impure side effects. I dislike complex type systems though, maybe they are needed here :thinking_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,892 @@
+[
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1698047893.730199",
+        "client_msg_id": "d68d51c3-4051-49ae-8d50-ae8b579c6080",
+        "text": "All that is why I advocate for convivial software in computational science. If we want tools that fit our needs, we need to be able to tweak them to our needs. Today's \"Open Source with insufficient funding\" approach to scientific software means that we have to live with what we can hack together based on ingredients made by others for other purposes. Jupyter is a good example.\nUnfortunately, most of my colleagues don't even believe this to be possible.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1697961538.486189",
+        "parent_user_id": "UJBAJNFLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "7Jl5p",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "All that is why I advocate for convivial software in computational science. If we want tools that fit our needs, we need to be able to tweak them to our needs. Today's \"Open Source with insufficient funding\" approach to scientific software means that we have to live with what we can hack together based on ingredients made by others for other purposes. Jupyter is a good example.\nUnfortunately, most of my colleagues don't even believe this to be possible."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1698121773.522159",
+        "edited": {
+            "user": "UCUSW7WVD",
+            "ts": "1698122472.000000"
+        },
+        "client_msg_id": "d21b7fd2-c524-4391-9382-e62bc28520ff",
+        "text": "*Replacing authentication with visual identity*\n\nBackground: I'm starting to think about building a new forum. Given <https:\/\/akkartik.name\/freewheeling\/|my past>, it won't surprise anyone that I mean to do this outside the morass of non-convivial software that is the modern web browser. My broad plan is:\n\n• LÖVE v12 will support https, and <https:\/\/github.com\/love2d\/love\/actions|release candidates> are already quite stable. Good enough to start building on.\n• I'll build my forum out of a server-side API in Lua and a client in LÖVE v12. (Should be easy to support Windows, Linux, BSD and Android. Mac and iOS will require some annual contortions to build LÖVE for oneself.)\n• The server side will of course be open source just like the client. In addition, all post\/comment data will be published to a git repo on something like a daily basis.\nThe one major open question concerns authentication. How can we have stable identity? The above architecture is intended to allow anyone to host the forum (without trying to build galaxy-brain merkle trees, federated protocols or CRDTs), and I would prefer to not take a position of power as the source of everyone's hashed passwords (an intrinsically centralizing architecture).\n\nA few months ago someone showed me this ancient essay called <https:\/\/web.archive.org\/web\/20091126092028\/http:\/\/www.kuro5hin.org\/story\/2009\/3\/12\/33338\/3000|\"attacked from within\">, and I find myself thinking about it often. The whole thing is worth reading, but for this thread the crucial list of bullets halfway down is:\n• Registration keeps out good posters.\n• Registration lets in bad posters.\n• Registration attracts trolls.\n• Anonymity counters vanity.\nA provocative worldview that seems at least worth exploring. Keeping this in mind, I have a hazy idea that looks like this:\n• When you run the client you get to choose your handle, but it's not unique (cf. <https:\/\/en.wikipedia.org\/wiki\/Zooko%27s_triangle|Zooko's Triangle>)\n• When you run the client for the first time, it creates an RSA keypair for you.\n• When composing messages, the client signs the message with your private key (<https:\/\/en.wikipedia.org\/wiki\/RSA_(cryptosystem)#Signing_messages|description on Wikipedia>)\n• When rendering messages, the client validates the signature against your public key and shows something like an <https:\/\/en.wikipedia.org\/wiki\/Identicon|identicon> of the public key.\nImplications of this setup:\n• No registration\n• Your \"password\" (private key) never leaves your device(s).\n• When reading a thread you see a handle like `spiralganglion`. However, the handle is not authoritative. Next to it is an identicon that is authoritative.\n• It's easy in a thread to see if there are ever two people with the same handle but different identicons.\n• Since the client platform is starting from scratch, accessibility and internationalization will be a challenge for a long time :confused:\nNo guarantees this is all doable. It's quite possible the cryptographic operations will be untenably slow when implemented in Lua, and a native library for them would complicate the simple install story that is LÖVE's greatest strength.\n\nBut I'm curious to get people's thoughts on this idea in principle.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "reply_count": 38,
+        "reply_users_count": 7,
+        "latest_reply": "1699040861.005419",
+        "reply_users": [
+            "UFEQUBNNT",
+            "UCUSW7WVD",
+            "U013ZLJARC7",
+            "UMQ6LR9NZ",
+            "UJBAJNFLK",
+            "U05UBCXHWM6",
+            "U016VUZGUUQ"
+        ],
+        "replies": [
+            {
+                "user": "UFEQUBNNT",
+                "ts": "1698122697.788409"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698122716.743899"
+            },
+            {
+                "user": "UFEQUBNNT",
+                "ts": "1698122843.585619"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698123307.250089"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698123450.609659"
+            },
+            {
+                "user": "UFEQUBNNT",
+                "ts": "1698125007.921669"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698126331.061839"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1698131315.026339"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698132063.546539"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698142153.959709"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1698149832.759449"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698149861.118749"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698153927.887259"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1698160670.499829"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698161927.745039"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698162119.651239"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698163855.659719"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164014.424019"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164036.013219"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164143.130429"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698164565.539949"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164628.454179"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164692.882969"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164721.338879"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164743.073329"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698164762.545609"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698164780.185349"
+            },
+            {
+                "user": "UFEQUBNNT",
+                "ts": "1698169906.663439"
+            },
+            {
+                "user": "UFEQUBNNT",
+                "ts": "1698170149.921349"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1698171706.833499"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698171779.323609"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1698214263.711269"
+            },
+            {
+                "user": "UMQ6LR9NZ",
+                "ts": "1698232957.289349"
+            },
+            {
+                "user": "U05UBCXHWM6",
+                "ts": "1698329861.583519"
+            },
+            {
+                "user": "U05UBCXHWM6",
+                "ts": "1698329880.391229"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698333094.358109"
+            },
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1698346711.057869"
+            },
+            {
+                "user": "U016VUZGUUQ",
+                "ts": "1699040861.005419"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hKHWi",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Replacing authentication with visual identity",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nBackground: I'm starting to think about building a new forum. Given "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/akkartik.name\/freewheeling\/",
+                                "text": "my past"
+                            },
+                            {
+                                "type": "text",
+                                "text": ", it won't surprise anyone that I mean to do this outside the morass of non-convivial software that is the modern web browser. My broad plan is:\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "LÖVE v12 will support https, and "
+                                    },
+                                    {
+                                        "type": "link",
+                                        "url": "https:\/\/github.com\/love2d\/love\/actions",
+                                        "text": "release candidates"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " are already quite stable. Good enough to start building on."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "I'll build my forum out of a server-side API in Lua and a client in LÖVE v12. (Should be easy to support Windows, Linux, BSD and Android. Mac and iOS will require some annual contortions to build LÖVE for oneself.)"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "The server side will of course be open source just like the client. In addition, all post\/comment data will be published to a git repo on something like a daily basis."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nThe one major open question concerns authentication. How can we have stable identity? The above architecture is intended to allow anyone to host the forum (without trying to build galaxy-brain merkle trees, federated protocols or CRDTs), and I would prefer to not take a position of power as the source of everyone's hashed passwords (an intrinsically centralizing architecture).\n\nA few months ago someone showed me this ancient essay called "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/web.archive.org\/web\/20091126092028\/http:\/\/www.kuro5hin.org\/story\/2009\/3\/12\/33338\/3000",
+                                "text": "\"attacked from within\""
+                            },
+                            {
+                                "type": "text",
+                                "text": ", and I find myself thinking about it often. The whole thing is worth reading, but for this thread the crucial list of bullets halfway down is:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Registration keeps out good posters."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Registration lets in bad posters."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Registration attracts trolls."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Anonymity counters vanity."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nA provocative worldview that seems at least worth exploring. Keeping this in mind, I have a hazy idea that looks like this:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When you run the client you get to choose your handle, but it's not unique (cf. "
+                                    },
+                                    {
+                                        "type": "link",
+                                        "url": "https:\/\/en.wikipedia.org\/wiki\/Zooko%27s_triangle",
+                                        "text": "Zooko's Triangle"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": ")"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When you run the client for the first time, it creates an RSA keypair for you."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When composing messages, the client signs the message with your private key ("
+                                    },
+                                    {
+                                        "type": "link",
+                                        "url": "https:\/\/en.wikipedia.org\/wiki\/RSA_(cryptosystem)#Signing_messages",
+                                        "text": "description on Wikipedia"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": ")"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When rendering messages, the client validates the signature against your public key and shows something like an "
+                                    },
+                                    {
+                                        "type": "link",
+                                        "url": "https:\/\/en.wikipedia.org\/wiki\/Identicon",
+                                        "text": "identicon"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " of the public key."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nImplications of this setup:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "No registration"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Your \"password\" (private key) never leaves your device(s)."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "When reading a thread you see a handle like "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "spiralganglion",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": ". However, the handle is not authoritative. Next to it is an identicon that is authoritative."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "It's easy in a thread to see if there are ever two people with the same handle but different identicons."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Since the client platform is starting from scratch, accessibility and internationalization will be a challenge for a long time "
+                                    },
+                                    {
+                                        "type": "emoji",
+                                        "name": "confused",
+                                        "unicode": "1f615"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nNo guarantees this is all doable. It's quite possible the cryptographic operations will be untenably slow when implemented in Lua, and a native library for them would complicate the simple install story that is LÖVE's greatest strength.\n\nBut I'm curious to get people's thoughts on this idea in principle."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UFEQUBNNT",
+        "type": "message",
+        "ts": "1698122697.788409",
+        "client_msg_id": "878E8DE1-F3B9-4F68-A5A7-89BC811DB464",
+        "text": "&lt;Cue flashbacks to the “what should we use instead of Slack?” discussions&gt;",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "565c54a4fa91",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2508698086192_565c54a4fa91a0c8c75a_72.png",
+            "first_name": "Tom",
+            "real_name": "Tom Lieber",
+            "display_name": "alltom",
+            "team": "T5TCAFTA9",
+            "name": "tom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "tzEfW",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "<Cue flashbacks to the “what should we use instead of Slack?” discussions>"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "laughing",
+                "users": [
+                    "U013ZLJARC7",
+                    "U05UBCXHWM6"
+                ],
+                "count": 2
+            },
+            {
+                "name": "cake",
+                "users": [
+                    "UC2A2ARPT",
+                    "U05UBCXHWM6"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1698122716.743899",
+        "client_msg_id": "77cb8992-8191-44e3-9b24-4b39177f25b6",
+        "text": "Exactly!",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "yXcBg",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Exactly!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UFEQUBNNT",
+        "type": "message",
+        "ts": "1698122843.585619",
+        "client_msg_id": "1F635327-CB2A-4EDA-AC5F-DF5D8AD479AE",
+        "text": "I am curious what you think about harassment? Not quite trolling, not quite vanity.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "565c54a4fa91",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2508698086192_565c54a4fa91a0c8c75a_72.png",
+            "first_name": "Tom",
+            "real_name": "Tom Lieber",
+            "display_name": "alltom",
+            "team": "T5TCAFTA9",
+            "name": "tom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "mmNQS",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I am curious what you think about harassment? Not quite trolling, not quite vanity."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1698123307.250089",
+        "edited": {
+            "user": "UCUSW7WVD",
+            "ts": "1698123554.000000"
+        },
+        "client_msg_id": "dfb76fed-59bd-46c4-a8f1-4639a7edab32",
+        "text": "Moderation in general is the single biggest thing that has always put me off from creating any public forum of any sort across any modality. I have a lot of appreciation for people who do it, like Ivan here -- and have successfully mooched off of their labors all these years.\n\nAnd yet, it's starting to feel like my projects need a central place of their own where someone can come see past questions and discussions that are currently only centralized in my notes. (And if it gets people here off Slack, I wouldn't be above spinning up a forum that forks this place.)\n\nSo I have zero grounds to pretend at any sort of knowledge or expertise on moderation. Mostly I figure, it looks like I have to get to this some time, the sooner I start, the more of a hope I have of learning to not suck at it. So your question about these gradations completely goes over my head. But ask me after I've been running something for a year.\n\nOh, one random note: Maybe pseudonymity makes harassment more difficult? It's easier in my system to create a new handle than it is on say ActivityPub. Does that seem to move the needle?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lZNz9",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Moderation in general is the single biggest thing that has always put me off from creating any public forum of any sort across any modality. I have a lot of appreciation for people who do it, like Ivan here -- and have successfully mooched off of their labors all these years.\n\nAnd yet, it's starting to feel like my projects need a central place of their own where someone can come see past questions and discussions that are currently only centralized in my notes. (And if it gets people here off Slack, I wouldn't be above spinning up a forum that forks this place.)\n\nSo I have zero grounds to pretend at any sort of knowledge or expertise on moderation. Mostly I figure, it looks like I have to get to this some time, the sooner I start, the more of a hope I have of learning to not suck at it. So your question about these gradations completely goes over my head. But ask me after I've been running something for a year.\n\nOh, one random note: Maybe pseudonymity makes harassment more difficult? It's easier in my system to create a new handle than it is on say ActivityPub. Does that seem to move the needle?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1698123450.609659",
+        "edited": {
+            "user": "UCUSW7WVD",
+            "ts": "1698123474.000000"
+        },
+        "client_msg_id": "b8a2c6c9-6b98-43a6-a5a3-a6e9241a5eb7",
+        "text": "My naive plan for moderation is: make commits in git. By nature, this moderation log will be totally public, just the git log.\n\nBut by the same token, for any sort of scale I can hope for, it should be super easy to detect and delete harassment?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "9prcy",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "My naive plan for moderation is: make commits in git. By nature, this moderation log will be totally public, just the git log.\n\nBut by the same token, for any sort of scale I can hope for, it should be super easy to detect and delete harassment?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UFEQUBNNT",
+        "type": "message",
+        "ts": "1698125007.921669",
+        "client_msg_id": "238F5B1E-8F68-4D48-883A-CB101E1A98E9",
+        "text": "Probably. I’ve never run a community. If you’re going to comb git logs before harassment hits anyone’s inboxes, I don’t see anything wrong with starting there.\n\nA common kind of harassment that drives people away from online communities is, in its simplest form, randos dropping slurs then poofing. So long as I’m me and want others to know I’m me, the people who do that sort of thing can find me too. I don’t see that accounted for in the four-point framework you mentioned, and that’s what makes me curious.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "565c54a4fa91",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2508698086192_565c54a4fa91a0c8c75a_72.png",
+            "first_name": "Tom",
+            "real_name": "Tom Lieber",
+            "display_name": "alltom",
+            "team": "T5TCAFTA9",
+            "name": "tom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "+DWJC",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Probably"
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            },
+                            {
+                                "type": "text",
+                                "text": " I’ve never run a community"
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            },
+                            {
+                                "type": "text",
+                                "text": " "
+                            },
+                            {
+                                "type": "text",
+                                "text": "If you’re going to comb git logs before harassment hits anyone’s inboxes, "
+                            },
+                            {
+                                "type": "text",
+                                "text": "I don’t see anything wrong with starting there"
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nA common kind of harassment that drives people away from online communities is, in its simplest form, randos dropping slurs then poofing"
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            },
+                            {
+                                "type": "text",
+                                "text": " So long as I’m me and want others to know I’m me, the people who do that sort of thing can find me too. I don’t see that accounted for in the four-point framework you mentioned, and that’s what makes me curious."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1698126331.061839",
+        "edited": {
+            "user": "UCUSW7WVD",
+            "ts": "1698126387.000000"
+        },
+        "client_msg_id": "9c0f61fc-11c0-4d42-94f3-9e1d0cad2cfe",
+        "text": "That's a good point. I don't think attacked from within is trying to be perfect, or to guarantee absence of various sorts of dysfunctions. It seems to be trying rather to sculpt energy barriers for good vs bad actions. So yes, you're going to need moderation independent of the auth mechanism.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1698121773.522159",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "EaW\/K",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "That's a good point. I don't think attacked from within is trying to be perfect, or to guarantee absence of various sorts of dysfunctions. It seems to be trying rather to sculpt energy barriers for good vs bad actions. So yes, you're going to need moderation independent of the auth mechanism."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

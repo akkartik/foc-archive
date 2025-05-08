@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-09-01 12:44</span><br/>
+Is anyone here familiar enough with Conal Elliott's version of FRP to speak to whether there are limitations on the sorts of equations you can use to create animation with it?<br/><br/>For instance, is it possible to satisfy the continuous time semantics of FRP.. while using an animation function that relies on a <em>rough</em> integration method (eg: Euler, Taylor, some ODE integrator, RK4, yadda yadda)? My hunch is "no", since you're introducing error, which might compound if you use the result of one integrated animation function in another integrated animation function. That error will produce non-determinism and violate continuity and introduce path dependence and :face_vomiting:<br/><br/>If that's the case, then does that mean you can only use FRP with exact / closed-form equations?<br/><br/>BUT... Conal's examples use functions like sine, which (AFAIK) don't have an exact closed-form implementation and are approximate. (EDIT: Turns out trig functions are closed-form, though most implementations I've found are approximate, seemingly due to π being irrational)<br/><br/>Am I just conflating the denotational semantics of FRP with the operational semantics of whatever functions are being composed? Does FRP even care about determinism?<br/><br/>Context: I'm writing something that you could think of as a game engine / authoring tool, and I'm interested in using FRP for its continuous time semantics (basically, everything forming a DAG of continuous functions with uniform compositional properties, with events that can reconfigure the topology of the graph). My goal is to allow extreme uses of slow motion and rewinding <em>in the authoring tool</em>, with perceptually perfect determinism. But I can't square how this would work with, say, mesh-to-mesh 3d collision detection, or fluid dynamics. These algorithms always seem to use approximate integration, and they tolerate temporal/spatial error by saying "the user will never see it". That assumption doesn't hold in my tool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535831179.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535831179.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-09-01 12:46</span><br/>
+You might ask, "Ivan — what does this have to do with the Future of Programming?" to which I'd answer, "I'm lying about this being a game engine."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535831510.000100"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535831510.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-09-01 12:51</span><br/>
+I, too, have wondered about this... 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535831540.000100"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535831540.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-09-01 12:52</span><br/>
+Question - why a directed <b>acyclic</b> graph? Conal FRP has cycles
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535833114.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535833114.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-09-01 13:18</span><br/>
+Great question.<br/><br/>I am planning to have cycles (not quite there yet). But I'm going to try to do something to statically guarantee that the cycles break after a bounded time, or else it'll be considered an invalid graph configuration.<br/><br/>I'm only giving myself about 3ms per frame to do all calculations, so I need to be careful about variability in potential frame times. I don't want a pathological case blowing my time budget, even if that means (eg) constraining the model such that it's not Turing complete.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535837669.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535837669.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-09-01 14:34</span><br/>
+From the FRAN paper. So it seems like Conal's answer is "the user will never see it". Sigh.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535837762.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535837762.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-09-01 14:36</span><br/>
+(Not that imperative / non-FRP approaches do any better in this regard. I was just hoping that there was some obscure technique he used to sidestep the issue.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535846975.000100"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535846975.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-09-01 17:09</span><br/>
+Idealistic assumptions about computation (infinite memory, zero-time computations, etc) are at the crux of higher level programming. These simplifications are key to getting at the <b>essence</b> of a problem, not the <b>incidental</b> limitations of hardware or integrations techniques. However where many use this as an argument against higher level programming, I see the as <b>the central challenge eliminating incidental complexity</b>. There’s no silver bullet. There are a million little things we need to simplify with algorithms, hardware, protocols, etc. Imagine trying to eliminate incidental complexity on computers with only megabytes of memory. It’s basically impossible. The main way forward then was increasing memory. So that’s to say I empathize with Conal in just handwaving here, but also empathize with you in the same way that I would with someone who had to deal with computers with minimal memory
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1535861221.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1535831073.000100.html#1535861221.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-09-01 21:07</span><br/>
+Continuity, integration, and cycles?  Sounds like a recipe for chaos.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

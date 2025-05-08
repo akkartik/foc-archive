@@ -1,0 +1,271 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:34</span><br/>
+I may be misunderstanding you, <span style="background-color:#ccf">@Gary Trakhman</span>. Building languages in themselves is (sadly) very common. Gcc is in C. The ~Hotspot~ JikesRVM compiler for Java is built in Java. Lisp is particularly prone to this sort of misguided fascination with recursion since McCarthy's original paper showed a one-page Lisp interpreter written in itself.<br/><br/>The security risks of building languages in themselves have been known since Ken Thompson's Turing Award lecture in 1977. And such implementations are also hard to understand. The answer to "what is the spec/semantics?" is often "whatever the code says". But what does the code do? You end up with a circular dependency.<br/><br/>Both these issues are also present with mutual rather than self recursion, like if you built Python in Ruby, or <em>vice versa</em>. Modern software, obsessed with interfaces and convenience, fails to attend to implementation properties and long-term externalities.<br/><br/>My Mu project builds each layer of abstraction strictly out of lower layers. It's a slow, inconvenient process, but not as slow or inconvenient as I'd feared going into it.<br/><br/>Prototyping languages is a great thing to do, but we should all be concerned with the depth of the dependency tree and the presence of cycles in it before we deploy something to production. It's a very implicit and pervasive form of technical debt.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047108.234000"></a>
+      <img src="https://secure.gravatar.com/avatar/6fceba60ff0c90dc32cbff29054b02c2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047108.234000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Justin Blank</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:38</span><br/>
+Nit: hotspot is not built in Java: <a href="https://en.wikipedia.org/wiki/HotSpot">https://en.wikipedia.org/wiki/HotSpot</a><br/><br/>The bytecode compiler, <tt>javac</tt> is
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047165.234300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047165.234300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:39</span><br/>
+Sorry, I got the name wrong. Let me try to dig up what I mean.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047246.234500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047246.234500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:40</span><br/>
+<a href="https://www.jikesrvm.org">https://www.jikesrvm.org</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047321.234800"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047321.234800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:42</span><br/>
+It's an interesting point, but I think there some wins from only learning one language to hack on the language.  I do think lisps are particularly bad at this, you sort of just have to go really slowly at the beginning until you find all the problems and learn the discipline to avoid them.  I think proper types can specify an interface that prevents people from having to dig as deep as often for basic tasks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047415.235100"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047415.235100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:43</span><br/>
+Is SQL too confusing? You don't exactly know everything it'll do, but you don't also stare at query plans for every query.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047448.235300"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047448.235300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:44</span><br/>
+Declarativeness and recursion go hand in hand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047700.235500"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047700.235500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:48</span><br/>
+I'm not sure if I understand some missing subtlety, but would you say a runtime library implemented in the same language as user code is too implicit?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568047853.235700"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568047853.235700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 09:50</span><br/>
+I was looking at mu github and this conversation, and reminded me of terra: <a href="http://terralang.org/">http://terralang.org/</a><br/><br/>which is really the opposite of what is good according to these assumptions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568048464.236000"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568048464.236000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 10:01</span><br/>
+Another thought I've had around this, lisps and macros etc. get really terse, but you have to expand them in your head. It's some kind of time/space tradeoff. Is that worth it sometimes? When isn't it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568049018.236400"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568049018.236400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 10:10</span><br/>
+Is it so different from a function call? I have to run through a mental model of the data structures and what they'll do.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568050430.236700"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568050430.236700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-09-09 10:33</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Can you elaborate on the security issues you mention?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568052166.237400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568052166.237400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:02</span><br/>
+<span style="background-color:#ccf">@Tim Babb</span> The full story is at <a href="https://www.win.tue.nl/~aeb/linux/hh/thompson/trust.html">https://www.win.tue.nl/~aeb/linux/hh/thompson/trust.html</a>, but in brief: the whole world runs on C, so a malicious backdoor in a C compiler would be very bad. Perhaps we can just audit C compilers for back doors? Just check their sources, monitor PRs as they come through. But that doesn't provide a guarantee because C compilers are written in C. What C compiler do they use? Does <em>it</em> have any backdoors? Oh, it's the same C compiler, just a binary generated by a previous version. Where was <em>that</em> version built? Oh, by the version before it. And on, and on, back to some version written in Assembly that ran on a PDP-11 or something whose sources are not available to us. The whole world runs on software that we have no audit trail for. Anybody who inserted a binary without a record of its sources somewhere along the way could have done <em>anything</em>. And compilers are so large that auditing their disassembly is intractable. Nobody's done it.<br/><br/>There's a scifi story that explores this idea in a more visceral manner: <a href="https://www.teamten.com/lawrence/writings/coding-machines">https://www.teamten.com/lawrence/writings/coding-machines</a>. Perhaps the association with a scifi story makes it seem less serious. Perhaps it seems like I'm wearing a tinfoil hat. You'll have to make up your mind on that one :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568052384.237700"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-07/786673147216_cad501b70b26e7666ed0_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568052384.237700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Babb</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:06</span><br/>
+Thanks, makes sense. and not tinfoil hat!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568053748.238100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568053748.238100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:29</span><br/>
+<span style="background-color:#ccf">@Gary Trakhman</span> My belief system is definitely out on a limb so you are more likely to be right. Let me try to bridge the gap in case you're able to pull me back in to the mainstream.<br/><br/>&gt; there some wins from only learning one language to hack on the language<br/><br/>That is narrowly true. But if you zoom out a bit, your computer relies on many languages. To hack on your computer you need to know many  languages. So the narrow win turns into a loss in the long term.<br/><br/>&gt; Is SQL too confusing? You don't exactly know everything it'll do, but you don't also stare at query plans for every query.<br/><br/>Most people don't need to stare at their compilers' internals, yes. But there's a very long, very steep funnel here that the world relies on: users of software become programmers, programmers learn more about the internals of their dependencies, down and down until a tiny fraction of people have some sort of global picture of what the computer is doing. (Not what the computer <em>should be</em> doing. I'm not a reductionist, and I don't claim that system software is the most important or anything like that.)<br/><br/>Better interfaces definitely reduce the need to inspect implementations (and SQL's interfaces like <tt>explain</tt> are among the best). But humans don't know how to eliminate the need entirely. And Jonathan Blow would claim we shouldn't. In the big picture and the long term implementation quality matters.<br/><br/>&gt; Declarativeness and recursion go hand in hand.<br/><br/>I like both! The reason I called recursion misguided here is that it's not actually recursion. Recursion in a single function or spanning a few functions has a clear base case. Here the base case spans codebases and unbounded spans of time. Most of the time our computers don't have it.<br/><br/>&gt; Is it so different from a function call? I have to run through a mental model of the data structures and what they'll do.<br/><br/>To me the essential dissatisfaction in this group seems to be that we should rely less on working things out in our heads and offload as much of that load to our computers as possible. When you're tracking down a bug in a fundamental compiler that affects your whole computer, that burden can be quite large. So yes, there are similarities to function calls but they're sirens. Focus on the differences.<br/><br/>&gt; would you say a runtime library implemented in the same language as user code is too implicit?<br/><br/>I actually don't have a problem with using a subset of a language to build the whole language. All my projects for the last 6 years (since <a href="http://akkartik.name/post/wart-layers">http://akkartik.name/post/wart-layers</a> or so) do this. There are no cycles and it's perfectly reasonable.<br/><br/>In the end my goal is for the software that makes up a computer to reward curiosity. That's my North Star, and I think many of the problems we discuss in this group would be resolved if we hew to this North Star. <a href="https://www.reddit.com/r/ProgrammingLanguages/comments/cybbd5/september_2019_monthly_what_are_you_working_on/eyubr43">https://www.reddit.com/r/ProgrammingLanguages/comments/cybbd&hellip;</a><br/><br/>Hopefully this kinda pointillistic set of responses helps convey where I'm coming from.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568054285.238500"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568054285.238500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:38</span><br/>
+It sounds a little extreme to totally avoid this, but it might be interesting to categorize these abstraction violations by distance, time, artifacts involved, into an overall measure of brittleness.  For example, I think clojure macros depending on functions that might depend on other macros is kind of bad? Each function is a 'compilation unit', and in order to run a macro at compile-time, the functions it calls has to be already available in the compile pass's run-time. It's a little clearer to have the macro language run in a totally separate context, though maybe less convenient for the implementation of an individual macro.  But it's all still just a program running, not creating artifacts outside of its memory space.  That might be worse.  It is worse, when you consider the practical problems of clojure AOT compiled artifacts (classfiles, jars containing both compiled code and source code).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568054638.239300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568054638.239300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:43</span><br/>
+Interestingly, Racket macros enforce a deep notion of linearity: macros can call functions but not functions that call them. The compiler constructs a topological sort for you and gives pretty decent error messages if it encounters cycles.<br/><br/>...and I don't like it :smile: I think macros should be pretty unconstrained.<br/><br/>I'm more concerned about linearity when it spans multiple codebases. Mutual recursion within a single codebase is fine. Hopefully this shows that I don't "totally avoid this". But yes I think the places to avoid cycles are precisely the places where it's most difficult today.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568054731.239500"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568054731.239500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:45</span><br/>
+&gt; To me the essential dissatisfaction in this group seems to be that we should rely less on working things out in our heads and offload as much of that load to our computers as possible.<br/><br/>I think it's a moving target.  It's not clear to me that computing can ever get totally accessible, but maybe we'll focus attention on more interesting problems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568055100.239800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568055100.239800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-09-09 11:51</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> When you define a language operationally through its implementation ("a valid C program is what my C compiler accepts"), then no language is implemented in itself. Maybe that's a good point of view to explain the problem. It immediately leads to the notion that the implementation language of X can at best be an earlier implementation of X, but not the very same language X that is being implemented.<br/><br/>Pragmatically, the Guix package manager is a nice way to arrive at the same conclusion, since it traces the build dependency tree back to a ground-zero set of binaries. The Guix community is working on reducing this set to a minimum (see [this talk](<a href="https://av.tib.eu/media/42193">https://av.tib.eu/media/42193</a>) for details).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568076724.242200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568076724.242200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 17:52</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Well put!<br/><br/>Your comment reminds me to link to <a href="http://bootstrappable.org">http://bootstrappable.org</a>. There's also a #bootstrappable channel on Freenode IRC if anybody's interested.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568076962.242500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568076962.242500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-09-09 17:56</span><br/>
+<span style="background-color:#ccf">@Gary Trakhman</span> I actually love the idea of Terra. I can't quite say why :slightly_smiling_face: but I guess I'm not as dogmatic as I sound. Terra is an improvement on the world we have today.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568120526.245700"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1568046843.233900.html#1568120526.245700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-09-10 06:02</span><br/>
+that's ok :slightly_smiling_face: it looks pretty cool.  I wish I had a reason to use it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

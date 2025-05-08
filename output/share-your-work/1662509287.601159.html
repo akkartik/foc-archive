@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-06-17/3687481321379_db625a9309b7af35c55c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1662509287.601159.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pasha Sadri</b>
+<span style="margin:2em; color:#606060">2022-09-06 17:08</span><br/>
+I’d like to share a work in progress — <a href="https://skymass.dev">https://skymass.dev</a><br/><br/>SkyMass is a cloud UI Server.  The idea of a UI Server is to wrap everything related to the “frontend” of a typical frontend/backend modern app and offer it as a simple to use service. This includes an extensive UI component library and services like authentication, localization, theming etc.<br/><br/>This approach removes massive amount of complexity (CSS, DOM, React, bundlers, hosting, etc…) and allows us to build modern apps by solely writing a backend. The backend deals with accessing app data (eg: databases, apis etc..), app logic and uses the UI Server through a simple client SDK.<br/><br/>Checkout a sample todo list app (only ~80 SLoC) to get a better feel for SkyMass:<br/><br/>Live Demo: <a href="https://skymass.dev/app/skymass-demo/neon-todolist">https://skymass.dev/app/skymass-demo/neon-todolist</a><br/>Source: <a href="https://github.com/skymasshq/skymass-demo/blob/main/neon_todolist.mjs">https://github.com/skymasshq/skymass-demo/blob/main/neon_todolist.mjs</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662531008.960349"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1662509287.601159.html#1662531008.960349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2022-09-06 23:10</span><br/>
+Interesting! Does the backend serve 'standalone' web content to the browser to render or is there generic SPA UI that adapts to the messages sent by the backend? So does the todo.id ever leave the backend? Because if it does I feel like your sample is quite vulnerable to SQL injections :slightly_smiling_face:. I do agree that server side rendered web pages get rid of quite a bit of complexity, but I do wonder what's the added value in skymass over existing server side web UI frameworks like <a href="http://ASP.NET">ASP.NET</a> Razor Pages?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662585298.958219"></a>
+      <img src="https://avatars.slack-edge.com/2022-06-17/3687481321379_db625a9309b7af35c55c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1662509287.601159.html#1662585298.958219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pasha Sadri</b>
+<span style="margin:2em; color:#606060">2022-09-07 14:14</span><br/>
+Thanks for checking it out!<br/><br/>The code runs entirely on your server.  I’ll add a comment to call that out.<br/><br/>The way it works is the backend specifies high level widgets + params (eg: table + data) that are mapped to an implementation in the UI.<br/><br/>What’s different:<br/>• It comes with a growing, high quality UI component library out of the box vs writing html+css.<br/>• it comes with auth (ready), localization (wip), themes (wip).  the goal is to offer everything a complete app needs over time.<br/>• the server doesn’t expose any http ports.  it opens a websocket out to the UI server.  this has of security/ops benefits.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662617916.093549"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1662509287.601159.html#1662617916.093549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2022-09-07 23:18</span><br/>
+Okay, so maybe something similar to <a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-6.0#blazor-server">Blazor Server</a> (which I'm using atm btw). Basically everything is run on server and it just sends the DOM deltas to the browser which runs a bit of javascript to apply the deltas. It also has component libraries and supports basically all <a href="http://ASP.NET">ASP.NET</a> features. Not meaning to talk down what you've built, but might be worthwhile to check it out and think about how to differentiate if you're planning to productize Skymass :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662655854.818139"></a>
+      <img src="https://avatars.slack-edge.com/2022-06-17/3687481321379_db625a9309b7af35c55c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1662509287.601159.html#1662655854.818139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pasha Sadri</b>
+<span style="margin:2em; color:#606060">2022-09-08 09:50</span><br/>
+No worries! I definitely welcome the feedback and it’s great to hear about alternatives (N &gt; 1 is usually a good thing).  Blazor is definitely closer :slightly_smiling_face: The diff is that Blazor (and Liveview) operate at the DOM level (sending DOM deltas).  I think that leads to a very chatty protocol.  SkyMass components try to handle as much as possible on the client and only interact with the backend for significant events (eg: table selection was changed or a button was clicked).<br/>The other part is philosophical — SkyMass is aiming to reduce the boilerplate/config/integrations etc.. to get a complete/good app up and running to a minimum.  I think there is a class of apps where you just need to get something done — and all the other stuff is creating friction that prevents people from making progress or honestly starting— eg: I find registering and setting up OAuth providers and callback endpoints etc… for a new app cumbersome.  I just want to write a login protected public app with minimal effort.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

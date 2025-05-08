@@ -1,0 +1,223 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-15 20:28</span><br/>
+I wrote up some overall design direction for zest - <a href="https://github.com/jamii/zest/blob/main/docs/rationale.md">https://github.com/jamii/zest/blob/main/docs/rationale.md</a>.<br/><br/>Currently bogged down in figuring out how to combine staged compilation and modules (<a href="https://github.com/jamii/zest/issues/1">https://github.com/jamii/zest/issues/1</a>), but once I figure that out I can finally start fleshing out the <a href="https://github.com/jamii/zest/blob/main/lib/runtime.zest">runtime</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742114140.712269"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742114140.712269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-03-16 01:35</span><br/>
+I like your wish list! And your so-far-documented design decisions look reasonable. At least in theory, it takes an implementation to find out how they work in practice.<br/><br/>Wondering: have you compared your design in detail with existing systems? I think that would help in understanding what exactly you are missing, and to what degree such features can be added without creating problems elsewhere.<br/><br/>For example, at first sight your with list and design decisions has a huge overlap with Common Lisp. What I cannot judge easily is how difficult it would be to morph Common Lisp towards full alignment with your goals. Given how well understood Common Lisp is (both good and bad aspects), a detailed comparison should be helpful.<br/><br/>For for staged compilation and modules, Racket has probably the most sophisticated approach today, but it may well be more sophisticated that you would like for your system, given that Racket allows each module to be written in a different language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742163784.873589"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742163784.873589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 15:23</span><br/>
+Ah, I forgot to add the problems from <a href="https://www.scattered-thoughts.net/writing/there-are-no-strings-on-me/">https://www.scattered-thoughts.net/writing/there-are-no-strings-on-me/</a> to the 'legible' side of the wishlist. I'm explicitly trying to avoid the lisp/smalltalk model where loading code means executing a series of side-effects against a mutable environment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742163812.664039"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742163812.664039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 15:23</span><br/>
+In particular I don't want to allow things like:<br/><br/><pre style="white-space:pre-wrap">if ((new Date()).getDay() == 1) { <br/>    Date.prototype.getDay = function() { return "funday" } <br/>}</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742163937.535709"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742163937.535709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 15:25</span><br/>
+I added:<br/>• code-based rather than image-based - the code running now is the code that you loaded, nobody can sneak in and change it at runtime, you can understand the system by reading the code<br/>• no mutable environments<br/>• file/module/expr load order is not observable<br/>• no side-effects at load-time, <a href="https://doc.rust-lang.org/1.4.0/complement-design-faq.html#there-is-no-life-before-or-after-main-(no-static-ctors/dtors)">no life before main</a><br/>• no non-determism at load-time - loading the same code always produces the same program<br/>• cf <a href="https://www.scattered-thoughts.net/writing/there-are-no-strings-on-me/">there are no strings on me</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742167744.787589"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742167744.787589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 16:29</span><br/>
+Also under performance:<br/>• reflection and meta-programming are predictably staged away
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742167901.091149"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742167901.091149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 16:31</span><br/>
+The closest existing languages are zig and julia, which both feature type-checking after specialization and staging via specialization (values lifted to types) rather than quoting.<br/><br/>The latter means you can understand the program via its dynamic semantics. Type-checking and staging only affect performance - they can't change the result of the program.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742167939.197649"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742167939.197649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 16:32</span><br/>
+But neither of those languages have the restriction to value semantics, which complicates the module system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742174396.096849"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742174396.096849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 18:19</span><br/>
+<a href="https://docs.racket-lang.org/reference/eval-model.html#(part._separate-compilation)">https://docs.racket-lang.org/reference/eval-model.html#(part&hellip;</a> in particular is very unsatisfying. It means you can't give describe the meaning of a racket program without resorting to talking about a <b>lot</b> of compiler machinery.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742174954.842829"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742174954.842829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 18:29</span><br/>
+I'm less familiar with common lisp, but searching for "common lisp load order" lead to <a href="https://www.reddit.com/r/Common_Lisp/comments/xt7jn4/how_to_build_a_proper_loading_order_from_asdf/">https://www.reddit.com/r/Common_Lisp/comments/xt7jn4/how_to_&hellip;</a>, which is about the experience I expected.<br/><br/>&gt; you wouldn't be able to reproduce that way; file compilation has different semantics than repl interaction (the latter happens strictly at "load" or "execute" time, while the former happens partially at "compile" time)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742177794.374729"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742177794.374729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-03-16 19:16</span><br/>
+FWIW: ASDF is not part of CL. It is a program written in CL that defines a "declarative" DSL with lots of hoary edge cases for determining dependences and loading the minimum number of files. It was invented back when machines ran slowly enough that Makefile seemed like a good idea for minimizing CPU cycles. The basic load function defined by the CL language is (LOAD ...) which you can run from the REPL. One can forego the use of ASDF and simply write a .lisp file with a bunch of (LOAD ...)s in it. It is my understanding that modern CL REPLs actually compile every command, then run the compiled command. In essence, if you type (LOAD "filename") at the REPL, the REPL compiles the command into a small binary program, then runs it, actually running the LOAD command built into the Lisp language. ASDF just generates a bunch of (LOAD ...) commands. The definitive reference for CL is <a href="https://www.lispworks.com/documentation/HyperSpec/Front/Contents.htm">CLHS</a>, but it reads like a ton of bricks (it helps to have a degree in Law). If I had to re-learn Lisp, I would probably start with <a href="https://gigamonkeys.com/book/">Practical Common Lisp</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742181508.489939"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742181508.489939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-16 20:18</span><br/>
+So still the same model I was complaining about in <a href="https://www.scattered-thoughts.net/writing/there-are-no-strings-on-me/">https://www.scattered-thoughts.net/writing/there-are-no-strings-on-me/</a>.<br/><br/>&gt; Most live systems gain their interactivity from mutable environments and late binding. Code loading is an imperative process that can cause arbitrary side effects. The behaviour of the system can depend on what order code was loaded in, and when. There isn't even any guarantee that loading the same code in the same order will reproduce the same system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742204983.763659"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742204983.763659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-03-17 02:49</span><br/>
+Thanks <span style="background-color:#ccf">@Jamie Brandon</span> for this important complement. The tensions between liveness/malleability and immutability are well-known, it will be interesting to see which compromise you will end up adopting.<br/><br/>One issue I see with your idea of recompiling the world at every change, for consistency, is data obtained from obsolete code. For me this is a major reason for wanting a live system. The typical situation is that I have some code that I have used to load and process some data, burning a lot of CPU time. And then I discover a bug that makes me fix some of the code that has produced the data. I assume that in your scheme, the right way is to recompute the data after reloading the code, to ensure consistency. But if that takes an hour, the liveness is gone. It should be up to me, the user, to make the choice between consistency and fast feedback. What I expect from an ideal language/runtime is not to guarantee consistency at any cost, but to help me see and then understand critical situations. Current systems (Lisp, Smalltalk) fail mainly in not alerting me, but they are pretty good at letting me deal with the issues once I am aware of them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742223088.771189"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742223088.771189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2025-03-17 07:51</span><br/>
+Very interesting and principled set of design choices <span style="background-color:#ccf">@Jamie Brandon</span>.<br/>When live reloading code, do you support the common hack of allowing new fields to be added to the end of structures? Since you want to pack structures I’m guessing not.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742238191.987429"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742238191.987429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-17 12:03</span><br/>
+&gt; I assume that in your scheme, the right way is to recompute the data after reloading the code, to ensure consistency.<br/>The point of not allowing nominal types is that data is independent of the code that produced it, so you can keep data around while reloading the code, or send it to a different process or save it to disk.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742238383.296209"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742238383.296209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-17 12:06</span><br/>
+&gt; When live reloading code, do you support the common hack of allowing new fields to be added to the end of structures? <br/>I think that's something that only has meaning for nominal types. If your types are structural then they have no identity and there is no meaningful way to talk about having changed the type.<br/><br/>But the goal of having a dynamic dialect is to have a language in which it's easy to talk about migrations. So I could write a function that adds a field to my structs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742301358.814169"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742301358.814169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-03-18 05:35</span><br/>
+I like the name.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1742321758.490539"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1742095730.055319.html#1742321758.490539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2025-03-18 11:15</span><br/>
+I wanted to just keep the fun parts of programming.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,427 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 06:18</span><br/>
+I was rewatching Are We There Yet the other day (<a href="https://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey/">https://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey/</a>) which is Rich Hickey (mr Clojure himself)'s treatise on how he sees the world, how objects are lies, and how modelling whole applications as streams of new states produced by pure functions with structural sharing to keep performance good. super interesting to see him talking about this in the Java community in 2009 and see it percolate through to the JS community with immer and redux and whatnot, but i was struck by a certain feeling that i'd love to know if y'all share.<br/><br/>The whole OOP/functional debate, this talk, and frankly a lot of my thinking seem to principally be about modelling logic, and striving to get to some place where state is abstracted away. I/we seem to want to get to a world where I/we think mostly about computation and not about state change over time. I had a very strange experience switching from working on a backend team where state is the devil and ruins performance of everything (it'd be so fast if it didn't store anything!) to working in analytics where data is everything and where the code is a tiny little ever-changing bit of glue that manipulates this massive, permanent, far more important artifact. I found it nasty. It's nasty because the data captures every mistake ever made, which pile up and force every user to care about until fixed. It's nasty because it's big and hard to make development responsive. It's nasty because it feels wrong to write "poor" code you run once to fix something then delete, and it is really hard to get a handle on the shape, or quality, or meaning of real big datasets.<br/><br/>I think I had (have) data-phobia, and it took getting immersed in a data-heavy product to realize that I think I/we have it backwards, and that the data is more important than the instructions for manipulating it, and deserves to be the focus, not the nagging feeling at the back of your head. What I was struck with in Rich's talk is that the epochal time model and FP writ large seem like they are born of the same phobia, trying to escape the shackles of state management in order to get back to some pure world of computation that doesn't actually exist. A bunch of Bret Victor's work circles around this too, where the instructions to run the code are way less emphasized than the (often visual) data created by what the instructions are actually doing. All the hover-to-see-the-value or watch-this-expression debugging tools are us being forced to go back from pure computation to look at the actual data flowing through once more. Airtable/spreadsheets are counter examples of non-data-phobic tools that seem to be easier to use, maybe because they put the data first.<br/><br/>So ... am I off my rocker? Is data-phobia a real thing, a force that has shaped our tools to demote a super important piece of our lives? Is there an antidote?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598537908.162800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598537908.162800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-27 07:18</span><br/>
+Yus data/state-phobia is real, as evidenced by both imperative (OO) and declarative (FP/LP) approaches, which deprecate or hide it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598537961.163800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598537961.163800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-27 07:19</span><br/>
+and <tt>state -&gt; f() -&gt; state -&gt; f() -&gt; state</tt> is a good model for programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598537978.164000"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598537978.164000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-08-27 07:19</span><br/>
+Thinking how structured programming shows the control flow of you program, the steps, but not the... yeah what <span style="background-color:#ccf">@Duncan Cragg</span> said.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598538025.164200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598538025.164200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-27 07:20</span><br/>
+IMAO (In My Arrogant Opinion) :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598541200.166200"></a>
+      <img src="https://secure.gravatar.com/avatar/d92b64b0bbc0f2b7297924e76c4a4a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598541200.166200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul W Homer</b>
+<span style="margin:2em; color:#606060">2020-08-27 08:13</span><br/>
+I think it’s an artifact of the way we learn to program: <a href="http://theprogrammersparadox.blogspot.com/2020/08/duality.html">http://theprogrammersparadox.blogspot.com/2020/08/duality.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598541352.166500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598541352.166500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-08-27 08:15</span><br/>
+Not sure if phobia is the right term, but I also perceive an aversion to dealing with data particularly in the academic CS world that would prefer so much to concentrate on pure computations.<br/><br/>At the highest level, computing is always about that big mass of data that is sitting on your computer's disk. All that stuff that accumulated over time as the result of lots of computations and equally many user interactions. There is no way around this fact. That mass of data is the reason why we use computers at all.<br/>On the other hand, that mass of data is also what we mess up all the time, so we have been looking for ways to do data updates in some principled way. In the end, that's what both OO and FP are about. OO divides the state into compartments so that we can look at small pieces at a time. FP focuses on data transformations, which it divides into compartments so that we can better reason about them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598543141.167300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598543141.167300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-08-27 08:45</span><br/>
+What Konrad said, but in joke form: that there's an "expressionless" emoji :expressionless: but there's no "stateless" emoji should tell you everything you need to know about the world.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598543494.167700"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598543494.167700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-08-27 08:51</span><br/>
+Rich's position seems to be not "state is bad" so much as "shared mutable state is bad" and "change occurs over time." An example of the former in the small is that is your code will be easier for everyone, including you, to understand if it's made of functions that take inputs and outputs rather than ones that change a shared scratch pad. The latter is why Datomic keeps all previous versions of what's been written to it and treats a handle to a database as pertaining to a snapshot at a particular moment in time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598545294.168100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598545294.168100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-08-27 09:21</span><br/>
+Instead of "data" I like to think of the information expressed via "data" and really the "meaning" induced in our minds - which is what we really care about in the end. Yes I agree there isn't enough study of these aspects of computing. Many pieces of data can mean the same thing (xml, json, in-memory struct, db, object...). They use different mediums, but how do these mediums affect the representations? How do we determine equivalence? What can be directly represented in the medium vs what needs to be simulated (e.g. Objects can represent "identity", or you can simulate it via 'ids' in a system that doesn't have them. "Time" is built-in to some models, but may be simulated via version_ids, etags etc.).<br/><br/>Importantly how do these mediums affect the description of computations (programs)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598545822.168400"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598545822.168400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-08-27 09:30</span><br/>
+It is interesting to note that in many languages Computer Science is called Informati(que|k|ca|...), focusing more on the data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553584.169200"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553584.169200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:39</span><br/>
+I agree that epochal time model for programming makes a lot of sense and the small amount of work i've done with Datomic was nice, but, it seems strange how much work Datomic has to go through to present to us a consistent snapshot of the world so our programs can pretend it isn't changing. the databases bend over backwards to present to us an unrealistic model of data because we want to program in this way that pretends things arent changing or messy or big, and i feel like i get intuitively why things have evolved that way, but i feel like there's a whole branch of research that i don't know about or hasnt been done yet for the alternative model of embracing state and change and the mess
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553720.169400"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553720.169400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:42</span><br/>
+Rich went to great lengths to explain why observations are always out of date and why we should be designing for real latency between event, observation, and reaction, and i think the epochal time model fits that, but it seems to twist the data to fit the code when perhaps it could be the other way around
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553794.169600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553794.169600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:43</span><br/>
+(i feel it terribly heretical to disagree with anything Rich Hickey says and definitely don't know what I'm talking about, I just have this nagging feeling that we're missing something)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553844.169800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553844.169800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:44</span><br/>
+There are some branches of research that preserve 'identity'. E.g. see NAMOS/pseudo time from David Reed (1978) and a related work on Virtual Time. Here's a nice collection of links: <a href="https://prabros.com/readings-on-time">https://prabros.com/readings-on-time</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553911.170100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553911.170100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:45</span><br/>
+like using Rich's analogy of the people watching a baseball field, i'm more interested in the players playing the baseball game, the ones who have to make decisions and affect outcomes, and they are perceiving data but reacting to it and changing it. for example, what's the programming equivalent of fast twitch muscle fibres vs slow twitch? or pre-game visualization? or 10000 practice swings of a bat? our bodies are extreme examples of perceptors that participate effectively in a highly complex, dynamic situation, i want to build things that can do that
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553938.170300"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-06/1225163496802_7082261f477cd8a85548_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553938.170300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Harry Brundage</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:45</span><br/>
+the audience is easy to build, they just eat pretzels and hoot and holler
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598553950.170500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598553950.170500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:45</span><br/>
+So if you look at NAMOS/pseudo time - it doesn't give up the idea of 'objects' or identity and instead of putting the 'timestamp' into one database - a corner of your system - the timestamps are pervasively spread out all across the system (each message carries a timestamp identifiying which 'version' it is from - these are pseudo (virtual) timestamps).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598554273.170700"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598554273.170700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-08-27 11:51</span><br/>
+Stateful computations are hard to analyze, for humans or machines, which means they're hard to get correct. Large masses of data are hard to understand. I think this is the basic cause of data phobia to extent it exists, and I don't think it's entirely unreasonable to program in a way that works around it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598568152.171900"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598568152.171900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2020-08-27 15:42</span><br/>
+<span style="background-color:#ccf">@Harry Brundage</span> <br/><br/>It seems what your talking about is presenting the  probabilities. Which is a much more honest way of viewing reality. It's also one we humans are terrible at, a result that has been repeatedly shown in studies.<br/><br/>Most customers are much happier to see that there is one shirt in their size vs some function that accounts for the chance someone else purchased it by the time they get this message.<br/><br/>Nothing about the storage of observations at a given time effects presenting a more robust model though. It just needs to justify itself against the cognitive overhead it causes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598570195.180200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598570195.180200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-08-27 16:16</span><br/>
+it’s almost like state is the ur-impurity—in the same way that functional programming languages still have to eventually interact with the outside world, the vast majority of user applications etc are only useful insofar as they modify or save some state (eg: a word document). the thing that frustrates me personally is that they never go so far as to eliminate state entirely. as in: a word document is a function of character and mouse presses. your saved file happens to be a snapshot of the result of running that function at with the timeline of inputs as it’s only parameter. if you really want to be data blind please go all the way<br/><br/>on the other hand, i really sympathize with this idea. most of what i want to do personally is get really good at modifying ASTs so i can write code quickly in a flow state. the bottom of all programming is a state change from no program source to more program source
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598601869.181500"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598601869.181500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-08-28 01:04</span><br/>
+<span style="background-color:#ccf">@Harry Brundage</span> It's interesting to see the phrase "alternative model of embracing state and change" when that's exactly what Rich is presenting in his various projects, relative to the normative approach taken by (say) most Java or C++ programs. I wonder if there's a better way to communicate that perspective. :thinking_face:<br/><br/>Some of the problems here are a consequence of the kind of universe in which we happen to live: there's no central clock and all observations are local to the observer. Lambda calculus is a great way to model computation, but it is serial and operates within a single frame of reference. When we want to compute with multiple observers, which we very often do in a networked/multicore world, additional theory is needed to make things sensible.<br/><br/>Most approaches one encounters at the end of that road start to look more like biology, where there are -- using the terms in quotes because they're familiar, though not exactly correct -- "objects" with local "threads" that communicate via "messages". This can look like the <a href="https://en.wikipedia.org/wiki/Actor_model">Actor model</a>, <a href="https://dspace.mit.edu/handle/1721.1/44215">propagators</a>, <a href="https://en.wikipedia.org/wiki/Π-calculus">π-calculus</a>, or any number of other things, but they all share the idea that we're performing dataflow between "processors". (N.B. Nodes in a dataflow system can be thought of as lazy functions from inputs to outputs, possibly with local state, called incrementally by whatever execution engine is at work.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598609512.184100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598609512.184100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-08-28 03:11</span><br/>
+I’m sure there’s some zen-like state(!) of enlightenment one can eventually reach, where it becomes totally obvious that computation and state are one and the same. Something like the particle-wave duality in physics or so…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598636311.184900"></a>
+      <img src="https://avatars.slack-edge.com/2020-08-28/1327009683269_9d297317a647a021921f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598636311.184900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Heihoff</b>
+<span style="margin:2em; color:#606060">2020-08-28 10:38</span><br/>
+My favorite way to think about this is data-phobia as a symptom/consequence of our tools. Rich also once noted that prog lang and database designers are rarely the same people. Any major programming language has next to no definition of real-world-state, meaning that beyond mutable variables and data-structures ideas about persistence, querying data etc are missing. Arguably every programming language transforms data but it rarely has a rich idea of where this data comes from and where it will go? Real-world information is an afterthought for all major programming languages and if we buy into the medium being the message notion then the medium, code, only ever transforms some data that we usually can't see, because it's maybe to big to see or it's in format that we can't (usually) see in our tools (images, video, animation). Beyond that code is static. It transforms data but data can not be seen being transformed so again the tool, the language carries an implicit motivator for the programmer to write transformation code, not visualizations or comprehension tools.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598687558.205700"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598687558.205700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-08-29 00:52</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> If we dig into this particular Buddha nature we find it at every level. :blush:<br/><br/>Although we colloquially divide state from the algorithm that specifies transformations of that state, the algorithm itself exists as state encoded in the registers, stack, instruction pointer, and so on. Sometimes we modify the behavior of the system by having the algorithm change its own code while running. Okay, code is also data.<br/><br/>If we implement the naive B-tree algorithm, the shape (and thus performance) of the constructed B-tree depends entirely on the entropy present in the sequence of keys we insert into it. In this situation the B-Tree compiles a tiny state machine from the "code" of the input keys. Okay, data is also code.<br/><br/><a href="https://zoo.cs.yale.edu/classes/cs112/2012-spring/helpdoc/pike.html">This</a> old Rob Pike quote also regards this matter:<br/><br/>&gt; Code and data <em>are</em> the same, or at least they can be. How else can you explain how a compiler works?<br/>Everything is state and computation is just state over time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598717706.214500"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598717706.214500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2020-08-29 09:15</span><br/>
+The functions vs objects and static vs dynamic typing wars seem to come from the assumption that all-or-nothing is the only reasonable option. Why can’t each of these have their appropriate use cases and the best system be one that can use each where the trade offs make the most sense for a given project’s goals?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598809537.006700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598809537.006700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2020-08-30 10:45</span><br/>
+<span style="background-color:#ccf">@Harry Brundage</span> I agree. State is essential to many problems, and the central concern of many users, yet is the source of much difficulty in programming. So we have tried valiantly to make it go away, or make it someone else's problem (the database). Some people peddle cures for state like snake oil, so don't believe everything you hear. State is still an unsolved problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598812365.009300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598812365.009300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-30 11:32</span><br/>
+I'd say that anyone creating an end user system should start with state and build around it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598878413.030700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598878413.030700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-31 05:53</span><br/>
+(i.e., it's not a "problem" to be "solved", it's what most "normals" think of first)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598896531.043300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598896531.043300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-08-31 10:55</span><br/>
+The problem arises when you think of consistency and how the programs change and read state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598901873.043600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598901873.043600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-31 12:24</span><br/>
+Can you give an example of the problem of consistency under read/write, in an end-user application?<br/>As techies we are all aware of the issues with parallel access to replicated databases, but that's about optimisation for speed. What about an end-user-focused programming environment where all that is hidden?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598904577.043800"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598904577.043800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-08-31 13:09</span><br/>
+Anything involving collaborative editing of the same document, especially if some collaborators are sporadically online. Possibly a cheap answer, but I'd argue it really just emphasizes the need to build around state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598905932.044000"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598905932.044000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-31 13:32</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> :smile: you landed on the exact example I was thinking of as one I hoped no-one would pick, which happens to be the one my own solution to end-user state management tends to punt on! :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598907337.050300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1598907337.050300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-31 13:55</span><br/>
+.. I guess my point is that, for most end-user applications, state doesn't cause issues even when building a distributed system of any sort, but I'm happy to be thrown counter-examples, alongside collaborative editing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1599312372.111300"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-12/870368572213_57dceb337de9d471d315_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598534303.161500.html#1599312372.111300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eddy Parkinson</b>
+<span style="margin:2em; color:#606060">2020-09-05 06:26</span><br/>
+Rich is talking about a general solution to two very different problems. For example Grace Hooper describes how record keeping and projections are 2 big problems. she describes how computers help solve the problems of record keeping (database) and projections (planning) for the military. She describes how they need very different solutions.  She describes how one problem is very calculation heavy and the other is very data heavy. ...... maybe one day computers will be fast enough that we can create a single general solution to both problems, but for now, we tune solutions to fit the problems.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

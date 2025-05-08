@@ -1,0 +1,319 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-06 14:50</span><br/>
+Does anyone know of an OO language where objects have externally explicit namespaces for their protocols? For example, instead of something like “aView.onDropEnter(…)” it might look like “aView.dropping.onEnter(…)“.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570400788.367400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570400788.367400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-06 15:26</span><br/>
+CLOS, the Common Lisp Object System. A class method is called a "generic function", and a namespace is called a "package". The syntax for calling a method is <tt>(dropping:onEnter aView ...)</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570400950.367600"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570400950.367600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-06 15:29</span><br/>
+So in that function, does it have a giant case statement for every type that might implement the protocol?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570406265.368500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570406265.368500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-06 16:57</span><br/>
+It looks like a giant case statement from the outside, I guess. That's not how the code is written. You use <tt>(defclass View ...)</tt> to define a class, you use <tt>(defgeneric onEnter (obj ...) ...)</tt> to define a protocol, and you use <tt>(defmethod onEnter ((obj View) ...) ...)</tt> to implement a protocol for a specific class. Methods are not defined inside the class, they are defined external to the class definition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570407365.368700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570407365.368700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-06 17:16</span><br/>
+A table lookup, which is just one optimization away from a case statement. One key difference: it's extensible. You define new tables with <tt>defgeneric</tt> and new rows in a table with <tt>defmethod</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570407613.368900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570407613.368900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-06 17:20</span><br/>
+There are also predicate dispatch systems out there where you can't use a table and are forced to fall back to a giant (but still extensible) case statement.<br/><br/><a href="https://en.wikipedia.org/wiki/Predicate_dispatch">https://en.wikipedia.org/wiki/Predicate_dispatch</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570408791.369400"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570408791.369400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-06 17:39</span><br/>
+It doesn’t make sense to me why it would be organized this way, but then I also don’t understand why the unix file system is organized by function (where installing an app scatters related files across the system instead of keeping them in a single folder).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570409477.369600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570409477.369600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-06 17:51</span><br/>
+Classes are not the natural unit of modularity. Often they are, but it's just as common for traditional OOP languages to force you to violate modularity when they insist on grouping all methods for a class inside the same module. Common Lisp provides additional flexibility in how you can organize your code. You can put all the methods for a class into the same source file or package as the class itself, if it makes sense, but you aren't forced to do that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570411048.369800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570411048.369800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-06 18:17</span><br/>
+Go (aka golang) allows methods for anything to be defined anywhere. Haskell typeclasses / instances are somewhat like that. JavaScript too, in that you can use constructors like mixins, by "apply"ing them to any object -- though technically you can apply any "method" to any object at all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570419283.381800"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570419283.381800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-06 20:34</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> yeah, I was thinking about implementing this in Javascript. On mixins, don’t they typically shared the class’ method namespace?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570428076.382700"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570428076.382700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-10-06 23:01</span><br/>
+This is a pattern that we often use in Pharo and GT.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570430835.385900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570430835.385900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-06 23:47</span><br/>
+<span style="background-color:#ccf">@Steve Dekorte</span> There are three separate things going on when you talk about methods and namespaces:<br/><br/>1. A method is just a function that takes an extra (invisible) argument called "this", for the object that it is acting on.<br/><br/>2. The conceptual idea of a "method" is that is an actual property (member) of the specific object that it "belongs to". But in most languages, a single function is shared for every instance-object of the same class. So if x and y are both instances of class C, then x.foo(123) and y.foo(456) are really just funny syntax for calling C.foo(x,123) and C.foo(y,456), where x and y are the "this" parameter I described in #1<br/><br/>3. There's the actual container (namespace or parent-object) of the method itself. In #2, the "too" method is contained in class C, although the syntax for calling it makes it look like it is contained in x and y.<br/><br/>In most (statically typed) OO languages, these concepts are all munged together: the method is a member of the class and (conceptually) of it's instances, and the fact that "this" is passed as an argument is hidden away by the compiler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570431793.386200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570431793.386200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-07 00:03</span><br/>
+In JavaScript, x.foo(123) means that there is an actual property of x, which is then being called like a function. If "foo" is just a normal (non-method) function, then this is the same as doing:<br/><br/>var f = x.foo;<br/>f(123);<br/>// same as doing: x.foo(123);<br/><br/>However, JacaScript will also set "this" to whatever object you accessed the function from, so the one way will set this=x, and the other will not. But you can explicitly set "this" using function.call(this, args...):<br/><br/>var x = { a: 0 };<br/>var y = { a: 5 };<br/>var f = function(b) { return this.a + b; };<br/>x.foo = f;<br/>y.foo = f;<br/>x.foo(1); // this=x, so 1<br/>y.foo(1); // this=y, so 6<br/>f.call(x, 1); // this=x, so 1<br/>f.call(y, 1); // this=y, so 6<br/>x.foo.call(x, 1); // this=x, so 1<br/>x.foo.call(y, 1); // this=y, so 6<br/>y.foo.call(x, 1); // this=x, so 1<br/>y.foo.call(y, 1); // this=y, so 6
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570432186.386900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570432186.386900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-07 00:09</span><br/>
+In C#, you can define "extension methods" which are like extra methods for another class, but defined somewhere else. Really they are just normal functions ("static methods"), but by putting "this" before the first argument, the compiler will let you call it as if it were a method of that first argument:<br/><br/>int Foo(this Bar b, int x) { ... }<br/>Bar myBar;<br/>...<br/>Foo(myBar, 5);<br/>myBar.Foo(5); // really the same as above
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570434135.397100"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570434135.397100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-10-07 00:42</span><br/>
+The interface could always have a single method that returns a dictionary of “methods”.<br/>I’ve used this approach with Haskell type-classes (which are technically more powerful than interfaces) in cases where it reduced boilerplate (where instead of the instance implementing four simple boilerplate methods it just needs to implement the one)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570464079.428400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570464079.428400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-07 09:01</span><br/>
+There's also the question of, what is it you are really trying to do? Research mixins and traits (not what some languages CALL these things, e.g. not in Scala), and you'll find ways that "methods" can be added to classes without actually creating inheritance hierarchies. It's just about grouping methods into one place and then telling the compiler that you want those methods in whichever classes. Look for the scharli paper.<br/><br/>DCI also does some interesting things with method-injection, but it's hard to understand and probably better thought of as taking the idea of C# extension methods and applying it to more areas (like a dependent type):<br/><br/>int Foo(Bar b, b.(int):string bMethod) {<br/>...<br/>b.bMethod(...)<br/>}<br/><br/>That again, is something that can be handles as a static compiler trick, so that no actual "method" exists at runtime.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570472641.432500"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570472641.432500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:24</span><br/>
+<span style="background-color:#ccf">@Tudor Girba</span> What does that look like in Smalltalk?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570472935.432800"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570472935.432800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:28</span><br/>
+In Smalltalk they are called extension methods :slightly_smiling_face:. This is about packaging methods in a separate place then where the class is defined. Traits also happened to have been invented in Smalltalk, and they are about grouping logical behavior.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570473650.433000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570473650.433000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:40</span><br/>
+How about syntax like this:<br/><br/>obj.(Other.Namespace.methodForObj)(args)<br/><br/>Or:<br/><br/>x = methodForObj<br/>obj.(x)(args)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570473773.433300"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570473773.433300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:42</span><br/>
+<span style="background-color:#ccf">@Tudor Girba</span> Can you provide an example of the syntax?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570473787.433500"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570473787.433500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:43</span><br/>
+Syntax for what specifically?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570473845.433700"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570473845.433700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:44</span><br/>
+For namespace isolated methods that implement a protocol for an object/class/prototype as I described in my question that started this thread.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570474121.433900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570474121.433900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-07 11:48</span><br/>
+I was talking about a hypothetical syntax for a new language. The difference is:<br/><br/>x.normalMethodOfX(args);<br/>x.(expression)(args);<br/><br/>Where "expression" is any expression that returns a method. Technically you would also be about to do:<br/><br/>x.(x.normalMethodOfX)(args)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570474928.434100"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570474928.434100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-10-07 12:02</span><br/>
+I now think I misinterpreted the question. When we want to scope, we create an object that points to the original object.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570474970.434300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570474970.434300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-10-07 12:02</span><br/>
+in the recent Pharo, there is work towards productizing Talents, which are object-specific traits that you can add at runtime
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570693568.138300"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-11/947800888119_9e950179feb1f81e1123_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570398647.367100.html#1570693568.138300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Leonard Pauli</b>
+<span style="margin:2em; color:#606060">2019-10-10 00:46</span><br/>
+I use a graph structure where functions may be defined on the relation, eg. <tt><a href="http://List.to">List.to</a> String: ...</tt> is semantically same as <tt>String.from List: ...</tt>, you may also organize it by putting an extension of one type in another, eg. <tt><a href="http://String.List.to">String.List.to</a> String: ...</tt>. Because of the structured editor, the definitions are visible and may be edited in all relevant places. Because the actual reference is saved in the graph, a later signatures overlap won't break the existing logic, though possibly change the presentation to make it more apparent which relation the signature belongs to.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

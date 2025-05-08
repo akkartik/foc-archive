@@ -1,0 +1,421 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../present-company/1741225511.217169.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-05 17:45</span><br/>
+Anyone know how to math this correctly?<br/><br/>I'm looking to take a point (e.g. mouse pointer in screen space) and project it into a 3d transformed plane (which is represented as a 3d matrix)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741225690.254299"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741225690.254299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-03-05 17:48</span><br/>
+I'm not an expert, but I believe if you have a 3D matrix then you just multiply the point by it? Coordinate transformations are fundamentally matrix multiplications.<br/><br/>Some other random thoughts:<br/><br/>• The picture as drawn is not enough information, I believe. You need to specify the origin and directions of axes in both planes to get an unambiguous matrix. But if you already have a matrix this is moot.<br/>• A good first step is to transform the origin to the first plane.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741227340.496479"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-21/7452153981845_9a58947a0752af693545_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741227340.496479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Christensen</b>
+<span style="margin:2em; color:#606060">2025-03-05 18:15</span><br/>
+As <span style="background-color:#ccf">@Kartik Agaram</span> says, I think there is missing piece of information to uniquely specify a point on the plane. If you have a location of a "camera", then you can use the ray that connects the camera position to the position on the screen.  The ray will also intersect with your transformed plane. Then you just need to figure out the line-plane intersection: <a href="https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741245568.065079"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741245568.065079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:19</span><br/>
+homogeneous coordinates, you actually needs more than a 3x3 because matrixes can't represent linear offsets.<br/><a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">https://en.wikipedia.org/wiki/Homogeneous_coordinates</a><br/><br/>so you pad a 3d coordinate with a 1 to make a 4d coordinate [x, y, x, 1]<br/><br/>That 1 gets uses as the offset in the resulting math.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741245889.169509"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741245889.169509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:24</span><br/>
+<a href="https://en.wikipedia.org/wiki/Camera_matrix">https://en.wikipedia.org/wiki/Camera_matrix</a><br/><br/>ok for projection from a screen space to 3d space the homogeneous coordinates are the pixels, so from what you would naturally think of as a 2d coordinate becomes a 3d coordinate [x, y, 1], multiplied by the camera matrix.<br/><br/>After you do math with homogeneous coordinates you often end with a vector that does not have a 1 in the last position, and you  have to normalize it (divide everything by the magnitude of the last element) to make the pixel parts usable
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741246443.158049"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741246443.158049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:34</span><br/>
+homogeneous coordinates are a critical trick in computer graphics/vision<br/><a href="https://www.tomdalling.com/blog/modern-opengl/explaining-homogenous-coordinates-and-projective-geometry/">https://www.tomdalling.com/blog/modern-opengl/explaining-hom&hellip;</a><br/><br/>Its something I would not think of myself but it transforms projective geometry (I assume thats what you are doing) into a linear space and makes all the matrix math work, which wouldn't the naive way.<br/><br/>E.g. you <em>can't</em> translate a 2d point with a 2x2 matrix, a 2x2 matrix center's rotations, scales and shears around the 0,0 point. So lots of trivial movement like panning the canvas cannot be represented.<br/><br/>you <em>can</em> translate a [x, y, 1] point with a 3x3 matrix if you normalize it after. Thats the homogeneous coordinate trick that underpins pretty much all computer graphics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741246713.615589"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741246713.615589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:38</span><br/>
+Thanks for the pointers! I’ve noticed through trail and error that transforming the point on the screen by the inverse of matrix of the transformed plane works for when the planes are parallel (e.g. translation, scale, rotation around the z-axis)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741246815.394159"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741246815.394159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:40</span><br/>
+<span style="background-color:#ccf">@John Christensen</span> i guess the camera is just orthogonal to the screen? In this case it’s not really something you interact with like you might in a video game
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741246951.878389"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741246951.878389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:42</span><br/>
+three.js has to do these calculations a lot if you are looking for code. Here is someone asking a similar question<br/><a href="https://discourse.threejs.org/t/projecting-an-image-on-a-perspective-wall-in-another-image/35825">https://discourse.threejs.org/t/projecting-an-image-on-a-per&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741247073.768729"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741247073.768729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:44</span><br/>
+Thanks for the pointers <span style="background-color:#ccf">@Tom Larkworthy</span> ! Homography has popped up and ive yet to wrap my mind about it :sweat_smile: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741247091.129399"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741247091.129399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:44</span><br/>
+But ill try again now, its reassuring to know that’s the right direction. im still pretty new to the terminology so its been hard to search for these things
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741247223.815319"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741247223.815319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:47</span><br/>
+its really just adding a 1 to the your coordinates. in 2d [x, y] is [x, y, 1]. In 3d [x, y, z] is [x, y, x, 1], and that adds a handhold for your spatial transform matrices to handle translation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741247463.216719"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741247463.216719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:51</span><br/>
+so a 2d translation transform becomes becomes something like<br/><pre style="white-space:pre-wrap">[<br/>[1, 0, dx]<br/>[0, 1, dy]<br/>[0, 0,  1]<br/>]</pre><br/>its good to do the steps manually and you will see how the extra 1 hits the last column and manipulates the real coordinates directly.<br/><br/>The resultant of multiplying [x, y, 1] with the above transform is<br/><br/>[x + dx, y + dy, 1] i.e. its original coordinate + dy, dy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741247883.561269"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741247883.561269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-05 23:58</span><br/>
+happy to collaberate with you on getting what you need done, I am quite comfortable with this area of math but I probably can't write anything up until the weekend
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741248197.788059"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741248197.788059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:03</span><br/>
+<pre style="white-space:pre-wrap">const projectedPoint = matrix.inverse().transformPoint({x: pointerEvent.pageX, y: pointerEvent.pageY })</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741248249.003529"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741248249.003529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:04</span><br/>
+This is what i currently have, where <tt>matrix</tt> is a <tt>DOMMatrix</tt> of the transformed plane. From what i can tell this only works when the planes are parallel to each other 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741248580.144699"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741248580.144699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:09</span><br/>
+The <tt>DOMMatrix</tt> constructor creates a new <tt>DOMMatrix</tt> object which represents 4x4 matrices, suitable for 2D and 3D operations.<br/><br/>so if you are working with 3d spatial transforms, you need a 4x4 matrix which is instanciated with 16 elements
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741248580.949799"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741248580.949799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:09</span><br/>
+Appreciate it <span style="background-color:#ccf">@Tom Larkworthy</span>  :smile: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741248683.425889"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741248683.425889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:11</span><br/>
+I will play with it later, I did not know the DOM had these features!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741251163.526469"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741251163.526469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2025-03-06 00:52</span><br/>
+You've asked ChatGPT, right?<br/><br/>Right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741273672.323459"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741273672.323459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-06 07:07</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> yep, tried coercing it into knowing what we need and no luck, it was very confidently incorrect, many times :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741290548.977609"></a>
+      <a href="../present-company/1741225511.217169.html#1741290548.977609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-06 11:49</span><br/>
+Got it working for affine transformations! now to figure out perspective...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741291323.431889"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741291323.431889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-06 12:02</span><br/>
+If anyone wants to see this working its at <a href="https://folk.systems/canvas/space/space-transform">https://folk.systems/canvas/space/space-transform</a><br/><br/>Really struggling to get perspective working, I think there's some important gaps in my knowledge somewhere
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741298699.447189"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741298699.447189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 14:04</span><br/>
+kinda raw I can try to refine it at the weekend<br/><a href="https://observablehq.com/@tomlarkworthy/perspective-transform">https://observablehq.com/@tomlarkworthy/perspective-transform</a><br/>(suggestions welcome if you correct the katex)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741298947.331329"></a>
+      <a href="../present-company/1741225511.217169.html#1741298947.331329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 14:09</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741299217.829439"></a>
+      <a href="../present-company/1741225511.217169.html#1741299217.829439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 14:13</span><br/>
+this screenshot demonstrates its a perspective transform as the back side is fits inside the front side
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741299624.355129"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741299624.355129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 14:20</span><br/>
+Oh I just understood your diagram as trying to ray cast. from pixel coords to intesect one of the planes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741304823.794689"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741304823.794689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-06 15:47</span><br/>
+took a few goes but I added ray casting calculations <a href="https://observablehq.com/@tomlarkworthy/perspective-transform#projectedIntersection">https://observablehq.com/@tomlarkworthy/perspective-transfor&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741359830.579109"></a>
+      <a href="../present-company/1741225511.217169.html#1741359830.579109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-07 07:03</span><br/>
+Here's a <a href="https://folk.systems/canvas/space/space-morph">demo</a> drawing some rope between shapes on 2 transformed planes, and also dragging shapes around (which is where raycasting comes in)<br/><br/>the missing piece is handling of CSS perspective... <span style="background-color:#ccf">@Tom Larkworthy</span> it seems like you may have figured out some (or all?) of that problem, gonna try and grok the observable you linked, would love to figure out how to account for perspective here
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741361465.727299"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741361465.727299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-07 07:31</span><br/>
+yeah the raycasting works under perspective. I will try to get the katex formulas reactively linked to the math to make it easier to follow over the weekend. If you need some more degrees of freedom added LMK what you would like.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741362611.075769"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741362611.075769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-07 07:50</span><br/>
+yeah if you were able to add a visual for some transformed plane to see it in action that would be super useful
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741371268.537819"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741371268.537819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-03-07 10:14</span><br/>
+<span style="background-color:#ccf">@Christopher Shank</span> if I recall CSS behaviour correctly, then your code should also account for element position before applying matrix inverse. CSS transforms operate in element's local coordinate space (transform origin, specifically). It's probably just about subtracting origin from pageX and pageY.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741372035.611319"></a>
+      <a href="../present-company/1741225511.217169.html#1741372035.611319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-07 10:27</span><br/>
+ok added a <a href="https://observablehq.com/@tomlarkworthy/perspective-transform#cell-3257">2nd camera</a> that orbits the cube so you have a better angle of the intersection ray. Also fixed the domains and aspects of the plots so the FoV parameter properly zooms
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741683395.994599"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741683395.994599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-03-11 01:56</span><br/>
+did you manage to make progress?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1741694107.654279"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../present-company/1741225511.217169.html#1741694107.654279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2025-03-11 04:55</span><br/>
+Haven't managed to get perspective working quite yet, took a stab at it yesterday reading your notebook
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

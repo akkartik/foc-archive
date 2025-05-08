@@ -1,0 +1,78 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1689369045.712599.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2023-07-14 14:10</span><br/>
+I've been thinking a lot about the patterns and architectures we're going to see start to emerge that lend themselves well to being written by generative AI and came across this technique being used by a library called Marvin (<a href="https://github.com/PrefectHQ/marvin">https://github.com/PrefectHQ/marvin</a>) where they limit the tokens the LLM can respond with to just a single token corresponding to a value in an enum. They then have it respond with the value as the response to a natural language query. This is extra interesting because responding with a single token is relatively fast and cheap.<br/><br/>The example they give is using it in routing:<br/><br/>&gt; <pre style="white-space:pre-wrap">    USER_PROFILE = "/user-profile"<br/>&gt;     SEARCH = "/search"<br/>&gt;     NOTIFICATIONS = "/notifications"<br/>&gt;     SETTINGS = "/settings"<br/>&gt;     HELP = "/help"<br/>&gt;     CHAT = "/chat"<br/>&gt;     DOCS = "/docs"<br/>&gt;     PROJECTS = "/projects"<br/>&gt;     WORKSPACES = "/workspaces"<br/>&gt; <br/>&gt; <br/>&gt; AppRoute("update my name")<br/>&gt; # AppRoute.USER_PROFILE</pre><br/>But I feel like there's a seed of an idea here that points to what a piece of an LLM-core architecture may look like. I experimented with the idea a bit in chatgpt earlier today (screenshots attached) and I'd love to know if anyone finds this interesting or has any thoughts/opinions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689389586.939669"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5538519946901_11fa1abdaf1085d196f1_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689369045.712599.html#1689389586.939669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex J.</b>
+<span style="margin:2em; color:#606060">2023-07-14 19:53</span><br/>
+Just for clarification - is the idea that the LLM can be used as a sort of router?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689428904.650439"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1689369045.712599.html#1689428904.650439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2023-07-15 06:48</span><br/>
+Yeah, so they're using it as a natural language router which is super interesting in itself - that "update my name" could also be the output of another LLM (ex - as a result of a user action in a UI...user fills in a "name" field and clicks the "save" button, router POSTs that message to the API).<br/><br/>You can take that further on it's own - can you have an LLM route messages in a smalltalk/ruby/objective-c message-passing style language?<br/><br/>But where my head went is - given a specific context in a prompt, we can encode a bunch of information (in binary, hex?, emoji?) and enable new patterns that give us cost/speed benefits from LLMs while also not having to explicitly write as much code. I need to do a bigger experiment, but in my screenshots, I'm showing it actually being able to encode and decode the information, at least from a simple binary encoding.<br/><br/>A while back I followed a tutorial for building a chess engine in C, and they used a similar technique but with U64s and a lot of bitwise operations, bit masks, etc and I'm thinking there's a way to take inspiration from those techniques and use it with an LLM...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689694485.198489"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1689369045.712599.html#1689694485.198489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-07-18 08:34</span><br/>
+I have been playing with the -0613 OpenAI models, which have festures to be forced to return JSON that adheres to a provided schema, and it has been working well, so far. Even when dealing with relatively complicated schema and relatively complicated requests. So limiting it to function-like inputs and outputs feels like asking too little of the model per call. But then again, other models may not be as good at it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689854837.167909"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-10/5550291535958_162adf0fa7b65e1eeaa9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689369045.712599.html#1689854837.167909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rand Fitzpatrick</b>
+<span style="margin:2em; color:#606060">2023-07-20 05:07</span><br/>
+have you looked at how <a href="http://lmql.ai">lmql.ai</a> does token masking and constrained decoding? 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690222116.309819"></a>
+      <img src="https://secure.gravatar.com/avatar/6366d8630c4e2394142efb0a9358fcc6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1689369045.712599.html#1690222116.309819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott</b>
+<span style="margin:2em; color:#606060">2023-07-24 11:08</span><br/>
+Ooh I'm not familiar with <a href="http://lmql.ai">lmql.ai</a> thanks for sharing that! I'll check out more about what they're doing
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

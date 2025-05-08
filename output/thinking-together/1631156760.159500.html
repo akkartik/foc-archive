@@ -1,0 +1,330 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-08 20:06</span><br/>
+I'm thinking more about the <em>sensation of time</em>, as it pertains to the execution of code. (Yeah, back on my bullshit.) I see a spectrum here — a spectrum of different sensations of time for different ways we interact with computation.<br/><br/>On one end of the spectrum, we have raw math. There's not supposed to be any sensation of time in the evaluation of math. A variable <em>always</em> has a specific value; relationships either exist or they don't. It might take you (or a computer) some time to crunch values and arrive at a result, but that's <em>absolutely</em> _not_ supposed to be part of the aesthetic. Conal Elliot's Denotational Design is an application of this sort of thinking to software design. Lambda calculus, Curry-Howard, and some of the more hardcore FP languages all exist — infinitely, suspended frozen in midair — over here. Of course, no computer language is <em>actually</em> timeless (that violated physics, and this is addressed in Church-Turing and related work, and we all agree never to try that again), but the desired <em>sensation</em> — the aesthetic — is one in which time is not a constraint or concern.<br/><br/>On the other end of the spectrum, we have mechanical computers. There's no avoiding the sensation of time when operating these clockwork beasts. You're required to think about the passage of time as you plan an execution, or else the result will be nonsense, or malfunction. Nothing is instant, nothing exists until you build it. Here we find the CAP theorem, Turing machines, and Rich Hickey's The Language of the System, all of them toiling, sweating, grinding, churning.<br/><br/>[Aside: note that Functional Programming is orthogonal to this spectrum — it is not bound to the <em>math</em> side. On either extreme and anywhere in between, you can have programming that's about immutable values (or not), static vs dynamic binding, data &amp; behaviour co-located (or not), for-each vs map, place-oriented vs value-oriented, and so forth.]<br/><br/>I've spent all my time over in the <em>mechanical labour camp</em> — this is where Hest lives. So I don't have much insight at all into the <em>crystal tower of pure evaluation</em>. So beyond just suggesting "Hey, talk about this spectrum" (which, granted, I am suggesting), I'd also like to know what examples you can point to that obviously violate this common alignment of aesthetics. For example: what's the most <em><b>I feel the passage of time in execution</b></em> you can get to when working with something like Coq, or Haskell, or APL? Is there some step debugger for SML that really lets you feel the iterative progress through execution? Or on the other side, what's out there that takes a process rooted in time — like CAP — and makes it shake that feeling of temporality? Look at something like Erlang/OTP — they take Prolog (timeless) and reify the sensation of process ("let it fail"). Who else is doing that? Is anyone doing it in the other direction?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631186340.163300"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631186340.163300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-09-09 04:19</span><br/>
+Potentially in this direction could be something like <a href="http://temporal.io">temporal.io</a> , which is a workflow language that makes keeping value in the stack for weeks at a time, a comfortable endeavor. (The contrast is usually we put values into a database so they can survive an upgrade over the course of the weeks)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631186537.163600"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631186537.163600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-09-09 04:22</span><br/>
+Also, on another side of this that may or may not bear any fruit, is <a href="https://www.liquidsoap.info/">https://www.liquidsoap.info/</a> , a language for programming media streams.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631193162.164400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631193162.164400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-09-09 06:12</span><br/>
+I don't really know enough about the Haskell end of this spectrum but my sense is that the units for it are probably something like "percent of the code that has some kind of invariance guarantee".<br/><br/>If you take something multi paradigm like Java or C++ it is possible to write very mathsy code by leaning in heavily on const, interfaces, classes etc. and earn yourself very strong guarantees about invariance over time. Different languages force or encourage you to bake more guarantees into your code but it's something that is possible in any language. Even something like Python, in the real world, will probably come with a stack of Organisational Practices and socially enforced norms that allow to <em>in practice</em> make similar assumptions, even though you could in theory overwrite the + operator at runtime.<br/><br/>Accepting these kinds of restrictions limits your expressivity but can superpower your understanding of a codebase because it lets you make massively compressing abstractions and draw very clean line_s ("Ok... this can't <b>possibly</b> affect this... It must have come from A, B or C..._").<br/><br/>Time invariance is an affordance that lets you better "play computer in your head", as Bret Victor would say.<br/><br/>So basically I think the reason that Haskell programmers play down the actual execution of their code is they are backing themselves to have already run it accurately in their head beforehand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631193526.164600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631193526.164600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-09-09 06:18</span><br/>
+I basically believe you should start from the opposite end.<br/><br/>Computers are physical machines that literally, actually, move and change with the forward arrow of time as part of the physical universe. Because they change in very small ways and very quickly, they kind of fly below our intuition radar. They are also highly deterministic compared to naturally occurring phenomena.<br/><br/>Still, they actually do perform an irreversible action just like a computer built out of metal ball bearings falling through chutes (<a href="https://www.turingtumble.com/">https://www.turingtumble.com/</a>).<br/><br/>If you want to understand what happened, you should just record what happened and then interrogate that recording with a powerful suite of thinking tools.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631193660.164800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631193660.164800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-09 06:21</span><br/>
+Temporal Logic of Actions sounds like an in between in your spectrum:<br/><br/>&gt; This paper introduces TLA, which I now believe is the best general formalism for describing and reasoning about concurrent systems. The new idea in TLA is that one can use actions–formulas with primed and unprimed variables–in temporal formulas. An action describes a state-transition relation. For example, the action x’=x+1 means approximately the same thing as the programming-language statement x := x+1.<br/><a href="https://www.microsoft.com/en-us/research/publication/the-temporal-logic-of-actions/">https://www.microsoft.com/en-us/research/publication/the-tem&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631211675.166600"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631211675.166600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-09-09 11:21</span><br/>
+This virtual time approach? <a href="https://twitter.com/codefrau/status/1430715818115883008?s=20">https://twitter.com/codefrau/status/1430715818115883008?s=20</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631233109.167700"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631233109.167700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-09-09 17:18</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span><br/>&gt; Functional Programming is orthogonal to this spectrum<br/>I don’t get this. While I would normally think of functional programming as being on the timeless end of the spectrum, you make a good point that it can also be on other end. But isn’t it the case that programming styles that <em>contrast</em> with FP often <em>do</em> have to be structured in time? To pick from your examples, how would you have mutable values without modeling time? Or with <tt>forEach</tt>  don’t you need to have time to have side effects work?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631237662.168000"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631237662.168000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-09-09 18:34</span><br/>
+<span style="background-color:#ccf">@Chris Knott</span><br/>Are you taking an anti-abstraction stance that programmers should be be aware of time as it exists in the internals of the language/environment they’re using (because they’ll have to deal with it eventually anyway)? Or are you just saying it’s good for them to think about/deal with time in their code, but it’s OK if it’s abstracted into a different (likely more limited) form?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631294050.170600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631294050.170600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-09-10 10:14</span><br/>
+synchronous languages (Lucid, Esterel, Lustre) have a pretty qualitatively different experience of time
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631295322.171500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631295322.171500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-10 10:35</span><br/>
+Great references and exploration of the topic — thanks everyone.<br/><br/><span style="background-color:#ccf">@Cole Lawrence</span><br/>&gt; keeping value in the stack for weeks at a time<br/>I love this idea. I'm so accustomed to non-live programming that I forget about the completely different sensation of time that you get from a live environment, where state is can be thought of as non-volatile by default.<br/><br/><span style="background-color:#ccf">@Chris Knott</span> — I like that your two comments are "here's why [existing thing] is what it is" and "here's what I want to exist". Both make sense to me!<br/><br/><span style="background-color:#ccf">@Mariano Guerra</span> — Queued! Though unlike Lamport's earlier work (you know, <em>the hits</em>), this one looks like it might fly over my head a bit :$<br/><br/><span style="background-color:#ccf">@Andreas S.</span> — Croquet sure is interesting, hey? Though I'm not sure how it relates here — I can imagine ways, but if you had something specific about it you wanted to highlight that'd be appreciated.<br/><br/><span style="background-color:#ccf">@Luke Persola</span> — You're right, I under-considered what I was saying there. I was focused on pointing out that you <em>can</em> have all that conventionally "functional" stuff within a programming system that does feel very mechanical / process-oriented. I didn't consider enough whether it's possible to have the non-FP stuff within a system that feels timeless. Good point, will have to think about this some more.<br/><br/><span style="background-color:#ccf">@Chris Granger</span> — Nice pulls! I suppose the same applies to RT OSes, CAN Bus (etc), and perhaps even programming within a high-end game engine (eg: frame cadence, Carmack's preference for algorithms that are slower average-case with less variability, etc). Would love to just be able to just... order a study on this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631319396.172900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631319396.172900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2021-09-10 17:16</span><br/>
+ok, stream of conciousness incoming...<br/><br/>On the concept of math vs mechanics, I perceive math as this vast graph that always exists, but in imagination. Mechanics is about materializing parts of this graph in some physical form. The machine manifests a subset of this graph, and <em>traverses</em> to other nodes, pulling in more and more of this graph, from the imaginary to the physical, as physical time progresses. If you type <tt>2 + 3</tt> in a system, you've got a graph with three nodes (2, 3, +, connected in a nice tree) and after some time, you've got a 4th node (5, connected to the [2,3+] bundle of nodes), but in mathland all 4 nodes (and the edges and more) pre-existed.<br/><br/>On the intersection of these ideas, CRDTs come to mind. You have the semi-lattice, which is very mathematical and static. However you have the actual values at different nodes, which correspond to one node in the lattice at any point in time, but they change over time and eventually <em>walk up</em> the math lattice to meet at the top.<br/><br/>Croquet came to my mind as well when reading the prompt. On the surface it is full-mechanical. The machines moves, step by step, and is implemented in that style. However look between steps - each step is functional, it <b>must</b> be deterministic - that's what keeps all the different systems in sync. There is no logical time within a step (e.g. can be considered instantaneous.. the next input cannot interrupt a step).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631352756.173700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631352756.173700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-09-11 02:32</span><br/>
+<span style="background-color:#ccf">@Luke Persola</span> Basically the first. You should at least be aware of which end of this spectrum is the actual bedrock, and which is the potentially leaky abstraction.<br/><br/>I've used this example before but CPython and Pypy implement <tt>list.pop(0)</tt> (popping first item from a list) differently. CPython bumps a pointer, Pypy moves the list. So it's O(1) vs O(n). There is literally no way to discover this "in system". This is the sort of thing that comes up in end-user programming like data science and will actually confuse users. It can make the difference between a visualisation being interactive or not.<br/><br/>The weakness in my position is that in a lot of cases, you truly don't ever need to worry about how the abstraction is actually realised/implemented. Most actual use cases are just IFTTT style plumbing or CRUD apps with N in the hundreds.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631524731.004900"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631524731.004900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-09-13 02:18</span><br/>
+Hi <span style="background-color:#ccf">@Ivan Reese</span>! I would point you to the concept of Virtual Time of VPRI for this I found this <a href="https://news.ycombinator.com/item?id=16655336">https://news.ycombinator.com/item?id=16655336</a> and to be more specific this: <a href="https://blog.acolyer.org/2015/08/20/virtual-time/">https://blog.acolyer.org/2015/08/20/virtual-time/</a><br/>I hope this is relevant to you
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631551187.006400"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631551187.006400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2021-09-13 09:39</span><br/>
+Virtual Time is when I think about this spectrum the most. Most obvious in stream/tick-based languages like ChucK and frameworks like MediaPipe. They're basically for-loops over time increments, but having no control over their passage—only the choice of what to do every time your code is awoken—makes time visceral to me in a way that the for-loop wouldn't. They tend to de-emphasize anything that happens out of the steady march of time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631551336.006600"></a>
+      <a href="../thinking-together/1631156760.159500.html#1631551336.006600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2021-09-13 09:42</span><br/>
+Also, <span style="background-color:#ccf">@Ivan Reese</span>, is it a coincidence that you started this thread a day before Wolfram came at the same question from the physics side? <a href="https://writings.stephenwolfram.com/2021/09/even-beyond-physics-introducing-multicomputation-as-a-fourth-general-paradigm-for-theoretical-science/">https://writings.stephenwolfram.com/2021/09/even-beyond-phys&hellip;</a><br/><br/>&gt; It’s common in this paradigm to discuss time—but normally it’s just treated as a variable in the equations, and one hopes that to find out what will happen at some arbitrary time one can just substitute the appropriate value for that variable into some formula derived by solving the equations. … In other words, that the passage of time can be an irreducible process, and it can take an irreducible amount of computational work to predict what a system will do at some particular time in the future.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631560756.007400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631560756.007400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-13 12:19</span><br/>
+The table in this image here is <em>really</em> interesting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631561817.007600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631561817.007600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-13 12:36</span><br/>
+&gt; In the ordinary computational paradigm, time in effect progresses in a linear way, corresponding to the successive computation of the next state of the system from the previous one. But in the multicomputational paradigm there is no longer just a single thread of time; instead one can think of every possible path through the multiway system as defining a different interwoven thread of time.<br/>This "multicomputational" paradigm offers an interesting aesthetic of time to consider. What would a programming system look/feel like that not only gave you an explicit grasp on the passage of time in computation, but that allowed you to explore multiple/all paths that diverge based on (say) <em>wiggle room</em> in the determinism of the program.<br/><br/>Here's a really dumb way to fumble this idea into something I could play with: What if in Hest, instead of a data point having a concrete value (say: 5), a data point could contain some sort of "open" value. As the "open" data point travelled through the program graph and encountered some conditional node, it would satisfy all sides of the conditional, and produce more "open" output points to travel along each outgoing path. Maybe the breadth of "open"ness for those output points could then be narrowed, so the "open" value would only represent something that could satisfy the branch it took (eg: if the conditional was "&lt; 10", then the point on one side now knows that it needs to be a number that's between -∞ and 9.9…, and the point on the other side knows it's either not a number or a number between 10 and ∞). You could zoom out and see how far each of those "open" points could travel before they were narrowed into oblivion. Would couple nicely with the idea that the points leave a visible trail as they travel that fades out after a while.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631562687.008000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631562687.008000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-09-13 12:51</span><br/>
+That’s a fully realized data flow graph
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631562933.008200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631562933.008200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-09-13 12:55</span><br/>
+It does seem like it would just be a data flow graph. I'm having trouble understanding the importance of "time" in this focus. Is it just the aspect of observability?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631563010.008400"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631563010.008400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-09-13 12:56</span><br/>
+(layered over static control flow analysis)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631565515.009000"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631565515.009000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2021-09-13 13:38</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> You may have read about it already, but if you take that execution model and rotate it 90º, you'd get Propagators / Truth Maintenance Systems, attempts by Sussman's students to do massively parallel computation in a future where "we'll eventually be buying processors by the bushel and laying them down like concrete."<br/><br/>In Propagators, the computation to perform any particular answer is implemented redundantly by implementations of various speeds and qualities, and answers are represented as intervals that close as various branches finish. So computation doesn't <em>proceed</em> so much as <em>settle</em>, which seems like an interesting angle for this thread's time theme. I haven't found any practical uses for this model in today's world, but it sure is fun to play in!<br/><br/>Anyway, I learned about it from <a href="https://www.youtube.com/watch?v=O3tVctB_VSU">this lecture</a> which I summarized <a href="http://alltom.com/pages/best-lectures/#we-really-dont-know">here</a>. There's a paper on propagators <a href="https://groups.csail.mit.edu/mac/users/gjs/propagators/">here</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631565650.009300"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631565650.009300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2021-09-13 13:40</span><br/>
+(Plenty of "But that's just…" <a href="http://lambda-the-ultimate.org/node/3250">on LTU</a> already)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631578550.009800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631578550.009800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-13 17:15</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> <span style="background-color:#ccf">@Cole Lawrence</span> Ah, yes. Right. <b> eyes dart back and forth </b><br/><br/>What's the state of the art when it comes to visualizing data flow analysis?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631578830.010300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631578830.010300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-13 17:20</span><br/>
+<span style="background-color:#ccf">@Cole Lawrence</span> Maybe the role of time isn't important. I don't know either. It's just sort of.. me looking at the toys and buckets I've got in my sandbox and wondering what happens if I build the sand castle on top of the Tonka truck.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631579119.010500"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631579119.010500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-09-13 17:25</span><br/>
+Fair enough!<br/>If we're just talking about anything and everything, then I'd suggest mashing up what you're thinking about with music and rhythm as means for recall and intuitive understanding. For example, when you study to music, both the material and the music being listened to enable recall in both directions. I have been really interested in generative music that follows me through my tasks in the day—switching energy levels between activities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631590915.011100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1631156760.159500.html#1631590915.011100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-09-13 20:41</span><br/>
+More on the <em>feeling of time in execution:</em><br/><br/>One thing that looping (especially while-loops) with side effects lets you do is repeatedly apply some process to the same piece of data, over and over.<br/><br/>You can't do that with map. Typically can't do that with reduce (depending on implementation). Vaguely recall that this is why transducers are stateful.<br/><br/>It's a kind of repetition that is inherently about transformation through time, since it's irreducibly successive.<br/><br/>Also, makes me think of using the descriptors <em>timeful/timeless</em> (compare with stateful/stateless).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

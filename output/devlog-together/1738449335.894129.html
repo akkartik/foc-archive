@@ -1,0 +1,232 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1738449335.894129.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-01 14:35</span><br/>
+I've been tinkering on a way to handle continuous numeric input. Or, in plainspeak, a <b>knob</b>… that you can turn. But it's, like, <em>good</em>, as far as knobs go. (Fake computer knobs, at least.)<br/><br/>• It does the usual thing… you can drag up-and-down to turn the knob. Classic.<br/>• Oh! You can also drag left and right to turn the knob. That's nice.<br/>• Wait… you can crank in circles around the knob? And that works well too?<br/>• But but but… you can also crank in circles, like, anywhere on the screen!<br/>The goal is "do what I mean" gestural input. Granted, it's currently dumb and could be better, which is why I'm still tinkering on it.<br/><br/>You can play with it <a href="https://good-knob.surge.sh">here</a>. Code is <a href="https://github.com/ivanreese/knob">here</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738451063.923949"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738451063.923949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-02-01 15:04</span><br/>
+I tried making one once and yeah, its really hard mapping the polar look to mouse. I just did the up or right for +ve and it just seems wrong when its at certain angles. If you do a drag it can be really sensitive to the singularity that exists near the center which is where you naturally start a drag  so its pretty interesting you are removing that singularity with a local center of rotation. How are you tracking that?<br/><a href="https://observablehq.com/@tomlarkworthy/audio-inputs#cell-906">https://observablehq.com/@tomlarkworthy/audio-inputs#cell-906</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738451474.359569"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738451474.359569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-01 15:11</span><br/>
+I remember the path that the mouse has moved, take a bounding box of that path, take the center of the box, and use that as the local center of rotation. I also discard older segments of the path, keeping roughly 4pi*r of them, since that's enough to figure out roughly where the local center ought to be.<br/><br/>The logic for switching between modes on the fly (horizontal, vertical, or angular) is a bit dodgy. That's something that could be better, but there are also unavoidable edge cases — like when dragging rightward at the bottom of the circle (which could mean "increase the value" when treating the input as horizontal or "decrease the value" when treating it as angular), so my current approach is just to pick whichever one seems most likely and kinda lock-in on it after a handful of samples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738471725.646039"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738471725.646039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-02-01 20:48</span><br/>
+for me on my mac: works on Chrome, doesn't work on Firefox (looks like it's loading forever), doesn't work on Safari (same).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738473083.665549"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738473083.665549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-01 21:11</span><br/>
+Weird. I only use safari
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738483388.935959"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738483388.935959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-02-02 00:03</span><br/>
+For me it works fine in Firefox on the mac.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738483399.872029"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738483399.872029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-02-02 00:03</span><br/>
+Is this licensed? I have a couple of ideas to riff on this
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738510295.598859"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738510295.598859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-02 07:31</span><br/>
+<span style="background-color:#ccf">@Christopher Shank</span> ah, good point — it's unlicense'd now, have at!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738566229.559949"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1738566229.559949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2025-02-02 23:03</span><br/>
+Versatile.  Interesting contrast to what I usually see in fancy knobs (and sliders) that use the second dimension for tuning.  For example, a radial knob where distance from the center decreases the amount of turning that happens.  I was just using this in OmniGraffle a second ago to precisely rotate a shape.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739562467.755769"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1739562467.755769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-02-14 11:47</span><br/>
+This will absolutely rock on touchscreens!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739562590.588399"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1739562590.588399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-14 11:49</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> if you crank circularly around the knob, a bigger radius will give you finer control
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739565857.506009"></a>
+      <a href="../devlog-together/1738449335.894129.html#1739565857.506009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-02-14 12:44</span><br/>
+I've tried to do touch based integer input many years ago so I'll share some results. I decided to introduce a "digit-cursor" and a dial that would increment/decrement the digit under cursor when the finger was close to the number and which would step between digits when the finger was a little further away. See the attached video. Some special cases accelerated input of numbers with only a single significant digit (crossing 0/9 boundary would also step to the next digit). The difficulty I faced was that accurate multi-digit numbers required seriously lengthy gestures. Digit after digit. And occasional mistakes made the gesturing even longer. In the end I think it might work but would require some more tweaks.<br/><br/>I can share the APK if you'd like to play around.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739568357.519649"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1739568357.519649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-02-14 13:25</span><br/>
+<span style="background-color:#ccf">@Marek Rogalski</span> that's wild!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743835862.271819"></a>
+      <a href="../devlog-together/1738449335.894129.html#1743835862.271819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-04-04 23:51</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> I totally forgot to mention, I ported your prototype to a custom HTML element! This makes it easy to pull into any web page, it works with native HTML form submission, and it's easy to extends. Im interested in quirky inputs for the web, so we'll see where it ends up being useful
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743862498.840389"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1743862498.840389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-04-05 07:14</span><br/>
+So cool! Can I see the source? Would love to go the custom element route myself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743894173.106919"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1743894173.106919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-04-05 16:02</span><br/>
+ya sure thing <a href="https://github.com/folk-systems/folk-canvas/blob/main/packages/labs/src/folk-knob.ts">https://github.com/folk-systems/folk-canvas/blob/main/packag&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743894202.531019"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1743894202.531019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-04-05 16:03</span><br/>
+It's pretty much a direct port plus all of the custom element boilerplate
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743894269.291699"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1743894269.291699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-04-05 16:04</span><br/>
+oh also needed to use pointer capture
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743894291.599039"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../devlog-together/1738449335.894129.html#1743894291.599039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-04-05 16:04</span><br/>
+I swapped out some of the vector logic since we already have the same
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

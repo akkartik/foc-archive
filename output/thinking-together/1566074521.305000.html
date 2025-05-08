@@ -1,0 +1,343 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-17 13:42</span><br/>
+Folks who are working on languages/tools with some sort of rewind / reverse execution / reversible computing feature... what are you doing, how are you doing it, and why?<br/><br/>(Edit) Additionally: if you are doing the above, do you allow the running system's data or code to be edited? For instance, some traditional debuggers allow you to edit the state of variables when execution is paused. If you offer anything like that, how does that interact with your rewind/reverse functionality? Does rewinding undo changes to data? How about code? Or does rewinding execute in reverse, using the just-edited code as if it had always existed?<br/><br/>Bonus round: In traditional debuggers for some languages, you can insert some sort of "pause / debug" statement into your code that pauses execution and initiates debugging. In your reversible language, can user code control the flow of time backward/forward, or anything similarly <em>wild</em> like that? If so, what's your philosophy / approach to handling paradoxes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566075030.305400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566075030.305400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2019-08-17 13:50</span><br/>
+Start with "why?", please. :grinning:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566079150.305900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566079150.305900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-17 14:59</span><br/>
+Time travel debugging was first demonstrated commercial in the C language "omniscient debugger", a brilliant work from 10 years ago that never got much attention. Now the mighty Microsoft has added this feature to their Visual Studio Enterprise product. It is also a commercial tool called "rr".  I haven't used these other products so i can't comment on how well they work. Some functional languages like Elm offer time travel debugging to some degree, because they are already storing the history of variables so it is relatively easy to offer this feature.<br/><br/>I designed my Beads system on the idea that enabling this feature would be the greatest improvement in the debugging process one can make. So that is the "why". It is very tricky to implement efficiently, especially if you plan to offer this in shipping end user products, not just inside the lab. It is in shipping products that it is most needed in reality, because the number of bug reports from end users can be 10x or 100x what your internal QA team can find. And the inability to reproduce (and then fix) bugs has become so impossible for the big companies to keep up, that the bug databases for Adobe, Apple and MS are in the millions, and basically nothing much gets fixed. I just yesterday found a bug in Chrome where the Emoji variation selector to turn off automatic emoji promotion is broken, and it is been known for years.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566080280.309200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566080280.309200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-17 15:18</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> I feel that "implement efficiently" pain, yep!<br/><br/>In Beads, how does time travel work? What's the experience of using it like? Have you implemented it yet, or are you still working on the design?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566083607.310300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566083607.310300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-17 16:13</span><br/>
+Since the Beads language main purpose is to facilitate graphical interactive programs, merely rewinding the state doesn't cut it. You also have to show the state of the screen that corresponds to the internal state, so systems like Visual Studio which are tracking the minute changes to each memory address don't actually help that much. Most of the code in an interactive product revolves around drawing things, and responding to user input. For example, in a tic tac toe game, which is one of my shortest examples, the amount of computation is tiny; you have to check 8 different paths in the game to see if a play wins. So in my case the debugger is actually a second program in Beads watching the execution of a sub-program, the game. Not only is there reversal, but also time dilation and compression. Since i had this feature in mind at the start, i built the whole product around making sure that it would work. It is very easy to inject a feature which is non-reversible. A lot of the OOP paradigm works against you  in reversible systems, which is why there is no NEW or DISPOSE in my language. The big payoff in time travel is when you can do it so efficiently that the shipping product can keep the feature on, and thus when the user encounters a bug, they can send their breadcrumb trail to the developers and now you have 100% repeatability on bug reports. Apple and the big companies spend a fortune on time wasted not being able to repeat a problem, and net result of the inability to recreate the user's exact situation is that products are bug-ridden today. Nobody can afford to chase down an intermittent error, so companies have taken the very cynical tactic of using their customer base as their final QA, and waiting for a statistically significant number of error reports before they investigate and try to fix. That's no way to run an airline if you ask me. I want people to make products that are near perfect, and the only way to get near perfection is to guarantee repeatability, even when you have random numbers, multiple players in a game, flaky networks, etc.<br/><br/>But on the flip side, i hardly use the feature, because so far my sample programs are very small. The more animation your product does, the more you need slo-mo, reversing, etc. Flashy features like time travel debugging are very exciting, but it doesn't fix a bad design, or make a user interface clean and clear. A bad design is bad in both directions... I find that most of one's time in graphical products is spent making sure the design still looks good across a wide range of screen sizes. The Android space is mind-bogglingly broad in terms of hardware capabilities, with notches popping up in every odd location, and some wacky screen resolutions. I have spent 10 times more time on the screen layout features than time travel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566084963.310900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566084963.310900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-08-17 16:36</span><br/>
+When you are debugging a sorting function, you want to see what i call sub-atomic levels of detail, like what is the value of a variable before and after, or see the condition codes of a branching instruction. So maybe we can call one "interaction rewind" and "instruction-level rewind". Both have their uses, but a lot of people confuse the two as they are not interchangeable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566131580.311600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566131580.311600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-08-18 05:33</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> baffles me that omniscient debugging didn't immediately become the next big thing.  (And there was AOP too, so there's that.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566131726.311800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566131726.311800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-08-18 05:35</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> why?  QA.  When a tester sees something wrong, they click the "write a bug report" button, and it includes the current state as well as checkpoints.  Not omniscient and more clunky than it should be, but it's the real deal rather than a demo.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566909898.471800"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-03/5521238650675_cf8e20929548a602055a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566909898.471800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Irvin Hwang</b>
+<span style="margin:2em; color:#606060">2019-08-27 05:44</span><br/>
+<a href="http://dalsegno.ballingt.com/">http://dalsegno.ballingt.com/</a> by <span style="background-color:#ccf">@Thomas Ballinger</span> might be interesting to check out
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566914357.472000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1566914357.472000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-27 06:59</span><br/>
+That is extremely cool and highly relevant. Thanks for the link!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568140667.249800"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568140667.249800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-10 11:37</span><br/>
+(short bc on mobile) My motivation for dalsegno was generalizing the reactivity achieved by live reloading environments with a setup and a draw function (there's some ClojureScript wrapper on processing I think that does this?) to other program structures.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568140734.250700"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568140734.250700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-10 11:38</span><br/>
+(thanks for the mentioned <span style="background-color:#ccf">@Irvin Hwang</span>!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568140848.253700"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568140848.253700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-10 11:40</span><br/>
+I found gameloop-style programming to be a mediocre for for this - this rewind system was better for synchronous functions than geloop style "increment this agent" programs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568140902.254700"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568140902.254700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-10 11:41</span><br/>
+so next I tried many agents running programs like this concurrently: <a href="http://missilecmd.ballingt.com/?simulator">http://missilecmd.ballingt.com/?simulator</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568140971.255700"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568140971.255700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-10 11:42</span><br/>
+I haven't written about this one yet, but I talk about it a bit in <a href="https://www.youtube.com/watch?v=Zcg1Ku4YB4g">https://www.youtube.com/watch?v=Zcg1Ku4YB4g</a> and <a href="http://ballingt.com/interactive-interpreter-undo/">http://ballingt.com/interactive-interpreter-undo/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568150179.257800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568150179.257800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-09-10 14:16</span><br/>
+<span style="background-color:#ccf">@Thomas Ballinger</span> Thanks for that additional context and those links.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215517.273100"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215517.273100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:25</span><br/>
+:wave: <span style="background-color:#ccf">@Thomas Ballinger</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215620.273800"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215620.273800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:27</span><br/>
+Firefox is working on RR in the browser (WebReplay). We hope launch and go to a small beta early next year. <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/WebReplayRoadmap">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/WebReplayRoadmap</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215650.274400"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215650.274400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:27</span><br/>
+The nice thing is if you're curious, you can test it today in our Nightly release.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215669.274700"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215669.274700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:27</span><br/>
+This is the most exciting thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215672.274900"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215672.274900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:27</span><br/>
+<a href="https://drive.google.com/file/d/1zHPnXcNejyq1cKLsdO63u_6GbjSl7od0/view?usp=sharing">https://drive.google.com/file/d/1zHPnXcNejyq1cKLsdO63u_6GbjS&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215694.275200"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215694.275200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:28</span><br/>
+<a href="https://drive.google.com/file/d/1--IKVFU-9Qjw4qnKX_JUh7njL8FR4R3-/view?usp=sharing">https://drive.google.com/file/d/1--IKVFU-9Qjw4qnKX_JUh7njL8F&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215714.275500"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215714.275500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:28</span><br/>
+^ the second video shows how log points can be used to add logging after the fact.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215861.275700"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215861.275700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:31</span><br/>
+The roadmap is basically<br/>1. support local debugging<br/>2. support cloud debugging where recordings are uploaded and shared<br/>3. support ci environments where recordings are attached to failing tests<br/>4. support production where recordings are attached to user exceptions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568215868.275900"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568215868.275900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:31</span><br/>
+4 is the hardest and a ways off
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568216018.276100"></a>
+      <img src="https://secure.gravatar.com/avatar/c23e230acc1f73990d92f810871e4cde.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568216018.276100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Laster</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:33</span><br/>
+<span style="background-color:#ccf">@Thomas Ballinger</span> i love that your examples are actually embedded in the page. like i can use the slider
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568216186.277400"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568216186.277400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:36</span><br/>
+if folks are confused by this comment, on mobile they're just videos - on desktop they're interactive
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568216445.280000"></a>
+      <img src="https://secure.gravatar.com/avatar/42aabe3b15ad406ed4237abd473bd55f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../thinking-together/1566074521.305000.html#1568216445.280000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thomas Ballinger</b>
+<span style="margin:2em; color:#606060">2019-09-11 08:40</span><br/>
+I like that the Firefox project will be widely deployed and used and is going to fundamentally change our expectations of programming!!!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

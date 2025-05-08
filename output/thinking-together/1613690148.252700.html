@@ -1,0 +1,281 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1613690148.252700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-02-18 15:15</span><br/>
+I'm playing around with the interface for an NLP recognition framework at Storyscript (in Rust), and was wondering if anyone has seen this kind of design executed in any other contexts
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613694024.255800"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613694024.255800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2021-02-18 16:20</span><br/>
+This is essentially parsing where a given string can have multiple parses, yes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613698505.257000"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613698505.257000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-02-18 17:35</span><br/>
+<span style="background-color:#ccf">@Will Crichton</span>, maybe. I've experienced mostly models that all operate on text to tags (spans) or in other places, tokens to tags.<br/>I'm trying to understand if the process of incrementally building up layered spans with attributes has a name. I think this is closer to something like a parser combinator that can produce multiple results and fold over itself
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613698640.257300"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613698640.257300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-02-18 17:37</span><br/>
+So, yes. I suppose it's parsing with multiple parsed outcomes. But, the interface to building this parser for extensibility is what interests me.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613718828.260000"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613718828.260000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-18 23:13</span><br/>
+This sounds quite similar to the multiple (logical) layers of annotations provided by modern NLP frameworks (e.g. <a href="https://stanfordnlp.github.io/CoreNLP/">CoreNLP</a>, <a href="https://spacy.io/">spaCy</a>). The natural language "parsing" there is mostly probabilistic so you can access multiple interpretations of a token span if you want to. Notably, these interpretations don't really cascade / explode up the logical layers, but it may be something to look at
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613722485.262100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613722485.262100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-19 00:14</span><br/>
+I've built some visualizations of exactly this at my last startup. Also, a left-to-right, boxes-and-arrows multiple path depiction of the semantic understanding of the parsed text in question to help domain experts add assertions to the system to improve semantics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613749526.262900"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613749526.262900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-19 07:45</span><br/>
+Now that sounds interesting and closely related to what I'm working on right now. Can you share any more details? Would love to see that (and know how it works, heh).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613786295.001500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613786295.001500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-02-19 17:58</span><br/>
+the format im familiar with for this kind of work is called stand-off annotation. the codex editor project is based on it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613808090.022000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613808090.022000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-20 00:01</span><br/>
+<span style="background-color:#ccf">@Florian Cäsar</span> I'll dig around to see if I kept any screenshots :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613815735.022600"></a>
+      <a href="../thinking-together/1613690148.252700.html#1613815735.022600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-20 02:08</span><br/>
+<span style="background-color:#ccf">@Florian Cäsar</span> This is a screenshot of the NLP development interface I built for our automotive domain experts.  They would put some text from an automotive manual into the tool and look at how the text was understood by the system. There's some internal jargon here: "SIT" is a category for "service information" that most often captures the verb (in this case "clean"), while the "SSC" category captures nouns. The tabular section shows the initial matches in our taxonomy for various terms. The green oval ("SumpFiller") in the graph on the bottom is the part identification, while the rest of the graph shows how the terms were disambiguated using our knowledge graph.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613825985.022900"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613825985.022900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-20 04:59</span><br/>
+Woah, that's awesome, thanks <span style="background-color:#ccf">@Jack Rusher</span>. I have so many questions.. there is very little information I could find on how systems like this work in the wild. What was this built in &amp; on? How did you structure the knowledge graph? How did you link against it? .. etc.<br/>But of course, you may not be able or willing to share those details, so no worries if that's the case :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613986830.028300"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613986830.028300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-22 01:40</span><br/>
+<span style="background-color:#ccf">@Florian Cäsar</span> This broader system was built to pick apart automotive repair manuals and assign the operation and parts discussed in every section of any manual. This, in turn, allowed us to provide a much stronger search interface for auto mechanics. So, something like "2009 Jeep Cherokee, replace brake pads" could show all the parts needed, specifications, procedural documentation, and so on, all at once. (Other systems required the mechanic to jump around tens of thousands of pages of documentation to assemble these bits of information, wasting time and costing customers more for repairs.)<br/><br/>The interface you see above is part of a tool suite I built for the analysts (automotive domain experts) to check the system's understanding of different texts, including a description of how it came to its understanding. They could then edit the ontology and taxonomy to correct errors and receive feedback in real time, including diffs of any changes in the assignments so they would know if a fix made for one thing broke something else.<br/><br/>We demoed <a href="https://www.motologic.com">the system</a> at a big automotive conference in the form of a bakeoff where we invited mechanics on stage to race with each other to find the info they needed for a repair, one using our system for the first time the other using whichever of the industry standard tools they knew best. The mechanic using our tool won nine times out of ten. This triggered a bidding war for our acquisition. Ultimately, we sold the company to <a href="https://en.wikipedia.org/wiki/Advance_Auto_Parts">Advanced Auto Parts</a> for a good bit of money.<br/><br/>I wrote all the AI/ML/NLP and analyst-facing tools in Clojure. The underlying knowledge base used a model similar quite to RDF + OWL-lite (some of <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C5&amp;q=jack+rusher+triplestore&amp;btnG=">my work</a> helped get the semantic web movement started). The NLP stuff was a mix of "modern" statistical methods and semantic/GOFAI stuff of the kind I've been doing since the 80s.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613997834.029300"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1613997834.029300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-22 04:43</span><br/>
+This is fascinating and exactly what I'm looking for, thanks so much. That demo idea is clever, I might steal it :slightly_smiling_face:<br/><br/>Have you considered applying this approach to other domains? Having strong search like this would superpower a lot of retrieval &amp; cross-reference heavy tasks (e.g. medical research).<br/><br/>A few follow-up questions, excuse my excitement.. --<br/><br/>1. How did you generate the explanations of the system's understanding of a given text? Weighted input variables? Explainable statistical systems are quite tricky, I often struggle with this.<br/>2. How was the text linked to the ontology? A changing ontology is a moving target for an entity linker; haven't seen great solutions for this yet, and definitely none that could give real-time feedback. Damn. <br/>3. What made you use a custom knowledge base representation? Familiarity, performance, or was there something lacking in the classic RDF/labelled property stores?<br/>4. Engineering-wise, how did you integrate statistical with GOFAI logic? Specifically, how did you tackle their inter-dependency wherever they interface?  <br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614004290.029500"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614004290.029500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-22 06:31</span><br/>
+There are, of course, many other possible applications of this kind of technology. I know of at least one company in that Netherlands that's doing similar things for medical research, and the <a href="https://icfp20.sigplan.org/details/minikanren-2020-papers/10/mediKanren-A-System-for-Bio-medical-Reasoning">Medikanren</a> group is doing very cool things. My current work has moved on to other areas at the moment, but who knows what the future holds. :slightly_smiling_face:<br/><br/>1. Yeah, statistical systems are terrible at explaining themselves. Explanations were generated in the logic programming/graph theoretical part of the system.<br/>2. The statistical part of the NLP system fed things upward to the ontology-driven inferencer, which found paths between taxonomic entities that had linguistic stems attached to them (the KB was first statistically derived from our multi-terabyte collection of manuals, then improved by the analysts). It was able to reload and recompute an entire knowledge base in &lt;2 seconds, partially by doing much of the work in parallel on a many-core machine. It was also able to keep multiple versions online at once to do comparison and diffs.<br/>3. RDF is a mixed bag, and certain parts of it (complete open world assumption, for example) would only have made life harder in this context.<br/>4. See (2), more or less.<br/>GOFAI advantages include size of the needed training corpus and transparency of the system's function, but many tasks -- anything resembling sensing/perception -- are better handled with a probabilistic approach. So, for example, it's easy to find large corpora of English language text -- even labeled! -- on which to train NLP models, and the kind of text we were dealing with was intentionally unambiguous (repair manuals!), so we were able to get very good statistical parse trees for most sentences and text fragments. But entity linking was a bit harder because of variability in how terms were used in the texts, so we needed a way to disambiguate various kinds of shorthand based on context, which turned out to be amenable to graph theoretical algorithms over a knowledge base. The KB also held a variety of other useful information about parts and tools, such as their catalog numbers so we could convert references in the manual to purchase links (quite important to our acquirer).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614013621.030100"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614013621.030100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-22 09:07</span><br/>
+Thanks again - I owe you a coffee next time you're near Zurich. Do you have the name/link for that company in the Netherlands?<br/>1. On explanations of statistical "reasoning"; have you ever worked on that? There's of course lots of research there, but it's still very early and the opinion of someone with your experience would be interesting. Myself, I'm increasingly doubting the possibility of having explainable <b>and</b> performant statistical models.  <br/>2. Interesting, so the statistical part was unaware of the taxonomy. Did you try incorporating the taxonomy as a prior into training somehow? Also, how large was that knowledge graph? &lt;2 seconds is insane, and keeping multiple copies in memory even moreso. What was the underlying storage layer (assuming there was one)?  <br/>3. Not quite following on the problem with RDF - how is its open world assumption problematic?<br/>Yeah, I imagine repair manuals must be close to the best-case when it comes to statistical parsing, ha. (Maybe government reports as well, depending on the government.)<br/>Regarding GOFAI &amp; your entity linker: was the entity linker purely rule-based then (i.e. using graph algorithms on the KB)?<br/><br/>Also --<br/>• I'm working on solidifying my graph theory knowledge, are there any resources/books you would recommend? Is it even sufficiently helpful to know that stuff, considering I will mostly do applied work on graphs? I'm still waiting for my copy of "Introduction to Graph Theory" that I ordered months ago..<br/>• 2 seconds. Damn. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614090974.030400"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614090974.030400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-23 06:36</span><br/>
+The NL company turns out to be a US company with a bunch of staff in NL called Doctor Evidence. Here's <a href="https://www.youtube.com/watch?v=EM61rn9Gxl4">a talk about the tool</a> and you can <a href="https://covid19.doctorevidence.com">try it out online</a> in the context of COVID-related information.<br/><br/>Knowledge graph was only ~40K triples. Storage on disk was a text file in (basically) <a href="https://en.wikipedia.org/wiki/Notation3">N3 format</a> without reified URLs for entity names (the domain portion was assumed in the file). The entity linker did some scoring based on the graph distance of connection density between different concepts, but wasn't broadly statistical. Everything was, in some sense, hybridized.<br/><br/>As for general statistical self-explanation, that really deserves a thread unto itself. I've managed to make some things work in interesting ways, but it's weird at the edges like all of that stuff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614154656.031200"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614154656.031200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-02-24 00:17</span><br/>
+Awesome, I'll watch that when I get time.<br/><br/>I'm surprised that all the (relevant) domain knowledge fit into 40K triples. Does that include part numbers, names, etc. attributes? But yeah, with "just" 40K triples I can see how you could do a lot of cool stuff very fast. Neat. So much for the benefits of small data.. :slightly_smiling_face:<br/><br/>&gt; The entity linker did some scoring based on the graph distance of connection density between different concepts<br/>Can you elaborate on the scoring of connection density? There's many possible metrics here and I've found it hard to get meaningful signals out of them, especially when the graphs are noisy and of variable density (e.g. public knowledge graphs with wildly differing connectedness).<br/><br/>And yeah, I'll start a new, clean thread. I've hijacked this thread for long enough now - thanks for hosting <span style="background-color:#ccf">@Cole Lawrence</span> :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614159223.043100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614159223.043100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-24 01:33</span><br/>
+Part numbers and such were stored in a relational database. The search interface had drop downs for year/make/model, which combined with part name canonicalization via the NLP system to give us access to the tabular data in... tables. :slightly_smiling_face:<br/><br/>The algorithms that worked well in the closed domain of auto mechanics would not work the same way in an open world using, say, all of DBPedia. Different situations require different measures!<br/><br/>(Thanks for your patience, <span style="background-color:#ccf">@Cole Lawrence</span>. We'll move this off thread.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614162495.044500"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614162495.044500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-02-24 02:28</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> <span style="background-color:#ccf">@Florian Cäsar</span> ha! I've been happily following along. I have a limited vocabulary around these topics so this has all been helpful to read through.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614783986.095100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614783986.095100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-03 07:06</span><br/>
+Just bumped into this paper while looking for something else. Possibly of interest here?<br/><a href="https://arxiv.org/pdf/2008.05122.pdf">https://arxiv.org/pdf/2008.05122.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614784587.095300"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614784587.095300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-03-03 07:16</span><br/>
+Neat, this seems really useful.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1614786670.095500"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1614786670.095500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-03-03 07:51</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> this is super inspiring! Thanks for sharing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615580374.175300"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1613690148.252700.html#1615580374.175300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-03-12 12:19</span><br/>
+I made some progress on the implementation of this design this week, which I've attempted to demonstrate here<br/><a href="https://www.loom.com/share/beef10bf61004f579359c9a4638c90f6">https://www.loom.com/share/beef10bf61004f579359c9a4638c90f6</a><br/>All in all, it is looking very promising for us!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

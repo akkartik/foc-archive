@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1601510649.105100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-30 17:04</span><br/>
+I was reading Fred Kjolstad’s thesis (<a href="http://fredrikbk.com/publications/kjolstad-thesis.pdf">http://fredrikbk.com/publications/kjolstad-thesis.pdf</a>) about compilers for sparse linear algebra. He says:<br/><br/>&gt; The issue with libraries of hand-optimized functions boils down to our inability to easily build composable building blocks that perform well. Current sparse linear algebra libraries do not let us compose expressions, data structures, optimization strategies, and architectures without sacrificing performance. The first performance loss is from lost temporal locality—a deficiency that is also present with dense operations. Second, sparse operations may operate on many different data structures, which are each designed to work well on one type of sparsity pattern. If two composed functions do not support the same data structure, then it becomes necessary to perform an expensive conversion between irregular data structures. But the most serious issue is that composing two sparse linear or tensor algebra functions may perform asymptotically worse than a fused function written to compute the entire expression at once.<br/>This made me think more generally about the composability vs. performance trade-off.  Being able to compose black box abstractions at a high level is at the very foundation of software engineering, enabling programmers to eliminate boilerplate and more easily use others’ work. Yet composition is the enemy of performance: a careful implementation that fuses two operations is often more efficient than a sequenced invocation of the two. However, most compilers today only offer <tt>#[inline]</tt> pragmas or other extremely shallow means of reducing abstraction/composition costs. Even the most advanced C++ template magic can’t do the necessary code-reordering to achieve the optimal composition that Fred describes.<br/><br/>Several programming systems have good ideas in this direction:<br/>• Zero-cost abstractions in programming languages (eg Rust <a href="https://blog.rust-lang.org/2015/05/11/traits.html">https://blog.rust-lang.org/2015/05/11/traits.html</a>)<br/>• Separating algorithm from schedule (eg Halide <a href="http://halide-lang.org/">http://halide-lang.org/</a>)<br/>• Using higher-order functions to express data parallelism (eg Spark <a href="https://spark.apache.org/">https://spark.apache.org/</a>)<br/>Curious to hear others’ thoughts (how will we manage this trade-off in future langs/compilers?) and pointers to relevant work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601517629.106100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1601510649.105100.html#1601517629.106100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-09-30 19:00</span><br/>
+Taichi addresses this problem, for sparse arrays on a GPU.<br/><a href="http://taichi.graphics/wp-content/uploads/2019/09/taichi_lang.pdf">http://taichi.graphics/wp-content/uploads/2019/09/taichi_lang.pdf</a><br/><a href="https://github.com/yuanming-hu/taichi">https://github.com/yuanming-hu/taichi</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601889507.156300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1601510649.105100.html#1601889507.156300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-10-05 02:18</span><br/>
+Partial evaluation to remove abstraction overhead?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

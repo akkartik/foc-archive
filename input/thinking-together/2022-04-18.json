@@ -1,0 +1,423 @@
+[
+    {
+        "user": "ULM3U6275",
+        "type": "message",
+        "ts": "1650302805.224589",
+        "client_msg_id": "964632be-5c7d-46c8-b144-31d1ab35bfb8",
+        "text": "<@U01661S9F34> \"What makes you think there are effective yield points on call boundaries?\" From what I recall reading, Javascript async\/await calls give the scheduler an opportunity to switch between promise chains or other events\/callbacks.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g588e3d3aa94",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png",
+            "first_name": "Steve",
+            "real_name": "Steve Dekorte",
+            "display_name": "Steve Dekorte",
+            "team": "T5TCAFTA9",
+            "name": "steve447",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "nSyZL",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U01661S9F34"
+                            },
+                            {
+                                "type": "text",
+                                "text": " \"What makes you think there are effective yield points on call boundaries?\" From what I recall reading, Javascript async\/await calls give the scheduler an opportunity to switch between promise chains or other events\/callbacks."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "ULM3U6275",
+        "type": "message",
+        "ts": "1650303231.907539",
+        "edited": {
+            "user": "ULM3U6275",
+            "ts": "1650303253.000000"
+        },
+        "client_msg_id": "ea2008e4-3774-498c-8108-d5774b272a5f",
+        "text": "<@U01661S9F34> \"Why is that a problem? Isn't that controllable by the scheduler? I.e the scheduler (iterator) controls the order of execution and the switching of promise chains.\"\n\nYes, but AFAIK we have no control over the scheduler so using async\/await is more like preemptive OS threads except the context switching is limited to all call boundaries instead of individual instructions. This is not how cooperative threading (coroutines) work. They are cooperative because the programmer explicitly chooses the yield points. Preemptive threads make it extremely difficult to write correct code.\n\n\"I.e the scheduler (iterator) controls the order of execution and the switching of promise chains.\"\n\nI don't understand your suggestion that a scheduler and iterator are the same thing. Can you explain? If JS did give us control over the scheduler, we could get coroutine like behavior by reordering the callback\/event queue to avoid any switching on call boundaries that was not requested via an explicit yield or resumed by an explicit resume.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g588e3d3aa94",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png",
+            "first_name": "Steve",
+            "real_name": "Steve Dekorte",
+            "display_name": "Steve Dekorte",
+            "team": "T5TCAFTA9",
+            "name": "steve447",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "BL9ls",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U01661S9F34"
+                            },
+                            {
+                                "type": "text",
+                                "text": " \"Why is that a problem? Isn't that controllable by the scheduler? I.e the scheduler (iterator) controls the order of execution and the switching of promise chains.\"\n\nYes, but AFAIK we have no control over the scheduler so using async\/await is more like preemptive OS threads except the context switching is limited to all call boundaries instead of individual instructions. This is not how cooperative threading (coroutines) work. They are cooperative because the programmer explicitly chooses the yield points. Preemptive threads make it extremely difficult to write correct code.\n\n\"I.e the scheduler (iterator) controls the order of execution and the switching of promise chains.\"\n\nI don't understand your suggestion that a scheduler and iterator are the same thing. Can you explain? If JS did give us control over the scheduler, we could get coroutine like behavior by reordering the callback\/event queue to avoid any switching on call boundaries that was not requested via an explicit yield or resumed by an explicit resume."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01661S9F34",
+        "type": "message",
+        "ts": "1650305058.910379",
+        "client_msg_id": "129fc9a7-aea6-4726-9c96-deec1166b42b",
+        "text": "&gt;  context switching is limited to all call boundaries instead of individual instructions\nIsn't that what cooperative threading is? You are telling the scheduler when it is allowed to pre-empt. It cannot pre-empt arbitrarily. The actual scheduling order is abstracted and doesn't matter to your user code. You yourself mentioned in an earlier comment that the scheduler can be abstracted from the user.\n\n&gt;  I don't see why your coroutine scheduling code can't provide ways for you to do whatever you like. Many languages with coroutines (e.g. Lua) leave scheduling up to the programmer. I think this is a mistake though, as modules from different programmers can be effectively incompatible without a shared scheduler.\nPre-emption itself isn't the problem, it's when pre-emption is allowed to happen that makes things difficult.\n\nAlso, I want to make very clear, that threads have nothing to do with async or cooroutines. <https:\/\/go.dev\/blog\/waza-talk|Concurrency is not parallelism>. Cooroutines still work with a single thread. I think you are conflating the abstraction with the implementation here. Unless you are working on an embedded system with no operating system, you will *always* have some level of pre-emption from the OS. This is the foundation of modern timesharing computing. You seem to assume that a \"proper\" cooroutine implementation has no pre-emption at all, but that is not the case.\n\nHave you seen this series of articles that describes how go routines are implemented? It's a really good deep dive into the architecture of cooroutines. It goes into good detail about how Go interacts with the OS preemptive scheduler.\n<https:\/\/www.ardanlabs.com\/blog\/2018\/08\/scheduling-in-go-part2.html>\n\nRegarding JS, iterators can be used to implement the runtime scheduler. This works by having a queue of async 'thunks' or promises (units of work). The iterator then pops those off the queue and runs them. The iterator can know which promise chain something came from and can schedule appropriately. The user can even influence this depending on the implementation.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "19925410efa8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-06-28\/1196019819111_19925410efa8da86ae13_72.jpg",
+            "first_name": "",
+            "real_name": "Ray Imber",
+            "display_name": "Ray Imber",
+            "team": "T5TCAFTA9",
+            "name": "rayimber",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "dutC",
+                "elements": [
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": " context switching is limited to all call boundaries instead of individual instructions"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nIsn't that what cooperative threading is? You are telling the scheduler when it is allowed to pre-empt. It cannot pre-empt arbitrarily. The actual scheduling order is abstracted and doesn't matter to your user code. You yourself mentioned in an earlier comment that the scheduler can be abstracted from the user.\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": " I don't see why your coroutine scheduling code can't provide ways for you to do whatever you like. Many languages with coroutines (e.g. Lua) leave scheduling up to the programmer. I think this is a mistake though, as modules from different programmers can be effectively incompatible without a shared scheduler."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nPre-emption itself isn't the problem, it's when pre-emption is allowed to happen that makes things difficult.\n\nAlso, I want to make very clear, that threads have nothing to do with async or cooroutines. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/go.dev\/blog\/waza-talk",
+                                "text": "Concurrency is not parallelism"
+                            },
+                            {
+                                "type": "text",
+                                "text": ". Cooroutines still work with a single thread. I think you are conflating the abstraction with the implementation here. Unless you are working on an embedded system with no operating system, you will "
+                            },
+                            {
+                                "type": "text",
+                                "text": "always",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " have some level of pre-emption from the OS. This is the foundation of modern timesharing computing. You seem to assume that a \"proper\" cooroutine implementation has no pre-emption at all, but that is not the case.\n\nHave you seen this series of articles that describes how go routines are implemented? It's a really good deep dive into the architecture of cooroutines. It goes into good detail about how Go interacts with the OS preemptive scheduler.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.ardanlabs.com\/blog\/2018\/08\/scheduling-in-go-part2.html"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nRegarding JS, iterators can be used to implement the runtime scheduler. This works by having a queue of async 'thunks' or promises (units of work). The iterator then pops those off the queue and runs them. The iterator can know which promise chain something came from and can schedule appropriately. The user can even influence this depending on the implementation."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "ULM3U6275",
+        "type": "message",
+        "ts": "1650305533.562769",
+        "client_msg_id": "765e0cce-d9d2-4f90-8756-e2c4c4d18cc7",
+        "text": "<@U01661S9F34> \" Isn't that what cooperative threading is (context switching is limited to all call boundaries)?\" No, cooperative threading uses yield\/resume points chosen by the programmer.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g588e3d3aa94",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png",
+            "first_name": "Steve",
+            "real_name": "Steve Dekorte",
+            "display_name": "Steve Dekorte",
+            "team": "T5TCAFTA9",
+            "name": "steve447",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "1uv",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U01661S9F34"
+                            },
+                            {
+                                "type": "text",
+                                "text": " \" Isn't that what cooperative threading is (context switching is limited to all call boundaries)?\" No, cooperative threading uses yield\/resume points chosen by the programmer."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01661S9F34",
+        "type": "message",
+        "ts": "1650305891.065579",
+        "edited": {
+            "user": "U01661S9F34",
+            "ts": "1650305949.000000"
+        },
+        "client_msg_id": "0553b61f-56be-463b-9bef-f73dfd03f663",
+        "text": "<@ULM3U6275> JS is single threaded. Async\/await is simply sugar around promises. Can you share where you saw that JS is implemented the way you describe? That is not my understanding of how JS async works at all.\nEven if there is implicit yield points at call boundaries, the Async is desugared into a chain of promises at each call point. Those promises that can scheduled to run in the expected order by the iterator.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "19925410efa8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-06-28\/1196019819111_19925410efa8da86ae13_72.jpg",
+            "first_name": "",
+            "real_name": "Ray Imber",
+            "display_name": "Ray Imber",
+            "team": "T5TCAFTA9",
+            "name": "rayimber",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "vzRW",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "ULM3U6275"
+                            },
+                            {
+                                "type": "text",
+                                "text": " JS is single threaded. Async\/await is simply sugar around promises. Can you share where you saw that JS is implemented the way you describe? That is not my understanding of how JS async works at all.\nEven if there is implicit yield points at call boundaries, the Async is desugared into a chain of promises at each call point. Those promises that can scheduled to run in the expected order by the iterator."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0282PL61U1",
+        "type": "message",
+        "ts": "1650315824.964609",
+        "client_msg_id": "b710b35c-46db-439a-8416-ff2e9bc039df",
+        "text": "In many aspects visual programming, hygienic macros, adts from functional programming are already hitting mainstream popularity with things like Unity and Rust becoming so popular. I view blockchain, quantum and AI as storage \/ db improvements rather than programming improvements fundamentally and they have their place.\n\nI think the next interesting wave of programming is going to be around improving the tools around programming like voice based programming, programming with the help of mobile phones and VR based programming IDEs. Thoughts ?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8f365fd896e9",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2025-02-28\/8529753983250_8f365fd896e9c8f573b5_72.jpg",
+            "first_name": "xyzzy",
+            "real_name": "xyzzy",
+            "display_name": "xyzzy",
+            "team": "T5TCAFTA9",
+            "name": "moodyharsh",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1650315824.964609",
+        "reply_count": 1,
+        "reply_users_count": 1,
+        "latest_reply": "1650317448.033149",
+        "reply_users": [
+            "U03CEGR3HSL"
+        ],
+        "replies": [
+            {
+                "user": "U03CEGR3HSL",
+                "ts": "1650317448.033149"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "xYC",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "In many aspects visual programming, hygienic macros, adts from functional programming are already hitting mainstream popularity with things like Unity and Rust becoming so popular. I view blockchain, quantum and AI as storage \/ db improvements rather than programming improvements fundamentally and they have their place.\n\nI think the next interesting wave of programming is going to be around improving the tools around programming like voice based programming, programming with the help of mobile phones and VR based programming IDEs. Thoughts ?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U03CEGR3HSL",
+        "type": "message",
+        "ts": "1650317448.033149",
+        "client_msg_id": "c04589b4-a8c4-43cc-97f1-d44650876019",
+        "text": "I have no idea what the results will look like, but I keep pondering a question that Brett Victor asked in one of his talks. I won't put it in quotes because I don't remember it perfectly, but it was something like: what would it mean to directly manipulate behavior?\n\nI think a related question would be: how can we represent behavior so that it can be visualized and manipulated?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g7fd1bd5c536",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/7fd1bd5c53681452a80086a54ebb2ad1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Personal",
+            "real_name": "Personal Dynamic Media",
+            "display_name": "Personal Dynamic Media",
+            "team": "T5TCAFTA9",
+            "name": "personaldynamicmedia",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1650315824.964609",
+        "parent_user_id": "U0282PL61U1",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "c9G2S",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I have no idea what the results will look like, but I keep pondering a question that Brett Victor asked in one of his talks. I won't put it in quotes because I don't remember it perfectly, but it was something like: what would it mean to directly manipulate behavior?\n\nI think a related question would be: how can we represent behavior so that it can be visualized and manipulated?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "U0282PL61U1"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "ULM3U6275",
+        "type": "message",
+        "ts": "1650328109.614419",
+        "client_msg_id": "c065ae3f-89a1-46ed-ac8e-57972f91cca9",
+        "text": "Can you share an code example of this iterator\/scheduler that you mention?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g588e3d3aa94",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png",
+            "first_name": "Steve",
+            "real_name": "Steve Dekorte",
+            "display_name": "Steve Dekorte",
+            "team": "T5TCAFTA9",
+            "name": "steve447",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "GBVus",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Can you share an code example of this iterator\/scheduler that you mention?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

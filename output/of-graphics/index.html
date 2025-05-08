@@ -1,0 +1,2967 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-graphics, index</h2>
+  <table style="table-layout:fixed; width:60em; margin:auto; padding:auto">
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-02 03:45</span>      <a name="1730544344.124919" href="#1730544344.124919">#</a>
+<br/>
+Hello! I'm curious if anyone here has a good idea about interleaving works between a compute shader and a fragment shader.<br/><br/>Some relevant details:<br/>• My app is built with Rust and wgpu, and I'm running on an M1 Macbook Pro.<br/>• I have a single encoder with a compute pipeline and a render pipeline.<br/>• The compute shader writes to a storage buffer defined like this:<br/><pre style="white-space:pre-wrap">@group(0) @binding(2) var&lt;storage, read_write&gt; output: array&lt;vec4&lt;f32&gt;&gt;;</pre><br/>• The fragment shader reads from the same buffer. Basically, each fragment is just one element of the <tt>vec4&lt;f32&gt;</tt>. The fragment shader is very simple, and doesn't touch anything else in the storage buffer.<br/>I've added timestamp queries to the pipeline, and what I'm seeing is this:<br/><pre style="white-space:pre-wrap">Duration #1: 47.800208ms<br/>Duration #2: 47.809876ms<br/>Frame time: 51.2545ms</pre><br/><tt>Duration #1</tt> is computed from the compute shader timestamps (the duration between the beginning and end of the compute pass) and <tt>Duration #2</tt> is the time for the render pass, computed the same way.<br/><br/><tt>Frame time</tt> is measured on the CPU.<br/><br/>I expected the duration of the compute shader and fragment shader to add up to the frame time (approximately). But it doesn't and I'm confused about why! Could it be due to interleaving of the compute pass and render pass? If so, I'm curious how the synchronization works. How does the GPU figure out the dependencies between the write (a compute shader invocation) and the reader (fragment shader invocation)?<br/><br/>I don't have any explicit synchronization, but I'm also not seeing any tearing or anything that would indicate that there is a data race between the shaders.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1730544344.124919.html">11 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1720562344.481319.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2024-07-09 14:59</span>      <a name="1720562344.481319" href="#1720562344.481319">#</a>
+<br/>
+a small frp-ish dsl I made for live coding ray marchers: <a href="https://charlieroberts.github.io/screamer/playground/">https://charlieroberts.github.io/screamer/playground/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-10-19/4244276255941_bc69ae1df6d63d8de4f7_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1666627197.087499.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Avneesh Sarwate</b>
+<span style="margin:2em; color:#606060">2022-10-24 08:59</span>      <a name="1666627197.087499" href="#1666627197.087499">#</a>
+<br/>
+any folks here use touchdesigner? i’ve been incredibly impressed by it’s notebook-like functionality embedded in a visual-programming paradigm. Of all of the node-based tools i’ve seen, imo it has done the best job at bridging the gap between text based and node based programming, while also (most impressively) embedding a fairly rigorous notion of time into the whole environment
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1666627197.087499.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1661468267.262029.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2022-08-25 15:57</span>      <a name="1661468267.262029" href="#1661468267.262029">#</a>
+<br/>
+just a reminder to everyone about the game noctis, maybe the original procedurally generated game from literally the year 2000 with amazing vibes (the music isn’t from the game): <a href="https://www.youtube.com/watch?v=ULlQ8poXf2I">https://www.youtube.com/watch?v=ULlQ8poXf2I</a> <a href="https://en.wikipedia.org/wiki/Noctis_(video_game)">https://en.wikipedia.org/wiki/Noctis_(video_game)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1661468267.262029.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../of-graphics/1644254490.695619.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2022-02-07 09:21</span>      <a name="1644254490.695619" href="#1644254490.695619">#</a>
+<br/>
+Anyone here used Babylon.js? Would you recommend it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1644254490.695619.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1637143354.008500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-11-17 02:02</span>      <a name="1637143354.008500" href="#1637143354.008500">#</a>
+<br/>
+I wonder if someone has experience in building user interface navigable without mouse (ex: on TV, game consoles, etc).<br/>I remember obsessing over the nav system because pretty much every UI system I worked with required wiring the direction keys manually, and making sure there were no "<a href="https://docs.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions#inaccessible-ui">focus traps</a>", etc.<br/><br/>Anyway, <a href="https://4nomore.net/2018/Triangulation/">this nice simulation of delaunay triangulation</a> gave me the idea of a possible way to wire direction keys automatically.<br/>I think some heuristic like this could work:<br/>• Make sure every edge between to widgets connected through the euclidean minimum spanning tree is assigned to one of the cardinal directions.<br/>• For each widget, fill the rest of the cardinal directions using the relative neighborhood graph, and remembering which widget we "came from" in the opposite direction.  <br/>As usual, the devil is in the details .... for instance:<br/>• I imagine each widget would have to be modeled with a bounding area instead of a single point ...<br/>• Care would need to be put if bounding areas overlap<br/>    ◦ Some widgets may still require tracking its own focus before delegating to the pre-calculated target (for ex., I imagine a scrolling gallery in the middle of the screen surrounded with buttons... :sob:)<br/>• Etc, etc, etc ....<br/>There's a reason most UI frameworks just ask the programmer to do wire navigation by hand :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1637143354.008500.html">11 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1632308957.000900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-22 04:09</span>      <a name="1632308957.000900" href="#1632308957.000900">#</a>
+<br/>
+motion libraries, slowly, <b>then</b> *all* <b>at</b> *once*.<br/><br/>Motion Design, for the web: <a href="https://www.theatrejs.com/">Theatre.js</a> is a JavaScript animation library with a GUI. It animates the DOM, WebGL, and any other JavaScript variable.<br/><br/><a href="https://motion.dev/">Motion One</a> packs the power of the Web Animations API into a minimal API. It adds new features like selectors, individual transforms, timeline sequencing and more.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/0e4f9c7355428e644388f09261a52191.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../of-graphics/1627404722.003400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcin Ignac</b>
+<span style="margin:2em; color:#606060">2021-07-27 09:52</span>      <a name="1627404722.003400" href="#1627404722.003400">#</a>
+<br/>
+Hi guys! I’m going to stream live tomorrow  28th at 8pm London time. for the first time about procedural graphics in <a href="http://nodes.io">http://nodes.io</a>  (2d for start). So if you have heard about Nodes but never had chance to try it out or have no idea what it is it might be good place to start.  <a href="https://www.youtube.com/watch?v=SlgeCqeg6tk&amp;feature=youtu.be">https://www.youtube.com/watch?v=SlgeCqeg6tk&amp;feature=youtu.be</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1625245390.001500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2021-07-02 10:03</span>      <a name="1625245390.001500" href="#1625245390.001500">#</a>
+<br/>
+Has anybody worked with Nvidia Kaolin? Scaffolding for working with 3D graphics in ML systems, based on Pixar USD
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1625245390.001500.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/bf26b30edd8ed78a32e08172b3ffab4a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1620633841.007100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tak Tran</b>
+<span style="margin:2em; color:#606060">2021-05-10 01:04</span>      <a name="1620633841.007100" href="#1620633841.007100">#</a>
+<br/>
+A friend of mine created this Graphical UI to procedurally generate graphics: <a href="https://www.instagram.com/p/COioBISnAh1/">https://www.instagram.com/p/COioBISnAh1/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1620633841.007100.html">6 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../of-graphics/1620381392.005400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-05-07 02:56</span>      <a name="1620381392.005400" href="#1620381392.005400">#</a>
+<br/>
+Here’s a pair of (formal) papers on rewriting string diagrams, which could help solve problems in graphical programming languages like<br/>“how do you nicely display an arbitrary set of merged functions?” (ie level of detail, though “nicely” isn’t defined in these papers, it could be…)<br/><a href="https://arxiv.org/abs/2012.01847">https://arxiv.org/abs/2012.01847</a><br/><a href="https://arxiv.org/abs/2104.14686">https://arxiv.org/abs/2104.14686</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1620381392.005400.html">4 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/bf26b30edd8ed78a32e08172b3ffab4a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1615722132.000500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tak Tran</b>
+<span style="margin:2em; color:#606060">2021-03-14 04:42</span>      <a name="1615722132.000500" href="#1615722132.000500">#</a>
+<br/>
+This is lovely visualisation of motion and geometry, with a drawing tool: <a href="http://www.engare.design/">http://www.engare.design/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1615722132.000500.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1611110684.000300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2021-01-19 18:44</span>      <a name="1611110684.000300" href="#1611110684.000300">#</a>
+<br/>
+<a href="https://ourmachinery.com/post/summer-fun-with-creation-graphs/">https://ourmachinery.com/post/summer-fun-with-creation-graphs/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1611110684.000300.html">6 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1606552565.007800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-11-28 00:36</span>      <a name="1606552565.007800" href="#1606552565.007800">#</a>
+<br/>
+Great intro video on SDFs <a href="https://www.youtube.com/watch?v=8--5LwHRhjk">https://www.youtube.com/watch?v=8--5LwHRhjk</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1606552565.007800.html">11 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-20/882734188373_75bc4f5fbeedc5a2213e_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1600990053.001400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Max Krieger</b>
+<span style="margin:2em; color:#606060">2020-09-24 16:27</span>      <a name="1600990053.001400" href="#1600990053.001400">#</a>
+<br/>
+I'm looking for 256-color clipart, the kind that came on macintosh CDs. Like a ready-to-eat png archive (or online emulation) of such. Any archaeologists out there know where to look? Too lazy to spin up an emulator and download 50 disk images. Old websites might have this too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1600990053.001400.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1599948567.045100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2020-09-12 15:09</span>      <a name="1599948567.045100" href="#1599948567.045100">#</a>
+<br/>
+For those interested in Bret Victor style animation (ie. stop drawing dead fish). Check out this new siggraph asia paper: <a href="https://youtu.be/LbjF-MylQzk?t=190">https://youtu.be/LbjF-MylQzk?t=190</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1599948567.045100.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1598803777.040600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-08-30 09:09</span>      <a name="1598803777.040600" href="#1598803777.040600">#</a>
+<br/>
+<a href="https://twitter.com/sebaaltonen/status/1300063944846069761?s=21">https://twitter.com/sebaaltonen/status/1300063944846069761?s=21</a> thread/quote tweet rabbit hole of how the game engine for Dreams works with SDF’s and a lot of clever optimization
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1598803777.040600.html">7 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627699.008800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:14</span>      <a name="1598627699.008800" href="#1598627699.008800">#</a>
+<br/>
+it has almost no dependencies we didn't write, we did that to cut compile time back to something reasonable and the rust ecosystem doesn't care about it
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627611.008000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:13</span>      <a name="1598627611.008000" href="#1598627611.008000">#</a>
+<br/>
+it should compile in about 20-30 seconds with all dependencies
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627563.007500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:12</span>      <a name="1598627563.007500" href="#1598627563.007500">#</a>
+<br/>
+the layoutsystem is 'inline' with the drawflow so its extremely simple and fast but can still do most of the things you'd want from a layout system.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627542.007000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:12</span>      <a name="1598627542.007000" href="#1598627542.007000">#</a>
+<br/>
+the UI is a new kind of imgui with 2 flows instead of 1
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627531.006700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:12</span>      <a name="1598627531.006700" href="#1598627531.006700">#</a>
+<br/>
+we have our own shader syntax which is a hybrid of GLSL and Rust, and a shader compiler to target all those backend languages
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627489.006100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:11</span>      <a name="1598627489.006100" href="#1598627489.006100">#</a>
+<br/>
+some neat features of makepad: It uses shaders as UI styling constructs (like CSS but without the C and the suck suck)
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627426.005500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:10</span>      <a name="1598627426.005500" href="#1598627426.005500">#</a>
+<br/>
+the first use of the thing will be to make a new shader coding env on the web by using its live-code features like colorpickers and animtimelines
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627383.004900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:09</span>      <a name="1598627383.004900" href="#1598627383.004900">#</a>
+<br/>
+it has its own live code editor, visual editors, and runs in VR too
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627372.004600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:09</span>      <a name="1598627372.004600" href="#1598627372.004600">#</a>
+<br/>
+Makepad is a new UI stack written in Rust with 0-dep backends for win32/dx11 linux/opengl mac/metal and web/webgl
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1598627372.004600.html">10 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/914412a71b72e97f47478cae9573cbb6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../of-graphics/1598627346.004100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Rik Arends</b>
+<span style="margin:2em; color:#606060">2020-08-28 08:09</span>      <a name="1598627346.004100" href="#1598627346.004100">#</a>
+<br/>
+Hi people, i made makepad. i can answer questions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1598627346.004100.html">43 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1598395324.001000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-25 15:42</span>      <a name="1598395324.001000" href="#1598395324.001000">#</a>
+<br/>
+I just ran across makepad, which looks like a very promising live coding environment for rust <a href="https://makepad.nl/">https://makepad.nl/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1598395324.001000.html">31 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1597534784.293900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-08-15 16:39</span>      <a name="1597534784.293900" href="#1597534784.293900">#</a>
+<br/>
+<a href="https://twitter.com/awwbees/status/1294283629233950720?s=21">https://twitter.com/awwbees/status/1294283629233950720?s=21</a> love the use of visible waveforms traveling over the wires in this project!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1597534784.293900.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../of-graphics/1597514406.288800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-15 11:00</span>      <a name="1597514406.288800" href="#1597514406.288800">#</a>
+<br/>
+<span style="background-color:#ccf">@Nuno Leiria</span> and I have started <a href="https://github.com/dali3d/dali">Dali</a>, a new 2D/3D graphics API, based on signed distance fields, implemented with WebGPU. The goal is to enable the future of user interfaces and visual programming languages by providing a much richer set of graphics primitives for rendering UIs than what is supported by traditional postscript/SVG/HTML/CSS 2D vector graphics APIs.<br/><br/>The graphics model is inspired by my <a href="https://github.com/curv3d/curv">Curv</a> project, but more general and much higher performance.<br/><br/>At this point, we have overall project goals, a list of prior art, and a design sketch for the Demo 1 release, which will demonstrate text rendering.<br/><li> overall project goals: <a href="https://github.com/dali3d/dali">https://github.com/dali3d/dali</a><br/><li> text rendering goals: <a href="https://github.com/dali3d/dali/wiki/Text-Rendering-(Demo-1)">https://github.com/dali3d/dali/wiki/Text-Rendering-(Demo-1)</a><br/><li> prior art for text rendering: <a href="https://github.com/dali3d/dali/wiki/Prior-Art">https://github.com/dali3d/dali/wiki/Prior-Art</a><br/><br/>We are looking for help, especially with the architecture.<br/><li> Suggestions and recommendations on the GPU data structures and algorithms to use.<br/><li> Pointers to existing projects that are not in my Prior Art list,<br/>   that show a better way to do things than what I've considered thus far.<br/><li> Collaborators.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1597514406.288800.html">15 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1597467457.287400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-08-14 21:57</span>      <a name="1597467457.287400" href="#1597467457.287400">#</a>
+<br/>
+has renamed the channel from "graphics" to "of-graphics"
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-02-05/941640103046_9cb6f99c1d4661569649_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1597109039.281000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chet Corcos</b>
+<span style="margin:2em; color:#606060">2020-08-10 18:23</span>      <a name="1597109039.281000" href="#1597109039.281000">#</a>
+<br/>
+Does anyone have any suggestions for what tools to use to build a music visualizer? Preferably something with great performance (e.g. not HTML5 Canvas) and I'm open to learning a new language but ideally I don't have to invent a new system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1597109039.281000.html">22 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1596921929.276400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-08-08 14:25</span>      <a name="1596921929.276400" href="#1596921929.276400">#</a>
+<br/>
+not sure if I’m behind the curve on finding this, but this webgl state viewer from the babylon.js folks is fantastic: <a href="https://github.com/BabylonJS/Spector.js">https://github.com/BabylonJS/Spector.js</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1596921929.276400.html">8 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1596061765.255300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-07-29 15:29</span>      <a name="1596061765.255300" href="#1596061765.255300">#</a>
+<br/>
+<a href="https://shade.to/">https://shade.to/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1596061765.255300.html">31 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1594588182.252600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-12 14:09</span>      <a name="1594588182.252600" href="#1594588182.252600">#</a>
+<br/>
+<a href="https://youtu.be/wKw8LMF3Djo">https://youtu.be/wKw8LMF3Djo</a> this looks promising from both a graphics/simulation perspective and a language design perspective. the language splits behavior and data, the compiler optimizes data access, and (synthetic benchmark) 10x shorter code, 2-4.5x faster rendering
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1594588182.252600.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1594352302.239100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-09 20:38</span>      <a name="1594352302.239100" href="#1594352302.239100">#</a>
+<br/>
+<a href="https://twitter.com/playstation/status/1278335235244130305?s=21">https://twitter.com/playstation/status/1278335235244130305?s=21</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1594352302.239100.html">20 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1594129591.237500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-07 06:46</span>      <a name="1594129591.237500" href="#1594129591.237500">#</a>
+<br/>
+<a href="https://twitter.com/quelsolaar/status/1280275143261138945?s=21">https://twitter.com/quelsolaar/status/1280275143261138945?s=21</a> this guy has been doing really interesting stuff since at least 2008. will be interesting to see where it goes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1594129591.237500.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1593840778.209800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-03 22:32</span>      <a name="1593840778.209800" href="#1593840778.209800">#</a>
+<br/>
+A comprehensive look at what’s new in Metal from WWDC2020. TBDR is coming to Macs with Apple Silicon, harmonizing CPU and GPU architectures across all Apple devices. This comes after they’ve been designing their own CPUs for a decade and their own GPUs for six years.<br/><br/>The GPU compute capabilities seem very mature. Have a look at the function pointer feature and the ray tracing APIs.<br/><br/>Seems like Apple is ramping up to position this as a serious alternative to the energy-hungry overdraw-heavy classic world of desktop graphics. <br/>Will be interesting to see how the industry reacts to a different approach of slicing the market: previously you’d build for either PC/console or mobile, mobile often being second thought ported separately if at all. Soon you can access part of mobile + part of notebook/desktop (+ perhaps a more capable Apple TV which would qualify as a gaming console?) with the same architecture, but of course limited to Apple devices. It was easy to ignore Macs for gaming in the past, but now it basically comes “for free” if you consider shipping for mobile/iOS.<br/><br/><a href="http://metalkit.org/2020/07/03/wwdc20-whats-new-in-metal.html">http://metalkit.org/2020/07/03/wwdc20-whats-new-in-metal.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1593840778.209800.html">19 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1593715353.178900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2020-07-02 11:42</span>      <a name="1593715353.178900" href="#1593715353.178900">#</a>
+<br/>
+A classic "Bret Victor'esqe" style breakdown of basic math behind the modeling of light (i.e. 3D rendering).<br/>I know Bret Victor has since said these kind of limited interactive articles miss the point of his philosophical message, but I still think there is a lot of value in them. Especially the well polished examples like this.<br/><a href="https://ciechanow.ski/lights-and-shadows/">https://ciechanow.ski/lights-and-shadows/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1593715353.178900.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1593470881.174500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-06-29 15:48</span>      <a name="1593470881.174500" href="#1593470881.174500">#</a>
+<br/>
+<a href="https://jmickle66666666.github.io/blog/2020/06/27/SHAD2.html">https://jmickle66666666.github.io/blog/2020/06/27/SHAD2.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1593470881.174500.html">9 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1593313532.166800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-27 20:05</span>      <a name="1593313532.166800" href="#1593313532.166800">#</a>
+<br/>
+Branching off a new thread from an <span style="background-color:#ccf">@magicmouse94937</span> post: <a href="../thinking-together/1593225852.497700.html#1593274446.009800">../thinking-together/1.593274.html&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1593313532.166800.html">16 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1593244666.165300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-06-27 00:57</span>      <a name="1593244666.165300" href="#1593244666.165300">#</a>
+<br/>
+did not try anything fancy though
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1593244659.165000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-06-27 00:57</span>      <a name="1593244659.165000" href="#1593244659.165000">#</a>
+<br/>
+the language still looks a bit alien to me. I tried the live updateable version with idea and it just worked: <a href="https://guide.openrndr.org/#/10_OPENRNDR_Extras/C03_Live_coding">https://guide.openrndr.org/#/10_OPENRNDR_Extras/C03_Live_coding</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1593244659.165000.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1593189998.164200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-06-26 09:46</span>      <a name="1593189998.164200" href="#1593189998.164200">#</a>
+<br/>
+It’s still missing some stuff (unions, extension interfaces ahem), but it’s :fire:
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1593189983.163800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-06-26 09:46</span>      <a name="1593189983.163800" href="#1593189983.163800">#</a>
+<br/>
+it’s supper elegant, fluid and readable. I haven’t used a language that comfortable in a long time,
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1593189955.163100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-06-26 09:45</span>      <a name="1593189955.163100" href="#1593189955.163100">#</a>
+<br/>
+Kotlin is amazing! It supports JVM, can live in the same codebase as Java, you can write multiplatform (im doing that ATM, 1 core module and rendering stuff to test in HTML/JS (aka kotlin which translates to js)
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1592920979.161600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-06-23 07:02</span>      <a name="1592920979.161600" href="#1592920979.161600">#</a>
+<br/>
+Neat! I wonder what the point of Kotlin is if it doesn't support Android--Processing + Android is imo the friendliest intro to mobile development, and a higher-performance version of that would be interesting
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1592552169.159800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-06-19 00:36</span>      <a name="1592552169.159800" href="#1592552169.159800">#</a>
+<br/>
+been playing a bit with <a href="http://www.quil.info/">http://www.quil.info/</a> so that thing fell on my radar
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-graphics/1592552117.159300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-06-19 00:35</span>      <a name="1592552117.159300" href="#1592552117.159300">#</a>
+<br/>
+stumbled upon this thing recently <a href="https://openrndr.org/">https://openrndr.org/</a> looks pretty powerful. Kinda like a spiced up <a href="http://processing.org">processing.org</a>. Not sure if anybody here has been using it.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1592024532.156100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-06-12 22:02</span>      <a name="1592024532.156100" href="#1592024532.156100">#</a>
+<br/>
+<a href="https://github.com/tgfrerer/island">https://github.com/tgfrerer/island</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1592024532.156100.html">7 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/bf26b30edd8ed78a32e08172b3ffab4a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1590616383.153300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tak Tran</b>
+<span style="margin:2em; color:#606060">2020-05-27 14:53</span>      <a name="1590616383.153300" href="#1590616383.153300">#</a>
+<br/>
+This is quite an interesting framing of graphics programming: <a href="https://medium.com/@williamngan/pt-93382bf5943e">https://medium.com/@williamngan/pt-93382bf5943e</a> - One of the most beautiful docs sites I’ve seen too: <a href="https://ptsjs.org/demo/">https://ptsjs.org/demo/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1590616383.153300.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1589912990.150800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-05-19 11:29</span>      <a name="1589912990.150800" href="#1589912990.150800">#</a>
+<br/>
+<a href="https://twitter.com/joewintergreen/status/1262662025903128576?s=21">https://twitter.com/joewintergreen/status/1262662025903128576?s=21</a> thread exploring some of valves unique approach to level editors
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1589869658.149400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-18 23:27</span>      <a name="1589869658.149400" href="#1589869658.149400">#</a>
+<br/>
+Angelo Pesce, Roblox technical director, shared his live coding framework earlier. Looks <b>a lot</b> like a tool I've been playing with and started independently <a href="https://twitter.com/kenpex/status/1262235296483037184?s=19">https://twitter.com/kenpex/status/1262235296483037184?s=19</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1589869658.149400.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1589388792.092000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-05-13 09:53</span>      <a name="1589388792.092000" href="#1589388792.092000">#</a>
+<br/>
+<a href="https://www.unrealengine.com/en-US/blog/a-first-look-at-unreal-engine-5">https://www.unrealengine.com/en-US/blog/a-first-look-at-unreal-engine-5</a><br/><br/>This is a good way to spend 9 minutes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1589388792.092000.html">40 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1588688295.088600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-05-05 07:18</span>      <a name="1588688295.088600" href="#1588688295.088600">#</a>
+<br/>
+<a href="http://fabiensanglard.net/cuda/index.html">http://fabiensanglard.net/cuda/index.html</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1588228537.050100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-04-29 23:35</span>      <a name="1588228537.050100" href="#1588228537.050100">#</a>
+<br/>
+“How much should it cost to do graphics?” — Jonathan Blow and Bennett replay one of our favorite discussions:<br/><br/><a href="https://twitter.com/Jonathan_Blow/status/1255724297399627776">https://twitter.com/Jonathan_Blow/status/1255724297399627776</a><br/><br/><em>This is the leaf tweet of a discussion on Twitter. How do you link to a specific branch of a tree of tweets? Like so?</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1588228537.050100.html">38 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../of-graphics/1587833746.042800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-04-25 09:55</span>      <a name="1587833746.042800" href="#1587833746.042800">#</a>
+<br/>
+Anybody else here catch the massive leap implicit surface capture from photographs took recently? <a href="http://www.matthewtancik.com/nerf">http://www.matthewtancik.com/nerf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1587833746.042800.html">6 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1587784568.041600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-04-24 20:16</span>      <a name="1587784568.041600" href="#1587784568.041600">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=TVtSsJf86_Y">https://www.youtube.com/watch?v=TVtSsJf86_Y</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1587784568.041600.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/f65725e9d2b02fbacb71a82b561da43d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../of-graphics/1587752432.040200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>jeff tang</b>
+<span style="margin:2em; color:#606060">2020-04-24 11:20</span>      <a name="1587752432.040200" href="#1587752432.040200">#</a>
+<br/>
+Travis Scott is having a series of concerts on Fortnite :slightly_smiling_face: <a href="https://www.youtube.com/watch?v=cPYA9Fsmo-0">https://www.youtube.com/watch?v=cPYA9Fsmo-0</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1587752432.040200.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1587712256.037000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-04-24 00:10</span>      <a name="1587712256.037000" href="#1587712256.037000">#</a>
+<br/>
+<a href="https://gfx-rs.github.io/2020/04/21/wgpu-web.html">https://gfx-rs.github.io/2020/04/21/wgpu-web.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1587712256.037000.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1587412327.026200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-04-20 12:52</span>      <a name="1587412327.026200" href="#1587412327.026200">#</a>
+<br/>
+Just found out about <a href="https://hexler.net/products/kodelife">https://hexler.net/products/kodelife</a> even though I've started working on a similar project for graphics prototyping :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1587412327.026200.html">40 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1585682016.001200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-03-31 12:13</span>      <a name="1585682016.001200" href="#1585682016.001200">#</a>
+<br/>
+Spinning up a separate thread<br/><br/><span style="background-color:#ccf">@Kartik Agaram</span> said in <a href="../thinking-together/1585420887.013400.html#1585680051.053200">../thinking-together/1.585680.html&hellip;</a>:<br/><br/>&gt; Please build your prototypes atop Mu!<br/>&gt; I have no idea how to do graphics or sound. But a forcing function would be helpful.<br/>All that I need for a <em>basic</em> implementation of Hest's renderer is something like: the ability to draw stroked straight lines, filled rectangles and circles, and the most basic text (bitmap font) at arbitrary sizes and positions... with a few thousand drawing operations of various sorts happening in less than 3ms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1585682016.001200.html">36 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../of-graphics/1585539710.000800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2020-03-29 20:41</span>      <a name="1585539710.000800" href="#1585539710.000800">#</a>
+<br/>
+Promising screenshot for what diffing a table could look like: <a href="https://twitter.com/qri_io/status/1243168110162726918?s=21">https://twitter.com/qri_io/status/1243168110162726918?s=21</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1585539710.000800.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1583172654.011700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-03-02 10:10</span>      <a name="1583172654.011700" href="#1583172654.011700">#</a>
+<br/>
+Core is an interesting upcoming game building tool.  This has the most information I've seen about what the actual creation tools might look like.  I'd like to see the scripting capabilities.  Although I'm guessing its similar to a slightly more generic version of Overwatch's Workshop scripting they haven't shown anything.  This is funny to me because they made a lot of choices that were clearly stickier\more fun for users  (pre-built game modes, heavy kitbashing), but aren't as "pure" for a technical\engineering standpoint<br/><a href="https://www.theverge.com/2020/3/2/21158189/core-free-game-creation-tool-pc-youtube-twitch">https://www.theverge.com/2020/3/2/21158189/core-free-game-cr&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1583172654.011700.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1583030995.008300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-02-29 18:49</span>      <a name="1583030995.008300" href="#1583030995.008300">#</a>
+<br/>
+The “explorable” videos in this quaternion explanation are nicely done with an interesting reactive ui : <a href="https://eater.net/quaternions">https://eater.net/quaternions</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1583030995.008300.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1582910771.005600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-02-28 09:26</span>      <a name="1582910771.005600" href="#1582910771.005600">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=yED9t2tImog&amp;feature=youtu.be">https://www.youtube.com/watch?v=yED9t2tImog&amp;feature=youtu.be</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1582910771.005600.html">6 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1582772781.004100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-02-26 19:06</span>      <a name="1582772781.004100" href="#1582772781.004100">#</a>
+<br/>
+Interesting set of VR interaction prototypes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1582772781.004100.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1582772754.003400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-02-26 19:05</span>      <a name="1582772754.003400" href="#1582772754.003400">#</a>
+<br/>
+<a href="http://www.graycrawford.com/thesis">http://www.graycrawford.com/thesis</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1582512510.002000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-02-23 18:48</span>      <a name="1582512510.002000" href="#1582512510.002000">#</a>
+<br/>
+<a href="https://jorenjoestar.github.io/post/data_driven_rendering_pipeline/">https://jorenjoestar.github.io/post/data_driven_rendering_pipeline/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1582512510.002000.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-01-21/915720630117_457165768ff8b1bbdec8_72.png" style="float:left"/>
+      <a href="../of-graphics/1582207317.083100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Colby Gutierrez-Kraybill</b>
+<span style="margin:2em; color:#606060">2020-02-20 06:01</span>      <a name="1582207317.083100" href="#1582207317.083100">#</a>
+<br/>
+This is pretty interesting: <a href="https://vimeo.com/392454807">https://vimeo.com/392454807</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1582207317.083100.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1582023726.082000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-18 03:02</span>      <a name="1582023726.082000" href="#1582023726.082000">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=xvoJsymzRkw">https://www.youtube.com/watch?v=xvoJsymzRkw</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581953033.077300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-02-17 07:23</span>      <a name="1581953033.077300" href="#1581953033.077300">#</a>
+<br/>
+If you’re interested in things like ProjectLincoln, check out Data Illustrator and Charticulator. <br/><br/><br/><a href="http://data-illustrator.com">http://data-illustrator.com</a><br/><br/><a href="https://charticulator.com">https://charticulator.com</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581929430.062900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-17 00:50</span>      <a name="1581929430.062900" href="#1581929430.062900">#</a>
+<br/>
+<span style="background-color:#ccf">@Andrew Reece</span> yesterday I found this, it may answer your question, afaik it's still not available
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1581929430.062900.html">9 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581929399.062200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-17 00:49</span>      <a name="1581929399.062200" href="#1581929399.062200">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=lX1BBMyY1bc">https://www.youtube.com/watch?v=lX1BBMyY1bc</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581882132.061600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-16 11:42</span>      <a name="1581882132.061600" href="#1581882132.061600">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=KfxE99eN44c">https://www.youtube.com/watch?v=KfxE99eN44c</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1581882132.061600.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581882064.061400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-16 11:41</span>      <a name="1581882064.061400" href="#1581882064.061400">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=0msyWHrw40A">https://www.youtube.com/watch?v=0msyWHrw40A</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../of-graphics/1581673086.059600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2020-02-14 01:38</span>      <a name="1581673086.059600" href="#1581673086.059600">#</a>
+<br/>
+Has anyone ever made a full product that even attempts the ideas of Bret Victor's presentation software?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1581673086.059600.html">10 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1581328254.055800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-10 01:50</span>      <a name="1581328254.055800" href="#1581328254.055800">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=tX4H_ctggYo">https://www.youtube.com/watch?v=tX4H_ctggYo</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1581328254.055800.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-07-03/5521238650675_cf8e20929548a602055a_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580477351.052500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Irvin Hwang</b>
+<span style="margin:2em; color:#606060">2020-01-31 05:29</span>      <a name="1580477351.052500" href="#1580477351.052500">#</a>
+<br/>
+Hey <span style="background-color:#ccf">@William Taysom</span> <span style="background-color:#ccf">@Scott Anderson</span> and anyone else interested in talking about programming in VR...in VR, I just set up a doodle poll (<a href="https://doodle.com/poll/uihf2de6tan7ub27">https://doodle.com/poll/uihf2de6tan7ub27</a>) for a second meetup using <a href="https://hubs.mozilla.com/">https://hubs.mozilla.com/</a><br/><br/>If none of the times work I can set up some weekday options as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1580477351.052500.html">20 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-graphics/1580438335.049000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-01-30 18:38</span>      <a name="1580438335.049000" href="#1580438335.049000">#</a>
+<br/>
+Rendering text at a distance helps.  We had some readability success in having labels appear at a distance yet composed after the rest of the scene.  As a result, holding an object in front of a label would cause the object to be disappear, but it did make labels (lines of code in this case) easy to read.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580411498.043500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:11</span>      <a name="1580411498.043500" href="#1580411498.043500">#</a>
+<br/>
+I figure the win condition for getting rid of the physical monitor is when the portion of your VR screen that a laptop would take up in your field of view has equivalent resolution.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580411405.042200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:10</span>      <a name="1580411405.042200" href="#1580411405.042200">#</a>
+<br/>
+--But yeah I think long term cameras and screens will advance faster than real optics. A couple of the CV-based headsets already allow you to pipe in the camera feed to your own app, although of course it's not yet high-res enough to read text at all, much less comfortably.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580411320.040700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:08</span>      <a name="1580411320.040700" href="#1580411320.040700">#</a>
+<br/>
+There's a nice proof-of-concept app called Enklu that's designed to be used with a HoloLens and a desktop together. You get an environment scan from the HoloLens into the app, use your hands to position stuff in it, and add your game logic at a regular keyboard and monitor that you can see. End product is a QR code you distribute to other HoloLens users who can walk through the scanned location. (Too glitchy for practical use last I tried it, but live updating from a real-world scanned environment synced between two apps is non-trivial!)
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580411221.039400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:07</span>      <a name="1580411221.039400" href="#1580411221.039400">#</a>
+<br/>
+Future headsets will greatly improve resolution and maybe one day we'll get varifocal which also improves the text reading experience
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580411175.037500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:06</span>      <a name="1580411175.037500" href="#1580411175.037500">#</a>
+<br/>
+But reading lots of text is still not a pleasant experience
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580411152.036800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:05</span>      <a name="1580411152.036800" href="#1580411152.036800">#</a>
+<br/>
+Rift S and Quest are better than Rift
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580411124.035600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:05</span>      <a name="1580411124.035600" href="#1580411124.035600">#</a>
+<br/>
+Index is better
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580410919.032200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:01</span>      <a name="1580410919.032200" href="#1580410919.032200">#</a>
+<br/>
+That's been my issue with any complex UI in VR so far. Ironically the best use case I've found for the HoloLens and Magic Leap "true AR" headsets is reading text off a monitor!
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580410862.031200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-30 11:01</span>      <a name="1580410862.031200" href="#1580410862.031200">#</a>
+<br/>
+Is a lot of text comfortable to read yet on any of the latest-gen headsets? (Haven't tried an Index, for example.)
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580408163.030300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 10:16</span>      <a name="1580408163.030300" href="#1580408163.030300">#</a>
+<br/>
+I'm still disappointed that all VR titles basically use a flat panel\iPad metaphor with Scratch blocks or some list based UI.  I really pushed to get away from that when I was working on Horizon but got way too much friction.  I doubt Horizon will be any better unfortunately, I've been away from the project for 6 months so it's entirely possible that they've moved away from visual scripting entirely or gone with a different paradigm :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1580408163.030300.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580408029.028000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-30 10:13</span>      <a name="1580408029.028000" href="#1580408029.028000">#</a>
+<br/>
+Those of you interested in programming in VR might want to check out this release <a href="https://store.steampowered.com/app/413750/Turtle_VR/">https://store.steampowered.com/app/413750/Turtle_VR/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1580397285.024400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Adnan Chaumette</b>
+<span style="margin:2em; color:#606060">2020-01-30 07:14</span>      <a name="1580397285.024400" href="#1580397285.024400">#</a>
+<br/>
+I've been working on a graphics programming tool aims to do just that; deconstructing every part of a graphics pipeline, and giving artists all that power in a visual interface.<br/><br/>Main difference between most visual programming tools is that we're relying on standard APIs (like say OpenVDB or any other python/c++ library) and simply creating a visual layer (that has an extensive tagging system to make it easy as hell to find anything you might want) that anyone can interact with.<br/><br/>Your result can be previewed at runtime, converted to code or both. Still quite early in the dev phase, but hopefully will have more shiny stuff to share on this project later this year :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1580397285.024400.html">11 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580276375.023400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-28 21:39</span>      <a name="1580276375.023400" href="#1580276375.023400">#</a>
+<br/>
+One of my thoughts is that something like this would actually make a good programming tool for graphics programming. Parts of graphics programming are visual in many engines (shader programming for custom materials, VFX), but I actually think a lot more of it could be. Specifically graphics pipeline and resource binding code
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1580275867.019900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-01-28 21:31</span>      <a name="1580275867.019900" href="#1580275867.019900">#</a>
+<br/>
+Don't see this in any of the channels but <span style="background-color:#ccf">@Gregg Tavares</span> posted an awesome WebGL state machine visualizer on Twitter <a href="https://webglfundamentals.org/webgl/lessons/resources/webgl-state-diagram.html">https://webglfundamentals.org/webgl/lessons/resources/webgl-state-diagram.html</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1580195440.017900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2020-01-27 23:10</span>      <a name="1580195440.017900" href="#1580195440.017900">#</a>
+<br/>
+Way upthread I mentioned that I've been tinkering with a vanilla JS decoder for the obsolete vector format NAPLPS--created for a particular species of late-'70s mainframe, which enough Toronto artists got into at the time that it's now historically interesting.<br/><br/>I fiiiiiinally found some usable documentation of the color scheme, and here it is!<br/><a href="https://n1ckfg.github.io/Telidon/">https://n1ckfg.github.io/Telidon/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-11-16/8039340164210_797542acc67b899917b9_72.png" style="float:left"/>
+      <a href="../of-graphics/1578527024.008900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ache</b>
+<span style="margin:2em; color:#606060">2020-01-08 15:43</span>      <a name="1578527024.008900" href="#1578527024.008900">#</a>
+<br/>
+What are the non-conventional animation tools that exist out there?<br/><br/>I'm looking for original user interfaces for making animated sequences on a computer. By original UI, I mean something different than selecting an item, setting a keyframe, moving along the timeline, etc. Dynamic modifiers or simulation based effectors in 3D software qualify as non-conventional (non-keyframing animation). Music inspired sequence makers qualify as well.<br/><br/>Here's an example of an original looking animation tool (I haven't tried it): <a href="https://iorama.studio/">https://iorama.studio/</a><br/><br/>I'm also interested in research and white papers investigating non-conventional UIs in computer graphics. For example:<br/>• Determining the Benefits of Direct-Touch, Bimanual, and Multifinger Input on a Multitouch Workstation <a href="https://graphics.pixar.com/library/MultiTargetUserStudyA/paper.pdf">https://graphics.pixar.com/library/MultiTargetUserStudyA/paper.pdf</a><br/>• Eden: A Professional Multitouch Tool for Constructing Virtual Organic Environments <a href="https://graphics.pixar.com/library/Eden/paper.pdf">https://graphics.pixar.com/library/Eden/paper.pdf</a><br/>• Proton: Multitouch Gestures as Regular Expressions <a href="https://graphics.pixar.com/library/ProtonChi/paper.pdf">https://graphics.pixar.com/library/ProtonChi/paper.pdf</a><br/>• Investigating the Design and Development of Multitouch Applications <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2012/EECS-2012-233.pdf">https://www2.eecs.berkeley.edu/Pubs/TechRpts/2012/EECS-2012-233.pdf</a><br/>Do you have some links to share? Thank you!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1578527024.008900.html">12 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../of-graphics/1575534965.053200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2019-12-05 00:36</span>      <a name="1575534965.053200" href="#1575534965.053200">#</a>
+<br/>
+I wonder if this could have any effect on graphics: <a href="https://www.quantamagazine.org/neutrinos-lead-to-unexpected-discovery-in-basic-math-20191113/">https://www.quantamagazine.org/neutrinos-lead-to-unexpected-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1575534965.053200.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1574660741.048600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-11-24 21:45</span>      <a name="1574660741.048600" href="#1574660741.048600">#</a>
+<br/>
+The VR programming system I <b>really</b> wanted to make while I was at Facebook was heavily inspired by Vi Hart and M Eiffler's research. There were many other sources and a lot of first principals design but they're still some of the only people really exploring this space. <br/><br/><a href="https://theartofresearch.org/combination-physical-and-virtual-tools-for-spatial-computation/">https://theartofresearch.org/combination-physical-and-virtua&hellip;</a><br/><br/>I like to think my system was a little more pragmatic but a lot of the "crazy" ideas that got vetoed by ux designers and engineering managers are viewed as defining or important features (non-linear execution, spatial primitives, gesture to objects). I had no AR specific ideas but I had some long term plans for extending the system to AR.  It's hard to sell research to a big company product team though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1574660741.048600.html">20 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1574383568.033100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-11-21 16:46</span>      <a name="1574383568.033100" href="#1574383568.033100">#</a>
+<br/>
+This is a community that enjoys podcasts — I feel confident saying that, since I believe many (if not most) folks here discovered the community via its podcast. So I believe you'll enjoy these two podcast episodes as much as I did.<br/><br/>First up, the fantastic Internet History Podcast devoted an episode to the abridged biography of Claude Shannon, often dubbed the "Father of Information Theory", though he certainly was a more interesting character than the title may convey. If you haven't heard of <em>information theory,</em> they do a nice job of hinting at the grandness of the idea in this episode. What I didn't know, though, was just how diverse and charming a character Shannon was. His life and personality don't exactly lend themselves to being biographed (biographized?), but his accomplishments sure do. This episode is a delight, and cements Shannon as a scientific figure of equal stature and historic interest as Feynman and Turing. (And, for that matter, the entire archive of the Internet History Podcast is <em>golden</em>. Highly recommended.) <a href="http://www.internethistorypodcast.com/2018/05/claude-shannon-father-of-information-theory/">http://www.internethistorypodcast.com/2018/05/claude-shannon&hellip;</a><br/><br/>Next, the podcast Art + Music + Technology interviewed the creator of Max/MSP and Pure Data, Miller Puckette. Folks who know me know that I'm a visual programming ~nutjob~ zealot, so take my word (if necessary) that these projects are seminal works in the field of visual programming. Thanks to this interview, I've now learned that Miller's focus in creating them was in a very different place than I would have imagined. He didn't seem to think much at all about what the visual character of the languages should be, and instead was far more interested in the way that the underlying engine served as a scheduler, taking after Max Matthews (naturally). In addition to the stories of Max and Pure Data, there's a lot of interesting discussion about the early history of computer music, and they even happen to gush about my very favorite textbook (<a href="https://mitpress.mit.edu/books/designing-sound">https://mitpress.mit.edu/books/designing-sound</a>). For anyone interested in this particular slice of history, or fond of computer music, I recommend this episode. <a href="https://artmusictech.libsyn.com/podcast-090-miller-puckette">https://artmusictech.libsyn.com/podcast-090-miller-puckette</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-11-16/8039340164210_797542acc67b899917b9_72.png" style="float:left"/>
+      <a href="../of-graphics/1574363581.019200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ache</b>
+<span style="margin:2em; color:#606060">2019-11-21 11:13</span>      <a name="1574363581.019200" href="#1574363581.019200">#</a>
+<br/>
+Looom, an upcoming new animation tool:<br/><br/><a href="https://iorama.studio/looom">https://iorama.studio/looom</a><br/><br/>“Taking inspiration from music creation tools, using Looom feels more like playing an instrument than operating software - exploring lines, shapes and colors through loopable time and rhythm.”
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1573958020.004100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-11-16 18:33</span>      <a name="1573958020.004100" href="#1573958020.004100">#</a>
+<br/>
+<a href="https://emmasmith.me/tinyland/">https://emmasmith.me/tinyland/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1572799742.002300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-11-03 08:49</span>      <a name="1572799742.002300" href="#1572799742.002300">#</a>
+<br/>
+can’t remember if the tilt5 AR board has been shared here yet—it’s very cool; jeri ellsworth is a genius and super good at explaining things; and here’s a super clever hardware optimization: <a href="https://youtu.be/0zfxrnArr1w">https://youtu.be/0zfxrnArr1w</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1572799742.002300.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1572333153.013800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-10-29 00:12</span>      <a name="1572333153.013800" href="#1572333153.013800">#</a>
+<br/>
+<a href="https://lord.io/blog/2019/text-editing-hates-you-too/">https://lord.io/blog/2019/text-editing-hates-you-too/</a><br/><br/>Folks who are given to arguing that complexity is spiraling out of control, what say you to this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1572333153.013800.html">31 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-graphics/1571537135.009300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-10-19 19:05</span>      <a name="1571537135.009300" href="#1571537135.009300">#</a>
+<br/>
+It is especially cool how the transformations are embedded into the space instead of being transient tools that are invisibly applied.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1571445242.006800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-18 17:34</span>      <a name="1571445242.006800" href="#1571445242.006800">#</a>
+<br/>
+fundamentals of linear algebra: the game. i love it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1571445242.006800.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1571439034.005900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-10-18 15:50</span>      <a name="1571439034.005900" href="#1571439034.005900">#</a>
+<br/>
+Playing it made me think it might be a better modeling tool, or could perhaps be a general procedural graphics visual programming tool if transforms are parameterized, but I thought folks here might find it interesting
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1571438864.003500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-10-18 15:47</span>      <a name="1571438864.003500" href="#1571438864.003500">#</a>
+<br/>
+if you're not familiar with Mahdi Bahrami's work you should check it out in general (Engare is really cool also)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1571438864.003500.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1571438825.002700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-10-18 15:47</span>      <a name="1571438825.002700" href="#1571438825.002700">#</a>
+<br/>
+Just played an IGF build of Tandis (<a href="http://mahdibahrami.com/tandis/">http://mahdibahrami.com/tandis/</a>), which is an interesting puzzle game about applying ordered transformations to meshes to match a target mesh
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1569520949.007600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-09-26 11:02</span>      <a name="1569520949.007600" href="#1569520949.007600">#</a>
+<br/>
+there will be no public demonstration of the visual scripting system I was working, but there should be some public impressions of the games\experiences that are being shown at the conference
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1569520897.006600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-09-26 11:01</span>      <a name="1569520897.006600" href="#1569520897.006600">#</a>
+<br/>
+This is the product I was working on at Facebook
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1569520869.005700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-09-26 11:01</span>      <a name="1569520869.005700" href="#1569520869.005700">#</a>
+<br/>
+<a href="https://techcrunch.com/2019/09/25/facebook-horizon/">https://techcrunch.com/2019/09/25/facebook-horizon/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1569447840.004200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-25 14:44</span>      <a name="1569447840.004200" href="#1569447840.004200">#</a>
+<br/>
+<a href="https://youtu.be/uVC5WowQxD8">https://youtu.be/uVC5WowQxD8</a> just a heads up: this youtube channel rules if you want a heads up on the frontier of graphics/simulation research
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1569447840.004200.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1569035963.002800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2019-09-20 20:19</span>      <a name="1569035963.002800" href="#1569035963.002800">#</a>
+<br/>
+That is fantastic. At first I assumed it was a shader trick, but nope, looked at the source code and it’s just ASCII rendered to a <tt>&lt;canvas&gt;</tt> element. So cool.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1569026863.001800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-20 17:47</span>      <a name="1569026863.001800" href="#1569026863.001800">#</a>
+<br/>
+ASCII for 3d graphics
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1569026850.001300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-20 17:47</span>      <a name="1569026850.001300" href="#1569026850.001300">#</a>
+<br/>
+<a href="https://youtu.be/HIsCYHpCfVc">https://youtu.be/HIsCYHpCfVc</a> this is BANANAS
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1567721097.001700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-05 15:04</span>      <a name="1567721097.001700" href="#1567721097.001700">#</a>
+<br/>
+<a href="https://youtu.be/SDS5gLSiLg0">https://youtu.be/SDS5gLSiLg0</a> mindbogglingly satisfying overview of a bunch of graphics algorithms
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1567721097.001700.html">8 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1567438931.001200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-02 08:42</span>      <a name="1567438931.001200" href="#1567438931.001200">#</a>
+<br/>
+<a href="https://twitter.com/rikarends/status/1168243060586819584?s=21">https://twitter.com/rikarends/status/1168243060586819584?s=21</a> so juicy... can’t wait for this to filter out to other IDEs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1567438931.001200.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1567349276.001500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-09-01 07:47</span>      <a name="1567349276.001500" href="#1567349276.001500">#</a>
+<br/>
+thanks to <span style="background-color:#ccf">@William Taysom</span>’s podcast recommendation i found out about this video on quill: <a href="https://youtu.be/EzsG1uqfDTQ">https://youtu.be/EzsG1uqfDTQ</a> here’s a take on a zooming user interface holy crap
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1567349276.001500.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1566937706.005600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-08-27 13:28</span>      <a name="1566937706.005600" href="#1566937706.005600">#</a>
+<br/>
+<a href="https://youtu.be/rHEJZXvFc5I">https://youtu.be/rHEJZXvFc5I</a> very pleasant intro to one of the 12 “fundamental principles” of animation: timing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1566937706.005600.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-graphics/1564628408.002100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-07-31 20:00</span>      <a name="1564628408.002100" href="#1564628408.002100">#</a>
+<br/>
+only just now finding out about karsten schmidt’s work and it’s really inspiring: <a href="https://youtu.be/mCAozt4BkMM">https://youtu.be/mCAozt4BkMM</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1564628408.002100.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1560490415.013400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-06-13 22:33</span>      <a name="1560490415.013400" href="#1560490415.013400">#</a>
+<br/>
+<a href="https://www.blog.google/technology/area-120/create-3d-games-friends-no-experience-required/">https://www.blog.google/technology/area-120/create-3d-games-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1560490415.013400.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-10-09/777488933203_9da36842baa46c9c0803_72.png" style="float:left"/>
+      <a href="../of-graphics/1559115846.002000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Al Mo</b>
+<span style="margin:2em; color:#606060">2019-05-29 00:44</span>      <a name="1559115846.002000" href="#1559115846.002000">#</a>
+<br/>
+Anyone going to EuroVis ?
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1558812112.000800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-05-25 12:21</span>      <a name="1558812112.000800" href="#1558812112.000800">#</a>
+<br/>
+Thinking about spacial reasoning in UI design:<br/><br/><a href="https://medium.com/elepath-exports/spatial-interfaces-886bccc5d1e9">https://medium.com/elepath-exports/spatial-interfaces-886bccc5d1e9</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1558812112.000800.html">2 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1557847237.001900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-05-14 08:20</span>      <a name="1557847237.001900" href="#1557847237.001900">#</a>
+<br/>
+<a href="https://medium.com/tensorflow/introducing-tensorflow-graphics-computer-graphics-meets-deep-learning-c8e3877b7668">https://medium.com/tensorflow/introducing-tensorflow-graphic&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1557847234.001800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-05-14 08:20</span>      <a name="1557847234.001800" href="#1557847234.001800">#</a>
+<br/>
+So TensorFlow has just added a 3D graphics module...
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1550879274.001600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-02-22 15:47</span>      <a name="1550879274.001600" href="#1550879274.001600">#</a>
+<br/>
+How familiar are people with graphical rewrite rules?  I enjoyed writing some small games in PuzzleScript and I've since discovered KidSim\StageCast and PatternProgrammer, are there any other interesting systems like these I should know about?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1550879274.001600.html">13 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550517492.012200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 11:18</span>      <a name="1550517492.012200" href="#1550517492.012200">#</a>
+<br/>
+Like the "Turn On" folks, we had sensors to capture a performer's movement in 3D, and the graphics hardware to render them in 3D. But we were lacking a software layer to interpret the data--only in our case just because of our own lack of experience, not because no solution yet existed. <em>Projecting 3D coordinates onto a 2D plane became a way to work with 3D data without having to think about 3D graphics.</em>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550516704.010000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 11:05</span>      <a name="1550516704.010000" href="#1550516704.010000">#</a>
+<br/>
+What's striking to me about this particular example--it's precisely the wheel I reinvented as a novice coder at Eyebeam in 2012, with Victoria Nece (who's now doing some really cool similar stuff at Adobe)....projecting 3D mocap coordinates onto 2D puppet characters. Despite the technology being a Kinect and MacBook that together cost less than an inflation-adjusted hour's rental of the Scanimate system...ultimately we followed the same chain of reasoning.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1550516704.010000.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550516388.008400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:59</span>      <a name="1550516388.008400" href="#1550516388.008400">#</a>
+<br/>
+Turns out there's documentation of the full show at the Paley Center archives in NYC and LA. Also despite looking like '00s modern dance it's apparently actually sketch comedy.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550516091.007000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:54</span>      <a name="1550516091.007000" href="#1550516091.007000">#</a>
+<br/>
+Makes me wonder what other prior art is out there for the conventionally-accepted CG milestones--like, maybe there's a documented use of 2D drawing in animation older than Foldes' "Hunger"...
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515643.005200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:47</span>      <a name="1550515643.005200" href="#1550515643.005200">#</a>
+<br/>
+<a href="https://www.msn.com/en-us/news/photos/50-years-ago-in-photos-a-look-back-at-1969/ss-BBTyr9d?ocid=spartanntp&amp;fbclid=IwAR2fQQunm8aEGqvuqiAglUx1XXopcOG5YkKOVQJchBX2fHLnGKOear4vbag&amp;fullscreen=true#image=6">https://www.msn.com/en-us/news/photos/50-years-ago-in-photos&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515637.005000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:47</span>      <a name="1550515637.005000" href="#1550515637.005000">#</a>
+<br/>
+And a single high-res still here:
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515624.004500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:47</span>      <a name="1550515624.004500" href="#1550515624.004500">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=SGF0Okaee1o">https://www.youtube.com/watch?v=SGF0Okaee1o</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515591.004300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:46</span>      <a name="1550515591.004300" href="#1550515591.004300">#</a>
+<br/>
+Below is documentation of a live performance called "Turn On", in LA--in <b></b>*1969*<b></b>, using a Scanimate analog computer and what looks like wired inertial sensors:
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515567.003600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:46</span>      <a name="1550515567.003600" href="#1550515567.003600">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=D_WGsfonXQI">https://www.youtube.com/watch?v=D_WGsfonXQI</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550515549.003400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-18 10:45</span>      <a name="1550515549.003400" href="#1550515549.003400">#</a>
+<br/>
+So TIL, via Mark Coniglio, that prior art for animation created with motion capture goes back at least 15 years before the 1985 "Brilliance" ad (which afaik is still the first animation use of optical mocap).
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1550161712.001600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-02-14 08:28</span>      <a name="1550161712.001600" href="#1550161712.001600">#</a>
+<br/>
+Just that sweet Death Star trench run <a href="https://youtu.be/yMeSw00n3Ac">https://youtu.be/yMeSw00n3Ac</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/42d4fc7756fd580868784de273db913e.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../of-graphics/1549801152.013800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ramsey Nasser</b>
+<span style="margin:2em; color:#606060">2019-02-10 04:19</span>      <a name="1549801152.013800" href="#1549801152.013800">#</a>
+<br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> yeah Oskar is an invention of Larry's. no documentation of it that I know of.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/42d4fc7756fd580868784de273db913e.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../of-graphics/1549800541.012100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ramsey Nasser</b>
+<span style="margin:2em; color:#606060">2019-02-10 04:09</span>      <a name="1549800541.012100" href="#1549800541.012100">#</a>
+<br/>
+hello world!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1549800541.012100.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1546613629.006900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-01-04 06:53</span>      <a name="1546613629.006900" href="#1546613629.006900">#</a>
+<br/>
+Yeah I think so!
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1546548959.006500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2019-01-03 12:55</span>      <a name="1546548959.006500" href="#1546548959.006500">#</a>
+<br/>
+<span style="background-color:#ccf">@Nick Santos</span> <span style="background-color:#ccf">@Ramsey Nasser</span> I can’t find any info about OSKAR, would love to learn more. Did Larry Cuba create the original language?
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1546542577.005300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2019-01-03 11:09</span>      <a name="1546542577.005300" href="#1546542577.005300">#</a>
+<br/>
+Here's a defense of the increasing use of C# in Unity's low-level systems (not just for adding game logic on top of a C++ engine): <a href="http://lucasmeijer.com/posts/cpp_unity/">http://lucasmeijer.com/posts/cpp_unity/</a> ...thoughts?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1546542577.005300.html">3 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1546318424.001800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-12-31 20:53</span>      <a name="1546318424.001800" href="#1546318424.001800">#</a>
+<br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> Funny you should mention that-- <span style="background-color:#ccf">@Ramsey Nasser</span> recently completed a GRASS-like language I've been meaning to check out <a href="https://github.com/nasser/oskar">https://github.com/nasser/oskar</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1545273470.018100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-12-19 18:37</span>      <a name="1545273470.018100" href="#1545273470.018100">#</a>
+<br/>
+This fits in with the previous comment, I'm sure some people on the slack are aware of it but I just discovered it. <a href="http://tinlizzie.org/~ohshima/shadama2/live2017/">http://tinlizzie.org/~ohshima/shadama2/live2017/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1544550460.015700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2018-12-11 09:47</span>      <a name="1544550460.015700" href="#1544550460.015700">#</a>
+<br/>
+You could, for example, use the repl to setup realtime hardware control over any arbitrary graphics parameter. Here’s a demo video: <a href="https://www.youtube.com/watch?v=pde-zwHyHOU">https://www.youtube.com/watch?v=pde-zwHyHOU</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1544550368.014500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2018-12-11 09:46</span>      <a name="1544550368.014500" href="#1544550368.014500">#</a>
+<br/>
+<span style="background-color:#ccf">@Nick Fox-Gieg</span> GRASS comes to mind as a “minimalist, dynamic” language from (almost) 50 years ago. <a href="https://en.wikipedia.org/wiki/GRASS_(programming_language)">https://en.wikipedia.org/wiki/GRASS_(programming_language)</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-graphics/1544481186.012200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-12-10 14:33</span>      <a name="1544481186.012200" href="#1544481186.012200">#</a>
+<br/>
+Though most Scheme implementations are pretty dynamic, the Scheme Report carefully avoids speccing features for the language that require it to be dynamic.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1544469997.008400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-12-10 11:26</span>      <a name="1544469997.008400" href="#1544469997.008400">#</a>
+<br/>
+It'd be interesting to see how visual programming (I know its common for shaders\materials\vfx but it might be interesting for the entire rendering pipeline), or some higher level language that generates a pipeline for you (like current machine learning frameworks) would improve productivity
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1544469377.006200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-12-10 11:16</span>      <a name="1544469377.006200" href="#1544469377.006200">#</a>
+<br/>
+In the context of graphics you might want to look at something like <a href="http://www.pawfal.org/fluxus/">http://www.pawfal.org/fluxus/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1544469333.005800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-12-10 11:15</span>      <a name="1544469333.005800" href="#1544469333.005800">#</a>
+<br/>
+not sure what he considers a minimalist dynamic language?  Scheme and Lua are both worth checking out and I think they fit the description
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1544469333.005800.html">5 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1544416877.004400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-12-09 20:41</span>      <a name="1544416877.004400" href="#1544416877.004400">#</a>
+<br/>
+Personally, I've never gone outside of those five. Am I missing anything "minimalist, dyanamic", or otherwise exciting?
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1544416539.001200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-12-09 20:35</span>      <a name="1544416539.001200" href="#1544416539.001200">#</a>
+<br/>
+So Morgan McGuire of Nvidia recently called all the languages he uses for graphics (JavaScript, Python, C++, C#, and Java) unsuitable: "It's been HALF A CENTURY since the core concepts of minimalist, dynamic languages were introduced. I'm mystified that the field keeps reinventing the wheel...and doing it poorly."
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/48e74eba7c6b653f9307d063c361b5a1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../of-graphics/1542644754.029400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ildar</b>
+<span style="margin:2em; color:#606060">2018-11-19 08:25</span>      <a name="1542644754.029400" href="#1542644754.029400">#</a>
+<br/>
+O Ive been waiting for that to come out since they shut the last one down. They will def have it in LogicApps... There are already API connectors for image processing. Haven't tried using them but it's probably the lowest friction way to get some image processing in a buisness process. I.e. check if the image is a receipt, if so send to this email or something along those lines.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542468301.025600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-17 07:25</span>      <a name="1542468301.025600" href="#1542468301.025600">#</a>
+<br/>
+<a href="https://brekel.com/kinect4/">https://brekel.com/kinect4/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542467283.025400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-17 07:08</span>      <a name="1542467283.025400" href="#1542467283.025400">#</a>
+<br/>
+Nope but I wonder if that's the "for Azure" part of the next Kinect, intriguingly named Kinect for Azure...
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/48e74eba7c6b653f9307d063c361b5a1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../of-graphics/1542343072.023100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ildar</b>
+<span style="margin:2em; color:#606060">2018-11-15 20:37</span>      <a name="1542343072.023100" href="#1542343072.023100">#</a>
+<br/>
+Let's you build translation maps as well but the integration feature I found pretty expensive billing wise.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/48e74eba7c6b653f9307d063c361b5a1.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../of-graphics/1542342681.021900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ildar</b>
+<span style="margin:2em; color:#606060">2018-11-15 20:31</span>      <a name="1542342681.021900" href="#1542342681.021900">#</a>
+<br/>
+Anyone ever use LogicApps on azure? Seems like a decent tool for connecting API to each other and having some processing in the middle. All visual but let's you write it out in JSON as well. Can see it being useful for smaller companies that cant afford a dev team to automate between their SaaS apps.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542148255.018700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tim Swast</b>
+<span style="margin:2em; color:#606060">2018-11-13 14:30</span>      <a name="1542148255.018700" href="#1542148255.018700">#</a>
+<br/>
+<span style="background-color:#ccf">@Tim Swast</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1542146612.018300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-11-13 14:03</span>      <a name="1542146612.018300" href="#1542146612.018300">#</a>
+<br/>
+I'm really excited about the WHLSL news out of WebKit (<a href="https://webkit.org/blog/8482/web-high-level-shading-language/">https://webkit.org/blog/8482/web-high-level-shading-language/</a>). Looks like the WebGPU project is maturing. Not quite as close to the metal as the RTX stuff mentioned above, but exciting for the sake of bringing a low-overhead graphics API to the masses, and putting it within reach of web developers (as opposed to game/app developers).<br/><br/>For the <em>future of coding</em> angle on this #of-graphics stuff, my company does a lot of interactive graphics, and I'm working on a visual programming language to support some of that. It's a nice domain to be in, since there's a tighter connection between the language and the result than there would be if (say) I were making a language for correctness validation or serving web apps. I'd be excited to hear if anyone else here is working on/with tools/languages that have a strong component of graphics to them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1542146612.018300.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542146450.015500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Sandlund</b>
+<span style="margin:2em; color:#606060">2018-11-13 14:00</span>      <a name="1542146450.015500" href="#1542146450.015500">#</a>
+<br/>
+<span style="background-color:#ccf">@Jacob Sandlund</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542146234.014600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2018-11-13 13:57</span>      <a name="1542146234.014600" href="#1542146234.014600">#</a>
+<br/>
+<span style="background-color:#ccf">@Ivan Reese</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542145589.014400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-13 13:46</span>      <a name="1542145589.014400" href="#1542145589.014400">#</a>
+<br/>
+One brain-melting concept I encountered just recently is reverse rendering--generating a 3D mesh from a single 2D image: <a href="https://github.com/BachiLi/redner">https://github.com/BachiLi/redner</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542142782.013800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2018-11-13 12:59</span>      <a name="1542142782.013800" href="#1542142782.013800">#</a>
+<br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542141921.013600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dinesh</b>
+<span style="margin:2em; color:#606060">2018-11-13 12:45</span>      <a name="1542141921.013600" href="#1542141921.013600">#</a>
+<br/>
+<span style="background-color:#ccf">@Dinesh</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542141010.013400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Roie Schwaber-Cohen</b>
+<span style="margin:2em; color:#606060">2018-11-13 12:30</span>      <a name="1542141010.013400" href="#1542141010.013400">#</a>
+<br/>
+<span style="background-color:#ccf">@Roie Schwaber-Cohen</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542138640.013200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ildar</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:50</span>      <a name="1542138640.013200" href="#1542138640.013200">#</a>
+<br/>
+<span style="background-color:#ccf">@Ildar</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542136377.012900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:12</span>      <a name="1542136377.012900" href="#1542136377.012900">#</a>
+<br/>
+Nvidia has a experimental extension to support this in Vulkan also (<a href="https://developer.nvidia.com/device-generated-commands-vulkan">https://developer.nvidia.com/device-generated-commands-vulkan</a>)
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542136331.012300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:12</span>      <a name="1542136331.012300" href="#1542136331.012300">#</a>
+<br/>
+I think he had more details on his blog but its gone now so hard to say, but it comes up in that talk
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542136305.011700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:11</span>      <a name="1542136305.011700" href="#1542136305.011700">#</a>
+<br/>
+<a href="https://www.youtube.com/watch?v=WzpLWzGvFK4">https://www.youtube.com/watch?v=WzpLWzGvFK4</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542136304.011500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:11</span>      <a name="1542136304.011500" href="#1542136304.011500">#</a>
+<br/>
+Timothy Lottes (who mostly erased himself from the internet a couple of years ago...) had a cool personal engine\framework that would generate "command buffers" (read back on the CPU) in shaders
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542136243.010800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cyrus Omar</b>
+<span style="margin:2em; color:#606060">2018-11-13 11:10</span>      <a name="1542136243.010800" href="#1542136243.010800">#</a>
+<br/>
+<span style="background-color:#ccf">@Cyrus Omar</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542134282.009900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:38</span>      <a name="1542134282.009900" href="#1542134282.009900">#</a>
+<br/>
+meanwhile there is more fixed function or special purpose hardware available (RT cores, Tensorcores) on RTX, I kind of want a system where there are no explicit shader stages, you just have "shaders" that can access fixed function and special purpose hardware (texture units, rasterizer, ROPs, RT Core, Tensor Core, etc.) and dispatch new shaders
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<a href="1542134282.009900.html">1 comments</a>    </td>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542134035.007200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:33</span>      <a name="1542134035.007200" href="#1542134035.007200">#</a>
+<br/>
+So a trend in graphics programming has been having the GPU generate work\spawn tasks for itself
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542133934.005900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:32</span>      <a name="1542133934.005900" href="#1542133934.005900">#</a>
+<br/>
+that doesn't include non-raytracing features like mesh shaders and texture space shading
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1542133889.005000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:31</span>      <a name="1542133889.005000" href="#1542133889.005000">#</a>
+<br/>
+One thing that's happening is the shader pipeline is gaining a lot more complicity, ray tracing along adds 6 new shaders (callable, closest hit, any hit, intersection, miss, ray generation) <a href="https://docs.microsoft.com/en-us/windows/desktop/direct3d12/direct3d-12-raytracing-hlsl-shaders">https://docs.microsoft.com/en-us/windows/desktop/direct3d12/&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542133541.003500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:25</span>      <a name="1542133541.003500" href="#1542133541.003500">#</a>
+<br/>
+<span style="background-color:#ccf">@Scott Anderson</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542133154.003300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregory M Travis</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:19</span>      <a name="1542133154.003300" href="#1542133154.003300">#</a>
+<br/>
+<span style="background-color:#ccf">@Gregory M Travis</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542133097.003000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:18</span>      <a name="1542133097.003000" href="#1542133097.003000">#</a>
+<br/>
+that might be the most acronyms I’ve ever used in two sentences.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542133059.002400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:17</span>      <a name="1542133059.002400" href="#1542133059.002400">#</a>
+<br/>
+not using RTX (although I’m looking forward to digging into it!), but I’ve been working on a raymarching JS library that compiles GLSL shaders. Looking forward to sticking a DSL for CSG on top of it one of these days… <a href="http://charlie-roberts.com/marching/playground/">http://charlie-roberts.com/marching/playground/</a>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542132891.001200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:14</span>      <a name="1542132891.001200" href="#1542132891.001200">#</a>
+<br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542132601.001000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:10</span>      <a name="1542132601.001000" href="#1542132601.001000">#</a>
+<br/>
+<span style="background-color:#ccf">@Brian Hempel</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542132124.000800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Haip</b>
+<span style="margin:2em; color:#606060">2018-11-13 10:02</span>      <a name="1542132124.000800" href="#1542132124.000800">#</a>
+<br/>
+<span style="background-color:#ccf">@Jacob Haip</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542131929.000600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Lee</b>
+<span style="margin:2em; color:#606060">2018-11-13 09:58</span>      <a name="1542131929.000600" href="#1542131929.000600">#</a>
+<br/>
+<span style="background-color:#ccf">@David Lee</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542130499.000400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-13 09:34</span>      <a name="1542130499.000400" href="#1542130499.000400">#</a>
+<br/>
+<span style="background-color:#ccf">@Shalabh</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542117714.000200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-11-13 06:01</span>      <a name="1542117714.000200" href="#1542117714.000200">#</a>
+<br/>
+<span style="background-color:#ccf">@Steve Krouse</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542046504.002000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-12 10:15</span>      <a name="1542046504.002000" href="#1542046504.002000">#</a>
+<br/>
+Hoping to learn some of the vocabulary to describe what I'm thinking of more precisely, but...with new raytracing tech like Nvidia RTX solving the lowest-level rendering issues via brute force, I wonder what conceptual areas get opened up.
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/455e6ae108edbb0568eb036d8cab103d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1542043821.001200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-12 09:30</span>      <a name="1542043821.001200" href="#1542043821.001200">#</a>
+<br/>
+Wondering what applications new language approaches might have in graphics...
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542043808.000800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Profenza</b>
+<span style="margin:2em; color:#606060">2018-11-12 09:30</span>      <a name="1542043808.000800" href="#1542043808.000800">#</a>
+<br/>
+<span style="background-color:#ccf">@George Profenza</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542043807.000600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ramsey Nasser</b>
+<span style="margin:2em; color:#606060">2018-11-12 09:30</span>      <a name="1542043807.000600" href="#1542043807.000600">#</a>
+<br/>
+<span style="background-color:#ccf">@Ramsey Nasser</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542043807.000400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Trellick</b>
+<span style="margin:2em; color:#606060">2018-11-12 09:30</span>      <a name="1542043807.000400" href="#1542043807.000400">#</a>
+<br/>
+<span style="background-color:#ccf">@Joe Trellick</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../of-graphics/1542043807.000200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Fox-Gieg</b>
+<span style="margin:2em; color:#606060">2018-11-12 09:30</span>      <a name="1542043807.000200" href="#1542043807.000200">#</a>
+<br/>
+<span style="background-color:#ccf">@Nick Fox-Gieg</span> has joined the channel
+    </td>
+  </tr>
+  <tr>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

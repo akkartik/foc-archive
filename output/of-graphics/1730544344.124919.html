@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-graphics</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-02 03:45</span><br/>
+Hello! I'm curious if anyone here has a good idea about interleaving works between a compute shader and a fragment shader.<br/><br/>Some relevant details:<br/>• My app is built with Rust and wgpu, and I'm running on an M1 Macbook Pro.<br/>• I have a single encoder with a compute pipeline and a render pipeline.<br/>• The compute shader writes to a storage buffer defined like this:<br/><pre style="white-space:pre-wrap">@group(0) @binding(2) var&lt;storage, read_write&gt; output: array&lt;vec4&lt;f32&gt;&gt;;</pre><br/>• The fragment shader reads from the same buffer. Basically, each fragment is just one element of the <tt>vec4&lt;f32&gt;</tt>. The fragment shader is very simple, and doesn't touch anything else in the storage buffer.<br/>I've added timestamp queries to the pipeline, and what I'm seeing is this:<br/><pre style="white-space:pre-wrap">Duration #1: 47.800208ms<br/>Duration #2: 47.809876ms<br/>Frame time: 51.2545ms</pre><br/><tt>Duration #1</tt> is computed from the compute shader timestamps (the duration between the beginning and end of the compute pass) and <tt>Duration #2</tt> is the time for the render pass, computed the same way.<br/><br/><tt>Frame time</tt> is measured on the CPU.<br/><br/>I expected the duration of the compute shader and fragment shader to add up to the frame time (approximately). But it doesn't and I'm confused about why! Could it be due to interleaving of the compute pass and render pass? If so, I'm curious how the synchronization works. How does the GPU figure out the dependencies between the write (a compute shader invocation) and the reader (fragment shader invocation)?<br/><br/>I don't have any explicit synchronization, but I'm also not seeing any tearing or anything that would indicate that there is a data race between the shaders.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730554413.232549"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730554413.232549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2024-11-02 06:33</span><br/>
+those durations are suspiciously close for being times of completely different processes! plus, is it possible that the compute for frame N was run in frame N-1?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730555807.005099"></a>
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730555807.005099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-02 06:56</span><br/>
+I agree. My colleague’s theory was that they are interleaved, and that they are both running at the same time but that they are somehow synchronized by the runtime. I’m skeptical that we’d get that for free. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730555911.600089"></a>
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730555911.600089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-02 06:58</span><br/>
+I also wondered whether they are somehow running in parallel but the computer shader is one frame ahead, but I don’t see how that’s possible in the code. Both pipelines are added to the same encoder and so definitely submitted together. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730556099.453219"></a>
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730556099.453219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-02 07:01</span><br/>
+I asked on another forum, and the conclusion was that the timestamps may not be reliable. There are a bunch of wgpu issues related to timestamps on Metal and TBDR architectures 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730646459.110919"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730646459.110919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2024-11-03 07:07</span><br/>
+I also vote “unreliable timestamps”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730676699.433699"></a>
+      <img src="https://secure.gravatar.com/avatar/fbf7977917910666bea05c3ca3c9f2cf.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730676699.433699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Gentle</b>
+<span style="margin:2em; color:#606060">2024-11-03 15:31</span><br/>
+I did a bit of digging in the Metal docs and they do mention some kind of magic auto-parallelism:<br/><br/>&gt; Metal automatically tracks dependencies between the compute and render passes. When the sample sends the command buffer to be executed, Metal detects that the compute pass writes to the output texture and the render pass reads from it, and makes sure the GPU finishes the compute pass before starting the render pass.<br/><a href="https://developer.apple.com/documentation/metal/compute_passes/processing_a_texture_in_a_compute_function">https://developer.apple.com/documentation/metal/compute_pass&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730705284.489119"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730705284.489119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2024-11-03 23:28</span><br/>
+There are pretty good graphics debugging tools in Xcode/Instruments. If you can somehow hook them up to the Metal part of whatever you’re running, they would give you detailed information about what’s running where and when. <br/><a href="https://developer.apple.com/documentation/xcode/metal-debugger/">https://developer.apple.com/documentation/xcode/metal-debugger/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730705539.600269"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730705539.600269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2024-11-03 23:32</span><br/>
+Perhaps this gets you started: <a href="https://developer.apple.com/documentation/xcode/capturing-a-metal-workload-programmatically">https://developer.apple.com/documentation/xcode/capturing-a-&hellip;</a><br/><br/>In particular: “Alternatively, in macOS 14 and later, you can set the environment variable on your Metal app: MTL_CAPTURE_ENABLED=1.”<br/><br/>I’d assume that the library you’re using would likely expose any debugging facilities as well…?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730705712.671149"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730705712.671149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2024-11-03 23:35</span><br/>
+Then you should be able to replay a captured trace like this: <a href="https://developer.apple.com/documentation/xcode/replaying-a-gpu-trace-file">https://developer.apple.com/documentation/xcode/replaying-a-gpu-trace-file</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730705859.362209"></a>
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730705859.362209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-03 23:37</span><br/>
+<span style="background-color:#ccf">@Sam Gentle</span> That's interesting, thanks! Though I'm still skeptical that it could automatically determine the fine-grained dependencies between individual invocations of the compute/render passes. From the wording it sounds more like it would wait until the compute pass is complete before starting the render pass.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730706324.272349"></a>
+      <img src="https://secure.gravatar.com/avatar/dad50df1d9acad462018f77360434de6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-graphics/1730544344.124919.html#1730706324.272349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Patrick Dubroy</b>
+<span style="margin:2em; color:#606060">2024-11-03 23:45</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Good call, I should see what XCode will tell me. I do know how to capture a GPU trace, the only issue is that when I last tried it, it seemed that wgpu doesn't generate Metal debug symbols, so it's somewhat limited. But I could always try debugging a standalone pure Metal example that replicates the same access patterns.<br/><br/>I found this, which seems like it could be helpful: <a href="https://developer.apple.com/documentation/xcode/analyzing-resource-dependencies">https://developer.apple.com/documentation/xcode/analyzing-resource-dependencies</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

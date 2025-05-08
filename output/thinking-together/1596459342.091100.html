@@ -1,0 +1,1228 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 05:55</span><br/>
+Hey guys, question for everyone who's making a desktop visual lang: what do you use for rendering and why?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596459976.091200"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596459976.091200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:06</span><br/>
+Do you mean Qt vs GL vs DX vs GUI, etc.?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596460003.091400"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596460003.091400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:06</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> yep
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596460550.091700"></a>
+      <a href="../thinking-together/1596459342.091100.html#1596460550.091700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:15</span><br/>
+My tool is designed as a shader authoring tool (in part), so my plan is to support <em>rendering</em> using GL, DX12, Vulkan.  This is for the shaders/graphics the user creates.  GL because it is a guaranteed lowest common denominator.  DX12/Vulkan because they are the cutting edge.  I don't want to use Metal if I can help it.<br/><br/>For GUI elements I have 2 approaches:<br/>• ImGui.  This sits on top of the API's I just mentioned and does buttons/checkboxes/windows, etc.<br/>• NanoVg.  This is a vector drawing library along a similar vain to ImGui.  It has slightly better support for pattern rendering, and is a bit simpler to use for basic primitives.  It also uses GL, etc. for the bottom level of drawing.<br/>In this image, ImGui is drawing the left hand text editor, the sequencer along the bottom.  NanoVg is drawing the Nodegraph UI inside the top right window.  And everything sits on top of OpenGL in this example.<br/><br/>My choices are based on ease of use and cross platform.  Using custom GUI code for each platform is out of the question.<br/><br/>I have a version of the text editor in the image that runs on Qt.  Qt is a good cross platform choice for 2D/UI frameworks, but it is my least favourite API to work with (I do it for a day job too, so I am proficient at using it).  Qt is powerful, but can be very frustrating.  On the other hand, using it as a way to get a QPainter and draw shapes would be an easy cross platform method.<br/><br/>I use SDL to do the heavy lifting of creating OS specific windows for drawing in.  SDL is a great way to get a window on screen.  ImGui integrates will with it.  So my pathway is SDL->OpenGL/DX->ImGui OR NanoVg
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596460800.092100"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596460800.092100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:20</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> Thank you! I already knew about imgui, my question was more targeted at rendering stuff like dataflow graphs, but nanovg might be what I'm looking for. I'll look into it:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596460829.092300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596460829.092300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:20</span><br/>
+Something I am unable to use but would like to is the Slug library for text: <a href="https://sluglibrary.com/">https://sluglibrary.com/</a>  As far as I can see this is the gold standard for rendering text on a 3D Device; it looks far better than what I have come up with so far (on a par with OS/GUI font rendering). Unfortunately it is commercial, though the author has hinted that he'd love some company to buy it and make it free.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596460881.092500"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596460881.092500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:21</span><br/>
+ImGui is quite capable of drawing shapes for you.  You can drop into a lower level and draw anything you like using the drawing code.  Many people do that for custom GUI
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461000.092700"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461000.092700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:23</span><br/>
+<a href="https://github.com/cmaughan/imgui/blob/master/imgui_orient.cpp">https://github.com/cmaughan/imgui/blob/master/imgui_orient.cpp</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461020.093100"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461020.093100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:23</span><br/>
+This is an orientation gizmo I did; it renders entirely with ImGui (I think I ported this from somewhere, but I've forgotten... :slightly_smiling_face: Ah, yes, it was from 'AntTweakBar'.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461041.093800"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461041.093800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:24</span><br/>
+Found this in the readme of nanovg, idk if it should but this kinda scare me away from using something...<br/>&gt; This project is not actively maintained.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461055.094000"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461055.094000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:24</span><br/>
+So you see, you can even draw triangles in ImGui if you want to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461112.094300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461112.094300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:25</span><br/>
+Yeah, NanoVg isn't maintained any more.  I've had no problem using it :wink:<br/>If you are getting started, I'd use ImGui.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461157.094500"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461157.094500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:25</span><br/>
+<a href="https://github.com/ocornut/imgui/issues/306">https://github.com/ocornut/imgui/issues/306</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461175.094900"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461175.094900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:26</span><br/>
+Have a look at this thread ^ it contains custom node editors written using ImGui
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596461178.095100"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596461178.095100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 06:26</span><br/>
+Thank you!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596465816.097000"></a>
+      <a href="../thinking-together/1596459342.091100.html#1596465816.097000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jean-Louis Villecroze</b>
+<span style="margin:2em; color:#606060">2020-08-03 07:43</span><br/>
+I'm using NanoVG (which is OpenGL based) ... I know it's no longer actively supported, but it's in plain C and a lot simpler (IMHO) than imGUI.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596466743.097500"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596466743.097500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-08-03 07:59</span><br/>
+I'd love to see more answers to this!<br/><br/>I'm unhappy how state is managed in every OOP framework and every framework that uses a VDOM. I think neither mutability with objects nor mutability on another layer (vdom) works well.<br/><br/>Building something else has been hard for me. Text rendering especially.<br/>Building something cross platform makes it 100x harder.<br/>Using the web platform doesn't work, when you try to build on a lower level: You can't even measure text dimensions easily.<br/><br/>I've tried building up my own cross-platform solution based on WebGL, WASM (Rust), but failed at font layout. Compiling harfbuzz to wasm just didn't work for me, despite some people claiming to have done that.<br/><br/>So, I'm considering non-web solutions again. Basically, I'm really interested what others have to say.<br/>Also, <b>adding a reference to Raph Levien's work here</b>, as I think he's also interested in this space: <a href="https://raphlinus.github.io/">https://raphlinus.github.io/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596467156.097800"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596467156.097800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 08:05</span><br/>
+<span style="background-color:#ccf">@Philipp Krüger</span> I'd actually be really interested in giving a rust-based solution a try :D
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596467330.098000"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596467330.098000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-08-03 08:08</span><br/>
+<span style="background-color:#ccf">@Matei Adriel</span> There's rust stuff happening here: <a href="https://github.com/linebender">https://github.com/linebender</a> and also some relevant stuff (for me mostly) here: <a href="https://github.com/RazrFalcon/rustybuzz">https://github.com/RazrFalcon/rustybuzz</a><br/><br/>But it's <em>very</em> experimental. Hard to say what these projects are going to become, in what direction they'll evolve, and in what time they'd be viable. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596467349.098300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596467349.098300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 08:09</span><br/>
+Fonts are always hard, especially for smaller text.  An HD display helps a lot - the problem is lessened on a 4K screen :slightly_smiling_face:  As I said, the Slug library is probably an easy solution if you don't mind paying or just want a prototype.  I've used Direct2D on windows before; that is nice renderer.  Qt is very nice for fonts as long as you are happy to bite into that huge apple.<br/>Another approach is to use an OS specific renderer to draw your specific text onto a texture and then apply it in the engine; that gives you the best of both worlds, but you need to write custom bits.<br/>I've heard good things about HarfBuzz; I really should get around to building it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596467531.098500"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596467531.098500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-08-03 08:12</span><br/>
+I'm pretty sure harfbuzz itself is very mature, this is from their wiki:<br/>&gt; The current HarfBuzz tree, used to be also known as harfbuzz-ng, is under active development and is what is directly used in Firefox, Chrome, LibreOffice, XeTeX, Minikin/Android/Flutter, PlayStation, Qt/KDE, GTK+/Gnome, Java, Emacs and Unreal Engine among many other places directly or indirectly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596470117.099000"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596470117.099000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-03 08:55</span><br/>
+Yeah, it's just big/complex.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596471424.101900"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596471424.101900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2020-08-03 09:17</span><br/>
+WebKit direct DOM manipulation via Javascript 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596480509.111400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596480509.111400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 11:48</span><br/>
+I was playing around with a shader editor and built on a similar stack as <span style="background-color:#ccf">@Chris Maughan</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596480531.111600"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596480531.111600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 11:48</span><br/>
+if you're not used to or wanting to specifically interact with low level GPU APIs I wouldn't recommend it though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596480558.111800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596480558.111800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 11:49</span><br/>
+I specifically wanted to play around with raytracing, wave instrinics, and maybe in the future mesh shaders
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596480674.112000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596480674.112000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 11:51</span><br/>
+as well as gain some more knowledge of how things are done in the DX12 API. I'd done some hello triangle stuff in Vulkan and done a lot of DX11 work for various jobs and side projects, but hadn't officially touched DX12
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596480695.112200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596480695.112200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 11:51</span><br/>
+IMGUI is really nice though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481422.112800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481422.112800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:03</span><br/>
+I use Vulkan and imgui in my own project, Onex.<br/><br/>And, to echo comments above, I also use lines and triangles in imgui to draw arrows. :blush: I had to remember some school maths. :anguished:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481435.113000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481435.113000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:03</span><br/>
+If I was working on a higher level tool I'd either do it with something browser based, or using a game engine
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481466.113200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481466.113200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:04</span><br/>
+I tried browsers and game engines. Never again
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481494.113400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481494.113400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:04</span><br/>
+why not?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481517.113600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481517.113600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:05</span><br/>
+Way way too much baggage. It's liberating starting from the metal (no pun intended)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481566.113800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481566.113800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:06</span><br/>
+Not sure it's more work: fighting incompatible models Vs writing more code..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481637.114000"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481637.114000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:07</span><br/>
+Basically you're up against decades of assumptions around The Web and The Game, resp
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481736.114200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481736.114200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:08</span><br/>
+fair enough, I think it depends on what you're working on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481746.114400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481746.114400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:09</span><br/>
+If you start with Sascha Willem's example code, it's pretty easy to get going
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481759.114600"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481759.114600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:09</span><br/>
+you can also go higher level than Vulkan + IMGUI and lower level than Unity or Unreal :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481771.114800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481771.114800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:09</span><br/>
+like using sokol, or bgfx or something of that nature
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481778.115100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481778.115100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:09</span><br/>
+even wgpu
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481817.115300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481817.115300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:10</span><br/>
+I'd argue that for all of the FOC projects I've seen Vulkan is overkill
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481824.115500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481824.115500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:10</span><br/>
+and GL would be fine, or DX11
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481874.115700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481874.115700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:11</span><br/>
+OK. True nuff. Just wanted to be ahead of the curve :blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481920.115900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481920.115900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:12</span><br/>
+Basing on imgui means I can always switch
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481945.116100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481945.116100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:12</span><br/>
+But not when I start doing the serious 3D stuff obviously.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596481970.116300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596481970.116300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:12</span><br/>
+Which is a while away. 2D will keep me busy for a bit
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596482613.117200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596482613.117200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:23</span><br/>
+if you're using subgroups in vulkan, or some fancy usage of descriptor sets or resource binding, etc.  The thing about Vulkan is using it naively will give you worse performance in many cases than using GL or DX11 naively
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596482705.117400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596482705.117400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:25</span><br/>
+but that doesn't actually matter for many use cases
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596482769.117600"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596482769.117600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:26</span><br/>
++1 to imgui for rendering<br/>for something more complex like a fullblown editor, you'll need some statemanagement &amp; databinding solution
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596482856.117800"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596482856.117800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:27</span><br/>
+i'm personally biased towards the immutable + unidirectional flow model and have my own library to handle it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596482909.118000"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596482909.118000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:28</span><br/>
+but if you're in C++ and have a tolerance for templates, lager is a good library for that: <a href="https://sinusoid.es/lager/#contents">https://sinusoid.es/lager/#contents</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483012.118200"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483012.118200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:30</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> curious why are you using nanovg at all given your usse of imgui? (ps thx for zep, it's my code editor widget still)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483259.120100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483259.120100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:34</span><br/>
+<span style="background-color:#ccf">@ikrima</span> thanks for the link to lager btw, I wasn't aware of an Elm style library for C++
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483329.120300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483329.120300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:35</span><br/>
+it uses std::variant and actually uses the words "stringly typed actions" (although discourages usage), so maybe not great for high performance run time but completely reasonable for most things
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483396.120500"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483396.120500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:36</span><br/>
+:+1: the author's pretty great and I use his immutable persistent data structures library. honestly the biggest reason i had to roll my own was bc it's heavy template usage (and it links boost.hana)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483408.120800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483408.120800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:36</span><br/>
+yeah...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483456.121000"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483456.121000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:37</span><br/>
+(more of a criticism of C++ vss. the lib; i'm not sure there's a way to do it in C++ otherwise. case in point, my version eschews type safety + uses C++ JIT codegen)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483633.121200"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483633.121200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:40</span><br/>
+<span style="background-color:#ccf">@Scott Anderson</span> re: elm - have you seen a library in the general ecosystem that has a good approach to UI databinding?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596483680.121400"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596483680.121400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:41</span><br/>
+imho, WPF has been the gold standard but not familiar with elm + broader landscape
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484081.121600"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484081.121600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:48</span><br/>
+I already made a demo-ish visual fp lang using purescript (which runs in the browser) which was rendered to a html5 canvas
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484097.121800"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484097.121800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:48</span><br/>
+But I'm trying to switch to desktop dev
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484106.122000"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484106.122000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:48</span><br/>
+Since IMO the js tooling is shit
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484111.122200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484111.122200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:48</span><br/>
+&gt; The thing about Vulkan is using it naively will give you worse performance in many cases than using GL or DX11 naively<br/>Doesn't everyone use Vulkan naively? There are probably 3 people who actually know what they're doing, it's so insanely complicated. I rely on Sascha to be my code chef and sprinkle some of my own seasonings on!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484232.122400"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484232.122400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:50</span><br/>
+Im comfotable in rust + a bunch of fp langs (f#, haskell, purescript, a few more)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484242.122600"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484242.122600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:50</span><br/>
+It seems like all the stuff you guys recommend is c++ based
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484281.122900"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484281.122900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:51</span><br/>
+I did some c++ for school a while back but I'm by all means a beginner at it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484480.123100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484480.123100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:54</span><br/>
+I'd stick to C if you can, then. :blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484510.123300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484510.123300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:55</span><br/>
+imgui is annoyingly C++ but doesn't really benefit from it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484571.123600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484571.123600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:56</span><br/>
+All basic graphics techs are in C
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484610.123900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484610.123900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:56</span><br/>
+And God codes in C apparently
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596484705.124100"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596484705.124100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 12:58</span><br/>
+also just in case it was implied, i'd like to clarify that i do not recommend C++ but if you are forced in C++, here's some stuff.<br/>imgui i believe has a cimgui binding (used in sokol)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494271.126200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494271.126200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:37</span><br/>
+<a href="https://medium.com/swlh/what-makes-godot-engine-great-for-advance-gui-applications-b1cfb941df3b">https://medium.com/swlh/what-makes-godot-engine-great-for-ad&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494276.126500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494276.126500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:37</span><br/>
+relevant maybe?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494376.126700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494376.126700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:39</span><br/>
+I actually want to use Rust, but for side projects I decided learning Rust (which I don't know well) + learning DX12 or Vulkan + actually making a somewhat useful toy application for prototyping was too much
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494433.127100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494433.127100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:40</span><br/>
+and it wouldn't be learning idiomatic safe Rust, it'd be learning unsafe Rust in order to interface with a low level API
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494497.127300"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494497.127300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:41</span><br/>
+also, no not everyone uses Vulkan naively, professional game developers with performant Vulkan engines don't use it naively, my (maybe long winded) point was that using Vulkan is probably overkill for hobby projects and doesn't give you anything that OpenGL wouldn't, and might actually be measurably worse
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494526.127500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494526.127500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:42</span><br/>
+but if the goal is to learn Vulkan or use features that only exist in Vulkan (mesh shading, ray tracing, etc.) then definitely use Vulkan!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596494647.127700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596494647.127700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:44</span><br/>
+in any side project I've done with Vulkan or DX12 I've used it super naively though hah
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596495215.127900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596495215.127900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:53</span><br/>
+re: Godot: I went all-out with Godot but hit the issues I mentioned above
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596495308.128300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596495308.128300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:55</span><br/>
+re: Vulkan: like I said, I /naively/ (!) thought I was being all leading edge :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596495370.128500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596495370.128500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:56</span><br/>
+I am considering going back to my old friend OpenGL|ES 2, or 3
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596495445.128900"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596495445.128900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:57</span><br/>
+if Vulkan is working for you no need to switch
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596495470.129100"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596495470.129100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-03 15:57</span><br/>
+and Vulkan could unlock some great things
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596496249.129400"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596496249.129400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-08-03 16:10</span><br/>
+<span style="background-color:#ccf">@Scott Anderson</span> hot damn, thanks for that godot link!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596496298.129800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596496298.129800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 16:11</span><br/>
+Godot is the best OS game engine, don't get me wrong
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596496469.130200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596496469.130200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-03 16:14</span><br/>
+just too much of an impedance mismatch to my C code!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596503628.130900"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596503628.130900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-03 18:13</span><br/>
+For rendering my UI, what I <b>want</b> is a cross platform, high level, GPU-accelerated graphics UI that goes far beyond the postscript/SVG 2D graphics model. It should support hybrid 2D/3D, and it should be extensible using procedurally defined graphics primitives (signed distance functions) as seen on <a href="http://shadertoy.com">shadertoy.com</a>. So there are  no limits to what a UI can look like. You aren't boxed in by the SVG 2D rendering model or by what HTML/CSS can render.<br/><br/>Shadertoy code has performance cliffs. To make this efficient, it should use an extended version of Raph Linus's GPU accelerated rendering architecture: <a href="https://raphlinus.github.io/rust/graphics/gpu/2020/06/13/fast-2d-rendering.html">https://raphlinus.github.io/rust/graphics/gpu/2020/06/13/fast-2d-rendering.html</a> Briefly, there is a display list of primitives loaded on the GPU, the viewport is partitioned into tiles, and each tile renders only primitives visible in that tile.<br/><br/>Cross platform means Linux, Windows, MacOS, Android, iOS and web via WASM and WebGPU.<br/><br/>Anybody want to help build this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596538236.134000"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596538236.134000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-04 03:50</span><br/>
+<span style="background-color:#ccf">@ikrima</span> I'm using NanoVg for 2 reasons; firstly it is simpler than ImGui for rendering basic primitives, secondly it has better gradient pattern support (last time I looked); and I'm using that for subtle effects here and there.  NanoVg needs only a few lines of code to draw stuff, ImGui needs significantly more for custom.<br/>Glad to hear you are using Zep; I haven't given it enough love lately; but I will shortly be doing another round of bug fixes.<br/>If you have a screenshot of it in-situ, would love to see.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596538302.134500"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596538302.134500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-04 03:51</span><br/>
+I heard out 'Lager' just yesterday, sounds like an interesting project.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596539844.139500"></a>
+      <img src="https://secure.gravatar.com/avatar/381936b01ade315b1f633db5e16f73ef.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0005-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596539844.139500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matei Adriel</b>
+<span style="margin:2em; color:#606060">2020-08-04 04:17</span><br/>
+So your guys recommendations are to learn more C?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596543156.142600"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596543156.142600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-08-04 05:12</span><br/>
+There are language wrappers around all this stuff (maybe not much for shader code which is very c-like).  So it's not essential; but I'd imagine a low level 3D coder would have an easier time with C/C++.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596545713.143100"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596545713.143100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-08-04 05:55</span><br/>
+I personally use C++, since I'm doing low level coding, and all of the graphics libraries that I need to use are written in C++. There is also a graphics programming community using Rust, and they are doing some cool things, but it's tiny compared to C++.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596650957.185500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596650957.185500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-05 11:09</span><br/>
+If you're doing low level graphics programming C or C++, followed by Rust, followed by C# are probably your best options just in terms of ecosystems, platforms you can target, examples available, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596650965.185700"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596650965.185700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-05 11:09</span><br/>
+you can do other languages of course
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596650995.186000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1596650995.186000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2020-08-05 11:09</span><br/>
+js is probably better than most, but the lowest level you can go with js is WebGL\WebGPU
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600246145.466000"></a>
+      <a href="../thinking-together/1596459342.091100.html#1600246145.466000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-09-16 01:49</span><br/>
+Hi! I've got an updated answer to an old, but interesting question: I'm thinking of running skia in the browser (that's the stack figma uses). It's quite accessible via their 'canvaskit': <a href="https://skia.org/user/modules/canvaskit">https://skia.org/user/modules/canvaskit</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600247248.466700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600247248.466700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-09-16 02:07</span><br/>
+This looks great, very keen to stress test it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600247287.466900"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600247287.466900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-09-16 02:08</span><br/>
+does it provide some extra functionality not exposed by browser's canvas? because afaik browsers use skia for the canvas implementation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600247598.467100"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600247598.467100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-09-16 02:13</span><br/>
+Yes! <span style="background-color:#ccf">@Mariano Guerra</span> . One critical thing that I've been missing is way more control over text rendering. You can measure the text size, find the position at which to place underlines, get the caret index for clicks, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600247682.467300"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600247682.467300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-09-16 02:14</span><br/>
+Those things haven't been standardized for canvas, yet. All there is for canvas is measuring text width (but not height), and optionally giving a desired maximum width for text layout, but no control over whether to justify text, left or right align it, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600247713.467600"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600247713.467600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-09-16 02:15</span><br/>
+(why do all my sentences end with etc.?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600328231.479100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1596459342.091100.html#1600328231.479100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-09-17 00:37</span><br/>
+Actual text flow within a canvas-like API with real multilingual text shaping (using Harfbuzz) is a pretty big extra. It's also interesting that if one uses Skia in the browser, the API is then the same for native, allowing code reuse. Lastly, there's <a href="https://blog.cloudflare.com/cloudflare-and-remote-browser-isolation/">this</a> quite cool idea to serialize Skia API calls on a remote server for display on a local machine (sort of like a vector version of what X's network transparency).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-11-21 04:35</span><br/>
+I've been experimenting and thinking about just how little we need to worry about "efficiency" these days, and how to expand the gamut of notations for programming. A snapshot of my thoughts...  <a href="https://programmingsimplicity.substack.com/p/building-software-using-black-boxes?r=1egdky">https://programmingsimplicity.substack.com/p/building-softwa&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732325301.863979"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732325301.863979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-22 17:28</span><br/>
+What does <tt>1then2</tt> do?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732361747.829039"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732361747.829039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-11-23 03:35</span><br/>
+1then2 is an ordering primitive. It guarantees that the outputs are emitted in order (1, then, 2), regardless of in which order the inputs arrived.<br/><br/>Justification: I believe that we've beaten the 1-in, 1-out paradigm to death and have jumped the shark by inserting more and more baubles and band-aids into the 1-in/1-out paradigm. The problem we need to solve today is <em>different</em> from the problem faced in 1950. Using 1950s tech to attempt to solve today's problems leads to a dead end (IMO). Today's hardware consists of many, many nodes (CPU, GPU, no-CPU, etc., etc.). 1950s programming languages were designed as IDEs for programming single-cpu systems. To solve today's problems, we need to do like what they did in the 1950s - invent new IDEs for programming, whilst realizing that the giants in the 1950s weren't solving the same problems as we need to solve, hence, their ideas are not applicable.<br/><br/><em>Note that I use the word "IDE" instead of "programming language". Thinking that the solution must involve a "programming language" taints one's thinking right out of the gate.</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732372748.293429"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732372748.293429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-23 06:39</span><br/>
+I understand your justification at this point :smile: just need the semantics. If the two ports come from different places as happens here, they may receive data at very different rates. What should happen if you get 2 values on the second port before 1 on the first? How about 100 on the second port? Given there's only one queue, it's not clear how the system should deal with that. It feels like using <tt>1then2</tt> may turn into a more global exercise for the programmer, trying to match rates through the system. Does that seem accurate?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732378967.971279"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732378967.971279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-11-23 08:22</span><br/>
+The 1then2 component should send an error if it doesn't see message-on-input-port-1 followed by message-on-input-port-2 or moip-2 followed by moip-1. The diagram is incorrect as shown, in that 1then2 should, also, have an error output port. Thanks for pointing that out. Every 2nd message causes a decision - OK, or error. So, 100 consecutive inputs on "2" should result in 50 error outputs along with 0 outputs on output port 1 and 0 outputs on output port 2. Under-the-hood magic not allowed. If the Architect gets 50 error messages, then the Architect needs to revamp the Architecture, e.g. in order to debug the cause, or, to handle such cases - the engine doesn't do this for the Architect (that's the intent, at least, did I get it right?). Aside: unlike functions which <em>must</em> always return <em>something</em>, sending nothing on output-1 or output-2 in the error case, really means not sending anything (not Undefined, not NIL, nothing). The 1then2 part needs to clear its internal buffer on every 2nd input. If an upstream parts runs so fast that it fills the input queue of a target component, that's an "overrun" condition (like infinite recursion in current software) which is a bug that the Architect needs to do something about. If only one message arrives, and a second message never arrives on input-1 nor on input-2, then the 1then2 part appears to hang - yet another bug that the Architect need to do something about. Further aside: sticking probes into the circuit looks like "printf debugging" on the surface, but, is a more powerful technique in this kind of stuff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732379059.849859"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732379059.849859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-23 08:24</span><br/>
+Ah, got it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732379779.092959"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732379779.092959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-23 08:36</span><br/>
+Zooming out, I think at this point I buy your argument that this methodology leads to more correct, parsimonious programs. The big question for me is how onerous the Architect's task is.<br/><br/>There have been other practices in the past that have decent track records of improving the state of software. Stuff like <a href="https://en.wikipedia.org/wiki/Cleanroom_software_engineering">cleanroom</a> and so on. <a href="https://en.wikipedia.org/wiki/Category:Software_quality">Wikipedia has a long list.</a> I get the sense many of these practices don't get used much because they make the human task too onerous. Or to put it differently, in our current society there's often a mismatch between the amount of attention a task needs from a human and the amount of attention society is organized to provide to it. It's unclear how much a new methodology benefits just from making humans pay more attention.<br/><br/>I guess I'm repeating something I've said in the past: the best way to make your case is to go forth and write more programs, more non-trivial programs. What's the most complex program you've written so far? Well, "complex" is a bit of an unfortunate word in this conversation. Perhaps I should ask what program has most impacted your life by the results of running it (ignoring the intellectual process of creating it, which provides its own benefits for sure)<br/><br/>This has basically been my tack to my own solutions. By trying to minimize software updates, forking instead of updating a shared codebase, etc, I'm hopefully providing more evidence to persuade others to use those practices (or persuade myself to stop using them)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732380689.587699"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732192530.217339.html#1732380689.587699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-11-23 08:51</span><br/>
+Thanks for the suggestions! The most "complex" program I've written is "t2t", or "kinopio2md", or "arith" (small "compiler" that emits Python and Javascript and Common Lisp and WASM all at the same time). I guess "t2t", since I'm currently using it to rewrite 0D (1,400 Python LOC) in a VHLL which emits Python and Common Lisp ("real soon now") and Javascript ("future"). I wonder if I misunderestimate what is "complex" or not. Kinopio2md creates one program by using 3 languages as assembler (Prolog, Javascript, Bash). I cheat a lot - I use existing work (OhmJS, Prolog, Javascript, Bash, Python, etc.),,, but, then, I can,,, and, combining them makes me think of different ways to solve problems, ways I wouldn't think of when using function-based thinking only. Oh, maybe <a href="http://Kagi.com">Kagi.com</a> is the most "complex" and "real" application of these ideas?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

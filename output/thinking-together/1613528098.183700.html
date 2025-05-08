@@ -1,0 +1,679 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:14</span><br/>
+I've been thinking about an alternative approach to "function calling" (particularly, for <b>declarative</b> languages). Instead of having <em><b>functions</b></em>, where every invocation must explicitly feed in every argument, what if:<br/>• we define a language that supports only <em><b>expressions containing free variables</b></em>, and<br/>• we treat invocation as merely (lazy) syntactic substitution, thus arguments are "retrieved" from the scope where the expression is <em>invoked</em><br/>For example, I write <tt>let f = x * x</tt> (note the absence of a parameter list) and then later write <tt>let x = 3; let y = f</tt> , which sets y to 9.<br/>It's important for the substitution to be lazy, since this retains the semantics of traditional functions, including the ability to make <em>recursive</em> definitions. Given this, I don't believe I'm re-inventing macros, though I welcome enlightenment.<br/>You can combine this with the usual nested syntactic scoping rules, so it's definitely <em>not</em> the same as using global variables, or the same as closures (where all the free variables are bound at the <em>definition</em> site). The only practical difference seems to be the UX, and the biggest UX downside is probably readability (which invocations consume which values?), but I'm confident an IDE can make the data flow more explicit.<br/>Advantages of this approach:<br/>• Certain programs can become much more concise. For example, in drawing code, you can set the drawing <tt>color</tt> just once, and it will be automatically consumed by all drawing functions (i.e. expressions-with-free-variables) that are invoked in that scope. This actually obviates the "type classes" feature that functional languages often pursue. (Type classes aim to enable exactly this kind of "implicit argument passing", but achieve it in a more convoluted way.)<br/>• You've removed the concept of a "function call" entirely from the language. You only need substitution (i.e. referencing). Less features is better, when all else is equal.<br/>Disadvantages of this approach:<br/>• As mentioned earlier, it may be harder to understand which values are being consumed where. But I'm confident that an IDE can make this clear. (I'm building a language based on ASTs and structured editing anyway, so it's guaranteed to be combined with a sufficiently-smart IDE.)<br/>• You need to worry about "accidental variable capture", where a variable which <em>just happens</em> to be in scope is accidentally used by a function (i.e. expression) invocation. I think this is a real problem in languages where variables are identified by <em><b>text strings</b></em>, but FWIW, the language I'm designing is <em>not</em> based on text strings, and so can be designed in such a way that a local variable will never <em>accidentally</em> have the same UUID as a free variable found in a function (i.e. expression). In an AST-based language, every function definition should <em>by default</em> use unique UUIDs for its free variables. Only <em>related functions</em> from the same library should share UUIDs, for example the <tt>color</tt> variable used in a drawing library should be the same across all drawing functions.<br/>I'd love to hear others' thoughts. Has this been tried before? Are there additional advantages or disadvantages that I've missed? Is it worth a try? Note that I'm thinking specifically about declarative languages here. Imperative languages <em>may</em> add complications (but may not!).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613528712.184100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613528712.184100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:25</span><br/>
+Is this the same as unhygienic macros? (I love unhygienic macros, but I haven't tried to program with just them.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613528995.184400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613528995.184400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:29</span><br/>
+It shares similarities with macros, but you should still be able to define recursive functions using this approach, and thus substitution needs to be able to occur "lazily". I'm not sure if there are macro systems which can do that; I'm not very familiar with macro systems in general.<br/><br/>I added the word "lazy" to the original post.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613529602.184900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613529602.184900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:40</span><br/>
+Interesting. One phrase for literature surveys may be "lazy call by name"<br/><br/><em>Edit</em>: Apparently call by name as defined in the literature is always lazy: <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_name">https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_name</a>. So this may be subtly different in some way I can't brain atm.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613529738.185100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613529738.185100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:42</span><br/>
+this is how our english stuff works, since in natural language you often don’t refer to arguments if they’re obvious
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613529787.185300"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613529787.185300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:43</span><br/>
+the important part is that we show you our explicit interpretation and allow you to correct it in case we picked the wrong thing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613529980.188700"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613529980.188700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:46</span><br/>
+There is some similarity with APL trains, hooks and forks, IMHO. Unless I’m not understanding this correctly. <br/>There is a bit of a learning curve with APL trains. Note that the analogy to English holds - for most people English has a few years long learning curve going from characters to words to sentences. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530127.190100"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530127.190100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:48</span><br/>
+Wouldn’t this be a problem where f = x*x and f = y*y are not equivalent? 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530387.190300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530387.190300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:53</span><br/>
+Are you talking about comparing the two expressions under an <em>equality operator</em>: <tt>x*x == y*y</tt>? Equality of functions is already undefined in most programming languages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530480.190500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530480.190500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:54</span><br/>
+If you mean that swapping one invocation for the other does not yield the same program, then that's true, but I don't think that will be a problem. The user of the function just has to indicate which variable they want to bind at the invocation site.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530582.190700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530582.190700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:56</span><br/>
+And you can always rename the variables by saying <tt>let x = z; let y = z</tt> if you want a set of functions to all use the same variable name, post-hoc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530651.190900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530651.190900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:57</span><br/>
+I believe the point might be that constraints on the names of variables could affect composability. If you want to call <tt>f</tt> you have to have a variable called <tt>x</tt>. But now say you have another function that needs <tt>y</tt> for the same variable. Or <tt>x</tt> for a different variable.<br/><br/>None of this is insurmountable, but might add noise.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530723.191100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530723.191100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 18:58</span><br/>
+I think my above comment + my second dot point under "Disadvantages" addresses those things :slightly_smiling_face: (I just extended the dot point to add more detail)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613530845.191400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613530845.191400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:00</span><br/>
+Ok, maybe. Capture typically involves reasoning about a single call in isolation. I'm thinking about situations where each call is fine in isolation but there's impedance in putting them into a single block. So you end up creating extra block boundaries.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613531262.191900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613531262.191900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:07</span><br/>
+Ah, I see your edit. Yeah, that's basically the impedance mismatch I was alluding to. Not a huge deal. Typically when we worry about 'capture' we're concerned about insidious bugs. This is more a case of fixing a new kind of syntax error.<br/><br/>I have to deal with some additional constraints akin to these in Mu. It's a cost, but sometimes it's worth paying.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613531527.192200"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613531527.192200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:12</span><br/>
+This concept is pretty similar to dynamically scoped variables. e.g. emacs lisp:<br/><pre style="white-space:pre-wrap">(defun f () (* x x))<br/>(let ((x 2))<br/>  (cl-assert (= (f) 4)))</pre><br/>See Richard Stallman’s paper about emacs on why dynamic scoping promotes modularity: <a href="https://www.gnu.org/software/emacs/emacs-paper.html#SEC17">https://www.gnu.org/software/emacs/emacs-paper.html#SEC17</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613531584.192400"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613531584.192400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:13</span><br/>
+Worth noting that while most programming languages use lexically scoped variables, a variety of programming frameworks include dynamically scoped abstractions. Most notably React contexts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613532145.192700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613532145.192700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:22</span><br/>
+Yeah, this will probably "feel similar" to dynamic scoping, though importantly, you can still determine which bindings will be used by an expression using purely syntactic reasoning. I'll read that paper, thanks :slightly_smiling_face: (edit: The arguments Stallman makes for dynamic scope are pretty weak, IMO, and don't overlap with the arguments in my proposal.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613532627.193000"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613532627.193000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:30</span><br/>
+i could see problems with accidentally reusing a variable name and causing unintentional problems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613532681.193200"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613532681.193200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:31</span><br/>
+what about nested for loops<br/><pre style="white-space:pre-wrap">for i in ...:<br/>  for j in ...:<br/>    # eval a function that expects an index to be assigned to i but you want it use j.</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613532991.193600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613532991.193600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 19:36</span><br/>
+I cover that in "Disadvantage" dot point 2. In short: you wouldn't ever be using "i" as a parameter name. You'd be using a unique UUID, and perhaps you'd use "i" as a human-friendly label for it, to be displayed in the IDE.<br/>Also, I didn't explicitly mention that I'm thinking about declarative languages (I always make this mistake). It may be the case that imperative languages have specific qualities that introduce additional problems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613543953.195700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613543953.195700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-02-16 22:39</span><br/>
+Yeah, I think I missed how your proposal differs from dynamic scoping <span style="background-color:#ccf">@Nick Smith</span>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613544639.195900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613544639.195900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 22:50</span><br/>
+Well, if you put a function definition within another function definition, the inner function should still be able to "use" variables from the outer function, i.e. binding the variable in the outer function might also bind it in the inner function. In other words, you can <em>choose</em> between lexical scoping and dynamic scoping on a <em>per variable</em> basis. Indeed, with every variable usage, you need a means to indicate which parent scope you want the variable to be bindable from; essentially you want every scope to indicate its "parameter list" (free variable list). This puts you somewhere in-between lexical scoping and dynamic scoping. It will require a smart syntax to be comprehensible, of course! It would work similarly to how "quoting" works in Lisp or Julia.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613544785.197700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613544785.197700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-02-16 22:53</span><br/>
+To me this proposal sounds a lot like term rewriting, except that typical implementations of term rewriting include more sophisticated pattern matching.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613544827.198500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613544827.198500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-02-16 22:53</span><br/>
+And I like term rewriting exactly for the reasons mentioned.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613546395.198700"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613546395.198700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2021-02-16 23:19</span><br/>
+I've considered very similar ideas, down to the example of graphics/color and idea of library-specific symbols. You might also look into algebraic effects as an underlying formalism for variable lookup. (That should still let you pick which variables are dynamically or lexically scoped, but it's too late for me to be confident). Also effects are just really cool in general, which is why today I lean towards using them to handle this use case by-the-way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613547269.199000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613547269.199000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-16 23:34</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Does that perspective yield new insight? I thought <em><b>all</b></em> language semantics could be expressed as a term rewriting system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613549010.199500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613549010.199500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:03</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> In the end, everything that's Turing complete is equivalent. But the UX is very different. The particularity of term rewriting as compared to more popular functional computation frameworks is that it focuses in terms, which represent data and function applications, over rules, which represent the transformations done by the functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613550266.200800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613550266.200800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:24</span><br/>
+Yeah sure. I guess term rewriting might be a useful way to phrase the semantics for the purposes of explanation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613550720.201000"></a>
+      <img src="https://secure.gravatar.com/avatar/96c2c97e5edea550b6935e656f64204c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613550720.201000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brent</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:32</span><br/>
+Hi Nick - have you looked at <tt>implicit</tt> s in Scala? It allows code quite similar to the example <tt>let y = f</tt>  if <tt>f</tt> or its parameter is marked as <tt>implicit</tt> . <tt>implicit</tt> can be used at the value and at the type level. At the value level - they are mostly used to reduce boilerplate; for example; passing around a db connection throughout the callstack could be done by marking it as an implicit parameter; and then not having to explicitly pass it on a function invocation.<br/>At the type level - it is used to support a number of the advanced Scala language features.<br/><br/>I would say its a very actively used feature of the language. Scala has a new major release coming  in which a number of the lessons learned from Scala 2 are being used to refine some areas of the language design and <tt>implicts</tt> are getting quite a bit of a rework; so could be an interesting case study.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613551020.204200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613551020.204200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:37</span><br/>
+Yup! I’m broadly familiar with Scala implicits (but of course, thanks for suggesting :slightly_smiling_face:). I put them in the same bucket as “type classes”, which I mentioned in my original post. Is there some benefit of Scala implicits which you think may not exist in my proposal? (Ignoring the type stuff). Implicits otherwise seem like a much more complicated means to achieve the same thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613551448.206300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613551448.206300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:44</span><br/>
+It might be worth investigating the problems Scala users face using implicits, of course. Some of the problems may translate to this proposal.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613551463.206500"></a>
+      <img src="https://secure.gravatar.com/avatar/96c2c97e5edea550b6935e656f64204c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613551463.206500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brent</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:44</span><br/>
+There does seem to be quite a bit of overlap between the two ideas.<br/>Building type classes is one of the main ways implicits are used in scala; and as you say comes with a fair amount of complexity.<br/>But it is also possible to use implicts without creating type classes. As a prototyping idea - you could mark all parameters as implicit - and then have the reduced boilerplate on the function invocation; and it would also be a way to explore how often implicit resolution issues start coming up (obv that would be limited to Scala's resolution rules; but could still be an interesting worked example)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613551538.207000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613551538.207000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:45</span><br/>
+Good idea :slightly_smiling_face:. I’ll have a play around with it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613551893.207300"></a>
+      <img src="https://secure.gravatar.com/avatar/96c2c97e5edea550b6935e656f64204c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613551893.207300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brent</b>
+<span style="margin:2em; color:#606060">2021-02-17 00:51</span><br/>
+Scala 3 is also adding "implicit functions" - so as you say; could be a area to draw "lessons from the trenches" and possibly even some extra inspiration from as well.<br/><a href="https://www.scala-lang.org/blog/2016/12/07/implicit-function-types.html">https://www.scala-lang.org/blog/2016/12/07/implicit-function-types.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613561764.230100"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613561764.230100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2021-02-17 03:36</span><br/>
+It does indeed sound a little like implicit arguments. As well as Scala you could compare with Agda and Idris.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613561816.230300"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613561816.230300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2021-02-17 03:36</span><br/>
+I've come to think of implicitness as being "term inference" by analogy with type inference.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613562110.230500"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613562110.230500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2021-02-17 03:41</span><br/>
+All the languages I know of which have implicit arguments require both the argument positions and the corresponding definitions to be annotated in some way . This has been bothering me for a while because it seems to confuse inference/elaboration with type signatures, and I've been wondering how a language might look if these annotations were taken out of signatures (everything is just an argument) and either indicated somewhere else, or alternatively the compiler just tries to infer as much as it possibly can given all in-scope definitions ... you could approximate this is scala by having a bunch of definitions where <em>everything</em> is marked as implicit.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613570290.242400"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613570290.242400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-02-17 05:58</span><br/>
+I'll add to the others that this gives me dynamic scope vibes, though possibly with a dash of unification if you choose logic-programming semantics for filling in the missing values through inference?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613573176.242700"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613573176.242700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2021-02-17 06:46</span><br/>
+Implicits effectively <em>do</em> encode logic programming semantics. In Agda and Idris that's an explicit aim (term inference is basically proof search). Scala is the same but somewhat accidentally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613609273.243400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613609273.243400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-17 16:47</span><br/>
+Interesting! I need to think more about the possible similarity to logic programming (which is already inspiring me in other ways :slightly_smiling_face:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613782208.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613782208.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 16:50</span><br/>
+<span style="background-color:#ccf">@Brent</span> <span style="background-color:#ccf">@Miles Sabin</span> Ok, so I've investigated implicits in Scala 3, and the related features in other languages (traits, protocols...) including Coq and Agda. All of them have one thing in common: they use the <b>type system</b> to deduce which arguments should be passed implicitly. Most languages do this in a <em>very messy</em> way: they look at all the implicits/traits/protocols in the current module, submodule, imported modules etc., and the compiler picks one of those. <b>This is a <em>static</em> selection strategy</b>. In my proposal, the implicit is provided <em>on the stack</em> like any other variable. There's no fancy "resolution algorithm" involved, and the implicit value <b>can be constructed <em>dynamically</em>,</b> which is a whole different kettle of fish.<br/><br/>Now, Scala 3 offers something similar: there's a command to specify a "given Int" or a "given Bool" on the stack that should be used as an implicit argument. The problem with this is that <b>you can only declare one implicit value <em>per type</em></b> (in a given scope), whereas my proposal doesn't care about types at all: it uses unique parameter names instead. Also, Scala's "given" declarations can't shadow (i.e. override) each other, whereas variables obviously can. This allows you to implement the equivalent of "default arguments", and override them on specific invocations.<br/><br/>In conclusion: I think I've proposed a simpler, more general, and more intuitive approach to implicits than all the other manifestations I've seen.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613786598.002400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613786598.002400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:03</span><br/>
+nick. i regret to inform you that this is <em>exactly</em> how rebol and infra work
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613786661.003400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613786661.003400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:04</span><br/>
+If by <em>exactly</em>, you mean dynamic scoping, we discussed that higher up in the thread.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613786923.006800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613786923.006800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:08</span><br/>
+Though I do remember Rebol's approach to scoping is unique, so now I'd better revisit it, you're right.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613787099.009300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613787099.009300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:11</span><br/>
+nope! dynamic scoping looks up symbols based on where they’re called from, right? infra and rebol let you do whatever you want with your substitution semantics. could be “look up lexically” or “look up the call stack” or  “evaluate to a UUID and consult the editor for what the last-clicked on object was”. so i guess that the part that’s exact is the “absence of a parameter list” part, and the part where you’re performing arbitrary substitutions based on a set of rules from user input. they also work recursively, too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613787306.012900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613787306.012900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:15</span><br/>
+for the record: i think it’s an extremely good idea. oh and the relation between uuids and functions in the same package sounds like the path infra would take—your modules have a structure, and you’re reflecting that structure via encoding it in otherwise arbitrary data. idk, smells like it’s almost a binary format to me :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613787546.013600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613787546.013600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:19</span><br/>
+Yes I believe under dynamic scoping you resolve <em>all</em> identifiers when a function is invoked, but I'm aiming for something in-between (which I'm not sure I've clearly described yet).<br/><br/>My proposal has nothing to do with a binary format: users of the language won't give a damn about how a program or process is stored in RAM or disk, and the language won't expose it :slightly_smiling_face: (Unless they're profiling performance.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613787577.014600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613787577.014600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:19</span><br/>
+A program definitely won't be serialized as ASCII, but that an implementation detail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613789693.018900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613789693.018900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:54</span><br/>
+Ok, conclusion on Rebol: it's not the same as my plan. In particular, the following code prints "2" in Rebol (and in languages with <b>dynamic scoping</b>), but I mentioned earlier that I want to preserve lexical/syntactic reasoning, so I'd have it print "1" instead:<br/>x: 1<br/>foo: [ print x ]<br/>x: 2<br/>do foo
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613789742.019100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613789742.019100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 18:55</span><br/>
+<tt>foo</tt> would only look for <tt>x</tt> on the stack if it wasn't found at the definition site. So if you delete the first line, <tt>foo</tt> would print "2". This brings you closer to Scala's implicits than dynamic scoping, but it's still different, as I described a few posts up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613797039.020000"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613797039.020000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2021-02-19 20:57</span><br/>
+Having the source of the variable definition change based on the context of the function definition makes me nervous. It's the same feeling as accidentally declaring a new variable when trying to assign to an existing one (almost a dual problem). That's the kind of thing for which I prefer an error message (at whichever phase) rather than unexpected runtime behavior. For a text language, I would probably nope out on seeing that in the docs. I guess it's less of a problem if all your variables are secretly UUIDs, though. For text, I would be happy with a declaration at the function level that a particular var always comes from dynamic scope.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613797351.021400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613797351.021400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 21:02</span><br/>
+Yes, I agree it would be a mess for a textual language to try this. But in a structure-based language, I think it will work quite nicely, because you're <b>never</b> going to <em>accidentally</em> shadow a variable through naming coincidences. For every variable assignment you write, you're going to know what that variable <em>means</em>, and the places in your program that are able to "receive" it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613797498.021600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613797498.021600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-19 21:04</span><br/>
+(Side question: is there an existing name for "non-text-string-based" languages? I'm using words like "structure" willy nilly.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613981750.023600"></a>
+      <img src="https://secure.gravatar.com/avatar/96c2c97e5edea550b6935e656f64204c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613981750.023600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brent</b>
+<span style="margin:2em; color:#606060">2021-02-22 00:15</span><br/>
+Interesting to read your clarifications on the differences you have in mind to Scala's approaches.<br/><br/>I really like how this also removes the ability to use any inconsistent naming - passing "the same" variable to a parameter with a different name is often an area that generates a fair bit of code smell.<br/>Have you considered how this will work with 3rd party libraries? Its likely that libraries will use a different naming standard; so will some glue code be required to map to the naming in the rest of the code set?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1613982214.028100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1613528098.183700.html#1613982214.028100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-02-22 00:23</span><br/>
+I doubt that the parameters used by different libraries will often overlap <em>exactly</em> in meaning, so they probably won’t want to share UUIDs in the vast majority of cases. Stuff like “color” will probably be that exception. There could be a standard registry (like <a href="http://schema.org">schema.org</a>), or yeah, a little glue code could unify things (and is easier to implement).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

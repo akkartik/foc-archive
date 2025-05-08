@@ -1,0 +1,643 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-26 09:01</span><br/>
+<br/>Sure, if 1. is the case it’s no problem I’m happy, the original abstraction is reused I don’t feel so bad, “it did worth it!“. But usually this is not the part I am afraid of. And also my point is, that it is only matter of time when reuse won’t be possible with these updated abstractions and I must just dump. Requirements changed so much and IN SUCH A WAY + IN SUCH AN ORDER, it is just literally EASIER to dump the existing (layers) of abstractions to get to the goal.<br/><br/>Another point: knowing this happens all the time it feels wrong to think a lot about “complicated” abstractions which will help me in future. Earlier, I thought it is not a problem to sit and think a lot about these “partially good abstractions”, because I thought they will be useful. Also, reusing these “half baked” solutions seemed OK and justifiable. Now it feels like chasing a shadow and betting too much on catching it.<br/><br/>2.(b): it happens, I am OK with it.<br/><br/>But here is the worst point:<br/>2.(a): getting rid of the old abstraction(s).<br/><br/>It is insanely hard! And it is weird why it is… Entangled code, changed meanings! Ill-evolved abstractions both in test and in production code! Whaaat?! I think that is the part we should do something about.<br/><br/>“Half baked abstractions” feel like boundaries for safety (code reuse is also safety: “not to forget this case”-safety). But boundaries are rigid. It feels to me a “Sacrificing flexibility for safety”. Sure, abstractions also do have “meaning”, but this meaning alters over time (the dirty part, not the clean part) and sometimes the “stuff” is abstracted away is more like a fast changing “process” without real boundaries and not like an “entity” / unit / “noun” with clear boundaries. If it was a String its OK, it is a clean abstraction. My problem is with the “intermediate stuff” which are more like steps (which are more likely to change) in a process not a real entity like “AnIdiotAdapterFromXToYAfterZHappenedButBlah”. Abstractions feel declarative and rigid. Lack of abstractions feels imperative and flexible.<br/><br/>So with all this what I am thinking about is this:<br/>The production code should be as flexible (dirty, ugly, duplicated, etc.) as possible, with SHALLOW (layers of) abstractions (shallow not equals low complexity). It feels a bit like “composition over inheritance” aka “fuck and duplicate over using defaults you wont be able to delete later + you have to duplicate later no matter what”.<br/><br/>On the other hand it seems to be a good idea to have a nice set of integration tests with “full coverage” which tests DO SHARE a lot of abstractions for being able to describe “all the RAW cases”. (By raw I mean no/less intermediate stuff.)<br/>Maybe asserting on invariants in tests (and making these asserts reusable in test abstractions) is more maintainable then evolving and maintaining abstractions of production code.<br/><br/>I might be 110% wrong. I am quite sure if I’d do this I’d pray for abstractions I did not introduce … Complexity does this all the time. The reason I feel its something else now is that its not complexity itself which ruins me (and my code) but the ORDER OF STEPS I get there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574800292.230400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574800292.230400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-11-26 12:31</span><br/>
+I don't follow all the details, but you're right that this subject is interesting to me.<br/><br/>1. As <span style="background-color:#ccf">@Scott Anderson</span> pointed out above, not trusting abstractions seems not so much an extraordinary idea but more just a secret truth that we don't talk about in polite company.<br/>2. Among hard-core TDD folks there's a school of thought that's the exact opposite of yours: make sure to keep tests entirely devoid of abstraction, to counteract any tendencies for complexity creep and over-abstraction in production code. I subscribe to this idea, though there's always a question of how far to take "no abstractions". Do we avoid all standard libraries? Do we skip the language and just program in machine code? My current rule of thumb is that I can use any abstractions from production code, but I am extremely selective about creating test-only abstractions. Since this means production code is often used for test setup, it's very important to be very explicit in each test about the component under test.<br/>3. Maintaining control over abstractions shouldn't imply avoiding them entirely. Just to 'stay loose' mentally. Any abstraction can be questioned or taken out at any time.<br/>4. At the risk of repeating myself, you should check out my notion of white-box tests: <a href="http://akkartik.name/post/tracing-tests">http://akkartik.name/post/tracing-tests</a>. Rather than have tests run sub-components and make assertions on their behavior, I always run the whole program, emitting a trace of domain-specific events (facts deduced by the program), namespaced by different conceptual sub-components. Then different tests make assertions on the state of the trace. Fine-grained unit tests may focus on just traces pertaining to a specific namespace, while coarse-grained integration tests may look at a different namespace. Traces are an abstraction-busting device: tests no longer care about details of <em>how</em> facts are deduced, they only focus on <em>what</em> facts are deduced. And this permits radical changes to abstractions without needing to modify tests.<br/>5. You should also check out my notion of layers: <a href="http://akkartik.name/post/wart-layers">http://akkartik.name/post/wart-layers</a>. Layers are an abstraction-busting device for gradually inserting code tastefully into a skeleton of a program. They're often useful for recapitulating a cleaned-up history of a program's evolution so that newcomers have access to <em>always working</em> copies of earlier, simpler snapshots. One thing I find myself using layers to do is track <em>alternatives</em>. When things were simple some sub-system was implemented one way. As features were added the old way got replaced. But it's still really useful for conveying the core idea. I keep the old implementation around in earlier layers, and replace it in later layers. That way the codebase continues to exercise both alternatives rather than let the old way accumulate rust in a git log somewhere.<br/><br/>Anyway, I keep repeating myself about traces and layers, so apologies to those who are sick of hearing about them. But I really think they're super valuable ideas. Certainly they're 2 of the 3 best ideas I've ever had, and I don't expect to add to that list for the rest of my life.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574818397.232300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574818397.232300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-26 17:33</span><br/>
+<span style="background-color:#ccf">@Pezo - Zoltan Peto</span> I think you're hitting the nail on the head.. abstractions are necessary, but they are also close to impossible to get right, and can do great damage to software
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574818465.232500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574818465.232500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-26 17:34</span><br/>
+you might like <a href="http://strlen.com/restructor/">http://strlen.com/restructor/</a> which is a project I undertook when I realized we shouldn't leave abstraction entirely to programmers - and that they need some help being able to remove them when things change
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574853658.233600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574853658.233600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-27 03:20</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Thanks for your response, you have some really good points. Will check out your posts later as well!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574853698.233800"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574853698.233800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-27 03:21</span><br/>
+<span style="background-color:#ccf">@Wouter van Oortmerssen</span> I had a similar idea earlier (like reconstructor), it is interesting people made it real!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574899766.248400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574899766.248400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-27 16:09</span><br/>
+This is a very Forth-like topic :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574946140.257400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574946140.257400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-28 05:02</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> I don’t know Forth, can you give me more intuition on that? :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574964683.269900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574964683.269900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 10:11</span><br/>
+I guess what he means is that abstracting (and re-inlining) are trivial operations in Forth.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574964744.270100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574964744.270100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 10:12</span><br/>
+of code, anyway :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574965397.270300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574965397.270300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-11-28 10:23</span><br/>
+I think this is the right link for my favorite talk on Forth: <a href="https://youtube.com/watch?v=NK0NwqF8F0k">https://youtube.com/watch?v=NK0NwqF8F0k</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574971778.271600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574971778.271600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-28 12:09</span><br/>
+What I meant is that Forth is meant to be so simple (compact, anyway) that everything about the program can be invented right there, just for that program. So everything you need to understand is immediately available and no extra layers of bloat.<br/><br/>I haven't watched that video yet, but the description sounds like it's roughly about the same ideas
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574972437.271800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574972437.271800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-11-28 12:20</span><br/>
+Yeah, though I'd say Forth's flexible abstractions stem more from the culture of the community than anything technical about the language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574972486.272000"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574972486.272000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-28 12:21</span><br/>
+ty
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574975937.272200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574975937.272200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 13:18</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> "everything about the program can be invented right there, just for that program".. but why is that? Does terseness buy you that? A versatile set of built-in functionality? Does it work beyond simple programs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574976236.272400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1574976236.272400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 13:23</span><br/>
+I guess languages that are verbose and/or lack convenience features do the opposite: they invite abstraction simply to try and cut down on the repeating code you're constantly writing :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575047479.306800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575047479.306800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-29 09:11</span><br/>
+Maybe most programs could be vastly simpler. MS Windows has enough code to fill enough textbooks that would stack up as tall as a sky scraper -- hundreds of millions of lines of code. And then Kay makes an operating system (STEPS) that has all the fundamental tools for authoring and web browsing, with only 20 thousand LOC.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575047538.307400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575047538.307400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-29 09:12</span><br/>
+I'll let this 18min video argue the rest:<br/><br/><a href="https://youtu.be/tb0_V7Tc5MU">https://youtu.be/tb0_V7Tc5MU</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575223752.328400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575223752.328400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:09</span><br/>
+I would agree that software can be vastly simpler, but there are some giant hurdles in the way a) the fact that (large) software creation is a extremely incremental process, where you add to the current structure rather than all at once, and of course b) humans tendency to overcomplicate.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575223901.328600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575223901.328600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:11</span><br/>
+I find it an interesting thought experiment what would happen if you took a super complex piece of software, and had an omniscient god-like programmer refactor/rewrite it all to whatever optimal code structure is in theory possible, while retaining 99%+ of functionality. Could, say, MS Word be 10x smaller? 100x?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575224134.328800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575224134.328800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:15</span><br/>
+Trouble is, no actual humans, nor any software (and I did try <a href="http://strlen.com/restructor/">http://strlen.com/restructor/</a>) can do such refactoring :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575224349.329200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575224349.329200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:19</span><br/>
+Why 99%? Why not 30%? Does anyone <em>really</em> use more than that? The real problem is that each of us relies on a different 30%.<br/><br/>We really need to move past talking in terms of proper nouns. Redoing MS Word is an insurmountable goal, partly because much of it serves the needs of MS rather than any users. But redoing <em>text editing</em> or <em>typesetting</em>, on the other hand. That's much more tractable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575225238.329600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575225238.329600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:33</span><br/>
+because my though experiment is about how much simpler code can in theory be.. what the functionality being implemented is doesn't matter. The reason I don't say 100% is because that is an unreasonable expectation, since any software has a ton of idiosyncrasies due to its implementation details, and requiring all of those to be replicated would seriously reduce the ability to simplify. Or put differently, I expect a steep power law curve of code size as you approach 100%, none of which is of actual use to anyone.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575225360.330200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575225360.330200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:36</span><br/>
+Again, this is not about MS Word or wether anyone should want software of that complexity. It is merely an example. Pick another: Windows, Linux, Chrome, Photoshop, Clang/LLVM, Unity engine..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575225544.330400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575225544.330400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:39</span><br/>
+Those are all proper nouns. My point is still not getting across.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575225687.330600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575225687.330600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:41</span><br/>
+What I am saying is that your point appears unrelated to my comments
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575226155.330800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575226155.330800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:49</span><br/>
+Based on restructor you seem to think that the major sources of complexity are duplication. If only all the duplication could be removed, software would be 10x or 100x smaller. Is that kinda where your comments are leading?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575226379.331000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575226379.331000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:52</span><br/>
+So like for a company that can't replace an unnecessarily giant codebase because it's in active use my many parallel projects/products, but a vast simplification would greatly cut down the cost of maintaining it and the time it takes to add new features (and be able to do so in a sane manner). That exactly calls for a massive (albeit careful and piecemeal) refactor.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575226597.331200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575226597.331200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 10:56</span><br/>
+But yeah, for just saying what's necessary to have whatever it is people need to do (and ignoring the specific way it's currently done or understood), then maybe it's best to start over from first principles.<br/><br/>Two examples:<br/><br/><li> The STEPS program created a full "OS" (not at all in the <b>traditional</b> sense, but you could do the things a computer user needs to do) in ~20K LOC<br/><br/><li> Bjarke Ingels does something very similar with physical architecture, i.e. throw out all preconceptions of what a building "is" and see what forms from first principles, even if it diverges greatly from mainstream practice. The results are strikingly different on every level, but insanely practical. It's literally the same thing we're taking about doing with software, but as something physical that anyone can look at and understand. (See follow-up comment below)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575227051.331700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575227051.331700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 11:04</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> no, my comment actually said that Restructor is NOT able to do such a refactoring.. I merely mention it as related to to thought experiment. The real refactoring ability needed to execute my thought experiment is beyond any current humans and current software, as all software design decisions would need to be re-evaluated in parallel
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575227163.331900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575227163.331900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 11:06</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> Yes, if you allow yourself to re-define what the software is supposed to do in the first place, you can gain much bigger factors of simplification, and humans can actually do this. My thought experiment was about the idea that even without changing what the software does huge simplifications are possible in theory, just they're impossible to reach
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575227244.332100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575227244.332100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 11:07</span><br/>
+Yeah, there's a big difference between refactoring existing software that's in widespread use, and starting over from first principles.<br/><br/>But yes, some software is so insanely large and complex (e.g. MS Word) that a refactor / restructure is just not humanly possible.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575228750.332800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575228750.332800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 11:32</span><br/>
+Further note about Bjarke Ingells' work (I promise it's relevant):<br/><br/>On the surface it looks like he's just trying to create really strange ("cool") looking buildings and spaces, just for the sake of it -- which is the trap that both postmodernism (<a href="https://youtu.be/NAjz0INs3Lc?t=12m15s">https://youtu.be/NAjz0INs3Lc?t=12m15s</a> 12:15-14:40) and software (<a href="https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html</a>) both fall into.<br/><br/>But by throwing out all preconceptions of what the appearance, properties, or components of a building (or software) "should" be, and by focusing purely on the root needs that it's meant to address, you actually wind up with a form that is perfectly suited to those needs (i.e. the exact opposite of the examples linked above). He explains (with visual): <a href="https://youtu.be/dh96J9iXGyk?t=18m50s">https://youtu.be/dh96J9iXGyk?t=18m50s</a> 18:50-20:15<br/><br/>I think that's also the secret to improving the software situation. IMHO it's damaging to society that such things are not a core part of software education & practice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575232215.333600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575232215.333600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-01 12:30</span><br/>
+Thanks, that's some.. cool architecture :slightly_smiling_face: I'm failing to see how that translates to software though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575237996.335200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575237996.335200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 14:06</span><br/>
+Ok, I'll try to explain...<br/><br/>This thread was about software architecture & size / complexity, and choosing abstractions and patterns to use to build it up, and whether to maintain or replace them. (Think of abstractions as the building materials or mode of construction)<br/><br/>In both fields, decisions and thought around these things, are heavily skewed toward things that have nothing to do with the needs that the architecture is ultimately meant to address.<br/><br/>You don't sell an arrangement of boxes fitting a certain way, nor layers of abstractions, nor (for either field) a specific framework or fittings for a specific framework.<br/><br/>You sell a place to work or live or socialize -- carving out a box (even if done well) does not even begin to scratch the right level of thinking/goals for creating a "good" <em>place to live</em>, etc.<br/><br/>It's the same with software (see "Screaming Architecture": <a href="https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html">https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html</a>). That is, good "software engineering", is about "good software" engineering -- which sadly, is typically far from the center of focus.<br/><br/>There's often a response back to this that user experience is such a small piece, it's just the "skin" on the outside ... No no, it runs all the way deep, and if done right, can LITERALLY shape the architecture of software (again, see "Screaming Architecture" ... It's actually a lot deeper than that explains, but it points in the right direction)<br/><br/>What I'm saying is that the exact same backwards thinking / disbelief that the architecture can (or should) be <em>that</em> tied to the user experience, exists in both fields. Bjarke's work not only shows EXACTLY how this <em>can</em> be the case, but also how much better things become: not just asthetically, but functionally; and not just for the user, but cost of building and maintenance, environmental impact, structural concerns, etc. <em>all</em> improve -- because the thing literally <em>is</em>, what it is.<br/><br/>Software gets so tremendously large and complex, <em>largely</em> because so much of the scaffolding and architecture is so focused on all this incidental artificial stuff that has nothing to do with what the software is <em>actually</em> supposed to do or be.<br/><br/>Unfortunately, all that incidental stuff is what programmers tend to think of as what the software "is" (and it's similar for physical architecture). But all that stuff is just the <em>baggage</em> "necessary" (or rather, <em>elected</em>) to create the user space / experience which is the whole reason for the software's (or building's) existence! Once you really get that (which doesn't happen after just a few hours of thought, because it's "new" and not "news"), then similarities are striking.<br/><br/>Read execution in the kingdom of nouns and screaming architecture, and then relate to the physical architecture resources (all linked to previously), and I think it will all begin to connect.<br/><br/>(Ironically, I struggle with conciseness. I might trim this back later)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575261456.340300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575261456.340300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-12-01 20:37</span><br/>
+I suppose the short version is that architecture is not about building materials (or abstractions) and structure and scaffolding and framework etc., but about the human use / purpose that the thing facilitates. Sure, it involves those things, but <em>as a means to an end</em>. The problem with both software and physical architecture in practice, is that they've made it <em>about</em> the materials and scaffolding.<br/><br/>Maybe that's why it's hard to see the relevance, because programming abstractions ≠ physical building materials, and the industry (and developers) generally struggle to see past that level of understanding.<br/><br/>So the relevance is that software is complex and large because its creators are obsessed with the wrong stuff. Bjarke's work demonstrates how much better things become when the thing being built is shaped <em>by</em> the purpose it serves (rather than (perversely) the other way around) -- which not just reduces complexity/cost/etc., but also makes it vastly easier to serve that purpose much better.<br/><br/><a href="https://www.lexico.com/en/definition/perverse">https://www.lexico.com/en/definition/perverse</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575414470.408800"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575414470.408800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 15:07</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> What you show in “A new way of testing” is I think a really similar implementation I’ve been thinking of, thanks for the pointer!<br/><br/>I’ll also add that this “trace” based approach solves the problem of “how to test logging” implicitly, which is really useful if its needed.<br/><br/>I also like that approach because I think its really shows to codes “real” nature which (to me) is about the control flow. Something which is more closer to the “deeper” control flow than to the abstractions “on the top of the control flow” seems more robust to rely on.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575417077.409300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575417077.409300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 15:51</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> You mention in the article that you are afraid of reinventing mocks. That idea(/fear :slightly_smiling_face:) also came to my mind as well, I also associated it with the “London/Interaction school” of TDD. Let me ask what do you think about that point now, 6 years later?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575417223.409600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575417223.409600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-03 15:53</span><br/>
+It's been a pretty good experience. Only a little taste is required to ensure I'm checking deep facts rather than brittle details.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575417262.409800"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575417262.409800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 15:54</span><br/>
+That sounds great! :slightly_smiling_face: Stay around for a sec, I have another question and I’m so curious! :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575417585.410100"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575417585.410100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 15:59</span><br/>
+What I see atm is that the hard part might be writing up the trace based test in text. I am wondering does it worth to create a DSL/env creating these traces (which whould automatically generate the “stringified” version to assert on)?<br/><br/>I am also trying to figure out what does it really mean using traces instead abstractions. At first sight the killer feature is that you assert independent logical statements which are<br/>1. represented as plain strings (which seems to me the ultimate language of logic)<br/>2. quite readable and processable by the human developer<br/>With these you “just see and write the deep truth”.<br/><br/>But to me the limit seems to be the text part in todays editor.<br/><br/>Its also a bit related to my earlier question (creating visual DSL for tests).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575417884.410700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575417884.410700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-03 16:04</span><br/>
+Definitely seems worth trying!<br/><br/>The key property of traces is that it's a versatile append-only data structure. There's definitely room to add more structure to it -- as long as there's always an escape hatch to strings.<br/><br/>Hmm, it occurs to me that traces can be seen as a kind of inverse of <span style="background-color:#ccf">@Tudor Girba</span>'s moldable programming. It consists of an extensible way to turn data structures into browseable UIs. Traces perhaps should be an extensible way to turn browseable UIs into data structures.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575563440.067400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575563440.067400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-05 08:30</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> an entry in the trace is an “event” right? Is it more / less than that? Maybe not just a plain event but with extra parameter information, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575563755.069200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575563755.069200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-05 08:35</span><br/>
+Well, it's open to interpretation. I think of it as an atomic fact of the domain. That seems mildly helpful to make sure I'm not fixating on internal events.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575563968.070200"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575563968.070200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-05 08:39</span><br/>
+Great, thanks! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575572717.105500"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575572717.105500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-05 11:05</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Have you tried traces with snapshot testing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575576266.107400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575576266.107400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-05 12:04</span><br/>
+I haven't, but that is very much part of the goal: to replace expensive, heavyweight, flaky Selenium tests with robust, lightweight tracing tests at just the right level of abstraction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575579355.110300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575579355.110300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-05 12:55</span><br/>
+Ah wait, by snapshot testing I did not mean screen capturing but like jest’s snapshot testing <a href="https://jestjs.io/docs/en/snapshot-testing">https://jestjs.io/docs/en/snapshot-testing</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575590496.112900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575590496.112900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-05 16:01</span><br/>
+I see. Hmm, I'm not sure what problem this is solving. Why would you not write a regular test over the generated html parse tree?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575641348.118900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575641348.118900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-06 06:09</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span><br/>It’s not about the html part. It is just a standard use case, because it might be hard to come up with the tests when its about <tt>visuals</tt>.<br/><br/>But ignore html for now. It’s like saying I don’t know “how the current implementation works” / “what are the abstractions and their relations in the current implementation”, but I’m sure it’s good and want to match my next implementation with the current one.<br/><br/>I would not use this kind of testing alone, but for testing the glue between loosely coupled boundaries + the “log” nature of the traces seems a good composition.<br/><br/>I could say: I don’t know what is the exact ordering between facts in the trace and it might change awkwardly, but for now I want to save the current implementation (via it’s trace), because I am sure it’s ok and I want to test against that later.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575641483.119400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575641483.119400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-06 06:11</span><br/>
+Afaik there is a similar technique already known in the industry: when you have a legacy system with no tests first you might add a “log” (trace) to it, and while refactoring you might test against that log.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575649626.119900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575649626.119900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-06 08:27</span><br/>
+I see what you mean by snapshot tests. I suppose to could use them? :man-shrugging: But it seems more "black box" than I like :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575651104.121900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574787700.220500.html#1575651104.121900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-06 08:51</span><br/>
+Okok, just mentioned them to ask if you already thought about that use case so I can ask you how is it :)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

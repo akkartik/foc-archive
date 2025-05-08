@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../share-your-work/1720039689.044269.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mason</b>
+<span style="margin:2em; color:#606060">2024-07-03 13:48</span><br/>
+I've been building a sync framework that app developers can integrate, to securely sync state changes between clients. I call it DIPLOMATIC, after the concept of a diplomatic bag which travels through foreign territories, but protected against inspection. So far I've got a couple host implementations targeting Deno and Cloudflare (Workers + Durable Objects + D1), as well as client libraries to build web clients in React and CLI tools in Deno.<br/><br/>The attached video shows off a demo app that displays and updates a consistent status message across clients. It generates and stores a cryptographic seed (synced via the browser's password manager), queues status changes when offline or not connected to a host, then pushes queued changes when connected, and receives real-time updates using WebSockets.<br/><br/>I've got some rough docs up at <a href="https://diplomatic-docs.replit.app">https://diplomatic-docs.replit.app</a>, and a walkthrough of the demo app from the video at <a href="https://diplomatic-docs.replit.app/docs/demos/status.html">https://diplomatic-docs.replit.app/docs/demos/status.html</a>.<br/><br/>The backstory is that, for a while I've wanted to build a grand life-planning app, like a TODO list that can operate at the decade-level rather than the daily-level. But I kept running into these blocks:<br/>a) I'll want to access it from phone and desktop, so it needs a sync solution,<br/>b) maintaining servers is a pain, and<br/>c) a life-planning tool will necessarily have personal info, so it shouldn't hang out in plaintext on someone else's computers.<br/><br/>These sorts of issues aren't unique to this tool. In fact, I think they're common enough to merit a general solution. The Web 2.0 client/server model gave us easy software updates and access from multiple devices with consistent data. But we backslid by making all app data visible to the software provider and relying on them to maintain their servers. Mobile apps gave us the additional expectation that we could access our data while offline.<br/><br/>I think there's a simple solution to get the best of all worlds, by encoding app state changes as objects (the Event Sourcing pattern), then encrypting those deltas and shipping them off to a server which relays to other clients, which then decrypt and apply the changes locally. With this architecture, the relay servers all have a standard interface (not application-specific), and they're blind to delta contents, so hosting becomes a commodity. This means companies could specialize in just running these hosts, giving application developers a secure backend without the maintenance burden. It also creates a standardized import/export format for app state—the delta log, so you get a backup format for free.<br/><br/>I'm only designing around single-user apps at the moment. Having a "last-wins" policy for conflicts makes things nice and simple..<br/><br/>If anyone knows of related work I should check out, has suggestions, wants to collaborate, ... let me know. The code is still a bit messy, but I'm planning to tidy that up and open the repo soon.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720111704.809189"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1720111704.809189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-04 09:48</span><br/>
+<a href="https://github.com/standardnotes/app">https://github.com/standardnotes/app</a> has e2e encrypted sync, but I don't remember the exact techniques they use.<br/>---<br/><br/>How much do you care about offline multi-device scenarios with conflicts?  What is the resolution of "last-wins" you care about?<br/><br/>Relaying deltas sounds like Operational Transformation, specifically "operation-based OT" as opposed to "state-based OT"?<br/>If so, consider CRDTs instead — basically they give more peace of mind.<br/>(I'd google "yjs encrypted" &amp; "automerge encrypted" — the 2 leading CRDT engines)<br/><br/><a href="https://localfirstweb.dev/">https://localfirstweb.dev/</a> probably has useful resources.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720114048.386569"></a>
+      <img src="https://secure.gravatar.com/avatar/68488bdee316f15225caa185e233be88.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1720114048.386569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mason</b>
+<span style="margin:2em; color:#606060">2024-07-04 10:27</span><br/>
+Thanks! Yes, this is inspired by operational transform. I’m aware of CRDTs but haven’t tried them out. I’ll read up.<br/><br/>Regarding offline conflicts, they’ll be frequent. E.g. a TODO list where you check off a box on your laptop but shut the lid before it syncs. Then you check the box again on your phone for a sense of completion. In single-user scenarios like this, “last wins” just means whichever operation has a later timestamp is the one that overwrites the current app state, which makes sense because any conflict just indicates the user changed their mind, rather than being an actual disagreement as in multi-user scenarios.<br/><br/>Thanks for that link to localfirstweb.dev! That is highly relevant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720446093.820859"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1720446093.820859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-08 06:41</span><br/>
+Just happened upon <a href="https://jazz.tools/">https://jazz.tools/</a> which is also encrypted sync
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720453673.354699"></a>
+      <img src="https://secure.gravatar.com/avatar/68488bdee316f15225caa185e233be88.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1720453673.354699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mason</b>
+<span style="margin:2em; color:#606060">2024-07-08 08:47</span><br/>
+Thanks again. I’ll take a look at how they’re doing things. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722741137.400299"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-28/5494950400022_766cfa303a60ec4d84aa_72.png" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1722741137.400299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kongwei Ying</b>
+<span style="margin:2em; color:#606060">2024-08-03 20:12</span><br/>
+I'm also building a long term life planning tool called Kairos (greek word for nonlinear time). I haven't considered the architecture as much as you but I'm going with yjs + tiptap to create local first state<br/><br/><a href="http://www.eusaybia.com">www.eusaybia.com</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722794238.144879"></a>
+      <img src="https://secure.gravatar.com/avatar/68488bdee316f15225caa185e233be88.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1722794238.144879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mason</b>
+<span style="margin:2em; color:#606060">2024-08-04 10:57</span><br/>
+Awesome. It looks like we’ve got some similar ideas. Something I’ve found useful in my prototype (a spreadsheet) is presenting each timescale with the containing one, e.g. week-level planning has annual goals simultaneously visible. I’ll be interested to see your app develop.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725010049.984709"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-16/527084657030_cc11a4b410bd932425de_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1720039689.044269.html#1725010049.984709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregor</b>
+<span style="margin:2em; color:#606060">2024-08-30 02:27</span><br/>
+Came here to also mention jazz.tools but I guess I'm late to the party. Chatted with the creator last summer, very motivated bright fellow. It would be great to see you combine efforts!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

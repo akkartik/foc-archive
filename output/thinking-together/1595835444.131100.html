@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-27 00:37</span><br/>
+Disregarding performance or implementation concerns, is <b>self-describing</b> data the way to go? Is there a conceptually "nice" approach to encoding the meaning of data other than composing it from well-defined attributes? Do schemas have any purpose beyond acting as a "type system" and a data compression technique? Should every piece of data in a programming system be self-describing? We can compress away the redundant descriptions within collections.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595844669.131800"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1595844669.131800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-07-27 03:11</span><br/>
+What does "self-describing" mean? Are you going to label every number what it is? A price? A price in dollars? A price of a TV in dollars? A price of a Sony TV in dollars? A price of a Sony TV model KHL123456 in dollars? etc...<br/><br/>How about this other number. It's an area of a house floor plan in square meters. Will it be labeled how accurate it is? Is it rounded to the nearest square meter? Is all area inside the outside edges of the walls (so it includes the walls?) or is the space between walls? Does unusable space like a staircase get included?<br/><br/>Just trying to clarify what "self-describing" means<br/><br/>Do you need a giant taxonomy of categories?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595855835.137500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1595855835.137500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-27 06:17</span><br/>
+Taxonomies are an orthogonal issue. A self-describing data object is (according to me) just one that contains all the metadata (e.g. references to standardised attribute definitions) needed to determine the information it contains. The actual amount of information stored in the object (level of detail) is also an orthogonal issue.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595904343.157500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1595904343.157500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-27 19:45</span><br/>
+<a href="http://ivizlab.sfu.ca/arya/Papers/SW/SOP.pdf">http://ivizlab.sfu.ca/arya/Papers/SW/SOP.pdf</a><br/>Subject-Oriented Programming (A Critique of Pure Objects)<br/>This essay critiques the idea that it is possible and desirable to put all of the information needed to interpret an object inside the object itself. Different applications or modules may interpret the same data in different ways, and you can't always plan for all of these interpretations in advance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595907624.157700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1595907624.157700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-27 20:40</span><br/>
+If you have too much self description, it's cumbersome: code can get very verbose with all the adding and removing of tags. I've seen class libraries for computer graphics where there are separate Point3 and Vector3 classes (for points and vectors in 3D space). That's too much self-description for my taste. In the graphics languages I use, a point and a vector have the same representation, as a generic 1D array of numbers, viz: [x,y,z]. If I store one of these values in a record, then the field name will informally indicate whether the value is being interpreted as a vector or a point. No need for the value [x,y,z] to be self describing as well.<br/><br/>If you have too little self description, code gets cryptic. Like in old-style Lisp programming, where you use lists for everything (no records or maps).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595950895.166300"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1595950895.166300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-07-28 08:41</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I'm interested in this as well. Mostly from the perspective of resilience and as a way to separate content from structure.<br/><br/>You set aside taxonomies and level of detail as orthogonal. Would you mind elaborating what you'd consider essential? And are you by any chance currently experimenting with this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596262643.000500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596262643.000500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-31 23:17</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> The "essential" definition of self-describing data is (to my understanding) the one I gave earlier in the thread. The data must (at the UI level, not the DRAM level) contain references to well-known attributes that have an agreed meaning within a certain community/context. I haven't been able to think of any alternative definition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596262692.000700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596262692.000700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-31 23:18</span><br/>
+This requires that attributes have IDs (potentially UUIDs) that can be looked up in some kind of registry.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596263913.000900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596263913.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-31 23:38</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> I agree with the premise that a data set may be perceived differently at different places/times within an application/system. Though that doesn't obsolesce this discussion: we can refine it to be about self-describing <b>views</b> (derived/reactive data sets). Though such a perspective won't necessarily aid us here. The problem I'm trying to solve is: when you give a data set to someone (a human or a device), how are they supposed to figure out its meaning? Or rather, what is the best way to do so? Send them an email explaining the meaning? Or something more formal and machine-friendly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596275827.031100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596275827.031100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-08-01 02:57</span><br/>
+&gt; references to well-known attributes that have an agreed meaning within a certain community/context.<br/>&gt; <br/><span style="background-color:#ccf">@Nick Smith</span> Isn’t that what a taxonomy is all about?<br/><br/>When I think about self-describing data, I’m most interested in <em>in-band</em> vs. <em>out-of-band</em> transmission. <br/><br/>Some parts of a data format need to be agreed on <em>out-of-band</em>. That could be generic assumptions like endianess, that a string is encoded in UTF-8 or that a field in the UI only takes a valid email address. If that’s just assumed, these assumptions need to be transmitted out-of-band, i.e. on a different channel which could be that email you mentioned or is just “obvious” within a community (side note: there’s danger of exclusion here).<br/><br/>Self-describing data formats transmit more information <em>in-band</em>, as part of the data. So there is an explicit part of the data that says what follows is UTF-8 or there’s a mime type that indicates here comes an image or JavaScript, or you go all the way and end up in semantic web land with those unique, agreed upon entities described in RDF and OWL.<br/><br/>The question to me is: how much of a data format can and should be described explicitly in-band? <br/>And the interesting challenges hiding under there are: encoding structure vs. content and what is data vs. what is metadata?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596276570.031400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596276570.031400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-01 03:09</span><br/>
+I'm trying to avoid the baggage associated with the term "taxonomy", since the most common usage implies "hierarchy" and declarations from some authority (and I don't want the discussion to veer off in that direction). We can use the term <a href="https://en.wikipedia.org/wiki/Folksonomy">folksonomy</a> if we want a specific term (thanks to Jack Rusher). What's important here is not the characteristics/structure of a classification scheme (which is what taxonomy/folksonomy is concerned with), but the mere existence of such a scheme.<br/><br/>&gt; The question to me is: how much of a data format can and should be described explicitly in-band?<br/>Serialisation formats are not a <em>language</em> or <em>environment</em> concern, they're an <em>implementation</em> concern, and I'm acting as a language/environment <em>designer</em> rather than <em>implementer</em> as of late, so I'm not focusing on that stuff. But I'm interested in how the semantics of a data object are presented <b>to the user</b>! Which is closely related. If you're on that bandwagon, then sure, that's the question :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596276825.031800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596276825.031800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-01 03:13</span><br/>
+(Btw, if one was to argue that data formats are part of the user interface, then my retort would be that your programming environment is too small in scope)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596292906.049800"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596292906.049800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-08-01 07:41</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> If you're interested which "bandwagon I'm on", the second half of this post explains it better: <a href="https://stefan-lesser.com/2019/12/06/structure-and-behavior/">https://stefan-lesser.com/2019/12/06/structure-and-behavior/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596293555.050800"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1596293555.050800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-08-01 07:52</span><br/>
+While I do see a distinction between data format and UI, I don't think that's just two different categories, but more like several layers, almost like a gradient. If a string is ASCII or UTF-8 is probably just an implementation detail (until we talk about import/export). Requiring an email in a form field, not so much. Although it's still just some bytes being parsed in a certain way.<br/><br/>So I wouldn't exactly claim that "data formats are part of the user interface", but I wouldn't claim that these things are completely separable either.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1597784331.074500"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1595835444.131100.html#1597784331.074500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-08-18 13:58</span><br/>
+Data in Wolfram Language is tagged in various ways that tell you where it came from and what it represents. For example, if you download one of their stock datasets, and select data from it, the data is going to present itself as a table even after operations that manipulate it, unless you do something that changes its format, such as plotting it, or using <a href="https://reference.wolfram.com/language/tutorial/TextualInputAndOutput.html#12368">a *Form function</a>. I'm not an expert on it, unfortunately, but I thought it'd be a useful reference if you're looking for how other language do it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,223 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-15 08:59</span><br/>
+Hey gang, not much of an update this week. Just documenting my struggles between wanting observable state and needing a centralised system to manage events. I tried to build my own system in a few days but soon realised there's a lot more I need to think about - and maybe there's some existing approaches you all know about that I could look into?<br/><br/>In general, am trying to update state solely via a centralised event manager, but also use observables to automatically trigger those events (if that make sense)<br/><br/>A messy sandbox you can play with can be found here:<br/><a href="https://codesandbox.io/s/eve-test-04e75?file=/src/App.js">https://codesandbox.io/s/eve-test-04e75?file=/src/App.js</a><br/><br/><a href="https://youtu.be/Hw4BgyWRAAA">https://youtu.be/Hw4BgyWRAAA</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589559197.347900"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589559197.347900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-05-15 09:13</span><br/>
+have you considered the elm architecture or similar? <a href="https://guide.elm-lang.org/architecture/">https://guide.elm-lang.org/architecture/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589559371.349500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589559371.349500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-05-15 09:16</span><br/>
+your demo has a really fine grained event generation, maybe a coarse grained one would do? like transactions?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589560176.361500"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589560176.361500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-15 09:29</span><br/>
+Yeah it looks like I'm going for a elm-ish messaging architecture. I think I'm creating issues by have object both emit and listen to events. Maybe all updates should be dispatched via message...<br/><br/>I was also wondering on how much detail to go into the events. I suppose it's a matter of exposing what data is most likely to be listened to, otherwise you'd just need to filer it out later right?<br/><br/>Will definitely look into transactions! I've never even heard of them!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589560716.362600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589560716.362600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-05-15 09:38</span><br/>
+what I mean by them is that you bundle a group of mutations into a named thing and emit an event with the name of the thing and some extra parameters, much more semantic that emiting events every time you mutate a field
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589560927.363000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589560927.363000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-05-15 09:42</span><br/>
+you might be interested in <a href="https://github.com/thefrontside/microstates">https://github.com/thefrontside/microstates</a> microstates
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589563974.373100"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589563974.373100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-15 10:32</span><br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> oh yes I think something like that will be needed but it might need to be in combination with the microevents so derived values can know when to update.<br/><br/><span style="background-color:#ccf">@Garth Goldwater</span> :raised_hands: looks super interesting, thanks! I look forward to see what it can do!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589564113.373300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589564113.373300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-05-15 10:35</span><br/>
+the youtube talks listed on the readme are super clear (to me at least)—might be worth checking out
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589564136.373500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589564136.373500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-05-15 10:35</span><br/>
+fairly react-specific most of the time but i linked to the framework without the react integrations
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589573855.383000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589573855.383000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-15 13:17</span><br/>
+What's different in your scenario then the problems redux solve? Mobx is also a widely used alternative
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589576392.383200"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589576392.383200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-15 13:59</span><br/>
+Yeah I basically want a cross between the two. I currently use something like mobx <a href="https://github.com/alloc/wana">https://github.com/alloc/wana</a> and I really like that api but something redux-like would be easier to manage as the app is getting larger. However, I do not enjoy using redux at all, there's lot of boilerplate, and I find it a bit cumbersome. So this is an attempt at a happy medium between the two.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589576825.383500"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589576825.383500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-15 14:07</span><br/>
+It's all trying to solve the same problem - I'm just playing with ideas to find what requires the least cognitive effort for me as programmer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589702121.389000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589702121.389000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-17 00:55</span><br/>
+<span style="background-color:#ccf">@Ryan King</span> you might consider looking at my Beads language. It has three aspects that relate to your work. It is a clean sheet approach and emits to raw JS with no external dependencies such as Rect, etc.. You declare a model as a graph database schema that will be filled in with data later with data. Then you write chunks of code that draw your screen using the model data in a pure manner (the view). The controller chunks are blocks of code appended to the view drawing subroutines.  There is also the notion of a derived quantity which is lazily evaluated when it is referenced. The key advantage over your method is that if a view drawing function uses model variables, a, b and c, if any of those 3 variables change their value, then the draw chunk is re-executed. This is all tracked automatically without any the programmer having to declare dependencies, similar to how spreadsheets work, except that this is about re-executing drawing functions with memorized parameters, which is quite different than simple formulas being executed in topological order. It has a central event system called the Loom, which combines publish/subscribe, network, keyboard, mouse, timer events into one unified event stream, that is fed to the constellation of code chunks, based on their appropriateness for that event.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589728787.397600"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589728787.397600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-17 08:19</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> it does sound very nice. Honestly, it might be a risky business decision to adopt at this point. But I'd be happy to try to build something and provide feedback. Do you have links?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589728939.398600"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1589728939.398600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-17 08:22</span><br/>
+Or maybe you next video could be on how to set up beads?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590011352.404900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1590011352.404900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-20 14:49</span><br/>
+<span style="background-color:#ccf">@Ryan King</span> per your request, i just added two videos on beads installation, one for mac one for windows, links on <a href="http://beadslang.com">beadslang.com</a><br/><br/>Beads doesn't really need installation as it it is just a few files surrounding an EXE, but you do have to add a chrome extension to run your local web apps, and of course the average person doesn't know about file associations on new suffixes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590011386.405200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1590011386.405200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-20 14:49</span><br/>
+Please let me know how hard it was to get going. If people have difficulties getting started they quit immediately.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590088344.416400"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-07/1111736156419_84fdccb39d9b31c2626b_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589558372.347500.html#1590088344.416400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ryan King</b>
+<span style="margin:2em; color:#606060">2020-05-21 12:12</span><br/>
+Great maybe I can get some feedback for you over the weekend.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

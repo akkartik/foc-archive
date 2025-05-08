@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/03a8b27d1b4c45a494af444dfa332248.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Qqwy / Marten</b>
+<span style="margin:2em; color:#606060">2023-10-04 02:01</span><br/>
+Some thoughts re: ‘67 Considered Harmful’:<br/><b>Superparentheses</b>:<br/>Love the discussion about this topic :stuck_out_tongue:. Haskell has <tt>$</tt> which means ‘opening parenthesis that is closed by the end of the line’ which gets a bit close to the idea of a ‘super opening parenthesis’.<br/><br/><b>C and GOTO:</b> <br/>C came out after this paper, and its <tt>goto</tt> statement was neutered: It only allows <em>local</em> jumps (remaining in the same function) and only to hard-coded labels (though <a href="https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/Labels-as-Values.html#Labels-as-Values">a common GCC compiler extension</a> extends this to allow dynamic labels).<br/>The closest C gets to unrestricted GOTO is <tt>setjmp</tt>/<tt>longjmp</tt>; but here the <em>callee decides</em> where you jump to (just like with exceptions) so you can really only jump up on the stack, making them slightly less painful to reason about.<br/>Neither gets used a lot: I mainly know the <tt>goto sosueme</tt> idiom from a few of the talks of Alexei Alexandrescu in which he uses it in a hot code path because the resulting machine code is better optimized. And <tt>setjmp</tt>/<tt>longjmp</tt> is used in some places to emulate exceptions or coroutines in plain C, but whenever the OS provides higher-level abstractions to use here they are preferred (just like how OS support for threading is better than rolling your own spin-locks).<br/><br/>EDIT: Also, love your relentless efforts to add the Dijkstra sting every time :joy:. Editing this episode must have taken painfully long :bow:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696410865.843279"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-26/971836171367_2fdcf29b225b02e66825_72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696410865.843279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Sosic</b>
+<span style="margin:2em; color:#606060">2023-10-04 02:14</span><br/>
+I love that <tt>$</tt> in haskell, if it was gone I would cry! (And implement my own)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696411402.578489"></a>
+      <img src="https://secure.gravatar.com/avatar/03a8b27d1b4c45a494af444dfa332248.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696411402.578489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Qqwy / Marten</b>
+<span style="margin:2em; color:#606060">2023-10-04 02:23</span><br/>
+Same here. For people coming from other languages: you might know <tt>|&gt;</tt> and maybe <tt>&lt;|</tt>. (F#, Scala, Elixir, Elm, PureScript, … have them). <tt>$</tt> is <tt>&lt;|</tt> . The Haskell version of <tt>|&gt;</tt> is known as <tt>&amp;</tt>  which is mainly useful if you want to split a long expression over multiple lines (and read it top-to-bottom).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696416692.138509"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696416692.138509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-10-04 03:51</span><br/>
+<tt>goto</tt> turns up in many, many places where performance matters. Here are ~5 pages of hits for <tt>goto</tt> in the Linux kernel, for example:<br/><br/><a href="https://github.com/search?q=repo%3Atorvalds%2Flinux+goto&amp;type=code&amp;p=1">https://github.com/search?q=repo%3Atorvalds%2Flinux+goto&amp;type=code&amp;p=1</a><br/><br/>Dijkstra could make his argument only because he didn’t do much of this kind of work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696423634.756839"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696423634.756839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2023-10-04 05:47</span><br/>
+I quit this episode due to the audio hijinks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696487211.427249"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696487211.427249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2023-10-04 23:26</span><br/>
+<span style="background-color:#ccf">@Christopher Galtenberg</span> Me too!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696533995.785469"></a>
+      <img src="https://secure.gravatar.com/avatar/cdf378de2284d8acf137122e541caa28.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696533995.785469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Wynne</b>
+<span style="margin:2em; color:#606060">2023-10-05 12:26</span><br/>
+My first ever program was in BBC BASIC:<br/><pre style="white-space:pre-wrap">10 PRINT "MATT IS ACE"<br/>20 GOTO 10</pre><br/>Where is the harm in that :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696534167.817249"></a>
+      <img src="https://secure.gravatar.com/avatar/cdf378de2284d8acf137122e541caa28.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696534167.817249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Matt Wynne</b>
+<span style="margin:2em; color:#606060">2023-10-05 12:29</span><br/>
+Seriously though <span style="background-color:#ccf">@Jack Rusher</span> you make a great point. It's easy to write a "chainsaws considered harmful" paper, but there are contexts where chainsaws are extremely useful (and relatively safe).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1696557670.440869"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1696410113.191029.html#1696557670.440869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-05 19:01</span><br/>
+Back in the day I wrote up a little story about a lesson that might be relevant here: <a href="https://akkartik.name/post/swamp">https://akkartik.name/post/swamp</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

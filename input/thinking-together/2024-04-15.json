@@ -1,0 +1,304 @@
+[
+    {
+        "user": "U03U0SCU5LH",
+        "type": "message",
+        "ts": "1713165817.436579",
+        "client_msg_id": "62159804-12ee-4bb1-b807-45408da191bb",
+        "text": "Ok I'm confused. Does this create a linked list inside the data segment or.. 3 list segments and links them on startup. The assembly would suggest the first, but could also be the latter, sadly it doesn't show what's actually in the data.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gdf6784b7d6d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png",
+            "first_name": "Dany",
+            "real_name": "Dany",
+            "display_name": "Dany",
+            "team": "T5TCAFTA9",
+            "name": "bitteldany",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "RBEMQ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Ok I'm confused. Does this create a linked list inside the data segment or.. 3 list segments and links them on startup. The assembly would suggest the first, but could also be the latter, sadly it doesn't show what's actually in the data."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U04SAJZ155H",
+        "type": "message",
+        "ts": "1713165943.313859",
+        "client_msg_id": "8de19f6b-53d0-4011-a61d-a11b454f1b32",
+        "text": "The three nodes are in the data segment. The disassembly shows that the function copies a node right out of the data segment without any further processing, showing that the pointer is already correct.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bd0e56d083a4",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-03-17\/6799011689143_bd0e56d083a4f5152bda_72.jpg",
+            "first_name": "Fredrik",
+            "real_name": "Fredrik",
+            "display_name": "Fredrik",
+            "team": "T5TCAFTA9",
+            "name": "rusthacker",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "+1Y5a",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "The three nodes are in the data segment. The disassembly shows that the function copies a node right out of the data segment without any further processing, showing that the pointer is already correct."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U04SAJZ155H",
+        "type": "message",
+        "ts": "1713166556.415569",
+        "client_msg_id": "9c3ad201-98b6-4723-85a4-b568785646af",
+        "text": "On second thought, the disassembly of the function doesn't show that clearly enough, due to optimization. Let's instead return a reference to the node, so the constant data cannot be inlined. Now you can also see the relocation being there in the form of a label in the data in the assembly.\n<https:\/\/rust.godbolt.org\/z\/nYxh47def>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bd0e56d083a4",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-03-17\/6799011689143_bd0e56d083a4f5152bda_72.jpg",
+            "first_name": "Fredrik",
+            "real_name": "Fredrik",
+            "display_name": "Fredrik",
+            "team": "T5TCAFTA9",
+            "name": "rusthacker",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "attachments": [
+            {
+                "from_url": "https:\/\/rust.godbolt.org\/z\/nYxh47def",
+                "thumb_url": "https:\/\/github.com\/compiler-explorer\/infra\/blob\/main\/logo\/favicon.png?raw=true",
+                "thumb_width": 125,
+                "thumb_height": 128,
+                "service_icon": "https:\/\/rust.godbolt.org\/favicon.ico?v=1",
+                "id": 1,
+                "original_url": "https:\/\/rust.godbolt.org\/z\/nYxh47def",
+                "fallback": "Compiler Explorer - Rust (rustc 1.76.0)",
+                "text": "#[derive(Clone, Copy)]\npub struct LinkedList&lt;'a, T&gt; {\n next: Option&lt;&amp;'a Self&gt;,\n value: T,\n}\n\nconst A: LinkedList&lt;u32&gt; = LinkedList {\n next: None,\n value: 42,\n};\n\nconst B1: LinkedList&lt;u32&gt; = LinkedList {\n next: Some(&amp;A),\n value: 13,\n};\n\nconst B2: LinkedList&lt;u32&gt; = LinkedList {\n next: Some(&amp;A),\n value: 0,\n};\n\n#[no_mangle]\nfn peek() -&gt; &amp;'static LinkedList&lt;'static, u32&gt; {\n &amp;B1\n}",
+                "title": "Compiler Explorer - Rust (rustc 1.76.0)",
+                "title_link": "https:\/\/rust.godbolt.org\/z\/nYxh47def",
+                "service_name": "rust.godbolt.org"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "QUdAS",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "On second thought, the disassembly of the function doesn't show that clearly enough, due to optimization. Let's instead return a reference to the node, so the constant data cannot be inlined. Now you can also see the relocation being there in the form of a label in the data in the assembly.\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/rust.godbolt.org\/z\/nYxh47def"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U03U0SCU5LH",
+        "type": "message",
+        "ts": "1713166840.605729",
+        "client_msg_id": "9ba21db9-4527-4d3b-b53a-67c9977dbc3a",
+        "text": "I see it know, even better if you return B2 and link to B1 inside B2.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gdf6784b7d6d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png",
+            "first_name": "Dany",
+            "real_name": "Dany",
+            "display_name": "Dany",
+            "team": "T5TCAFTA9",
+            "name": "bitteldany",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "eJX8c",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I see it know, even better if you return B2 and link to B1 inside B2."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U04SAJZ155H",
+        "type": "message",
+        "ts": "1713166941.321659",
+        "client_msg_id": "780bfaf6-b6b0-4b29-841d-6ba1a609a85d",
+        "text": "You can also do away with the function entirely and make the data show up in Compiler Explorer by declaring any entry points as `pub static` instead of `const`.\n<https:\/\/rust.godbolt.org\/z\/o9qc8d5Y4>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bd0e56d083a4",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2024-03-17\/6799011689143_bd0e56d083a4f5152bda_72.jpg",
+            "first_name": "Fredrik",
+            "real_name": "Fredrik",
+            "display_name": "Fredrik",
+            "team": "T5TCAFTA9",
+            "name": "rusthacker",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "attachments": [
+            {
+                "from_url": "https:\/\/rust.godbolt.org\/z\/o9qc8d5Y4",
+                "thumb_url": "https:\/\/github.com\/compiler-explorer\/infra\/blob\/main\/logo\/favicon.png?raw=true",
+                "thumb_width": 125,
+                "thumb_height": 128,
+                "service_icon": "https:\/\/rust.godbolt.org\/favicon.ico?v=1",
+                "id": 1,
+                "original_url": "https:\/\/rust.godbolt.org\/z\/o9qc8d5Y4",
+                "fallback": "Compiler Explorer - Rust (rustc 1.76.0)",
+                "text": "#[derive(Clone, Copy)]\npub struct LinkedList&lt;'a, T&gt; {\n next: Option&lt;&amp;'a Self&gt;,\n value: T,\n}\n\npub static A: LinkedList&lt;u32&gt; = LinkedList {\n next: None,\n value: 42,\n};\n\npub static B1: LinkedList&lt;u32&gt; = LinkedList {\n next: Some(&amp;A),\n value: 13,\n};\n\npub static B2: LinkedList&lt;u32&gt; = LinkedList {\n next: Some(&amp;A),\n value: 0,\n};\n\npub static C: &amp;LinkedList&lt;u32&gt; = &amp;B2;",
+                "title": "Compiler Explorer - Rust (rustc 1.76.0)",
+                "title_link": "https:\/\/rust.godbolt.org\/z\/o9qc8d5Y4",
+                "service_name": "rust.godbolt.org"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "bfIxW",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "You can also do away with the function entirely and make the data show up in Compiler Explorer by declaring any entry points as "
+                            },
+                            {
+                                "type": "text",
+                                "text": "pub static",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " instead of "
+                            },
+                            {
+                                "type": "text",
+                                "text": "const",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/rust.godbolt.org\/z\/o9qc8d5Y4"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U03U0SCU5LH",
+        "type": "message",
+        "ts": "1713241402.418759",
+        "client_msg_id": "744ff7a2-70ff-4c29-856f-3f437f499c2e",
+        "text": "Thanks for all the feedback, I updated the blog post.. hopefully also making it more clear, what I actually want to see.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gdf6784b7d6d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png",
+            "first_name": "Dany",
+            "real_name": "Dany",
+            "display_name": "Dany",
+            "team": "T5TCAFTA9",
+            "name": "bitteldany",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1713098099.807429",
+        "parent_user_id": "U03U0SCU5LH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hVJNr",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks for all the feedback, I updated the blog post.. hopefully also making it more clear, what I actually want to see."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

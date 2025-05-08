@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-06-07 06:26</span><br/>
+Python has shared mutable state. Modifying the contents of one variable can cause another variable to change. For example,<br/><pre style="white-space:pre-wrap"><br/>&gt;&gt;&gt; a=[1,2,3]<br/>&gt;&gt;&gt; b=a<br/>&gt;&gt;&gt; a[0]=17<br/>&gt;&gt;&gt; b<br/>[17, 2, 3]<br/></pre><br/>I think it is <b>unnatural</b> for the value of <tt>b</tt> to change when I modify <tt>a</tt>. I've seen lots of evidence on the internet that this is a source of confusion for novice programmers who are encountering Python for the first time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559927003.119700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html#1559927003.119700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-06-07 10:03</span><br/>
+This is indeed a gotcha, but for this conversation it's worth separating globals from <em>aliasing</em>. You'd have this problem even if Python had no globals or shared state. (Mutable state is a prerequisite, yes.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559953570.147700"></a>
+      <img src="https://secure.gravatar.com/avatar/f2810c79d33a097f4e0900c9622b5106.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html#1559953570.147700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>fyr</b>
+<span style="margin:2em; color:#606060">2019-06-07 17:26</span><br/>
+I mean, Rust lets you share state as long as it's immutable - globals are just particularly aliasy by default, but local mutable state can be no less shared
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559956769.151700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html#1559956769.151700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-06-07 18:19</span><br/>
+In Curv,<br/> 1. Mutable variables have disjoint state. Assignment has copy semantics. Copy semantics are easier to understand, and they are one of the features I need to avoid having shared mutable state. And this avoids aliasing.<br/> 2. Arguments are passed by value, not by reference, and that's another feature that avoids aliasing.<br/> 3. When a lambda expression is evaluated, the values of non-local variables are captured in a closure, but they are captured by-value, not by-reference. This feature is closely related to by-value assignment and by-value parameter binding. You could describe this as another situation where aliasing is avoided, I suppose.<br/><br/>These 3 features of Curv semantics account for the fact that there is no shared mutable state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1559977713.154200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html#1559977713.154200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-06-08 00:08</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> what does "mutable variables have disjoint state" mean?  Just "copying" instead of aliasing?  (Quotes since copy semantics at its best copies less rather than more.)  With 3, I suppose it's why Java (mind I haven't touched Java in years) required closed variables to be final.  (Of course, since those variables easily store mutable objects... I never understood why the rigmarole though "rigmarole" seemed like Java's motto.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560094941.230300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1559913984.086300.html#1560094941.230300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-06-09 08:42</span><br/>
+Curv has no shared mutable state, so variables cannot share mutable state. Modify one mutable variable, and the contents of other variables are guaranteed not to change.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

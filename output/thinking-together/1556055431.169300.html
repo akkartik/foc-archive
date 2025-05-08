@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1556055431.169300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-04-23 14:37</span><br/>
+One paper <span style="background-color:#ccf">@Joel Jakubovic</span> references in the blog post is <em>Infra: Structure all the way down</em> (<a href="https://sites.cs.ucsb.edu/~holl/pubs/Hall-2017-Onward.pdf">https://sites.cs.ucsb.edu/~holl/pubs/Hall-2017-Onward.pdf</a>). <span style="background-color:#ccf">@Joe Trellick</span> has recommended that one to me a while ago also. So I finally read it. And then I read Christopher Hall’s thesis (<a href="http://www.christopherkhall.com/Dissertation.pdf">http://www.christopherkhall.com/Dissertation.pdf</a>), which is basically a not even that much longer version of the paper.<br/><br/>I find it quite interesting. The storage format is really well thought out and has some interesting affordances for use cases I didn’t expect to be served by a storage format directly, but now after reading make a lot of sense to me.<br/><br/>Not much has happened since the release of the paper it seems. Google Scholar only found one referencing paper, unsurprisingly one that’s also mentioned in <span style="background-color:#ccf">@Joel Jakubovic</span>’s blog post, and which is a critique to a paper <span style="background-color:#ccf">@Antranig Basman</span> has his name on. We’re all here in this together it seems. :-)<br/><br/>The website talks about open source (still pending university’s approval) and standardization. But given the status of the site it could equally likely be that the author has moved on.<br/><br/>Has anybody done anything with Infra, or knows more about what has happened or is happening with it?<br/>And what are your thoughts about Infra?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556067441.169800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-22/404118576918_0f172f3d3081286ae626_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1556055431.169300.html#1556067441.169800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jacob Sandlund</b>
+<span style="margin:2em; color:#606060">2019-04-23 17:57</span><br/>
+I invited <span style="background-color:#ccf">@Chris Hall</span> to the slack a while back, so maybe he can comment? I really like how detailed he gets with the format, in specifying the byte structure and such (random thought: what if it was a superset of UTF-8?).<br/><br/>I find it an interesting idea to take text and elevate it from this ground-level-only representation (a string of characters) to something recursive and more powerful. Infra doesn't bottom out like text does, but can have nesting of various containers, references, and an interesting concept to apply changes to references called a patch.<br/><br/>My one thought is that maybe by starting with text and elevating it makes Infra limited in some ways. Text is linear and one dimensional. Infra reflects that in that it has byte-length prefixes for all elements. I think if the goal is to have this be used as a base level for implementing a programming environments or other application, there would still be a lot of work linearizing the parts of the system so it could be encoded in Infra. The thought about using Infra even in memory on the heap (so you don't need serializers/de-serializers) is interesting, but I'm not sure many systems would be able to do that with the linearity constraint.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556083436.170300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1556055431.169300.html#1556083436.170300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-04-23 22:23</span><br/>
+Infra is both brilliant and ignorant at the same time. It is kind of neat to consider a text form that has meta-data above it, that you can access. that keeps the detail from overwhelming you. that's intriguing and deserves more study - is reminiscent of Xanadu in that sense. But it is ignorant because their serialization is basically a very rudimentary version of Adobe Flash's AMF (action message format), which is up to version 3 and handles very tricky things like serialization of circular rings, and has dozens of tricky data formats like fonts, bitmaps, mp3 sounds, etc. AMF is fully in the public domain and I believe is used by Hack as well. A good binary serialization system is found in many high quality environments, and the mark of quality in a serialization format is the range of datatypes that can be encoded. Using XML and JSON, two of the absolute weakest-extant encoding formats, as your starting point was their mistake. Many of the latest languages have serialization built in, and it is a huge amount of code to do this well, one of the monster issues confronting anyone trying to develop a new system. I would wager not 100 people on the planet earth understand the truetype language, which underlies all font rendering. Most people think that a font is a bunch of pictures of a letter, but in reality it is a bizarre language custom made for describing letter shapes, and it is executed by an interpreter to generate letters, and since it is code it can have bugs, and Microsoft in one of their releases of Office shipped fonts that had crash bugs in them, and wreaked havoc with one of my publishing products that produced thumbnails in the background of every font. Ever wonder why PDF won the battle for document format, even though it is not a file format but a glob of postscript code? Primarily because Adobe was one of the only companies that knows Truetype (and their own font format, which they called Type 1).
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

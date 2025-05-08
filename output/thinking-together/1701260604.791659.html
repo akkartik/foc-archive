@@ -1,0 +1,173 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1701260604.791659.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 04:23</span><br/>
+Thinking about a modern agent orchestration / business process modeling / workflow language. Here is how the standard BPMN example might look like:<br/><br/><pre style="white-space:pre-wrap"># Tasks are enqueued jobs to specific queues. They emit events like started, success, failure, cancelled as well as custom intermediate events.<br/># Tasks cannot consume events. Task invoker can cancel those tasks.<br/># Tasks are triggerred by specific events indicated by their corresponding "when" clause.<br/># Process is a stateful workflow which orchestrates tasks based on events.<br/><br/>process pizza() do<br/>    x = @customer.select_pizza when $start<br/>    y = @customer.order_pizza(kind: x.kind) when x<br/>    z = @chef.make_pizza(order: y.order) when y<br/>    <br/>    p = y.order.line_items.map do |item| # array processing<br/>        subprocess procure(item: item) #invoke a subprocess<br/>    end when z<br/>    q = @clerk.pack when p.all?<br/>    <br/>    w = @delivery_boy.deliver_pizza(to: y.address) when z<br/>    u = @customer.pay_for_pizza when w<br/>    v = @customer.eat_pizza when u<br/>    success $hunger_satisfied when v<br/><br/>    r = @customer.ask_for_pizza when (y or r[-1] + 60.minutes) and w.pending?<br/>    s = @clerk.calm_the_customer when r<br/>end</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701275401.287149"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701275401.287149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-29 08:30</span><br/>
+Is the text the language, the chart, or both?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701302286.152279"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701302286.152279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 15:58</span><br/>
+Text is the proposed language. The chart is that of the classic example used in BPMN docs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701303782.864939"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701303782.864939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:23</span><br/>
+It’s nice that the “when” syntax reads left-to-right. It necessitates naming every single task, though, and those names are the hardest part to follow for me (x, y, z, p, etc).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701303929.920379"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701303929.920379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:25</span><br/>
+Yeah. Naming of tasks is needed because they are used to specify event conditions to trigger followup tasks. I couldn't think of a way out of this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701304138.879779"></a>
+      <a href="../thinking-together/1701260604.791659.html#1701304138.879779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:28</span><br/>
+Similar approach in Spotify's Prefect framework: <a href="https://docs.prefect.io/latest/concepts/tasks/#wait-for">https://docs.prefect.io/latest/concepts/tasks/#wait-for</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701304145.001689"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701304145.001689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:29</span><br/>
+I don’t see any of the task initializers being reused except procure, so I wonder if you could use <em>those</em> to identify and give the tasks names only when necessary? Along the lines of “@chef.make_pizza(…) when @customer.order_pizza”?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701304188.895219"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701304188.895219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:29</span><br/>
+No, the same task could be used at multiple times with say, different arguments.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701304206.668749"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701304206.668749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:30</span><br/>
+I’ve seen serial syntax like &gt;&gt; used too, but that doesn’t help with so much fanout.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701304276.736969"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701304276.736969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:31</span><br/>
+Oh yeah, I’m just saying that I don’t actually see that happening almost at all in this workflow, so maybe the cases that need disambiguation can use the “x, y, z” names if they’re more exceptional? Just a thought.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701305561.117729"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701305561.117729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-29 16:52</span><br/>
+Yeah, good point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701410325.428109"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701410325.428109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-11-30 21:58</span><br/>
+"do" is a bit awkward, because it's not imperative code. It's declarative, describing a process that may never be initiated. When $start also feels like it should be implicit for anything that doesn't have a different trigger. The names could be more descriptive than lowercase letters. I might be inclined to use "when {name} happens" , and "step: {name} is" to make it clearer, too. But all that should be taken with a grain of salt, because I have never been able to understand why I would want to use BPMN. All my use cases seem deeply ill-suited to it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701410578.705949"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-10/4782052692709_972d4c887a7c689aae4a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701410578.705949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nilesh Trivedi</b>
+<span style="margin:2em; color:#606060">2023-11-30 22:02</span><br/>
+<span style="background-color:#ccf">@Jason Morris</span> All good points. <tt>do ... end</tt> is just a construct I copied from Ruby's block syntax.<br/>BPMN has around 120 types of elements including exclusive gateways, parallel gateways which seems highly unnecessary. I'm trying to avoid all those elements with some kind of composable event algebra. I think workflow engines (where some tasks could be done by humans) have been underutilized by developers precisely because of BPMN's complexity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1701411305.633929"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1701260604.791659.html#1701411305.633929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-11-30 22:15</span><br/>
+I think BPMN not having a semantics has been the biggest issue in people not using BPMN for workflow. But there are other ways to do workflow, and the ones that get used the most don't require BPMN.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

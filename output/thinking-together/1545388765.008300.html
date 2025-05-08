@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 02:39</span><br/>
+As a side note, the author talks about exceptions as though they are a Good Thing (TM). I'm not sure if other languages have somehow fixed the issues with them, but I tend to agree with Raymond Chen's analysis here - exceptions are too difficult to handle or recognize when poorly handled: <a href="https://blogs.msdn.microsoft.com/oldnewthing/20050114-00/?p=36693/">https://blogs.msdn.microsoft.com/oldnewthing/20050114-00/?p=36693/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545389642.008900"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html#1545389642.008900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2018-12-21 02:54</span><br/>
+Agreed, exceptions seem wonky to me as well but I'm not sure what'd be better
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545391955.009600"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html#1545391955.009600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 03:32</span><br/>
+My current preference is to treat errors as just other valid return values/states to be dealt with (assuming they're recoverable)... There may well be better ways.<br/>The erlang model of restarting services [terminology?] sounds promising for a large number of scenarios, and the <tt>nursery</tt>/<tt>bundle</tt> approach linked in my previous OP would seem to allow this in even low-level languages... something to experiment with! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545408325.015300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html#1545408325.015300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-12-21 08:05</span><br/>
+Exceptions as such conflate error handling with jumping up the stack.  Lisp's condition system is the closest sane alternative I've used <a href="http://www.gigamonkeys.com/book/beyond-exception-handling-conditions-and-restarts.html">http://www.gigamonkeys.com/book/beyond-exception-handling-co&hellip;</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545408468.015500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html#1545408468.015500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2018-12-21 08:07</span><br/>
+Instead of recovering somewhere up the stack, install continuations going down the stack.  It's most useful for debugging.  With Exceptions, the common practice of breaking when they are thrown should be a red flag that the behavior of walking up the stack shouldn't be the default.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1545414663.017700"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1545388765.008300.html#1545414663.017700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2018-12-21 09:51</span><br/>
+Thanks for that <span style="background-color:#ccf">@William Taysom</span>. I'm not fluent in LISP, so there was a bit of a language barrier!<br/>I've internally translated into C to try to evaluate it. I'm not sure this is quite right, so please correct me where I'm wrong... It seems like an expansion of the fairly common pattern of proving a function pointer to handle errors:<br/>Instead of a single handler, you provide/build a list/stack of error 'restarts' and another 'handler' that chooses the appropriate restart to use.<br/>This certainly seems like it could a useful technique. It's hard to see a priori where the benefits/drawbacks would be. I'll have to try it out and see!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

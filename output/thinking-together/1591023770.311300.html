@@ -1,0 +1,54 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-20/870238505987_b88e30c8a541a7725a6d_72.png" style="float:left"/>
+      <a href="../thinking-together/1591023770.311300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maeliza</b>
+<span style="margin:2em; color:#606060">2020-06-01 08:02</span><br/>
+Our Future of Coding project is taking shape :star-struck:<br/><b>We are building Machine Learning Model that can learn how to code</b><br/><br/>:trophy: With <span style="background-color:#ccf">@Shubhadeep Roychowdhury</span> we are excited to release <b>codeBERT.</b>  It's a Masked Language Model trained over Python source code thanks to Hugging Face.<br/><br/>:joystick: You can easily load the model and its weights (code below)<br/><pre style="white-space:pre-wrap">from transformers import *<br/>tokenizer = AutoTokenizer.from_pretrained("codistai/codeBERT-small-v2")model = AutoModelWithLMHead.from_pretrained("codistai/codeBERT-small-v2")</pre><br/>:chart_with_upwards_trend:  Example of the results are in the thread below<br/><br/>:books: Full tutorial on how to load and fine-tune the model for downstream tasks is coming!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591023947.311800"></a>
+      <a href="../thinking-together/1591023770.311300.html#1591023947.311800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maeliza</b>
+<span style="margin:2em; color:#606060">2020-06-01 08:05</span><br/>
+codeBERT results over Python code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592021907.226600"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1591023770.311300.html#1592021907.226600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2020-06-12 21:18</span><br/>
+Thanks for making it available!<br/><br/>It looks like it’s a pure language/BERT model… Is there a clear path toward integrating with external sources of information like the Python runtime? I’m noticing in your example that some likelihood is assigned to sequences that refer to variables that don’t appear to be in scope.<br/><br/>Is there a natural language model embedded inside it? Like, if I feed it “# &lt;mask&gt;” how likely am I to get a comment that documents the next line of code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592052167.250400"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-28/811814014976_259a1e56ad2e11fe3d56_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1591023770.311300.html#1592052167.250400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shubhadeep Roychowdhury</b>
+<span style="margin:2em; color:#606060">2020-06-13 05:42</span><br/>
+Hello <span style="background-color:#ccf">@Tom Lieber</span> Thanks for the comments. At the moment this model is a pure Masked Language Model (a version of RoBERTa) which has 10 layers, and 12 attention head per layer.(With a max position embedding of 1024) And it was trained on about 6M lines of code. So this is just a start. Context Awareness in code means something slightly different than what it means for Natural Language. We have big plans for future. We plan to try out mix modal models (one where we mix graph based and text based information together) to bring more code centric awareness in it. Also, we plan to run some kind of Rule Engine on top of the prediction to cut some noise (Here we can hook into the actual Python runtime/interpreter to gain more insights). Also we are planning to train longformer or refomrer type model to calculate local attention based on a large body of code.<br/><br/>At the moment the <tt>&lt;mask&gt;</tt> token is only for a single token. However, we have plans to fine-tune this model for many downstream tasks.<br/><br/>We started a series of notebooks showing different applications of this model and will release more powerful and hybird models in future. You can checkout our first notebook (Colab) here - <a href="https://colab.research.google.com/drive/17QNGQOsQOUBPlblqc7maiOKPbT4hDZfv?usp=sharing">https://colab.research.google.com/drive/17QNGQOsQOUBPlblqc7m&hellip;</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

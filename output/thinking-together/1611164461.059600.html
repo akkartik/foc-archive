@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2021-01-20 09:41</span><br/>
+I was reading some text vs. binary file arguments and one thing that kept coming up was that text files are easier to recover when they get corrupted. I've got a couple of questions regarding this and would like to hear your thoughts:<br/>1. When did you have to deal with corrupted files and what was causing the corruption? <br/>2. How did the corruption look like (single swapped bits, part of the file missing, ...)? <br/>My current line of thought is that small errors in binary files could simply be corrected by adding redundency to the format (crc etc.) and larger missing parts wouldn't be easy to recover from in text formats as well. Therefore the argument wouldn't make much sense. I'm curious what you might have experienced as I can't remember to have seen corrupted files in the last couple of years.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611166920.060000"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611166920.060000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2021-01-20 10:22</span><br/>
+I saw corrupted files frequently, mostly when they are coming from the network and were cut in the middle, or when a stream wasn't working well, but also as part of memory dumps where some parts of the memory was written over etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611168319.060200"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611168319.060200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2021-01-20 10:45</span><br/>
+In some ways the distinction between text and binary is arbitrary. Text files just have a whole ecosystem of tools that are able to parse (and display) the bits in a certain way. I expect any issues of corruption or error-correction would equally apply to both.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611169133.063400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611169133.063400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-01-20 10:58</span><br/>
+text files often indicate (to some extent) human-readable files and human-readable files have a lot of redundancy built in—all human languages do
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611169930.064200"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611169930.064200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2021-01-20 11:12</span><br/>
+Yep. When a human reads a file, they can eyeball it to see if it looks corrupt, make a guess at what it should have looked like, and manually patch it. With binary files, usually your parser just barfs. All the recovery steps a human performs have to be programmed in.<br/><br/>As to the actual question, the only time I can remember personally was from downloading ISOs: s couple of them failed their hash check and had to be re-downloaded. Bad disk dismounts are the other classic case, with a broader category of bad disk write/flush handling that can leave a file in weird states (<a href="https://danluu.com/file-consistency/">https://danluu.com/file-consistency/</a>). TBH I wouldn't want to hand-restore one of those files either.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611170449.064400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611170449.064400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-01-20 11:20</span><br/>
+Corrupted files have always been part of my digital life. The main cause: software bugs. Number two: aborted computation jobs, usually due to resource limitations on batch systems.<br/><br/>For programs that write serialized output, a corrupted file is usually just truncated. That is usuallyl recoverable. But when working on large binary files, random-access modification is quite frequent and can result in just about any mistake.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611174856.066600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611174856.066600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2021-01-20 12:34</span><br/>
+<span style="background-color:#ccf">@Naveen Michaud-Agrawal</span> The "advantage" of text files is that characters are encoded individually and each character only takes a couple of bytes. If there's an incorrect byte, the corruption is limited to at most two characters. In binary encodings, a single error (e.g. in a length field) can corrupt everything that follows.<br/><br/>But you're right, text files are basically a subset of binary files and all advantages they have could also be achieved in other (non-text) formats.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611175067.066800"></a>
+      <img src="https://avatars.slack-edge.com/2020-12-05/1552783044467_b05739c44158d860f3bd_72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611175067.066800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tyler Adams</b>
+<span style="margin:2em; color:#606060">2021-01-20 12:37</span><br/>
+I think <span style="background-color:#ccf">@Andrew F</span> nailed it with "they can eyeball it". It's less of a theoretical math problem and more of a pragmatic "how long does it take you to figure out exactly what the file should be and what it is".<br/><br/>I worked at a data storage company so we'd corrupt binary stuff all the time in dev, it was really hard to tell what was broken when it was binary.  I really wanted to, but never got around to, a to_json serializer so I could see system state in a structured, textual format.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611193852.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611193852.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-01-20 17:50</span><br/>
+Most people don't appreciate how easy it is to undelete a file on Unix:<br/><li> make the file system read-only (to prevent more writes)<br/><li> <tt>grep -n10000</tt> the device of the hard disk,  go get a coffee<br/><li> Scan the output in a text editor, find the right section, delete above and below.<br/><br/>If it's a binary file you now need more tooling.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611217692.004100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611217692.004100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-01-21 00:28</span><br/>
++1 that the main benefits are legibility and the ubiquity of text-based tooling
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611222408.004800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1611164461.059600.html#1611222408.004800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-01-21 01:46</span><br/>
+in my case corrupted files I've had to handle mostly fall on two cases 1) truncated files 2) a file with a block of zeros at the end
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

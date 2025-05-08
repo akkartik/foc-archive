@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 06:50</span><br/>
+re symbolic execution in ruby, i'll put that in a thread because i did NOT realize how much of a wall of text i was putting up just now (oooooops)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632492161.158800"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632492161.158800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 07:02</span><br/>
+so, my technique is roughly this:<br/><br/>• use the AST as a guide for what to model. i'm using whitequark's parser gem for now because it's more at the level of abstraction users care about than the RubyVM::AST module, and i'm aiming for usability over exhaustiveness rn<br/>• assume primitive datatypes exist and focus on modeling their semantics first, so, dual prioritization. AST nodes so we can tie things back to source locations trivially, and primitive datatypes because in dynamically typed languages with a propensity for duck typing, exhaustive exploration of the semantics of an AST node is intractable<br/>• pick out examples from rubyspec for that AST node that imply some semantics<br/>• either manually or by way of retooling the runner (more ideal) to do so automatically; symbolize the critical inputs<br/>• take inputs and outputs over to z3 and find the implied minimal semantics (this part isn't in ruby rn bcz the best z3 gem is broken)<br/>• manually, or with some tooling (obvs ideal) refine the implied minimal semantics. an example is that z3 couldn't infer boolean or semantics in a compact form at first, because it couldn't do some basic boolean rewrites that i expect something like coq etc would've been able to do. or at least, it can't do it as best i can tell yet.<br/>• test the semantics against symbolic execution of MRI/etc using symbolic execution engines targeted at lower level semantics. probably going to use triton for this? maybe klee. depends. triton would be more portable to other implementations. s2e is an option too, but triton really feels easiest atm.<br/>• then run the semantics against rubyspec to do a final test.<br/>the end goal is to be able to infer semantics for all dynamic languages somewhat efficiently.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632492190.159000"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632492190.159000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 07:03</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> since you asked about this
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632503989.160300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632503989.160300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-24 10:19</span><br/>
+(wall of text is A-ok)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632504018.160500"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632504018.160500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2021-09-24 10:20</span><br/>
+In #thinking-together we're here for WoT :clap:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632507111.160700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632507111.160700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2021-09-24 11:11</span><br/>
+Interesting stuff! I've been interested in using abstract interpretation for improving the programming experience (offload mental simulation, etc.). This seems to overlap, though I'm not sure I quite understand the difference between symbolic execution and abstract interpretation.<br/>&gt;  the end goal is to be able to infer semantics for all dynamic languages somewhat efficiently.<br/>Is there a larger goal in mind here once you can infer these semantics?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632511615.167400"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632511615.167400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 12:26</span><br/>
+yes, with said semantics in a separation logic friendly form, we can bring provable systems methods into the realm of dynamic languages with high confidence, i hope. also things like extracting TLA+ specs from implementations by way of rewriting/interactively abstracting with automated assistance away aspects of the separation logic spec of your program
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632511700.169700"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632511700.169700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 12:28</span><br/>
+abstract interpretation and symbolic execution aren't really fundamentally distinct, but i found one approach much easier to self teach, and also it's just easier to apply symbolic execution directly when there's no language spec, at least if you want to machine verify your spec.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632511722.170300"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632511722.170300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 12:28</span><br/>
+at least as far as i could learn so far, that is
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632511789.172100"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632511789.172100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 12:29</span><br/>
+there are ways to exchange information between the abstract interpretation and symbolic execution, at least theoretically, but i don't know the details at all, and i'm not aware of any research exploring that in particular.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632512059.178200"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632512059.178200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-09-24 12:34</span><br/>
+AI emphasizes AST and lattices under the hood more whereas SE emphasis bytecode or instruction level semantics a bit more, while representing things in a first order logic generally. <br/><br/>(technically i'm also drawing on counter example guided abstraction and there are other niches/terms some may not consider strictly SE that i'm including in it, such as dynamic symbolic execution, concolic testing, dynamic binary analysis. just in case anyone wants to follow up on any of this.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1632526690.192900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1632526690.192900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-09-24 16:38</span><br/>
+This is way, way cool.  And for "the end goal is to be able to infer semantics for all dynamic languages," Ruby is a great place to start since its semantics are nuts.  (I say this as a proud Rubyist since the turn of the millennium.)  Ruby is going to keep you honest.  I mean the very fact that people are productive in Ruby shows that one can model its semantics "isomorphic up to shenanigans," but my, my what shenanigans are available!<br/><br/>Let me share a little bit about my interests adjacent to this: (1) treating execution traces as first-class objects for debugging, (2) refactoring.<br/><br/>(1) When dealing with a relatively big framework ( let's call it Rails), its nice being able to see how all the bits are dynamically connected.  And one step removed form the execution itself, it's useful to ask the what-if at specific branches.  This leads to...<br/><br/>(2) The most common useful refactor I see in practice is the business logic tangle of conditionals where a complicated joint space (let's say six booleans and four variables depending on them, so 256 cases to consider) can probably be factored in a reasonable way, but I'd really love tool support for navigating that space, making sure all the cases are accounted for.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633703130.288200"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1633703130.288200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-10-08 07:25</span><br/>
+think i'm close to sharing something maybe around this! it's the hacky version using klee and the MJIT
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633703137.288400"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1633703137.288400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-10-08 07:25</span><br/>
+but it's a start
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633703148.288600"></a>
+      <img src="https://secure.gravatar.com/avatar/9e0096ad9f376eb9f609372bc87542e4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1632491406.158500.html#1633703148.288600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sophie Smithburg</b>
+<span style="margin:2em; color:#606060">2021-10-08 07:25</span><br/>
+building a docker container based off the klee container
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

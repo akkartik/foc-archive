@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-11 11:55</span><br/>
+Sort of along the lines above, is it possible that what people are looking for with static types is an additional alternative view of a function? I've found very little reason for types in my work from a compiler perspective, but it does often occur that I see a function name and argument list without knowing what to do with it. e.g. the following:<br/><br/><pre style="white-space:pre-wrap">(map (fn [price-bracket]<br/>       (let [groups (group-by :contract-type price-bracket)]<br/>         (mc/map-vals (fn [contracts]<br/>                        (dt/aggregate-table contracts<br/>                          {:selected-keys      [:returns<br/>                                                :revenue <br/>                                                :cost<br/>                                                :market-price]}))<br/>           groups)))<br/>  individual)</pre><br/>This could alternatively be shown as<br/><pre style="white-space:pre-wrap">[[{whatever keys} ...] ...]<br/>=&gt; [{contract {:returns ... :revenue ... :cost ... :market-price ...} ...} ...]</pre><br/>Which, along with a name is <b>far</b> faster to grok and read past
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605125200.385200"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-17/6370745671793_854f96b690f51d1266ee_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605125200.385200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Galtenberg</b>
+<span style="margin:2em; color:#606060">2020-11-11 12:06</span><br/>
+I'd say that functions also usually entail a transformation of some kind - a type is useful to understand the pre-transformation state (and often a separate type for the post-transformation state - why it's helpful to spell these out as explicit function signatures)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605126719.385400"></a>
+      <img src="https://secure.gravatar.com/avatar/58ad4af42f7cff8698951a7befb26f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605126719.385400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksii Shmalko</b>
+<span style="margin:2em; color:#606060">2020-11-11 12:31</span><br/>
+Static types also help during refactor. Add a parameter to a function — compile errors show you all the places that you need to pass it. Convert parameter from string to aggregate structure — same thing, you have a list of places that you need to fix. This makes me quite comfortable doing large-scale refactorings. With dynamically-typed languages I'm much more cautious
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605136087.385800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605136087.385800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-11 15:08</span><br/>
+The growing prevalence of pattern matching in modern languages seems to bear this out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605152712.386100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605152712.386100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-11-11 19:45</span><br/>
+<span style="background-color:#ccf">@Oleksii Shmalko</span> the refactor concern is a good one.  I've long asked myself how to better manage refactoring from a dynamic perspective — as opposed to adding static features to a dynamic language.  Since a refactor wants to be behaviorally invariant (to some degree), why not keep track of the behavior?<br/><br/>Consider the case of changing a parameter type.  If the normal brain dynamic way is to make the change and see what tests break, then the galaxy brain dynamic way would be to show all the places where code needs to change from having remembered (traced) all the times the function is called in practice.  Using traces in this way feels a lot like static analysis and loops around when you switch from concrete traces to more symbolic/partial kind of evaluation.  You find yourself back in familiar static typing territory when the symbolic evaluation is more limited.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605161690.386300"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-30/1167794177073_5446491963e3446625b7_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605161690.386300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Butler</b>
+<span style="margin:2em; color:#606060">2020-11-11 22:14</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> What do you mean by "The growing prevalence of pattern matching in modern languages seems to bear this out."? I'm trying to reach for examples of pattern matching in modern languages and am drawing a blank.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605167685.386500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605167685.386500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-11 23:54</span><br/>
+Approximately in chronological order:<br/><br/>SML: <a href="https://courses.cs.washington.edu/courses/cse341/04wi/lectures/03-ml-functions.html">https://courses.cs.washington.edu/courses/cse341/04wi/lectur&hellip;</a><br/><br/>Haskell: <a href="http://learnyouahaskell.com/syntax-in-functions">http://learnyouahaskell.com/syntax-in-functions</a><br/><br/>Scheme: <a href="https://www.gnu.org/software/guile/manual/html_node/Syntax-Rules.html">https://www.gnu.org/software/guile/manual/html_node/Syntax-Rules.html</a><br/><br/>Scala: <a href="https://docs.scala-lang.org/tour/pattern-matching.html">https://docs.scala-lang.org/tour/pattern-matching.html</a><br/><br/>Rust: <a href="https://doc.rust-lang.org/book/ch18-03-pattern-syntax.html">https://doc.rust-lang.org/book/ch18-03-pattern-syntax.html</a><br/><br/>Swift: <a href="https://docs.swift.org/swift-book/ReferenceManual/Patterns.html">https://docs.swift.org/swift-book/ReferenceManual/Patterns.html</a><br/><br/>Etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605172819.398700"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605172819.398700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-11-12 01:20</span><br/>
+Erlang/Elixir, too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605191179.413500"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-01/702360681283_25cc471438337c72e600_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605191179.413500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Rabl</b>
+<span style="margin:2em; color:#606060">2020-11-12 06:26</span><br/>
+This is very close to what I am imagining: a gradual typechecker that can deal with holes. Sort of a combination between the Typescript compiler and Hazel. Except in addition to being "gradually typed", the language would be "gradually programmed": the user would initially provide only names with some (loose) type annotations and (later) maybe some implementation details attached to them (which is why I realize my use of the term "pseudocode" was probably more misleading than anything). 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605217151.414500"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605217151.414500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-12 13:39</span><br/>
+<span style="background-color:#ccf">@Chris Rabl</span> You may like something like this<br/><a href="https://github.com/fulcrologic/guardrails">https://github.com/fulcrologic/guardrails</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605220210.414900"></a>
+      <img src="https://avatars.slack-edge.com/2020-11-16/1517848162945_487dc95874762ac0e044_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605220210.414900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarrett Atkinson</b>
+<span style="margin:2em; color:#606060">2020-11-12 14:30</span><br/>
+It allows the use of any level of specification that you want. not-nil? int? positive-int? etc. I'm using it in my current work projects to instrument common functions so I don't get calling semantics wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605229741.415100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605229741.415100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-12 17:09</span><br/>
+Sounds like assertions? Or Eiffel-style Design by Contract? <a href="https://en.wikipedia.org/wiki/Design_by_contract">https://en.wikipedia.org/wiki/Design_by_contract</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1605230026.415300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1605124537.384800.html#1605230026.415300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-12 17:13</span><br/>
+<span style="background-color:#ccf">@Chris Rabl</span> I do something in Mu that I haven't seen very often (but that seems similar to Go within a single package): I allow types to be used before declaration, which makes it easier to reorganize code. The compiler manages holes in its table of type definitions. But it still reports holes as errors after reading all of the input source. Maybe there's further to take it here.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

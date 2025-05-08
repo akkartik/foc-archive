@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-06 02:55</span><br/>
+Inspired by <a href="../linking-together/1672756060.085649.html">../linking-together/1672756060.085649.html</a> and <a href="../linking-together/1672816690.782479.html">../linking-together/1672816690.782479.html</a>, plus my daily work with a Smalltalk system, I started thinking about high-level architectures of information processing systems.<br/><br/>Spreadsheets are two-layer systems, with a data grid on top and a code grid below it. That's a good architecture for dealing with heterogeneous grid-shaped data and shallow computation. For homogeneous grid-shaped data (arrays, data frames) you'd prefer to compute with the grid as a whole, and for complex/deep computation, you want a more code-centric architecture. You can of course prepare the complex code in some other architecture and just call it from a spreadsheet. High-level architectures can be composed.<br/><br/>Dataflow graphs, of which Data Rabbit is an amazing implementation, have nodes containing code and data flowing through the edges. They can deal with irregularly shaped data, even messy data, but, like spreadsheets, they are limited to shallow computation.<br/><br/>A Smalltalk image is a code database built on top of a an unstructured "object lake". It's great for dealing with complex code, but has no high-level structure for data. You can, and have to, roll your own. From this point of view, a Smalltalk image is the perfect complement to a spreadsheet or a data flow graph, having opposite strengths and weaknesses.<br/><br/>So... are they more such high-level structures that have proven useful in practice? Is there just a small set whose elements can be combined, or should we expect a large number of unrelated architectures being good for specific purposes? Note that I am thinking about "good for", not "applicable to". All Turing-complete systems are equivalent in principle, but that doesn't make them good tools for all purposes. My question is ultimately one of human-computer interaction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673004163.236039"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673004163.236039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-01-06 03:22</span><br/>
+I don't watch videos normally, because I can scan text in a tenth of the time, so I'm not entirely sure what you're asking here: do you mean are there architectures that structure both code and data in the UX?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673007109.222499"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673007109.222499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-06 04:11</span><br/>
+Could be UX, as in spreadsheets or in Data Rabbit, both of which target end users. But in a scenario where developers and users are distinct, it would be the top level at which developers work when assembling a system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673024441.662369"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673024441.662369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2023-01-06 09:00</span><br/>
+Have you looked into pandas python library. it has a data frames class that operates kind of like the data layer of a spread sheet. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673024926.895639"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673024926.895639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-01-06 09:08</span><br/>
+The Smalltalk "object lake" (love the term) is, crucially, organized as a tree. There's a similar structure to the objects in CLOS. I would say that a tree of things that inherit (for some definition of "inherit") traits from their parents is one of these "mother sauce" sorts of things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673028707.753259"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-10/3938070929297_0700fd3112a348683fac_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673028707.753259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Chan</b>
+<span style="margin:2em; color:#606060">2023-01-06 10:11</span><br/>
+I’ve actually been thinking a lot about this topic as we’ve been building a new spreadsheet web app. What we came up with was to nudge folks to input in their data properly and separate data from their analysis (all the math and functions). So that’s why our app looks like table grid blocks on an endless canvas vs the more traditional spreadsheet editor which is just one big table grid
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673082101.095889"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673082101.095889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-07 01:01</span><br/>
+<span style="background-color:#ccf">@Jason Chan</span> Separating data from analysis is very much the mainstream approach. What's interesting to me is how they end up being put together in the end. The mainstream there is having the code manage the data in an ad-hoc fashion, through the OS' file system.<br/>So how does this work in your new spreadsheet? You have the data grid as in traditional spreadsheets. How is it hooked up with the code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673082239.964959"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673082239.964959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-07 01:03</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> Yes, tree structures are important. But I don't agree that Smalltalk or CLOS objects form a tree. Cycles are permitted, and actually quite frequent, at least in Smalltalk. So at the lowest level, it's just objects pointing to each other.<br/>BTW, I didn't make up the term "object lake", I saw it somewhere, but don't remember where!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673082357.409689"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673082357.409689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-01-07 01:05</span><br/>
+<span style="background-color:#ccf">@George Campbell</span> Pandas works much like other data-frame-based languages and libraries (R, ...): the data takes the form of tables (homogeneous in rows, heterogeneous in columns), and the code operates on the aggregate (table, row, column), not the individual data item as in spreadsheets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1673107276.558049"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1673107276.558049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-01-07 08:01</span><br/>
+I'm talking about the tree (which can reticulate, of course) represented by (in the Smalltalk context) the class browser. The objects themselves relate to that tree-shaped thing in specific ways, &amp;c. There's similar stuff going on in CLOS, but with different affordances for navigating those relationships.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1676583529.956459"></a>
+      <img src="https://avatars.slack-edge.com/2022-11-01/4330341057936_60c8f2d21472cb6f2053_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1673002504.972119.html#1676583529.956459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sean Levin</b>
+<span style="margin:2em; color:#606060">2023-02-16 13:38</span><br/>
+Hey <span style="background-color:#ccf">@Konrad Hinsen</span>. I work on a reactive architecture library called Behavior Graph. <a href="https://github.com/yahoo/bgjs">https://github.com/yahoo/bgjs</a> It has the interesting dataflow dependency properties of spreadsheets but is just normal code. We use it heavily in a complex production codebase. I love talking about it, so let me know if you want to hear more.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

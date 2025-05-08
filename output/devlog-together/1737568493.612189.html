@@ -1,0 +1,137 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-01-22 09:54</span><br/>
+I'm tinkering on a little <a href="https://mathstodon.xyz/@vez/113828660230730270">sand experiment</a> with <span style="background-color:#ccf">@Elliot</span>. Without dipping too far into spoilers, you have a small selection of tools you can use to fill the screen with grains of sand and then move them around, with <em>brushes</em> (of a sort) that each have a bit of logic (eg: scatter the sand randomly, push the sand downwards, merge sand grains together). What's fun about these <em>brushes</em> (of a sort) is that they apply some behaviour that feels like a computation. So you sort of <em>brush</em> your computation over some data (sand).<br/><br/>One possibility I've been mulling, that I'd love to hear some ideas for, is a brush that does cellular automata. The brush might use some global grid (discrete) or sense of proximity (continuous), and apply some CA-esq rules depending on the density of the sand. Then you'd just <em>brush</em> that computation onto the sand to advance the state of the CA. Maybe each brush stroke advances the CA one step wherever you apply it, or maybe the CA runs continuously but only where you're brushing. The thing I'm presently brainstorming is… how might one specify the CA-esq rules just using sand and brushes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737571349.184929"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737571349.184929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 10:42</span><br/>
+I can't immediately think of anything. I assume the obvious approach is one brush per rule set, but yeah in that case how might you create a new brush? :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737571480.272179"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737571480.272179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-01-22 10:44</span><br/>
+Yeah exactly. Or parameterize a brush, where the relevant parameter here is, like, a graphical rewrite rule.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737576391.004519"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737576391.004519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2025-01-22 12:06</span><br/>
+I like this space of materializing the presence or action of CA execution as paint. Like you say – imagining that each “coat” of paint you lay down advances the CA one step, or imagining that the presence of “CA paint” persistently makes a CA run in a given place – but if you can push the paint around it will make the CA run in different places? Or even continuous gradients – the CA runs “more” in some places than others? (Does that mean faster? Or that behavior is interpolated between being stationary and being CA-driven?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737578939.937709"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737578939.937709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-01-22 12:48</span><br/>
+Yes Josh, that's precisely the good shit I came here for! Full size!<br/><br/>I've heard people say "rules should be defined in the same place they're executed", but I don't think I've seen anyone do it yet. Like, <span style="background-color:#ccf">@Lu Wilson</span> talked about something this with respect to <a href="https://www.todepond.com/explore/cellpond/">CellPond</a>, for insty. Rather than paddles down the left of the screen, you'd… uh… not have them there.<br/><br/>I'm not sure about CA rules, but simple replacement rules seem do-able, perhaps. Maybe a pair of brushes that let you capture a "before" and "after" that recognize some changing qualities of the captured sand, and a brush to apply that change.<br/><br/>I wonder if there's something about little grains of sand that might make this all more feasible. Sand is basically 1-bit graphics without the pixel grid. It's like the <em>second</em> most constrained kind of graphics possible, surely.<br/><br/>Maybe some <a href="https://www.youtube.com/watch?v=9G0r7jL3xl8">Viewpoint</a> vibes here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737643037.207749"></a>
+      <a href="../devlog-together/1737568493.612189.html#1737643037.207749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2025-01-23 06:37</span><br/>
+If the paint controls time, then you could keep your “before” and “after” swatches in a safe (or unsafe) corner as a persistent rule set, AgentSheets-style.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737644346.037729"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737644346.037729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2025-01-23 06:59</span><br/>
+(I haven’t used CellPond :face_with_peeking_eye:, so I don’t know if that’s what paddles do.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737653245.490229"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737653245.490229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-01-23 09:27</span><br/>
+I do like the idea that the before and after are just, like, the bottom left and right corner of the screen. If you mess those up while applying the rule, welp… <em>like sands through the hourglass</em>…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737653472.774359"></a>
+      <a href="../devlog-together/1737568493.612189.html#1737653472.774359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2025-01-23 09:31</span><br/>
+I wonder how the before/after scheme could be adapted to free floating particles... here's a sketch off the top
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737653559.478789"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737653559.478789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2025-01-23 09:32</span><br/>
+agentsheets has the rules in a separate layer, same as cellpond. to make them happen in the same layer you need some way of "quoting" areas, lisp-style. i don't think it's that hard, it's just that no one has bothered yet
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737653593.101299"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../devlog-together/1737568493.612189.html#1737653593.101299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2025-01-23 09:33</span><br/>
+this is something that dave ackley does for his current brain project in the t2 tile work
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

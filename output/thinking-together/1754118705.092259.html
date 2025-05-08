@@ -1,0 +1,184 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-02 00:11</span><br/>
+This might be premature, but I think I <em>finally</em> understand Dijkstra's approach to deriving programs from post-conditions in "A Discipline of Programming". I've had this book on my bookshelf for almost 20 years, never understood it but also never quite worked up the will to toss it out. (For context, I only own like a dozen books over the long term.)<br/><br/>Concretely, I've made it to the end of Chapter 7. I feel like I understand every bit up until this point.<br/><br/>Parts of Chapter 6 and 7 feel very sloppily written! And this is Dijkstra! So either my leaps of interpretation are only leaps because I'm missing something, or my sense of understanding is an illusion :sweat_smile:<br/><br/>Has anyone here made it this far and feel like they understood it? I'd love to talk to you.<br/><br/>Incidentally: I wouldn't have made it in even this my probably 4th attempt, if it wasn't for LLMs. They're better than a rubber duck for talking things over with! It's amazing that they can all converse intelligently about the Dijkstra method, and all I need to do is mention <tt>wp</tt> or <tt>wdec</tt>. Or I know nothing and am incapable of judging anything about this book.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754259771.285849"></a>
+      <a href="../thinking-together/1754118705.092259.html#1754259771.285849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-03 15:22</span><br/>
+Hi, Kartik, I'd be very interested in having a conversation about Dijkstra's book. I still have my copy that I ordered as soon as I could after it was published. Working through that book (one works it instead of reading it :slightly_smiling_face:) profoundly changed my perspective on programming.<br/>I find it highly ironic that some people who have been critical of formal methods (or even of Dijkstra's style and content) are also proponents of TDD. I have long thought that both ADoP and TDD emphasize using reasoning about correctness as part of the design process (although I continue to believe that Dijkstra's method is potentially more robust, for a variety of reasons).<br/>I'm curious as to what about chapters 6 (designing for termination) and 7 (Euclid's algorithm revisited) left you uncomfortable.<br/>I hope we can connect.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754268721.461379"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754268721.461379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-03 17:52</span><br/>
+Wonderful, thank you! Here's one thing I figured out this time after failing in the past, tell me if I got something wrong:<br/><br/>In Chapter 7, when evaluating <tt>wdec("x := x + y")</tt> under the metric <tt>t = abs(x-y)</tt>, Dijkstra calculates:<br/><br/><pre style="white-space:pre-wrap">tmin(x, y) <= t(x, y) - 1</pre><br/>(I find it helpful to explicitly add the <tt>(x, y)</tt> to remind myself that <tt>t</tt> is a function.)<br/><br/>This he then simplifies to:<br/><pre style="white-space:pre-wrap">x <= abs(x-y) -1</pre><br/>If I understand correctly, the left hand side of the inequality is just the value of <tt>t</tt> after <tt>x := x + y</tt> has run.<br/><br/><pre style="white-space:pre-wrap">tmin(x, y) = abs(x+y - y) = abs(x)<br/>=> x, since x > 0 by the preconditions of the chapter/problem</pre><br/>This I never understood until now, and I think I've always been thrown off by the "min" in the name "tmin". It seems to me clearer to call it <tt>t(x', y')</tt> where <tt>x'</tt> and <tt>y'</tt> are the values of <tt>x</tt> and <tt>y</tt> after <tt>x := x + y</tt> has run.<br/><br/><pre style="white-space:pre-wrap">t(x', y') <= t(x, y) - 1<br/>abs(x+y - y) <= abs(x-y) - 1<br/>etc.</pre><br/>I suppose my two questions are:<br/>• Am I on the right track? And,<br/>• Does this approach seem clearer to you?<br/>I don't really understand the name <tt>tmin</tt>. Dijkstra introduces it in Chapter 6 as, "the lowest upper bound for the final value of <tt>t</tt>". There's a "min" and a "max" there, and also a "final". If I had to choose a new name, I'd call it <tt>t_after</tt> or something like that. Perhaps the lack of subscripts affected the choice of name, since "after" starts with a vowel..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754269037.411419"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754269037.411419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-03 17:57</span><br/>
+I did work through the rest of the chapter and manage to reproduce all his working (with one additional wrinkle that I might complain about next, after we discuss this one), so that gives me some confidence I'm on the right track..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754326775.411869"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754326775.411869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2025-08-04 09:59</span><br/>
+<tt>tmin</tt> is defined like a supremum (least upper bound). I don't know how Djikstra 1976 constructs that as a postcondition we can reason about, how exciting
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754327682.610629"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754327682.610629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-04 10:14</span><br/>
+Yes, indeed. After I posted my original post I ran into that connection. It's unclear to me why it's needed. Each statement is deterministic, the initial state is known. There isn't really a range of values <tt>t</tt> can have.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754752241.623379"></a>
+      <img src="https://secure.gravatar.com/avatar/c3ae6a1b8d708b79b6b85ecc365266a4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754752241.623379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-09 08:10</span><br/>
+Sorry to take so long replying. My minor excuse is a very busy work week. My major excuse is that I had to do some re-reading! Some of Dijkstra's writing is very "dense" (in information), so I had to go back and review to get context in my head.<br/><br/>A couple of background thoughts come to mind:<br/>1. Repetition in imperative programming seems frequently to be taught (and practiced) either in terms of explicit counting or in terms of iterating over some structure (array elements, linked nodes, file lines, etc.) In such cases, the argument for termination is fairly trivial. The bound on remaining work to be done seems "obvious".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754752415.308649"></a>
+      <img src="https://secure.gravatar.com/avatar/c3ae6a1b8d708b79b6b85ecc365266a4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754752415.308649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-09 08:13</span><br/>
+2. In later discussions, Dijkstra went past <em>a priori</em> limits on number of iterations remaining by considering the notion of a "well-founded set" (a set with an ordering such that there are no infinite descending chains). That's a rabbit-trail to the side, but makes interesting context for going back and seeing the state of his thinking in 1976.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754753476.322389"></a>
+      <img src="https://secure.gravatar.com/avatar/c3ae6a1b8d708b79b6b85ecc365266a4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754753476.322389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-09 08:31</span><br/>
+With all that said, I interpreted Dijkstra's introduction of <em>tmin</em> as a way to grapple with repetition when the reduction of "work remaining" doesn't happen by simply counting down, and even may be affected differently based on which guarded statement list is activated (when more than one has a true guard).<br/><br/>Euclid's GCD algorithm makes a nice lab rat for that kind of thinking (especially when one introduces the remainder-based optimization). It makes an interesting exercise to code GCD based on Dijkstra's thought process and decorate the code with output that shows the changing value of the work-remaining metric as it runs.<br/><br/>My recollection of my experience with the book is that of a very zig-zag journey. Sometimes a subsequent chapter or section would cause an "Aha!" that motivating going back to reconsider what I had previously read. I think that the fourth example on page 61 in chapter 8 can play that role relative to chapter 6 (especially after slogging through the detailed discussion of the third example!)<br/><br/>And Dijkstra's note at the end of that fourth example illustrates that he sometimes throws in passing comments that actually require very deep thought on the distinction between correctness and performance!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754777681.018069"></a>
+      <a href="../thinking-together/1754118705.092259.html#1754777681.018069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-09 15:14</span><br/>
+I hadn’t thought about your before-and-after interpretation in quite that way. I’ll have to ponder a bit.<br/>Regarding your reference to determinism, only some constructions in EWD’s wp-based notation are deterministic! While some cases (e.g. <tt>x := x-y</tt>) are, EWD’s reasoning makes some kinds of determinism a not-very-interesting special case. The “Aha!” moment for me was his solution for <tt>max</tt> in <tt>c := a max b</tt>.<br/><pre style="white-space:pre-wrap">if<br/>   a &gt;= b -&gt; c := a<br/>[]<br/>   b &gt;= a -&gt; c :- b<br/>fi</pre><br/>In the (again, uninteresting) special case that <tt>a = b</tt>,  both guards are true it is perfectly valid to “perform” either of the two guarded commands.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1754780801.287359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1754780801.287359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-09 16:06</span><br/>
+Yeah, after my original commented it occurred to me that Dijkstra is building a framework that includes even compound statements, even if the initial examples consider only simple ones. Supremum probably makes more sense if S is a loop. I'll keep going until I find examples like that.<br/><br/>The key insight for me is that tmin is only in the context of a single iteration. It's not saying anything about the entire execution of the (containing) loop.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1755436797.026409"></a>
+      <img src="https://secure.gravatar.com/avatar/c3ae6a1b8d708b79b6b85ecc365266a4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1755436797.026409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-17 06:19</span><br/>
+I have been reminded (more than once) of the compare-and-contrast possibilities of Dijkstra’s 1970s vision vs. general practice 50-ish years later. For example:<br/>• Both Dijklstra’s presentation of the wp-calculus and contemporary TDD rest on the idea of thinking first about verification and then letting those considerations guide the design. Property-based testing goes a large step further than simple unit testing. But we still haven’t gotten to the full-coverage rigor of EWD.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1755436888.504089"></a>
+      <a href="../thinking-together/1754118705.092259.html#1755436888.504089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-17 06:21</span><br/>
+• The clean way that the if/fi and do/od constructs embraced non-determinism still looks cleaner to me than the contemporary toolkits of various mainstream languages and frameworks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1755443502.811449"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1755443502.811449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-17 08:11</span><br/>
+I'm still trying to figure out how to do it for larger examples. My go to example is a text wrapping function I've endlessly stared at in the last 2 years. Maybe I'll figure out its invariants and preconditions by the time I'm done with the book.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1755466818.330469"></a>
+      <img src="https://secure.gravatar.com/avatar/c3ae6a1b8d708b79b6b85ecc365266a4.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1754118705.092259.html#1755466818.330469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joel Neely</b>
+<span style="margin:2em; color:#606060">2025-08-17 14:40</span><br/>
+I have found that human-perception-based problems are the hardest for me to describe precisely. (For example, creating a “nice” layout of a binary tree…)<br/>Assuming that you think of “text wrapping” the same way I do--breaking text on runs of whitespace into a list of tokens (maximal runs of non-whitespace characters), then “flowing” them into multiple lines such that the tokens appear in the same order, tokens in each line are separated by whitespace, each input token is contained in the output, no output line is more than a specified length limit…<br/>The basic properties seem feasible, but then the “what about”s start: What about forced breaks? What about justification? …
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

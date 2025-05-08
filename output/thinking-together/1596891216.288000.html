@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1596891216.288000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-08-08 05:53</span><br/>
+In <em>Le Ton Beau de Marot</em> there's this section about the revelatory nature of errors which I found fascinating. Apparently somebody accidentally said "Rosa only date shranks", instead of "Rosa only dated shrinks". That is, they applied to "make_past_tense()" function to "shrink" instead of "date"!<br/><br/>Hofstadter mentions he has collected thousands of examples of errors like these (it's not clear if the "filing cabinet" he talks about is metaphorical or not).<br/><br/>I think it might also be useful to collect programming errors in a similar way (maybe put on the wiki eventually). Patterns might start to emerge that are instructive to how people think about coding. These errors are quite precious because they become very rare once you have become fluent in the status quo.<br/><br/>Most programming errors are of the type "failed to understand the full consequences of my code" or "failed to consider all possible inputs". These are the types of errors that pros make. I am more interested in the type of errors that beginners make, that might reveal friction between how they might naturally express themselves or understand, and how they are forced to by the language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596891347.290700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596891347.290700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-08-08 05:55</span><br/>
+I have two examples from when I was learning to code. I learned to code in a language called DarkBASIC that is a BASIC for making games.<br/><br/>I began by editing the examples that come with it. One of these is a 3D character that can be moved around with the arrow keys.<br/><br/>The code used two helper functions which are specifically for a character walking on the x/z plane, rotating around the y-axis. The functions were NEWXVALUE() and NEWZVALUE() and were used like this;<br/><br/><pre style="white-space:pre-wrap">X# = NEWXVALUE(X#, A#, 1.5)<br/></pre><br/>Which is equivalent to <tt>X# = X# + cos(A#) * 1.5</tt><br/><br/><br/>I wanted to expand the example to include a second character controller by WASD. To do this I copypasted all the code, then went through and edited it.<br/><br/>The second character I made to have the variables XX# and ZZ#. I could get it set up ok, because I understood the initialization lines like<br/><br/><pre style="white-space:pre-wrap">X# = 100<br/>Z# = 100<br/></pre><br/>I changed these to<br/><br/><pre style="white-space:pre-wrap">XX# = -100<br/>ZZ# = -100<br/></pre><br/>But when I came to edit <tt>X# = NEWXVALUE(X#, A#, 1.5)</tt>, I chaged it to <tt>XX# = NEW*XX*VALUE(XX#, AA#, 1.5)</tt>.<br/><br/>That is, I had confused the 'X' inside the function name "NEWXVALUE" as equivalent to the 'X' in the variable name X#.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596891497.294700"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-03/1220847671058_4980e1f3e51a273b630a_72.png" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596891497.294700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ope</b>
+<span style="margin:2em; color:#606060">2020-08-08 05:58</span><br/>
+You will love some of the talks at the #PLHCISwimmer summer school. I will link once they put it up on YouTube. <br/>In particular Bjorn Hartman’s talk. <br/>He talks about how they scale tutoring and guidance. For example, say there is a grading system so you have a large number of student that submit code that should pass certain test cases and then they keep track of similar submissions and what transformations made them pass the tests and then use that to provide hints to people that are still stuck. There is a lot more but it’s basically how do you provide useful hints that will result in correct code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596891709.294900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596891709.294900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-08-08 06:01</span><br/>
+The second example is that I didn't understand why a 2D nested for-loop had the closing tags 'backwards'.<br/><br/>e.g instead of;<br/><pre style="white-space:pre-wrap">FOR X# in 1 TO 10<br/>FOR Y# in 1 TO 10<br/><br/>(do some stuff)<br/><br/>NEXT Y#<br/>NEXT X#</pre><br/>I was writing;<br/><pre style="white-space:pre-wrap">FOR X# in 1 TO 10<br/>FOR Y# in 1 TO 10<br/><br/>(do some stuff)<br/><br/>NEXT X#  &lt;---<br/>NEXT Y#</pre><br/>which seemed much more natural to me. I just learnt to reverse them as a silly quirk of the language, it was only much later I realised that "there's no such thing as a 2d loop", and the inner loop "doesn't know" it's inside another loop.<br/><br/>Such an error is impossible in Python or C, due to the syntax, but I wonder if the same underlying misunderstanding is there, or whether the syntax helps learners realise straight away my revelation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596892828.299000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596892828.299000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-08-08 06:20</span><br/>
+I could probably fill a book (or more) with programming errors like these, made by myself:blush:. Training an AI with this knowledge and assisting you while coding.. that would be awesome and FoC I think:sunglasses:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596896943.300500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596896943.300500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-08-08 07:29</span><br/>
+<span style="background-color:#ccf">@Maikel van de Lisdonk</span> do so before you forget them!<br/><br/>I encountered a fascinating one yesterday. A coworker tried to define a class method in Python with both <tt>self</tt> and <tt>cls</tt> args.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596898086.301000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596898086.301000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-08-08 07:48</span><br/>
+Python has quite a few around the boundary of what is convention and what is "really" part of the language. The use of _ is understood as just a character like any other that is <b>by convention</b> used to signify a "private" method or function, but in fact this naming affects the behaviour of <tt>import *</tt> which seemed like a real break of "the rules" to me.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596900608.307200"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1596891216.288000.html#1596900608.307200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-08-08 08:30</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> maybe I will start doing that, registering the error and its correction in a format that in the near future hopefully can be used to train an AI. Are there already projects doing this (using an AI to give suggestions to coding errors) ?
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

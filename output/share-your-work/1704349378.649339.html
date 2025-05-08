@@ -1,0 +1,693 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-03 22:22</span><br/>
+I really like TodePond's video "Screens in Screens in Screens". I've been wanting to do the same kinda thing with mathematical formulas instead of shapes, a kind of "formulas in formulas in formulas", but I'm an awful programmer so I'll describe some math you can do to that effect. Apologies in advance for the shoddy explanation though.<br/><br/>Here's a thing you can do with "screens". You can name screens. Start with some screens A B C. Then if C is inside A, and A and B are the same color, then there is a copy of C inside B. What do you call this copy? "The copy of B from A to C"? It will be convenient if we give it a symbolic name. Call it (A->B)C. Or if you are really hardcore you can call it just t(A,B,C) where t is a ternary operator describing the result of copying C from A to B. You may think to only consider (A->B)C when C is inside A, but the math becomes tractable if you consider all screens at once. Then we can stipulate some axioms:<br/>1. (A->A)B = B<br/>2. (A->B)A=B<br/>3. (B->C)(A->B)=(A->C)<br/>3. (A->(X->Y)A)=(X->Y)<br/>The first axiom means if you are copying a screen from one screen to itself, you aren't changing anything. The second axiom is "obvious" except for considering (A->B)A in the first place. The third axiom means if you copy a screen from A to B and then from B to C that is the same as if you were to copy it from A to C directly. It is also shorthand for (B->C)((A->B)D) = (A->C)D for all screens D. The fourth axiom takes a bit more explaining. Basically we want this equation to be true whenever A is in X, and both sides are being used to copy something from A. But our theory at this point doesn't have a predicate for "A is contained in X" so we say it holds in all cases.<br/><br/>With these axioms you can show the operators (A->B) form an algebraic structure called a group: You can multiply them by performing one copy after the other (C->D)(A->B). This operation is associative (I mean, it must be), and has an identity element and inverses. The identity being (A->A) and the inverse of (A->B) being (B->A).<br/><br/>Another perspective is to view screens as points in an affine space (i.e. vector space without a specified origin). Then (A->B)C can be thought of as (B-A)+C, and each of the axioms above can be interpreted as vector equations. This isn't a good model though because it ends up saying some screens are the same when they should be different. You can still take the above axioms and show that screens form a generalization of affine spaces called torsors.<br/><br/>I'll share more if anybody is interested. It really needs a much longer write up, but I thought somebody might know if its already been done before.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704355077.598169"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704355077.598169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2024-01-03 23:57</span><br/>
+hey interesting! I'm not sure I completely understand, but it's nice to see how different people might model this sort of thing. i know <span style="background-color:#ccf">@Elliot</span> has been working on a screens-like thing recently, and he modelled it completely differently from me. <br/><br/>I'd love to write up a blog post explaining how I model it. it would be nice to see what people think of it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704385213.395399"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704385213.395399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 08:20</span><br/>
+If you do write up that post that would be awesome!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704389118.658819"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704389118.658819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:25</span><br/>
+Cool! I really like screens too. I also like this mathematical modeling of screens! I like the idea to model screens as a group. I have been trying out some models related to the following model: screens as a category: the objects are screens and the arrows mean "contains".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704389195.880639"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704389195.880639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:26</span><br/>
+I originally thought about this model when I was using it to solve some puzzles in "Patrick's Parabox" which also involves some recursive box stuff :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704389410.919749"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704389410.919749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:30</span><br/>
+You can turn this category into a groupoid by adding in an inverse arrow for every "contains" arrow. The inverse arrows mean "contained by".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704389743.164229"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704389743.164229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:35</span><br/>
+The spatial relationships between screens is a functor from this category (or groupoid) to spatial transformations like Affine Transformations (Although <span style="background-color:#ccf">@Lu Wilson</span> told me that screens actually uses a different type of spatial transformation).<br/><br/>The functor is really just saying "write down a specific transformation next to each arrow"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704390022.195949"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704390022.195949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:40</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704390798.776629"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704390798.776629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 09:53</span><br/>
+IRT your axioms: I have trouble understanding 2 and 4. I can't figure out how to interpret (A -> B)A. I guess it would be "The copy of A from A to B" based on your paragraph above the axioms, but I'm not sure what that means.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704413844.540969"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704413844.540969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 16:17</span><br/>
+I think axiom 2 is hard to picture because in the expression (A-&gt;B)C you normally think of C as lying inside A. But in the case of (A-&gt;B)A, where C is A, C is no longer strictly inside A, since it coincides with A.    Maybe a better way to think of it is to let C vary in size and shape inside A, and let it "tend to A", making the size shape and position approach that of A. Then in the limit as C approaches A in size shape and position, the copy (A-&gt;B)C approaches B in size shape and position. Then if copying is a continuous function we are justified in inferring (A-&gt;B)A=B. Sorry for the math-speak.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704413999.032539"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704413999.032539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 16:19</span><br/>
+Some diagrams will probably help. This is what (A-&gt;B)C looks like in the normal case when C is inside A:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704414488.950119"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704414488.950119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 16:28</span><br/>
+Then when C=A, this is the mental image I have for axiom 2:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704414661.414389"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704414661.414389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-04 16:31</span><br/>
+Ah I see! It is maybe quite different than how I've been thinking about things! Can you share how you came up with these axioms? It's starting to make sense but I'm wondering what your intuition was when you were making them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704436238.745949"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704436238.745949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 22:30</span><br/>
+Oh, that question is so open ended, I love it but I'm really stumped on how to answer it! There is a lot of context I haven't shared, but much of it would be only marginally useful. Maybe I can say this though. A key component of the system I am trying to build are one way live copies. These copies would not only reflect the contents of their source but also the 'behavior' at their source. For instance in the image below the arrows indicate that we are copying from X to Y, from A to C, and from C to B. Then from the point of view of X, we are effectively copying from A to B, so this should be reflected in their copies in Y. One way to ensure this is to also formally copy C from X to Y, even though C isn't inside X, and ensure we copy from (X->Y)A to (X->Y)C, and from (X->Y)C to (X->Y)B. This was my motivation for considering all copies (A->B)C even if C isn't in A.  This example also illustrates how my model really only answers how to name the different copies, and not how it is carried out in practice.<br/><br/>I don't know if that is all useful to you, but I'm curious, in your implementation of screens is everything two way copies (plus transforms), or are there one way copies too? Is this the difference taking the category as is or making it into a groupoid first makes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704436312.827949"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704436312.827949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-04 22:31</span><br/>
+also, how have I never heard of Patricks Parabox before?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704576235.796659"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704576235.796659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 13:23</span><br/>
+Okay, I've been thinking how my more abstract ideas can be applied to model screens, like the actual kind that make for cool looking programs and videos. I've described how screens can be modeled using four axioms. Pictures seem useful so I'll give a picture for axiom 4 first.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704576633.212429"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704576633.212429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 13:30</span><br/>
+Explanation: Axiom 4 given above said that (A-&gt;(X-&gt;Y)A) = (X-&gt;Y). This was shorthand for (A-&gt;(X-&gt;Y)A)M=(X-&gt;Y)M for all screens M. You can also make this look a little nicer by giving the name B to (X-&gt;Y)A. Then axiom 4 just states (A-&gt;B)M=(X-&gt;Y)M. The case where M is in A and A is in X is depicted in the image. Then the axiom says you only get one little square inside B by copying M. Whether you are copying from A to B or from X to Y, it doesn't make a difference.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704577800.995279"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704577800.995279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 13:50</span><br/>
+Hopefully that clears up axiom 4. Now if you take all these axioms you find that the this formal algebra comprises a structure called a torsor. If you stipulate there are no additional relations except those implied by the four axioms then you can probably term the structure a free torsor. The significance of this is that the actual visual objects and transformations between them (rectangles of different sizes and affine maps, and I would expect Lu's transformation group also) form torsors and you can map from free objects very easily by giving a handful of shapes. That's the birds eye view and takes a bit of unpacking.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704580174.556329"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704580174.556329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 14:29</span><br/>
+The idea of torsors is essential so I'll start with that. Rectangles in the plane almost form a torsor. For any two rectangles you can map one to the other by an affine transformation (the composition of a translation and a linear map). This isn't quite unique though because you can always then flip the target rectangle across its major or minor axis, resulting in a distinct transformation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704582353.834549"></a>
+      <a href="../share-your-work/1704349378.649339.html#1704582353.834549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 15:05</span><br/>
+However, if the rectangles are "framed", by specifying a corner and an orientation then there is a unique affine map from one to the other. The flip map F changes the orientation to in the example above T no longer maps to the same framed rectangle as S. A framed rectangle can be formally specified by a point (designating a corner) and an ordered pair of vectors (designating the two sides to the corner, and the order giving the orientation). Call the framed rectangles A and B. We can think of the transformation turning A into B as a difference B-A and think of applying this transformation to A as adding it to A, so formally B=(B-A)+A.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704583617.944179"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704583617.944179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 15:26</span><br/>
+Because the transformation from A to B was unique the difference B-A is well defined, and we can apply it to any other framed rectangle C to get a transformed rectangle (B-A)+C.  This is I think the main point of torsors: You can subtract any two elements of a torsor to get a transformation mapping one to the other. In general this transformation is an element of a group (abstract algebra) and that is called the structure group of the torsor. In the case of framed rectangles I think the structure group is all affine transformations. The other point of torsors is you can apply the transformation B-A to any other element C of the torsor to get a new element (B-A)+C. In the context of framed rectangles, if B is inside A then the transform B-A can be applied to B to get another rectangle (B-A)+B inside B, and you can apply B-A again to get another rectangle inside that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704586189.082389"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704586189.082389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 16:09</span><br/>
+I hope that explains torsors, at least enough to make my next point. I've mentioned that a system satisfying the four axioms I gave form a torsor. I don't know a simple rigorous proof of this. (I know how to show it forms a <a href="https://ncatlab.org/nlab/show/heap">heap</a> which is a known equivalent of torsors). But we can also give some intuition for this. To distinguish this from the more visual system, let us call elements of a system to which the axioms apply 'places' rather than 'screens'.  Then for any places A B C you can form a new place (A-&gt;B)C. Then the set of places forms a torsor whose structure group consists of all transformations A-&gt;B. The expression A-&gt;B stands for an abstract operator mapping A to B, and this operator can be applied to any other place. You can also think of A-&gt;B as the difference B-A. So this abstract system at least has the main features of torsors. The structure group can also be verified to be a group, with A-&gt;A being the identity and B-&gt;A being the inverse of A-&gt;B.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704588287.617459"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704588287.617459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 16:44</span><br/>
+Now suppose you start with some places A B C and consider the set of all places you can build up from those, so you have A, B, C, (A-&gt;B)C, (A-&gt;(A-&gt;B)C)A, (B-&gt;A)C, to name a few at random. If the only relations (equalities) between these are those implied by the axioms then I think the resulting algebraic object can be described as a free torsor on the set {A, B, C}. I imagine this notion could be made precise but I can't find it anywhere in the mathematical literature. The key property of a free torsor on a set X (in this case X={A,B,C}) should be that for any torsor T, any function from X to T extends to a homomorphism of torsors from the free torsor on X to T. In particular if T is the torsor of framed rectangles then by assigning framed rectangles to A, B, and C we automatically get framed rectangles for all places  A, B, C, (A-&gt;B)C, (A-&gt;(A-&gt;B)C)A, (B-&gt;A)C, etc. that you can think of. These represent all possible copies and transforms of rectangles or more general shapes, not only those that display because one box is in another.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1704589961.469679"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1704589961.469679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-06 17:12</span><br/>
+The last point I want to make is what I expect these free torsors look like. Briefly, I expect both the structure group and the torsor itself embed in the free group on X, with the structure group being the subgroup of the free group generated by all elements xy^{-1} with x and y in X, and the torsor itself consisting of all products tx with t in the structure group and x in X. And (A-&gt;B)C is represented as AB^{-1}C. If this is indeed isomorphic to the free torsor on X, then it gives us a much more convenient way of establishing algebraic identities of places without appealing directly to the axioms. For instance, try proving ((X-&gt;Y)A-&gt;B) = (A-&gt;B)(Y-&gt;X) from the axioms. You can do it, but it is much easier writing each side as words in A,B,X,Y, and their inverses, and simplifying.<br/><br/>Anyway, <span style="background-color:#ccf">@Lu Wilson</span> and <span style="background-color:#ccf">@Elliot</span>, this gets a bit closer to actual screens, so you might find it interesting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705885233.673039"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705885233.673039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:00</span><br/>
+Thank you for this detailed explanation <span style="background-color:#ccf">@Robin Allison</span>! I've never come across torsors before but framed rectangles and affine transforms make a lot of sense so I'm really interested.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705885706.467299"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705885706.467299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:08</span><br/>
+I read that a torsor is like a group that has forgotten its identity. That makes sense to me by anology because I know that an affine space is like a vector space that has forgotten its origin.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705885814.786789"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705885814.786789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:10</span><br/>
+I like your explanation of they key property of a free torsor. It kind of makes sense to me but it's a bit abstract so hard to wrap my brain around.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886045.609249"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886045.609249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:14</span><br/>
+Oh I just read some more about torsors and heaps and I realized I read about heaps before when studying affine spaces.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886272.402329"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886272.402329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:17</span><br/>
+I just read that given a group, the ternary operation that sends any three group elements A B and C to AB^{-1}C forms a torsor
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886333.445379"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886333.445379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:18</span><br/>
+And your explanations that this can be thought of as (A-&gt;B)C helps me understand this!!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886394.134499"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886394.134499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:19</span><br/>
+This is really cool. I'm realizing I have been thinking about heaps and torsors but haven't had the language to research these concepts or talk about them!!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886703.865809"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886703.865809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:25</span><br/>
+So I am getting some intuition, something like that torsors are about being able to form "differences" from two elements of the torsor, and those differences can be applied to any other element of the torsor, and those differences are themselves elements of the torsor. Or is that intuition just for free torsors?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705886840.546609"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705886840.546609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:27</span><br/>
+When you write (X->Y)A->B does that associate like ((X->Y)A)->B?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1705887387.344769"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1705887387.344769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-21 17:36</span><br/>
+Torsors seem really cool :O
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706052283.678469"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706052283.678469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-23 15:24</span><br/>
+<span style="background-color:#ccf">@Elliot</span> Your intuition on torsors about being able to form differences is exactly correct. It holds for all torsors (e.g. of framed rectangles) and not just free torsors. You are also right, when I write (X->Y)A->B I mean ((X->Y)A)->B. The key property of free torsors (technically its 'universal property') is totally abstract. I don't have a great way of explaining it. Its very similar to other 'free' objects such as free monoids if you ever come across those.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706053299.895979"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706053299.895979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-23 15:41</span><br/>
+The free torsor on two elements A and B I'm pretty sure is the set of all ((A-&gt;B)^n )A with n=0, +1, -1, +2, -2, etc. When you map it to framed rectangles (minus the rectangle part I suppose) you get all the frames in the video in this post.  <a href="https://x.com/elliotokay/status/1723790635587572178?s=20">https://x.com/elliotokay/status/1723790635587572178?s=20</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706111697.710979"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706111697.710979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 07:54</span><br/>
+Does this mean that the free torsor on two elements A and B is given by the following procedure?<br/>1. Construct the free monoid on two elements A and B (aside: this is easy in programming, this is just strings of As and Bs)<br/>2. Construct the free group on two elements A and B by adding A^{-1} and B^{-1} to the monoid from last step and modifying concatenation (written as juxtaposition) so that the inverses actually satisfy AA^{-1}=id.<br/>3. Construct the free torsor on two elements A and B by taking all elements X of the free group (from last step) of the form X=YZ^{-1}W and keeping concatenation the same (modified to be a group operation in the last step).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706111763.765109"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706111763.765109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 07:56</span><br/>
+If so, then the free torsor has the same elements as the free group, and the same operation, but I suppose it has more automorphisms?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706111833.536169"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706111833.536169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 07:57</span><br/>
+Which makes sense to me because an affine space has the same elements as a vector space but with more automorphisms
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706111998.053609"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706111998.053609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 07:59</span><br/>
+Going back, I realize I've pretty much just re-stated what you said
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706112207.813649"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706112207.813649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 08:03</span><br/>
+But I guess I feel now that a torsor is about taking a perspective on a group that gives you more transformations (automorphisms) to work with.<br/><br/>I want to understand more about the automorphisms now. It feels like the automorphisms of a torsor might consist of something like "differences of group automorphisms"? I'm really not sure though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706112324.696059"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706112324.696059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-01-24 08:05</span><br/>
+Thank you again btw <span style="background-color:#ccf">@Robin Allison</span>, I am really appreciating this discussion
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706112415.585399"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706112415.585399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2024-01-24 08:06</span><br/>
+Note to self: I need to catch up with this thread!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706161567.376059"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706161567.376059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-24 21:46</span><br/>
+<span style="background-color:#ccf">@Elliot</span> I almost entirely agree with your description of the free torsor, but I would make one small change to step 3. You write "Construct the free torsor on two elements A and B by taking all elements X of the free group of the form X=YZ^{-1}W" but I don't think Y,Z, and W can be arbitrary elements of the free group. I think they have to be only those elements you get by starting with A and B and applying that operation repeatedly to get larger and larger subsets of the free group.<br/><br/>Explicitly, let S be a subgroup of the free group on {A,B} and let H(S)={YZ^{-1}W | Y,Z,W \in S}. I'm thinking "H" for "Heap operation". Let T_0={A,B} and define T_n inductively by T_n = T_{n-1} U H(T_{n-1}). Then the free torsor on {A,B} is the union of all the T_n for n=0,1,2, etc. (I think this accurately describes the idea from the last paragraph, but the idea is the more important thing at any rate.)<br/><br/>So for example, T_0 = {A,B} so these are both elements of the free torsor. Then we find T_1 = {A,B} U { YZ^{-1}W | Y,Z,W are in {A,B} }. The second set in this union equals {A,B, AB^{-1}A, BA^{-1}B}. Thus T_1={A,B,AB^{-1}A, BA^{-1}B} so each of these are elements of the free torsor.<br/><br/>You can keep on doing this but I don't think you are ever able to construct A^{-1} from this procedure. Consequently the free torsor is a strict subset of the free group. What does it look like then? I'll quote from a previous post<br/><br/>In general, for the free torsor on X "I expect both the structure group and the torsor itself embed in the free group on X, with the structure group being the subgroup of the free group generated by all elements xy^{-1} with x and y in X, and the torsor itself consisting of all products tx with t in the structure group and x in X. And (A-&gt;B)C is represented as AB^{-1}C."<br/><br/>Thus a typical element of the free torsor looks like (ab^{-1})(cd^{-1})...(xy^{-1})z with each of the elements a...z belonging to X.<br/><br/>In terms of how this is justified the very rough idea is that you can quantify how many heap operations it takes to produce a particular element starting with (the set the torsor is free on, namely) X. Then you can do induction on how many heap operations it takes to form each element in a particular expression.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706161732.565809"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706161732.565809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-24 21:48</span><br/>
+"But I guess I feel now that a torsor is about taking a perspective on a group that gives you more transformations (automorphisms) to work with.I want to understand more about the automorphisms now. It feels like the automorphisms of a torsor might consist of something like "differences of group automorphisms"? I'm really not sure though."<br/><br/>Even if the free torsors are a strict subset of the free group, this is a really interesting perspective! I've never thought of the relation between groups and torsors in terms of their automorphisms before but its an intriguing thought. One example I'm eager to explore it with: The dihedral group for the square, D8. This is super cool, so thanks! It also puts context to some general math I slogged through on the automorphisms of torsors. More to say, but that's all I have for tonight.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706585223.059629"></a>
+      <a href="../share-your-work/1704349378.649339.html#1706585223.059629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 19:27</span><br/>
+The automorphisms of torsors are interesting to me because they play a part in a feature of screens and the free group/torsor model that I find a bit mysterious. Remember this picture? <a href="https://files.slack.com/files-pri/T5TCAFTA9-F06D7DYL9HN/autodraw_1_4_2024.png">https://files.slack.com/files-pri/T5TCAFTA9-F06D7DYL9HN/autodraw_1_4_2024.png</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706587287.409089"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706587287.409089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 20:01</span><br/>
+You might think (A-&gt;B)C is the same as (A-&gt;C)B. It kinda makes sense. With (A-&gt;C)B you are taking the transformation A-&gt;C that scales A down and shifts it a little and applying the same transform to B. But this actually isn't the case. The transforms (A-&gt;C) and (B-&gt;(A-&gt;B)C) are distinct. (Aside: An interesting question is if this relation implies every transformation commutes with every other transformation). I'm certain these are distinct transformations in the case with the torsor of framed rectangles. The reason for this is the transformation A-&gt;B  in some sense treats A (or some corner of it) as the origin. Consequently if (A-&gt;C) scales down the plane by a factor of 1/2 and B is, say, 100 units out from A, and if B is a 1 unit by 1 unit square (these are not the proportions depicted in the image above), then (A-&gt;C)B will scale B to about 50 units from A, far from its initial position. Finally the translation component of the transform A-&gt;C won't move B much.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706587721.593379"></a>
+      <a href="../share-your-work/1704349378.649339.html#1706587721.593379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 20:08</span><br/>
+The image below I like as a playground to test these ideas. In the image below M=(P-&gt;Q)X, N=(P-&gt;Q)Y, A= (P-&gt;M)X, B=(P-&gt;M)Y, C=(P-&gt;N)X), D=(P-&gt;N)Y. If the aforementioned transformations were the same we would have B=C.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706588722.415999"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706588722.415999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 20:25</span><br/>
+Although the transforms (A-&gt;C) and (B-&gt;(A-&gt;B)C) are distinct (referring to the image three posts back), they are closely related. For brevity I will write D for (A-&gt;B)C. Then the actual relation is (B-&gt;D) = (A-&gt;B)(A-&gt;C)(B-&gt;A). In the language of linear algebra (B-&gt;D) and (A-&gt;C) are similar transforms. In the language of group theory (B-&gt;D) and (A-&gt;C) are conjugates of each other. You can work this out formally but the intuition is that B-&gt;D first shifts the reference frame back to A. Then it applies the transformation (A-&gt;C). Lastly it shifts the reference frame back to B.<br/><br/>If this was all there was to it I would be happy to call it a day. The two transformations are distinct. There is a definitive simple relation between them. End of story. But there is more! There actually is a kind of way we can apply (A-&gt;C) to to B to get D, at least formally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706589571.941429"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706589571.941429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 20:39</span><br/>
+Recall that in the free group model of the free torsor we have (A-&gt;B)C = BA^{-1}C. Well, we can associate this to the right so it is B(A^{-1}C) and that we can think of as B(C&lt;-A). This is just like (A-&gt;C)B, only flipped around. What does this mean?! There is surely a mundane mathematical explanation, but I don't know what that is. One intuitive idea that occurred to me as I was writing this is that in a sense (A-&gt;C)B implicitly treats A as the origin while B(C&lt;-A) implicitly treats B as the origin. But torsors don't really have an origin/identity element so this really needs a proper explanation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706592158.327019"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706592158.327019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 21:22</span><br/>
+What does this have to do with automorphisms? We can think of B(C<-A) as a kind of "right multiplication" or "right action" of (A->C) on B. This is rather unusual in the context of torsors. In those you are given only a left multiplication/action out of the gate. In only very specific cases do you have a natural right multiplication, namely, when the G-torsor is G itself. In that case, given g and x in G, you can multiply x by g on the right by forming xg. <- there it is, x multiplied by g on the right. This makes sense because they are both elements of G, so you can just multiply them. However, for a general G-torsor X you wouldn't be able to form the product xg because in general you can't multiply elements of a torsor, you can only divide/subtract them. The way around this is to first "trivialize" the torsor. All G-torsors are isomorphic to eachother. In particular every G-torsor is isomorphic to G as a G-torsor. Choosing an isomorphism of X with G is what we mean by "trivializing" X. This is equivalent to choosing an element of X to be the identity. It is also analogous to how you can make an affine space into a vector space by choosing an origin. By trivializing or identifying X with G, we can do right multiplication. The caveat being there are many different ways of doing right multiplication.<br/>And this has to do with automorphisms because right multiplication is always a torsor automorphism. This is a tenuous relation admittedly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706592757.776529"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706592757.776529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-01-29 21:32</span><br/>
+Tangential comments/Notes to self:<br/>-It's occurring to me when implementing screens either of you could have been implementing B(C<-A) instead of (A->C)B. Its perhaps the more natural thing to do if you are only ever copying one shape <em>into</em> another.<br/>-One thing I don't understand is how B(C<-A) doesn't involve any arbitrary choices whereas for general torsors right multiplication involves an arbitrary choice. One thought is B(C<-A) only involves arbitrary choices when we try to write it out using conventional left multiplication, but that explanation has issues.<br/>-Affine transformations and affine spaces is probably a good place to try to make sense of B(C<-A). Is it related to the transpose?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706888572.770969"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706888572.770969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 07:42</span><br/>
+Thank you for fixing my construction! I see how you have to iteratively construct each "layer" of the torsor; very roughly: you start by writing down the differences, then the differences of differences, then differences of differences of differences and so on forever. Then you can refer to any element of the torsor in a finite sequence of steps by saying what "layer" it is in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706888700.132489"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706888700.132489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 07:45</span><br/>
+I will have to think about it more but I see now where I may not have understood how the elements of the free torsor relate to the free group.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706888854.817639"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706888854.817639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 07:47</span><br/>
+Re: exploring the automorphism perspective with D8.<br/>Yes! That is where my mind went as well! Actually I was thinking of the Klein 4 group. I haven't sat down and worked through it though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706889184.907319"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706889184.907319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 07:53</span><br/>
+Your exploration that follows is really interesting! I like how you take an algebraic approach to your exploration. I was going to say I have trouble following, but I read through again and it makes sense. I think its that the algebra makes sense, but its hard to connect it to a mental picture. So, like you say, it would be really interesting to hear how this algebra plays out in an affine space so we can get a picture of what is happening.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706889372.669209"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706889372.669209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2024-02-02 07:56</span><br/>
+It makes me realize that I work from pictures but use algebra to describe the properties of pictures that I want to capture. On the other hand, you seem to be going about things algebra first which seems like a really cool way to find some relationships that wouldn't be obvious from pictures.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1706934660.372139"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1704349378.649339.html#1706934660.372139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-02-02 20:31</span><br/>
+<span style="background-color:#ccf">@Elliot</span> Yes, I'm going about it very algebraically. I have all sorts of images in my head of what different things mean, but I can't hold it all in my head at once. I hope once I have the math worked out I can translate it back into pictures :slightly_smiling_face:.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

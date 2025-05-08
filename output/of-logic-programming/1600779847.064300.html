@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-logic-programming</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-logic-programming/1600779847.064300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2020-09-22 06:04</span><br/>
+I purpose that logic programming is about decoupling how information was added to a system from re-actively taking action on that information. This model is particularly important in traditional browser/front-end applications. The current front end ecosystem structures applications in terms of the DOM, but its also valuable to view<br/><br/>But really we need tools that can view the system through either the DOM view or the Action based view.<br/><br/>To be concrete:<br/><br/>traditional dom view:<br/><br/>html<br/>   when<br/>       event<br/>   then<br/>        html/action/etc...<br/><br/>action view<br/><br/>action<br/>  when<br/>     event<br/>  then<br/>     html/action/etc...<br/><br/>The key to having both these views is that the system be encoded in such a way that it can read itself and produce multiple views. The closest implementation i have seen to realizing an efficient version of this is <a href="https://github.com/oakes/odoyle-rum-todo">https://github.com/oakes/odoyle-rum-todo</a>. Though it doesn't actively try to realize multiple views, the data centric approach gives me how that <a href="https://github.com/oakes/odoyle-rum-todo/issues/1">tools</a> can easily read it to provide this.<br/><br/><a href="https://github.com/oakes/odoyle-rum-todo/blob/8bd1ea6e066a169aff0e1cf2fe9b2e239bbb4c69/src/odoyle_rum_todo/core.cljc#L90">Here</a><br/>we see the action that effects the footer.<br/><pre style="white-space:pre-wrap">[:what<br/>      [::global ::all-todos all-todos]<br/>      [::global ::showing showing]<br/>      :then<br/>      (let [*session (orum/prop)<br/>            active-todos (remove :done all-todos)<br/>            completed-todos (filter :done all-todos)<br/>            active (count active-todos)<br/>            completed (count completed-todos)<br/>            filter-attrs (fn [filter-kw]<br/>                           {:class (when (= filter-kw showing) "selected")<br/>                            :on-click #(insert! *session ::global {::showing filter-kw})})]<br/>        [:footer#footer<br/>         [:span#todo-count<br/>          [:strong active] " " (case active 1 "item" "items") " left"]<br/>         [:ul#filters<br/>          [:li [:a (filter-attrs :all) "All"]]<br/>          [:li [:a (filter-attrs :active) "Active"]]<br/>          [:li [:a (filter-attrs :completed) "Completed"]]]<br/>         (when (pos? completed)<br/>           [:button#clear-completed {:on-click #(run! (partial retract! *session)<br/>                                                      (map :id completed-todos))}<br/>            "Clear completed"])])]</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600833182.000500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../of-logic-programming/1600779847.064300.html#1600833182.000500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-09-22 20:53</span><br/>
+I'm struggling to see what this has to do with Logic Programming in particular. The "decoupling" you mention is a characteristic of well-written programs in any language, and you're talking about reactive GUIs (React, Vue...), which can be (and are) described using non-Logic languages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600866033.001700"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-logic-programming/1600779847.064300.html#1600866033.001700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2020-09-23 06:00</span><br/>
+Odoyle rules is an implementation of a rules engine that can run in browsers which could offer more understandable semantics and better performance at the abstraction layer its tackling. It's not a new concept but I believe the novel feature of not disguighishing between rules and queries is an important step for the different viewing options i discuss above.<br/><br/><br/>Here is a link from <a href="https://github.com/CoNarrative/precept">precept </a><br/>another logic on the frontend library that, as you say, explains how logic/rules compete with what react does.<br/><br/>&gt;  Using a rule engine allows us to know exactly what changes from one state to the next. This means we don't need React's diff algorithm or the concept of subscriptions. If we declare views as the consequences of rules, we can automatically point update them when the facts they care about change.<br/>And richer discussion on <a href="https://www.reddit.com/r/Clojure/comments/bqh0z4/virtual_dom_is_pure_overhead/">reddit </a><br/><br/><a href="https://www.reddit.com/r/Clojure/comments/bqh0z4/virtual_dom_is_pure_overhead/eo4gyuj">https://www.reddit.com/r/Clojure/comments/bqh0z4/virtual_dom&hellip;</a><br/><br/>&gt;  So it would seem a RETE network would be one way to achieve this?<br/><br/><br/><br/>But the question i would ask is, if your only concern is what is achievable via programming, then why discuss logic programming at all? Logic programming offers nothing new in terms of end results. What it offers is a mental model and decades of research in algorithms on how to fit problems into it.<br/><br/>Given all that, I would still use a none logic based front end framework/library today. Why? because the ecosystem built around them isn't as rich. I'm worried that's  because little to no discussion is generated around merging these two fields.<br/><br/><br/>The browser application ecosystem is ripe with places where applications of decades old algorithms and models could have huge impacts on peoples lives today. The future of programming is going to read more like math from a decade ago, we don't need to discover it, its already there, we need to apply it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

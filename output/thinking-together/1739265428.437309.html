@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-11 01:17</span><br/>
+What if we use GPU / NPU / TPU to run Prolog several magnitudes faster?<br/>Using technique of encoding words into numbers as LLM does?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739265941.527339"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739265941.527339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2025-02-11 01:25</span><br/>
+then prolog programs would be faster
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739266366.210969"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739266366.210969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-02-11 01:32</span><br/>
+If I understand correctly what you have in mind, the result would no longer be Prolog.<br/><br/>Prolog is a formal language, like every other programming language. In a formal language, symbols mean nothing. They are just convenient labels for human readers, inside the formal system symbols are just equal or not equal. So if you want to replace symbols by numbers, you can just enumerate them by order of occurrence.<br/><br/>Word embeddings as used by LLMs are an interface between formal systems (the stuff running on the GPUs) and informal human language. Combining that with Prolog could lead to interesting results, but it's not faster Prolog.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739266578.906919"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739266578.906919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-11 01:36</span><br/>
+yeah, I do not want the actual Prolog, but something similar to it to run 1000x faster
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739266853.746639"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739266853.746639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-11 01:40</span><br/>
+napkin math here,<br/>LLM have 1billion parameters, they run at acceptable inference rate on Apple M1,<br/>if the same compute power can be leveraged for logical inference even redundant<br/>for example run 1 million branches of inference with 30% of them potentially beeing same for 1 second<br/>and see where it gets you
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739271364.107169"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739271364.107169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-02-11 02:56</span><br/>
+FWIW: From a hardware/implementation perspective, the main feature of Prolog is that it performs exhaustive search, and, gives the programmer a way to specify such searches in a declarative - less buggy - way. Loops within loops do this, also, but provide more opportunities for inserting bugs. Prolog does this by generalizing and using backtracking - a technique essentially frowned upon in the early days of computing (due to hardware limitations) (now possible once again). <a href="http://minikanren.org">MiniKanren</a> also does exhaustive search, but doesn't use backtracking, trading off memory usage instead. The canonical "assembler" for Prolog is WAM - the Warren Abstract Machine - which is used by GNU Prolog (iiuc, GNU Prolog implements Prolog in Prolog (it can be told to show the resulting WAM, which was useful to me when I was trying to write a WAM in Lisp)). A write-up of WAM principles can be found in <a href="https://github.com/a-yiorgos/wambook">Kaci's</a>. Various lisp-based implementations are documented in <a href="https://www.google.ca/books/edition/Paradigms_of_Artificial_Intelligence_Pro/eH6jBQAAQBAJ?hl=en&amp;gbpv=1&amp;printsec=frontcover">PAIP</a> and <a href="https://paulgraham.com/onlisptext.html">On Lisp</a> and others. IMO, the most understandable implementation of Prolog is <a href="https://news.ycombinator.com/item?id=20591771">Nils Holm's Prolog Control in 6 Slides</a> (the <a href="http://tx3.org">tx3.org</a> website is 404'ing on me at this moment). The Holm version is written in Scheme. I found Holm's version so understandable that I even managed to hand-port it to <a href="https://github.com/guitarvydas/cl-holm-prolog">Common Lisp</a> and to mechanically port it to <a href="https://guitarvydas.github.io/2020/12/09/OhmInSmallSteps.html">Javascript</a> (the main thrust of this was to explore OhmJS, not particularly Prolog, but, it appears to work). I think that the way to speed up a Prolog program, is to remove all generalizations from a specific program, i.e. take a given (working) program and to pre-compile it into a bunch of nested loops written in assembler (and, for extra oomph, remove all need for context-switching). The product of any programming language is to create assembler code for use on a CPU. Some compilers do this by emitting only assembler, some do it by emitting assembler that leans on an engine. I think that Prolog fits into the 'engine' category. Many popular languages fall into the 'engine' category where the engine happens to be a lump of code that implements context-switching (often called "operating systems", which usually burn a lot of CPU cycles (something like 7,000-11,000 cycles per context switch, according to Claude 3.5)). Or to find ways to parallelize it (noting that LLMs operate on the principles of massive parallelization, but end up lying to you on occasion (i.e. LLMs in their current state, can't be trusted and they ain't Engineering)). Sequential programming techniques and languages, essentially oppose the existence of massive parallelization, requiring one to think hard to achieve it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739275342.031709"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739275342.031709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-11 04:02</span><br/>
+Yes, I will try to achieve massive parallelization on GPU/ NPU,<br/>It does not necessary mean that I will achieve this, but I will try.<br/>Thanks for all the links.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739285249.464699"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739285249.464699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-02-11 06:47</span><br/>
+&gt; I do not want the actual Prolog, but something similar to it<br/>From my perspective, formal and informal reasoning systems are fundamentally different. And that means that what you are envisaging is not similar to Prolog, even if its user interface looks similar.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739285753.230129"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739285753.230129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-11 06:55</span><br/>
+&gt; From my perspective, formal and informal reasoning systems are fundamentally different. And that means that what you are envisaging is not similar to Prolog, even if its user interface looks similar.<br/>thank you for clarification, as I told, this is more like napkin idea, we shall see if I can bring this to reality
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739302576.253349"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739302576.253349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-02-11 11:36</span><br/>
+If there was some way to use GPUs to do resolution faster, that would be great. I think people in the Prolog development community would be all over it, though, and I don't see any signs of that. I would check in with people like Jan Wielemaker on the SWI-Prolog forums and ask for his thoughts on where there is unexplored potential.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739302940.906649"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739302940.906649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-02-11 11:42</span><br/>
+I've been working on a logical knowledge base search that uses unification but is based on subgraph isomorphism. It's designed to facilitate different kinds of searches from resolution, and is probably much slower except in those use cases. But it's an interesting space to play in, often because there is no one else trying things. :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739392338.707089"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739392338.707089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-02-12 12:32</span><br/>
+There’s been a fair bit of success in implementing high performance graph algorithms on GPUs. I don’t see why you couldn’t try to do some PROLOG-ish things that way…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739396573.834199"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739396573.834199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-12 13:42</span><br/>
+this reminds me of <a href="https://higherorderco.com/">https://higherorderco.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739749743.310879"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-16/8474137906145_7cc0cfd88881877be862_72.png" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739749743.310879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Arnett</b>
+<span style="margin:2em; color:#606060">2025-02-16 15:49</span><br/>
+FWIW, you might look into Parlog (Parallel Prolog; somewhat sparsely documented) or Fleng (<a href="http://www.call-with-current-continuation.org/fleng/MANUAL">http://www.call-with-current-continuation.org/fleng/MANUAL</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1739804674.223649"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-25/8077168843205_54bdcc3cea79c3cee9ab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1739265428.437309.html#1739804674.223649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2025-02-17 07:04</span><br/>
+thanks a lot, I just have looked at them, looks interesting and for general purpose.<br/>I am working on a very simpe JS version for now, maybe will finish in a couple of days.<br/>We shall see if this will be enough or not though.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

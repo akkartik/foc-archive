@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-music</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-10-01 11:03</span><br/>
+I've been thinking about why we still use absolute pitch relationships so much when describing music. It seems to me it would be more productive to talk about intervals, so instead of, say, C - E - G, we could talk about, say, 1 - 3 - 5, or whatever convention used to talk about intervals on a regular music scale. Not that notations like these are not already used, for instance I love the approach used in <a href="https://www.hooktheory.com/hookpad">hookpad</a>, and I want to learn more about <a href="https://en.wikipedia.org/wiki/Roman_numeral_analysis">roman numeral analysis</a>.  I recently learn about the <a href="https://en.wikipedia.org/wiki/Nashville_Number_System">Nashville numeral system</a> too. Both these systems make a lot of sense to me....<br/><br/>And yet, even modern scoring tools like extempore keep using <a href="https://github.com/digego/extempore/blob/master/examples/sharedsystem/covers/oxygene.xtm">absolute intervals</a> to notate music.<br/><br/>For instance, for that extempore "clip" I was expecting to find, say, something like:<br/><pre style="white-space:pre-wrap">(play `((5 _ 5) (3 _ 5) (_ _ 0) (3 _ 0)) `(#base 55))</pre><br/>as opposed to just:<br/><pre style="white-space:pre-wrap">(play `((60 _ 60) (58 _ 60) (_ _ 55) (58 _ 55)))</pre><br/>A lot of the ordeal of learning how music works is about dealing (often through sheer memorization and "force of will" :stuck_out_tongue: ) the explosion of combinations having to deal with asymmetry when it comes to perform certain patterns of note on actual instruments (Major scale, Minor scale, etc). In this regard I find <a href="http://musicnotation.org/wiki/instruments/isomorphic-instruments/">isomorphic instruments</a> very interesting as a solution to this complexity.<br/><br/>I also feel like a notation like <a href="https://en.wikipedia.org/wiki/Dodeka_music_notation">Dodeka</a> is a step in the right direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601589146.013400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601589146.013400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-10-01 14:52</span><br/>
+it’s funny you mentioned this: i was just looking at wicki hayden keyboards 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601633348.013600"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601633348.013600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-10-02 03:09</span><br/>
+MIDI is ubiquitous so we mostly end up using that system, there are usually abstractions on top of those numbers that are completely transposable. For example, here are a few helper functions to find the negative harmony counterparts for a chord progression:<br/><pre style="white-space:pre-wrap">(def the-notes<br/>  (cycle [:c :db :d :eb :e :f :gb :g :ab :a :bb :b]))<br/><br/>(def key-offset<br/>  (zipmap (take 12 the-notes) (range)))<br/><br/>(defn triads [the-key]<br/>  (let [offset (key-offset the-key)<br/>        scale (cycle [0 2 4 5 7 9 11])]<br/>    (map<br/>     (fn [note]<br/>       (mapv #(nth the-notes (+ offset (nth scale (+ note %)))) [0 2 4]))<br/>     (range 7))))<br/><br/>(defn negative-harmony [the-key]<br/>  (let [offset (key-offset the-key)]<br/>    (reduce<br/>     (fn [m [a b]] (assoc m a b b a)) ; bi-directional<br/>     {}<br/>     (map vector<br/>          (take 6 (drop (+ offset 10) the-notes))<br/>          (reverse (take 6 (drop (+ offset 16) the-notes)))))))</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601674746.013900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601674746.013900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-10-02 14:39</span><br/>
+Thx Jack, so you can convert between them both, but my point is that it could make sense to work with the simpler system, using just the distance between intervals
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601674976.014100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601674976.014100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-10-02 14:42</span><br/>
+I think is more of a cultural thing. There are a lot of reasons people come up with to change other ingrained things like number bases or calendars, but it is just difficult to change the status quo
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601799636.016200"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601799636.016200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-10-04 01:20</span><br/>
+<span style="background-color:#ccf">@Emmanuel Oga</span> While I agree with you about the stickiness of the status quo in pretty much anything, what I was getting at is that you can just use relative pitch and then map it onto a base in most of these systems :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601889207.016400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601889207.016400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-10-05 02:13</span><br/>
+After discovering the Tonnetz (and later discovering that it had it had this name <a href="https://en.wikipedia.org/wiki/Tonnetz">https://en.wikipedia.org/wiki/Tonnetz</a>) I haven't looked back.  Here's a little interactive one <a href="https://guichaoua.gitlab.io/web-hexachord/">https://guichaoua.gitlab.io/web-hexachord/</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601926247.016700"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1601926247.016700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-10-05 12:30</span><br/>
+In the original version of a system I work on, I let users define pitches using names (c5 etc.) or scale indices. In the new version, I only use scale indices. Western note names and midi numbers ignore most interesting tuning systems, and scale indices are generally easier to use when you want higher levels of abstraction surrounding harmony (chord changes etc.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1602828338.018900"></a>
+      <img src="https://secure.gravatar.com/avatar/7cc34633e95781200e230fd061fa65b6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1602828338.018900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Arthur Carabott</b>
+<span style="margin:2em; color:#606060">2020-10-15 23:05</span><br/>
+Also when speaking about it, often we do use intervals, not absolute names.<br/><br/>“e.g. this chord has a root, fifth, flat 7th, and a ninth”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1628791566.000600"></a>
+      <img src="https://secure.gravatar.com/avatar/248a3c4ba8f2972427222d46954f9c1c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../of-music/1601575428.012600.html#1628791566.000600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Phil Jones</b>
+<span style="margin:2em; color:#606060">2021-08-12 11:06</span><br/>
+I have some experiments I've been doing along these lines : <a href="https://www.youtube.com/playlist?list=PLuBDEereAQUz2iiEZb7yGLH0Bzi52egGp">https://www.youtube.com/playlist?list=PLuBDEereAQUz2iiEZb7yGLH0Bzi52egGp</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

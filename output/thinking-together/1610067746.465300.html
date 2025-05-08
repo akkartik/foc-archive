@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-01-07 17:02</span><br/>
+Hello, I'm trying to wrap my head around the implementation for a platform for developing self describing "services" or as we might call them "drivers".<br/><br/>The basic lifecycle of a "driver" is essentially:<br/>1. <b>Driver describes Service registration requirements</b>: Announce what registration info (keys, permissions, web-hook URLs, etc) it needs to register<br/>2. <b>User adds Service</b>: Register an instance of Service X by providing "registration info" that were asked for by the driver<br/>3. <b>Driver describes Service interfaces</b>: Use "registration info" to imperatively declare its interfaces (I have these functions, that take these types, that provide these representations, etc)<br/>4. <b>User</b> can begin using this <b>Service</b> from their own code.<br/>This cycle exists to enable something like registering an Airtable database through a driver. We aim to allow for generative interface based on the Airtable's columns. You could just as easily replace "Airtable" as an example with an "SQL DB driver" even.<br/><br/>The main problem I'm wrestling with is mostly in how I would design the Driver SDK for step "3. <b>Driver describes Service interfaces</b>". In some respects, I want to allow the SDK developer (myself and my team members for now) to have a lot of flexibility with how they end up describing the Service interfaces &amp; provide that service interface's implementation. But, when it comes to considering how deployment, versioning, and development and debugging for SDK dev I feel quite naive.<br/><br/>Does anyone have reference material or admirable examples of this kind of problem? Even things adjacent could be very inspiring.<br/>cc <span style="background-color:#ccf">@Garth Goldwater</span> <span style="background-color:#ccf">@Chris Rabl</span> <span style="background-color:#ccf">@taowen</span><br/><br/>P.S. This seems tangential to: reflective type systems / declarative type providers (like building <a href="https://docs.microsoft.com/en-us/dotnet/fsharp/tutorials/type-providers/">FSharp Type providers</a>); VS Code Language Server protocol; game dev modding; and maybe #of-glam-school.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610076524.466100"></a>
+      <img src="https://secure.gravatar.com/avatar/15651704a60f7ef1539f9b1fa2506188.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610076524.466100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>taowen</b>
+<span style="margin:2em; color:#606060">2021-01-07 19:28</span><br/>
+There are two kind of services, service for read, service for write. There is no standard way to write, writing into a external service need various properties according to the need. Expose the write interface as a generic interface such as SQL INSERT is a mistake, it will not work in cross domain setting. To protect the data integrity, some kind of stored procedure is always needed to validate business constraint.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610076620.466300"></a>
+      <img src="https://secure.gravatar.com/avatar/15651704a60f7ef1539f9b1fa2506188.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610076620.466300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>taowen</b>
+<span style="margin:2em; color:#606060">2021-01-07 19:30</span><br/>
+Service for read can be standard, expose query by example, query by filter or query by sql. The schema of information returned can also be defined in protobuf or json schema.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610076666.466500"></a>
+      <img src="https://secure.gravatar.com/avatar/15651704a60f7ef1539f9b1fa2506188.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610076666.466500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>taowen</b>
+<span style="margin:2em; color:#606060">2021-01-07 19:31</span><br/>
+In terms of generating UI automatically, you can generate the UI of form submission, which will call the write service after submit button clicked. You can also generate the UI of the read side, list/detail/...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610076774.466700"></a>
+      <img src="https://secure.gravatar.com/avatar/15651704a60f7ef1539f9b1fa2506188.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610076774.466700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>taowen</b>
+<span style="margin:2em; color:#606060">2021-01-07 19:32</span><br/>
+The data schema could be encoded as static file, such as protobuf, json schema, typescript .d.ts / .ts class. It could also be encoded as data to allow dynamic reflection. Generate can happen statically, or dynamically.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610084994.472000"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-01/702360681283_25cc471438337c72e600_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610084994.472000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Rabl</b>
+<span style="margin:2em; color:#606060">2021-01-07 21:49</span><br/>
+First thing that comes to mind whenever people talk about the future of versioning, SDKs and a malleable public API ecosystem is the Unison project: I believe <span style="background-color:#ccf">@Paul Chiusano</span> would be the guy to ask about that. Seems like a particularly good model for your app domain as you will be the ones controlling the entire stack for the development of these drivers (correct me if I'm wrong). On the topic of service announcement and registration, unfortunately only WSDL comes to mind (sadly). 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610099905.472600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610099905.472600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-08 01:58</span><br/>
+Not sure I understand what you are trying to build.<br/>Do you intend to proxy the calls through the "platform"? Something like an <a href="https://microservices.io/patterns/apigateway.html">API Gateway</a>?<br/>For service specification I imagine you would have to use some form of IDL.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610122434.475900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610122434.475900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-01-08 08:13</span><br/>
+hm. this smells like cambria to me: <a href="https://www.inkandswitch.com/cambria.html">https://www.inkandswitch.com/cambria.html</a> (at least as far as versioning goes)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610150064.482300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610150064.482300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-01-08 15:54</span><br/>
+I don’t really understand what you’re trying to build. The API is going to be different depending on the registration info provided? The registration info is provided programmatically (by client software) and you want the client to be able to compute the resultant API’s type/interface so static checking can be performed? If so, it sounds like your language needs a specially-crafted type system. The next step would be to show some examples of the types you want to be computed for specific registration info (inputs).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1610199993.482700"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1610067746.465300.html#1610199993.482700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-01-09 05:46</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span>, yes. You've got the right idea, here. The type-system we've designed has several distinguishing properties that make it better for our privacy-focused, semi-structured, editor.<br/>For example, the projection of any type is separate from the type's "registration ID".
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

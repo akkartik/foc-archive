@@ -1,0 +1,124 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1624624587.019900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-25 05:36</span><br/>
+Thinking about node and wire programming of my live coding/synth.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624634464.020000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624634464.020000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-06-25 08:21</span><br/>
+great to have you back!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624634475.020200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624634475.020200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-06-25 08:21</span><br/>
+I see you are joining the church of nodes and wires :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624635898.020400"></a>
+      <a href="../two-minute-week/1624624587.019900.html#1624635898.020400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-25 08:44</span><br/>
+I never went away, I've just been lurking :wink:<br/>I've been updating some trading software I occasionally dip into, and playing with a game idea.<br/>But the bigger project has always been the live coding tool.  I've always wanted to make the synth be wireable, but I needed time to think about it :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624638593.020900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624638593.020900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-06-25 09:29</span><br/>
+This was great! I'm super jealous how slick your UI elements look and how smoothly they animate, now that I've spent some time trying to do similar things. Your bezier curves that you said were "still not quite right" look absolutely amazing to me because you actually handle acute-angle curves. Grey-and-orange is a great color scheme.<br/><br/>Have you considered thinking of the programming model in terms of FRP's behaviors? As I understand it, the values flowing in wires in FRP are neither scalars nor arrays but time-varying series which are powerful enough to model both. To model an array you either make each value in the wire an array or put multiple wires together. A scalar is just a value that doesn't change. You can probably also model hysteresis by introducing how often nodes sample from their inputs, something more hardware-inspired that I'm not sure has been tried in FRP.<br/><br/>I got a lot of mileage out of reading David Barbour (<a href="http://twitter.com/awelonblue">twitter.com/awelonblue</a>) back in the day. Hopefully <a href="https://awelonblue.wordpress.com">https://awelonblue.wordpress.com</a> will come back one day.<br/><br/>Oh, one more thing this video reminded me of: have you looked at the lines community (<a href="https://llllllll.co">https://llllllll.co</a>)? Seems to be the place to be for people building synthesizers and adjacent stuff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624709563.023400"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624709563.023400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-26 05:12</span><br/>
+Thanks <span style="background-color:#ccf">@Kartik Agaram</span> I’ve looked at FRP in the past, in relation to Tidal Cycles which was heavily influenced by it, IIRC. I’ll take another look.<br/>In my current node implementation (for the demos you've seen before), I have 2 distinct types of 'pin'<br/>• Simple data: (bool, int, double, etc.)  Currently these are always 'inputs'; but I don't technically have a limitation on them being outputs too.<br/>• Flow Data - a generic representation of data flowing around the graph.  <br/>Flow data is effectively vectors of simple data types.  For example, 2 audio waves would be represented as:<br/>    ◦ [float, float, float....]<br/>    ◦ [float, float, float...]<br/>In my graph, this means that playing a 3-note chord on an input instrument (for the audio case), may well result in several types of flow data running around the graph, typically containing 3 arrays of data, each array being a single 'frame' of audio; say 512 samples.   Important point - this is output/input on a single 'flow' pin, and contains 3 unique 'channels' of 512 float samples:<br/>FlowData<br/>{<br/>     map&lt;int, vector&lt;float&gt;&gt; channels;<br/>}<br/>It is up to the application to determine what 'Flow' data actually means; but the important point is that the graph is evaluated based on finding the output flow and walking back into the graph to satisfy the data flow through it; by finding dependencies and walking back through the graph to fulfil them before computing each node.<br/><br/>The tricky part is something like an 'Adder' node.  Suppose it wants to take in 2 numbers and produce a result.  In my system, currently, that means that a node outputting a number must convert it to a 1-dimension flow data to output it.  Then the Adder node can read the flow data and extract the number.  This means that you could effectively add 2 arrays of numbers in one compute step in the adder; or multiple entries.  You could also, in theory route 2 seperate flow sources to the same target and multiplex them on arrival.<br/><br/>But I'm still thinking about if it is appropriate to enforce this transform of scalar values to flow data when outputting from a node, and how this feels to the user.  There is a certain uniformity I like if all data flowing through the graph is represented the same way; but then what if you output from a node 3 streams of numbers in the flow data, but the user hooks that up to a single input number in a node.    Which to pick?  Or is that just an illegal operation?  Is a single-entry flow data valid, but a multi entry not?  Essentially the implicit transforms from simple to flow look like:<br/><br/>[Scalar -&gt; FlowData[Scalar Array, size 1]]                                  Example: output=1.0 input=vector&lt;float&gt;{1.0}<br/>[FlowData[..] -&gt; Scalar] (only if flow data is dimension 1?)      Example: output=vector&lt;float&gt;{1.0} input=1.0<br/>[FlowData, FlowData -&gt; FlowData]                                           Example: input=2 * flow data, output=muxed flow data.<br/><br/>There are technical reasons why I like this design, and flexibility reasons; it accomodates the parallel data flow model which works well for audio/graphics.  It is easy to evaluate the graph, and for the user to reason the direction of evaluation.  What it gives up is the simple ability to wire simple scalar values to simple scalar values directly; that operation is allowed by under the covers it is effectively a conversion.<br/>In the UI/demo I am trying to hint at this by having flow data pins sit on the outside of nodes, and conversion from flow data to number be shown as an arrow inside the node next to the number in question.  As well as having arrows for flow data direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624709659.023600"></a>
+      <a href="../two-minute-week/1624624587.019900.html#1624709659.023600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-26 05:14</span><br/>
+Here's a diagram I did; this is actually how some of the synth currently works.  Forgive my handwriting :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624709821.023800"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624709821.023800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-26 05:17</span><br/>
+Oh, and I didn't find much of David Barbour's writing; a shame the blog is down.  I'm a member of lines community too; some good stuff on there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624779301.026300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624779301.026300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-27 00:35</span><br/>
+Regarding the UI; it is basically an OpenGL window, with a thin vector graphics library (NanoVG), and my own custom UI on top of that. The colour scheme is influenced by Bitwig, although I have been adding Theme support so I can play with it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1624779337.026600"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1624624587.019900.html#1624779337.026600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2021-06-27 00:35</span><br/>
+<a href="https://github.com/memononen/nanovg">https://github.com/memononen/nanovg</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

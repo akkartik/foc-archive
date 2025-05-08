@@ -1,0 +1,114 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-10-31 07:44</span><br/>
+<span style="background-color:#ccf">@Everett Pompeii</span> I start a new thread here because I would love to see what you are working on! :slightly_smiling_face: Do you have anything to share about it?<br/><br/>Some time ago I played with CRDT using Rust and WebAssembly! It was more a project to play with the CRDT concepts, and an occasion to try Rust and its compilation to WebAssembly. It was a very basic POC for a offline first text editor. It was for a local conference. Here is a link to code: <a href="https://gitlab.com/ogadaki/sunnytech-2019-wuer">https://gitlab.com/ogadaki/sunnytech-2019-wuer</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604156006.124200"></a>
+      <a href="../share-your-work/1604155452.122300.html#1604156006.124200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-10-31 07:53</span><br/>
+Here is a "dynamic screenshot" of the result for this POC:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604157047.124600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604157047.124600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-10-31 08:10</span><br/>
+(I assume you're asking <span style="background-color:#ccf">@Everett Pompeii</span> — Just posting an @-mention so that they won't miss this new thread in a new channel)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604167001.125100"></a>
+      <img src="https://avatars.slack-edge.com/2020-10-23/1445768371157_24e71f2ba4a9059b8c54_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604167001.125100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Everett Pompeii</b>
+<span style="margin:2em; color:#606060">2020-10-31 10:56</span><br/>
+Great thought on a new thread, <span style="background-color:#ccf">@nicolas decoster</span>!<br/>And I’ll also tag <span style="background-color:#ccf">@Dan Cook</span> if he’s interested in joining in.<br/><br/>Your demo looks super cool! I think it’s a great visual representation of what the CRDT is doing. I’m still very much a novice in the CRDT space, once I get more up to speed I look forward to digging into the code to help me learn :male-technologist::skin-tone-4:<br/>I also have Kleppmann’s Designing Data-Intensive Applications sitting on my shelf waiting to be read.<br/><br/>As for my project, TableFlow, I built a basic dummy demo of it in React if you want to check it out: <a href="http://tableflow.org/studio/flow/#a">http://tableflow.org/studio/flow/#a</a><br/><br/>The motivation behind it is to build a “better Excel” for power users and also software developers who would rather not deal with all the incidental complexity of modern app development for a project with complex logic, ie not just some CRUD app.<br/><br/>There are four core concepts: Tables, Flows, Subflows, and Decisions:<br/>• Tables are the core data type. Depending on how they are configured they can be algebraic data types (ADTs/enums), structs/maps, lists, values, and/or an arbitrary nesting of any of these. Sort of like a statically typed version of JS objects with ADTs and a shorthand for tabular data built in.<br/>• Flows are pure functions. A Flow can be called by any other Flow or via a REST (or possibly gRPC) call to an endpoint from outside of TableFlow. A Flow can contain zero to any number of Subflows.<br/>• Subflows are functions just like Flows, but they can only be called once and by their parent. They’re sort of the opposite of a closure in that scope must be explicitly passed into them. They are very similar to Brian Will’s concept of a “use” function. They help break up Flows both visually and in terms of size/scope. At any point in the future a Subflow can be converted into a standalone Flow if necessary.<br/>• Decisions are DMN decision tables on steroids. They are where conditional logic, Flow branching, and auto-iteration over all the rows in a table happen. Good example of the first two: <a href="https://docs.appian.com/suite/help/20.3/Appian_Decisions.html">https://docs.appian.com/suite/help/20.3/Appian_Decisions.html</a><br/>There would be live data supplied to a Flow by filling in the input Tables. There would be a slider at the top of this input to time travel through the input history. Some of these inputs can be saved as “snapshots” along with their corresponding outputs. TDD would be built in, so every time a change is made, all applicable snapshots are run against the change and its outputs.<br/><br/>Once a run occurs, there would be a built in time traveling debugger. Each piece of computed/output data would have its own slider that jumps between when there was actually a change to that piece of data in the last run. Recursion is possible so there may be multiple time points.<br/><br/>I also want Tables to be reusable between Flows. The software engineer in me really wants to add public and private “Table Subflows” (ie methods) and then I’m like, well why not interfaces too!<br/>I will probably settle for reusable Tables with methods. Having interfaces would be great, but then I remind myself that even power users of Excel aren’t use to being able to write their own functions natively!<br/><br/>The eventual goal would be to build a TableFlow config =&gt; Rust compiler that would spit out a production grade Rust server.<br/>Can you see me drowning in my own ambition yet?  :man-swimming::skin-tone-4::shark:<br/><br/>I played around with doing the UI in Elm, looked at ReasonML, and I’m currently giving Seed (seed-rs) a spin. I like The Elm Architecture for the frontend, but I’m just going to try doubling down on the Rust-&gt;wasm ecosystem and hopefully the wasm DOM API becomes a thing down the road and closes the performance gap.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604224153.129200"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604224153.129200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-11-01 01:49</span><br/>
+&gt; Can you see me drowning in my own ambition yet?  :man-swimming::skin-tone-4::shark:<br/>Yes! I guess people here knows that feeling. :sweat_smile: I guess we are a bunch of futurists swimming or sailing the seas of programming. Sometime feeling like drowning, sometime like surfing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604225096.129500"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604225096.129500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-11-01 02:04</span><br/>
+&gt; The motivation behind it is to build a “better Excel” for power users and also software developers who would rather not deal with all the incidental complexity of modern app development for a project with complex logic, ie not just some CRUD app.<br/>I also think it is an interesting target audience. Not really all end users,  but some that want to do a bit more programming. And trying to create tools for them and also for some "expert" developers is something very interesting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604225294.129700"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604225294.129700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-11-01 02:08</span><br/>
+I like your idea to keep history to make things more explorable by keeping the time dimension. I guess this can become very tricky. I guess you have to find a way to manage the space limit for the history, i.e. when it takes too much resources. For simple use case it can be fine, but when you manage big tables that changes often you will have to remove part of the history.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604243602.129900"></a>
+      <img src="https://avatars.slack-edge.com/2020-10-23/1445768371157_24e71f2ba4a9059b8c54_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1604243602.129900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Everett Pompeii</b>
+<span style="margin:2em; color:#606060">2020-11-01 07:13</span><br/>
+&gt; sometime like surfing<br/>I’ll try and get there! :man-surfing::skin-tone-4:<br/><br/>&gt; And trying to create tools for them and also for some “expert” developers is something very interesting.<br/>This honestly comes from me being a big personal finance nerd, and I once made a spreadsheet that calculates all of my finances, think a personal double sided balance sheet. Coming back a year later though, it made the engineer side want to cry. It was impossible to maintain efficiently, but I also didn’t want to manage an app to do it either. Then as I learned more about the adoption of Functions-as-a-Service, it seemed to really extend the upper limit for the use cases.<br/><br/>&gt; I guess you have to find a way to manage the space limit for the history, i.e. when it takes too much resources.<br/>Yeah, this is definitely an outstanding question. I imagine I will just do a simple set sized FIFO cache to start out, and then down the road I could push to something like IndexedDB (once those bindings actually exist in Rust -&gt; wasm).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1609287051.398700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1604155452.122300.html#1609287051.398700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-12-29 16:10</span><br/>
+I'll have to catch up on this thread some day. Thanks for tagging me!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

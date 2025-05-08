@@ -1,0 +1,582 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-23 04:29</span><br/>
+Hi <a href="!channel">!channel</a>. Anybody here interested in simplifying version control?<br/><br/>The other day I was trying to get some non-programmers to use github for collaborative work on mostly text documents and realized git is really a huge hurdle. So I've been thinking about how version control could be simplified and have a couple of ideas.<br/><br/>Is anybody here interested in that topic and in sparring with me on it a bit?<br/><br/>Also: do you know of any projects trying to simplify version control? I've found in ungit and gitless so far.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553341106.128400"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553341106.128400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-03-23 04:38</span><br/>
+This is interesting.<br/><br/>Which part of the version control you want to simplify?<br/><br/>There is an article you might find interesting: <a href="http://tonsky.me/blog/reinventing-git-interface/">http://tonsky.me/blog/reinventing-git-interface/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553341553.129300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-17/553192434434_19d30218e5859358fde0_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553341553.129300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ville Ilkkala</b>
+<span style="margin:2em; color:#606060">2019-03-23 04:45</span><br/>
+Due to the nature of our platform (using events to describe the application source code and structure) we are somewhat forced to think new ways of doing version control. It would be awesome to hear your ideas!<br/><br/>In ValOS, you can instantiate the entire project, essentially making an copy that recursively inherits everything from its prototype. The prototype of an resource is just a field and can be changed. Further edits to the original will be reflected in the instance. This could be seen as a branch.<br/><br/>Now, someone else instantiates the original project, too. Both users make changes to their own versions, materializing only the properties and medias that they have modified. A sort of merge of these two branches could be done by setting the prototype of one instance to be the other instance instead of the original project. This would include the changes of the other user to the project, but only when they don't conflict with your changes (that have been materialized).<br/><br/>This is only a start and does not cover nearly enough cases, but something like this might be a part of the final version control system. <span style="background-color:#ccf">@Iridian Kiiskinen</span> has some ideas on how to make things work even with Git.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553342182.130100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-17/553192434434_19d30218e5859358fde0_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553342182.130100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ville Ilkkala</b>
+<span style="margin:2em; color:#606060">2019-03-23 04:56</span><br/>
+Another scenario is this: let's say we have a user profile entity that is in production use. Thousands of users have instantiated their profiles from this profile prototype. Modifying the profile could be done either by a) editing the live prototype (which is sort of risky and stupid), or b) making an instance of the prototype, making edits and then setting the prototype of all profiles to be this instance, which is cumbersome.<br/><br/>The third option is to make an intermediate instance of the profile (don't know how to call that..) that acts as a sort of an router and has no modifications to it, but all profiles are instances of it. Then, you can freely make new versions of the profile and when you are happy, just set the prototype of the router instance to be the new version and with a single change all the profiles in the system inherit their non-materialized features from the new version.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553343797.130400"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553343797.130400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-23 05:23</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> Thank you for the article. I agree with Nikita bascially in every single point and that's exactly what I have in mind except I would go a little further and also get rid of <tt>merge</tt>. It doesn't look like he followed-up on this, like turning it into a project, or did he?<br/>What I would love to do it take the technical approach of ungit, the model of Nikita, sprinkle in some Github and turn it into a real nice collaboration tool.<br/><br/><span style="background-color:#ccf">@Ville Ilkkala</span> I love the idea of using version control as an inheritance/code reuse mechanism. For your "changing the prototype" scenario you could for each existing instance decide whether they want to re-base onto the new prototype version or stick with the old one. Where can I find more information on ValOS?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553344503.130600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-17/553192434434_19d30218e5859358fde0_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553344503.130600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ville Ilkkala</b>
+<span style="margin:2em; color:#606060">2019-03-23 05:35</span><br/>
+you can find our project from GitHub: <a href="https://github.com/valaatech/vault">https://github.com/valaatech/vault</a> or check out the video interview with Steve from here: <a href="https://youtu.be/PAAV9tgDbuM">https://youtu.be/PAAV9tgDbuM</a><br/><br/>We are in a process of rewriting the GitHub readme from a brain dump to something a bit more approachable, thanks to feedback from here and elsewhere :slightly_smiling_face:<br/><br/>That's an interesting idea.. one way to do that would be:<br/>a) There is a original prototype<br/>b) Developer makes some new versions<br/>c) The prototype contains a list of references to all versions. The developer adds new versions to this list, them being inherited by all profiles.<br/>d) The user with the instance of the profile can see that list in a UI with something like<br/><pre style="white-space:pre-wrap"><br/>&lt;ValaaScope context={{profile: focus}} array={focus.versions.$V.getRelationsTargets("version")}&gt;<br/>&lt;button onClick={() =&gt; profile.$V.prototype = focus}&gt;<br/>Switch to {focus.versionNumber}<br/>&lt;/button&gt;<br/>&lt;/ValaaScope&gt;<br/></pre><br/>Clicking one of the buttons would switch the prototype of that profile entity to be the one they selected from the version list.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553344751.131100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-17/553192434434_19d30218e5859358fde0_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553344751.131100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ville Ilkkala</b>
+<span style="margin:2em; color:#606060">2019-03-23 05:39</span><br/>
+but with the mechanism in the earlier message, this wouldn't really work, because if I have this router entity for the profiles and all profiles inherit from it, changing it's prototype would affect all users instantly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553345843.131300"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553345843.131300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-03-23 05:57</span><br/>
+Once you store the document as a data structure and not as text to be parsed, you can include unique identifiers for elements in the document which I believe will vastly simplify and improve merging. We definitely intend to explore this in the future in Lamdu (currently there’s no merge support)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553350447.131700"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553350447.131700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2019-03-23 07:14</span><br/>
+in case you haven't seen: <a href="http://www.expressionsofchange.org/">http://www.expressionsofchange.org/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553350519.132000"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553350519.132000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2019-03-23 07:15</span><br/>
+I did an experiment to make branches feel like nested Todo items <a href="https://github.com/stevekrouse/futureofcoding.org/files/1248895/Top-down.programming.assistant.pdf">https://github.com/stevekrouse/futureofcoding.org/files/1248&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553353183.132300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553353183.132300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-03-23 07:59</span><br/>
+It seems like Observable notebooks (online jupyter-like js notebooks) have human-friendly collaboration features:<br/><a href="https://observablehq.com/@observablehq/suggestions-and-comments">https://observablehq.com/@observablehq/suggestions-and-comments</a><br/><a href="https://observablehq.com/@observablehq/fork-share-merge">https://observablehq.com/@observablehq/fork-share-merge</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553353586.133600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553353586.133600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2019-03-23 08:06</span><br/>
+Unison has an interesting different approach, made possible by making the code immutable <a href="http://unisonweb.org/2015-06-12/editing.html">http://unisonweb.org/2015-06-12/editing.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553361805.133900"></a>
+      <img src="https://secure.gravatar.com/avatar/038106c509428014f4312ff180438f77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553361805.133900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Abhinav Asthana</b>
+<span style="margin:2em; color:#606060">2019-03-23 10:23</span><br/>
+We have been doing that as well at Postman. Would love to chat <span style="background-color:#ccf">@Nikolas Martens</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553365020.134100"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553365020.134100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-23 11:17</span><br/>
+We've been working on this topic at Ink &amp; Switch.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553368757.134400"></a>
+      <img src="https://secure.gravatar.com/avatar/b7a68744c2a288f24b931b3f65b832f9.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553368757.134400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>James Koppel</b>
+<span style="margin:2em; color:#606060">2019-03-23 12:19</span><br/>
+<a href="https://gitless.com/">https://gitless.com/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553371987.134800"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553371987.134800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-03-23 13:13</span><br/>
+Darcs / Pijul use so called patch-theory to make changes more first-class citizen. <a href="https://pijul.org/manual/why_pijul.html">https://pijul.org/manual/why_pijul.html</a><br/><br/>Btw just used quite a lot of time this week how we should expose composed versioned resources to non-programmers in our application for technical writers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553372649.135000"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553372649.135000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-23 13:24</span><br/>
+Thanks for the many pointers. This was very fruitful already.<br/><br/><span style="background-color:#ccf">@Steve Krouse</span> expressionsofchange looks very interesting. Gonna check that out in more detail. The WoofJS workflow is pretty close to my preferred workflow in github. Happened more than one that I've created a pull request for a pull request.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553373090.135200"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553373090.135200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2019-03-23 13:31</span><br/>
+Perforce is much simpler to grasp. Git is the better tool, but Perforce is used by non-technical folks in gamedev every day
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553401848.135500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553401848.135500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-23 21:30</span><br/>
+I don't think that you need to reform version control. What you need is a lot less version control. When you look at someone integrating code into 20 files, you are seeing a contributor spraying their code over a wide area. The very second you add a few people spraying code across modules, you get a chaotic situation, where  it is very hard for someone in charge of QA to understand why all these changes  are being done, and whether they interact. The true problem worth addressing the lack of interchangeable parts. Once we have a language with an interchangeable part ecosystem, you can assemble your program out of already polished components, and thus you keep your changes focused and narrow. Once you are touching dozens of files, it starts to get ugly. I personally have never seen a programming team above 12 people work smoothly. Programming is a great deal like cooking; there is a creative element that doesn't permit large group contributions. In this sense i am firmly in the camp of Fred Brooks of Mythical Man Month fame, where he recommends a surgical team structure for coding. I recently compared an electron version of minesweeper with a beads version, and the electron version had over 100 source files vs. 1. So i think improving the language can drastically reduce the amount of fiddling with Git one has to do. But don't get me wrong, I hate most of the version control systems as i almost never go back in time. i use time machine on the mac myself as the version system, and i only dip backwards perhaps twice a year.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553417143.136600"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553417143.136600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-24 01:45</span><br/>
+I agree. Modularity helps. Small team size helps. But I would argue that you still need version control since forks and pull requests are an incredibly useful collaborative model.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553443330.139400"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553443330.139400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2019-03-24 09:02</span><br/>
+&gt; Btw just used quite a lot of time this week how we should expose composed versioned resources to non-programmers in our application for technical writers.<br/><span style="background-color:#ccf">@Niko Autio</span> I’d love to hear about what you discovered, maybe in anew thread 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553465781.140300"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553465781.140300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-24 15:16</span><br/>
+I would also live to hear more any that. Have a hard time imagining "composed versioned resources".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553465910.140900"></a>
+      <a href="../share-your-work/1553340554.128300.html#1553465910.140900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-24 15:18</span><br/>
+Since I couldn't stop thinking about this idea, I drew a little storyboard to visualize it: <a href="https://uzam.github.io/designs/kittyhawk1/usecase.html">https://uzam.github.io/designs/kittyhawk1/usecase.html</a><br/>Curious to hear your comments.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553473427.141600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553473427.141600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-03-24 17:23</span><br/>
+Very cool demo.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553474618.141800"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553474618.141800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2019-03-24 17:43</span><br/>
+<span style="background-color:#ccf">@Peter Abrahamsen</span> <span style="background-color:#ccf">@Nikolas Martens</span> It got a bit long so put something for pastebing (for now): <a href="https://pastebin.com/ZeS6iqVP">https://pastebin.com/ZeS6iqVP</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553530106.142800"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553530106.142800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-25 09:08</span><br/>
+<span style="background-color:#ccf">@Nikolas Martens</span> what do you mean, how would you "get rid of <tt>merge</tt>"? You suggest mandating rebases only? :confused:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553533411.143300"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553533411.143300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-25 10:03</span><br/>
+Yeah I think rebase-only could work. It would be necessary to keep the commit tree understandable. And having a single joining mechanism would simplify the model. When I show git to non-programmers, merging is always the biggest head-scratcher since people think of history as a linear thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553534205.143500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553534205.143500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-03-25 10:16</span><br/>
+Surely you would need to perform merges when you rebase? Resolve conflicts? Removing merges from the UI just means people have to manage them in their heads.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553537053.143700"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553537053.143700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-25 11:04</span><br/>
+Yeah, I mean, conceptually, two changes were made independently and then merged later. It's non-obvious how auto-merging is possible, but in the abstract, combining changes is an intuitive idea.<br/><br/>I admit to having avoided rebasing because<br/>1. I don't understand well enough how it handles merge conflicts, and how to undo if I don't like the result<br/>2. after rebase, the newest commits are "fake" - they contain files whose content (hash) never existed before, so theoretically unit tests could fail on commits that previously succeeded (new commits associated with the same commit messages)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553550183.144500"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553550183.144500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-25 14:43</span><br/>
+Rebasing and merging are not that different. The main difference is that a rebase doesn't keep a reference to the source commits but creates new ones. So conflicts work pretty much the same way, but there are some situations where it get's pretty bad when rebasing many commits with many conflicts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553550379.144700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553550379.144700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-03-25 14:46</span><br/>
+Isn't conflict resolution the biggest reason that merging is a head-scratcher to non-programmers?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553550553.144900"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553550553.144900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-25 14:49</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> I wouldn't call the new commits "fake" though. They are different commits (ie snapshots), but with the same diffs. The old commits are still around even though no branch points to them anymore. And tests could also fail on a merge commit even though they passed on the merged commits. So that situation is very similar.<br/><br/>But yeah, being able to undo any operation like a rebase is definitely a must-have for any software that wants to make version control more accessible. Basically version-control of the version history.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553550760.145100"></a>
+      <img src="https://secure.gravatar.com/avatar/e7db3c1ad975b0355d3047ca8acb7c54.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0006-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553550760.145100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nikolas Martens</b>
+<span style="margin:2em; color:#606060">2019-03-25 14:52</span><br/>
+Yeah conflicts are a big head-scratcher. And they don't go away with rebasing and might even get worse. But I hope that they become simpler conceptually and less of a turn-off. But that will have to be tested big time.<br/><br/>My target is definitely small projects. I always feel like git is hopelessly overpowered for projects smaller than the Linux kernel. But that's why I wanna make it a facade for git so you can get the full power if you need.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553551411.145300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553551411.145300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-03-25 15:03</span><br/>
+To me, I would prefer to treat rebasing as a view rather than a change to the underlying commits.  I mean the ground truth is that the nest of messy commits and a rebase a sort of homomorphism that untangles them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553796053.000500"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553796053.000500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2019-03-28 11:00</span><br/>
+Noms is an interesting versioned, decentralized database for structured data: <a href="https://github.com/attic-labs/noms">https://github.com/attic-labs/noms</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553796136.000700"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1553796136.000700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2019-03-28 11:02</span><br/>
+(was?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554096463.013200"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554096463.013200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-31 22:27</span><br/>
+Was.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554096533.013400"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554096533.013400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-31 22:28</span><br/>
+I think one of the biggest challenges with version control is that the representation is wrong (merging lines of text in a file models code manipulation poorly) and that the tracking is poor (isolated branches communicate change infrequently and with poor fidelity).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554096654.013600"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554096654.013600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-31 22:30</span><br/>
+If you want to do away with more / most of the pain of merging you'd want to be resilient to refactorings like variable renames and code relocation. You'd probably want to be able to track all changes over time and detect the moment conflicts emerged. You might also want to make it much easier to merge changes by detecting possible conflicts in an ongoing way -- "hey, would everything be okay if I merged to master now? if I merged this other branch? are there any branches I'm in conflict with?"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554096691.013800"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554096691.013800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-31 22:31</span><br/>
+Last, if you had all of this and an elm-like language which didn't have the possibility of runtime errors you could merge with a much higher degree of confidence.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554096788.014000"></a>
+      <img src="https://secure.gravatar.com/avatar/53ffd374deb821ab07cdef9f7e321364.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554096788.014000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter van Hardenberg</b>
+<span style="margin:2em; color:#606060">2019-03-31 22:33</span><br/>
+I think the University of Chicago / Sketch 'n' Sketch group stuff is interesting along these lines. I think obviously Elm is doing interesting and important work. I think Dark's work has some interesting promise as well. Last, we've contributed in our own small way with some of the Ink &amp; Switch coding-over-CRDTs work in farm, though there's a lot more to do to prove that out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554103962.014700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554103962.014700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-04-01 00:32</span><br/>
+Just found these two posts:<br/><a href="http://scattered-thoughts.net/blog/2014/05/17/pain-we-forgot/">http://scattered-thoughts.net/blog/2014/05/17/pain-we-forgot/</a> (See the "Change" section)<br/><a href="https://stevebennett.me/2012/02/24/10-things-i-hate-about-git/">https://stevebennett.me/2012/02/24/10-things-i-hate-about-git/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554108587.015200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554108587.015200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-04-01 01:49</span><br/>
+wow that is some pungent criticism. I always knew i didn't like Git, but now i really don't like it at all. Hard to believe that something that messy would become such a popular standard.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554133089.015600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554133089.015600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-01 08:38</span><br/>
+&gt; You might also want to make it much easier to merge changes by detecting possible conflicts in an ongoing way -- "hey, would everything be okay if I merged to master now? if I merged this other branch? are there any branches I'm in conflict with?"<br/><br/><span style="background-color:#ccf">@Peter van Hardenberg</span> I've been thinking about a slightly different problem that feels kinda isomorphic to one part of this one: picking a good time to poke/prod/nag programmers to upgrade a dependency.<br/><br/>One piece of prior art here is the way <tt>pip</tt> will remind you to <tt>pip install --upgrade pip</tt> when you run it. It's never blocking but it does enter the field of vision no matter how much output any individual run is throwing out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554149792.000900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554149792.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-04-01 13:16</span><br/>
+<span style="background-color:#ccf">@Peter van Hardenberg</span> perhaps one reason why we haven't seen a less painful merging tool is the very fact that to be smarter the version control system has to be more integrated with the language/environment.  Still doesn't explain (as <span style="background-color:#ccf">@Felix Kohlgrüber</span>'s links direct) why Git won out over other distributed version control systems.  Maybe between Linux and Github, Git just had critical mass.  I don't like to think that people delight in Git's complexity.  (So says this proud SourceTree user because I cannot be bothered.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554150502.001100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554150502.001100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-01 13:28</span><br/>
+As a personal anecdote, when Git first came out I was using Darcs. I'd never gotten into CVS and Subversion, and I didn't really get into version control until I found a decentralized tool. But Darcs was already starting to seem sluggish for my (fairly puny) repositories. So when Git came out, its sheer speed was sufficient for me to instantly switch. This story seems to fit with the early adoption of Google Chrome as well. Performance is a feature, as they say. (GitHub came <em>much</em> later, and only after it was quite clear that Git was the runaway winner.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554151314.001400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554151314.001400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-04-01 13:41</span><br/>
+Felix's links compare distributed version control (git) vs. centralized repositories (svn) so it's not quite fair comparison; I suspect that the main reason git won over is precisely how its distributed nature enables advanced and expert developer ecosystems (which was one of the central design rationales Torvalds had for git in the first place).<br/>Not requiring commit rights lowers the threshold of making bug fix/contributions - after you know the tools it doesn't make a difference if it takes you 2 commands (5 seconds) or 10 commands (30 seconds) to perform some version control maneuver, but if you need access to repository? That involves other people so we're talking about minutes of realtime and probably several calendar days here. Distributed pays a small price in added command sequence complexity, but it's a price I will personally pay any day.<br/><br/>As for is git essentially better or worse than distributed version control solutions I have no idea as I have no experience. Tried to look for a qualitative comparison between git and mercurial, but couldn't come up with a nice one.<br/><br/>Git ecosystem has a rich variety of gui tools to support it (better and worse), so I'm not really convinced by the arguments that "git command line is bad" is a fundamental argument.<br/><br/>Merging is a <em>hard, hard</em> problem. I second <span style="background-color:#ccf">@William Taysom</span>’s thoughts here: merging only becomes easier if it can be integrated with the language/environment. We're neck-deep in the tradeoff-land once more: powerful, generic, intuitive; pick two.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1554173675.002300"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../share-your-work/1553340554.128300.html#1554173675.002300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2019-04-01 19:54</span><br/>
+FWIW, I spent some time thinking about what version control could mean for narrative text, and came to the same conclusion. The best experience relies on preserving as much of the intent and context of a change, expressed in terms of the kind of work being done (rename variable, reorder sentences, etc). To me, that suggested that the definitions of the various changes that could be performed should be versioned alongside the documents themselves.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

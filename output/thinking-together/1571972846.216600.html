@@ -1,0 +1,919 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:07</span><br/>
+this might be too much for a text-based medium, but can anyone explain to me why macros (eg in a lisp) can’t just be implemented as functions that read data (a parsed file) and return data (another parsed file, transformed) and pass it to the interpreter by overriding its import references/module dependencies to replace the file on disk with the file post-transformation? like isn’t it just middleware for the interpretation process? checking my mental models here
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571973869.216900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571973869.216900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:24</span><br/>
+Certainly. Macros are just glorified search and replace. Whether the process happens entirely in memory or via a stage on disk doesn't seem important. What's important is that the search and replace is specified with -- all its generality -- in the same language.<br/><br/>There are also a couple of mechanical details to get right:<br/><br/><li> Macros are defined in the same files that define functions. The ordering constraints need to make sense.<br/><li> The expansion of macros needs to itself be expanded.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571974134.221400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571974134.221400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:28</span><br/>
+do you think it’s necessary to define them in the same files? i have this crackpot intuition that you can kind of invert the ‘infinite towers of interpreters’ idea from racket (cf. <a href="https://youtu.be/Ywy_eSzCLi8">https://youtu.be/Ywy_eSzCLi8</a> ) or like invert the idea of fexprs from kernel and just have data describe the transformations you’d like to make to other files containing data, provided that you get the execution order right (maybe this is too abstract)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571974628.221800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571974628.221800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:37</span><br/>
+Yeah I've come to believe that a macro is just a function that is applied on the AST and applied early (compile time). Other features are just convenience. E.g. they could have a special syntax for AST pattern matching, and being built-in will apply them at the right time. In fact Nim macros are even described as 'functions' (<a href="https://nim-lang.github.io/Nim/manual.html#macros">https://nim-lang.github.io/Nim/manual.html#macros</a>). In systems without an explicit 'program compilation' phase, the macro idea doesn't exist.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571974965.222200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571974965.222200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:42</span><br/>
+Exactly! Honestly there's not even a real need for "the compiler" to be anything more than "just a function", either. So your program would be functions applied to code, and then fed into a compile function.<br/><br/>Software makes software, and really it's all just functions and data all the way down. So the boundaries between macro &amp; function, code and compiler, etc, is entirely artificial
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571975150.222600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571975150.222600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:45</span><br/>
+You can certainly define macros in a separate place. But you give up some power by not being able to call regular functions when defining macros.<br/><br/>Oh, I am also reminded that f-exprs are an extra level of power and expressiveness, letting you pass macros like functions to higher-order functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571975370.223000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571975370.223000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:49</span><br/>
+So like, mapping a macro over all the elements in a list?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571975412.223200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571975412.223200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:50</span><br/>
+Yup! My lisp used to do this, so kinda shocking that I forgot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571975444.223400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571975444.223400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 20:50</span><br/>
+It's a nice abstraction because you're never saying convert this code and then call it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976511.223600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976511.223600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:08</span><br/>
+A bit of a tangent: if the interpreter is tiny, couldn't the "compiler" just create a program that contains the compiled interpreter, ended the rest of the program as actual LISP lists, and then feeds some initial code into the interpreter?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976577.223800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976577.223800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:09</span><br/>
+That is in fact present in Lisp compilers like SBCL.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976610.224000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976610.224000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:10</span><br/>
+The final binary includes the entire compiler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976712.224200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976712.224200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:11</span><br/>
+Ha :)<br/><br/>I'll bet if one could write such a compiler in LISP, then one could write a LISP program that creates code from code, and feeds the result into a "compile" function, and then there'd be no more distinction whatsoever between macros and functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976767.224500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976767.224500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:12</span><br/>
+Except speed/performance..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976809.224700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976809.224700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:13</span><br/>
+... of compilation? Maybe that's a fair trade for power ... (and I don't imagine that it would be much faster to edit live lists from a running program, because LISP is simple to parse)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976908.225200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976908.225200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:15</span><br/>
+Sure. But if you don't care about performance you could just stick with an interpreter.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571976947.225400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571976947.225400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 21:15</span><br/>
+Bundling the entire compiler can certainly be worse than a raw interpreter for certain programs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571979749.227700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571979749.227700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 22:02</span><br/>
+... unless the point is to replace textual "source code" (and macros) with a living breathing thing that is its own interface for editing itself and ultimately generates (via a compile function) some end product :)<br/><br/>In this case, instead of macros, it could provide ... anything else, perhaps something you wouldn't recognize as "code", and programmatically generate code <b>from</b> it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571979901.228100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571979901.228100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 22:05</span><br/>
+If it's its own interface, why does it need a compile function? Doesn't that disqualify it from living and breathing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571979941.228300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571979941.228300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 22:05</span><br/>
+I don't really follow your statements in the last couple of days. I had questions on the #introduce-yourself thread, but wanted to give the guest of honor some space first..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571980330.228900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571980330.228900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 22:12</span><br/>
+Tying it back to the original topic, my point is that even the compiler &amp; language is non-essential middleware, because it's all just code generating code from other code, so why not just bring it all in to a single program where you have full control?<br/><br/>In that light, a macro really is just a function. The only distinction is whether a function is embedded in the "output" program, or used to generate it. Any function can be both (e.g. mapping over code, but the same map function is also used post-compile)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571980840.229700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571980840.229700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-24 22:20</span><br/>
+What constitutes "single program" for you? A single process with a unified address space? Something else?<br/><br/>Why not go the other direction like Smalltalk and have lots of tiny processes/objects/tiles cooperating?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571984176.230300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571984176.230300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-24 23:16</span><br/>
+I mean "single program" just like it sounds. Like a SmallTalk environment made just for a single product or product suite, all embedded in a single executable program or script.<br/><br/>Everything in it exists solely to support one specific thing being made: The code for the thing, and for compiling it, and for editing &amp; visualizing it, etc. Again, "thing" could be a set of related things, like a suite of products, or different layers of a tiered application (similar to how Dark erases those boundaries)<br/><br/>The general idea is that there'd be something minimal that you clone per use, rather than something like an "operating system".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571986235.231000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-10/691633887223_2b2204b9c98e11f0ad1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571986235.231000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Kavalar</b>
+<span style="margin:2em; color:#606060">2019-10-24 23:50</span><br/>
+in ClojureScript, macros are commonly defined in a different file, self-hosted ClojureScript being the exception, see <a href="https://clojurescript.org/about/differences#_macros">https://clojurescript.org/about/differences#_macros</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571989043.231300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571989043.231300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-10-25 00:37</span><br/>
+Macros are used extensively in Assembler, and one of the key tools is to see a printout of the expanded code ,because complex macros can do unpredictable things. This is the reason why macros which were present 50 years ago in great abundance have gradually withered. There is little interest now in seeing printouts of your code, and people are working more directly with their source code, thus Macros are inconvenient because they force a user to expand the macro in their head. This is really about a super powerful feature that is being disused today, because we don't print code out like in olden days.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1571996685.231700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1571996685.231700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-25 02:44</span><br/>
+Probably the most principled approach to macros is the one taken by Racket, which introduces the concept of "phase levels" (<a href="https://docs.racket-lang.org/guide/phases.html">https://docs.racket-lang.org/guide/phases.html</a>) which is a generalization of the traditional distinction between "compile time" and "run time". You have a multi-step computation in which each step takes the output of the preceding one as one of its inputs. This point of view also covers related approaches such as code generation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572001335.248400"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572001335.248400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-25 04:02</span><br/>
+This classic distinction between compile and run time made me wonder if there are other “times”, and I like the idea of generalizing it. If you think about it a little differently than what Racket generalizes it for, say for a program lifecycle: <br/><br/>1. You design it (think, write code), where the development environment can support you, <br/>2. Then it gets compiled, where a compiler supports you with error detection and optimization (this can be further divided into smaller, more specific steps, which is what Racket does and what you were discussing above in terms of macros), <br/>3. Then there's configuration time, when you start a process with parameters that are not hard coded into the binary but also guaranteed not to change over the process' lifetime, <br/>4. And then there's runtime, which of course could also consist of several distinct phases if you designed it that way.<br/><br/>That reminds me a lot of currying in a functional language, where each curried parameter is the current lifecycle stage’s “state” in a chain from hard coded design time invariances until you get to the runtime parameter for user input in that moment. Ha, game programmers could probably think of each frame as a stage within the broader runtime phase.<br/><br/>Or if you don’t like the functional perspective think of a dynamic program that goes deeper into a stack of scopes, where each scope holds the environment for that particular stage and can access all the environments up the chain.<br/><br/>Does that sound familiar to anyone? Do you know any papers or talks that think of it in this way?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572003120.248900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572003120.248900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 04:32</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I was aware of Racket's notion of phases but hadn't connected it up with code generation. Can you elaborate on that aspect, or give some examples of projects that have used phase separation for code generation?<br/><br/>Macros are to code generation as interpreters are to compilers? That feels like a fertile analogy, though I can't seem to do much with it at 4am.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572003719.249300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572003719.249300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-25 04:41</span><br/>
+<a href="../of-end-user-programming/1572002424.061800.html">../of-end-user-programming/1572002424.061800.html</a> feels extremely relevant to this (great!) thread in particular.<br/><br/>Perhaps it's romanticists and classicists all the way down. Perhaps my preference for keeping it all in one phase is a lack of architecture that's going to bite me over time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572010164.252200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572010164.252200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-25 06:29</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Macros are in-memory code generators. They generate Lisp code from DSLs written in S-expression syntax. Compilers are code generators as well, of course, as are preprocessors and other variants on the same idea. And many compilers have multiple internal phases. So every program is processed by a multi-stage pipeline in which each step is a code generator, and the final output is code for some interpreter (which may be implemented in hardware, called a processor).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572010230.252400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572010230.252400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-25 06:30</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> I see a big difference between the first step, done by humans, and all the others, which are automatized.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572010897.260400"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572010897.260400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-25 06:41</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I can see where you’re coming from and I agree that if you come from a perspective of automation, the design step feels different.<br/><br/>I was looking at it more from a perspective of augmentation and interactivity. All steps offer various degrees of tinkering, even a tool chain has different settings, so the programmer can be involved in every step.<br/><br/>Especially the first step, design, benefits from a toolset which augments that experience. And that is where IDEs could shine much more than they do today. Thinking in the direction of “moldable tools”. On further reflection, that is where this lifecycle becomes an actual cycle I guess…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572011025.262300"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572011025.262300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-25 06:43</span><br/>
+Well, I do realize that I went quite off-topic, sorry. Still happy to hear about any pointers to related material. I can’t possibly be the first person with that view.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572019952.264000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572019952.264000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:12</span><br/>
+Curv has 4 phases, rather than 2. There is the conventional compile phase (macro expansion happens at this time, but macros are only used internally, they aren't user defined). Then conventional run time. Most Curv programs evaluate to produce a shape value. A shape contains a signed distance function and a colour function. In the third phase, these functions are compiled into GLSL shader code, which is run on the GPU in the fourth phase. During 3rd phase compilation, many compile time constants were actually computed during 2nd phase evaluation. So 2nd phase evaluation could be viewed as a kind of partial evaluation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572020512.267400"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572020512.267400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:21</span><br/>
+Collapsing macro and function call evaluation into a single phase is possible, but there is a huge performance penalty. It means that all arguments are passed to functions as uninterpreted syntax trees. A lexical environment is also passed in every function call. Most functions will just evaluate their arguments using the parent lexical environment, but some functions will do weird stuff. For example, <tt>lambda</tt> is just a function in this system, since macros and functions are the same. <tt>lambda(x,x+1)</tt> is a lambda expression which binds the first argument, an identifier, as a local variable in the environment of the second argument, an expression, and then returns an ordinary function.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572020730.267600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572020730.267600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:25</span><br/>
+Collapsing macros and functions into the same concept also imposes an abstraction penalty: it makes it exponentially more difficult to figure out what a program is doing. You can't assume that <tt>f(4)</tt> and <tt>f(2+2)</tt> are equivalent expressions. Brian Cantwell Smith explored these issues thoroughly in his thesis on "3-Lisp", and it is recommended reading for people reading this thread.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572020853.268000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572020853.268000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:27</span><br/>
+The "reflective tower of interpreters" concept, and the general concept of "reflection", comes from Brian Smith's thesis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572020960.268600"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572020960.268600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:29</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Is it this one: <a href="https://www-master.ufr-info-p6.jussieu.fr/2006/Ajouts/Master_esj_2006_2007/IMG/pdf/Smit84.pdf">https://www-master.ufr-info-p6.jussieu.fr/2006/Ajouts/Master&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572021342.268800"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572021342.268800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:35</span><br/>
+That's not the paper I read, but it covers the same ground. I remember a more detailed analysis of why it is impossible to understand and debug 3-Lisp programs, this paper only briefly mentions the issue.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572022184.269000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572022184.269000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-25 09:49</span><br/>
+I read his 1982 PHd thesis. Definitely a mind-expanding experience. Note it is &gt; 750 pages. <a href="https://dspace.mit.edu/handle/1721.1/15961">https://dspace.mit.edu/handle/1721.1/15961</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572028660.273800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572028660.273800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-25 11:37</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Your point of view is definitely interesting to me as well. Macros are a rather opaque way to do program transformations and I have often wondered if a tool-based human-supervised approach could lead to better understandable code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572036160.274400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572036160.274400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-25 13:42</span><br/>
+as long as we’re citing epic papers: <a href="https://web.cs.wpi.edu/~jshutt/kernel.html">https://web.cs.wpi.edu/~jshutt/kernel.html</a> kernel goes into this a lot and the way the red/rebol parser works is very similar
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572036219.274600"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572036219.274600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-25 13:43</span><br/>
+i think if we actually lift the notion of evaluation into like user-land (or even IDE-land), plus work like <a href="https://www.youtube.com/watch?v=Ywy_eSzCLi8">https://www.youtube.com/watch?v=Ywy_eSzCLi8</a> we could maintain different levels of interpretation/compilation and move through them during dev, while only shipping a binary during prod
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572036935.276200"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572036935.276200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2019-10-25 13:55</span><br/>
+And by “epic” you clearly mean epic proportions… jeez… another 190 pages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572037679.276400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572037679.276400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-25 14:07</span><br/>
+yes that was exactly what i meant lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572037681.276800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572037681.276800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-25 14:08</span><br/>
+guess i wasnt too clear
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572037713.277000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572037713.277000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-25 14:08</span><br/>
+just realized i shared the same video link twice—sorry everyone. it IS very cool though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572078727.281500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572078727.281500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-26 01:32</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> Lifting evaluation into user land is probable not that useful most the time, but having it as a debugging option would have helped me a lot in a very few cases. Something else that I would like to get out of black-box compilers is optimization. Many times I have tried to out-guess a compiler and write high-level code precisely in the right way to get the optimization I wanted. This would have been much easier at a lower code level. I'd have loved to have an instant compiler that compiles high-level source as it is edited, and displays lower-level versions in parallel for inspection and editing. Not trivial to do, but so useful!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572104669.283900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572104669.283900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-26 08:44</span><br/>
+hmm. i’d argue that you could look at structural editing as lifting evaluation into user land, especially if you can do vim-style<br/>macros or an extended version of refactoring tools we see with statically analyzing IDEs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572107493.285500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572107493.285500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-26 09:31</span><br/>
+the point there is that you emit a transformed ast (which in the context of this conversation is the same as programming, right?) but you’re doing it like before even compile time
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572107562.287000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572107562.287000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-26 09:32</span><br/>
+could also imagine doing exactly what you’re describing konrad 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572121009.287500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572121009.287500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-10-26 13:16</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> said: "structural editing as lifting evaluation into user land". <span style="background-color:#ccf">@Cyrus Omar</span>’s &lt;hazel.org&gt; is a structural editor, and the LiveLits feature evaluates user code in the IDE in order to visualize graphical values, with the graphics embedded in the source code view. It's a feature that I've also been planning for my Curv project.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572121684.289400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572121684.289400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-26 13:28</span><br/>
+similar: sketch n sketch lets you edit a picture to edit the code to create that picture IIRC. essentially evaluated the new input from the canvas and then replaces it in the source code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572192633.296300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572192633.296300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-10-27 09:10</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> That sounds like an interesting point of view: everything is a code transformation, from user interactions in a structural editor to macros, compilers, code generators, etc. The two categories of transformations would then be meaning-preserving (refactoring, optimization) and meaning-changing (new features, bug fixes, etc.).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572193994.300900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572193994.300900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-27 09:33</span><br/>
+thank you for providing a much clearer explanation of what i was trying to say! i’m going to steal that as my elevator pitch for my research
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572204357.302800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572204357.302800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-27 12:25</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> can i make this my twitter header lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572425309.361000"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572425309.361000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-10-30 01:48</span><br/>
+I'm not sure this is relevant but my background in memory constrained apps with lots of data means that macros have to happen at build time not runtime. An example macro might get the size of N files, take tha max size of those sizes, and check that that size is under some specified max size, then use the size of the largest file to statically allocate a specifically sized piece of memory. There is no memory free to include any of this logic at runtime nor could it be done at runtime since if maxsize(files) &gt; maxSizeAvailale the program will crash. That's something we need to catch at build time and fix the files (take out some data, simplifiy something, etc..). And, even if it could be done at runtime it would be a bad user experience waiting for the system to get the max size of N files adding to the wait time for the app to start.<br/><br/>So at one level I agree it's code transformation all the way down but each transformation stage has a purpose.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572491707.384200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572491707.384200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-30 20:15</span><br/>
+i think you’re exactly right: like with partial evaluation, each stage has a different amount of information/invariants available from the host and user
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572662841.446900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572662841.446900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-01 19:47</span><br/>
+I think everyone can agree on the necessary of different phases of processing (compile time, build time, deploy time, burger time, run time, etc.)<br/><br/>But (per the original topic), the only real difference is WHEN the processing occurs -- otherwise it's all <b>just code</b> with no fundamental difference.<br/><br/>Separating code into different "kinds" of things for each "time" (e.g. functions vs macros) is absolutely NOT intrinsic to that kind of phased processing, although that is certainly <b>one</b> (very convenient) way of doing it.<br/><br/>Practically aside though, there is no reason the same cannot be done with plain old functions that generate code which is then saved off for later execution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572663116.447300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572663116.447300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-01 19:51</span><br/>
+So for Gregg's example, the need has everything to do with separate phases of execution, and nothing to do with macros <b>per se</b> -- although they may have been the best fit or most convenient way to go about it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572670981.450500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572670981.450500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-11-01 22:03</span><br/>
+right, but i think(?) i’m arguing that by generalizing something similar to the infrastructure required for lazy evaluation, we should be able to draw a dependency graph for what code needs to be evaluated programmatically rather than forcing the programmer to determine the staging order ahead of time in a source file
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572686747.466600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572686747.466600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-11-02 02:25</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> I completely agree, but I’d also add that convenience matters very much in practice. And there is one fundamental difference of some macro systems (e.g. scheme-style hygienic macros) to everything else: several phases share the same namespaces for identifiers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572713159.487800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572713159.487800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-11-02 09:45</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> Lazy evaluation is not sufficient to get the equivalent of macros. A lazy function can decide to evaluate an argument or not, but it cannot change the semantics of evaluation. A macro can do anything at all to its arguments. A Lisp macro could implement Fortran with s-expression syntax, for example.<br/>You can probably do something similar to JIT for macro expansion, but it needs to be distinct from function evaluation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572718055.492400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572718055.492400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-11-02 11:07</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> - some languages allow passing around 'unevaluated expressions' where the recipient decides even how to interpret the expressions. E.g. lisp fexprs, red/rebol blocks etc. Do you think these are equivalent to macros?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572723978.000900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572723978.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-11-02 12:46</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> Yes, those are equivalent to macros, but differ in details.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572725749.003100"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572725749.003100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-11-02 13:15</span><br/>
+that’s kind of what im describing as a “generalization of lazy evaluation”—the value of the unevaluated code expressions themselves could be created via a function that produces code only when demanded
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572725761.003500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572725761.003500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-11-02 13:16</span><br/>
+might be too far in abstract-land, though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572741495.025300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572741495.025300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-11-02 17:38</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span>: "the only real difference is WHEN the processing occurs -- otherwise it's all <b>just code</b> with no fundamental difference. Separating code into different "kinds" of things for each "time" (e.g. functions vs macros) is absolutely NOT intrinsic to that kind of phased processing"<br/><br/>I disagree. The reason that stages exist is that <b>we need different representations of the program at different times</b>. That's why there are different kinds of things in different stages.<br/><br/>In early dialects of Lisp, FEXPRs were the original version of macros, and there was no stage restriction. Everything happened in one stage. This meant you couldn't compile Lisp, you could only interpret an abstract syntax tree. In order to compile Lisp into efficient machine code or VM code, the compiler <b>changes the representation of the program</b> to a form that runs faster, but the compiled form doesn't support macro expansion. So it was necessary for Lisp to add a macro expansion stage. When FEXPRs are restricted to running in the macro expansion stage, they are called MACROs.<br/><br/>The reason that Curv has so many stages is that a Curv program transitions across <b>5 different representations</b>, and certain operations on code are only possible on certain program representations: source code -&gt; VM code -&gt; shape value -&gt; GLSL shader program -&gt; GPU machine code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572743139.025500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572743139.025500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 18:05</span><br/>
+Sure, convenience is definitely good. But just purely to answer the original question: Yes, the boundaries between compile time and run time, and functions and macros, etc, is completely 100% artificial.<br/><br/>Super practical, successful, proven, convenient, etc? Absolutely! But fundamental or inevitable? Absolutely not!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572744026.026400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572744026.026400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 18:20</span><br/>
+Just watched that video about collapsing towers of interpreters -- great stuff! Thanks for sharing!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572744782.026600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572744782.026600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2019-11-02 18:33</span><br/>
+I feel that I've given a good basic argument, with several examples of where the boundaries between stages (such as compile time and run time) are fundamental and inevitable. You all don't know Curv, but the FEXPR example is pretty well understood.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572746041.027000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572746041.027000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 18:54</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> - I 100% agree, but with a <b>heavy</b> footnote that "such as" is not the same as "which can only possibly be accomplished in terms of".<br/><br/>And that's my entire point: that the separation and phases are necessary, but there's nothing fundamental about how or where that separation is defined, or who or what gets to draw those lines.<br/><br/>When you do it yourself in your own code, it's just code transforming code. But if it's mandated by a separate program beyond your control, then it's called "a compiler" (and the hard lines are called a "programming language"). <b>That</b> part is not <em>fundamentally</em> necessary.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572748454.031800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572748454.031800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 19:34</span><br/>
+As for different representations (e.g. the "3-lisp" complexity), that sounds like a real mess to have to deal with, so that advice is very appreciated!<br/><br/>But also, I see no reason that wisdom cannot be applied in any context (e.g. not just a compiler) where code manipulates / generates other code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572748746.033300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572748746.033300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-02 19:39</span><br/>
+I'm actually thinking that Racket is probably the best compromise at the intersection of all this. It enforces separation through layers of "language", but lets you be in control of defining them how you like.<br/><br/>Hypothetically, I bet you could even make your own language/syntax for specifying languages ... though I'm honestly not sure how practical that would actually be.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572777058.052000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572777058.052000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2019-11-03 02:30</span><br/>
+Words like “necessary” and “inevitable” refer to tacit requirements. A Turing-complete language doesn’t need any add-on for doing computations, but additional requirements can make macro-like processing phases necessary. I see such features as a form of modularization. Macros can be considered compiler plugins, for example, but also as tools for implementing DSLs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1572841533.100400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1571972846.216600.html#1572841533.100400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-03 20:25</span><br/>
+Good point. I guess we're taking about "necessary" in the context of any ahead of time processing, or ahead of time code transformation/generation
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

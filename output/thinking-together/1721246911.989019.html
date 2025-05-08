@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-17 13:08</span><br/>
+Thinking about Schematics vs. Code. [This began as a short reply to <span style="background-color:#ccf">@Stefan Lesser</span> regarding my take on electronics schematics in another thread.]<br/><br/><a href="https://open.substack.com/pub/programmingsimplicity/p/2024-07-17-thinking-about-the-game?r=1egdky&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true">https://open.substack.com/pub/programmingsimplicity/p/2024-0&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721491624.629439"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721491624.629439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-20 09:07</span><br/>
+Thanks <span style="background-color:#ccf">@Paul Tarvydas</span> for this detailed explanation with a nice example!<br/><br/>There's one aspect I find missing from the discussion: CPUs. Early CPUs, the ones for which our languages, compilers, etc. were designed, have no accessible parallelism (and the very early ones no parallelism at all). There's a single instruction stream. In that universe, function-based programming did not any additional synchronicity constraint.<br/><br/>Today, all CPUs and GPUs have some level of parallelism, but it's not under the control of the software. If I have a four-core processor, I can run up to four independent threads. That's a pretty severe constraint on asynchronicity in software as well.<br/><br/>So I wonder how we could possibly get to your dream situation of "as many asynchronously working subsystems as our design requires" with today's processors and no software layer for multithreading on top of them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721555013.669599"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721555013.669599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-21 02:43</span><br/>
+The issue of CPUs is addressed, but, maybe not with enough brutality<br/><br/>There’s approximately 60+ truly-asynchronous processes on the 1972 Pong schematic, but no CPU. The design employs massive parallelism and real internal asynchronousity.<br/><br/>In 2024, we consider 8-ish cores to be a marvel. The cores share memory, so they cannot even be truly asynchronous.<br/><br/>That’s some 50 years later. Something is wrong with this picture.<br/><br/>A CPU was originally meant to be a simple sequencer circuit that was not reentrant. There is no reason to make CPU’s multi-threaded, other than co$t. In 1950, it was too expensive to own more than one CPU, so human brain-power was wasted on inventing and adding software to make CPUs multi-threaded. Today, we have access to very cheap hardware actors - Arduinos, Rasberry Pis, etc. (cheaper yet, if you discard Linux and reclaim internal chip space).<br/><br/>N.B. “central” is a bad word these days. We probably want DPUs (distributed processing units).<br/><br/>I previously tried to write about hardware actors in <a href="https://guitarvydas.github.io/2024/02/17/Hardware-Actors.html">https://guitarvydas.github.io/2024/02/17/Hardware-Actors.html</a>.<br/><br/>So, one might imagine a reprogrammable electronic machine (avoid the use of the word “compute-er”) to be a collection of 1,000s of cheap hardware actors on-a-chip, where only one of them is a big honking Linux blob for running existing bloatware and for backwards compatibility.<br/><br/><span style="background-color:#ccf">@Konrad Hinsen</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721654626.253929"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721654626.253929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-22 06:23</span><br/>
+Thanks <span style="background-color:#ccf">@Paul Tarvydas</span>, that confirms my suspicion. Are you aware of any projects to create such massively asynchronous devices? All I remember having seen in this space is the MIT Connection Machine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721724106.887819"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721724106.887819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-23 01:41</span><br/>
+I am aware of, but, haven’t deeply explored… Chuck Moore’s GA144 (<a href="https://www.greenarraychips.com">https://www.greenarraychips.com</a>), LLMs, internet, Dave Ackley’s T2 Tile project, the human body, blockchain, transputers (<a href="https://en.wikipedia.org/wiki/Transputer">https://en.wikipedia.org/wiki/Transputer</a>), quantum computing, neural nets (and Bart Kosko?). LLMs are based on simple synchronous technology, but, to my understanding the real secret sauce is the zillions of weights derived from access to the New Library of Alexandria and a massively parallel version of the game of Plinko. <span style="background-color:#ccf">@Konrad Hinsen</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721744932.334319"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721744932.334319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-23 07:28</span><br/>
+Interesting case study!<br/>(I <a href="https://adventofcomputing.libsyn.com/episode-48-electric-ping-pong">heard about Pong circuits</a> but haven't seen them)<br/><br/>I wonder what you'd say about Scratch/Snap!'s  programming model — it's a bit closer to circuits by running many small loops in parallel, each belonging to a single sprite.<br/>E.g. here is someone's <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=r4356th&amp;ProjectName=Pong%20Game%20Hard%20Version&amp;editMode&amp;noRun">1-player pong</a>.<br/><br/>The UI doesn't offer "everything on one page" view, you have to click specific sprites (Ball, Paddle, ...) in bottom right, but for the most part that helps understanding.<br/>(There is 🗋-&gt;Export summary... but it loses the spatial organization)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721746300.056629"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721746300.056629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-23 07:51</span><br/>
+But I feel Pong has unusually good fit for a circuit.<br/>It'd be harder to do say a word processor on circuit,  and very tempting to base around a CPU, no?<br/><br/>Even simple tweaks to the game, like having a variable number of balls in flight, become harder to do in pure HW, or at least harder to keep nice isomorphism between circuit parts and problem parts.<br/>I suppose I'd put the ball positions in addressable RAM, and make the ball logic iterate over them in a loop (with a counter).  Sequencing such things quite quickly starts tempting to add a micro-controller...<br/><br/>[However, much of our instincts that SW is easier than HW is rooted in the ease of changing SW. That's the root of the "soft-" vs. "hard-" words after all!  But if you take schematics as inspiration for visual programming, that's irrelevant.]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721747074.243809"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721747074.243809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2024-07-23 08:04</span><br/>
+Also, I find it hard to share your enthusiasm for async parallelism.  Again, it might fit <em>some problems,</em> but I've seen too many concurrency bugs to see it as a "pro"...<br/>However it's curious that Functional Reactive Programming claims to avoid many concurrency glitches, yet connects together pieces of code quite similarly to circuits :thinking_face:<br/>Maybe it's less about sync/async and more about styles of composition?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721754090.522599"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721754090.522599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-23 10:01</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I prefer to stay in the realm of digital computation, so I accept neither the human body nor quantum computing. But the other examples are worth exploring!<br/>I agree that LLMs deserve much better adapted hardware than today's GPUs, but I suspect that everyone is so busy training their LLM to beat their competitors' LLM that nobody has any time to think about the fundamentals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721788582.263319"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721788582.263319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-23 19:36</span><br/>
+<span style="background-color:#ccf">@Beni Cherniavsky-Paskin</span> Interesting thoughts. “… but I've seen too many concurrency bugs …” I’ve come to the conclusion that a lot of concurrency bugs are due to self-flagellation cause by the use of the wrong notation / paradigm.<br/><br/>FTR, I emphasize async because I perceive it to be underemphasized, but, I think that a hybrid of async+sync is the goal. To me, async enhances composition.<br/><br/>…more mulling-over required…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1721788766.411469"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1721246911.989019.html#1721788766.411469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-23 19:39</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I would guess that many of the items on my list don’t fit your expectations for usable massive parallelism. I am peripherally interested in these items because they all smack of parallelism in some way, and, I’m interested in ideas. The objective of T2 is different from my interests, but, it appears to use massive parallelism anyway. I forgot to mention Ceptre. I mention the human body, since I meet monthly with someone who is into robotics and my overwhelming thought is “but, but, this is just a combination of 500 little stepper motors”. I, also, forgot to mention a commercial effort for heath monitoring and drug testing race horses (ugh, I can’t remember the name at this moment, it’s buried in my email archive somewhere). The guy strapped 36-ish little rPis/Arduinos running micro-Python onto each horse and networked the electronics together. He was hoping to use blockchain to store unalterable health records. He was monitoring horse health and creating notifications if any irregular health symptoms were detected in the middle of the night.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

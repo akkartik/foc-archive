@@ -1,0 +1,391 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-06-30 18:59</span><br/>
+Hi everyone, I’ve been thinking about using hypertext instead of text files as the medium to represent programs <em>and their executions</em>.<br/>Programs contain a lot of cross references that are resolved only after the parser/runtime have had a go. IDEs also redo this parsing work to simulate the same cross references for easy editing. The idea is to embed these references in the medium itself. So, get rid of import statements, file boundaries and such. Each textual reference - function name, type name, any identifier really - would be link to the object it references. Unlike strongly structured environments, this allows some flexibility in representing partial and possibly invalid structures. I’m interested in implementations you know of that match this idea.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688177006.799399"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688177006.799399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-06-30 19:03</span><br/>
+About “and their executions”: after execution of a metaprogram, and during execution of the program, many references are resolved - perhaps this can also be represented in the same medium. The “generated program” or “execution trace” could form new hypertext objects that reference the original or other new hypertext objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688177431.749399"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-05/1929520000754_d80d37c53cd4ee3c8f5f_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688177431.749399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kevin Greer</b>
+<span style="margin:2em; color:#606060">2023-06-30 19:10</span><br/>
+Your idea reminds me of Jonathan Edwards' Subtext system: <a href="https://www.subtext-lang.org/">https://www.subtext-lang.org/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688177695.357569"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688177695.357569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-06-30 19:14</span><br/>
+Ah yes thanks for bringing that up. I’m familiar with Subtext and in fact using the same structure for both the execution trace and the program is influenced by <a href="https://vimeo.com/228372549/8f5e39658b">Reifying Programming</a>. The difference here is using hypertext objects as the underlying structure. Subtext tends to have more strict tree like editors.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688179265.293859"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688179265.293859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-30 19:41</span><br/>
+I assume hyperlinks here would be just a mechanism to construct trees?<br/><br/>I've long thought there should be a dual of <tt>link</tt> called <tt>inline</tt>: you don't need to click, you just see the contents of the destination in place. A combination of <tt>link</tt> and <tt>inline</tt> might subsume lots of ideas like Subtext and Brief (<a href="https://youtube.com/watch?v=R3MNcA2dpts">https://youtube.com/watch?v=R3MNcA2dpts</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688184545.967029"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688184545.967029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-06-30 21:09</span><br/>
+Thanks for the video - will check it out.<br/>Hyperlinks are not mechanisms just to construct trees. Even in basic cases references form DAGs and even cycles. eg here’s a trivial DAG:<br/><pre style="white-space:pre-wrap">class T: ...<br/>def f1(a: T): ...<br/>def f2(b: T):<br/>  f1(b)</pre><br/>The <tt>T</tt> annotation in both function definitions link to the class definition. The <tt>f1()</tt> call links to the <tt>f1</tt> function definition.<br/>Any mutually recursive definition will form cycles.<br/>Note also the hypertext objects here are individual definitions and dont impose any language semantics.<br/><br/>Not sure I understood the <tt>inline</tt> idea. Are you talking about transclusion?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688184701.593059"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688184701.593059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-30 21:11</span><br/>
+Yeah, everything is in Xanadu.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688184839.712609"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688184839.712609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-06-30 21:13</span><br/>
+Indeed I think to <tt>inline</tt> any refererence makes sense. Any hard link should be inline-able by the reader. I don’t think the writer has to decide if the link should be inlined or not.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688184952.214569"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688184952.214569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-06-30 21:15</span><br/>
+There's advantages both ways. Writer deciding can construct experiences.<br/><br/>I mostly care about when writer == reader, so the question is moot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688193883.502389"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688193883.502389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-06-30 23:44</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> One ingredient of your idea is extreme late binding. That's one of the principles of Smalltalk, and Smalltalk IDEs implement some of what is being discussed here, though only within the universe of the image.<br/><br/>Example: Glamorous Toolkit lets you see the definitions of methods you call inline, which is very convenient. Your outline of metaprograms defining programs which again contain dynamically resolved references is pretty much what people call metaprogramming in Smalltalk.<br/><br/>Pharo's relatively recent slot mechanism would allow implementing more general types of links, but I haven't seen this done.<br/><br/>Smalltalk users wouldn't call their code "hypertext" but rather "object graph", as much of the code structure never gets expressed as text. But that seems a minor technical detail to me.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688211948.038639"></a>
+      <img src="https://avatars.slack-edge.com/2023-06-28/5494950400022_766cfa303a60ec4d84aa_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688211948.038639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kongwei Ying</b>
+<span style="margin:2em; color:#606060">2023-07-01 04:45</span><br/>
+I very much like this idea, it's so intuitive that I just thought, geez why isn't it done like that already
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688249425.972249"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688249425.972249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-01 15:10</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> interestingly I was thinking one aspect of code-as-hypertext is <em>earlier</em> than usual binding. References get bound to objects when written. This is even earlier than in plain text compiled languages (identifiers in a text file are not bound at all). However the bindings-as-written are not the final bindings. During the course of meta-program and program execution they get rebound. Eg a reference to an abstract type may get re-bound to a concrete version of that type. Evolution of these bindings can be represented in the same structure.<br/>Smalltalk / Newspeak etc are a key influence behind the above idea. In Smalltalk we write classes and their methods directly, not worrying about file boundaries. I was thinking why the method body is text and not hypertext? Maybe new versions of GT/Pharo do this better. GT still seems layered on rather than native.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688253408.334309"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688253408.334309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-01 16:16</span><br/>
+Where do you imagine the hyperlinks going to, other definitions? Many of my apps have that ability, Teliva and some of the Freewheeling stuff, and I'm wondering if the ability to click on hyperlinks is all we're discussing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688253846.867889"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688253846.867889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-01 16:24</span><br/>
+Regarding the runtime execution of a program, the bottleneck is performance which feels orthogonal..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688258729.660449"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688258729.660449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-01 17:45</span><br/>
+&gt; Where do you imagine the hyperlinks going to, other definitions?<br/>Yes and also derived definitions (eg objects created via meta programming) and even runtime traces can link back to the definition objects.<br/><br/>&gt; I’m wondering if the ability to click on hyperlinks is all we’re discussing.<br/>Good question. Clickable links between source definitions exist in many environments. Even vscode lets me do that with most of my programs. However this is typically implemented as a layer on top of the underlying media (text files). The links may not match always actual semantics, but more importantly they do not navigate to <em>derived</em> definitions or connect runtime objects with definitions. In fact derived definitions are not typically available in the dev environment at all (smalltalk envs are the exception).<br/><br/>The idea is to use hypertext as a unifying interaction model between the person and the system - for hand written definitions, derived definitions as well as runtime traces. The hypertext ux would include clickable links and any other features we want to include eg inline content.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688260474.718849"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688260474.718849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-01 18:14</span><br/>
+I think I understand now. The runtime traces is hard to do performantly, but for everything else, yes this sounds like a nice reasonable goal. My stuff isn't it yet; you can't click on any function to go to its call, as a very basic example. The metaprogramming, I gather you want to be able to click on a macro call and see its expanded output. All this seems doable. I think I'm headed in a similar direction but wasn't aimed quite here. Now I might be. :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688261232.042339"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688261232.042339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-07-01 18:27</span><br/>
+FWIW: this idea fires a set of neurons in me, labelled “GOTO”.<br/><br/>## Synopsis<br/>GOTO v1 - assembler GOTO<br/>GOTO v2 - message passing<br/>GOTO v3 - CPS - Continuation Passing Style<br/>GOTO v4 - URL<br/>All versions of GOTO suffer from the problem of so-called “structured”-ness.<br/>### Random Notes<br/>• Kinopio is GOTO v4<br/>• Message Passing is my current sweet spot.<br/>• most current <b>programming languages</b> are based on the Synchronous Pattern, i.e. they handle GOTO v1 and GOTO v3 but fumble GOTO v2 and GOTO v4.<br/>• “come from” is just GOTO in reverse, i.e. <b>backlinks</b><br/>### Lessons From Org Charts<br/>## Further Thoughts<br/><a href="https://publish.obsidian.md/programmingsimplicity/2023-07-01-GOTO">https://publish.obsidian.md/programmingsimplicity/2023-07-01-GOTO</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688267306.869679"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688267306.869679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-01 20:08</span><br/>
+&gt; The runtime traces is hard to do performantly<br/>Agree. This could be opt-in via a debugging / “capture trace” mode. Hypertext that links back to definitions seems better than explicit print style debugging.<br/>&gt; The metaprogramming, I gather you want to be able to click on a macro call and see its expanded output<br/>Yes. I also think it would be nice to have the generated definitions available in searches. Derived definitions may also be produced from external schemas or import time execution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688268275.855239"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688268275.855239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-01 20:24</span><br/>
+Paul - thanks for sharing. My initial thought is that what you are calling GOTOs I usually call forms of coupling. It’s the essential quality of computers - specifically the couplings in the system simulate couplings in the real world or other models that we are trying to represent.<br/>I’m not sure how URLs are v4 - I assume you mean some kind off identifier that represents a semantic concept (like in RDF?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688282392.993429"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688282392.993429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-02 00:19</span><br/>
+&gt; I was thinking one aspect of code-as-hypertext is <em>earlier</em> than usual binding.<br/>and then:<br/>&gt; However the bindings-as-written are not the final bindings.<br/>I am not sure I understand your bindings. Are they mutable or not? Or maybe mutable initially, then frozen?<br/><br/>As for GT, yes, it's a new tooling layer on top of a standard Pharo object graph. The bindings presented in the UI thus reflect the current state of the system, but everything can change at any time.<br/><br/>&gt;  I was thinking why the method body is text and not hypertext?<br/>Names would then point to what? There is nothing but names and objects in the Smalltalk object graph (if you see literals as special names).<br/><br/>&gt;  In fact derived definitions are not typically available in the dev environment at all (smalltalk envs are the exception).<br/>And the big practical issue in Smalltalk is that you get only the derived definitions, with no provenance tracking unless the metaprogramming framework has its own mechanism for that. But then, that's not a fundamental issue, it's part of the tooling layer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688318668.116859"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688318668.116859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-02 10:24</span><br/>
+&gt; I am not sure I understand your bindings. Are they mutable or not? Or maybe mutable initially, then frozen?<br/>This would be PL dependent but typically I imagine no in-place rebinding. However a form of rebinding happens by creating new versions of the hypertext objects. Eg the hand edited source objects could only be rebound by the user as part of editing. In the metaprogramming stage the system would create derived versions of these objects where some of the bindings have changed. For instance a binding to an abstract type in a source object may be resolved to a concrete subtype in the derived objects. So the PL semantics would also restrict what kinds of “rebindings” happen. Eg “constants” would be bindings that don’t change in any derived objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688319741.564619"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688319741.564619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-02 10:42</span><br/>
+I think you might run into situations where you want a thing to hyperlink to multiple possible targets. The current binding yes, but sometimes also the previous binding, or the previous edit. Or the edit history.<br/><br/>Does your point against <tt>inline</tt> apply also to the very idea of hypertext? Why does the writer need to create hyperlinks, can the reader just have tools for all these transforms? That's basically the world I live in today. My IDE takes me to a word's definition with F12, all its references with S-F12, all its callsites with C-k C-t. Perhaps we just need to do more of this?<br/><br/>Now I want to link to an old thread of Lisp Machine screenshots, but it's sadly stuck in Twitter.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688325171.005499"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688325171.005499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-02 12:12</span><br/>
+&gt; I think you might run into situations where you want a thing to hyperlink to multiple possible targets.<br/>Yes. I imagine viewing the source and various derived objects as distinct hypertext objects where you are able to go back and forth and follow the chain of provenance.<br/><br/>&gt; Does your point against <tt>inline</tt> apply also to the very idea of hypertext? Why does the writer need to create hyperlinks, can the reader just have tools for all these transforms? That’s basically the world I live in today.<br/>Good question. While it does bother me that the tooling overlaid links are an approximation (and poorer for dynamic langs generally), the bigger issue is the lack uniform navigation across derived definitions and source definitions.  I <em>want</em> to see the rendered macro, the concretized generic method and so on. I want to deftly bounce between those and the original source definitions.<br/><br/>BTW your earlier counterpoint of writer designed experience via <tt>inline</tt> is valid. I think the reader should still have the ability to customize it further (eg collapse an <tt>inline</tt>).<br/><br/>A related point is that the reader doesn’t get to customize the text in text-file-as-code. For example if the writer chose to write <tt>import pandas as pd</tt>, the reader has no choice but to see <tt>pd.foo</tt> scattered across the file. If this was hypertext-as-code, it’s easier for tools to offer customized rendering, eg “show the fully qualified name everywhere”, or “show the short name, but blue for <tt>pandas</tt>” and so on. In theory this is possible with text-file-as-code but more challenging, given that tooling is trying to simulate the PL semantics to extract high fidelity references.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688363769.240389"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688363769.240389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-02 22:56</span><br/>
+&gt;  I <em>want</em> to see the rendered macro, the concretized generic method and so on.<br/>Now that I understand your idea, I actually want more; I want to <em>edit</em> the rendered macro, or manually send it through a domain-specific transformer. I want those changes recorded, and when later I edit the upstream code, I want to be able to merge the changes made at different levels.<br/><br/>Example use case: optimization. Quite often, optimization is in conflict with abstraction. If I get to edit both the abstract and the concrete code, I can have my cake and eat it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688364252.706259"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688364252.706259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-02 23:04</span><br/>
+&gt; Now that I understand your idea, I actually want more; I want to <em>edit</em> the rendered macro, or manually send it through a domain-specific transformer.<br/>Hear hear!<br/>I think about a flow where you edit a derived object directly and the system shows how the change can be translated back to the source objects. There could be more than one possible source edit and the system would give you a choice. More importantly, it can show you the effect of that change on <em>other</em> derived objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688368417.823879"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688368417.823879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-03 00:13</span><br/>
+Not sure that can be done, and if it can, I am not sure that's always what I want. Staying with the "rendered macro" case as a concrete situation, the change to the derived object can require a change to the input text, to the macro, or to both. In my optimization scenario, the most likely required change is adding a special case to the macro, making it harder to understand. I'd prefer keeping the special-case code attached to the special case.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688371071.737869"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688371071.737869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-03 00:57</span><br/>
+Fair point. The way I think about separating optimizations from “core logic” is by using separate definitions for each. Both would be source definitions, ie hand edited. The core logic would specify the essential structure + logic and another overlaid definition would describe the memory layout and other “encoding specific” details. Typically even in high level languages the encoding is automatically derived. This requires us to mix core logic and optimization details. However this idea is still vague and easier said than done. I think of these definitions as “domain definitions” and “encoding definitions”.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688379464.582099"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688379464.582099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2023-07-03 03:17</span><br/>
+Unison language perhaps went farther than others in early binding (by merkle tree hash) to specific definitions:<br/><a href="https://www.unison-lang.org/learn/the-big-idea/">https://www.unison-lang.org/learn/the-big-idea/</a><br/>Dunno if they do anything in reified-execution direction.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688420320.431729"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688420320.431729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2023-07-03 14:38</span><br/>
+Great idea <span style="background-color:#ccf">@Shalabh</span>. I also do “edit-time binding”. The problem is that this line of thinking naturally leads to structure editing of code and that is both hard and taboo.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688445462.628399"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688445462.628399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2023-07-03 21:37</span><br/>
+It’s less taboo in this forum :smile:. It is hard. By using hypertext, I imagine the editing experience may be more fluid - somewhat similar to Notion but without formatting and more auto-linking.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688454125.692439"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1688454125.692439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-04 00:02</span><br/>
+While waiting for someone to come up with a really good implementation of structure editing, plain text editing with automatic structure highlighting plus structure-based operations is already very nice. Emacs modes for Lisp are a good example (paredit, rainbow parentheses, ...). Glamorous Toolkit goes one step further: code is re-parsed at every keypress, and small visual annotations are added for linking to whatever is appropriate. What's nice about this is that you don't have to learn the structural stuff if you don't want to. You can just work at the text level. It's opt-in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689087507.222709"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688176784.223859.html#1689087507.222709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-11 07:58</span><br/>
+It's not exactly what you're talking about, but html might actually work for aspects of this. <a href="../share-your-work/1689083336.878249.html">../share-your-work/1689083336.878249.html</a><br/><br/>There's a part I didn't fully describe which is a system to swap out nodes with alternate representations which know how to turn themselves back into ast nodes. For example, replace all function calls to <tt>my_color_picker</tt> with <tt>&lt;input type=color&gt;</tt>  &lt;- can think of these almost as "visual/dynamic macros"
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

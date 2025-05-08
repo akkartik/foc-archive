@@ -1,0 +1,1099 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 00:28</span><br/>
+Has anyone been searching for an "ideal" model for information? By this I mean an <em>abstract</em> model (not a DRAM/disk representation) with a vocabulary that allows a <b>human</b> to read, specify, and understand information with ease. We have existing models like RDF ("Semantic web") and property graphs (e.g. Neo4j), and in programming languages we have object graphs (OO languages), trees (functional languages), and tables (relational DBs). None of these models seem to have arisen as "the one true answer", partially because they are all difficult to reason about when operated on programmatically (or so I claim). I want a model for information that allows us to easily understand both <b>static</b> information structures (snapshots) and <b>programmatically-maintained</b> information structures (an evolving, stateful system).<br/><br/>The ideal model for information might define concepts like "pointing" (edges) or "nesting" (groups), and each concept will have a clear meaning. The ideal model will also have a semantics for <b>mutation</b>, e.g. you will know when you define a relationship like <tt>A points to B</tt> whether <tt>B</tt> can be deleted or modified in some way, and how this affects the <tt>points to</tt> connection. The model will also have a notion of <b>stewardship</b> of information, i.e. it should be easy to observe the <b>source</b> of a piece of information, and to know whether it is mutable or just a snapshot. (Yes, I believe the ideal model for information should have a vocabulary to describe distribution and trust).<br/><br/>Has anyone here thought hard about this? I've been churning on it for a month or two recently, and for many months over the last few years; I can't proceed with my own PL project until I get fundamentals like this right, since the model that I develop will fundamentally determine what a "program" even is. I think a key reason why discovering "the future of programming" is so hard is that we think too much about code and not enough about information. <b>Code exists purely to transform information</b>, and if you don't make strides on models for information then I don't think you can make strides on programming languages.<br/><br/>I have some ideas about a model, but I have no insights from others to validate it against. My conception is a very specific hybrid of mutable <b>graphs</b> and immutable ~trees~ <b>nested sets</b> that distinguishes between <b>descriptions</b> and <b>references</b>, and it seems very amenable to compact 2D representations, unlike most graphs. I won't describe it further just yet, since I don't want to skew anyone's responses.<br/><br/>Anyway, I'd love to hear from other people who have been thinking about this kind of stuff.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595489342.204400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595489342.204400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 00:29</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> From your recent posts, perhaps you have some insight? :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595491014.205200"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595491014.205200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-07-23 00:56</span><br/>
+The ideal model is a user defined n-ary tree… or well, a list :slightly_smiling_face:<br/><br/>My long-term project is a tree editor that does exactly that - purely transforms the data.<br/><br/>You have a tree T, you write a transform function f(t)-&gt;g, you got a projected tree of G now, but inside I keep them connected via references - the model isn’t “G”, the model is “f(t)-&gt;G”. This way, you grow your codebase from the model outwards, expanding it into each category you need (sql schema, model, viewmodel) via transformations, or by creating new trees that reference stuff from any of the existing trees. That way, you mutate your original model and all the references get the mutation transformed to their own projection.<br/>I keep it all inside a large model called Lattice, that is a basically a huge graph that connects over multiple dimensions (each transformation adds a new dimension to the graph)<br/><br/>Didn’t yet come to edges as mutation permissions, since I feel that isn’t a part of the pure model, but of a “projection”.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595492207.205600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595492207.205600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 01:16</span><br/>
+Your "transform function" is the same as "derived state", a database "view", and a "projection", right? We have a lot of names for it. That's an example of a <b>programmatically-maintained</b> information structure as I called it earlier. What about <b>static</b> structures? How would you encode a text document, or a (static) spreadsheet, and how do you derive meaning from the encoding? Spreadsheets in particular do not have a clean representation as a list or a tree. You'd have to do some shoehorning.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595496823.206900"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595496823.206900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-23 02:33</span><br/>
+What do you mean by "information"?<br/><br/>In the most general form, this is the core question of ontology, which philosophers have been wrestling with for millenia. Slightly more restricted, you can look at GOFAI approaches to this problem, like cyc, which have largely failed to bear the kind of revolutionary fruit promised.<br/><br/>How general are you trying to be? What are you trying to achieve?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595496893.207100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595496893.207100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 02:34</span><br/>
+This is a fairly deep topic for which a simple answer is impossible. A few fingers pointing toward the moon:<br/><br/>• It would be best for such a system to store the data in a structure that "changes" through accretion rather than mutation (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.8253&amp;rep=rep1&amp;type=pdf">practical example</a>, much emulated since). If every modification point is essentially a snapshot, you get time travel and other useful semantics for free (Datomic is a recent database that uses this approach).<br/>• Up-front schemas are brittle over time. The less you can get away with saying about structure, the better off you will be. (A special case of the more general advice to "design for change").<br/>• The approach whereby everything is a logical assertion (i.e. triples, sometimes called "Subject/Predicate/Object", sometimes "Entity/Attribute/Value", depending on the culture of the speaker) is the most flexible I've been able to come up with yet. This underlies RDF (and TripleStores generally), and is currently in vogue among those who have encountered datalog, mostly via Datomic.<br/>• It's very useful to be able to specify additional automatic behavior over triples via some kind of metadata, in the best case also specified in triples. (RDF via OWL, not Datamic.)<br/>I have many differences of taste with the place where RDF ultimately went, but there's loads of good stuff in there too. You can find out more about the history of the "data as assertions" approach by reading up on <a href="https://en.wikipedia.org/wiki/Knowledge_representation_and_reasoning">Knowledge Representation</a> (as distinct from data representation), <a href="https://en.wikipedia.org/wiki/Frame_(artificial_intelligence)#Frame_language">Frame-based Reasoning</a>, and so on. This stuff is one of the threads that leads to object orientation, though much less emphasized in a modern context than the strand motivated by simulation.<br/><br/>The "immutable tree on disk" stuff comes from generalizing database journals, which for me starts in the 80s with <a href="https://en.wikipedia.org/wiki/Log-structured_file_system">Log Structured File Systems</a>. Today there's loads of work on immutable logs for all sorts of applications, especially with the recent popularity of cryptocurrencies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595498962.207400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595498962.207400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:09</span><br/>
+Wow this thread has already brought out so many fellow travellers who I didn't know were exploring the same terrain as I am! The history of my own project over decades is intimately tied to my search for the "perfect" data and data transformation approach, in search of the "purest" model of programming - which is one that is most cognitively aligned. Aligned to the cognition of a .. ahem .. "average human", so probably less to that of the "average programmer"!<br/><br/>So for me it is important to step back and look at common patterns of cognition - how we organise our perception of reality. One approach is to read Roget's Thesaurus! All the important cognitive concepts are there, organised in a specific idiosyncratic way. There are many other "meta-ontology" approaches, as have already been listed here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499136.207600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499136.207600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:12</span><br/>
+I could start listing out what I believe are essential "reality modelling primitives" as you already have done yourself. For me, where I am right now in my journey, that is basically: identity of things, properties of things, relations between things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499223.207800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499223.207800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:13</span><br/>
+At a more abstract level, you have symbols of value, order of those symbols and their aggregations, bags/sets of symbols. You have named properties that can have values.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499346.208300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499346.208300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:15</span><br/>
+So, as you can probably deduce, I've settled on something that looks like objects that have unique identity, which are bags of properties in the form "property name: property value". Property values are just symbols (text really) or ordered lists of symbols but can also be links to other objects by identity - relations between objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499417.208600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499417.208600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:16</span><br/>
+One issue that really bugs me is that I can't extract a single representation of order! There is order in my properties (I don't need that but I want it). There is order in my lists of property values, and there is order in the direction of the link pointers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499495.208900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499495.208900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:18</span><br/>
+If you want to make it attractive to humans it needs to be built out of concepts that humans have "hardware support" for.<br/><br/>Sometimes there's a tendency to seek "elegant" solutions which use the minimum possible number of concepts, whereas I think it's often more natural to expand the number of concepts, even if introduces "redundancy".<br/><br/>For example, you can describe a bijection between XML and JSON, that would involve translating JSON lists into a something you can describe in XML such as ["one", "two", "three"] becomes &lt;list-item index="0"&gt;one&lt;/list-item&gt;&lt;list-item index="1"&gt;two&lt;/list-item&gt;... or something.<br/><br/>You could say that XML is a more elegant way to represent information, because it is based basically only on the concepts of Containment, Naming and Properties. But because I believe that humans have "hardware support" for many more concepts, such as Sequences, I think that JSON is actually easier and more natural (for humans).<br/><br/>So basically my only input would be to be sceptical of mathematical beauty if the format is intended to store information relating to the human world.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499638.209400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595499638.209400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:20</span><br/>
+There is a list of things that have been observed in <b>every</b> human culture (Donald Brown's Human Universals) and it is surprisingly long. Unfortunately it doesn't have much on the way of numbers (only the numbers 1 and 2) as some cultures are almost completely innumerate. It does have quite a few logical operations like Not, Or etc
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595500028.209700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595500028.209700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:27</span><br/>
+<span style="background-color:#ccf">@S.M Mukarram Nainar</span> By "information" I just mean data with associated meaning. I refrained from using the word "data" because it's a machine-oriented word and I don't want people to start talking about conventional data structures and pointers. I want to focus on the human interface, not the machine representation.<br/><br/>I'm not too concerned with standardizing ontologies or AI right now. I'm more concerned with allowing humans to group a bunch of symbols together by hand or programmatically in a way that makes sense for their own understanding. I'm designing a programming language, but unlike almost everyone in the last few decades, I'm not taking "arrays" or "objects" or "algebraic data types" or "databases" or "relations" for granted: I'm trying to figure out, from complete scratch, what information structures are easiest for people to <b>think with</b> when they are integrated into a complex system (e.g. a distributed app). I'm trying to be as general as I can, but my domain is "programming", taken broadly.<br/><br/>I want a model for information that allows users to encode information like "Bob has a car with 4 wheels" in the form that is most useful to their specific application. In a company database the car might be an immutable fact with an associated <b>date</b> and <b>source</b>. You might then tell me that the right model for encoding information about cars is <b>the relational model</b>. However, in a video game the car might be an entity with a <b>position</b> that changes over time, and so we need to be able to talk about the idea of <b>change</b> and the distinction between <b>descriptions</b> (where the description itself doesn't "change" as time passes) and <b>references</b> (where the entities referred to can change).<br/><br/>The question of "how do I model information" may seem trivial (or "solved") at first glance, but the moment I ask that you don't treat conventional data structures as <b>axioms</b> ("we already figured it out, just mix these existing things together and follow best practices"), it becomes incredibly deep.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595500993.212400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595500993.212400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:43</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> I've liked the idea of "accretion, not mutation" in the past. But I'm worried that making it a requirement in a programming system is going to lead to space consumption problems for certain use cases. How do you get around that, if you aren't restricting your application domain and user base?<br/><br/>I agree that it's wise to limit unnecessary structure: scenarios where a relationship is specified with some kind of directionality/asymmetry that isn't inherent. I've been calling this "incidental order", and it's one of my biggest concerns. I've been inspired by Datalog, though I've come to a conclusion that mere relations (including as triples) aren't expressive/intuitive/"easy" enough as the <b>sole</b> information structure for for general-purpose programming*. I think it's <em>part</em> of the answer though. Do you believe otherwise?<br/><br/><li> I probably wasn't explicit that I want a model for information that can be used ubiquitously throughout a computation, not just as a "final output".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595501060.212600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595501060.212600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:44</span><br/>
+And thank you for the links! I'm going to chase them up later.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595502489.212900"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595502489.212900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:08</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> Careful! :slightly_smiling_face: The age old practice of modeling human mental processes with first order logics has not gone very well. Even something as seemingly straightforward as object identity is quite fraught in practice: <a href="https://en.wikipedia.org/wiki/Ship_of_Theseus">https://en.wikipedia.org/wiki/Ship_of_Theseus</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595502541.213100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595502541.213100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:09</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span><br/>&gt; where I am right now in my journey, that is basically: identity of things, properties of things, relations between things.<br/>How do you distinguish between properties and relations? Is the fact that I'm "holding my tea cup" a property of myself, or am I just in a relationship with my tea cup?<br/><br/>&gt; At a more abstract level, you have symbols of value, order of those symbols and their aggregations, bags/sets of symbols.<br/>What is a "symbol of value"? I don't quite understand that term. And you seem to recognise both <b>sets</b> and <b>bags</b>? I've always found those to be in contention with one another, and so I've (for the meantime) concluded that if a user is in a scenario where they want a bag (which should be rare), they can simulate it with a set quite easily. The converse is not possible, though.<br/><br/>&gt; So, as you can probably deduce, I've settled on something that looks like objects that have unique identity, which are bags of properties<br/>I've currently settled on two notions that together can act like a conventional object. The first is something I'm tentatively calling a <b>picture</b>, which is a <b>set</b> with an exterior label (I call it the <b>topic</b>) that contains <b>symbols</b> and/or further pictures (these are called <b>subtopics</b>). These can be used to form the "descriptions" I was hinting at earlier; they are immutable value types. If you want a picture to be mutable (and thus behave like an object), you can stick it in a <b>workspace</b>, which is the unit of mutability. Workspaces are identified (and thus referenced, and queried) by the aforementioned symbols. A workspace's state evolves by a <b>rulebook</b> (a set of <b>rules</b>), which updates a workspace's picture in response to <b>events</b>. I plan to base the semantics of rules on logic programming. The end result will be something like "nested Datalog", though there is no literature that matches the model I described above.<br/><br/>Picture topics replace the need to have a special notion of a statically-specified "attribute", because the topic can itself be any value. This should hopefully make meta-programming possible, but at the very least, I hope it leads to a very minimalist (and intuitive) semantics.<br/><br/>All of the above is subject to change, of course! Given my current track record, I wouldn't be surprised if I find some major flaw in this kind of architecture.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595503300.214000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595503300.214000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:21</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> In terms of storage, the natural thing to do in a log-structured environment is to have a "cleaner" that purges no longer referenced old versions subject to some policy. In the paper I linked, we built the system to purge whatever was no longer linked. In another system one might have a policy of "versions older than a year to which no one holds a dangling pointer". In either case, I would strongly encourage you <em>not</em> to consider practical matters of performance or storage efficiency at this stage. Go a bit mad, follow untrodden paths, find weird things!<br/><br/>As for expressivity/ease of triples, one would expect a system that can construct other representations on top of triples for ease of use. What that looks like in your domain is a very open question. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595503559.214200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595503559.214200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:25</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> I'm definitely good at going mad! It's my perpetual state of being :slightly_smiling_face:. Thank you. I'm going to keep pondering on all of this!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595503733.214400"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595503733.214400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:28</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> which paper are you talking about exactly? I was on the verge of implementing a cleaner, “Interdimensional black hole” so to say that would purge empty references in the background, but couldnt decide on when to run it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504167.214700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504167.214700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:36</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span><br/>&gt; One issue that really bugs me is that I can't extract a single representation of order!<br/>If you make any breakthroughs on this, let me know. I'm still trying to figure out how to represent sequences (lists, priority queues) and trees (e.g. family trees, or any other <b>domain-relevant</b> tree structure) in a <b>non-hierarchical</b> manner, such that users can perform arbitrary traversals (in any direction) and queries. My big constraint here is that <b>I want to ensure traversals will always terminate</b>, so I need there to be some measure of progress associated with the traversal rules. Another challenge is <b>multi-dimensional ordered structures</b>, for example, a spreadsheet! How can one describe a traversal across a spreadsheet? Every cell in a spreadsheet is ordered in two dimensions! My current line of investigation is to determine whether all kinds of ordering can be exposed as numberings, and sequence manipulation is manipulation of those numberings, i.e. a list might look like <tt>{(c,1), (a,2), (t,3)}</tt> and a priority queue might look like <tt>{(c, -12), (a, 7), (t, 34)}</tt>. I'm thinking of going deep and figuring out if lists and trees can be treated as <b>spatial data sets</b> and manipulated geometrically.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504622.215300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504622.215300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:43</span><br/>
+&gt;  How do you distinguish between properties and relations? Is the fact that I'm "holding my tea cup" a property of myself, or am I just in a relationship with my tea cup?<br/>it's a property of you, the link to the cup, and a property of the cup, back-linking to you, since both of you care about the holding! Other links may be one-way: the puddle has a link to the sun that's warming it and evaporating it, but the sun couldn't care less about the puddle
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504758.215500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504758.215500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:45</span><br/>
+That seems like a bit of an arbitrary distinction though, right? How do you formalize who "cares" about a relationship? How does it affect how a user models their application?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504764.215700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504764.215700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:46</span><br/>
+&gt;  What is a "symbol of value"? I don't quite understand that term. And you seem to recognise both <b>sets</b> and <b>bags</b>? I've always found those to be in contention with one another, and so I've (for the meantime) concluded that if a user is in a scenario where they want a bag (which should be rare), they can simulate it with a set quite easily. The converse is not possible, though.<br/>"3.2" "up" "red".<br/>set/bag: just recognition that ordered lists sometimes don't need order, but have to be laid out somehow in space, which means the order is incidental. I don't think this is a problem though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504811.216000"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504811.216000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:46</span><br/>
+"who cares": it's up to you as the modeller
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504925.216300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504925.216300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:48</span><br/>
+This thread is piling up and I need lunch.. :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595504976.216500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595504976.216500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:49</span><br/>
+What are your measures of success? To be programmable by techies or normals?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595505073.216700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595505073.216700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:51</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> I take the approach of aggressively GCing old states/versions: if you want to model history, you do that explicitly yourself
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595505154.216900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595505154.216900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:52</span><br/>
+On order (e.g. spreadsheets): that's a whole thread in itself
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595505160.217100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595505160.217100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:52</span><br/>
+I'm getting overloaded. Time for lunch
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595506697.217400"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595506697.217400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:18</span><br/>
+<span style="background-color:#ccf">@Ian Rumac</span> This <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.8253&amp;rep=rep1&amp;type=pdf">paper</a> describes one such implementation. We used multiple threads of execution. One of the benefits of the overall architecture is that multiple readers can continue running without any locking while writes are streaming in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595507675.217600"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595507675.217600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:34</span><br/>
+So ... fuelled up now.. :smile:<br/>Spreadsheets: well, tables, well... again it depends on the semantics of the table: for example, a list of objects can form a table with the common property labels as either row or col headers, and all the property values in the grid. If you have a genuine case of 2D tabular data - e.g., an f(x,y), then the order you select (x then y or y then x) only matters for optimisation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595507779.217800"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595507779.217800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:36</span><br/>
+funny, can't think of an example of f(x,y) as a table, where col headers and row headers are either both symbolic or both ordinal .. can you?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595507941.218000"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595507941.218000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:39</span><br/>
+(a 2D lookup table where row and col symbols are values not "property names")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595508200.218200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595508200.218200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:43</span><br/>
+&gt;  If you make any breakthroughs on this, let me know. I'm still trying to figure out how to represent sequences (lists, priority queues) and trees (e.g. family trees, or any other <b>domain-relevant</b> tree structure) in a <b>non-hierarchical</b> manner, such that users can perform arbitrary traversals (in any direction) and queries. My big constraint here is that <b>I want to ensure traversals will always terminate</b>, so I need there to be some measure of progress associated with the traversal rules.<br/>why non-hierarchical? how does that help with traversal termination?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595508319.218400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595508319.218400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:45</span><br/>
+&gt; I've currently settled on two notions that together can act like a conventional object. The first is something I'm tentatively calling a <b>picture</b>, which is a <b>set</b> with an exterior label (I call it the <b>topic</b>) that contains <b>symbols</b> and/or further pictures (these are called <b>subtopics</b>). These can be used to form the "descriptions" I was hinting at earlier; they are immutable value types. If you want a picture to be mutable (and thus behave like an object), you can stick it in a <b>workspace</b>, which is the unit of mutability. Workspaces are identified (and thus referenced, and queried) by the aforementioned symbols. A workspace's state evolves by a <b>rulebook</b> (a set of <b>rules</b>), which updates a workspace's picture in response to <b>events</b>. I plan to base the semantics of rules on logic programming. The end result will be something like "nested Datalog", though there is no literature that matches the model I described above.<br/>&gt; Picture topics replace the need to have a special notion of a statically-specified "attribute", because the topic can itself be any value. This should hopefully make meta-programming possible, but at the very least, I hope it leads to a very minimalist (and intuitive) semantics.<br/>This is what prompted my question above: who are your target audience? Is this going to be intuitive to everyone, if it's non-techies you're after?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595508369.218700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595508369.218700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 05:46</span><br/>
+(iow maybe you could draw a diagram with examples! :smile: )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595509502.219300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595509502.219300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:05</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> "Has anyone..." asked in the place where a good fraction of us have.  :wink:  After playing in this space for twenty years, I'm not a believer in an ideal model.  What is ideal will depend on the task at hand.  What is better is having systems that you can readily shift between.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595509697.219500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595509697.219500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:08</span><br/>
+You know you're in bad programming place when a conceptually straightforward shift proves difficult.  On realizing that instead of having one of these things, you want to be able to shift between three different kinds. which will now require six months of developement work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595509786.219700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595509786.219700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:09</span><br/>
+Also today via Hacker News, I was pointed to Terry Tao talking about mathematical notation, which is of course a model for the underlying notions.  <a href="https://mathoverflow.net/questions/366070/what-are-the-benefits-of-writing-vector-inner-products-as-langle-u-v-rangle/366118#366118">https://mathoverflow.net/questions/366070/what-are-the-benef&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595509928.220000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595509928.220000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:12</span><br/>
+&gt; What are your measures of success? To be programmable by techies or normals?<br/>Definitely "normal people". Unusual folks like us can focus on developing the infrastructure that implements humane programming systems. Of course there's still going to be concepts that need to be learned and practiced for a person to develop competence.<br/>&gt; Is this going to be intuitive to everyone, if it's non-techies you're after?<br/>Once learned from effective teaching materials, and with the aid of effective visualisations, yes, I hope it will be intuitive. I actually think I can map it to everyday representations like nested dot points and tables. But first I have to figure out the semantics I want.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595510222.220300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595510222.220300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:17</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span><br/>&gt; funny, can't think of an example of f(x,y) as a table<br/>The data that people <em>store</em> in a spreadsheet is usually tabular, but the spreadsheet <em>itself</em>, as a <b>graphical artifact</b>, is most certainly a function f(x,y) from row/column number to datum. Navigating a spreadsheet using a keyboard requires locating successor/predecessor cells within each axis. So a spreadsheet is perhaps better termed a <b>grid</b>, which one could argue is the generalization of a sequence to 2D.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595510415.220600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595510415.220600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:20</span><br/>
+&gt; why non-hierarchical? how does that help with traversal termination?<br/>Those are orthogonal, but the reason for eschewing hierarchy is to avoid a situation where a user specifies a data structure, and later realises that they can't express the query they want because the data is "ordered" in the wrong way. Then they change the structure or add a new one. Hierarchical data structuring always leads to this pain.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595511569.228600"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595511569.228600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:39</span><br/>
+Been thinking about this problem for the last year or so, and I’ve ended up somewhere I didn’t intend so this may not be an answer you’ll like.<br/><br/>I don’t think there is any single representation that has all the desirable properties you’re looking for, <b>but</b> not only do I think that’s okay, I think we can do even better by moving up a level and instead look for a representation that can itself represent the more desirable representations. If we take a hypergraph or metagraph, we can use it to represent sets, lists, trees and acyclic graphs, etc, etc. And thus can embed structures with desirable properties if we accept a base representation that has few if any of the properties we would like.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595512211.229000"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595512211.229000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:50</span><br/>
+We're gonna need some examples to chew on. :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595513403.240000"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595513403.240000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 07:10</span><br/>
+I’ll pull out some references from my research library when I’m home, but in the meantime I’ll put a couple things forward. <br/><br/>There is a partial order to the generalisation of structures such that hypergraphs [1] are at the top, a subset of hypergraphs form a directed graph, a subset of directed graphs form an undirected graph, and this pattern follows down to trees, sets, lists, and so on.<br/><br/>There are many possible semantics for these structures and I’ve yet to see much work here as most of it is towards proving certain properties of these structures. Category theory provides useful properties but certainly doesn’t translate directly to nice semantics for an actual end-user system.<br/><br/><br/>1. This is not quite true, as metagraphs are more general though not yet well understood or defined. And also typed <a href="https://rcor.me/papers/typed-graph-theory.pdf">graphs are more general than un-typed graphs</a>. (Sorry for all the Greek!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595513674.245300"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595513674.245300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 07:14</span><br/>
+I’d add that I’m not proposing that this is the best way to interact with a system, and there are places where natural representations do not always fit in a machine-oriented way, such as functions, n-dimensional arrays, etc. But in these places there are natural representations that can be used in part to interact with them. I.e. representations of grammars for strings (not the data type, just ordered sets of symbols) along with logics, type systems, etc given an appropriate semantics and grammar.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595519560.246300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595519560.246300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 08:52</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> Idk, I'm not really being sold on the hypergraph thing yet. I've never seen an information model based on manipulating graphs that feels "good" and "intuitive" for general-purpose applications, and if that's not your point, then I'm not sure what value you're proposing they have. Mathematical formalization takes a backseat to user experience in my world.<br/><br/>Also, I can actually model hypergraphs quite easily in the information model I briefly described above (labelled nested sets). I'm not sure why I'd want to, though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595521463.256700"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595521463.256700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:24</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> he's saying that if you use hypergraphs as your canonical representation, all other structures are reduced to views and mutation rules over that hypergraph. This gets you the property that <span style="background-color:#ccf">@William Taysom</span> was talking about that it is trivial to go from one representation to another. It also gives you the flexibility to create "good" and "intuitive" interfaces on top without changing the underlying model.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595521567.258200"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595521567.258200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:26</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I agree, mathematical formalisations should take a backseat to user experience a lot of the time, and also agree manipulating graphs doesn’t feel good for general purpose applications, at least not yet. My point (which by all means you can ignore!) is that it may be useful to build the information model at a slightly higher level than your planned use-case, which may help de-emphasise finding a perfect representation which you may wish to tweak later.<br/><br/>I think there’s lots of merit in sticking to your intuition and discovering the emergent properties of your system [1]<br/><br/>I bring up these points mostly as exploratory, and to help support the idea of separating the model from the internal workings of computers or current computer systems.<br/><br/>1. many great ideas happened this way, Unison for example discovered many great consequences only after deciding their basic principles of content-addressed immutable code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595521749.259800"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595521749.259800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:29</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> yes that’s exactly it, well put 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595522737.260600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595522737.260600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:45</span><br/>
+if your goal is to go after end users and also be truly general purpose, I think you'll likely end up on a hypergraph. People do not naturally think in strict structures, they think in very loose, just in time structure. As several people have said in here, that means you need to flow seamlessly between representations and allow for partial/incomplete ones to still be useful and to link to completely different views that color things in a bit more.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595522816.260900"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595522816.260900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:46</span><br/>
+This is what I've been thinking about for the last several years, and haven't gotten all that far. One of my goals is to provide an intermediate format for converting/proxying between systems speaking different languages (immediately commercially useful and helps overcome network effects). I think my most interesting idea at the moment is that data is a program (under a suitably restricted interpreter), that outputs itself, or parts of itself identified by an argument (e.g. treating a hash map as a function from keys to values). This also helps with one of my long-standing goals to ease mixing of manually and procedurally generated data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595523083.261300"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595523083.261300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:51</span><br/>
+I thought about hypergraphs for a while, albeit when I was a lot younger and stupider, and my conclusion was that I'd rather go with a fundamental structure that makes it easy to implement hypergraphs. To me that looks more like a logic database or triple (tuple?) store.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595523188.262600"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595523188.262600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 09:53</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> that first goal of yours is one I’ve been pursuing for a while for the exact same reasons! Have you made progress you’d be willing to share?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595524234.262900"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595524234.262900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-23 10:10</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> haha, not really. I've spent the last several years building up ideas and tearing them down when I realize they're not general enough. I am confident at this point that the data store needs to be an active participant to support things like API translation proxies, and that solving the problem of Naming Things is important (tracking identities referenced in different ways in different representations). Ask me again in a year. :D <br/><br/>Have you already read the Functorial Data Migration peoole's work?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595529545.267500"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595529545.267500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 11:39</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> I hadn’t but will check it out, it looks compelling. I’m assuming <a href="https://arxiv.org/abs/1009.1166">this</a> is the work you’re referring to?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595530330.268000"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595530330.268000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-23 11:52</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> yep. I think they've built a company on their ideas, too. IIRC they still had to do some weird hacks that made me think it needed more work to be nice to work with in the real world, but definitely interesting. I need to read them more closely at some point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595532317.269000"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595532317.269000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:25</span><br/>
+Oh, thanks to you guys I now know that what I was doing is a hypegraph :smile: IIRC my hypergraphy was basically a  store of mostly maps of &lt;ID, Value&gt; and &lt;Type/Dimension/GraphID, &lt;ID, NodeData&gt;&gt; . Guess I was calling it wrong the whole time :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595532911.269200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595532911.269200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:35</span><br/>
+I had to look up hypergraph, but I'm still confused about why it's not just the same modelling approach as .. JSON?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595532933.269400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595532933.269400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:35</span><br/>
+Or really just relations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595534162.273000"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595534162.273000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:56</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> Relational models impose some more strict structure over your data in the form of tables. In graphs and hypergraphs the vertices/nodes and edges/lines are first class citizens. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595534317.273500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595534317.273500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:58</span><br/>
+relations in 6th normal form are a good practical representation for hypergraphs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595551088.278600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595551088.278600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-07-23 17:38</span><br/>
+Amazing thread. Been slow churning on this for years with nothing to show for it. Anyway, recently found this paper which may be of interest - tries to define a 'conceptual graph' that represents info of how the user sees it, without the storage representation details: <a href="https://pdfs.semanticscholar.org/2ae6/ac8fc13710d9c086c0e5cb952eef52c9b3cd.pdf">https://pdfs.semanticscholar.org/2ae6/ac8fc13710d9c086c0e5cb952eef52c9b3cd.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595552295.284400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595552295.284400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2020-07-23 17:58</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I’ve been thinking about similar things for a while.<br/><br/>What I see now is (obviously?) graphs are the only, truly extendable &amp; fractal like structures.<br/><br/>Fractal like: which also means the minimum we can do with the “Graph Information” on a the “simplest level” is also the maximum we can do with it on “higher levels”. With that in mind I feel like the direction to is to build “Views” on the top of the “Graph Information” - which Views themselves are going to be Graph based entities. Also, we can say these Views would act like filters to reduce the noise of “all information” and deliver the proper context.<br/><br/>So after that, my answer is: just simple, pure Graphs, but a new question arises: how to build Views on them - even on multiple levels…<br/><br/>I just don’t see ANY other idea which can’t be translated to that approach. It seems to me it’s the alpha and omega.<br/><br/>It’s not accidental RDF node-edge-node triplets and stuff like that emerged and ontology is full of that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595552328.285500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595552328.285500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-23 17:58</span><br/>
+this thread is amazing. i’ve been working on this since i started hoarding popular science magazines in middle school and wanted a way to organize them lmao. lately i’ve become convinced that whatever structure you settle on is going to have to be expected to be in an “incomplete” state, and that there’s some kind of dual relationship between data and computation that needs to be leveraged (thinking about issues like caches and garbage collection as a UX feature rather than an infrastructure bug). i’m working on a really stupid version of this stuff in json and will be posting in #share-your-work and #two-minute-week, and i would be delighted if any of the people in this thread ruthlessly criticize where i end up!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595554174.286700"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595554174.286700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:29</span><br/>
+When <span style="background-color:#ccf">@Chris Granger</span> says "6th normal form," it more or less means "all hash tables" with array keys as needed and does a great job of capturing the dependencies of the form for every <em></em>_ and <em></em>_, you can have a <em></em>_.  Correct me if I'm way off base.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595554975.287000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595554975.287000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:42</span><br/>
+Yep! You can also think of it as triples where the entity can be a composite key. This gets you to true atomic units of data, reducing any further would cause information to be lost. The important thing that this captures is properties on hyperedges - e.g. something like marriage where the key would be two people and maybe the value would be the date or number of people in attendance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555333.287200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555333.287200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:48</span><br/>
+I think my "nested labelled sets" conception is just a particular manifestation of a 6NF DB, with the only difference being it has a notion of <b>scope</b> and <b>modularity</b> that allows you to easily shuffle chunks of data around. <span style="background-color:#ccf">@Chris Granger</span> this is like your scope-limiting ~bag~ "database" notion in Eve (I re-checked the name), except you can nest them inside each other.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555567.287500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555567.287500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:52</span><br/>
+yeah, we ended up calling them databases. We regretted adding them and removed them right after 0.2. The problem was that it became very confusing to figure out where things were and should be. Namespaced tags/attributes ended up working much better for us.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555692.287800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555692.287800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:54</span><br/>
+You have to have a boundary at some point though right? If your PL supports distributed apps you don't want to accidentally query some fact from a server in some Japanese village somewhere. At what point do you hit a "bucket" of data?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555816.288000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555816.288000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:56</span><br/>
+you would bring those in as namespaced tags, so #foo vs #japanese-village/foo
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555851.288200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555851.288200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:57</span><br/>
+And every query must draw facts from a specific namespace?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595555899.288400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595555899.288400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 18:58</span><br/>
+you can arbitrarily union them together within a query, you can also bind them to some common tag and just query that tag
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595556015.288600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595556015.288600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 19:00</span><br/>
+Isn't that the same as an Eve 0.2 "database" if you add the ability to make the database a variable? That would emulate the latter capability you mentioned anyway.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595556408.288900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595556408.288900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 19:06</span><br/>
+I guess I'm trying to understand this problem you mentioned:<br/>&gt; it became very confusing to figure out where things were and should be<br/>I don't quite understand how this could be a serious problem. I'm no fan of hierarchical organisation in file systems, but a <em>little bit</em> of hierarchy is good for modularity, which you really need in any distributed system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595556418.289100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595556418.289100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 19:06</span><br/>
+We should probably split this off so as to not derail the conversation further. The difference is largely in how people approach the two mechanisms. One is just a more specific name, the other is an actual place. We, ourselves, pretty consistently made mistakes about which place to query and write into, but we didn't experience the same problems with more specific names. Part of the difference is also how you selected a database in Eve (declaring it at the search/bind level) which made unions pretty awkward. That one's not at all fundamental and you could've chosen something else, but I suspect it would look a lot like namespaced tags if you did.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595556502.289300"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595556502.289300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-07-23 19:08</span><br/>
+It's easy to forget the database name, or forget to change it when you copy a block over, for example. And the bugs that result from that are pretty hard to understand without some nicer tooling.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595558764.292500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595558764.292500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 19:46</span><br/>
+I think "namespaced tags" and buckets/databases only diverge in meaning in the presence of mutation (changing values). I'll discuss that in this thread (once I think it over further): <a href="1595571049.299600.html">1595571049.299600.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595589039.356900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595589039.356900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-24 04:10</span><br/>
+Yes, <span style="background-color:#ccf">@Nick Smith</span>, that's a good point: you can't edit db views. You can't edit the value in a formula cell. So a bucket that can evolve may look the same as a query result, but the latter only evolves because one of the former does. Same with tagged data: the "bucket" of items with that tag depends on items being tagged, and can't be edited or evolve independent of that. Whereas a directory of items, a bucket, can.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595589386.357100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595589386.357100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-24 04:16</span><br/>
+From an end user perspective, the question is whether the item or a collection of items is the primary focus. In some modelling tasks, it's important to model a first class bucket of items, e.g. the actual people standing in an actual room, rather than having a big swimming pool of people and picking out those who are in the room to be tagged accordingly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595591178.357700"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595591178.357700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2020-07-24 04:46</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Also don’t forget you can replace data on edges easily by introducing a new, intermediate node. <tt>(N1)--[E]--(N2)</tt> might become <tt>(N1)--(E)--(N2)</tt> , then you have a bipartite graph to work with.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595592626.360200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595592626.360200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-24 05:10</span><br/>
+<span style="background-color:#ccf">@Pezo - Zoltan Peto</span> Tbh I'm not really keen on thinking about graphs as a foundational concept. Graphs are a solution looking for a problem. You can use a graph to model a set of relationships, but a graph <b>is not itself</b> a set of relationships. I think we should talk about "entities" and "pointers" between them as a <b>potential use case</b> for graphs rather than talking about graphs first and figuring out their applicability thereafter. Otherwise our thought patterns will never escape from our preconceptions of what a graph <em>is</em> and <em>can be</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595595114.380200"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595595114.380200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-24 05:51</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I agree for most of us we should not go from graphs -&gt; use-cases and want to add: “Not every problem is a graph problem” which is evidently true. There’s also the useful truth that almost any imaginable problem can be translated into some sort of graph. (Space efficiency, practical implementation aside)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595595566.393500"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595595566.393500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2020-07-24 05:59</span><br/>
+I often think in sets, partial orders, trees connected to lists inside of graphs next to some other structure, etcetera. It’s certainly a messy business and we’d miss a lot of perfectly sensible thinking if we forced people to first translate their thoughts into graphs. But I guess that’s what the computer is there for :wink: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595603621.429000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595603621.429000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:13</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> <span style="background-color:#ccf">@William Taysom</span> does that mean that clojure’s EDN is a natural fit for 6NF or am i missing something?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595662219.011200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595662219.011200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-25 00:30</span><br/>
+I cannot read your mind <span style="background-color:#ccf">@Garth Goldwater</span>.  Are you talking about <a href="https://github.com/edn-format/edn">https://github.com/edn-format/edn</a>?  What kind of connection are you imagining?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595723862.046800"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1595723862.046800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-25 17:37</span><br/>
+yeah, that’s the one—i just mean that it has support for array keys, for example. is having sets point to other sets the minimum requirement for eg serializing a hypergraph or are there other capabilities a data format would need for comparably powerful semantics
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596223835.495300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1596223835.495300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-07-31 12:30</span><br/>
+Did this thread reach anyone's conclusion? :blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1596261816.000300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595489301.204200.html#1596261816.000300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-31 23:03</span><br/>
+It gave me stuff to think about at least!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

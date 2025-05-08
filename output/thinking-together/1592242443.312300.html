@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6191fa9e32605141275a68a8bb5f04fa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1592242443.312300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Hines</b>
+<span style="margin:2em; color:#606060">2020-06-15 10:34</span><br/>
+Why do you guys think COM interop in Windows has fallen out of vogue? At the surface, it seems like an awesome way to get apps working together, but I haven't seen it used in a very long time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592340671.346000"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1592242443.312300.html#1592340671.346000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-06-16 13:51</span><br/>
+Well, it does suck. Coding it up in C++ is especially cumbersome... and it is Windows-only, mainly because it is very difficult to use COM without registering everything in the Registry.<br/><br/>It's brittle; it is not designed to support any kind of incremental change. If you change an interface, even just to add a new method, you must generate a new GUID, and now software coded against the old interface can't find your new version unless you've got a compatibility class in there. You can try to cheat by adding methods to the bottom - COM never stops you from shooting yourself in the foot - and this is safe in limited circumstances but causes crashes otherwise.<br/><br/>There's two kinds of COM, the dynamic VB-style interfaces (can't remember the technical term for this) and the static C++-style interfaces. The dynamic kind is easy to use from VB but a pain in the ass to use from C++.<br/><br/>There are no standard nontrivial data types, such as lists or hashtables. There are no generic types.<br/><br/>It uses confusing terminology like "apartments" that the MS documentation explains poorly.<br/><br/>So, I always prefer C# / .NET for interoperability, as well as for Windows app development in general... especially since much of your code can run on Linux/Mac too. There is also a .NET interpreter for web browsers now ("Blazor").
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592341222.346600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1592242443.312300.html#1592341222.346600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-06-16 14:00</span><br/>
+I think you were probably thinking of OLE (object linking and embedding) which is a particular way of using COM that allowed a piece of one app to be embedded inside another app. It always struck me as a clunky way of doing things, but maybe the biggest problem was that it was built on top of COM.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

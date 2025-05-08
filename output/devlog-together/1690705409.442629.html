@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1690705409.442629.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-07-30 01:23</span><br/>
+I implemented support for property paths in my native compiler.<br/><pre style="white-space:pre-wrap">scheme Hello <br/>{<br/>   /hi/:p1 {<br/>      get { <br/>	'hello: ',p1.<br/>     }<br/>   }<br/>   -main:args<br/>   {<br/>        self waitOnPort: 8081 intValue.<br/>   }<br/>}</pre><br/>So that little test program can now be fully compiler to an ARM64 binary.<br/><pre style="white-space:pre-wrap">]stc <a href="http://SchemeDefHTTP.st">SchemeDefHTTP.st</a><br/>]file SchemeDefHTTP<br/>SchemeDefHTTP: Mach-O 64-bit executable arm64<br/>]./SchemeDefHTTP <br/>2023-07-30 10:16:36.680 SchemeDefHTTP[51040:2409943] will listen on port: 8081</pre><br/>From another shell:<br/><pre style="white-space:pre-wrap">]curl  <a href="http://localhost:8081/hi/Marcel">http://localhost:8081/hi/Marcel</a><br/>hello: Marcel%<br/>]wrk  <a href="http://localhost:8081/hi/Marcel">http://localhost:8081/hi/Marcel</a><br/>Running 10s test @ <a href="http://localhost:8081/hi/Marcel">http://localhost:8081/hi/Marcel</a><br/>  2 threads and 10 connections<br/>  Thread Stats   Avg      Stdev     Max   +/- Stdev<br/>    Latency    57.33us   15.35us   1.13ms   80.91%<br/>    Req/Sec    75.02k     3.81k   78.81k    95.54%<br/>  1507905 requests in 10.10s, 198.45MB read<br/>Requests/sec: 149295.29<br/>Transfer/sec:     19.65MB</pre><br/>So more expressive than something like sinatra, but running at cool 140K requests/s.<br/><br/>The dichotomy between expressiveness/comfort and performance is a false one, a bit like the one we used to have between user-friendly but crashy client-operating systems and solid but unfriendly server operating systems.  Now my phone and my watch both run Unix.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690743479.255319"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1690705409.442629.html#1690743479.255319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-30 11:57</span><br/>
+Very interesting.<br/><br/>Are your code samples in a shell? Hard to tell what you're typing and what's output.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690798713.475179"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1690705409.442629.html#1690798713.475179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-07-31 03:18</span><br/>
+Yeah, it’s a shell.  If you want to be connective (architectural) you can’t live isolated in your custom environment. The ‘]’ is the prompt.<br/><br/>wrk is a load tester.   <a href="https://github.com/wg/wrk">https://github.com/wg/wrk</a><br/><br/>It is not limited to shell.  Can compile to a framework or shared library and link against that or load it from just about anywhere.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690816092.141679"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1690705409.442629.html#1690816092.141679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-07-31 08:08</span><br/>
+I see. Is <tt>stc</tt> being developed in <a href="https://objective.st">https://objective.st</a>, or is it a new project?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1690820459.253469"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-07/4763954018659_d0068f3c51a5a00a3b73_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1690705409.442629.html#1690820459.253469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Weiher</b>
+<span style="margin:2em; color:#606060">2023-07-31 09:20</span><br/>
+<tt>stc</tt> is a small script that drives the <tt>ObjSTNative</tt> framework, both are part of <a href="https://objective.st">https://objective.st</a><br/><br/><pre style="white-space:pre-wrap">#!env st<br/>#-&lt;void&gt;compile:source<br/>framework:ObjSTNative load.<br/>basename := source stringValue stringByDeletingPathExtension.<br/>compiler := STNativeCompiler compiler.<br/>compiled := compiler compileProcessToMachoO: (compiler compile: file:{source}).<br/>objectFileName := basename , '.o'.<br/>file:{objectFileName} := compiled.<br/>compiler linkObjects: #[ basename ] toExecutable: basename inDir: nil additionalFrameworks:[ 'ObjectiveHttpd' ].</pre><br/><a href="https://gitlab.com/mpwmo/ObjectiveSmalltalk/-/blob/master/scripts/compile/stc">https://gitlab.com/mpwmo/ObjectiveSmalltalk/-/blob/master/scripts/compile/stc</a><br/><br/><a href="https://gitlab.com/mpwmo/ObjectiveSmalltalk/-/tree/master/ObjSTNative">https://gitlab.com/mpwmo/ObjectiveSmalltalk/-/tree/master/ObjSTNative</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-11-13/4349957308535_d7dbb22c99a72ec24635_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Dales</b>
+<span style="margin:2em; color:#606060">2022-11-14 02:36</span><br/>
+As promised in my intro, here’s a little bit of current thinking I wrote up about what feels like I’m going to end up building a DSL to let ecologists work on large datasets.<br/><br/><a href="https://digitalflapjack.com/blog/yirgacheffe/">https://digitalflapjack.com/blog/yirgacheffe/</a><br/><br/>Currently it’s a Python library that lets ecologists just work with large geospatial files as if they’re variables, like numpy does, but manages the memory side of things, as these files quickly can cause you to run out of memory even on a 1TB RAM machine like we have in the group.<br/><br/>The next thing I have in the wings is trying to hide Python multiprocessing support behind my library, for two reasons:<br/><br/>• I’m already chunking up the computation, so throwing it out to many cores to get concurrency seems like a natural fit. Early on in my time here I tried to encourage the ecologists to think in terms of small programs that would then be run concurrently, but that didn’t really work for how they think of programming, so I think letting them think single threaded whilst I hide concurrency is probably easiest.<br/>• GDAL, the library used for a bunch of the actual geospatial transforms is leaky as anything (or rather, it’s Python bindings are), and so pushing that into child processes is a win, as it’s the only real way to clean up properly.<br/>But at this point I think what I’m not doing is a good fit for Python anymore, so I kind of envisage a Go backend, where I handle the concurrency side of things, and a small front end language where I let the ecologists reason about geospatial files as opaque blobs, and possibly have CSV as a natural thing.<br/><br/>But I also think this is a good fit for a visual programming language, where you connect the CSVs and geospatial files by the kind of operators you’d do normally, and then having that be the ecologist view on the world.<br/><br/>I guess my main aim is to try and not do everything though - if you imagine this was wildly successful, then all I’m doing is making yet another data-processing system that is specialised in one thing that someone will then want to do what I’ve done for some other metric down the line. So I think I want to deliberately keep this focussed/niche rather than accidentally drift into building something generic that will inevitably not be good for other purposes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668469980.922499"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668469980.922499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-14 15:53</span><br/>
+From <a href="https://github.com/carboncredits/yirgacheffe#basic-layer-usage">https://github.com/carboncredits/yirgacheffe#basic-layer-usage</a>:<br/><pre style="white-space:pre-wrap">elevation_layer = Layer.layer_from_file('elecation.tiff')<br/>area_layer = UniformAreaLayer('area.tiff')<br/>validity_layer = Layer.layer_from_file('validity.tiff')<br/><br/># Work out the common subsection of all these and apply it to the layers<br/>intersection = Layer.find_intersection(elecation_layer, area_layer, validity_layer)<br/>elevation_layer.set_window_for_intersection(intersection)<br/>area_layer.set_window_for_intersection(intersection)<br/>validity_layer.set_window_for_intersection(intersection)<br/><br/># Work out the area where the data is valid and over 3000ft<br/>def is_munro(data):<br/>    return numpy.where(data &gt; 3000.0, 0.0, 1.0)<br/>result = validity_layer * area_layer * elevation_layer.apply(is_munro)<br/><br/>result_band = result_gdal_dataset.GetRasterBand(1)<br/>result.save(result_band)</pre><br/>I don't follow why the <tt>area_layer</tt> is in the computation of <tt>result</tt>. Or is it perhaps not needed in the definition of <tt>intersection</tt>, just <tt>result</tt>? Are the multiplications over matrices (so the ranks need to line up)? Just trying to make sure I understand the example. I don't know anything about GDAL.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668499651.363239"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668499651.363239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-15 00:07</span><br/>
+Interesting stuff, I'll have to look at it in more detail (I am also in scientific computing). But a first reaction: isn't it surprising that ecologists have a hard time thinking in terms of small interacting programs? Isn't that very similar to an ecosystem in nature? In other words, shouldn't it be possible to present the situation in a way that they understand it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668505600.782689"></a>
+      <img src="https://avatars.slack-edge.com/2022-11-13/4349957308535_d7dbb22c99a72ec24635_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668505600.782689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Dales</b>
+<span style="margin:2em; color:#606060">2022-11-15 01:46</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Oh, I’d not read too much into the example in detail, this was derived from a real example we worked on. The area_layer is a GeoTiff that contains in each pixel the real area of the planet covered by that pixel. So if that last pair of lines was replaced with:<br/><pre style="white-space:pre-wrap">result.sum()</pre><br/>The number you’d get would be the square meterage of planet covered by munros. (Assuming validity layer is a layer that just covers Scotland :slightly_smiling_face:<br/><br/>For the actual work we used this tiff in another set of calculations. In that work we’re reasoning about area of habitat of species, so the result in that case is a GeoTIFF per species that has a 0 value where the species isn’t, and an area of the pixel if the species is there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668506119.627419"></a>
+      <img src="https://avatars.slack-edge.com/2022-11-13/4349957308535_d7dbb22c99a72ec24635_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668506119.627419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Dales</b>
+<span style="margin:2em; color:#606060">2022-11-15 01:55</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I think the problem is less that ecologists have hard time thinking about small programs, they’re quite happy scripting away, but that the side effects of actions are not always apparent. This, trying to bring it around to the Future of Coding’s most recent episode, to me is why I don’t think you can “Do The Right Thing” as readily as people think - there’s some unexpected side effect going to bite you that you didn’t think of (unless you ground up wrote your OS and application in a provable language I guess, but I’m not that person :slightly_smiling_face:<br/><br/>It’s then less about capability, more about time to be experts? Knowing all those side-effects (if you run out memory Linux will vomit everywhere and die) is a computerists job to understand. The interaction of animal species and habitats is for the ecologists to understand, I don’t know how to do that for similar reasons they don’t know about lazy evaluation or such. But I don’t think it should be that an ecologists needs me all the time - I want to build a system that Does The Right Thing by having me encode the grotty resource management inside.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668525484.615959"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668525484.615959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-15 07:18</span><br/>
+Doing "the right thing" is possible only if the abstractions you implement are actually implementable with the available resources and for the intended applications. Otherwise you implement leaky abstractions, which is not helping clients that much.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668525966.843589"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668525966.843589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-11-15 07:26</span><br/>
+I read your post in the meantime... Some remarks on NumPy (I was part of the team that designed its predecessor, Numeric): the goal of Numeric (inherited by NumPy) was to provide 1) "APL embedded into Python" and 2) a Python interface to array data used in C extensions. APL, in turn, was originally designed to be a new mathematical notation for use by humans, and only later implemented on computers. This implies the "right thing" approach to arrays as a high-level data model. Back in those days (mid-1990s), scientific computing applications tended to be more CPU-limited than memory-limited, so we thought of an escape hatch for performance bottlenecks (C extensions, and later Cython), but not so much for memory bottelnecks. That was exactly what caused the fork called "numarray", which catered for large-memory use cases but turned out to be very inefficient for small arrays. NumPy re-united the two, at the cost of a more complex interface, but didn't extend "large memory" to "doesn't fit into memory" datasets.<br/>None of that is clear from the documentation, as so often. So people like you discover the unwritten assumptions at some cost. Sorry!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668623558.965059"></a>
+      <img src="https://avatars.slack-edge.com/2022-11-13/4349957308535_d7dbb22c99a72ec24635_72.png" style="float:left"/>
+      <a href="../share-your-work/1668422171.614689.html#1668623558.965059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Dales</b>
+<span style="margin:2em; color:#606060">2022-11-16 10:32</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> that’s super interesting, thanks for the insight! No need to apologise, I learned a lot along the way :slightly_smiling_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

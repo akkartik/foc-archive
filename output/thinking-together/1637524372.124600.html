@@ -1,0 +1,247 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-11-21 11:52</span><br/>
+<b>Immortal programs vs crash-only programs</b><br/><br/>Immortal programs: <a href="http://steve-yegge.blogspot.com/2007/01/pinocchio-problem.html">http://steve-yegge.blogspot.com/2007/01/pinocchio-problem.html</a><br/>Crash-only programs: <a href="https://en.wikipedia.org/wiki/Crash-only_software">https://en.wikipedia.org/wiki/Crash-only_software</a><br/><br/>In brief, immortal programs try to never, ever reboot. Crash-only programs are designed to always be able to recover gracefully from a reboot. There's a fundamental tension here, and I'm starting to realize I'm very definitely on one side of it. I like a neat desk, and am compulsively closing things (terminals, browser tabs, browser sessions) when I'm done with them. I prefer text editors to IDEs, vim to emacs, unix as my IDE rather than slime. I'd always thought of these as subjective opinions that were just down to my personality and past experience. But, upon reflection, I want to make a stronger case that "my side" is superior.<br/><br/>1. Focusing on recovering from reboots makes you better at simulating immortality. Restarts can in principle become instantaneous. Focusing on never rebooting makes you worse at recovering from crashes.<br/>2. It's easy for immortal programs to end up in situations that are difficult to reproduce. I spent some time recently programming with <span style="background-color:#ccf">@Tudor Girba</span>'s Glamorous Toolkit. Modern Smalltalk uncomfortably straddles the image and git repo worlds. The way you work is to make changes to your running image until you have something you like, then go back and package up a slice of your image into a git repository to publish. If you make mistakes, others can have trouble reproducing the behavior you created in your image. Testing if you did it right necessarily requires rebooting the image.<br/>Putting these reasons together, immortal systems are more forbidding to newcomers. Crashing becomes a traumatic event, one newcomers are not used to, something beginner tutorials don't cover. When things don't work, it's more challenging to ask for help. Creating and sharing reproducible test cases requires crash-recovery skills.<br/><br/>Rereading the Pinocchio post now, I notice that there's actually no concrete benefits stated for long-lived programs. All there is are (compelling) analogies. A counter-analogy: an immortal program is like a spaceship. Once launched you're in a little bubble, stuck with whoever you happened to start out with. A crash-only program is like a little stone rolling down a hillside, gathering other stones until it turns into an avalanche.<br/><br/>As I said above, I'm biased because of my experiences. I'm curious to hear from others with more experience of immortal programs. Am I understating the benefits, overstating the drawbacks?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637526233.124700"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637526233.124700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:23</span><br/>
+These two write ups influenced me to take a similar point of view as you seem to be voicing, here<br/> <a href="https://ferd.ca/the-zen-of-erlang.html">https://ferd.ca/the-zen-of-erlang.html</a><br/><a href="https://medium.com/@mattklein123/crash-early-and-crash-often-for-more-reliable-software-597738dd21c5">https://medium.com/@mattklein123/crash-early-and-crash-often&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637526990.125100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637526990.125100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:36</span><br/>
+That's a good point. I think Erlang might be the ultimate no-compromises crash-only system, the way Smalltalk is the ultimate no-compromises immortal system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637527316.125300"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637527316.125300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:41</span><br/>
+I think this is the key to the success of the database / application server separation. You put all of your long-lived state into some immortal process with a very controlled data model and put all the scary weird stuff into a crash-only process.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637527417.125600"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637527417.125600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:43</span><br/>
+Maybe the real benefit from the immortal systems that yegge described is not that you can avoid restarting them, but that they are forced to have lots of tools for inspection / modification. If you have something like <a href="https://ourmachinery.com/post/the-story-behind-the-truth-designing-a-data-model/">https://ourmachinery.com/post/the-story-behind-the-truth-designing-a-data-model/</a> instead you can get the same benefits while also being able to do clean restarts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637527599.125900"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637527599.125900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:46</span><br/>
+Similarly, the problem I had with smalltalk is not that state lives in the image, but that the state is smeared all over the place and built out of pointers and mutable variables. Having all your state and code in eg sqlite or couchdb is essentially the same idea but is much easier to inspect and understand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637528380.127200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637528380.127200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-11-21 12:59</span><br/>
+There's definitely value in reducing the blast radius of crashes, but that feels like an orthogonal axis. I love how the DB is separate when I restart my web app, but it doesn't help me when I need to restart my DB. Is there <em>any</em> stateful system today that has a decent story for restarting without downtime?<br/><br/>Now I wonder what a storage system would look like that was designed from the ground up to be crash-only..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637543138.127600"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637543138.127600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2021-11-21 17:05</span><br/>
+I definitely lean toward crash-only. The only truly immortal program is one that runs on a machine that never has power failures, angry users with hammers, etc.<br/><br/>I also agree that in principle, requiring reboots is a sign of flawed software. I froth at the mouth a little bit every time I have to "turn it off and on again". I think the only real tension between those two ideals is the one related to users being unfamiliar with the process of rebooting, and I'm pretty sure that can be surmounted. I can't think of any reason you wouldn't try for both. Maybe think of it as "immortal unless you pull the plug, which must be allowed".<br/><br/>I don't have the patience I once did for Stevey Blog Rants, so I skimmed his post, especially the middle. However, I think the parts that he thinks should be immortal (what he calls software as opposed to the rigidly defined software-as-hardware he says static types create), that soft stuff should be thought of as user-created <b>content</b> that is interpreted by relatively stateless infrastructure. From that perspective, it's clear that content should be immortal (and portable, inspectable, etc), while the infrastructure can be started up or killed whenever. Obviously there's some<a href="https://xkcd.com/908/"> caching involved</a>, maybe even including JITed user code, but I think this architecture could basically get the nice properties of both immortality and crash-only.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637547400.127900"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637547400.127900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-11-21 18:16</span><br/>
+There are tons of distributed databases that handle partial failure all the time. I work with Cassandra. One of the interesting things we’ve done is to use AWS’s virtual block storage (EBS) to swap versions by reattaching storage to the new instances.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637552878.128100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637552878.128100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-11-21 19:47</span><br/>
+I'm 99.9% biased toward crash-reboot from my empirical dataset. I'd also say that in biology cell-division seems like a crash reboot.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637564482.129300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637564482.129300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-11-21 23:01</span><br/>
+This is why I like git - it can't really "crash" as such because it isn't running 99.9% of the time. Highly stateful system, but all the state is either on disk (or very short lived).<br/><br/>The equivalent of "crashing" in systems like this is getting a bad config, so it won't run at all. This is incredibly annoying to deal with. So I'm not sure there's actually a philosophical difference here, other than "be mindful of unanticipated states". Having a crashy system probably just makes you think about state more explicitly.<br/><br/>The main difference I guess is that a "crashed" (i.e. corrupted) git repo is an automatic "memory dump" to which your file browser and text editor act like an already attached debugger.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637566095.129500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637566095.129500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-11-21 23:28</span><br/>
+There really are important differences between long-lived and short-lived parts of a system.  To a first approximation it's alls just data and transformations thereof, but how manage the tradeoffs of robustness, performance, mutability, and recovery differ.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637571654.129800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637571654.129800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-11-22 01:00</span><br/>
+For me it's crash-only for small software units, and immortal as the vision for large software assemblies. In practice, moderate-size systems (Emacs, Smalltalk, Unix, ...) are immortal assemblies of crash-only processes. Just like biological systems by the way: individual organisms are crash-only, but ecosystems are (aiming at) immortal. Also for both universes, immortal systems must adapt to changing environmental conditions, which they do by replacing crashed units by modified crash-only units.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637572018.130000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637572018.130000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-11-22 01:06</span><br/>
+That leaves the question of personal preferences such as <span style="background-color:#ccf">@Kartik Agaram</span> describes. BTW, mine are largely the opposite: I am happy with Emacs, Smalltalk, Slime, and my desk is a mess. All I can offer is an educated guess based on comparing my way of thinking/working with other people I know very well (family, friends, long-time collaborators). I am the big-picture guy who will happily ignore details as much as possible. That seems to be correlated with the messy desk, vs. the tidy desk for people who pay attention to detail, but then easily lose the big picture.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637572306.130200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637572306.130200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-11-22 01:11</span><br/>
+I don't think the "blast radius" of a crash is orthogonal. On the contrary, it's why larger assemblies cannot afford the crash-only approach. Complex state takes too much time to rebuild. And it takes an even larger embedding system to handle the reboot. Once you reach the scale where a system is one of a very few, crashing is no longer an option.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637585733.133400"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-04/2564854327154_7acd71947ea203e9a69b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637585733.133400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Trellick</b>
+<span style="margin:2em; color:#606060">2021-11-22 04:55</span><br/>
+Somewhat tangentially: how does our thinking change when we switch to non-volatile RAM so that program state is sort of inherently immortal? The <a href="https://twizzler.io/publications.html">Twizzler OS</a> talk that I watched hurt my brain a bit in this respect
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637588564.135200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637588564.135200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-11-22 05:42</span><br/>
+Does Twizzler OS provide a means to reinitialize state to a known good value? That's what I consider essential for rebooting. Non-volatility just removes one cause for a crash, that looks like a minor detail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637613231.136000"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637613231.136000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2021-11-22 12:33</span><br/>
+[moved into thread from #thinking-together]  I agree with your perspective, but I think that the Happy Path culture is more insidious than imagined.  It deeply affects our tools and thought processes.  Here are some of my thoughts... [Failure Drive Design](<a href="https://guitarvydas.github.io/2021/04/23/Failure-Driven-Design.html">https://guitarvydas.github.io/2021/04/23/Failure-Driven-Design.html</a>). (edited)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1637825579.138100"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1637825579.138100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2021-11-24 23:32</span><br/>
+If you run state machines on a paxos group, you get immortality despite distributed systems failures. (How a component of Spanner works)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1638659521.176900"></a>
+      <img src="https://secure.gravatar.com/avatar/6fceba60ff0c90dc32cbff29054b02c2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1637524372.124600.html#1638659521.176900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Justin Blank</b>
+<span style="margin:2em; color:#606060">2021-12-04 15:12</span><br/>
+The thing that keeps popping into my head when this thread comes up in my window in slack (it's what autoloads every time I restart my machine) is "maybe code really isn't data"
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

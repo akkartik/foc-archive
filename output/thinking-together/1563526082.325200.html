@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-19 01:48</span><br/>
+I'm asking this because I'm trying to figure out the "essential" building blocks of a declarative language by stripping out and unifying features (not the mathematical blocks but the user-facing blocks) and I've wandered into territory where I've stripped away the value/type distinction and am considering what you can do with sets of labels and of discrete maps, which seem to overlap with relations. For example, the set {(father -&gt; "bob"), (child -&gt; "jim")} can be interpreted as an ordinary record/struct, but could also be interpreted as a labelled tuple belonging to a relation, and a set of such sets becomes the relation. Relational operators could then act on it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563528887.326300"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563528887.326300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2019-07-19 02:34</span><br/>
+If you haven't already, you should take a look at "Data types a la carte" (<a href="http://www.cs.ru.nl/~W.Swierstra/Publications/DataTypesALaCarte.pdf">http://www.cs.ru.nl/~W.Swierstra/Publications/DataTypesALaCarte.pdf</a>) and subsequent literature.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563529043.326500"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563529043.326500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2019-07-19 02:37</span><br/>
+In the Scala generic programming library shapeless I encode record types using singleton types (ie. Scala can represent the <em>type</em> "foo" which is the type inhabited only by the single string "foo") to represent record labels.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563529216.326900"></a>
+      <img src="https://secure.gravatar.com/avatar/8a7e159fad28f672ca794fb7f2bf7f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563529216.326900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Miles Sabin</b>
+<span style="margin:2em; color:#606060">2019-07-19 02:40</span><br/>
+There are some similarities with Jon Sterling's Vinyl library for Haskell.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563582510.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563582510.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-19 17:28</span><br/>
+Thanks for the references. I'm not sure how relevant they are though, since they are attempts to bolt new capabilities onto existing languages through "smart" encodings. I'm looking for features that could be built into a language and how well they would serve as building blocks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563661918.025600"></a>
+      <img src="https://secure.gravatar.com/avatar/c4e6637707ff62601f3dd21ec7626095.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563661918.025600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Michael Arntzenius</b>
+<span style="margin:2em; color:#606060">2019-07-20 15:31</span><br/>
+I realize this is rather general and vague, but, IME trying to unify things as much as possible can be fun, and lead to interesting languages, but also lead to languages that are very hard to implement efficiently, and force you into tough design choices with no clear right answer.<br/><br/>As an apropos example, one way to unify functional &amp; relational(/logic) programming would be to treat functions as a special case of relations. But, while we know how to implement higher order <em>functions</em>, implementing higher-order <em>relations</em> is really, really difficult in general. So my line of work with Datafun, while it could be described as a "functional relational language", definitely <em>isn't</em> taking this approach: even though conceptually functions are a special-case of relations, we keep them separate because it avoids a bunch of hard problems.<br/><br/>On the other hand, there is a project - Bill Wadge's "Higher-order extensional Prolog" - that is trying to tackle full-on higher-order relational programming. I don't know much about it, but it'll be damn cool if it works!<br/><br/>So, I can't tell you whether trying to blur the distinction between data structures &amp; relational algebra is a hot mess or a good idea, but I can tell you that it might be difficult :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563666250.040500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563526082.325200.html#1563666250.040500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-20 16:44</span><br/>
+Thanks for the perspective <span style="background-color:#ccf">@Michael Arntzenius</span>. Perhaps it's too difficult a problem to tackle. I wish prototyping these things were easier! There seems to be too many prereqs to just try everything possible (as you point out the numerous research areas behind everything). Perhaps that's a good motivator for why the web needs to be a better enabler of conceptual communication between people.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

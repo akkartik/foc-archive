@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-11 13:46</span><br/>
+in erlang you can turn distributed tracing per module, function or even function with a guard to match specific values on the arguments, then you can log them or ship them somewhere else. No extra stuff needed, always available at runtime. I fixed a really weird bug that I couldn't reproduce by tracing some functions in less than 15 minutes, directly in production
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581459246.100200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581459246.100200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-02-11 14:14</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> <span style="background-color:#ccf">@Deepak Karki</span> Let's move the discussion of tracing into this thread, so we're not adding a lot of scrollback to the main channel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581459361.100400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581459361.100400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-02-11 14:16</span><br/>
+To add to the discussion — I'm very keen on the idea of doing the replay capture within customer software.. but that seems like such a huge divergence from how things currently work. There's privacy concerns, right? There's performance concerns, for sure.<br/><br/><span style="background-color:#ccf">@magicmouse94937</span>, how do you do this in Beads?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581497371.101000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581497371.101000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-12 00:49</span><br/>
+regarding performance, in erlang you can sample a fixed number of traces, 1, 10.. wathever, then do it again if you didn't find what you wanted.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581497406.101200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581497406.101200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-12 00:50</span><br/>
+regarding privacy, in elixir you can mark which fields of a structure should be serializable, that could be used as input before shipping the information somewhere else
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581497470.101400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581497470.101400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2020-02-12 00:51</span><br/>
+<pre style="white-space:pre-wrap">defmodule User do<br/>  @derive {Inspect, only: [:id, :name]}<br/>  defstruct [:id, :name, :address]<br/>end</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1581537938.108100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1581457613.099600.html#1581537938.108100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-02-12 12:05</span><br/>
+I don't think privacy concerns are a major issue in post-mortem replay. Given how often people use cloud-based products where all of the customer data is in plain view of the provider's staff, people are not nearly as guarded about their data as they were in previous times.  Also, it would be elective from the user, just like Apple currently does with their crash reporter, where you are given the option to send it to apple.<br/><br/>In mass-market applications, the inability to reproduce client side errors is a huge problem. Adobe, MS, Apple all have millions of unsolved "cannot duplicate" issues in their bug reporting systems. In fact, the inability to fix bugs has made Jira and many other bug-tracking companies huge sums of money. You should be able to count your bugs on your hands! People are way to accepting of sloppy work in software. In Open Source there is this constant churn of changes as people fix 5 bugs and add 2 more, and with feature editions many products never stabilize (like Windows)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

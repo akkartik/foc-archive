@@ -1,0 +1,367 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-26 14:46</span><br/>
+FTR: Here is the demo video I presented earlier today. I've added links, in the form of a Kinopio page, to the other technologies that I didn't demo.<br/><br/>Exploring Techniques and Notations for Augmenting DX<br/><a href="https://youtu.be/zXmC3BVIVuQ">https://youtu.be/zXmC3BVIVuQ</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719441363.923539"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-25/7345443578225_f8e9e1123d49f08bf7e8_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719441363.923539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Kring</b>
+<span style="margin:2em; color:#606060">2024-06-26 15:36</span><br/>
+This looks really cool, Paul. Are these synchronous dataflow? Meaning nodes execute once when they have received data at all their input ports?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719458976.961409"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719458976.961409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-26 20:29</span><br/>
+Thanks!<br/><br/>This is opposite to "synchronous dataflow". Nodes execute once for every input. A node can implement "synchronous dataflow" if it wants to, but, this is not a fundamental requirement. When I used to design hardware, I found that I could do so <b>much</b> more reliably (e.g. 0 defects in the field, guarantees, deliver-once instead of continuous delivery, utterly asynchronous, etc.) than when I switched to designing software. I believe that overkill-synchronous-thinking is a major cause of bugs and I want to find ways to break out of that mindset.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719472909.635179"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719472909.635179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-27 00:21</span><br/>
+Thanks for posting this video! Question: what's the level of granularity of your diagram notation? Put differently, how is the operation of each node defined? By another diagram, by traditional code, or yet something else?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719483191.966739"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719483191.966739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-27 03:13</span><br/>
+There are 2 kinds of node. Containers are recursively defined - they can contain Containers and Leaves. Leaf nodes contain code and are not recursive.<br/><br/>In analogy, this is much like Lisp lists. Lists can contain Lists or Atoms. Atoms are the bottom.<br/><br/>Containers run/loop in multiple steps. A Container is "busy" if any of its children is "busy" (recursively). Leaves run in one gulp.<br/><br/>A Container can inhale a single message from its input queue only when it is not busy.<br/><br/>Routing of messages between children is performed by the Container, not the children. Children cannot know where their inputs come from nor where their outputs are sent to. A Container cannot know what kind of component each child is and may compose a mix of child components of various kinds.<br/><br/>In analogy, Containers are like "main loops" in windowing systems, except that it's turtles all the way down - a "main loop" might contain other "main loops" and so on.<br/><br/>In analogy, a Container is like a Unix command-line command. Containers have several stdins and several stdouts. You can't tell from the outside (nor do you care), if the command is a bash script or a lump of C code. But, it is done much more efficiently than using Unix processes (think: closures and OO queue objects).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719483339.903509"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719483339.903509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-27 03:15</span><br/>
+In this way, you can structure a system in layers that elide details. The details are all still there, but the reader is not forced to understand every niggly detail unless the reader wants to dig deeply.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719494868.108759"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719494868.108759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-27 06:27</span><br/>
+Thanks <span style="background-color:#ccf">@Paul Tarvydas</span>, that sounds like a very reasonable design!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719749744.872729"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719749744.872729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2024-06-30 05:15</span><br/>
+I was wondering why asynchronous dataflow leads to less bugs the synchronous dataflow? Can you elaborate on this <span style="background-color:#ccf">@Paul Tarvydas</span> ? :blush: 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719761155.782009"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719761155.782009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-30 08:25</span><br/>
+#1: Observation - I know how to build hardware and read schematics, and, I know how to write code. The observation which has perplexed me for decades is that when I build hardware, it is much more reliable than when I build software.  Hardware producers would provide guarantees on their products, while software producers hide behind EULAs. (Why?)<br/><br/>#2: Observation - hardware “programming language” (schematics) is much more concise than most software programming languages. For example, the game of Pong in 1972 fit on one piece of paper, long before Functional Programming and Type Checking hit the mainstream. The 1972 version of Pong doesn’t even have a CPU in it.<br/><br/>#3: Observation - something in our software workflow is causing bloat. Apps are ridiculously huge today. Software has become ridiculously complicated. For example, I can build a new language much, much faster (10x?, 100x?, …) using t2t (OhmJS + my own nano-DSL “RWR”) than if I use LLVM and friends. I can finish the new language in less time than it takes me to RTFM and to learn LLVM.<br/><br/>#4: Observation: in hardware, every component is - by default - asynchronous. In software, though, every component is - by default - synchronous.<br/><br/>My guess, my gut feel: simplicity. Asychronousity allows me to use divide-and-conquer and to solve-problems-and-implement components in small pieces, whereas building software is like crafting an intricate Swiss watch with 100’s of tiny gears. If a tooth breaks in any of the synchronous gears, the whole thing doesn’t work. If an async component breaks, I can isolate it and focus on it and fix it. It ain’t inherently more reliable, but, I can fix things easier and better. The simplicity of asynchronous design is like using LEGO blocks - I can imagine and implement much more interesting (aka “complicated”) apps using software asynchronous blocks. [aside: today’s “code libraries” are not LEGO blocks, they must be used in a synchronous manner, it’s synchrony all the way down]. [aside, knowing hardware, I see function-based programming as an inefficient use of CPU power, requiring extra software to support the function-based paradigm (note the use of the term “function-based” which is a superset of what we call “functional programming” today).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719774802.282559"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-25/7345443578225_f8e9e1123d49f08bf7e8_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719774802.282559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Kring</b>
+<span style="margin:2em; color:#606060">2024-06-30 12:13</span><br/>
+Great points <span style="background-color:#ccf">@Paul Tarvydas</span>. Do you have any experience with LabVIEW? It’s a very structured visual programming environment. Just in the last four or five years, they introduced asynchronous data flow wires. They started working on an asynchronous diagram, but that was part of a new, next generation platform that was mothballed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719775035.106879"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719775035.106879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-30 12:17</span><br/>
+I've looked at LabVIEW but haven't used it. Feel free to educate me. <span style="background-color:#ccf">@Jim Kring</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719775876.539919"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719775876.539919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-30 12:31</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> While I agree with all your observations, I am not convinced by the explanation. My own speculative hypothesis for the relevant difference between hardware and software is Turing-completeness leading to chaotic dynamics and thus an infinity of failure modes (see <a href="https://hal.science/hal-02071770/document">here</a> for a more detailed argumentation). But I am not that convinced of my own hypothesis either.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719779496.037489"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-25/7345443578225_f8e9e1123d49f08bf7e8_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719779496.037489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Kring</b>
+<span style="margin:2em; color:#606060">2024-06-30 13:31</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> you can download the LabVIEW community edition for free. This is a really good book. The author is fantastic :wink:<br/>LabVIEW for Everyone: Graphical Programming Made Easy and Fun <a href="https://a.co/d/0fPloe9u">https://a.co/d/0fPloe9u</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719803252.126019"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719803252.126019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-06-30 20:07</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Hmm, I sense that I should want to understand your argument, but, as it stands I don’t get it yet. I think that you’re saying that software can veer wildly off-course if nudged or perturbed, but, I don’t understand how this contrasts with hardware. These thoughts fire neurons regarding Dave Ackley’s “robust first computing” (a way of making software survive severe damage and perturbation). To prime the pump, since we’re in vastly different timezones, let me say that from my perspective, Smalltalk does not do “message passing” (!), it, instead, does synchronous method calling. If the Smalltalk class hierarchy were rewritten in an asynchronous manner all the way down, like I perceive hardware to be, then Smalltalk’s std hierarchy would change drastically. How does this perspective dovetail with your argument?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719814320.768409"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719814320.768409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-06-30 23:12</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Yes, Dave Ackley's "robust computing" is very much aligned with my arguments. For me, the difference between hardware engineering and software engineering is that the former avoids chaotic behavior, and thus unpredictable failure modes,  at all levels of design, whereas the latter goes for the "full power" of Turing completeness and tacitly accepts the unreliability of large assemblies as a consequence.<br/>There is then, of course, the question of why the two disciplines took different paths. My (now highly speculative) ideas are: (1) Maturity. Hardware engineering grew slowly, software engineering grew explosively. (2) Cost constraints. Production costs make investment into good design more valuable. And from your arguments, I'd be happy to add (3) Synchronicity. Asynchronous evolution makes chaotic behavior problematic even at small scales, and thus provides the incentives to avoid it much earlies in the disciplines evolution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719827402.834429"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719827402.834429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-01 02:50</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Interesting arguments. Still mulling… Observation: I’m not sure that electronic hardware followed a more mature growth than software.  Electronics took off somewhere roughly around 1900 with Tesla, Steinmetz, Heaviside, et al. Electronics “culminated” around 1950/1960 with the invention of chips and CPUs (hardware progress continues). By this reckoning, electronics was about 1 century old when it created a spin-off. At the moment, software is about the same age. Maybe the difference is something to do with grounding in reality? Electronics is constrained by physical principles (electrons obey the speed of light, the “9 inches in one nanosecond” thing), whereas software is based on written math which is basically FTL (faster than light) - you can perform a referential transparency replacement operation on paper instantaneously. In fact, I wonder if FTL-think isn’t the cause of a great many workarounds/epicycles in software. On paper, operations are instantaneous, whereas in a physical CPU, operations take a finite amount of realtime - it’s not a 1:1 mapping. Hmmm.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719829778.158839"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719829778.158839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-01 03:29</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> another data-point: I do not believe that Functional Programming IS programming. It’s only a KIND of programming. Programming is something larger than FP. Programming is about making electronic reprogrammable machines DO something. If all you want to DO is to use the hardware as a calculator, where only the results of the computation matter, then FP is appropriate. If you want to use the machine as a sequencer or to network machines together or to run robots (ie. to make physical actions?), then FP is not as appropriate and some other notation(s) should be used to program machines for those kinds of actions. [Unfortunately, for me, FP is currently considered to be the <b>only</b> way to program machines, and, I continue to flail at trying to express what I think the differences are].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719900930.713749"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719900930.713749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-01 23:15</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> There are indeed arguments to add to my list. Physical constraints is a good one! And it makes me think of Chuck Moore, who made a career out of staying close to the metal with Forth, and occasionally crossing over into the hardware domain. Is his software more robust? I can't say. His software is also small, in terms of functionality, which may be the more important factor in robustness.<br/>FTL-think is a nice term. Definitely a problem in the branch of computer science that leans towards mathematics. There's also the issue of losing sight of the physical devices, as in data centers and cloud computing.<br/>I certainly agree that the distinction between abstract data transformation and actions in the physical world matters, but I doubt there's a consensus on "programming" referring only to the latter. Even FP people know about the distinction, which is why they invented monads and effects as FP concepts. Historical data point: Ken Iverson's 1962 book "A Programming Language" uses "programming" for describing the development of algorithms with pencil and paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719927855.202689"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719927855.202689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-02 06:44</span><br/>
+... more random thoughts on these topics ... <a href="https://open.substack.com/pub/programmingsimplicity/p/subroutines-are-not-functions?r=1egdky&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true">https://open.substack.com/pub/programmingsimplicity/p/subrou&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719928277.689979"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719928277.689979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2024-07-02 06:51</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Thanks for sharing those thoughts... Having read your post, I wonder if you have any opinion on Forth and its concatenative / stack-based descendents...?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719929495.819729"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719929495.819729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:11</span><br/>
+I'm a lisper and have less experience with Forth. Just this weekend, I was experimenting with languages for software architecture using OhmJS (and my RWR) and found myself re-inventing stack-based concatenation for bolting code snippets together after parsing phrases (blog post sitting in the wings). If I were to go deeply down that rabbit hole, I might be inclined to revisit Tunney's Binary Lambda Calculus (BLC - even smaller than Sector Lisp). Dunno...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719929682.369949"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719929682.369949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:14</span><br/>
+<span style="background-color:#ccf">@J. Ryan Stinnett</span> have you explored concatenative languages? Do you have a recommendation on how to jump the queue and not read every paper on that path?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719929815.168799"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719929815.168799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:16</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Ah okay, it came to mind because of your discussion of subroutines, functions, etc. My concatenative language exploration is very early, so I'm not confident enough to give my own opinion yet. I'm currently reading Thinking Forth (<a href="https://thinking-forth.sourceforge.net/">https://thinking-forth.sourceforge.net/</a>), and the philosophy chapter at the beginning of the book also touches on the same topics you've mentioned. Perhaps worth reading at least that chapter. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719930193.350099"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719930193.350099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:23</span><br/>
+... aside - are you, also, aware of Chuck Moore's Green Arrays? ... <span style="background-color:#ccf">@J. Ryan Stinnett</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719930831.618379"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719930831.618379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:33</span><br/>
+Ah hmm, I may have seen something about their chips a while ago... I'll go refresh my memory now. I assume their "many small processors" approach is well-aligned with your own thinking.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719931521.955499"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719931521.955499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-02 07:45</span><br/>
+Maybe aligned. It's on my stack of wish-I-had-time-to-explore-this-more-deeply. I would prefer a chip with 1,000 8-bit cpu's on it rather than wasting chip real-estate on MMUs, caches, shared-memory multi-core and the like.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719998118.050199"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719998118.050199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-03 02:15</span><br/>
+<a href="https://blog.information-superhighway.net/data-is-code">This blog post</a> is also worth reading to understand the Forth philosophy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1719998589.258449"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1719998589.258449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-03 02:23</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Your subroutines-vs-functions discussion reminds me of Scheme. It has "procedures" rather than "functions", and the explanation I saw (don't remember where, but by Gerald Sussman) is exactly what you say.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720008379.048789"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1720008379.048789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-03 05:06</span><br/>
+ChatGPT says that SICP used the term "subroutine" in early editions of SICP. Does this sound like the place? <span style="background-color:#ccf">@Konrad Hinsen</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720021591.181699"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1719438405.632489.html#1720021591.181699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-03 08:46</span><br/>
+The current edition of SICP uses "procedure", like everyone else talking about Scheme. But I cannot find an explanation for this choice of term in SICP.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,90 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-07-22 22:08</span><br/>
+I'm not sure how to ask this but ... how often does simple ideas run into complex reality? I'm not sure I can explain myself well but I'm trying to think of examples. Let's say you have a configuration file stored (pick a format, JSON, yaml, xml, ...). You start with something simple<br/><br/><pre style="white-space:pre-wrap">config = JSON.parse(readAsText('configfile'))<br/>print(config.setting1);<br/>print(config.setting2);</pre><br/>Looks great and it works. But then at some point you need to print an error message if the config file is wrong. First thing. the JSON/Yaml/XML is wrong and the message the library prints is cryptic. For JSON in JavaScript the message would be like "unexpected } at character 2647"<br/><br/>That's entirely not useful for the end user (let's skip the part whether or not JSON is useful for the end user for now).  So you go end up having to find a parser that will give a line number at least 'error on line 537'<br/><br/>You also maybe add a schema or something to check the structure of the file is correct. It will tell you there is no 'foobaz' setting or that 'size' must be a number not a string but in general that stuff happens after parsing so if you'll get an error "size must be a number not a string" when the error you want is "size at line 537 is an error not a string". Now your schema checker either needs to do it's own parsing making it vastly more complex than it was OR your schema checker needs to ingest a much more complex format of data than just the parsed data where every piece of data is annotated from where it came from.<br/><br/>You might argue such configuration should have a UI where you can't make those mistakes but that's just part of same problem. What started as a effectively 1 line of code is suddenly 1000s of lines of code.<br/><br/>I feel like this pattern repeats itself in many other ways.<br/><br/>Maybe this is like the text editor example where someone rants that a text editor can function in a few hundred lines of code but then someone else points out that it's not a few hundred lines of code when you have to support CJK, Thai, Arabic, and emoji
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595492717.265600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html#1595492717.265600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-07-23 01:25</span><br/>
+I think the complexity here stems from our historical love of serializing data in order to persist and distribute it. We wouldn't have these problems if we weren't working with (text and binary) strings all the time. The "correct solution" is to have a software universe where data is always structured (and <b>typed</b>), and serialization is left as an infrastructural concern.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595498671.266900"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html#1595498671.266900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:04</span><br/>
+My point wasn't about serialization. that's just an example. My point was "it's never simple". Handling the real world, regardless of what it is, is almost always several orders of magnitude more complicated than we first expect.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595500143.267600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html#1595500143.267600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:29</span><br/>
+Some days my whole freaking job is checking the consistency of CSV uploaded by Excel jockeys to give them real nice error messages.  Let's see in the background here I have 150 lines check a super simple file (three columns) and 150 lines of tests to identify 12 ways it could reasonably be messed up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595502825.267800"></a>
+      <a href="../linking-together/1595480888.262200.html#1595502825.267800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcel Goethals</b>
+<span style="margin:2em; color:#606060">2020-07-23 04:13</span><br/>
+I think this is a general case of “as the number of entities increase linearly, the number of potential relations between them increases exponentially”. What may seem like a small addition, can turn out to increase complexity significantly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595532730.270400"></a>
+      <img src="https://avatars.slack-edge.com/2020-06-28/1196019819111_19925410efa8da86ae13_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html#1595532730.270400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ray Imber</b>
+<span style="margin:2em; color:#606060">2020-07-23 12:32</span><br/>
+The vocabulary that comes to mind for me for the problems you are describing break down into two parts:<br/><br/><b>incidental complexity</b>: problems you have to solve that have nothing to do with the problem you are actually trying to solve, but are necessary because of the inefficiencies of our current technology.<br/>To play off your example, you want to parse some configuration, and suddenly you need to become an expert in parser theory. You don't care about parsers, it's <em>incidental</em> to the problem, but necessary because of the limits of our current tools.<br/><br/>"<b>software requirements gathering</b>" and "<b>scope creep</b>".<br/>Humans, in general, are really bad at communicating what they actually want or need. Partially this is because we are really bad at thinking of unforeseen consequences. "Out of sight out of mind" so to speak.<br/><br/>Often, you start out thinking you need one thing, and then it turns out that you needed something else. Requirements also change! You maybe start out with a little script you hacked together for yourself. You have a very clear idea of the inputs and outputs, so you don't add much error checking.<br/>Then, after a while, you share your script, and suddenly lots of people start using it. Now you need to add a lot more error checking than you had before.<br/><br/>This happens all the time. Python3 and Unicode, IPV4 to IPV6... the list goes on.<br/><br/>As a field, we have not solved either of these problems very well.<br/>Our state of the art is just iteration (<em>Agile</em> _Development_ to use a crappy buzz word.)<br/><br/>I recommend reading <a href="https://www.amazon.com/Mythical-Man-Month-Anniversary-Software-Engineering-ebook/dp/B00B8USS14/">Mythical Man Month by Fred Brooks</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595577451.283500"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../linking-together/1595480888.262200.html#1595577451.283500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-07-24 00:57</span><br/>
+Spot on <span style="background-color:#ccf">@Ray Imber</span>! I am usually figuring out some core incidental algorithm and experiencing that familiar feeling of having to do 'the thing that gets me to the thing' - the incidental complexity.  If not that, I'm adding some new feature that I never anticipated.<br/>Having written my first text editor recently, I can attest to it being a perfect example.  It's really easy to display text, parse input and change it.  A day or 2 of work.  Then the problem becomes the gap between your simple implementation and all the professional editors you use....  Pretty soon you are working on transactional operations, syntax coloring, performance, etc.....
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

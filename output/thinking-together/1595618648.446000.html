@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-07-24 12:24</span><br/>
+I think that many companies are standardizing a workflow, that before writing any code you need to write a <tt>design document</tt> with the options on how to solve a problem and the chosen solution. A lot of times this document has the code changes required by any of the solution options.<br/>To me the options that we didn't end up following seem as valuable as the chosen option, and those options should also be captured in code. A really easy way could be in separate branches, but then we loose visibility of them.<br/>Is anybody familiar with source control software or with patterns to work with source control that also keeps tracks of options considered but not followed at the end?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595619208.446300"></a>
+      <img src="https://avatars.slack-edge.com/2020-02-26/971836171367_2fdcf29b225b02e66825_72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595619208.446300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Martin Sosic</b>
+<span style="margin:2em; color:#606060">2020-07-24 12:33</span><br/>
+I can confirm regarding design documents (we called them Tech Design Docs - TDD - not the best name since it is confused with test driven development).<br/><br/>Regarding documenting different options, usually we would consult the TDD or ask somebody, which is certainly not very approachable.<br/>And if there was a clearly better alternative to implement something, usually we would describe it in TODO comment next to the implementation.<br/><br/>However, I wonder how often somebody really asks (why wasn't this done in this way), from my experience, I haven't seen that happening very often, at least not at the degree where reviewing all the previously considered options would be useful. But it does happen sometimes, and then TDDs usually worked out (but with lot of digging, figuring out the latest one and so on).<br/>Just thinking out loud, I might on the other hand find it useful if they were more available, but it is hard to imagine right now.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595620968.446900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595620968.446900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 13:02</span><br/>
+Yeah, I'm not aware of existing solutions, but this is a problem I've often felt and tried to hack my way towards.<br/><br/>On my projects I use a system of layers so that I can keep track of past versions with fewer features. And continue to keep them working in CI: <a href="http://akkartik.name/post/wart-layers">http://akkartik.name/post/wart-layers</a>. Layers form a linear sequence, and I've often considered introducing branches. But I've never found a strong concrete use case and clean way to do this.<br/><br/>One easy approach may be branches as you mentioned coupled with links to those branches (on GitHub or wherever) sprinkled in a few key places that the branch modifies. I like links :slightly_smiling_face: (<a href="1592252831.319600.html#1592285060.323600">1.592285.html&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595621059.447300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595621059.447300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-24 13:04</span><br/>
+Here's another attempt in an old project of mine, creating a subdirectory called 'alternatives' with clones of the top-level at specific points: <a href="https://github.com/akkartik/wart/tree/master/alternatives/lite">https://github.com/akkartik/wart/tree/master/alternatives/lite</a>. And each of them has a subdirectory called 'orig' with the baseline to compare against. Like I said, totally hacky.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595700085.041600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595700085.041600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-07-25 11:01</span><br/>
+I've been thinking more recently of a code project as a set of knowledge in a domain or to solve a problem. I wish this knowledge could not only be on the final decisions but also on wrong decisions and the paths not chosen
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595787879.122300"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595787879.122300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-26 11:24</span><br/>
+It sounds like you want to distribute branches (makes me think of multiplicative distributivity, anyway) down to the source file or function level, or something like that? That seems like an interesting idea. The fundamental obstacle in my view is that a lot of those roads not followed will, by nature, affect the design of large swathes of the project, like whether certain files exist at all. It might be that the best thing is to add annotations, uh, somewhere, about where those branches' existence should be surfaced in the VCS or code browsing UI. E.g., somehow when you're looking at the router for your REST API, there's a button that shows the branch where you tried gRPC.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595788575.122500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595788575.122500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-26 11:36</span><br/>
+You're right that many alternatives may require pulling in more changes. But not all. There's lots of value in simpler scenarios.<br/><br/>For example, here's a self-contained alternative in a code comment that I've found useful for 10+ years.<br/><br/><a href="https://github.com/arclanguage/anarki/blob/0913288ec1477f2598e8095a2b5e9b14eb97dc4e/arc.arc#L662">https://github.com/arclanguage/anarki/blob/0913288ec1477f259&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595789520.122800"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595789520.122800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-07-26 11:52</span><br/>
+Good point (and nice example). It might be easy to just branch on the size and scope of the diff when deciding whether to show it inline. Less than 20 lines and all in one file? Just show it, otherwise put it behind a button.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595880854.155600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595880854.155600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-07-27 13:14</span><br/>
+that's a great example <span style="background-color:#ccf">@Kartik Agaram</span>. Saving that info in a comment looks like a great hack, but also makes me sad not having a nicer way to do it :cry:<br/>Your example also made me think of having benchmarks against "branches", as performance could change with upgrades of packages/language or rewrites of other parts of the codebase :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595884803.156500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595884803.156500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-27 14:20</span><br/>
+Yeah, performance is a common scenario here, or to be precise how performance interacts with complexity. On many occasions I've seen someone introduce a lot of complexity for performance, but the measurements that drove it are never revisited. Eventually we find that the performance benefits no longer accrue, while the complexity cost continues to be paid.<br/><br/>Ideally we'd be able to constantly track performance benefits of the trunk over alternatives. Using our existing CI system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595951969.170100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1595951969.170100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-07-28 08:59</span><br/>
+I secretly hate that now is so common to run everything in a CI server :joy: , but yep I can see how it can be useful doing performance benchmarks in multiple branches.<br/>This convo has been great <span style="background-color:#ccf">@Kartik Agaram</span>, I got so many good ideas from it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600930207.000300"></a>
+      <img src="https://secure.gravatar.com/avatar/58ad4af42f7cff8698951a7befb26f0f.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../thinking-together/1595618648.446000.html#1600930207.000300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksii Shmalko</b>
+<span style="margin:2em; color:#606060">2020-09-23 23:50</span><br/>
+This kinda goes in the opposite direction than the rest of the discussion, but besides design documents, there are <b>Architectural Decision Records (ADR)</b>. They are more lightweight, less focused on the implementation details and more on the reasoning behind the decision.<br/><br/>In a nutshell, it's just a problem statement, the context (current state of the code <em>and organization</em>), driving factors, analysis of options (pros and cons), the decision, and the consequences.<br/><br/>I use ADRs for larger-scale decisions with multiple stakeholders and conflicting priorities.<br/><br/>One thing I find useful is that ADRs capture the current organizational context which is ephemeral and is never recorded otherwise. Examples might be (1) one team is overloaded while another one is idle, so we might lean to the solution that utilizes their expertise, (2) the other team in the organization is developing a similar solution, so we might piggyback on that program, but that adds an additional dependency on the other division, and we know they are slow to react.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

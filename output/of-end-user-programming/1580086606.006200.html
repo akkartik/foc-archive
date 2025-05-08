@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-end-user-programming</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/74791f7f49bc26afa271eced90cda37c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Bicking</b>
+<span style="margin:2em; color:#606060">2020-01-26 16:56</span><br/>
+I've been working on a voice driven product, and it's got me thinking about programmability. Specifically users start to learn a set of phrases to accomplish things, which can become the building blocks to string actions together. It's kind of natural language programming, but I'm not confident that's the right way to think about it... just because the individual phrases are natural language doesn't mean the assembly should be. <br/><br/>Anyway... I don't have any particular question or assertion here, nor have I thought about this for long, but I thought I'd mention it because I'd be interested in any thoughts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580090794.007600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580090794.007600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-01-26 18:06</span><br/>
+<span style="background-color:#ccf">@Ian Bicking</span> I was thinking of a solution for natural language programming a while ago. This is what I came up with:<br/><br/><b>Transform English to code</b><br/>A simple parser will try to convert English sentences to code with the following steps: The verb of the sentece will be the function that’s going to be called. For the moment, if the sentence has no verb it’s an error. The other words are the parameters of the function. Articles, prepositions, and other words with no meaning will be ignored. The <em>parameters</em> are converted to a Hash. The keys are the categories of the words, the values are objects with the words and more information. The hypernyms (<a href="https://en.wikipedia.org/wiki/Hyponymy_and_hypernymy">https://en.wikipedia.org/wiki/Hyponymy_and_hypernymy</a>) of a word are the candidates for the category (this is IMO the most complex problem to solve for the project, might need some heuristics).<br/>For example the sentence:<br/><pre style="white-space:pre-wrap">Draw a red circle</pre><br/>Would get transformed to the code:<br/><pre style="white-space:pre-wrap">draw(color: 'red', shape: 'circle')</pre><br/>I was thinking about it for a text based language, here is the POC I did <a href="https://github.com/nlpl-lang/nlpl-editor">https://github.com/nlpl-lang/nlpl-editor</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580094227.008000"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580094227.008000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-01-26 19:03</span><br/>
+Ah I forgot about how threads are used here, apologies<br/>Your design reminds me somewhat of mozilla lab's canned ubiquity project, though voice driven. Though it seems to me that your project aims to be more composable than ubiquity?<br/>Incidentally, ubiquity got ported to webextensions, and thus can be tried out here: <a href="https://gchristensen.github.io/ubiquitywe/">https://gchristensen.github.io/ubiquitywe/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580096869.008400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580096869.008400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-01-26 19:47</span><br/>
+<span style="background-color:#ccf">@Ian Bicking</span> I assume you're aware of Inform 7? We discussed this talk here a while back: <a href="http://inform7.com/talks/2018/06/09/london.html">http://inform7.com/talks/2018/06/09/london.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580122588.008700"></a>
+      <img src="https://secure.gravatar.com/avatar/74791f7f49bc26afa271eced90cda37c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-72.png" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580122588.008700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Bicking</b>
+<span style="margin:2em; color:#606060">2020-01-27 02:56</span><br/>
+I periodically remember and forget inform ;) I will check out that talk! <br/><br/>And I'm hoping the project I'm working on can revive some of those ideas from Ubiquity (<a href="https://github.com/mozilla/firefox-voice">https://github.com/mozilla/firefox-voice</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580141824.008900"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580141824.008900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2020-01-27 08:17</span><br/>
+The time is definitely ripe for revisiting speech-to-code. Between neural NLP and program synthesis, all the tech is now there there for an effective and usable speech interface for inputting lines of code. Someone just needs to do it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580586827.024000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580586827.024000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-02-01 11:53</span><br/>
+i’ve had this half-idea brewing in my head: i think you want to start from the api rather than the speech recognition end of things. any voice interface can be summed up as a fuzzy search over existing capabilities—you don’t have to understand all of grammar to interpret that, and if you could understand all grammar it wouldn’t be much help if your api can’t do the vast majority of requests you could make
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580587736.024200"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../of-end-user-programming/1580086606.006200.html#1580587736.024200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2020-02-01 12:08</span><br/>
+Yeah that’s a reasonable way to approach the problem
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

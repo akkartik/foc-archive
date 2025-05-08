@@ -1,0 +1,375 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 01:59</span><br/>
+A completely unrelated question:<br/><br/>Every programming language has a notion of "dependencies" between data, e.g. the between the variables (or functions) of a program. Understanding this dependency graph is important: it helps you determine the flow of data through your program. Consequently, it's problematic if every value is accessible from everywhere. Programming languages usually solve this with a notion called <b>scope.</b> Scopes are typically nested. Scopes may take the form of "modules" or "blocks".<br/><br/>It's my understanding that organising data into scopes is a mere approximation to expressing the true dependency graph of a program's data (which can be a DAG or a cyclic graph, not just a tree). It's easy to see the extent of a value hidden in a block, but it's not possible to show that a value is referenced in precisely two blocks. Similarly, it's easy to make values internal to a module, but PLs don't have a built-in way to visualise how the imports and exports of modules are interconnected (there are some external tools for visualising this).<br/><br/><b>My question is:</b> has anyone seen some good ways of representing data dependencies? Something better than a boxes-and-arrows visualisation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579860229.072700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579860229.072700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:03</span><br/>
+Just design a language built around the idea of data dependencies.<br/><br/>You're welcome.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579860264.072900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579860264.072900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:04</span><br/>
+Sure, but how does that language represent those data dependencies?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579860354.073200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579860354.073200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:05</span><br/>
+Well in Onex, the rules have a left-hand-side matching part that goes out and plucks data (dependencies) from the surrounding network of objects.<br/>You just look at the left-hand side.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579860720.073400"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579860720.073400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:12</span><br/>
+Also, you can approximate the dependencies by looking at the links an object has to other objects - if it links, then there's a chance it depends, but it's not g'teed. It can't depend without linking, however.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579861130.074700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579861130.074700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:18</span><br/>
+is there a picture that can summarise what you're describing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579861362.075100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579861362.075100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-01-24 02:22</span><br/>
+there's stuff on <a href="http://object.network">http://object.network</a> but I may have to draw something extra for you..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579882119.076500"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579882119.076500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-01-24 08:08</span><br/>
+It’s one of those things I’m confused why it isn’t a standard feature of IDEs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579882591.082300"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579882591.082300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-01-24 08:16</span><br/>
+It doesn’t sound like a language feature though.<br/>If I hover over a variable in CLion it will highlight the other uses of that variable on the screen. This is pretty good. I have wanted a dataflow graph, though. I can sort of imagine something better than boxes and arrows, but for more specific tasks, eg showing various forms of provenance, peeking at the context of all callsites. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579882624.083000"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579882624.083000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-01-24 08:17</span><br/>
+Is there a specific use case you have in mind?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579891754.086600"></a>
+      <img src="https://secure.gravatar.com/avatar/67ec98818d7fb6395d9a327081cd5472.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579891754.086600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Zubair Quraishi</b>
+<span style="margin:2em; color:#606060">2020-01-24 10:49</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> So I looked at Object Network. Am I right in thinking that Version 1 will be an Android app that acts as an Object, and will access the devices functions, which can then be accessed via a HTTP/API call using the Object Link mechanism to control the phone remotely?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579896870.087100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579896870.087100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-01-24 12:14</span><br/>
+<span style="background-color:#ccf">@Zubair Quraishi</span> thanks for having a look at my project :smile:<br/><br/>Version 1 will be the Mother of all Switch and Lamp Demos! Showing how you can turn on lights with buttons, etc.<br/><br/>Yes, the "IDE" will be running on Android. Onex also runs on nRF5 devices such as the Puckjs: <a href="https://www.puck-js.com/">https://www.puck-js.com/</a>, providing the button and light i/o.<br/><br/>Each device is represented by its device object, that then links to multiple further i/o objects - so the Puck has a single device object linking to a button object and to a light object.<br/><br/>Seeing those in the Android Onex app, you can wire the button over to the light so that it turns on when the button is pressed! :open_mouth: :smile:<br/><br/>Inside the Android phone, I intend to access all the sensors and actuators, data and APIs gradually over time, adding to the linkable objects visible in the UI.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579899342.089200"></a>
+      <img src="https://secure.gravatar.com/avatar/67ec98818d7fb6395d9a327081cd5472.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579899342.089200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Zubair Quraishi</b>
+<span style="margin:2em; color:#606060">2020-01-24 12:55</span><br/>
+Ok very interesting what you describe but I think I will need to see it to understand it. I have seen hundreds of iot demos but they always are very techie and not useable by normal users
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579910584.099000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579910584.099000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 16:03</span><br/>
+<span style="background-color:#ccf">@Peter Abrahamsen</span> Graphical notations form a language, and the programming environment I’m aiming for is not based on text files, so such notations can definitely be a language feature.<br/><br/>The use case is tracing data dependencies across Prolog-like rules.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579911956.107000"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579911956.107000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-01-24 16:25</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> looks like there are sone useful results for “provenance graph”. There might at lest be useful considerations for information design in the literature. But you’ve described a domain, not tasks or activities that might be aided by a notation. I don’t know what form your non-textual language takes, so I don’t know what might be relevant. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579913681.114700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579913681.114700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 16:54</span><br/>
+The primary task to be assisted is broad code comprehension - can I understand what the program is doing? How all the pieces fit together? All other tasks are subservient to that. I’m not targeting any further niche at the moment — I’m trying to put together a core syntax.<br/><br/>The language is not non-textual, it has plenty of text. It’s just not limited to a file-sized Unicode text string. Most of the visual design is still on paper so I don’t have screenshots yet.<br/><br/>I’m looking for inspiring examples of dependency represesentation, on the chance that there’s some existing work out there. So it doesn’t need to be based on any particular syntax I have planned out. Searching for “provenance graphs” pulls up cliche boxes-and-arrows which doesn’t really yield any insight.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579913914.115700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579913914.115700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-24 16:58</span><br/>
+I have this nagging feeling I’m just going to have to play this by ear and invent something unique.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579977208.125500"></a>
+      <a href="../thinking-together/1579859955.070800.html#1579977208.125500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>breck7</b>
+<span style="margin:2em; color:#606060">2020-01-25 10:33</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> two approaches I've been exploring in my tree languages. 1) Cubes. This one is inspired from mahjong. In Tree Notation, a program is isomorphic to a spreadsheet. A newline separates a row; a space separates a column. Everything is typed and types can inherit from other types. So I have methods where you can visualize a "TypeCube" of every program. So you can see the type dependencies of each word.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579977315.125900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579977315.125900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-01-25 10:35</span><br/>
+It's still a bit rough but I think it may turn out to be useful. My thinking is the taller a tower, the more a word is connected to other types, aka the more information is contained in each word.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1579977433.126100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1579977433.126100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-01-25 10:37</span><br/>
+2) Tooltip snippets. This one is pretty simple, where you simply Find all references, grab the lines, and show the joined lines on hover
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580004600.129400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580004600.129400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-01-25 18:10</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I like your thoughts on this.  Let me add that having used environments  with different scoping conventions, it turns out that the mess of having many symbols in scope tends to be less than the mess of threading data through to where it is needed but the promised land would be good, dynamic ways of understanding data dependencies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580033450.132200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580033450.132200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-26 02:10</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Yeah I'd like to experiment with having the computer pull up the dependencies relevant to the current focus, rather than having the programmer organise them manually. The question is: what does that look like? I may have to just play around in the absence of prior work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580033551.132400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580033551.132400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-01-26 02:12</span><br/>
+<span style="background-color:#ccf">@breck7</span> Looks interesting, but I'm not sure what I'm looking at. Which are the types? And also, while the 3D effect is cool, it doesn't really seem to <b>convey</b> much. What information can you glean from it without doing any navigation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580052633.136300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580052633.136300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-01-26 07:30</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> when it comes to gathering relevant dependencies, a good trick is to look at the edit history: bits that were recently changed likely relevent as are bits that were previously changed around the same time as the focused bit.  This is especially useful for long distance dependencies.  Collapsing library/framework code is a special case of this principle.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580064278.149400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580064278.149400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-01-26 10:44</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> sorry, that was just one that I had open in a tab. I haven't shipped a good interactive version yet. But you are looking at the type stack for each word. So if the word in your program in some language was 3.14, the parser might assign it to the type <b>π</b> which extends from float which extends from numeric which extends from any. So in a type cube visualization it me be a stack of tiles with 3.14 on top, underneath would be a tile with <b>π,</b> then float, then numeric, then any. So the stack would be 5 tiles high. Now if your language didn't have the concept of numbers at all and perhaps was just strings, that stack would only be 2 high (3.14 and any). So the "height" is an approximation for the amount of meaning in a program.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580064783.149600"></a>
+      <a href="../thinking-together/1579859955.070800.html#1580064783.149600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>breck7</b>
+<span style="margin:2em; color:#606060">2020-01-26 10:53</span><br/>
+This example illustrated. At a glance I can see there is more meaning in the top cell.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580065457.150000"></a>
+      <a href="../thinking-together/1579859955.070800.html#1580065457.150000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>breck7</b>
+<span style="margin:2em; color:#606060">2020-01-26 11:04</span><br/>
+So to tie it back to the original thread. An alternative to arrows is to visualize dependencies like mahjong stacks
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580150998.218700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-20/870238505987_b88e30c8a541a7725a6d_72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580150998.218700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maeliza</b>
+<span style="margin:2em; color:#606060">2020-01-27 10:49</span><br/>
+<span style="background-color:#ccf">@Shubhadeep Roychowdhury</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580180905.227800"></a>
+      <a href="../thinking-together/1579859955.070800.html#1580180905.227800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2020-01-27 19:08</span><br/>
+If you’re curious about representing dependency graphs in general, the best survey paper I’ve seen is this one : 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580181078.230900"></a>
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580181078.230900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2020-01-27 19:11</span><br/>
+Thumbnail came from this PhD candidate in Utah: <a href="http://www.cs.utah.edu/~miriah/career/">http://www.cs.utah.edu/~miriah/career/</a><br/><br/>I’ve gathered several different visual tools in this space that exercise different layouts for JavaScript, one especially interesting one is the reactive relationship graph that isn’t just import dependencies used by every single observableHQ Notebook.<br/><br/><a href="https://github.com/hydrosquall/code-maps-frontend">https://github.com/hydrosquall/code-maps-frontend</a><br/><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1580630678.313300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1579859955.070800.html#1580630678.313300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-02-02 00:04</span><br/>
+<span style="background-color:#ccf">@Cameron Yick</span> ooh that research seems interesting. I'm going to save that as a reference, thanks!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-09-17 09:38</span><br/>
+Question about programming languages with <em>static type systems</em> and <em>support for generics</em>: in the language communities I spend most time in, the usual advice is to write specific algorithms first, and then generalize them when it makes sense. That's probably good advice.<br/><br/>Still, I'm trying something different and wonder: are there language communities that approach this the opposite way, ie. write algorithms as generic as possible and specialize only when needed, and only as far as needed? For instance, if you absolutely need a type to represent a sequence of elements, you only specify that the type conforms to some Iterable protocol, but leave it generic otherwise?<br/>I'd think Haskell is probably a good place to look for that…? And what about proof-oriented languages?<br/><br/>Which affordances do these languages offer to specifically support such a programming style?<br/>And is this programming technique a thing that has a name?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600361336.037600"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600361336.037600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-09-17 09:48</span><br/>
+I definitely think you will find that this is pretty common in haskell. Starting with the generic let's you write reusable code, but also can help constrain what implementations are valid and not. I know of one article that argues specifically for this practice.<br/><br/><a href="https://degoes.net/articles/insufficiently-polymorphic">https://degoes.net/articles/insufficiently-polymorphic</a><br/><br/>(John De Goes is a very controversial figure and this is not meant as an endorsement of his views. In fact, I don't know his views just that he is controversial.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600362088.037900"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600362088.037900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-09-17 10:01</span><br/>
+In languages that support polymorphic type inference, this isn’t actually a trade-off you need to make. You can write code without types, and the compiler will infer the most general type possible. For example, in OCaml, if I do:<br/><br/><pre style="white-space:pre-wrap">let rec map f l = match l with <br/>  [] -&gt; [] | x :: xs -&gt; f x :: map f xs</pre><br/>Then the compiler gets the right generic type for <tt>f</tt> and <tt>l</tt> , including the constraint that the elements of <tt>l</tt> have to be the same type as the input to <tt>f</tt>.<br/><br/>You probably knew that already, but it’s worth reframing in terms of your question. You should write the algorithm exactly as needed ignoring types, and then decide what capabilities you need from your types.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600363785.038300"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-10/1362285586740_cbf2c32d7d6b8886a1b2_72.png" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600363785.038300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Dieterichs</b>
+<span style="margin:2em; color:#606060">2020-09-17 10:29</span><br/>
+I thought for a long time that abstractions and generalizations just complicate stuff. Particularly, I found natural numbers very easy to understand and groups/fields etc. very hard to grasp.<br/>Now I think it is completely the opposite. Natural numbers are incredibly hard. Abstractions are meant for simplification - they remove the noise from the actual problem.<br/><br/>I think similarly about programming and interfaces or generic types.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600371058.040100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600371058.040100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-09-17 12:30</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> Thanks for sharing that article. That is in fact pretty much exactly what I was thinking about.<br/><br/><span style="background-color:#ccf">@Will Crichton</span> Polymorphic type inference is absolutely one of these affordances I had in mind. It seems all the languages in the ML family seem to be pretty good at that.<br/><br/><span style="background-color:#ccf">@Henning Dieterichs</span> Completely agree. Abstractions remove detail; and that's exactly why everything gets a lot simpler if you use them right. If you have a thing and you only know that it has elements you can iterate over, you can implement a lot of algorithms on top of that, but you can't accidentally assume another property of that thing, because the compiler won't let you. In most imperative and/or dynamically typed languages it's easy to make such assumptions and as long as it works, you'll never know you did. Which might not be a problem, but I do think a lot of the complexity in refactoring comes from such assumptions that were only possible, because a much more specific (and therefore more powerful) type was used.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600397015.000600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600397015.000600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-09-17 19:43</span><br/>
+Yes, in Haskell people are going to start with type variables because lowercase <tt>a</tt>, <tt>b</tt>, <tt>c</tt> translates into don't care, doesn't matter, no worries.  The place where you fall down a hole is where you have interacting type classes.  Next thing you know you're surrounded by multi-parameter type class with functional dependencies, type families, and worse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600416208.000800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600416208.000800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-09-18 01:03</span><br/>
+Good abstractions are helpful, bad abstractions are an obstacle. I don't expect much opposition to this statement. So the real question is how to deal with experimental abstractions, when working in a domain you don't understand very well. Is it better to abstract early or abstract late?<br/><br/>I like <span style="background-color:#ccf">@Stefan Lesser</span>'s idea of exploring how various communities deal with this, but I think it would be even more instructive to extend this exploration beyond programming. We (in the sense of human societies) have a lot more experience with mathematical and engineering abstractions, for example.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600443720.001600"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600443720.001600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-09-18 08:42</span><br/>
+Yeah, I'm coming at this from my explorations of linguistics and my recently improved understanding of Christopher Alexander's pattern languages. It seems that an overlooked property of ~regular~ human language is that we are perfectly fine in communicating in abstract concepts all the time and there is no need to go and define everything all the way down to the nitty-gritty details as long as we roughly understand the words we use in the same way.<br/><br/>A form of applying this more or less directly to programming is to try to stay on that abstract level where a list is just that, and you go as long as you can without saying what's actually in the list. Of course, with programming languages you'll have to eventually provide some real specific values, if you want to see your program running and doing something. But if you did the generic part properly and your language supports it, it should be as easy as picking a few concrete values for a test case, stick them in, and it should just work (even if it doesn't verify the complete range of possible types/values), because your program is defined for all lists of any type, whatever type you end up using.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600444211.001900"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600444211.001900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-09-18 08:50</span><br/>
+What I'm looking at here though, is <b>not</b> the benefit of having more generic algorithms which can be reused (which is usually the motivation), but the benefit of not having to (and not being able to) define specifics before you have to. This is much closer to what Alexander has in mind when he talks about "unfolding", I think, and it is what I misunderstood about pattern languages — they weren't meant for reusable components, as <em>Design Patterns</em> will make you think — they were meant as a design technique that keeps you focused on the <em>whole</em> and leads you through a process of progressive refinement, step by step adding more details transforming, but never replacing or destroying the structure you have built thus far.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1600495725.009300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../present-company/1600360697.037500.html#1600495725.009300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-09-18 23:08</span><br/>
+Humans communicate in a context of shared abstractions. In programming we create formalizations for abstractions. Not sure this is comparable.<br/>This reminds me of a long-ago discussion with colleagues about teaching mathematical concepts in physics. Is it better to start from examples and then develop abstractions, or start with the abstract and then introduce examples for illustration? There were good arguments on both sides.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

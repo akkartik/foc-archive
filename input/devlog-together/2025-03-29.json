@@ -1,0 +1,836 @@
+[
+    {
+        "text": "Working on a proposal for the algorithm of fit-to-width text for CSS. Planning to present it to CSSWG next week if all goes right :)\n\nI already have a technique that handles a few main use cases (<https:\/\/kizu.dev\/fit-to-width\/>), but if we want it to be native, we need to handle a bunch more: specifically, a case when a line of text has “static” elements that do not change their dimensions in response to the font-size change. This, with added handling of optical sizing of a font, requires us to basically render the same line box up to 4 times, but with 2 of those being optional (when no static elements, or no optical sizing axis present in the fonts used).\n\nSo mostly working on fine-tuning the algorithm + making a prototype of it with custom elements & shadow DOM (with no runtime JS for layout, only for duplicating the content to emulate multiple renders), and also thinking about what an API for this property could look like, with possible options, etc. And will need to also think how some other edge cases will need to be handled (reverse dependence on the font-size, initial-letter, and a bunch more).",
+        "files": [
+            {
+                "id": "F08KZMQQWMA",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "U087592N6HE",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ako9s",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Working on a proposal for the algorithm of fit-to-width text for CSS. Planning to present it to CSSWG next week if all goes right :)\n\nI already have a technique that handles a few main use cases ("
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/kizu.dev\/fit-to-width\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "), but if we want it to be native, we need to handle a bunch more: specifically, a case when a line of text has “static” elements that do not change their dimensions in response to the font-size change. This, with added handling of optical sizing of a font, requires us to basically render the same line box up to 4 times, but with 2 of those being optional (when no static elements, or no optical sizing axis present in the fonts used).\n\nSo mostly working on fine-tuning the algorithm + making a prototype of it with custom elements & shadow DOM (with no runtime JS for layout, only for duplicating the content to emulate multiple renders), and also thinking about what an API for this property could look like, with possible options, etc. And will need to also think how some other edge cases will need to be handled (reverse dependence on the font-size, initial-letter, and a bunch more)."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1743244344.627349",
+        "edited": {
+            "user": "U087592N6HE",
+            "ts": "1743244371.000000"
+        },
+        "client_msg_id": "c7400291-235b-4c48-a009-69076c2faef2",
+        "thread_ts": "1743244344.627349",
+        "reply_count": 3,
+        "reply_users_count": 3,
+        "latest_reply": "1743495794.155549",
+        "reply_users": [
+            "U0378MDUG1Y",
+            "UC2A2ARPT",
+            "U087592N6HE"
+        ],
+        "replies": [
+            {
+                "user": "U0378MDUG1Y",
+                "ts": "1743271198.267939"
+            },
+            {
+                "user": "UC2A2ARPT",
+                "ts": "1743488373.688409"
+            },
+            {
+                "user": "U087592N6HE",
+                "ts": "1743495794.155549"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "UGWUJUZHT"
+                ],
+                "count": 1
+            },
+            {
+                "name": "cake",
+                "users": [
+                    "U85HCL7JP",
+                    "U0378MDUG1Y",
+                    "U013ZLJARC7",
+                    "UL2SJ88Q3",
+                    "UC2A2ARPT"
+                ],
+                "count": 5
+            },
+            {
+                "name": "+1::skin-tone-3",
+                "users": [
+                    "UE6EFEPTQ"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743256772.978399",
+        "client_msg_id": "f8925c0a-9c1f-4e65-b7b4-15287011037d",
+        "text": "Here's an attempt at making this stuff a little less unclear. <https:\/\/github.com\/guitarvydas\/zddemos\/tree\/main|See README.md>. I've written about these examples before, but, I've never drawn them all together into one repo. An interesting side effect of all of this was that, in the process of creating this repo, I whipped up an LLM example and extended it into a double-LLM feedback loop in a matter of minutes (the `dpink` example) (the resulting output is actually enlightening at a philosophical level, to me, IOW the experiment was a \"success\" and needed only 3 Parts). The `rt` kernel involved more development work, but the LLM example shows how easy it is to create apps\/experiments when the right abstraction is used.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hMwS6",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Here's an attempt at making this stuff a little less unclear. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/guitarvydas\/zddemos\/tree\/main",
+                                "text": "See README.md",
+                                "unsafe": true
+                            },
+                            {
+                                "type": "text",
+                                "text": ". I've written about these examples before, but, I've never drawn them all together into one repo. An interesting side effect of all of this was that, in the process of creating this repo, I whipped up an LLM example and extended it into a double-LLM feedback loop in a matter of minutes (the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "dpink",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " example) (the resulting output is actually enlightening at a philosophical level, to me, IOW the experiment was a \"success\" and needed only 3 Parts). The "
+                            },
+                            {
+                                "type": "text",
+                                "text": "rt",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " kernel involved more development work, but the LLM example shows how easy it is to create apps\/experiments when the right abstraction is used."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743259138.430339",
+        "client_msg_id": "f6358e92-ec8b-49ef-a6d0-bf52c99f75a4",
+        "text": "How did you make the text serialization deterministic? FYI - I've been playing with JSON (ick) as an I.R. and using `jq` to sort the fields alphabetically.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1743198672.135089",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "rz1pe",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "How did you make the text serialization deterministic? FYI - I've been playing with JSON (ick) as an I.R. and using "
+                            },
+                            {
+                                "type": "text",
+                                "text": "jq",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " to sort the fields alphabetically."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743259365.430739",
+        "client_msg_id": "3bcbede6-2d04-4161-bc7c-01fe79f78dcd",
+        "text": "I don't get it at all. I tried clicking around a bunch, I really did. There's some disconnect. I have no idea which way is up, what you're trying to accomplish, what your metric is for quality. It all looks like Rube-Goldberg machines.\n\nLike the arith example. Where is the actual conversion to anything? <https:\/\/github.com\/guitarvydas\/zddemos\/blob\/main\/arith\/arith-main.drawio.png|https:\/\/github.com\/guitarvydas\/zddemos\/blob\/main\/arith\/arith-main.drawio.png> doesn't feel like the interesting part of a compiler to any single one of those languages. So what am I supposed to be looking at? Where is the algorithm, as opposed to the orchestration of coarse steps?\n\nIs dpink running a local LLM? Dispatching to an external LLM?\n\nPerhaps you should take me through just one of these examples. Show me what the dev experience is. If I use your approach, where do I spend most of my day? How do I make changes? How do I locate and fix problems?\n\nBut then again, I just don't know. You've certainly tried showing a single example before. You're constantly seeming to respond to my suggestions and nothing helps. Maybe I'm just dumb or blind, and you should stop running around in circles for me :sweat:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "F8WaE",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I don't get it at all. I tried clicking around a bunch, I really did. There's some disconnect. I have no idea which way is up, what you're trying to accomplish, what your metric is for quality. It all looks like Rube-Goldberg machines.\n\nLike the arith example. Where is the actual conversion to anything? "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/guitarvydas\/zddemos\/blob\/main\/arith\/arith-main.drawio.png",
+                                "text": "https:\/\/github.com\/guitarvydas\/zddemos\/blob\/main\/arith\/arith-main.drawio.png"
+                            },
+                            {
+                                "type": "text",
+                                "text": " doesn't feel like the interesting part of a compiler to any single one of those languages. So what am I supposed to be looking at? Where is the algorithm, as opposed to the orchestration of coarse steps?\n\nIs dpink running a local LLM? Dispatching to an external LLM?\n\nPerhaps you should take me through just one of these examples. Show me what the dev experience is. If I use your approach, where do I spend most of my day? How do I make changes? How do I locate and fix problems?\n\nBut then again, I just don't know. You've certainly tried showing a single example before. You're constantly seeming to respond to my suggestions and nothing helps. Maybe I'm just dumb or blind, and you should stop running around in circles for me "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "sweat",
+                                "unicode": "1f613"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743259776.735819",
+        "client_msg_id": "4e779d4d-d8ef-4603-b609-cc011232acfb",
+        "text": "I would guess that the \"problem\" isn't you, it's me not saying _something_. It would probably be helpful to me to walk you through one of these and have you ask questions and have you point out what I'm not saying. Let me know what suggestions you have on poking at this further (if interested)...",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "4vWVk",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I would guess that the \"problem\" isn't you, it's me not saying "
+                            },
+                            {
+                                "type": "text",
+                                "text": "something",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". It would probably be helpful to me to walk you through one of these and have you ask questions and have you point out what I'm not saying. Let me know what suggestions you have on poking at this further (if interested)..."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743260154.282549",
+        "client_msg_id": "2dd901c8-23a9-4d18-ab05-759c1be8e081",
+        "text": "[fyi, this stuff looks definitely non-Rube-Goldberg-y to my eyes. In fact, Lua, Python, etc. code looks like clunky _assembler_ to me]",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "1uPXw",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "[fyi, this stuff looks definitely non-Rube-Goldberg-y to my eyes. In fact, Lua, Python, etc. code looks like clunky "
+                            },
+                            {
+                                "type": "text",
+                                "text": "assembler",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " to me]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743260564.054779",
+        "client_msg_id": "6f29b1a5-cee5-4dd2-a409-77ef4cc66eec",
+        "text": "You're comparing apples and oranges. On one side we have programs you have written. On the other side you're making generalizations about languages without any example programs. And the reference to assembler feels like an aesthetic judgement, but I'm not yet at the point where I have the luxury of judging aesthetics. I'm just trying to figure out how the human is supposed to read it. And there are certainly small Lua, Python programs where that's no problem at all. So yeah, it's probably a problem of presentation. It's not clear to me where the non-assembler parts are, given you're building these things out of one cartoon drawing and six different bits of what you call assembler in six different assembler dialects. Where is the insight? Am I asking what water is? :sweat_smile: Maybe we should do a call.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hzXX7",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "You're comparing apples and oranges. On one side we have programs you have written. On the other side you're making generalizations about languages without any example programs. And the reference to assembler feels like an aesthetic judgement, but I'm not yet at the point where I have the luxury of judging aesthetics. I'm just trying to figure out how the human is supposed to read it. And there are certainly small Lua, Python programs where that's no problem at all. So yeah, it's probably a problem of presentation. It's not clear to me where the non-assembler parts are, given you're building these things out of one cartoon drawing and six different bits of what you call assembler in six different assembler dialects. Where is the insight? Am I asking what water is? "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "sweat_smile",
+                                "unicode": "1f605"
+                            },
+                            {
+                                "type": "text",
+                                "text": " Maybe we should do a call."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743260597.237989",
+        "edited": {
+            "user": "UCUSW7WVD",
+            "ts": "1743260606.000000"
+        },
+        "client_msg_id": "b8b92b09-6ad0-41b7-b448-d7f4c45002e6",
+        "text": "Focus on _communicating_ what this B is before you try to _compare_ it to mainstream A.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "eMizG",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Focus on "
+                            },
+                            {
+                                "type": "text",
+                                "text": "communicating",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " what this B is before you try to "
+                            },
+                            {
+                                "type": "text",
+                                "text": "compare",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " it to mainstream A."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02E4DAQGSZ",
+        "type": "message",
+        "ts": "1743261604.613189",
+        "client_msg_id": "233b184f-8416-4686-8e0c-7157d19671f5",
+        "text": "They were mostly ordered already, the notebook cell order is the serialisation order. I only needed to sort the modules by their name and it was done, but before that the git diffs were 1000 line blocks moving around randomly",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "27dffd0e73bd",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2483463922595_27dffd0e73bd6f709927_72.gif",
+            "first_name": "Tom",
+            "real_name": "Tom Larkworthy",
+            "display_name": "Tom Larkworthy",
+            "team": "T5TCAFTA9",
+            "name": "tom.larkworthy",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1743198672.135089",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "9jzqM",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "They were mostly ordered already, the notebook cell order is the serialisation order. I only needed to sort the modules by their name and it was done, but before that the git diffs were 1000 line blocks moving around randomly"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743264595.425949",
+        "client_msg_id": "588d8383-39bf-4c7b-8719-e5fba041b9b3",
+        "text": "I'm certainly open for a call [if anyone else wants to join in, that would be OK, too, from my perspective].\n\nI'm pondering what you've said. I can see that something is missing, but, I'm at a loss to say what it is. It's something about economy of expression, removing ice jams caused by worrying about too much detail at too low a level, something like that. I tried to poke at Claude 3.5 to figure out why Richard Feynman used Feynman diagrams instead of written equations and got no insights on how to say this differently. Continuing to use PLs based on 1960s graphics technology and only _one_ way of looking at things (sequentialism) doesn't seem like a fruitful approach. To me, it looks like we're at a precipice, the kind faced in the 1960s by people holding bags of transistors, but different. [In the dpink LLM example and the Larson Scanner example, there are wires that feed back to previous stages. That's not \"recursion\", that's something different. Knowing that I was allowed to draw such feedback wires simplified my thinking about how to solve those problems. Assembler, and it's derivatives like FP, don't encourage you to think that way]. I feel that FP imposes too many semantic restrictions on thought. ... continuing to ponder ...",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "vlXoV",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I'm certainly open for a call [if anyone else wants to join in, that would be OK, too, from my perspective].\n\nI'm pondering what you've said. I can see that something is missing, but, I'm at a loss to say what it is. It's something about economy of expression, removing ice jams caused by worrying about too much detail at too low a level, something like that. I tried to poke at Claude 3.5 to figure out why Richard Feynman used Feynman diagrams instead of written equations and got no insights on how to say this differently. Continuing to use PLs based on 1960s graphics technology and only "
+                            },
+                            {
+                                "type": "text",
+                                "text": "one",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " way of looking at things (sequentialism) doesn't seem like a fruitful approach. To me, it looks like we're at a precipice, the kind faced in the 1960s by people holding bags of transistors, but different. [In the dpink LLM example and the Larson Scanner example, there are wires that feed back to previous stages. That's not \"recursion\", that's something different. Knowing that I was allowed to draw such feedback wires simplified my thinking about how to solve those problems. Assembler, and it's derivatives like FP, don't encourage you to think that way]. I feel that FP imposes too many semantic restrictions on thought. ... continuing to ponder ..."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743265745.554679",
+        "client_msg_id": "84721f29-e67e-49ab-838a-3bddb7f92138",
+        "text": "Yeah, that again does nothing for me. You keep flying off into airy generalities. But people will only trust the abstract once they have some grasp of the concrete.\n\nFor example, from what I can tell, one major case you make for your approach is that it's more efficient. Things that don't depend on each other should be able to run in parallel, and that is only possible if there aren't accidental dependencies introduced by the tools. What you call epicycles.\n\nWell, if the major case is that it's more efficient, show me the most powerful case for how efficient it is. Or if you want to focus on some other benefit, show me a concrete working program and convince me it has that benefit. Pick one benefit, and thread it through from start to finish.\n\nTake me through a linear argument, I have no trust at this point to spend time clicking around on your stuff. I don't want to see multiple notations, I don't want to bounce between 3 different services, I don't want to read LLM slop. (Use LLMs by all means. I don't care how you generate your argument, and I don't want to hear about it either. It's your argument no matter how you arrived at it, and it wins or loses on its merits.)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hhuLg",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Yeah, that again does nothing for me. You keep flying off into airy generalities. But people will only trust the abstract once they have some grasp of the concrete.\n\nFor example, from what I can tell, one major case you make for your approach is that it's more efficient. Things that don't depend on each other should be able to run in parallel, and that is only possible if there aren't accidental dependencies introduced by the tools. What you call epicycles.\n\nWell, if the major case is that it's more efficient, show me the most powerful case for how efficient it is. Or if you want to focus on some other benefit, show me a concrete working program and convince me it has that benefit. Pick one benefit, and thread it through from start to finish.\n\nTake me through a linear argument, I have no trust at this point to spend time clicking around on your stuff. I don't want to see multiple notations, I don't want to bounce between 3 different services, I don't want to read LLM slop. (Use LLMs by all means. I don't care how you generate your argument, and I don't want to hear about it either. It's your argument no matter how you arrived at it, and it wins or loses on its merits.)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743265916.837919",
+        "client_msg_id": "4d343914-a18c-42c5-b447-e211d888e41b",
+        "text": "None of us get to compare our notations to Feynman diagrams until someone else uses the notations to obtain publication-worthy levels of insight.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "CmsC0",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "None of us get to compare our notations to Feynman diagrams until someone else uses the notations to obtain publication-worthy levels of insight."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0378MDUG1Y",
+        "type": "message",
+        "ts": "1743271198.267939",
+        "client_msg_id": "6F1DC27E-102F-44F2-B748-9A9996C69DC8",
+        "text": "Oh wow this is awesome! Definitely interested in how the custom element comes out!",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "1092a4f97098",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-03-23\/3286745266387_1092a4f970985ebc8d2b_72.png",
+            "first_name": "Christopher",
+            "real_name": "Christopher Shank",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chris.shank.23",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1743244344.627349",
+        "parent_user_id": "U087592N6HE",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "7EAp1",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Oh wow this is awesome! Definitely interested in how the custom element comes out!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1743284671.834089",
+        "client_msg_id": "9c2f35d8-159d-47f3-8bb8-8babe2337e2a",
+        "text": "This demonstrates a microcosm of my problem. I wrote \"... why ... ... used ... ... instead of written equations\". I perceive this to be a question about _process_. Those words were taken, instead, to mean name-dropping and direct comparison of 0D to a specific famous artefact. The interesting bit is _how_ the thought process worked to solve a hoary problem (observation: the technique involved abandoning equation-based notation instead of simply embellishing it). The question should be \"what are the significant semantic concepts used in 0D that supplement current programming best-practices?\" instead of \"what do these wires mean?\". [I've tried to state what those concepts are in several ways, many times, but, the simplicity of the concepts appears to make them ignorable].\n\nAnalogy: We don't need to know how to make better internal combustion engines just to drive cars. We do need auto mechanics, but, the majority of drivers don't need to know how to service their own automobiles at a fine-grained level.  FP is like pistons (i.e. only a small % of what's needed to make an engine work). 0D is like the hood (or bonnet) that hides all of that detail. Computer Science has become like a course in automobile mechanics, albeit partial and _very_ biased (analogy: flat-head screwdrivers only, the use of Phillips and Robertson screwdrivers and pliers is forbidden). Programming should be like driving. Programming is not what Computer Science has become.\n\n[Haha, if the question in the 1st paragraph above is correct, then why don't I simply address it? ... TBD ...]",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "PZm4Q",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "This demonstrates a microcosm of my problem. I wrote \"... why ... ... used ... ... instead of written equations\". I perceive this to be a question about "
+                            },
+                            {
+                                "type": "text",
+                                "text": "process",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". Those words were taken, instead, to mean name-dropping and direct comparison of 0D to a specific famous artefact. The interesting bit is "
+                            },
+                            {
+                                "type": "text",
+                                "text": "how",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " the thought process worked to solve a hoary problem (observation: the technique involved abandoning equation-based notation instead of simply embellishing it). The question should be \"what are the significant semantic concepts used in 0D that supplement current programming best-practices?\" instead of \"what do these wires mean?\". [I've tried to state what those concepts are in several ways, many times, but, the simplicity of the concepts appears to make them ignorable].\n\nAnalogy: We don't need to know how to make better internal combustion engines just to drive cars. We do need auto mechanics, but, the majority of drivers don't need to know how to service their own automobiles at a fine-grained level.  FP is like pistons (i.e. only a small % of what's needed to make an engine work). 0D is like the hood (or bonnet) that hides all of that detail. Computer Science has become like a course in automobile mechanics, albeit partial and "
+                            },
+                            {
+                                "type": "text",
+                                "text": "very",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " biased (analogy: flat-head screwdrivers only, the use of Phillips and Robertson screwdrivers and pliers is forbidden). Programming should be like driving. Programming is not what Computer Science has become.\n\n[Haha, if the question in the 1st paragraph above is correct, then why don't I simply address it? ... TBD ...]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1743284982.565549",
+        "client_msg_id": "3b631661-6d35-40db-b0b8-ba7ca3498735",
+        "text": "But we're not talking as producer and consumer, we're talking as peer programmers right? If you want the world to adopt your way of building cars, you have to convince the mechanics.\n\nI didn't think you were name-dropping or anything like that. I don't think the way you are arguing is factually wrong or bad faith. I just think it's _ineffective_. The names are distracting rather than supporting the reader.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1741609740.442579",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "oBxgD",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "But we're not talking as producer and consumer, we're talking as peer programmers right? If you want the world to adopt your way of building cars, you have to convince the mechanics.\n\nI didn't think you were name-dropping or anything like that. I don't think the way you are arguing is factually wrong or bad faith. I just think it's "
+                            },
+                            {
+                                "type": "text",
+                                "text": "ineffective",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". The names are distracting rather than supporting the reader."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "thinking_face",
+                "users": [
+                    "UGWUJUZHT"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

@@ -1,0 +1,355 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 07:50</span><br/>
+Undo and redo in relationship to CRDTs/multiplayer seems to be an underexplored area with huge challenges.<br/><br/>Here's a case where multiplayer undo-redo becomes interesting for visual programming.<br/><br/><em>(This would be visual programming, e.g. via a blocks/node interface, but I'll use JavaScript and React to express the states)</em><br/><br/><b>Initial state:</b><br/>Empty div.<br/><pre style="white-space:pre-wrap">return (<br/> &lt;div&gt;<br/> &lt;/div&gt;<br/>);</pre><br/><b>User A:</b><br/>Inserts a new Dialog component, which uses an "open" state to control its rendering.<br/><br/><pre style="white-space:pre-wrap">const [open, setOpen] = useState(false);<br/>return (<br/>  &lt;div&gt;<br/>    &lt;Dialog open={open} /&gt;<br/>  &lt;div&gt;<br/>);</pre><br/>Now, an undo by User A at this point would rightly remove both the <tt>useState</tt> statement and <tt>Dialog</tt> element. But, lets say user B does this before that:<br/><br/><b>User B:</b><br/>Inserts an expression that references and displays the open state:<br/><br/><pre style="white-space:pre-wrap">const [open, setOpen] = useState(false);<br/>return (<br/>  &lt;div&gt;<br/>    &lt;Dialog open={open} /&gt;<br/>    &lt;h1&gt;Open: {open}&lt;/h1&gt;<br/>  &lt;div&gt;<br/>);</pre><br/>If User A now wants to undo, removing the <tt>open</tt> state would break User B's use of said state.<br/><br/>Are there any examples in research or open source of how to gracefully resolve this? I assume that node based programming could run into this dependency challenge, but I'm unaware of any node based tools that support multiplayer with undo/redo.<br/><br/>One approach I can think of is to check whether there are dependencies on nodes that would be removed by undo, and simply aborting the undo with an error, but I'm curious if there is a more elegant approach.<br/><br/>On a related note, the UI would also have to prevent a traditional delete operation on the <tt>open</tt> state, since this would leave the program in an invalid state.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653673904.755839"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653673904.755839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-05-27 10:51</span><br/>
+Particularly if A and B are seeing each other's edits in real time, you could make a case to keep things simple and maintain a single sequence of operations that either side can unwind things from. In your example A would first undo B's operation. Doesn't really use CRDTs' special properties, though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653675461.547379"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653675461.547379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:17</span><br/>
+That's the crux of the problem. People don't expect their undo/redo stack to be affected by other people's actions, but there can be cross-client dependencies between the stacks. We're already doing undo/redo history rewriting, e.g. to incorporate other peoples changes on component properties (I set a rectangle to green, you set it to red, I undo + redo, and we should be back to red to not loose your changes).<br/><br/>But this class of problem seems beyond that because the operations in the undo/redo stack don't capture the dependencies to other people's actions. Hmm... :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653676082.793329"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653676082.793329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:28</span><br/>
+If you haven’t seen <a href="https://en.wikipedia.org/wiki/Operational_transformation">https://en.wikipedia.org/wiki/Operational_transformation</a> yet… :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653676480.226599"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653676480.226599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:34</span><br/>
+<span style="background-color:#ccf">@Alex Cruise</span> Have read a bit about OT, but that reading quickly guided me towards CRDTs as being a more modern approach that's easier to implement. Problem is, this scenario might not fit with CRDTs. What made you think of OT? Are there examples where you've seen this case solved elegantly?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653676843.064789"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653676843.064789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:40</span><br/>
+OT is the only thing I’ve seen that works at all! :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653676983.663729"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653676983.663729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:43</span><br/>
+Current mental model: Undo redo is time traveling. Undo redo combined with multiplayer and other people's undo redo is the multiverse with conflicting timelines :partying_face::boom:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677088.113919"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677088.113919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:44</span><br/>
+yeah, I’ve thought (and built) quite a bit about versioning over the years. If you want to get really fine-grained, OT or something equally complex seems like the way to go… But if you don’t mind forcing updates to be more coarse-grained, in which a thing with a long-lived identity is CRUD’d, it doesn’t need to be so hard
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677090.985599"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677090.985599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:44</span><br/>
+But it’s never easy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677248.270179"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677248.270179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:47</span><br/>
+Domain model versioning always comes up eventually when you have enterprise customers… Some people are trusted to propose changes but not to make it so; they need to be able to save their work persistently, and someone else has to come along and move the pointer once they decide the proposed version is good
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677293.271999"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677293.271999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:48</span><br/>
+It’s easy to say “you should trust your users” but subjectively, I don’t want to be trusted so much! I want someone else to check my work! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677332.937439"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677332.937439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:48</span><br/>
+It can also be tempting to go full git, with parallel histories that sometimes merge eventually, but git is confusing enough for developers, let alone non-technical users
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677360.872559"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677360.872559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:49</span><br/>
+Good point on how coarse-grained ops are, because I'm thinking a hybrid approach could be needed. Certain ops, like changing simple component properties, are frequent and need to be optimistically applied. Other things, like inserting new components with dependencies on an import statement and state management could use another approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677394.594549"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677394.594549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:49</span><br/>
+A nice middle ground my team proposed recently, which supports some of the reasons you want branching, is to store every pointer between entities as an (id, version) tuple rather than just an id… If the version field is null, it means we want to point to whichever version is the latest; if it’s not null, it means we want to pin that specific version
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677437.116859"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677437.116859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:50</span><br/>
+Postgres allows some components of a composite foreign key to be null, so you can still have referential integrity
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677509.293139"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677509.293139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:51</span><br/>
+Versioning is also sometimes necessary even when there’s no approval workflow… the best example I know is when version n-1 needs to be in effect until some specific date/time, then version n needs to take effect automatically
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677708.347059"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677708.347059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:55</span><br/>
+For our case, the code being edited is versioned using git and push/pulled via GitHub where approval can happen via PRs and automatic checks.<br/><br/>I'm inclined to think that on the design canvas itself (we're a UX design tool), everyone should be seeing the exact same thing in real time while they work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677765.455019"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677765.455019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:56</span><br/>
+yeah, if you don’t need to be responsible for merging up in userspace, that simplifies things quite a bit :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653677844.340599"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653677844.340599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 11:57</span><br/>
+The crux of the challenge is to avoid an invalid source file with multiple people doing structural edits and undo + redo :joy:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653679679.972199"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653679679.972199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 12:27</span><br/>
+Undo/redo <em>within the user’s work in progress, with respect to an immutable snapshot</em> is fine… Undo/redo <em>across</em> commits is much, much harder. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653679747.965499"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-29/3447576657367_f58a6508f11105e0d0be_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653679747.965499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex Cruise</b>
+<span style="margin:2em; color:#606060">2022-05-27 12:29</span><br/>
+Sometimes you can get away with making things command-driven, and have as many commands as feasible be idempotent
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653695422.445189"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653695422.445189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-05-27 16:50</span><br/>
+My instinct: model "Undo" as a regular operation that can conflict with others. If A creates something, B builds on it (more generally, makes a dependent change), and then A hits Ctrl-Z it should register a conflict in exactly the same way as if A manually deleted the thing. Maybe the only difference would be that the parent state of the undo op is guaranteed to be the result of the op it's undoing, rather than incorporating other changes (this sidesteps the question of whether A's client has seen B's edits). But the basic idea is that you need to handle all those cases anyway, so just use them for Undo. Ed: I guess I should be explicit that in this scenario the undo stack or whatever is probably private state, scoped to the client.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653716361.698549"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653716361.698549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 22:39</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> Makes sense. We already use reverse ops for undo, but they don't have the concept of a blocking conflict error. I guess the thing that tripped me up was the search for conflict-free ops, but it seems like if program structures are dependent, yet can be independently removed (or at least attempted to), it's unavoidable to run into blocking conflicts since the program would otherwise end up in an invalid state.<br/><br/>In practical terms, these will be edge cases, but they still need predictable behavior. For user A there is still the option to first delete the <tt>open</tt> state expression that user B added, and then remove the Dialog along with the <tt>open</tt>state that no other elements depend on now.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653717678.057469"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653717678.057469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-05-27 23:01</span><br/>
+The option for conflicts that I am curious about (but haven't seen any serious work on) is to include conflict markers in the fundamental data model, so they can just stay there until whatever squishy human process is relevant can decide what the right answer is. Optionally, automatically squash nested or adjacent conflict markers (less felicitous if you want to annotate each conflict site or branch, maybe record who made each change).<br/><br/>Incidentally, for me the idea of explicit conflict markers is tied to my ancient ideas for an editor for prose/poetry that lets you keep around various possibilities for a line or passage. So I guess if you go that route, and also use it for conflict markers, uh, let me know. :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653718034.966319"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653718034.966319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-27 23:07</span><br/>
+Ah, interesting. I think that has real merit in knowledge work where it's a collaboration to sort out a complicated topic. I recall also wanting branching for our pitch deck, where we could try out variations and target different audiences.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653724814.213529"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653724814.213529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-05-28 01:00</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> Fossil has the distinction between "branch" and "fork". One is for intentionally branching off, the other for managing conflicts without the "stop the world and rebase before you can go on with your work" approach of git: <a href="https://www.fossil-scm.org/home/doc/trunk/www/branching.wiki">https://www.fossil-scm.org/home/doc/trunk/www/branching.wiki</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653725859.885999"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653725859.885999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2022-05-28 01:17</span><br/>
+The rules for what's natural change depending where you are on the scale from Google Docs-style live collaboration to git-style merging commits.<br/><br/>If it's a platform where users can see different states locally, then I think User A's local state should roll back to as if they had never created the Dialog, and User B should now be treated as having implicitly created the Dialog the moment they made a dependent element. User A can't really "complain" about their undo being ignored, because they understand that User B is allowed to have the same idea they previously had.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1653727069.146419"></a>
+      <img src="https://avatars.slack-edge.com/2022-05-21/3558879757875_3e8345518ba82b825c6d_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1653727069.146419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jim Meyer</b>
+<span style="margin:2em; color:#606060">2022-05-28 01:37</span><br/>
+<span style="background-color:#ccf">@Chris Knott</span> We have to contend with both real-time and git-style for our case :joy:<br/><br/>For real time, the program must always be in a valid state, otherwise we can't compute the visual outcome that needs to be rendered onto the canvas where the designer is doing their work and interacting with the program. Multiple designers viewing the same canvas should be seeing the same thing (converging on it at least, as updates cross the network).<br/><br/>Then, once the design work is ready to go into the shared git repo via a push, a traditional conflict can occur, e.g. if developers renamed a component that the designer added new instances of.<br/><br/>While we could technically have diverging local states for the canvas for each designer (visual programmer more generally), I suspect that would amount to mind-melting complexity that these "end-user" programmers would rather do without. The way we can go about exploring different design choices (program structures) would be driven by creating separate branches, where each branch checkout has a single shared + converging canvas.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1654790065.838769"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1653663004.176149.html#1654790065.838769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-06-09 08:54</span><br/>
+<a href="https://liveblocks.io/blog/how-to-build-undo-redo-in-a-multiplayer-environment">https://liveblocks.io/blog/how-to-build-undo-redo-in-a-multiplayer-environment</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

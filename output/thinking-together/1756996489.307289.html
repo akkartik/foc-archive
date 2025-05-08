@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-04 07:34</span><br/>
+Pond'ring aloud:<br/>We know that "loop" is recursion, but recursion is often expressed in too-academic a manner.<br/>We know that recursion consists of 2 parts:<br/>1. termination case<br/>2. recursion case.<br/>I'm thinking about what might be a less-inhumane syntax for expressing a recursive solution. Suitable for non-programmers and LLMs?<br/><br/>[aside: the goal is not "efficiency" at the machine level, but expressiveness and human (non-programmer) understandability]<br/><br/><br/><pre style="white-space:pre-wrap">humane syntax???:<br/>----------------<br/><br/>break down member (x, list) -&gt; ([#found | #not-found], value) {<br/>    finish when list is empty { ^ #not-found, ɸ }<br/>    finish when x in list     { ^ #found, list }<br/>    decompose list' &lt;- rest (list) {<br/>	    ^ again (x, list')<br/>	}<br/>}<br/><br/>break down append (x, list) -&gt; value {<br/>    finish when list is empty { ^ x }<br/>    decompose «item» &lt;- first (list), «list'» &lt;- rest (list) {<br/>        ^ prepend «item» onto again (x, «list'»))<br/>    }<br/>}</pre><br/><br/><pre style="white-space:pre-wrap">inhumane syntax:<br/>----------------<br/><br/>(defun my_member (x lis)<br/>  (cond ((null lis) (values nil nil))<br/>        ((eq x (car lis)) (values t lis))<br/>	(t (my_member x (cdr lis)))))<br/><br/><br/>(defun my_append (lis x)<br/>  (cond ((null lis) x)<br/>        (t (cons (car lis) (my_append (cdr lis) x)))))</pre><br/><br/>[aside: "send ..." sends something forward asynchronously instead of returning it synchronously to the caller and unblocking the caller]<br/><pre style="white-space:pre-wrap">less-inhumane syntax involving async ports:<br/>-------------------------------------------<br/><br/>break down member (x, list) output ports: { success: [#found | #not-found], value: object } {<br/>    finish when list is empty { send success: #not-found, send value: ɸ }<br/>    finish when x in list     { send success: #found, send value: list }<br/>    decompose list' &lt;- rest (list) {<br/>	    ^again (x, list')<br/>	}<br/>}<br/><br/>break down append (x, list) output port: { value: object } {<br/>    finish when list is empty { send value: x }<br/>    decompose «item» &lt;- first (list), «list'» &lt;- rest (list) {<br/>        send value: prepend «item» onto ^again (x, «list'»))<br/>    }<br/>}</pre><br/>suggestions / comments?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757006561.532639"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757006561.532639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-09-04 10:22</span><br/>
+I don't really have a sense for what about the first syntax make it seem more "humane" to you. But FWIW, here's how Dijkstra (likely also "too-academic") would implement <tt>member</tt> and <tt>append</tt>, respectively:<br/><br/><pre style="white-space:pre-wrap">i := list.lob;<br/>do<br/>  i <= list.hib and list(i) != x -> i := i+1<br/>od<br/>{i now describes where to find x, if valid}</pre><br/><pre style="white-space:pre-wrap">list:hiext(x)</pre><br/>(At least as of 1977, Dijkstra doesn't seem to think about function boundaries at all.)<br/><br/>(Dijkstra recommended designing data structures out of arrays, in the way Lisp designs them out of cons pairs.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757006766.902639"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-18/8487018839873_af3f4f3c0604a679e817_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757006766.902639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>When Leggett</b>
+<span style="margin:2em; color:#606060">2025-09-04 10:26</span><br/>
+So in your language, would it be illegal to make a recursive call? Requiring the use of this special syntax?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757010833.882319"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757010833.882319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-04 11:33</span><br/>
+This isn't an attempt to banish recursion, only to capture its essence and give it a different (better?) syntax.<br/><br/>I am tinkering and brainstorming with ideas. I don't necessarily believe in this particular syntax, but, I do know that trying <em>something</em>, then critiquing it tends to move ideas forward...<br/><br/>IMO, the essence of recursion is: divide and conquer.<br/><br/>I am trying to do something that I thought would be simple, but am finding that it requires way more detail than I would expect anyone but a programmer would have the patience for. I have been trying to explain to an LLM (Claude 4.0) what I want, but, it keeps making blunders (due to my fault in not supplying enough niggly details, it gets really, really close, but always leaves out some important detailed edge-case).<br/><br/>Syntax-wise, I know that Loop is too low-level and leaves too many foot-guns lying around. Recursion is better, but too weird-looking. I'm wondering if there is a way to express the essence of divide-and-conquer in a less inhumane way. Maybe this needs multiple syntaxes? Or, maybe it just can't be expressed any better. We do see lots of attempts to define and improve on low-level loop, for, while, etc. syntaxes.<br/><br/>The Dijkstra thing smacks of too much low-levelness, esp. to someone who thinks that an array is just a list with its CDRs optimized away.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757012739.547489"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757012739.547489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-09-04 12:05</span><br/>
+Programming is like a Necker cube. Each of us has a slightly different perspective on what is good and what is bad. The interesting question for me lately is: at what point should one give up on finding an axis of good-bad that everyone will get on board with, and instead focus on other aspects that seem more well-posed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757013530.496009"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757013530.496009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-04 12:18</span><br/>
+I agree, with the nuance that there are multiple possible syntaxes / perspectives. There's what academic-analysts think is useful, there's what programmers think is useful, there's what non-programmers think is useful, etc. LLMs seem to come close to providing syntax for non-programmers, but, in this case, the LLM couldn't infer sufficient detail from my prompt. In other cases, I asked for smaller snippets and was very satisfied. I wonder what the "grain" size is for getting reliable results?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757015228.541209"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757015228.541209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-09-04 12:47</span><br/>
+Absolutely, multiple perspectives. That's what I was getting at with the Necker cube analogy. None of them more right than the others. <br/><br/>But you often strike me as too attached to one perspective and ignoring the others. With any tool you're only going to get out what you put in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757015384.150139"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757015384.150139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-09-04 12:49</span><br/>
+Where I am: Recursion or iteration? Necker cube. Low level or high level? Necker cube. Academics or builders? Necker cube. Natural language or formal language? Necker cube. Correctness or friendliness? Necker cube. Companies or people? People, people, people.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757156851.606799"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1756996489.307289.html#1757156851.606799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-09-06 04:07</span><br/>
+Syntax is "rules". I argue that your "humane" samples have way more syntax than lisp ones.<br/>You throw a lot of english words in there as a separate syntax element each.<br/>This maybe would make my mom<br/>1) <b>think</b> she kinda gets what this is about just because of familiar words<br/>2) when she <b>reads</b> this.<br/>But<br/>1) I doubt she would actually <b>understand</b> what's that all about w/o further explanation<br/>2) And certainly she would not be able to <b>write</b> anything in this syntax after seeing these 2 samples (I know because I can't).<br/><br/>Lisp's ~syntax~ shape is way closer to the actual "abstract shape" of the problem essence: base cases + recur case + branching (picking only 1 of them at time).<br/>Lisp shape has fewer (but not 0) thing to question, e.g. are different parens mean different things? (yes they do, that's why vanilla lisp sucks to read and scared off so many people)<br/><br/>Specifically <b>these</b> lisp samples suck because nobody knows what the <b></b>** <tt>eq</tt><li><tt>t</tt><b> </b><tt>car</tt><b> </b><tt>cdr</tt><b> </b><tt>values</tt><li> are. But those are names, not structure, not syntax. (ok, maybe <tt>values</tt> is somehow syntax, I don't know why it is there, what it does, and why would I care to have there anything other than <tt>yes</tt> or <tt>no</tt> )<br/><br/>Here is the clojure example (notice I redefined only 3 words, and honestly, I think <tt>true</tt> <tt>false</tt> <tt>defn</tt> would be ok w/o substituting them)<br/><pre style="white-space:pre-wrap">;; defn renaming needs to be done differently, via new defmacro, but it can be done globally once, and here it just illustrates the point: "keep the structure, use better names":<br/>(let [NO  false<br/>      YES true<br/>      new-function defn]<br/><br/>  (new-function is-x-in-list? [x list]<br/>    (if (empty? list)<br/>      NO<br/>      (if (= x (first list))<br/>        YES<br/>        (is-x-in-list? x (rest list))))))</pre><br/>It has the same <b>structure</b> as vanilla lisp samples, but much more "humane" (more widely recognizable names (to make 'em even more "humane" – maybe replace with chinese mandarin))<br/>It explicitly has different types of words grouping: () and []<br/>My mom would still have questions, but way fewer than in case of "humane" and vanilla lisp samples.<br/><br/>On the other hand, questions to the "humane" samples <b>I</b> have (to slightly better understand semantics, and maybe to try to write my own fns in this syntax):<br/>• why there are commas there, but not here?<br/>• what  <tt>#</tt> <tt>^</tt> <tt>ɸ</tt> <tt>'</tt>  <tt>|</tt> <tt>-></tt> <tt><-</tt> are?<br/>• where does function name ends and arg name starts?<br/>• why some args are in () and some are inline?<br/>• I presume [] is a grouping around "regex or", and () - around return type? (try to explain it to my mom)<br/>• why <tt>«»</tt> in the second sample but not in first?<br/>• is <tt>break down</tt> a part of fn name or some keywords? why have them? what other options are? are those required?<br/>• if <tt>^</tt> is <tt>return</tt> indicator, why say <tt>finish</tt> ? if <tt>finish</tt> is <tt>return</tt> - why say <tt>^</tt> ?<br/>• <tt>^</tt> is in every {}, is it required? are those separate concepts, or is it just grouping syntax <tt>{^ ...}</tt>?<br/>• would <tt>«</tt> and <tt>»</tt> be the same as <tt>"</tt> <tt>"</tt> or do I need to find them on my keyboard?<br/>• is <tt>ɸ</tt> – some constant? if yes, why not <tt>#ɸ</tt> (because <tt>#found</tt> seems like a constant, and <tt>#</tt> seems like a way to mark constants). if not a constant, but some <b>type</b> (like <tt>value</tt> presumably is, can there be different <tt>ɸ</tt> ? (assuming that's an empty set. but we receive list (something sequential) and return set? huh.)<br/>• is <tt>))</tt> in <tt>(x, «list'»))</tt>  - a typo? or some syntactic thing?<br/>• there are commas <tt>,</tt> between words in <tt>{ ^ #found, list }</tt> , but not right after <tt>^</tt> , is comma - separating args, and args are not in parens (see <tt>decompose</tt>  and <tt>^</tt> ), but <tt>rest (list)</tt> seems like a function call, with parens... huh. <br/>• So if <tt>^</tt> is a fn call, how do I start another fn call after <tt>^</tt>  (how do I stop the args)? Or is <tt>^</tt>  – a syntactical keyword? Should it be be the last "line" in {} block? Why last <tt>decompose</tt> "line" in both samples is without <tt>^</tt> ? does {} "returns" <tt>^</tt> inside of it?<br/>• there are commas <tt>,</tt> between words in <tt>{ ^ #found, list }</tt> , but not between 2 <tt>finish</tt> lines. why?<br/>(and few more :) )
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

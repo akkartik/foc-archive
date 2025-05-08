@@ -1,0 +1,775 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 17:22</span><br/>
+I feel like I've been long deceived by the traditional definition of a mathematical relation as "a set of tuples". This is the definition used in "relational languages" like SQL and Prolog, but in the context of programming, it seems much more intuitive for relations to be defined by formulas (e.g. <tt>y = x + 1</tt> or <tt>x + y &lt; z</tt>), where the fundamental units of data are <b>variables</b>, not <b>tuples</b>. This is not just a cosmetic difference: you can <em>re-use</em> variables across different formulas (e.g. <tt>y = x + 1</tt> and <tt>z = 2x</tt>), and suddenly a division of the program into "tuples" and "tables" no longer makes sense, because it obscures formulas and groups variables (columns) according to whim, not truth. Indeed, if you don't have tuples <b>you don't need to worry about "keys" and "normalization"</b> (as you do in relational DBs), because the formulas <em>directly</em> express the dependencies between variables (columns). This leaves me deeply confused as to why in the logic &amp; relational programming community, I've never seen anyone challenging the notion of tuples. <a href="http://minikanren.org/">miniKanren</a> and <a href="https://en.wikipedia.org/wiki/Constraint_programming">constraint programming</a> (but <b>NOT</b> "constraint logic programming") are the only relational language families I know of that are based on variables &amp; formulas, not tuples. (I'm not an expert in these languages, but I'm investigating them.)<br/><br/><b>Bonus fact 1:</b> the <a href="https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">EAV model</a> (popular in recent years) doesn't solve normalization problems, because sometimes you truly want a large number of variables (columns) to be interdependent, e.g. <tt>x = 2y = 3z = 4t</tt>. EAV still maintains the indirection of tuples and tables, it just restricts the number of variables (columns) to 3.<br/><br/><b>Bonus fact 2:</b> the tuple model isn't even necessary for <em>plain old data</em>, where you might argue "there are no underlying formulas". There is definitely still a formula involved! The tuple (1542, "Nick") can be expressed by the formula: <tt>if customerID = 1542 then name = "Nick"</tt>. (Of course, in a GUI you'd use a table to present this data, but presentation concerns are orthogonal to the underlying data model.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256142.136500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256142.136500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:15</span><br/>
+expressions are much more difficult to work with, since their structure is inherently variable in both length and depth
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256275.136700"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256275.136700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:17</span><br/>
+writing generic procedures for the common relational operators is a lot more work and will eventually take you to a place where you want a “common data model”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256340.137100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256340.137100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:19</span><br/>
+which will <em>probably</em> end up looking like tuples
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256489.137300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256489.137300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:21</span><br/>
+&gt; expressions are much more difficult to work with<br/>That sounds like a UI design challenge, which I'm ready to take on :slightly_smiling_face:. They might not work in a text-file-based language, but that's no concern to me.<br/><br/>&gt; writing generic procedures for the common relational operators is a lot more work and will eventually take you to a place where you want a “common data model”<br/>I don't understand this part. Are you talking about implementation concerns or something else?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256527.137500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256527.137500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:22</span><br/>
+yeah sorry, I was thinking of the implementation level
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256592.137700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256592.137700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:23</span><br/>
+In general I'm ready to deal with as much implementation complexity as is needed. I'm trying to build a human-centered language, that's all that matters!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615256801.137900"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615256801.137900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:26</span><br/>
+It’s hard to outright ignore implementation complexity, because it means you need to innovate on even more things - not just novel UIs and interactions and mental models, but also novel algorithms and foundations. Each one of which is easily a black hole problem :slightly_smiling_face:<br/><br/>I’d be really curious to see how you’d do a relational join over arbitrary expressions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257038.138100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257038.138100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:30</span><br/>
+I’m not sure you really get away from normalization and keys. In your plain old data example, you’re explicitly stating the key (ID). I <em>think</em> you can’t escape defining identity somewhere and for normalization you either have defined access paths or you don’t. In the former, you’re some level of denormalized, in the latter you’re in something like 6th normal form.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257242.138300"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257242.138300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:34</span><br/>
+you could argue the user doesn’t need to think about it, but that’s really saying the user can dig their own hole as deep as they want (same is true in SQL and the others too, it’s more than happy to let you do crazy combinations of normalization and identity, e.g. regex joins)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257412.138600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257412.138600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:36</span><br/>
+“a human-centered language” is likely as much about guiding people toward something that helps them manage complexity as it is about letting them do something “naturally.”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257465.138800"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257465.138800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:37</span><br/>
+there’s a really interesting tension between giving the user what they want and trying to steer them clear of pits of failure
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257584.139000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257584.139000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:39</span><br/>
+tuples force a kind of consistency that expressions don’t and that means there are fewer places for misunderstandings to hide
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257662.139200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257662.139200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:41</span><br/>
+I plan to start thinking about execution efficiency only after I've developed a full "beta" of a programming language that achieves my goals for the user experience. The biggest risk to my project is that I sacrifice the vision due to short-term implementation worries.<br/><br/>Another reason why I'm holding off: the hardware landscape is changing constantly. One big upcoming change: there will be AI accelerators on the market in a few years, which are quite literally parallel dataflow machines, so I'm not worried about how my language scales on an Intel CPU :slightly_smiling_face:. At least some of those accelerators will be feature-ful enough that they can run more than neural networks, in the same way that we now use GPUs for more than 3D graphics. And further: the biggest advantage of dataflow hardware may not even be the parallelism but the pure implementation <em>simplicity</em> of mapping a dataflow-like language to dataflow hardware, rather than von Neumann hardware. It's not fully clear what the "assembly language of a TPU" will end up looking like, but I bet it's good at executing joins :wink:.<br/><br/>Point is: I think there will be plenty of compute power available to run whatever language I end up with, even if we have to wait a few years. I don't plan to be pushing efficiency on x86 CPUs within the next 5 years of development.<br/><br/>But this may be a digression. I'll read your other points, hold on :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257881.139500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257881.139500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:44</span><br/>
+&gt; I’m not sure you really get away from normalization and keys. In your plain old data example, you’re explicitly stating the key (ID).<br/>Yes, but the key <em>emerges naturally</em> from the data. The idea is: if you write an equation that expresses <tt>x</tt> as a function of <tt>y</tt> and <tt>z</tt>, then those become the (compound) key that identifies an x. But keys aren't an actual language construct, and neither are tables, and therefore it's impossible to come up with "badly-designed tables", unlike in SQL or Prolog, where you can lump arbitrary values together and call them a tuple.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257958.139700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257958.139700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:45</span><br/>
+So in contrast, I'd say that it's SQL that allows users to dig holes wrt. their data model, and this proposal takes away the shovel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615257983.140000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615257983.140000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:46</span><br/>
+that works out to 6th normal form then, which I’m a big fan of :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258046.140200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258046.140200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:47</span><br/>
+Perhaps it is an implicit, mandated normal form, sure :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258107.140400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258107.140400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:48</span><br/>
+so in this world, data is all purely represented by code that must be run
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258196.140600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258196.140600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:49</span><br/>
+that’ll lead to some really cool research around how you compress that and make it reasonable to transmit to whatever coprocessor it’s running on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258322.140800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258322.140800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:52</span><br/>
+Oh, and I didn't mention it in my original post, but in the envisioned model of relational programming, there is no such thing as a "data structure" (not even lists), since data structures re-introduce tuples and tables and all their problems. Data structures (and functions) would emerge naturally by linking variables together through formulas (or you might call them <em>constraints</em>). I'm still working out what the UI to this will look like of course, and that's probably the biggest challenge :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258364.141000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258364.141000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:52</span><br/>
+&gt; so in this world, data is all purely represented by code that must be run<br/>Yeah :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258411.141200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258411.141200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:53</span><br/>
+The question of "<em>when</em> does the code run" is an important implementation question, but again this is something I'll deal with after I get the UX right.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258452.141400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258452.141400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:54</span><br/>
+&gt; there is no such thing as a “data structure”<br/>So how do I ask for the name of customer 10? Or how would I model that a player has a hand of 5 cards?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258502.141600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258502.141600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:55</span><br/>
+one thing I could never figure out is how you’d get rid of things that have sets of other things
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258550.141800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258550.141800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:55</span><br/>
+<pre style="white-space:pre-wrap">customerID = 10<br/>print customerName</pre><br/>(My language won't have print statements, that's just for illustration.)<br/>See my previous #thinking-together post on "function calling". It's deeply related in a non-obvious way :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258652.142500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258652.142500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:57</span><br/>
+ah yes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258667.142700"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258667.142700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:57</span><br/>
+how about the card one?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615258692.142900"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615258692.142900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 18:58</span><br/>
+imagining that cards are just numbers for simplicity
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615259031.143100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615259031.143100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:03</span><br/>
+&gt; how would I model that a player has a hand of 5 cards?<br/>You'd do it similarly to a Prolog relation <tt>holds(Player, Card)</tt>, except the "connections" between datums are stored implicitly in global (UUID-based) variables, rather than via a named "predicate". You'd have two variables, <tt>player</tt> and <tt>cardInHand</tt>. When you constrain <tt>player</tt> to a value, e.g. <tt>player = "Nick"</tt>, <tt>cardInHand</tt> will have five values, one representing each card. You could "print" all five values, or use them as part of a larger calculation.<br/><br/>&gt; one thing I could never figure out is how you’d get rid of things that have sets of other things<br/>I'm planning a model of mutability based on <a href="https://link.springer.com/chapter/10.1007/978-3-642-24206-9_16">Dedalus</a>, i.e. <em><b>accretion</b></em> instead of mutation (buzzword thanks to <span style="background-color:#ccf">@Jack Rusher</span> and Rich Hickey). So you express the "new set" as a function of the "old set".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615259237.143500"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615259237.143500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:07</span><br/>
+reminds me a bit of the constraint propagation networks that <span style="background-color:#ccf">@William Taysom</span> did really cool stuff with
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615259435.143700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615259435.143700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:10</span><br/>
+Yeah this is a form of constraint programming. So are Prolog rules, for that matter :slightly_smiling_face:. I'll definitely like to hear what <span style="background-color:#ccf">@William Taysom</span> thinks if he's dabbled in it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615261652.144300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615261652.144300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:47</span><br/>
+I guess I've been summoned.  :smiling_imp:  I'll answer any specific question: not just three.  Let me share some idle thoughts with the small advantage that I want to give this stuff another serious go soon, so it's been on my mind.<br/><br/>The idea I liked best about constraint propagation networks is defining the network (system of equations) entirely independently of how any of it gets resolved.  It helps with...<br/><br/>"hardware landscape is changing constantly" — Don't commit to an evaluation strategy until you really know what you want to do.  Focus instead on interface and sense making.  Have a really rich system for exploring toy models, then use black boxes for the big tricky bits.<br/><br/>I don't think very much about computational complexity.  If it's too hard calculate, the answer is probably random and not worth knowing.  I mean worst case optimization is always terrible because you're essentially finding something random: no structure beyond exhaustive search.  For instance graph-database join problems come up because pruning is happening in the wrong order or you don't have a good search heuristic.<br/><br/>"6th normal form" — Think hash-tables with compound keys.  In most cases, they offer a better way to think about things tables of tuples because they show functional dependencies and entity-relationship cardinalities.  (Given a suit and a rank, you have a card.)<br/><br/>"mutability" — Make time first-class and the rest follows.  Another way to think about it is that there is no time only another space-like dimension.<br/><br/>Unordered and ordered collections are entirely different beasts.  Always know what you're modeling and never allow for arbitrary orders to be imposted on unordered things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615262098.144600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615262098.144600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:54</span><br/>
+Your last two paragraphs summarize my primary principles of the last two years, and if I hadn't committed to them I think I would have gotten stuck and failed in my quest by now :slightly_smiling_face:. The rest I've only come to realise more recently.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615262139.144800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615262139.144800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-08 19:55</span><br/>
+What's the difference between a "constraint propagation network" and "constraint programming language" though? I'm only just starting to look toward that kind of literature.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615273805.149200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615273805.149200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-08 23:10</span><br/>
+When I say "propagation network," I basically mean Sussman/Radul Propagators <a href="https://groups.csail.mit.edu/genesis/papers/radul%202009.pdf">https://groups.csail.mit.edu/genesis/papers/radul%202009.pdf</a> <a href="https://dspace.mit.edu/handle/1721.1/44215">https://dspace.mit.edu/handle/1721.1/44215</a>.  I don't see much new on that front.<br/><br/>As for "constraint programming language," that makes me think of SAT solvers and "constraint logic programming" — write in Prolog, then do SAT solving for some parts instead of (or together with) unification.<br/><br/>The other thing I know is optimization along the Linear Programming, Mixed Integer Programming, and Quadratic Programming vein.  That all seems to live in a world apart from any other programming community.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615277156.155400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615277156.155400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-09 00:05</span><br/>
+I recently (re-)investigated “constraint logic programming” and concluded as you say, that it’s merely logic programming plus “extra support for constraint solving”. Unfortunately, the “logic programming” part implies tuples and tables as discussed earlier :disappointed_relieved:. An example of a constraint programming language which is not a logic programming language would be <a href="https://www.minizinc.org">MiniZinc</a>, which I happily stumbled onto in my undergrad years because  it was developed here in Melbourne :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615281425.155900"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615281425.155900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-09 01:17</span><br/>
+Maybe an interesting angle to break open your head and allow increased weirdness and possibilities to enter would be to think of your primitives as<br/><tt>your thing : tuple-based data structures :: Signed Distance Functions : 3d meshes</tt><br/><a href="https://www.youtube.com/watch?v=8--5LwHRhjk">https://www.youtube.com/watch?v=8--5LwHRhjk</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615281605.156900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615281605.156900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-09 01:20</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> Wait, what do the colons mean? :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615283591.157100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615283591.157100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-09 01:53</span><br/>
+your thing "is to" tuple-based data structures "as" signed distance functions "is to" 3d mesh :joy_cat:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615283745.159100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615283745.159100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-09 01:55</span><br/>
+Hmm... I’d say that’s backwards! Tuples are points, which can be used to define meshes. Formulas (my thing) are formulas, which can be used to express SDFs!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615287745.159400"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615287745.159400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-09 03:02</span><br/>
+that's what I'm saying, lad
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615306153.160300"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615306153.160300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-09 08:09</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Reversing the polarity is what I get for typing a reply while on a Zoom call :face_with_rolling_eyes:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615362365.161600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615362365.161600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-03-09 23:46</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> What is your definition of a formula? Is it just a computable expression of type "boolean"? Or do you envisage restrictions that ensure that solutions can be found with reasonable effort (time, space, etc.)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615362556.161800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615362556.161800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-09 23:49</span><br/>
+Yes, essentially just Boolean expressions, though calling them that is misleading, since it suggests that the Boolean value is the "output", and the variables that form the expression are the "inputs", which is not how a constraint language works.<br/><br/>The language may end up having restrictions that guarantee time and space bounds, but again, I want to get the "feel" of the language right before I start imposing those kinds of restrictions, so I haven't given them much thought. (But I <em>have</em> given termination thought).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615391886.162300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615391886.162300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-03-10 07:58</span><br/>
+Thanks <span style="background-color:#ccf">@Nick Smith</span>. The background of my question was the user's point of view: how much does a user have to know about computation and/or constraint programming to understand what is and is not possible in a formula.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615392408.162500"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615392408.162500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2021-03-10 08:06</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> You wrote: “<em>Unordered and ordered collections are entirely different beasts. Always know what you're modeling and never allow for arbitrary orders to be imposted on unordered things.</em>”<br/><br/>How do you model ordered collections “properly”? I’m only used to programming languages/environments where I end up using lists/vectors/arrays, which of course impose arbitrary order. Sure, sometimes there are set data types that at least express that order doesn’t matter, but it sounded like your advice was hinting at more than just picking the correct type — I might also be missing the relevant experience here with constraint languages…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615394254.162800"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615394254.162800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-10 08:37</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> I'm wondering if he's thinking in <tt>data Nat = Zero | Suc Nat</tt> terms...?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615424650.166700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615424650.166700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 17:04</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> I don't know the answer to that yet, as I don't yet have a working programming language :innocent:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615425394.166900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615425394.166900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 17:16</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Doing ordered collections "properly" means including only as much ordering data as is needed to capture the desired order. So, if you have a collection of elements, and those elements are in a total order, then you can annotate each element with a natural number indicating its position in the sequence. If your elements are in a <em>partial order</em>, then you could encode their relative position using something like a multiset (which are partially ordered by the "inclusion" (⊆) relation) containing "elements that precede this element", or whatever value best <em>explains</em> how the ordering was constructed and how it will be maintained as the elements change. (For example, maybe a nodes-and-edges model is better.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615429729.167100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615429729.167100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-10 18:28</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> with order there are two challenges:<br/>1. Purity: Accidentally ordering unordered collections.  It means that you can't print a set without suppling an order.  It means you cannot loop over a set either.  You can map over a set, but all the results have to be independent.  Yes, debugging becomes kind of tricky.  When looking under the hood, it's fine to see the order, but for application level debugging, you need different ways of inspecting the unordered collections.  Back a long while ago Ruby, my weapon of choice, had unordered Hashes.  Given her intrinsically imperative nature, that went badly.  So the most Rubyesk of solutions was adopted: all Hashes are ordered by when you insert keys.  This has problems, but it is useful and unsurprising.<br/>2. Modeling: Having good ways of managing orders.  Consish lists are simple and effective.  Annotating data with indices leads to madness.  A decent expandable Array (push, pop, queue, drop, splice) works 95% of the time.  For that last 5%, you'll want some sort of omnibus tree or rope structure together with cursors, ranges, and the like.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615430005.169900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615430005.169900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 18:33</span><br/>
+In the “future of coding”, your point #2 should definitely be relegated to the language runtime and not appear anywhere in the language itself IMO. I consider it an implementation detail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615430110.172400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615430110.172400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 18:35</span><br/>
+I’d say the key is to give users of the language good ways to specific the abstract ordering information they need and ways to operate over such ordered collections
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615430736.172600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615430736.172600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-10 18:45</span><br/>
+In the language itself, you need to decide on what level or degree sequence munging you want to feel natural.  On one extreme, you might go with ordering by time column.  In that case, try to avoid use cases where mutable indicies (1, 2, 3) seem like a solution.  On the other extreme, you might want to support, I don't know, arbitrary selections of DOMish tree-nodes.  Yes, in an especially high-level language you'll likely want the application developer to be able to ignore the underlying representation.  (Often this means doing tricks to as to avoid allocating small arrays.)  Perhaps providing a DLS escape value for fixed sized arrays, or, I don't know whatever your GPU's shader language supports.  It becomes a matter of answering, "What is this system naturally good for?"  And the even better question, "What is this system naturally bad at?"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615432621.172800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615432621.172800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 19:17</span><br/>
+Disclaimer: what follows is my thoughts on language design for "the future of coding" (the next decade), not for a near-term business need or specific market niche.<br/><br/>I have trouble accepting the "you have to make a performance trade-off" hypothesis that I feel is alluded to ("what is it bad at?"). I feel it is invoking the myth that the higher-level your language is, the worse its execution efficiency must be. (Once upon a time, garbage collection overhead was ridiculed.) In reality every program is just a <em>specification</em> and efficiency comes down to how well that specification can be translated into a hardware-consumable language. A smart mapping requires a smart implementation, and also a smart choice of hardware platform. I'm dead certain that CPUs and cache hierarchies are not the future, so assessing a language based on its ability to support "cache locality" and such is a dangerous mental trap. As I've previously said, implementation issues will be a fun puzzle that comes <em>after</em> the language has been designed, and not a moment sooner. (As long as the language has a clear specification, a "suboptimal" implementation will be easy to develop.) The kinds of applications (and therefore markets) for which the language is "fast enough" will be revealed in the course of building the "best" implementation possible on each potential hardware platform, such as a CPU, GPU, or AI chip.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615432778.173000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615432778.173000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-10 19:19</span><br/>
+You may not have been hinting that way, and if so just ignore the above :stuck_out_tongue:<br/><br/>Anyway, if we can throw the "efficiency is a problem" hypothesis in the dustbin, the only real concern is <em>what does a user of the language experience</em>? How do we present the "raw essence" of order and nothing else? I think that's what the interesting problem here. You're right that oftentimes indices may not encode the <em>essence</em> of the order the user is trying to express, and perhaps a graph model (which cons-lists and trees try to approximate) is a more faithful encoding, and better supports the operations that will be performed upon the collection. Happily, logic languages (and the kind of language I'm designing) are particularly good at representing and operating over graphs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615452903.173400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615452903.173400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-11 00:55</span><br/>
+I better clarify.  I meant "what is this language bad at expressing?"  No performance consideration whatsoever.  You have to pick the most natural, idiomatic way to say things.  If you answer "I want people to be able to do anything," then you get bloat.  Between molecular and kitchen-sink extremes there are a lot reasonable (and unreasonable) tradeoffs.<br/><br/>Consider dynamic/scripting languages, which are all practically the same at some level.  (I did a talk promoting them forever ago when Java was king, and the Web was young.)  Consider Lua, Python, Ruby, and JavaScript.<br/><br/>Lua strives for a precise, beautiful minimalism.  "Lua provides mechanism not policy. ... Instead of littering the language with lots of features, we provided ways for users to program the features themselves, in the way they wanted them, and only for those features they needed."<br/><br/>Python is includes batteries plus "there should be one — and preferably only one — obvious way to do it."  Prepare for ridicule if you don't like the one way.  (Generators, I'm looking at you.)<br/><br/>Matz says, "I'm trying to make Ruby natural, not simple."  Ruby is complicated, overcomplicated but in all the "right" ways.  Let's have methods, blocks, procs, and lambdas with multiple notations for each.  Let's have objects, classes, singleton classes, metaclasses <a href="https://en.wikipedia.org/wiki/Metaclass#In_Ruby">https://en.wikipedia.org/wiki/Metaclass#In_Ruby</a>, and mixin modules, which can be included, prepended, or extended.  Then add refinements <a href="https://rubyreferences.github.io/rubyref/language/refinements.html">https://rubyreferences.github.io/rubyref/language/refinements.html</a> for kicks.  For concurrency, we have threads, UNIX processes, coroutines, continuations, and now "Ractors" <a href="https://github.com/ruby/ruby/blob/master/doc/ractor.md">https://github.com/ruby/ruby/blob/master/doc/ractor.md</a>.  Yet somehow Ruby ends up fairly programmer friendly.<br/><br/>Contrast with JavaScript, which is simultaneously overcomplicated <a href="https://www.destroyallsoftware.com/talks/wat">https://www.destroyallsoftware.com/talks/wat</a> and underpowered, "Given the process that created JavaScript and made it a de facto standard, we deserve something far worse."  (Maybe React, TypeScript, or whatever makes JS better.  I honestly get by with jQuery despite its clear shortcomings.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615617625.175800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615617625.175800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-12 22:40</span><br/>
+I believe that (alleged) tradeoff is best handled by defining a general-purpose base language that can support embedded DSLs (in a <b>structured editing</b> environment where non-textual syntax is allowed). Each common task category (e.g. list manipulation) can have its own DSL, which is a thin veneer (a "syntactic sugar") over the base language. In short: we accept there is <b>no universal syntax</b> that intuitively expresses all computational tasks.<br/><br/>If we support user-defined syntaxes atop a common underlying semantics then I truly think "people can do anything" all in the same language environment.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615692598.177100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615692598.177100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-13 19:29</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> I've spent some time today reading some of Alexey Radul's thesis on "propagation networks", and I find the idea underwhelming to be honest. The biggest issue is that they don't innovate on how to express compound data: they still advocate the use of Cons, and other hierarchical data structures. Additionally, their proposed means of abstracting a common pattern (subnetwork), is to define a Scheme function that parameterizes and can generate instances of the subnetwork. In other words, their semantics isn't "complete"; it needs to be embedded in a functional language!<br/><br/>The one idea that I agree with is basing computation on constraints (e.g. intervals) rather than values. But they haven't sold me on their broader approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615710818.180800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615710818.180800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-03-14 00:33</span><br/>
+You make a good point about abstraction/parametrization.  It’s certainly where my attention is these days as most rules that I want depend on a context of 2-6 things.<br/><br/>Some of the applied category theory people are interested in the topic of modeling abstraction and composition over general networks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615715028.184700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615715028.184700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-14 01:43</span><br/>
+Yeah I spent a few weeks digging into the applied category stuff but I ended up concluding that it offers no obvious insights into programming language design (other than the overarching idea of letting mathematics and composable patterns guide your designs).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615734322.185200"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615734322.185200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-03-14 08:05</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Check out <a href="https://youtu.be/mwxknB4SgvM?t=787">this section</a> (time code 787) of this Sussman talk to see if there's anything there for you in the Propagators idea. Your description above suggests you <em>might</em> have gotten wrong-footed by implementation details.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615766181.186100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615766181.186100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-14 16:56</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> I watched that section, and didn't see anything interesting beyond the general idea of constraint programming (which is all about refining constraints / accruing information). I have problems with more than just the implementation of their model: the very model itself demands language users to construct "networks of machines" (propagators), which I find unsalvageable. Why should a program consist of "cells"? They don't map clearly to human reasoning and logic. I'll assert the following: humans don't naturally describe <em><b>goals</b></em> (N.B: I'm not talking about steps/strategies) within a searching or measuring task (a computation) in terms of storing and retrieving information from abstract "cells" of knowledge; instead we describe the factors/quantities in our domain, and the relationships/constraints between them (including iterative/recursive relationships). Propagators seem to be adding arbitrary hoops and hurdles on top of that, by asking us to think in terms of machines and memories.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1615766771.186300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1615252973.136100.html#1615766771.186300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-03-14 17:06</span><br/>
+They may have reached this design by asking: "how do we design a language for massively parallel &amp; distributed systems?" (as Alexey does in his thesis) and then <b>falling into the trap</b> of thinking that such a language must be based on a network of machines, so that it can "map naturally" to a distributed system. This is a trap that language designers have always fallen into: start by thinking about the hardware you're targeting, and then design a language that you feel is "appropriate" for that hardware. That might be necessary if you want to bake specific performance guarantees into your language, but you'll always end up with something that demands users to think like a machine.<br/><br/>If that's not the reasoning behind their network model then I'm not sure what is. Alexey explicitly opts-out of justifying the design in his thesis. He says:<br/>&gt; I can therefore afford to present [propagator networks] on their own merits, with the promise that they turned out to actually work as my evidence of their validity, rather than documenting the tortuous intellectual path that led here.<br/>Since they haven't justified their design, it feels arbitrary and ideological. I've grown incredibly wary of making arbitrary choices in my own work.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

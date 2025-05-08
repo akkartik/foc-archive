@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1604180931.125900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-31 14:48</span><br/>
+For a couple of years I've been building up a computing stack without metacircularity, where complex languages are consistently implemented in simpler languages.<br/><br/>For several months now I've been wrestling with a thorny problem in one corner of the core compiler which converts a safe language into unsafe machine code. Today I finally decided to stop agonizing over it, and write up the idea maze to the extent I've explored it.<br/><br/><a href="https://github.com/akkartik/mu/issues/45">https://github.com/akkartik/mu/issues/45</a><br/><br/>Comments and suggestions most appreciated. This is a fairly simple compiler as these things go, and I'd be happy to engage with anyone who wants to learn about these beasts in a realistic setting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604186657.126100"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1604180931.125900.html#1604186657.126100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-10-31 16:24</span><br/>
+I think of the end of the function as the beginning of the return value's lifetime, not the end. Maybe you could find a way to "initialize" the output variable at/near the end, or maybe just take that perspective as a vote for explicit returns.<br/><br/>What are the intended semantics of example 4, where you seem to have x and out mapped to the same register in the same scope. Or is out spilled during the body block, and the assignment to out is targeted at the stack, then popped between the body block and the "actual" function block? It looks like I answered my question while writing it, but I'll leave this just in case I got it wrong...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604187339.126900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1604180931.125900.html#1604187339.126900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-10-31 16:35</span><br/>
+Yeah, that's a good insight. I wish I'd thought of that a year ago..<br/><br/>If you first ignore outputs, the semantics of a <tt>var</tt> B in a new block are that it shadows any var A in an outer block. However, a second <tt>var</tt> C to the same register in the same block simply clobbers the register. There's no way afterwards to get the first var B.<br/><br/>Now reintroducing function outputs in example 4, the assignment to <tt>out</tt> would write register <tt>eax</tt>. Then the <tt>break</tt> would increment the stack pointer to skip the saved value of <tt>x</tt> before jumping to end of function.<br/><br/>Does this make sense?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604212779.128700"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../share-your-work/1604180931.125900.html#1604212779.128700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-10-31 23:39</span><br/>
+I think I understand your description. So at the write to <tt>out</tt>,  <tt>x2</tt> is "shadowing" <tt>x</tt> in <tt>eax</tt>, <tt>x</tt> is on the stack, then <tt>out</tt> clobbers <tt>x2</tt>?<br/><br/>My instincts say,  if you're doing it this way, <tt>out</tt> should be spilled to the stack like other vars when you enter <tt>$foo:body</tt>. Then the break would in principle pop <tt>x</tt>, immediately pop <tt>out</tt>, and <tt>ret</tt>. If you're treating output vars as a special case wrt storage management, I don't see how you're getting any benefit from making them syntactically look like regular vars.<br/><br/>Is anything sensible supposed to happen if you don't immediately follow a write to an output with a break or something? Is that verboten, and if so is it checked?<br/><br/>Maybe you should just ban mapping multiple vars to to same register in the same block, and consider <tt>out</tt> mapped at the function level. <tt>x</tt> isn't allowed to be in <tt>eax</tt> until you push a new block.<br/><br/>Hopefully this is semi-useful, but it's late here. :) FWIW, I didn't invent the idea about returns being the start of a new lifetime. It's mostly derived from Single Static Information IR, which has a similar relationship to SSA as Plan9 does to Unix: even more idealistic, and no one uses it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1604273716.132700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1604180931.125900.html#1604273716.132700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-11-01 15:35</span><br/>
+First para: that's right.<br/><br/>Second para: if we spill <tt>out</tt> to the stack, then the assignment to it is kinda misleading. It looks like we're writing to a register but we're really writing to the stack. The only reason to expose registers is that many instructions have constraints on how many writes to memory they can perform. Memory variables that look like registers defeat the purpose.<br/><br/>Perhaps I should just use a calling convention where outputs go to the stack rather than registers. I'll keep that in mind.<br/><br/>Para 3: yes it's supposed to be checked. But it isn't currently. Having strong checks is the purpose of this issue.<br/><br/>Para 4: I may well have to do that. It would be dashed inconvenient, though, to not be able to assign an output from nested blocks.<br/><br/>Many thanks for all these comments! As always, follow-up questions appreciated.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

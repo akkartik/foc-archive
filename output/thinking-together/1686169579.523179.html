@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-06-07 13:26</span><br/>
+Attending a conference today and yesterday about Blockly, the visual code editing environment. Big push toward bi-drectionality between code and blocks. For integration with existing code-bases, AI generation, collaboration with people not using visual editors, etc. At least two different approaches being investigated or used, and I would be inclined to use a completely different one. They don't realize it, but some of their problems are solved by some of the tools people here are working on. Like how do you make it so that you can generate blocks when the text is in an invalid state? Much easier to just avoid invalid states, like Blockly does! How can you avoid invalid states if the person isn't finished typing, and there are mandatory subnodes in the AST? Much easier to fill holes by default, like Blockly does. Essentially, they can't get to bidirectionality, because the text editing experience is structurally unaware. It's not possible with VSCode, but it is possible with Tylr, or anything that imposes a structure. Even ProseMirror would work better. But there is no need to stop at two concrete syntaxes, if you can sacrifice interface specific details (e.g. whitespace in text, grid position in Blockly), or keep them where they live (linter settings, a database of block locations outside the AST), you can operate directly on the AST in whatever tool you want. Has anyone played with a "headless" AST that could be used that way? It feels like all structural editors need one, particularly if they hope to facilitate collaborative editing. Has anyone tried putting two different coding interfaces over the same shared AST?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686172647.343239"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686172647.343239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-06-07 14:17</span><br/>
+Also, there was a suggestion that you could go from code to blocks by normalizing the code (standardizing whitespace, etc.) and then using some sort of evolutionary approach to build up a change to the block representation that has the same output as the text. Does that strike anyone else as WILDLY silly? The other approach I saw was adding the additional content relevant for the block language (e.g. X&amp;y coordinates) as comments, and writing a JavaScript AST to Blockly XML transpiler. More reasonable, but limited to those two specific syntaxes, which seems short-sighted, and there are things that you can change in the text that will not survive round trips, which seems like a usability problem. Their use case was only to let AI write code, though, so that doesn't matter to them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686189824.274419"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686189824.274419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-07 19:03</span><br/>
+It’s a matter of semantic content and of discarding information.  It is easy to go from a language that has more semantic content to a language that has less semantic content.  But, it is difficult to go from a language that has less semantic content to a language that has more semantic content. Semantic content comes in forms other than sequences of characters (or sequences of vector graphics), e.g. structure and layout mean something to human readers.  Going from Haskell to assembler makes sense, but, going from assembler to Haskell does not make sense.  Likewise, if the VPL is any good, then going from VPL to code is easy, but going from code to VPL is difficult.  N.B. if code-&gt;VPL were easy, it would imply that that the VPL adds no new information and is, therefore, redundant.  A decent VPL should contain semantic meaning that is difficult to express in code.  Hence, IMO, it makes no sense to even try to “round trip” code-&gt;VPL.<br/>For an example in a very different field - math - we are taught that we can multiply matrices, but, that we cannot divide matrices.  Robert Distinti has developed a way to divide matrices and blames previous failure to do so on the fact that too much information is discarded by current methods.<br/>Aside: Note that, to me, a VPL is a hybrid of graphics and text (see SVG, for example).  There is/was a field called “Design Recovery” that researched possible approaches to recovering semantic information (I witnessed such techniques being used for fixing Y2K problems, which would have been lessened if they had kept the source code and would not have equated “dates” with girls’ names in some of the code).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686196197.557409"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686196197.557409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-06-07 20:49</span><br/>
+There are reasons to develop visually that don't have to do with adding semantic information. And the reason to be able to round trip might be to facilitate collaboration between people who prefer different interfaces, visual or text.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686207130.137449"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686207130.137449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2023-06-07 23:52</span><br/>
+At least JetBrains MPS has been used to create DSLs with both visual and textual projections as well as (at least) writing to text files. Also my "projectional language workbench" generates a "headless" "AST editor engine" which can then be used, as you said, anyway you like. It exposes both the linearized version (for textual projections) and the tree structure (for visual projections). Currently I've only been working on the textual projection (which is a lot harder issue), but adding a 'blocky' projection should be just about writing the UI code. To read and write actual text files to and from the AST, a parser and an unparser should be implemented. Certainly possible but there's extra challenge in keeping the whitespaces when parsing and only writing minimal changes when unparsing. When parsing, the whitespace info should be stored in the AST that is then modified by the projectional editor. Now, it would be quite a bit easier if you wouldn't care that reading a text file, doing a minimal change in the projectional editor and writing back to a text file might change formatting for the whole file.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686208034.870459"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686208034.870459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2023-06-08 00:07</span><br/>
+One approach to the text file round tripping could be to have the contents always follow strict formatting rules. Then the parser wouldn't need to care about formatting and the unparser would always just write according to those rules.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282325.403339"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686282325.403339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:45</span><br/>
+I've gotten as far as concluding that each projection, text or VPL or whatever, needs to have format-specific metadata associated with each abstract AST (that is, each individual document). eg the text projection will remember whitespace, the VPL projection might remember position constraints, color, etc. You need to handle defaults for the first time you project into a particular format, e.g. initial whitespacing. Probably there are also other hideous edge cases, the absolute worst intersection of naming things and cache invalidation; I'm sure the off-by-one errors are just waiting for their chance too. (I'm also thinking of this in the context of, say, bidirectional sync of documents in different formats).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686303457.179749"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686303457.179749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2023-06-09 02:37</span><br/>
+“There are reasons to develop visually that don’t have to do with adding semantic information.”<br/>I would be grateful to learn more about this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686316135.553889"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686316135.553889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-06-09 06:08</span><br/>
+If your visual language is a one-for-one recreation of the text semantics, it may still, by virtue of being visual, allow you to use full words instead of symbols, illustrate the syntax structures, and make various kinds of syntactical errors impossible.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686316350.117069"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686316350.117069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-06-09 06:12</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> that's more or less where I have landed, too. But it feels easier to just say all that data is liable to be forgotten when you save and reload, because you aren't editing the interface, you are editing the AST, and those details have no meaning inside the AST, so just deal. But maybe that's too unfriendly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686330984.885939"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1686330984.885939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-06-09 10:16</span><br/>
+As an answer to both <span style="background-color:#ccf">@Jason Morris</span> and <span style="background-color:#ccf">@Paul Tarvydas</span>, friendliness is usually the core goal of a vpl. :) At least as far as I can tell. Otherwise we would just make people deal with syntax errors.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688378846.106449"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686169579.523179.html#1688378846.106449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2023-07-03 03:07</span><br/>
+Tiled Grace (<a href="https://michael.homer.nz/Projects/TiledGrace">https://michael.homer.nz/Projects/TiledGrace</a>) paper comes to mind.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

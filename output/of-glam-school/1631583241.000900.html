@@ -1,0 +1,265 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-glam-school</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-13 18:34</span><br/>
+Umpteenth attempt at learning Smalltalk+GToolkit. I'm going to try to find support here and on the GToolkit Discord.<br/><br/>This is a cool thread: <a href="https://twitter.com/feenkcom/status/1405241195887050758">https://twitter.com/feenkcom/status/1405241195887050758</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631599690.001300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631599690.001300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-13 23:08</span><br/>
+Glad to hear :slightly_smiling_face:. Just ask. I will happily support. And if you want, we could organize a Hitchhiker’s Guide to the Glamorous World session in which I can answer questions with live demos.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631662818.001900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631662818.001900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-14 16:40</span><br/>
+The current challenge: I'm trying to learn Pharo while I learn GToolkit, but all the Pharo tutorials have different looking UI.<br/><br/>• Where do I enter the code in say <a href="http://langexplr.blogspot.com/2015/08/game-of-life-and-pharo.html">http://langexplr.blogspot.com/2015/08/game-of-life-and-pharo.html</a>? The Playground doesn't seem to support multiple lines?<br/>• I was looking for graphics examples and ended up at <tt>BlBasicExamples</tt>. When I try to execute a method like <tt>shapes</tt>, I see this message: "You see a static preview because this element already has a parent." Could you explain what this means? Edits to the method don't seem to reflect in the output.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631684047.002400"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631684047.002400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-14 22:34</span><br/>
+GT comes with a new graphical stack and a new environment that is distinct from the one of Pharo, even if the first generation of GT was incorporated into Pharo. For example, in GT, the Playground is a dedicated Lepiter Pharo snippet.<br/><br/>I am not sure why you say that it does support multiple lines. Could you detail?<br/><br/>About the tutorial you just mentioned, this will exercise Morphic, the classic graphical framework from Squeak/Pharo. In GT, we rely on our own which is called Bloc, like in the code you saw in <tt>BlBasicExamples</tt>. That class contains example methods (unary methods annotated with <tt>&lt;gtExample&gt;</tt>). When you see such an example method, method coder will offer buttons to execute and inspect the result.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631684290.002800"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631684290.002800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-14 22:38</span><br/>
+You get <tt>"You see a static preview because this element already has a parent."</tt> when you are inspecting an element that already exists in a scene.<br/><br/>For example, inspect this snippet:<br/><pre style="white-space:pre-wrap">container := BlElement new.<br/>element := BlElement new <br/>	background: Color red.<br/>container addChild: element.<br/>element</pre><br/>Here, we add an element in container and then try to inspect the element. The Live view will try to display that element by placing it into under the inspector rendering tree, but as the element already has a parent, it will show only a picture of it instead of the live element.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631684393.003200"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631684393.003200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-14 22:39</span><br/>
+In any case, executing <tt>BlBasicExamples&gt;&gt;#shapes</tt> should work just fine as it returns a container that is not in a scene. How do you execute that method?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631684477.003600"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631684477.003600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-14 22:41</span><br/>
+Also, when referring to a method, use the full qualifier like <tt>BlBasicExamples&gt;&gt;#shapes</tt> because that can be pasted in Spotter and is easy to jump to it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631720883.004200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631720883.004200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-15 08:48</span><br/>
+&gt; I am not sure why you say that it does support multiple lines. Could you detail?<br/>I tried typing <tt>BlElement new</tt> into the Playground, then hitting <tt>&lt;Enter&gt;</tt>. Nothing happened.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631720994.004400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631720994.004400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-15 08:49</span><br/>
+Ah, I'm able to paste in your multi-line snippet above.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631721676.004600"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631721676.004600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-15 09:01</span><br/>
+Your explanation about the parent makes sense. Thank you!<br/><br/>&gt; In any case, executing <tt>BlBasicExamples&gt;&gt;#shapes</tt> should work just fine as it returns a container that is not in a scene. How do you execute that method?<br/>I just tried it again and didn't see the message anymore. But after closing and clicking on it again I did. Perhaps that's because examples populate the parent on the first preview?<br/><br/>I just had the following <tt>LeLocalSyncMonitorStoppedStatus</tt> error immediately after opening GToolkit.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631721986.005000"></a>
+      <a href="../of-glam-school/1631583241.000900.html#1631721986.005000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-15 09:06</span><br/>
+One minor issue: when the Playground is initially empty it isn't obvious that there's a cursor inside it. I just type a letter on faith and everything looks fine. Is that something you've seen before? Quite possible my new Arch Linux is misconfigured somehow.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631734035.005500"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631734035.005500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-15 12:27</span><br/>
+&gt; I tried typing <tt>BlElement new</tt> into the Playground, then hitting <tt>&lt;Enter&gt;</tt>. Nothing happened.<br/>What do you mean by nothing happened? Could you share a video?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631734081.005700"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631734081.005700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-15 12:28</span><br/>
+&gt; I just had the following <tt>LeLocalSyncMonitorStoppedStatus</tt> error immediately after opening GToolkit.<br/>Yes, this is a known (and annoying) issue. The workaround is to wait a few seconds before opening the playground.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631734124.005900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631734124.005900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-15 12:28</span><br/>
+The cursor issue you post is strange. I’ve never seen it before.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631811593.006200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631811593.006200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-16 09:59</span><br/>
+&gt; &gt; I tried typing <tt>BlElement new</tt> into the Playground, then hitting <tt>&lt;Enter&gt;</tt>. Nothing happened.<br/>&gt; What do you mean by nothing happened? Could you share a video?<br/>Unfortunately the machine I'm traveling with doesn't make that easy. But when I type in <tt>BlElement new</tt> the cursor is at the end of the line. When I hit <tt>&lt;Enter&gt;</tt> the cursor remains at the end of the line. Does that help?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631819024.006400"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631819024.006400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-16 12:03</span><br/>
+I have never seen that happen. Something must be terribly wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631844848.006700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631844848.006700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-16 19:14</span><br/>
+I'm going to try to route around it (and switch away from Arch Linux in a couple of days) but just FYI and for what it's worth:<br/>• enter key works in browser panels, just not in the playground<br/>• Pasting multi-line text works fine, it's only raw keyboard input that doesn't<br/>Thank you! I'm trying to gradually move my questions over to the GT Discord (is there also a Slack?) Let me know if I should submit a bug report somewhere in particular.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631864954.006900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631864954.006900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-17 00:49</span><br/>
+Great. Indeed, the GT-Discord is the place to get better feedback. We do not particularly support Arch Linux, but what you describe is so strange that it would be worth to have a bug at <a href="https://github.com/feenkcom/gtoolkit/issues/new">https://github.com/feenkcom/gtoolkit/issues/new</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631873467.007300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631873467.007300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-17 03:11</span><br/>
+Ohh, the enter key issue is just another manifestation of the rendering issue at <a href="1631583241.000900.html#1631721986.005000">https://futureofcoding.slack.com/archives/C01CD90V1NF/p16317&hellip;</a>. A newline is indeed inserted, but the pane doesn't grow to show the cursor until another key is pressed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631888890.007900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631888890.007900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-17 07:28</span><br/>
+The size of the original line is quite intriguing :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631889071.008100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631889071.008100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-17 07:31</span><br/>
+Created <a href="https://github.com/feenkcom/gtoolkit/issues/2121">https://github.com/feenkcom/gtoolkit/issues/2121</a><br/><br/>I'm going to try to install Ubuntu tomorrow before my flight boards.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631889337.008300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../of-glam-school/1631583241.000900.html#1631889337.008300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-17 07:35</span><br/>
+Thanks!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

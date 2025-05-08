@@ -1,0 +1,695 @@
+[
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1598686696.131300",
+        "client_msg_id": "f000d3fa-e065-4613-bb18-b9b7a57e73f3",
+        "text": "I'm trying to get the implementation of this clear in my head, since I'm seriously considering adding it to my text editor to help with other issues.  One thing I've been thinking about is annotating shaders with widget information.  For example, what if my flattened code looked like this:\n```\/* Layer:1 Widget:Slider, Min:0, Max:10 *\/ float val;```\nEffectively showing layer 1 would enable editing of how the float value widget would work.  Hiding layer 1 just gives you the shader code with the widget popup.\nAs I understand it layers aren't nested, but I think you'd need to be able to 'expand' deeper layers into upper layers without opening intermediate layers.  For example:\nL0:-----------|---\nL1: ------|-------\nL2 ----|----------\nThe | represents the location in Layer1 of layer2.  Expanding layer 1 would show layer 2, and inside layer 2 there is another point where a further layer lives.  But if L2 is shown but L1 is not, then L2 would effectively appear where the | is on layer 0.  I think?\nAnd of course, edits to the L0 layer would wind up 'moving' the insertion point of Layer1.  But what about deleting the region around the expand point?  I guess the next layer just drops into the nearest sensible position.....\nI do something similar with Markers in my code, which can be used for things like compile errors.  Which brings up the next issue of compiling code and referring back to locations in the source that may not be expanded, etc. :wink:\nSo in short, interesting issues that might lead to a powerful system......",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "8Au",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I'm trying to get the implementation of this clear in my head, since I'm seriously considering adding it to my text editor to help with other issues.  One thing I've been thinking about is annotating shaders with widget information.  For example, what if my flattened code looked like this:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\/* Layer:1 Widget:Slider, Min:0, Max:10 *\/ float val;"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Effectively showing layer 1 would enable editing of how the float value widget would work.  Hiding layer 1 just gives you the shader code with the widget popup.\nAs I understand it layers aren't nested, but I think you'd need to be able to 'expand' deeper layers into upper layers without opening intermediate layers.  For example:\nL0:-----------|---\nL1: ------|-------\nL2 ----|----------\nThe | represents the location in Layer1 of layer2.  Expanding layer 1 would show layer 2, and inside layer 2 there is another point where a further layer lives.  But if L2 is shown but L1 is not, then L2 would effectively appear where the | is on layer 0.  I think?\nAnd of course, edits to the L0 layer would wind up 'moving' the insertion point of Layer1.  But what about deleting the region around the expand point?  I guess the next layer just drops into the nearest sensible position.....\nI do something similar with Markers in my code, which can be used for things like compile errors.  Which brings up the next issue of compiling code and referring back to locations in the source that may not be expanded, etc. "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "wink",
+                                "unicode": "1f609"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\nSo in short, interesting issues that might lead to a powerful system......"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1598687104.131500",
+        "client_msg_id": "f8fa9c83-78cf-47e6-900a-22ebf5a7b810",
+        "text": "Implementation note: with layers that contain extra information comes the possibility that a flattened file could not be just dropped into a game engine without sanitizing.  So for this case, comments in layers makes sense because it keeps the code compiling and keeps it as a plain text file.  But it's just a convention.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "V66",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Implementation note: with layers that contain extra information comes the possibility that a flattened file could not be just dropped into a game engine without sanitizing.  So for this case, comments in layers makes sense because it keeps the code compiling and keeps it as a plain text file.  But it's just a convention."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1598687349.131700",
+        "client_msg_id": "53c60947-4c05-468f-b961-eb0e45ff587a",
+        "text": "Oh.....",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "qIH",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Oh....."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UUQ2EQW21",
+        "type": "message",
+        "ts": "1598687486.131900",
+        "client_msg_id": "6856b6ce-a985-462a-b5ef-023e1a9aee1b",
+        "text": "And collapsing Layer1 from my code sample above could have a special display; I was thinking some kind of mark in the code to indicate points where layers are embedded; but suppose the widget was a color picker.... then the collapsed layer 1 would be a color swatch.  Nice....\nAnd not forgetting that layer 1 is effectively several fragments, since there can be multiple point in the text where layer 1 pieces are inserted.  Hmm, this might keep me going for a week or 2!\nOK, I'll stop designing out loud......:)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g2266cacc8f3",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png",
+            "first_name": "Chris",
+            "real_name": "Chris Maughan",
+            "display_name": "Chris Maughan",
+            "team": "T5TCAFTA9",
+            "name": "mornymorny",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "hXO5e",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "And collapsing Layer1 from my code sample above could have a special display; I was thinking some kind of mark in the code to indicate points where layers are embedded; but suppose the widget was a color picker.... then the collapsed layer 1 would be a color swatch.  Nice....\nAnd not forgetting that layer 1 is effectively several fragments, since there can be multiple point in the text where layer 1 pieces are inserted.  Hmm, this might keep me going for a week or 2!\nOK, I'll stop designing out loud......:)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UG0EL18H3"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UA14TGLTC",
+        "type": "message",
+        "ts": "1598692734.132200",
+        "client_msg_id": "d19b46ee-fe66-4f64-9e20-fc229901fc74",
+        "text": "Thanks for your thoughts <@UBSMEUXAA>.  I've been messing with a 3D esolang — though progress certainly ground to a halt with the ending of the world.  My superficial constraint has been no text.  The real constraint is to make it \"non-symbolic\" in that representations cannot be \"arbitrary.\" Representations need to be structure preserving in a sort of uniform way.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gae6d55db9d1",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png",
+            "first_name": "",
+            "real_name": "William Taysom",
+            "display_name": "wtaysom",
+            "team": "T5TCAFTA9",
+            "name": "wtaysom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598552082.107500",
+        "parent_user_id": "UBSMEUXAA",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lnwOC",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks for your thoughts "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UBSMEUXAA"
+                            },
+                            {
+                                "type": "text",
+                                "text": ".  I've been messing with a 3D esolang — though progress certainly ground to a halt with the ending of the world.  My superficial constraint has been no text.  The real constraint is to make it \"non-symbolic\" in that representations cannot be \"arbitrary.\" Representations need to be structure preserving in a sort of uniform way."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1598715884.132800",
+        "client_msg_id": "15efb2f2-7145-48ae-a6a1-89a3b851e319",
+        "text": "<@U8A5MS6R1> One use case would be to make type annotations a different layer, to reduce visual clutter. And that would open the way to having multiple annotations on code, not just a single rigid type system.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "FUI",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U8A5MS6R1"
+                            },
+                            {
+                                "type": "text",
+                                "text": " One use case would be to make type annotations a different layer, to reduce visual clutter. And that would open the way to having multiple annotations on code, not just a single rigid type system."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "U8A5MS6R1"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UG0EL18H3",
+        "type": "message",
+        "ts": "1598720702.138100",
+        "edited": {
+            "user": "UG0EL18H3",
+            "ts": "1598721017.000000"
+        },
+        "client_msg_id": "61F6E4AD-9ECA-4CC2-81F8-1F2170B5AFED",
+        "text": "<@UUQ2EQW21> feel free to keep designing out loud :) It's really helpful to hear this sort of feedback because there are just so many ways this idea can be interpreted. My proof-of-concept was deliberately open-ended for this reason: I really like to see the sorts of assumptions folks make once they start implementing a concept such as this and how practicalities like the choice of underlying data structure influence which affordances become possible or impossible as a result. ",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "25cc47143833",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-08-01\/702360681283_25cc471438337c72e600_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Rabl",
+            "display_name": "crabl",
+            "team": "T5TCAFTA9",
+            "name": "chris.rabl",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598502207.080100",
+        "parent_user_id": "UG0EL18H3",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "H90f",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UUQ2EQW21"
+                            },
+                            {
+                                "type": "text",
+                                "text": " feel free to keep designing out loud :) It's really helpful to hear this sort of feedback because there are just so many ways this idea can be interpreted. My proof-of-concept was deliberately open-ended for this reason: I really like to see the sorts of assumptions folks make once they start implementing a concept such as this and how practicalities like the choice of underlying data structure influence which affordances become possible or impossible as a result. "
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "cake",
+                "users": [
+                    "UC2A2ARPT",
+                    "UJBAJNFLK",
+                    "UA14TGLTC"
+                ],
+                "count": 3
+            }
+        ]
+    },
+    {
+        "user": "U019W8A1884",
+        "type": "message",
+        "ts": "1598723891.139200",
+        "client_msg_id": "355053ea-cccc-491f-b2bb-cfcb3f9c3dd8",
+        "text": "<@UCUSW7WVD> tried finding PANE unsuccessfully, got a link?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9d297317a647",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-08-28\/1327009683269_9d297317a647a021921f_72.jpg",
+            "first_name": "",
+            "real_name": "Dennis Heihoff",
+            "display_name": "Dennis Heihoff",
+            "team": "T5TCAFTA9",
+            "name": "kalavox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598634636.121900",
+        "parent_user_id": "U019W8A1884",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "1ik",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UCUSW7WVD"
+                            },
+                            {
+                                "type": "text",
+                                "text": " tried finding PANE unsuccessfully, got a link?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1598724180.139400",
+        "client_msg_id": "96dc2d6e-04e5-4ff1-b0c1-c8ef41d49c08",
+        "text": "Sorry, I was on the phone when I wrote my previous comment. <http:\/\/joshuahhh.com\/projects\/pane>. The author posted new work here recently: <https:\/\/futureofcoding.slack.com\/archives\/CCL5VVBAN\/p1598126579060300>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598634636.121900",
+        "parent_user_id": "U019W8A1884",
+        "attachments": [
+            {
+                "from_url": "https:\/\/futureofcoding.slack.com\/archives\/CCL5VVBAN\/p1598126579060300",
+                "fallback": "[August 22nd, 2020 1:02 PM] joshuah: I'm prototyping a new approach to drawing dynamic pictures with direct manipulation. So far, I've been calling it \"Apparatus with Magnets\". We'll see if the name... sticks. :wink:\n\nHere's a \"project proposal\": <https:\/\/www.notion.so\/Apparatus-with-Magnets-077e72bc1ebf4f7a9ec512ef76d47994|https:\/\/notion.so\/Apparatus-with-Magnets-Intro-2e32af5b59b64a45b3b203408374a56e><https:\/\/www.notion.so\/Apparatus-with-Magnets-077e72bc1ebf4f7a9ec512ef76d47994|….> Progress is slow but steady. Feedback is welcome!",
+                "ts": "1598126579.060300",
+                "author_id": "UBKNXPBAB",
+                "author_subname": "Joshua Horowitz",
+                "channel_id": "CCL5VVBAN",
+                "is_msg_unfurl": true,
+                "is_thread_root_unfurl": true,
+                "text": "I'm prototyping a new approach to drawing dynamic pictures with direct manipulation. So far, I've been calling it \"Apparatus with Magnets\". We'll see if the name... sticks. :wink:\n\nHere's a \"project proposal\": <https:\/\/www.notion.so\/Apparatus-with-Magnets-077e72bc1ebf4f7a9ec512ef76d47994|https:\/\/notion.so\/Apparatus-with-Magnets-Intro-2e32af5b59b64a45b3b203408374a56e><https:\/\/www.notion.so\/Apparatus-with-Magnets-077e72bc1ebf4f7a9ec512ef76d47994|….> Progress is slow but steady. Feedback is welcome!",
+                "author_name": "Joshua Horowitz",
+                "author_link": "https:\/\/futureofcoding.slack.com\/team\/UBKNXPBAB",
+                "author_icon": "https:\/\/secure.gravatar.com\/avatar\/d48812709bdc0ff86746b7fbe56b0f13.jpg?s=48&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0010-48.png",
+                "mrkdwn_in": [
+                    "text"
+                ],
+                "files": [
+                    {
+                        "id": "F019H9PQCG4",
+                        "created": 1598126549,
+                        "timestamp": 1598126549,
+                        "user": "UBKNXPBAB",
+                        "name": "gif2 (1).gif",
+                        "title": "gif2 (1).gif",
+                        "mimetype": "image\/gif",
+                        "filetype": "gif",
+                        "pretty_type": "GIF",
+                        "editable": false,
+                        "size": 5304303,
+                        "mode": "hosted",
+                        "is_external": false,
+                        "external_type": "",
+                        "is_public": true,
+                        "public_url_shared": false,
+                        "display_as_bot": false,
+                        "username": "",
+                        "permalink": "https:\/\/futureofcoding.slack.com\/files\/UBKNXPBAB\/F019H9PQCG4\/gif2__1_.gif",
+                        "permalink_public": "https:\/\/slack-files.com\/T5TCAFTA9-F019H9PQCG4-99b7e51209",
+                        "url_private": "https:\/\/files.slack.com\/files-pri\/T5TCAFTA9-F019H9PQCG4\/gif2__1_.gif",
+                        "url_private_download": "https:\/\/files.slack.com\/files-pri\/T5TCAFTA9-F019H9PQCG4\/download\/gif2__1_.gif",
+                        "thumb_64": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__64.png",
+                        "thumb_80": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__80.png",
+                        "thumb_360": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__360.png",
+                        "thumb_360_w": 360,
+                        "thumb_360_h": 203,
+                        "thumb_480": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__480.png",
+                        "thumb_480_w": 480,
+                        "thumb_480_h": 270,
+                        "thumb_160": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__160.png",
+                        "thumb_720": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__720.png",
+                        "thumb_720_w": 720,
+                        "thumb_720_h": 405,
+                        "thumb_360_gif": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__360.gif",
+                        "thumb_480_gif": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__480.gif",
+                        "original_w": 720,
+                        "original_h": 405,
+                        "deanimate_gif": "https:\/\/files.slack.com\/files-tmb\/T5TCAFTA9-F019H9PQCG4-6b3e029d2b\/gif2__1__deanimate_gif.png",
+                        "has_rich_preview": false,
+                        "thumb_tiny": "AwAbADDSPQ0ynnoabQAUtJntUctwkJw559BQBLThUENzHMdoJDehqegBG+6aZmnt901GKAGXEwhj3D7x4FZrkuSWPJ71Z1A\/MgqtGAXXPrTeiGizBAQm7OGPer6fcGfSoV6VYHSpQM\/\/2Q==",
+                        "file_access": "check_file_info"
+                    }
+                ],
+                "id": 1,
+                "original_url": "https:\/\/futureofcoding.slack.com\/archives\/CCL5VVBAN\/p1598126579060300",
+                "footer": "Thread in Slack Conversation"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "0rugR",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Sorry, I was on the phone when I wrote my previous comment. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/joshuahhh.com\/projects\/pane"
+                            },
+                            {
+                                "type": "text",
+                                "text": ". The author posted new work here recently: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/futureofcoding.slack.com\/archives\/CCL5VVBAN\/p1598126579060300"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "pray",
+                "users": [
+                    "U019W8A1884"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U019W8A1884",
+        "type": "message",
+        "ts": "1598724581.139800",
+        "edited": {
+            "user": "U019W8A1884",
+            "ts": "1598724745.000000"
+        },
+        "client_msg_id": "4367ef19-a50f-4b90-9f62-8fb4aabc93d1",
+        "text": "<@UHWC9PXBL> sure! When you define your `ui-root` you give it a `lookup` function and `content-keys` . from there it works like reduce: you pass it a `root-id` that it passes to `lookup`. lookup returns data that root wraps in your defined UI components or the default component. It also looks for `content-keys` on `lookup`s return value, passes those to `lookup` and recurses down all the paths. Upfront root is not aware of the structure of the data. Given the id, `lookup` can run arbitrary computation. It can for example issue an http request or read from indexedDB. It can return data or a promise that root will resolve and eventually render. It’s dumb by design and that gives it lots of flexibility.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9d297317a647",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-08-28\/1327009683269_9d297317a647a021921f_72.jpg",
+            "first_name": "",
+            "real_name": "Dennis Heihoff",
+            "display_name": "Dennis Heihoff",
+            "team": "T5TCAFTA9",
+            "name": "kalavox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1598634636.121900",
+        "parent_user_id": "U019W8A1884",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "3m9N",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UHWC9PXBL"
+                            },
+                            {
+                                "type": "text",
+                                "text": " sure! When you define your "
+                            },
+                            {
+                                "type": "text",
+                                "text": "ui-root",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " you give it a "
+                            },
+                            {
+                                "type": "text",
+                                "text": "lookup",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " function and "
+                            },
+                            {
+                                "type": "text",
+                                "text": "content-keys",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " . from there it works like reduce: you pass it a "
+                            },
+                            {
+                                "type": "text",
+                                "text": "root-id",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " that it passes to "
+                            },
+                            {
+                                "type": "text",
+                                "text": "lookup",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". lookup returns data that root wraps in your defined UI components or the default component. It also looks for "
+                            },
+                            {
+                                "type": "text",
+                                "text": "content-keys",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " on "
+                            },
+                            {
+                                "type": "text",
+                                "text": "lookup",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "s return value, passes those to "
+                            },
+                            {
+                                "type": "text",
+                                "text": "lookup",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " and recurses down all the paths. Upfront root is not aware of the structure of the data. Given the id, "
+                            },
+                            {
+                                "type": "text",
+                                "text": "lookup",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " can run arbitrary computation. It can for example issue an http request or read from indexedDB. It can return data or a promise that root will resolve and eventually render. It’s dumb by design and that gives it lots of flexibility."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UHWC9PXBL",
+                    "UF6RLAL7J"
+                ],
+                "count": 2
+            },
+            {
+                "name": "pray",
+                "users": [
+                    "UHWC9PXBL"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

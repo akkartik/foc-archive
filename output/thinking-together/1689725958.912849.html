@@ -1,0 +1,90 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1689725958.912849.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-07-18 17:19</span><br/>
+The default behaviour for a validated text field in Blockly is to turn the background red while the value is invalid, and if the user hits enter (or nvaigates away from the field) while the field is red, abandon the change and return the field to the previous value. This feels broken to me. In the visual interface, if you try to put something somewhere and it doesn't "fit", the piece doesn't go back where it started. It stays close to where you tried to put it, but far enough away to visually indicate that it isn't connected. So you get immediate feedback that it didn't work, and what was done instead. But in the text field, if I have "value" and I change it to "value$", and the dollar sign is invalid, the field will only turn red between when I hit dollarsign and when I hit enter, and then it will go back to the previous value, and just hope I notice that it didn't do what I wanted it to do. For people who look at the keys while typing, that's not going to work. Blockly steadfastly tries to avoid invalid state, presumably because syntax errors aren't any fun. But in the visual interface it accomplishes that by making invalid syntax impossible to generate, and when it modifies the syntax for you to keep it valid, that's easy to see. Here, it lets you type an invalid value, let's you hit enter, and the fact it didn't work is potentially invisible. It feels like it should be possible to do better. Has anyone seen an interface for entering values into a text field that solves this problem? Where the field maintains a valid value, starting with a default, but it also allows you to maintain a view on failed attempts to modify it, so that you can correct them? Should the screen just go modal, not responding to "enter" or clicks outside the editor while the value is invalid? Should the failed attempt to change it be noted somewhere? Or is maintaining valid state in text fields a silly goal, and instead you should just throw errors at a later step, or something?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689733281.716799"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689733281.716799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-18 19:21</span><br/>
+A couple ideas, possibly combinable: text field stays red indefinitely, blocking any attempts at running or inferring from the program (I forget what the right term is in your project); I guess this is basically "throw errors later", but with a more deliberate focus on showing the reason for the error. Other idea: each text field stores both the last user input, possibly invalid, ("draft"?) and the last valid, active value, with really clear UI about what text is currently active: probably invalid draft text off to the side in red. Or possibly a "restore 'my previous valid text'" operation if you go the throw-errors path.<br/><br/>I think it's really important not to casually throw away user input even if it's invalid. It might contain a pretty significant bit of work (e.g. digging through an obtuse document for the exact right term) that's only slightly invalid, e.g. only typo'd. And if the user trusts the computer to remember it, they're liable to completely flush it from their mind until they come back later to an error message or mysterious reversion to the old value, whereupon they feel both frustrated and betrayed. :melting_face: (I think I'm preaching to the choir here, just had to vent dredged-up memories of frustrating software)<br/><br/>I think a modal <em>dialog</em>, front and center on the screen, might be ok, albeit clunky. But just stopping responding to clicks elsewhere is exactly the kind of interaction that gives modal interfaces a bad name. The scenario when this whole thing is a problem is when the user's locus of attention moves away "prematurely", which is the exact reason they'll be confused and frustrated when the rest of the UI "freezes".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689738491.241629"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689738491.241629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-07-18 20:48</span><br/>
+So user hits enter or navigates away while invalid, a modal dialogue pops up with value, OK, Cancel, but OK is greyed out while the value is invalid, the invalid new text is in the dialog, the validity requirements are displayed, the prior valid value is displayed next to the cancel button. Something like that? I'm also imagining a "current value" non-editable element, and a usually hidden "set to" element that hides when it succeeds or is cancelled, stays visible otherwise. Not sure what that would look like, but it wouldn't require you to solve the validity problem first, which seems like an improvement.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689748756.223389"></a>
+      <img src="https://secure.gravatar.com/avatar/df13e3ce9dfc39e2f387bd3d6e87b952.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689748756.223389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jan Ruzicka</b>
+<span style="margin:2em; color:#606060">2023-07-18 23:39</span><br/>
+I think it would be interesting if the invalid string split into a separate red-highlighted "string block", lying near the text field (which retains the old valid value).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689786109.088269"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689786109.088269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2023-07-19 10:01</span><br/>
+If you absolutely need to maintain valid state at all times, I would leave user entered value, highlight in red and have a little modal that says "X is an invalid value, using last valid value in its place (Y)" with a one-click option to change X explicitly back to Y.<br/><br/>I personally hate editors that try to maintain a valid value at all times. When you are sketching something out you want to be able to just put crap like "??? salary ??? wealth ???" as placeholders for half thought out ideas. I really think that thinking tools need to be really, really cautious about editing what the user has input.<br/><br/>Why do you need to maintain valid values only? Can't you just disable whatever feature requires this until they provide them? This is a meaningful quid pro quo for the user. If you <em>don't want</em> the quo right now (i.e. I know this code doesn't compile, I'm not asking for that), it's very, very frustrating to be forced to swallow the quid (valid syntax)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689786833.098369"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689786833.098369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2023-07-19 10:13</span><br/>
+Jan, the thought had occurred to me of rejecting invalid text blocks the same way other blocks are rejected for type problems. That's not impossible, but it would make things clunky, and I don't actually have strings as a data type in the tool, right now. Chris, I don't actually know if maintaining validity is worth it. It's just the approach taken by the library, which I'm assuming is better informed than I am about learning outcomes. My instinct is to override the current behaviour and just leave the thing highlighted red, and refuse to save.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689791675.832219"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689725958.912849.html#1689791675.832219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-07-19 11:34</span><br/>
+One of my favorite problems — more especially the case when each individual field is okay, but some cross-field condition needs to be satisfied.  In practice my solution is to allow inconsistent working state backed by an always consistent committed state, which you can choose to revert to.  Taken to its natural extreme, version control emerges from these considerations.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

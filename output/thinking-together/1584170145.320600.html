@@ -1,0 +1,258 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1584170145.320600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>prax08</b>
+<span style="margin:2em; color:#606060">2020-03-14 00:15</span><br/>
+Finally got some time to round up the prior art on a largely forgotten idea in computing called managed time.  I think this in some ways is what version control does to files, but think of it at a more granular level of variables and functions and the kinds of interactions that will spawn off.<br/><br/>Got the hint initially from Alan Kay’s writings and I think there is a lot of fertile areas here to dig into here: <a href="https://prabros.com/readings-on-time">https://prabros.com/readings-on-time</a><br/><br/>Would love to hear your feedback if I have missed some related material in this post.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584215471.321700"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584215471.321700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-14 12:51</span><br/>
+Thanks. This is nicely put together. I don’t have much to add but I wish I did—there’s so much more thinking to be done in this space!<br/><br/>I guess I would throw linear programming in there as a way to reason about time. I switch back and forth between Rust and Swift these days, and am more and more uncomfortable writing in languages with no way of saying “no one else can change, or ever refer to, this value after this point.” It’s just so much harder to reason about the behavior of an application.<br/><br/>On an unrelated note, I’ve thrown my chips on the logic programming square here, following Bloom and others. I feel there’s a great deal of exploration to be done even just with the theory and application of CRDTs. Logic programming gives me huge flexibility to express new ideas in terms of a single “happened before” relation. I know that building in theorem proving a la Alloy or TLA+ would help a lot too, as would interactive tools for visualizing and debugging.<br/>If anyone else is exploring anything like this please let me know. I’ve only just begun.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584216616.322100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584216616.322100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:10</span><br/>
+There was a project that did something like this (i.e. references to variables and functions are bound to whatever version of them existed at the time the programmer coded the reference).<br/><br/>Am I thinking of Lambdu?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584218269.322300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584218269.322300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:37</span><br/>
+A related idea of mine:<br/><br/><li> Small set of datatypes (think JSON), all code is made of those too (think Lisp). Lexical scope (execution context) is also stored this way at runtime (think Scheme).<br/><br/><li> All operations (with few exceptions) in "code" therefore amounts to operating on that kind of data / structure.<br/><br/><li> If that's the whole universe of a running program, then user interaction also boils down to (directly or indirectly) causing the same kind of operations on the same kind of structure.<br/><br/><li> Coding involves editing a live structure, rather than writing text.<br/><br/><li> "Code" is actually stored as a list (or DAG, actually) of operations to apply, in some context.<br/><br/><li> Coding is done by recording (rather than just doing-and-forgetting) actions manually taken by the coder on live structure. The current state of "the code" is actually a pure function of actions taken.<br/><br/><li> Effectively, there's no difference between "code" and "programming", and both can be reviewed as a time- (or ordered)-sequence of actions, with "the past" edited directly to see what the result is in different cases, etc. Effectively it's the same kind of stuff could do with a GIT history.<br/><br/>So the lines between code, data, programming, user interaction (with full undo/redo history tree), and source control, are all blurred.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584218274.322500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584218274.322500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:37</span><br/>
+Lamdu does do something like this IIRC. They 'copy' the type signature of the function into every call site. When you modify the function definition signature, they know both - the old signature a call site was bound to, and the new one of the definition. Of course because it is projectional editing, the 'copy' is usually hidden when you look the call site.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584218935.322700"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584218935.322700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:48</span><br/>
+You maybe thinking of <a href="https://www.unisonweb.org">https://www.unisonweb.org</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584219180.323000"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584219180.323000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:53</span><br/>
+Following on to my earlier reply, Nikolas Göbel wrote a nice, if terse, round-up of ideas relevant to time (and divergence) in databases here: <a href="https://www.nikolasgoebel.com/2019/12/30/perspectives-2019.html">https://www.nikolasgoebel.com/2019/12/30/perspectives-2019.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584219435.323400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584219435.323400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 13:57</span><br/>
+When I look at this space, I think of the discussions and approaches as within three <b>vague</b> categories.<br/><br/>First is the 'essence' of the ideas - e.g. McCarthy's association of facts with pseudo/logical time (and possibly place). This is really a variant of the meta idea "make the implicit explicit".<br/><br/>Second is 'data structure' oriented approaches. These are CRDTs, Datomic and such. We consider 'just data' flowing and persisted within the system and try to tag it with pseudo timestamps. We try to auto merge, query on a consistent 'view'. All data references have the psuedo timestamp. Even MVCC (and git) have this flavor - the git hash is the 'pseudo timestamp' of git data.<br/><br/>Third is the 'system' oriented approaches - here it's not just about data but entire systems and subsystems have pseudo time. Examples are Reed's NAMOS, Jefferson's Virtual Time, the Croquet project, etc. The main difference I see here is <b>all messages</b> have the psuedo time attached. It's not just querying and modifying data, but any message between to nodes will have the pseudo time attached, which specifies which 'version' of the world the message comes from and refers to.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584219703.323700"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584219703.323700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-14 14:01</span><br/>
+Sure. You could say: the development of concepts, the development of tools, and the coherent deployment of tools in the real world.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584220126.324000"></a>
+      <img src="https://secure.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584220126.324000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Abrahamsen</b>
+<span style="margin:2em; color:#606060">2020-03-14 14:08</span><br/>
+I’m interested in informing our concepts as well as we can by studying the way time is encoded, implicitly and explicitly, in our existing tools and practices. What concepts can you not encode directly in a system built on an append-only event log?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584244007.326100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584244007.326100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-14 20:46</span><br/>
+Hmm, I'd say that any "mutable" log can be recreated from an initial state and an append-only sequence of the mutations. So nothing, right?<br/><br/>I think this is also called "event sourcing"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584244853.326400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584244853.326400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 21:00</span><br/>
+I think 'append only' is a sound idea. You can encode everything in it. But then you can encode everything in any database. The question is what exactly is the information recorded in the log and where does it exist?<br/><br/>Time is encoded implicitly in many places - any API call to a library, or message going to a service (assume both are stateful) has implicit time. The state itself has implicit time. Any copy of information has implicit time (e.g. a cache in front of a database implicitly refers to a specific time in the database (per entity)).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584245036.326600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584245036.326600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 21:03</span><br/>
+Another often overlooked place is the 'code version' itself refers to some time. When you roll out a new version to a part of the system, the code there is newer (~time) than the other code. The data/information in dbs etc usually does not make the code time explicit - maybe it should.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584245373.326800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584245373.326800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 21:09</span><br/>
+Any information displayed to the user on any screen has implicit time (it represents the info at a specific time) - sometimes this is explicit as a version number. Essentially any projection of information has associated time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584245623.327100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584245623.327100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-14 21:13</span><br/>
+I suppose that's even true of the messages in this thread :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584246206.327800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584246206.327800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-14 21:23</span><br/>
+Yeah. I think it's not just 'time' but also the information model. E.g. what is time associated with? Even pseudo time by itself it is pointless. What is useful is a 'fact' in some information schema. E.g. (property a, value b, time t) which is true at some time. Stuff usually put in the append only event logs. So what does the info model look like. Is it key/value with global keys? How does adding a new key fit in? WHere do agents/nodes fit in and how is intention encoded? E.g. how do we represent that the user clicked a button? They were looking at a version of some information (list of facts at time t) but there is lag and uncertainly until the fact is 'accepted' by the system. So I think we have to even make nodes explicit in our model. Then all messages become idempotent since everything is explicit (x said y at time t) - and can be replicated, distributed without issue.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584280460.329100"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584280460.329100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2020-03-15 06:54</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> Could it be: <a href="https://www.expressionsofchange.org/videos/">https://www.expressionsofchange.org/videos/</a> by any chance?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584280588.330000"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584280588.330000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2020-03-15 06:56</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> Also, your second comment reminded me of Operational Transformation: <a href="https://hackernoon.com/operational-transformation-the-real-time-collaborative-editing-algorithm-bf8756683f66">https://hackernoon.com/operational-transformation-the-real-t&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584281284.330800"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584281284.330800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2020-03-15 07:08</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> That tripartite: Concept/Data Structures/Whole systems partition makes a lot of sense. This is really something I would like to explore, especially in the context of a design tool which I think holds a lot of promise.<br/><br/>And the idea of making identity of nodes explicit is also very interesting. That would turn it into a conversation between agents and a coherent story emerging from it. Reminds me of Conversation Theory from Cybernetics:  <a href="http://worrydream.com/refs/Bolt%20-%20Graphical%20Conversation%20Theory.pdf">http://worrydream.com/refs/Bolt%20-%20Graphical%20Conversation%20Theory.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584304150.335500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584304150.335500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-03-15 13:29</span><br/>
+Lamdu and Unision are interesting but I don't see how they model time differently at runtime. They do model the 'code' differently though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584380073.349900"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1584170145.320600.html#1584380073.349900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-03-16 10:34</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> wrote:<br/>&gt; Then all messages become idempotent since everything is explicit (x said y at time t) - and can be replicated, distributed without issue.<br/>That is exactly this property that I find interesting to build offline first collaborative editing environments. And more complicated abstractions can be built on it. The article "<a href="http://archagon.net/blog/2018/03/24/data-laced-with-history/">Data Laced with History: Causal Trees &amp; Operational CRDTs</a>" by <a href="https://twitter.com/archagon">Archagon</a>, made my understand all this.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

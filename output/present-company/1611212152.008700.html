@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-01-20 22:55</span><br/>
+I have a simple, yet annoying validation problem.  Can any of you think of a language/framework that makes validating the following sort of schema as clear (or clearer) than the English language specification?<br/><br/>Suppose we have a playhouse with a bunch of rooms.  In each room, we want there to be a box, a ball or two, and no other toys.  If there are two balls, one should be red and the other should be blue.  Report all the rooms that have the wrong toys and exactly what's wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611212659.008800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611212659.008800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:04</span><br/>
+And yes, coding this up earlier today fizzed my buzz: 34 lines, half an hour, several mistakes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611214170.009500"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611214170.009500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:29</span><br/>
+relaxng (XML validator) has an <a href="https://relaxng.org/compact-tutorial-20030326.html#id2815185">interleave</a> operator for this sort of thing. Its been a while since I last wrote a gramamr but I think it would look something like this:<br/><pre style="white-space:pre-wrap">grammar {<br/>  start = element house { room*}<br/>  room = element room { box &amp; ((red &amp; blue?) | (blue &amp; red?)) }<br/>  box = elem box { "box" }<br/>  red = elem ball { "red"}<br/>  blue = elem ball { "blue" }<br/>}</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611214214.009900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611214214.009900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:30</span><br/>
+or else any other grammar would help (ANTLR, PEG, etc):<br/><pre style="white-space:pre-wrap">grammar = "house" room*<br/>room = "box" ("red ball" "blue ball"? | "blue ball" "red ball"?)</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611214240.010100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611214240.010100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:30</span><br/>
+I think it is useful to think in terms of grammars because then becomes obvious when the thing you are trying to validate is not context free
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611214303.010300"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611214303.010300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:31</span><br/>
+in XML world, once you need to validate something were a context free grammar is not enough, you reach for <a href="https://en.wikipedia.org/wiki/Schematron#Sample_rule">Schematron</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611214632.010800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611214632.010800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-01-20 23:37</span><br/>
+hah had to edit my grammars. Not sure if they match your requirements exactly but you get the idea :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611217948.011000"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611217948.011000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-01-21 00:32</span><br/>
++1 <span style="background-color:#ccf">@Emmanuel Oga</span>'s suggestion of grammars, to which I'd add any other automata generating-abstractions. For example, regular expressions over the domain of toys (as opposed to the domain of characters).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611230334.012400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611230334.012400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-01-21 03:58</span><br/>
+This writeup expresses the cleanest approach I know of: <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611240042.016100"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611240042.016100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2021-01-21 06:40</span><br/>
+the trickiest part of this is the “report all rooms that have the wrong toys and exactly what’s wrong”—i’d be tempted to reach for the really dynamic grammars that let you pretty easily insert whatever side effects/logic you want, like OMeta/ohm or rebol/red’s parse dialect. do you just want console output or structured data about the errors?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611244481.017600"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611244481.017600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-01-21 07:54</span><br/>
+After someone asked in private what I was on about up above, I offer as an example this "regular expressions over sequences" library in Clojure: <a href="https://github.com/cgrand/seqexp">https://github.com/cgrand/seqexp</a> The relationship between <a href="https://en.wikipedia.org/wiki/Introduction_to_Automata_Theory,_Languages,_and_Computation">formal languages and automata</a> is a worthwhile area of computer science study for practical minded practitioners. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611261684.018000"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611261684.018000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2021-01-21 12:41</span><br/>
+Wouldnt a datalog or mini-kanren style approach be useful?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611282125.018800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611282125.018800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-01-21 18:22</span><br/>
+Ah <span style="background-color:#ccf">@Garth Goldwater</span>, OMeta haven't heard that in a while!  Yes friends, an important part here is the detailed error reporting.  I'll need to read Parse, don't validate <span style="background-color:#ccf">@Don Abrams</span>.  Seems many non-trivial programming problems have a parsing (state machine) feel, and at one level we have good parsing tools though they seem to be underutilized in practice.  One interesting thing here that counts matter and order does not.  (Of course, one quick fix is to sort the list of toys in a room and then match on that sequence.)<br/><br/>As for error reporting, here's an idea.  Imagine an interactive grammar generating tool.  We start with golden path of validity (imagine a sorted list), something like:<br/><pre style="white-space:pre-wrap">Room = "box" ("blue ball" "red ball" | Color " ball")</pre><br/>Then the tool would propose invalid sequences for which we have to generate error description productions.  That would be neat.  I suppose other perennial parsing problems are tokenizing nicely so that you can operate on higher-level constructs, and I mean once you are acting on tree-ish data rather than streams, it begins to feel like regular functional programming...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611875302.026300"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-29/1687447231174_dc9ee60375b5ce940578_72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611875302.026300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>bmitc</b>
+<span style="margin:2em; color:#606060">2021-01-28 15:08</span><br/>
+I am still learning it myself, but would Prolog be able to do this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1611912474.026800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1611212152.008700.html#1611912474.026800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-01-29 01:27</span><br/>
+Short answer: yes-ish.  Prologs can be a bit odd in what they can and cannot do.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

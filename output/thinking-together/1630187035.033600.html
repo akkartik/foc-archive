@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-28 14:43</span><br/>
+I have a problem I'd appreciate thoughts on, particularly from aficionados of visual programming. But it requires some setup, if you'll bear with me.. (see thread)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630187041.033700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630187041.033700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-28 14:44</span><br/>
+My Mu project (<a href="https://github.com/akkartik/mu">https://github.com/akkartik/mu</a>) is building a computing stack up from machine code. The <em>goal</em> is partly to figure out why people don't do real prototyping more often. We all know we should throw the first one away, but we rarely do so. The <em>hypothesis</em> is that we'd be better about throwing the first one away if <em>rewriting</em> was less risky. By the time the prototyping phase ends, a prototype often tacitly encodes lots of information that is risky to rewrite.<br/><br/>To falsify this hypothesis, I want to make it super easy to turn any manual run into a reproducible automated <em>test</em>. If all the tacit knowledge had tests (stuff you naturally did as you built features), rewriting would become a non-risky activity, even if it still requires some effort.<br/><br/>Turning manual tests into automated ones requires carefully tracking <em>dependencies</em> and <em>outlawing side-effects</em>. In Mu, functions that modify the screen always take a screen object. That way I can start out with a manual test on the real screen, and easily swap in a fake screen to automate the test. Which brings us to my problem:<br/><br/>&gt; <b>How do you represent screens in a test?</b><br/>Currently I represent 2D screens as 2D arrays of characters. That is doable a lot of the time, but complicates many scenarios:<br/>• Character attributes. If I want to check the foreground or background color, I currently use primitives like <tt>check-screen-in-bg</tt> which ignores spaces in a 2D array, but checks that non-spaces match the given background attribute. In practice this leads frequently to tests that separately check characters and then go back to check colors and other attributes.<br/>• Non-text. Checking pixels scales poorly, either line at a time or pixel at a time. I've tried ideas like separate buffers for text vs pixels, so that at least text continues to test easily.<br/>• Proportional fonts. Treating the screen as a grid of characters works only when each character is the same width. If widths differ I end up having to go back to treating characters as collections of pixels.<br/>• Unicode. A font like unifont (<a href="http://unifoundry.com/unifont/index.html">http://unifoundry.com/unifont/index.html</a>) is mostly fixed-width, but lots of graphemes (e.g. Chinese, Japanese, Korean, Indian) still require double-width to render. That takes us back to the problems of proportional fonts.<br/>Can people think of solutions to any of these bullets in a text-based language? Or a more powerful non-text representation?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630227238.035500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630227238.035500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-08-29 01:53</span><br/>
+My instinct would be to accept that you are ultimately going to be checking pixels and see how far you can get with that. For example, saving draw calls instead of raw pixel values, tracking dirty regions/some kind of copy-on-write. Combining some zealous saving of state with some amount of recalculating can be pretty efficient.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630242618.035900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630242618.035900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-29 06:10</span><br/>
+Oh I'm actually not thinking about performance. I meant it's hard to make tests that are self evident when they're about pixel events. Extremely long lines, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630268797.036200"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630268797.036200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-29 13:26</span><br/>
+So you’ve already decided you need to test for all these things, right? You’re just trying to figure out the best way to model the state of the screen to cover all these cases?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630269783.036400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630269783.036400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-29 13:43</span><br/>
+Yeah. It's even just the syntax. In a complex app drawing to screen what's the cleanest way to represent desired screen state in the interface and get nice error messages (that use that representation) on test failure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630318364.037000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630318364.037000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-08-30 03:12</span><br/>
+I think a pixel level regression failure has to be defined visually, e.g.with a screenshot, and displayed visually e.g. by showing a diff image or rapidly switching between expected value and result
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630318527.037200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630318527.037200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-08-30 03:15</span><br/>
+If you want to assist with debugging, the feature I always used to want to exist, was to see which code contributed to affecting the pixel value
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630406422.044000"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1630187035.033600.html#1630406422.044000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2021-08-31 03:40</span><br/>
+perhaps related to "<a href="https://en.wikipedia.org/wiki/Semantic_desktop">semantic desktops</a>": the idea is that your UI produces metadata that can make it easy for a second application to control it:<br/><br/>App 1: "This UI has three buttons A, B, C, etc. These pixels contain the visual representation of it."<br/>App 2: "Run App 1, press [the first button/the button labeled "A"], it should result in THING"<br/><br/>You would have to come up with some metadata format flexible enough to express your UI elements, perhaps something similar to RDF or some other graph format.<br/><br/>It doesn't solve the problem of "testing pixels", but then you could reduce the problem to "Metadata XYZ should produce pixels like these", and maybe you can find a subset of all possible metadata covering good enough cases. As an end user I would just trust the metadata is correct... and maybe generate some "golden screenshots" along the way.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

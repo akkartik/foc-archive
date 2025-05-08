@@ -1,0 +1,319 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 10:13</span><br/>
+This will likely interest the folks here: <a href="https://frest.substack.com/p/first-class-models-the-missing-productivity">https://frest.substack.com/p/first-class-models-the-missing-productivity</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750959963.802739"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750959963.802739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 10:46</span><br/>
+This pitch for Frest resonates with me!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750960008.693399"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750960008.693399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 10:46</span><br/>
+Lots more to say. As an abstraction for developers, for a start.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750960152.750799"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750960152.750799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 10:49</span><br/>
+I've thought about this a lot without progress. It's still not clear to me it is solvable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750970843.808679"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750970843.808679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 13:47</span><br/>
+Sure, it’s solvable. You use the power of the relational database.<br/><br/>You tag every row in every table with:<br/>• a “at” timestamp; and<br/>• a model id<br/>Separately, using other tables, you track how models relate to each other. This one was branched in this way from this one.<br/><br/>You’ll note that you can imagine several different ways for model branches to work. Assume model B is branched from model A. What several options wrt how changes in A are seen in B:<br/><br/>• B’s view of A is frozen at the time it was branched, and no other changes in A are visible in B;<br/>• B sees updates to A, but its own values overrides the values in A; or<br/>• B sees updates to A, and values in A override values in B<br/>If you reflect on that for a bit, you realise sometimes you need one, sometimes another. In my blog, I discuss what that looks like.<br/><br/>Note that whatever you have, it can all be resolved with relational queries. Indeed, you can have something akin to Postgres’s Row Level Security, which is an automatic addition to any query. It would not actually be difficult to instrument a relational database so that in order to query it, you have to supply a model value, and the tables automatically acquire the extra criteria they need to only show the values from that model and its antecedents.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750973964.731519"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750973964.731519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 14:39</span><br/>
+Are models the same as relational db tables?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750974258.186939"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750974258.186939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 14:44</span><br/>
+Oh I see, each row has a model id.<br/><br/>I don't see any reason to say "sure" about this :laughing: You're recommending saving a multiple of data for multiple forks of models. That seems like the big source of risk here. I'm glad you're working to de-risk it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750978371.153169"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750978371.153169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 15:52</span><br/>
+The model ids pick out entirely separate versions of the same database, all with the same schema. Each one is a model.<br/><br/>Then, you have merge operations to support branch-merge semantics.<br/><br/>You mention risk. You can handle authorisation with the same Row Level Security semantics. This means you express relationally which roles have which permissions with which models, and enforce that using RLS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750978500.840879"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750978500.840879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 15:55</span><br/>
+You would also provide functions on models. So models can be “like this one, except I get to insert code before/after the values are found to change those values in whatever way I see fit”. IOW, you can have virtual models. A virtual model would be how you’d handle things like merging multiple models in a lazy manner.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750979481.211879"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750979481.211879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:11</span><br/>
+When I said "risk", I was thinking only about performance issues. How large the database grows, how long it takes to clone one model from another, or how long it takes to query a specific model alongside its antecedent models (which is how I interpret "virtual models"). No matter how fast these operations are, they scale in proportion to the number of models one has, a number you're advocating to grow without any bound that I can see. I have some experience with trying to use a Datalog-like append-only model inside an SQL database, that's where these concerns come from.<br/><br/>As a general principle of rhetoric, if you seem to be saying something is easy or obvious but the reader considers it difficult or non-obvious, you lose something. Persuasion requires agreeing with the concern and then describing how you would dispel it. This sort of reasoning is why I tend never to claim anything is easy by my approach. I express doubt in an effort to hoard credibility with the sort of discerning audience I'm trying to attract.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750979787.716419"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750979787.716419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:16</span><br/>
+We live in an era of absurdly fast machines with absurd amounts of storage. The industry has taught us to think everything is slow, in part I think so we stick with limited services on expensive hosted services.<br/><br/>Ahem.<br/><br/>Two responses:<br/><br/>1. I’m describing a semantics. It’s a pretty novel and useful one. That comes at some cost in terms of runtime and storage. That may or may not work for various applications;<br/>2. I’m particularly interested in tools for individuals and small businesses. You could keep all your personal data, and the data for your carpet laying business with 10 employees, in a database system along the lines of what I describe. It would be “inefficient” in storage and computing time, but it would be respectful of what you really want to know and do as an individual or small business owner, around the data that are important to you.<br/>I’m afraid I don’t understand the rhetoric question.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750979997.908489"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750979997.908489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:19</span><br/>
+My point is I had some experience where what seemed like a small amount of data blew up once I added versions and tried to always append rather than mutate rows. On absurdly fast machines with absurd amounts of storage.<br/><br/>I suppose I'll wait until you have something to try out before finding out if it works for the sort of case I care about. So we can forget about rhetoric and wait for the code :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750980062.191969"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750980062.191969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:21</span><br/>
+Like I say, this would work for some applications. Amazon probably wouldn’t care to use this across all their data. The carpet laying business is a different story.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750980110.516029"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750980110.516029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:21</span><br/>
+I’d love to see what your use case and look into why it broke. The most obvious way of implementing this, properly indexed, shouldn’t make data retrieval more than say twice as slow, I would think.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750980333.442849"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750980333.442849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:25</span><br/>
+Yeah. Unfortunately this particular thing was in the context of a job and I don't have access to the code. It wasn't a lot of data and it was a simple CRUD webapp. But the database did need to be queried online. Performance was not an issue when we were mutating rows, but very quickly became an issue once we started appending rows. Perhaps I didn't know what to index. But that too is a problem your users will face, unless you somehow magically index the right things.<br/><br/>Perhaps the risk is that appending rather than mutating makes us more sensitive to indexing strategy. I can easily implement a database with mutation, but perhaps I need to learn something before I'm as effective at an append-only database.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750981856.740919"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750981856.740919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:50</span><br/>
+Given my interest in smaller apps, I think we could happily have the database do its own indexing automatically. I’m kind of puzzled why this isn’t at least an option in major databases.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750982163.376209"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750982163.376209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 16:56</span><br/>
+In case it’s not clear: the primary key on a table with a synthetic id column, an at column and a model_id column would be (model_id, id, at).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750982630.174539"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750982630.174539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 17:03</span><br/>
+I think one difference with my experience may have been that I had to look up the most recent version id for rows. If you always know the precise model id that you need to look up, that may work well and my experience may not be relevant.<br/><br/>If you're looking up by a fixed model id, does that mean that any time one creates a new fork they need to copy all the rows from the past into the new model id? That would be a slow operation, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750982832.626319"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750982832.626319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 17:07</span><br/>
+If you do it a hundred times, the database would grow by a factor of a hundred.<br/><br/>I suppose we could do something like what git does, let you check out multiple models. Checked out models would be fast to query but occupy linear space. Models that aren't checked out could be compressed to occupy sub-linear space.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750983862.112519"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750983862.112519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 17:24</span><br/>
+You would probably want some forks to be copying, but I imagine mostly they would be lazy. So when you look for person with id 1, in model A, we would look for something like:<br/><br/>SELECT * FROM person WHERE (id, model) = (1, A).<br/><br/>If A was branched from another model, you would need to extend that with either a recursive CTE or you query for something like:<br/><br/>SELECT * FROM person WHERE id = 1 AND model_id IN (A, B, C)<br/><br/>assuming B, C are the antecedents of A in the branching hierarchy, and then you choose which model’s version of the record you should have based on the branch mode or whatever you call it.<br/><br/>To be clear: you could automatically add that logic behind the scenes. A developer using a Frest system would do the moral equivalent of:<br/><br/>SET model = A;<br/>SELECT * FROM person WHERE id = 1;<br/><br/>(“moral equivalent” here because I’m very keen on making Datalog the query language of such systems…)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750984086.421349"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750984086.421349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-06-26 17:28</span><br/>
+Yeah. That's the kind of thing that introduces some risk it'll get slow. So there's a trade-off here. You can complicate the query so performance becomes harder to reason about, or you can create a UX where people have to check out, and it'll make sense to people that those operations are slow. I think I'd lean towards the latter approach. I'd rather provide predictable performance and transparently expose slow operations to people.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750984297.146729"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1750984297.146729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-26 17:31</span><br/>
+Excel is also much slower than doing the same calculations in assembly language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751041938.148909"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1751041938.148909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-06-27 09:32</span><br/>
+Branching and merging models is a frequent requirement in scientific computing. Most people still do it by hand, meaning badly. The only management solution I am aware of is git. You put all your code and all your data into git, if necessary using git-annex for big files, and then you have branching and merging. The UX is often a pain, in particular when your data is not in some text format.<br/><br/>So I agree that doing this properly promises to be a huge productivity gain. I just don't see how Frest is the solution. Sure, all data can be mapped onto a relational model. But to turn that into good UX, the mapping has to make sense to a user. For much of the data I deal with, that's not obviously possible. Though I agree that for my <em>personal</em> data it should be OK.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751042935.714229"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1751042935.714229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-27 09:48</span><br/>
+It remains to do it to find out. Excel and Access are the data manipulation models most amenable to understanding by non-programmers. I am fairly convinced that functional and relational models are the best for non-programmers to follow.<br/><br/>I believe that if you give the user tools to see the provenance of what they’re looking at — and this is an append-only first model, where most things have a complete history — then you can make this work.<br/><br/>It will certainly work for <b>some</b> folks, such as yourself. But I think the owner of the carpet laying business can make simple and effective use of this feature without having to do anything too confusing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751043079.942169"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-29/5820723719363_3ecb3076c7b047d665ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1751043079.942169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Guyren Howe</b>
+<span style="margin:2em; color:#606060">2025-06-27 09:51</span><br/>
+I am currently trying to sort out enough income that I can dedicate myself to building an app that will demonstrate these ideas. It would be a FileMaker/Access kind of app that integrates not just local tables, but remote information sources — a single Datalog query interface where you can join your email to the content of local files to your calendar to any and all online data sources.<br/><br/>Know an Angel investor who wants to back the idea? This would be a phenomenal application within which to deploy an AI…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751096947.337919"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1750958020.669509.html#1751096947.337919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-06-28 00:49</span><br/>
+I agree 100% that a good model of computation doesn't have to be for everyone. And a relational programming system without database cruft (SQL etc.) sounds like a good match for many use cases.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

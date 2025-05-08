@@ -1,0 +1,415 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-06-19 12:46</span><br/>
+Seeing Code Execute - Useful in the real world or only in demos?<br/><br/>I've seen the Learnable Programming - Bret Victor paper and all the examples. It looks great but impossible to actually implement in reality, at least as far as I can tell there is no way for a program to divine what kind of UI/UX/Display is best for a given piece of code so while the page and examples are hugely inspiring I can't see how the ideas can actually be applied to actual code.<br/><br/>Similarly there are other systems that try to show state over time. I've only ever seen small demos. In real code I work with 16million voxels or 300k vertices and computing matrixes for 2037 scene node graphs. My impression is that pretty much every code execution visualizer I've seen is overwhelmed by anything but the very simplest examples. Even Chrome's dev tools try to highlight all the values on every line of code but of course those values are just from one iteration and yet they are already pretty cluttered.<br/><br/>So, what tools have you used in actual production code that stick out to see execution?<br/><br/>Maybe the idea is these tools only work with small data and small iterations so you use them to debug some small subset of a problem and once you've confirmed it works then you put your working code back into your real app with real data.<br/><br/>The thing for me though is that the hurdle of pairing down my app into something small enough to use in one of these tools is really really high. I basically have to not be able to solve the issue any other way before I'll finally spend an hour or 4 building a MCVE to run in a visual execution tool.<br/><br/>Even if it's not big data or big iterations it's big code. I work on some million line program and the code execution visualization environment just can't handle it so I'm back to the hurdle of extracting enough code to make an MCVE which is usually too big a hurdle.<br/><br/>Is that other people's experience?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560974728.009300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560974728.009300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:05</span><br/>
+I use a zoomable UI over traces of domain-specific events. I think it scales pretty nicely for single-threaded programs, and you get all the benefits of time-travel debugging. Try out the instructions at the bottom of <a href="https://git.sr.ht/~akkartik/basic-whitebox-test">https://git.sr.ht/~akkartik/basic-whitebox-test</a>. Should be pretty trivial to get running. If that piques your interest I can point you at a larger trace that's more interesting to play with. Also happy to do a demo sometime.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976176.009700"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976176.009700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:29</span><br/>
+I have no experience on this, sorry. But I guess some kind of "moldable debugger" can help. When you stop somewhere in the code maybe it can help you show your data in way that make sense in your context. When I say help you, is that it gives you some tools you can use to very quickly set some visualisations that help you understand the logic under the code. What I describe doesn't actually exist as a debugger for any code, though (well, I guess. Please tell me I am wrong!). But this approach of "modlability", i.e. helping the developper understand her code by letting her quickly create visualisation, and the term itself, come from the GlamorousToolkit by <span style="background-color:#ccf">@Tudor Girba</span> ("Glamorous Toolkit is the moldable integrated development environment").
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976509.010000"></a>
+      <img src="https://secure.gravatar.com/avatar/6fceba60ff0c90dc32cbff29054b02c2.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976509.010000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Justin Blank</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:35</span><br/>
+I’ve been thinking about identifying patterns in code recently, and I wonder if the sweet spot might be UIs that help you visualize specific aspects of execution. For instance, I built a tool for showing the graph of a certain type of object in our system. It was bespoke (and also not integrated with our debugger), but maybe an environment could have easy hooks to say “treat objects of this type as a graph (with edges being field x), and show how it evolves”.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976676.010300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976676.010300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:37</span><br/>
+Indeed, I believe that an effective environment must start from the context of the problem and must allow the developer to tailor the views for that context.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976705.010500"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976705.010500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:38</span><br/>
+When approached like this, problems that are difficult in general, become attainable in context.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976746.010700"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976746.010700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:39</span><br/>
+for example, tracking and showing all executions is a hard problem. tracking specifics and showing in a dedicated way only those is much simpler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976747.010900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976747.010900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:39</span><br/>
+I agree, when I see these demos, I think, that's cute, but how does it scale to the game engine or compiler I am debugging? I haven't seen an answer so far
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976806.011100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976806.011100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:40</span><br/>
+The problem with solutions for simple cases is that simple cases are exactly the cases where I don't have a problem :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976807.011300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976807.011300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:40</span><br/>
+The simplest way to scale is to go specific.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976837.011500"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976837.011500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:40</span><br/>
+I did not say simple cases. I said contextual cases. It just turns out that if you start from the context, the problem is much simpler, too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976844.011700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976844.011700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:40</span><br/>
+but that's a lot of work.. especially if the total amount of data is large
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976859.011900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976859.011900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:40</span><br/>
+what is a lot of work?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976889.012300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976889.012300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:41</span><br/>
+I was speaking of simple cases in general, not in reference to your past comments
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976916.012500"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976916.012500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:41</span><br/>
+ok
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976935.012700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976935.012700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:42</span><br/>
+making visualizers specific to a particular program or problem domain is a lot of work
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560976941.012900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560976941.012900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:42</span><br/>
+I do agree that many demos that get people excited are mostly show and have little practical value
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560977014.013100"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560977014.013100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:43</span><br/>
+it used to be a lot of work. However, I think it does not have to be a lot of work. In fact, I think that in minutes you should be able to get a view that tells you more than you knew before you built it. That is the core idea behind moldable development.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560977138.013300"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560977138.013300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 13:45</span><br/>
+Having practiced this since some years now, my little experience tells me that it can be practical. In fact, I found no significant case where it was not more practical than the alternative of not building the tool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560978691.016500"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560978691.016500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-06-19 14:11</span><br/>
+That’s what debuggers do, and there’s no doubt that it’s invaluable to a lot of real world developers. People use debuggers a lot despite them being clunky. Something more friendly will be extremely useful.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560981283.016700"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560981283.016700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2019-06-19 14:54</span><br/>
+I recall twelve years ago, when I was working on an algorithm which core data was a 2D grid (like an image). I had some bugs and my debugger (Visual Studio) only shows me arrays of values which helped in nothing to find problems. Obviously I would prefer some kind of pixels display. It was really hard to spot problems so I decided to see if I can extend the debugger to actually do that. In fact Visual Studio allowed that! So I take the time to develop it. I guess it took me a bit more time than reasonnable. But 1/ it was fun to do it and 2/ once I had this tool debugging was way less annoying. Since then I dream of systems where I can easily see  my data in my program the way I find the most expressive for the problem at hand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560981844.017000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560981844.017000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-06-19 15:04</span><br/>
+At work I have a couple of helpers for a Java codebase that dump a graph to stdout in GraphViz format. Then I copy it out of the console window, paste it into a file, run <tt>dot</tt> on it and open the resulting <tt>.jpg</tt> file. Super useful in spite of being so klunky.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560986045.017500"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-26/774747080560_0edf98a60210d3ab07ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560986045.017500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Scott Anderson</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:14</span><br/>
+<span style="background-color:#ccf">@John Austin</span> any thoughts? I know you were experimentinf with a learnable programming debugger with a focus on performance
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560987205.020900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560987205.020900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:33</span><br/>
+I am working on a Python editor at the moment which is sort of "moldable" in that the user writes their own visualizations using "metacode" which can arbitrarily query the execution of the "maincode". My project is only for toy problems at the moment but I think in theory it could scale.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560987268.021100"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560987268.021100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:34</span><br/>
+Demo of the prototype here <a href="https://www.youtube.com/watch?v=9XPE4uT0AdE">https://www.youtube.com/watch?v=9XPE4uT0AdE</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560987358.021400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560987358.021400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:35</span><br/>
+Current code here - <a href="https://github.com/ChrisKnott/Algojammer/tree/electron_rewrite">https://github.com/ChrisKnott/Algojammer/tree/electron_rewrite</a> - in this new version the main "timeline" visualisation is written with the same "metacode" system as users have access to (in the prototype it was kind of a special case)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560987501.021600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560987501.021600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:38</span><br/>
+The general idea of writing your own, context specific, visualisations is popular in the games industry because you have a "canvas" right there. If you look at dev builds of games they are always doing things like colouring objects to show their internal state (AI state etc).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560987614.021800"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560987614.021800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:40</span><br/>
+If you couple this with omniscient debugging then you can hopefully do something similar for more abstract programming. Not succeeded too much so far personally but I think it is territory that has not been explored much so far so I encourage others to try it out
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1560988719.022300"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1560988719.022300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2019-06-19 16:58</span><br/>
+There's two things here, revolving around performance for "whole program debugging". (I don't like the concept of 'time traveling' for reasons you can ask me about elsewhere).<br/><br/>The first is the storage layer, usually some sort of database that keeps information from the program across its execution. In terms of performance the key aspect here is generally memory usage, and choosing what to store. Consider that if you are debugging a pure language, you might not need to store everything! Certain values could be computed on the fly, assuming you have determinism. Procedural languages must store much more.<br/><br/>The second aspect, which is more commonly talked about, is the visualization of this dataset. This is kept performant in the same ways you would keep any other database querying tool performant! Showing partial slices of the database, allowing queries for just the information you need, etc. The big key here is to treat it as a lightweight view on top of the datastore.<br/><br/>If you want a <b>fantastic</b> example of a tool that is used by millions, supports full time backwards/forwards traversal, allows queries of the full-program data at any point in time, just look at WinDBG. You can record the run of any program and then write LINQ queries against the program state, memory, etc. And on top of that, it's been around for years with these features.<br/><br/>The main issue with a lot of the tools that get built is that they start from the second point, with a UI, and work backwards without separating out the underlying database. Without that separation, it's extraordinarily difficult to keep memory and performance under control.<br/><br/>WinDBG has a fairly awful interface, but you could very easily imagine building a React app that sat on top of it, rendering a variety of queries against the program's execution state.<br/><br/>Aside: I'm working on a tool like this, for a perfectly pure/deterministic language, where to build the program you act directly on the 'whole program' execution itself. My goal is to remove the run/debug loop, making running and debugging the same operation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1561005507.029900"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1561005507.029900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 21:38</span><br/>
+Nice work, <span style="background-color:#ccf">@Chris Knott</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1561006048.030100"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1561006048.030100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2019-06-19 21:47</span><br/>
+<span style="background-color:#ccf">@John Austin</span> indeed, the challenge with back-in-time-debuggers is size|memory. Some years ago, we proposed an approach that takes advantage of the garbage collection mechanism to limit the amount of data stored. We modified the VM (we worked with the Squeak one) to keep track of the alias history (how an object moved from one variable to another) and simply released the history when the object was no longer referenced. We showed that we can decrease the growth of memory dramatically. To date is, this is likely the most efficient approach we know of. Details here: <a href="http://scg.unibe.ch/archive/papers/Lien08bBackInTimeDebugging.pdf">http://scg.unibe.ch/archive/papers/Lien08bBackInTimeDebugging.pdf</a><br/><br/>&gt;My goal is to remove the run/debug loop, making running and debugging the same operation.<br/>That is an exciting goal! I’d be interested to learn more about it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1561131039.162600"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1561131039.162600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2019-06-21 08:30</span><br/>
+Thanks for the link! Mixing the history with the garbage collector is an interesting technique, I've been working on sorting out memory reachability in my own language (it doesn't have a GC), and getting something optimal has been tricky.<br/><br/>The thing I'm building sits somewhere between a language and a runtime. Build systems like CMake and Bazel run 'programs' as directed acyclic graphs of pure, deterministic functions. There are a certain limited set of programs that can be created with this structure. The concept of this new language is to extend this framework to non-finite programs, such that a 'program' is a Directed Acyclic Infinite Graph (DAIG?).<br/><br/>My theory is that this infinite graph representation of programs is general enough to represent a large number of different types of applications (currently the language targets game development).<br/><br/>The key benefit of this approach is that even though the graph is infinite, all operations are pure, deterministic, and singular (they only need to compute once and the value is permanent). Debugging becomes the process of sifting through this infinite graph of operations, and inspecting the outputs of various operations. Running the 'program' is just the choice to evaluate different nodes in the infinite graph at a certain schedule (ie. show me the frame 1 output, then frame 2, etc).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1561131257.162900"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1561131257.162900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2019-06-21 08:34</span><br/>
+This explanation is probably a bit rough without the visuals associated, haha, but that's the gist of it.<br/><br/>To edit a program, you actually edit the infinite graph itself. I've built a couple of tools and structures to make that easier and more sane. A key factor is that the infinite graph is actually self-similar, which helps make this editing possible.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1561218949.225800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1560973579.008500.html#1561218949.225800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-06-22 08:55</span><br/>
+I think the examples in BVs paper are more about being across the idea about what could be or is not visible, rather than the specific way he did it.<br/><br/>I think part of the problem is the way that code is modeled or represented, that makes this really hard to do. He said himself that the language demonstrated is not great, but used it so that what he was communicating could be relatable.<br/><br/>Anyway, assuming that a better model of "code" (or of software) can allow for this, one should also consider how to apply the principles from his "the ladder of abstraction"
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

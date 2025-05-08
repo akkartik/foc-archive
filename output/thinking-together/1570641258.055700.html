@@ -1,0 +1,439 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:14</span><br/>
+half-baked thought: for programming languages, the environment (in the lisp sense: “which variables are in scope and what are their values”) is really just a poorly constructed database we blindly query against by typing symbols and seeing what they resolve to (or if they resolve to anything). Most (all?) programming activity can be boiled down to:<br/> 1. adding a key/value to the database (eg by defining a function or variable)<br/> 2. finding a value (calling a function, referencing a variable)<br/> 3. doing some transformation with the value, usually involving 1 or 2 to find instructions for the work to be done (eg, resolving the symbol ‘+’)<br/>4. querying a location on the OS and receiving or sending data to it (stdin/stdout etc)<br/><br/>simplifying the UX (especially with feedback) on this would do a whole lot to make programming better. especially if we specialized a structure editor to understand not merely “here’s a semantically valid edit” but “here’s the environment before and after this change”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570642437.056700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570642437.056700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:33</span><br/>
+sounds a lot like unison, have you seen it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570642772.056900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570642772.056900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:39</span><br/>
+Is there any reason why you said 'database' rather than just 'key-value store'? Environments don't need foreign keys or complex joins. They also tend to be pretty schema-less.<br/><br/>Simple Lisp interpreters often implement environments directly out of a-lists, so a key-value store is an extremely natural analogy to this Lisper.<br/><br/>Though perhaps a better analogy than either is a graph database, since lexical scopes can nest.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570643073.057100"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570643073.057100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:44</span><br/>
+The tricky part with any API is only requiring the necessary details.  These implicit scopes benefit from not being seen at all times, though debuggers show it's valuable sometimes. In OOP, you bundle up all the information an object needs in properties or dependencies on the object.  In FP, it's usually convenient once you get past 3 positional args to start bundling up related data in data structures, but functions can be only concerned with the parts they need and you write some intercessor layers to hide the rest.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570643191.057300"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570643191.057300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:46</span><br/>
+Though I have found it valuable as a thought experiment for myself to make an analogy of well-factored FP code to DB normalizing/indexing.  I learned the FP stuff first.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570643758.058400"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570643758.058400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2019-10-09 10:55</span><br/>
+Yes it is! We need an environment with a better UX. Radically simple way is to just edit trees and connect them in graphs that cross multiple domains - a thing you defined in your db model is connected to the altered representation of the same thing in the UI model the user sees through a chain of transforming actions. Just defining your architecture and structures as trees with code generation can get you to great lengths. This is what my project is about, trying to create the simplest and best development tool, a simple list editor :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570644327.058800"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570644327.058800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-10-09 11:05</span><br/>
+<span style="background-color:#ccf">@Ian Rumac</span> Hey! I have similar thoughts. Is there any place where I can read more about your project?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570644336.059000"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570644336.059000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 11:05</span><br/>
+reminds me of 'incremental', essentially a spreadsheet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570644352.059200"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570644352.059200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 11:05</span><br/>
+<a href="https://blog.janestreet.com/introducing-incremental/">https://blog.janestreet.com/introducing-incremental/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570644434.059600"></a>
+      <img src="https://secure.gravatar.com/avatar/cf29e340a09ac08ae262632ef9101046.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570644434.059600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ian Rumac</b>
+<span style="margin:2em; color:#606060">2019-10-09 11:07</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> not yet, I hope I can get an alpha up on gitlab in a month or so
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570647886.075700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570647886.075700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:04</span><br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> definitely! i love unison. they seem to be heavily focused on the idea of hash-addressing identifiers, which i think is critical for getting the backend to work—i’m thinking more about the UX of edits to the environment than how we track those edits with code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648022.079500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648022.079500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:07</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> that’s the half baked part haha. really just thinking database because (for me at least) it draws to mind visual/tabular interfaces in addition to pure text ones. i think you’re right about the graph database, or maybe more like datomic’s model where you have an entity attribute value transaction (and one other i can never remember) associated with each change (maybe plus some features like “changed by this function, reassigned by this function” for provenance
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648107.081500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648107.081500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:08</span><br/>
+<span style="background-color:#ccf">@Gary Trakhman</span> i think the nesting stuff actually fits better with a db-style paradigm, or whatever it is that i’m describing—like with lenses, you might focus in on one data structure, or collapse it as you might in an outliner program 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648209.082200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648209.082200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:10</span><br/>
+<span style="background-color:#ccf">@Ian Rumac</span> please also ping me when you put it on gitlab
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648238.082800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648238.082800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:10</span><br/>
+In my experience the Datomic model is elegant but not to be gotten into lightly. The performance implications have to be explicitly designed for. It may be easier if the programming model is mostly immutable bindings.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648324.085400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648324.085400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:12</span><br/>
+<span style="background-color:#ccf">@Gary Trakhman</span> yep like incremental with an alternate ui—and maybe even slightly different semantics—if the system is observing every mapping by default, then you don’t need to “watch” values as much as let the system know this block of code depends on it, which could be detected by merely following the references (i think)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648396.087000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648396.087000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:13</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> yeah i’m being more metaphorical/evocative than advocating for a direct copy. but the idea would be to cover a similar resolution on data changes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648625.089800"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648625.089800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:17</span><br/>
+put some VR on it :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648655.090100"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648655.090100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:17</span><br/>
+would love to pull apart a computation graph with my bare hands
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648667.090300"></a>
+      <img src="https://avatars.slack-edge.com/2019-08-07/719033961125_50ee467d13114e4314c2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648667.090300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gary Trakhman</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:17</span><br/>
+at least once
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648715.091000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648715.091000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:18</span><br/>
+Bumping back to OP: Is this a change to the programming model, editor UI, editor implementation data model, or a compiler technique? :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648720.091300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648720.091300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:18</span><br/>
+hahaha there’s a lot of that going on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648760.092500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648760.092500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:19</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> realized i was not clear: editor UI (but would have to be integrated with a programming model, maybe a la smalltalk)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648977.095500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648977.095500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:22</span><br/>
+Editing to 'programming model' inside my head. I tend to think of 'Editor UI' as "can be applied to any programming model".<br/><br/>You want to display not just the change to an environment but also the current bindings at any point in the program, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570648981.095700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570648981.095700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-09 12:23</span><br/>
+like my example might be something like an up to date version of what self did: <a href="https://youtu.be/5Jhi5yN9S1o">https://youtu.be/5Jhi5yN9S1o</a> (even just the first minute or so where he creates a balance slot on an object and sets it to zero, and it becomes like a table object in the view). where like you have a straightforward gui/keyboard shortcut system for editing the environment instead of slots on an object 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570678355.114500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570678355.114500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-09 20:32</span><br/>
+This topic sounds similar to my goals for: <a href="https://github.com/d-cook/Interact">https://github.com/d-cook/Interact</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570712556.143400"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570712556.143400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2019-10-10 06:02</span><br/>
+yes it’s EXTREMELY similar; i love the drawing metaphor
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570881041.238200"></a>
+      <img src="https://secure.gravatar.com/avatar/96c2c97e5edea550b6935e656f64204c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0023-72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570881041.238200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brent</b>
+<span style="margin:2em; color:#606060">2019-10-12 04:50</span><br/>
+Perhaps <a href="https://scalameta.org/docs/semanticdb/specification.html">https://scalameta.org/docs/semanticdb/specification.html</a> is an angle on a similar idea?<br/>Its a "data model for semantic information such as symbols and types about programs."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570896466.240900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570896466.240900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-12 09:07</span><br/>
+I have many ideas/goals for [Interact](<a href="https://github.com/d-cook/Interact">https://github.com/d-cook/Interact</a>), but one is that instead of representing "source code" as static text, it is instead an entire interactive model/representation. And everything that makes that model work (how it is visualized and interacted with, how it builds, etc.) is built in to the self-same model.<br/><br/>The relevance here is that everything about language (e.g. compilers, interpreters, syntax, semantics), data representation, visualization, editors/tools, ... everything about programs and programming, really ... It's really no different from (e.g. can be accomplished via) ordinary programming techniques using functions + data-structures + abstraction, etc. And since code can be represented as data-structures, the whole world of programming can fit into things like lists and key-value stores. You really don't need anything more than that for anything!<br/><br/>As for the DB, you can code up whatever model works best instead, or you have something that translates your "ideal model" into code that creates and populates a DB and the code interface to it. (I can explain more if needed)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570897577.241800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570897577.241800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-10-12 09:26</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> can you talk about how your different projects are connected?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570901439.242200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570901439.242200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-12 10:30</span><br/>
+I'll start with "Objects":<br/><a href="https://github.com/d-cook/Objects">https://github.com/d-cook/Objects</a><br/><br/>My first attempt/iteration at making a system entirely out of "objects" (e.g. JSON/LISP-like data-structures). Expressions are LISP-like (list of operation + arguments), but the interpreter/evaluator simply looks up ALL operations in a "context" object (which represents lexical scope and may reference a "parent" context -- think Scheme).<br/><br/>Functions can be native, or consist of objects that contain the code to evaluate, the arguments it takes, and the context (scope) in which to do so (typically same as lexical scope of the function).<br/><br/>The entire system (evaluator, a compiler, base operations like get, set, +, -, etc.) are all defined in a "root" context, which is not different from any other manipulatable entity. The evaluator was originally written natively (JavaScript for now), but then rewritten in "objects".<br/><br/>The goal was to rewrite everything that way, and have code that regenerates the native code for the whole system which, when run, recreates everything as it was at the time. This mostly just means spitting out the static data-structure for the whole thing, inserting a native evaluator (by feeding it into the compiler) which is then invoked immediately on some code to bootstrap the UI.<br/><br/>From that point, you can reshape the whole thing just by interacting with the running program -- and that will allow me to evolve it further without ever looking at the "source code" again!<br/><br/>The only remaining "native" code (other than the base operations) was the logic in the compile function to convert code to JavaScript. But hey, I could (using the tool itself) make a compiler for something else (e.g. assembly, .NET, JVM) and supply the level base operations for it, and then boot up the entire system (in the same state) on something else!<br/><br/>I took it too far with how minimal I wanted the native set to be (e.g. defining "lookup" in terms of objects, when that's a key function that the compiler injects everywhere), and forcing a CPS model under the hood sooner than I should have. It just became very difficult to manage, and stuff started to blow up when I got 90% of the way through rewriting it in itself ... I might go back some day and replay some of my development with different decisions.<br/><br/>I'd been developing and interact with this entirely though the browser debugger, leaving the UI as an afterthought for after the base system was working properly. I knew I'd need some primitive graphical operations that could translate to any system -- just whatever is minimally sufficient to bootstrap a minimal foot-in-the-door UI, because then I could just use the UI to improve the UI code. ... But as stated, I never got to the UI.<br/><br/>My "Interact" project starts from the UI first and will work backwards to eventually bootstrap itself into that UI. It's essentially becoming a do-over of "Objects", though I might come back to that model eventually and reconcile them. ... I'll describe "Interact" next
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570901752.242400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570901752.242400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-12 10:35</span><br/>
+"Interact":<br/><a href="https://github.com/d-cook/Interact">https://github.com/d-cook/Interact</a><br/><br/>(continuing from previous) ... So the minimal UI would just expose the raw structure of everything, and provide a way to execute / evaluate code. (That's not the end goal, but I'll get back to that later)<br/><br/>Entities (strings, numbers, lists, functions, etc.) sit freely on a canvas, where they can be moved around, inspected, expanded/collapsed, etc.<br/><br/>Dragging values onto a function causes the function to be evaluated with those "arguments", and the result appears as a new entity on the canvas. Since there is a function for every basic operation, this is sufficient for making every kind of manipulation <b>possible</b> (but not necessarily ideal - I'll get back to that!)<br/><br/>(Certain basic things like getting or setting a value could be as simple as drag-and-drop; but I'll get a working tool first, and then use the tool itself to see what works best for what -- let's call that "phase 2")<br/><br/>Either way (e.g. whether the UI "helps" or not), any sequence of operations that can be done -- whether through user interaction or by evaluating "code" -- directly corresponds to sequence of (nested or otherwise) function calls. Therefore, by recording and replaying actions taken, all code can be created and viewed as direct interactions, rather than as the textual or structural representation one normally thinks of as "code". *(From here I might use "code" and "actions" interchangeably)<br/><br/>So essentially you can do a bunch of manipulations, and then say "See what I did? Call that a function, and THIS value here is the result". And then edit the *actions and/or the object that represents the new function to replace certain values with arguments, etc.<br/><br/>Now whereas "normal" code references values by identifiers (e.g. looking up variables by name), the user is able to just "grab" values that are just sitting there. So under the hood, code is stored as a list of actions, which contain either simple values or the index of some other action (referring to the result of that action) ... In other words, it's a DAG.<br/><br/>When viewing / editing a function, actual values are substituted from the arguments, and you are shown the "aftermath" of the actions (i.e. values on a canvas), as if you had performed all the actions yourself. Changing any actions or values causes the whole thing to recompute (think FRP)<br/><br/>This means that any operation you do becomes part of the current "function" you are editing. I'll provide a way to "cut" dependencies though, so you can use the canvas as an interactive REPL, and then either throw out the results, or "forget" how it was computed and just use the generated value directly. I could also have a "cleanup" that will throw out all intermediate operations that did not contribute to the ultimate result of the function.<br/><br/>All editing is done in a function, so even the "top level" (global scope) is a "function" with its own record of actions taken. This also means that all the work of "programming" you do is recorded as some step somewhere, giving you multiple layers of undo/redo.  Anything you do can be abstracted into a function and edited for generic reuse. E.g. "Here's how I do x to the code"<br/><br/>... Anyway, I'm getting lost in low-level specifics. I'll tie this up in another reply
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570913324.249400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570913324.249400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-12 13:48</span><br/>
+(Continuing about "Interact" from before)<br/><br/>Anyway, the point is not to have that specific tool per se, but to have <b>something</b> sufficient to edit code in a more freeform way, and to let whatever that looks like be very easy to evolve and change to whatever is more ideal for whatever context.<br/><br/>The plan is to eventually bootstrap all the code for the tool into itself, so it can be changed and explored over time (per use, and to evolve this tool generally). The benefit is that whatever "nice way" is found to represent or edit something, can be immediately applied to itself to make it easier to make things easier, etc.<br/><br/>One thing I'll provide to that end, is the idea of a custom "view". What I've described for viewing and editing functions is just one such "view", which is different than viewing a "function" as raw JSON. But perhaps something is better viewed as a table, or a graph, or some other interactive visualization.<br/><br/>A custom view will contain whatever code is necessary to render something, and respond to interaction. This will probably "just be code", but (for example) there's no reason there couldn't be a custom view for specifying views using some custom DSL.<br/><br/>And that brings me to another major goal of this tool:<br/><br/>Things like DSLs, macros, syntax, even "programming language" (compiling, interpreting, translating), ... these can all be fluid things defined by ordinary code. The only difference is when and where it happens. But in a system like this, everything is the result of some "actions" taken to create it. So there's always some "code" that specifies how your code got created. And there's no reason to treat <b>that</b> code any differently!<br/><br/>Expanding this further, with all the possible ways to view and edit "code" (or anything else), there's no reason to distinguish between "code" and a UI widget with its own custom behavior. No fundamental difference between a macro or a compiler, and anything else that let's you specify or view code/data one way, and then generate it another way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570924824.255800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570924824.255800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-10-12 17:00</span><br/>
+... Sorry that took forever and is long-winded, but those are my main projects in ... something larger than a nutshell :P<br/><br/>I also have a "Renderer" for rendering basic graphics in a declarative way (which I'm using for my other projects, but it's also generally useful).<br/><br/>And a "Circuit" simulator I'm making PURELY just to demonstrate blurring the lines between code and interaction, etc., as I've described in my previous reply above
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570966135.259600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570966135.259600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-10-13 04:28</span><br/>
+I think it will clarify it more for me if you compare it with similar existing solutions, how does it compare to lisp (in a lisp machine)/smalltalk (pharo)/self
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570982971.264500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1570641258.055700.html#1570982971.264500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-10-13 09:09</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> re your original post - I've thought about this as well. I think of this pattern as the following metaphor: a person working through a math problem by writing it step by step on paper. The 'paper' is the external medium that's static and 'just data'. The human is the processor creating the new data from the old data at every step and storing it back on the paper. We recreate this pattern over and over in the computer as well, whether it's database/appserver or the local data structure and code inside a procedure.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430274.337300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-08-21 16:31</span><br/>
+<b>File systems (and much else) should be databases</b> (1995)<br/><br/><a href="http://okmij.org/ftp/papers/DreamOSPaper.html">http://okmij.org/ftp/papers/DreamOSPaper.html</a><br/><br/>&gt; This paper is an attempt to imagine what an OS would look like and how it would work if looking for a word 'foo' in something and deleting/closing/stopping this something, -- be it a paragraph of text, a network connection, a subscribed newsgroup, a process -- would all require roughly the same sequence of mouse clicks or keystrokes, and would be understood and interpreted in the same spirit by the operating system.<br/><br/>&gt; ASCII configuration files abound, for a very simple reason: they can be modified with any text editor from <tt>ex</tt> and <tt>edlin</tt> upwards, and can be viewed and created even without an editor, with a <tt>cat</tt> command.<br/><br/>These two paragraphs feel contradictory. Text files already provide roughly the same sequence of operations to update. Can anybody tell what the article expects the benefits of databases to be? I see something about the CPU cycles to parse text files. But that seems to perversely ignore the complexities of using a database.<br/><br/>Another take: your file system already has much that looks like a database with journalling and so on. Mission accomplished?<br/><br/>Personal note: I've looked at several papers this week and been tempted to go implement them. This is a big shift compared to the past 5 years, while I've been slowly putting the foundations of the Mu computer together. It feels like a weight has been lifted off my shoulders, and I can start prototyping new ideas again. Anybody want to play with adding a stupid database before a file system? The Mu computer currently has no access to its local file system, so we have a blank slate to play with.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566461374.344500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566430274.337300.html#1566461374.344500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-08-22 01:09</span><br/>
+I think he's talking about unification / consistency. Almost all applications work with structured data of some sort (primitive types like strings and numbers and collection types like lists / trees / graphs), but most apps use their own storage representation and UI for editing the data. His idea is to create a database that directly supports structured data. Then, all apps could use this database and a small set of tools could be used to edit the database data in a consistent fashion.<br/>Text files and editors provide a uniform editing experience for text (= sequences of chars), but if that text encodes structured data, the edit operations on that structured data aren't consistent anymore. For example, hierarchies (trees) are represented in vastly different ways in text files. In markdown lists, hierarchy is determined by indentation. In PLs with c-like syntax hierarchy is expressed by blocks enclosed in curly braces. The same applies to lists etc.<br/>Because different text files represent structured data differently, they also require different editing operations. Adding a new item to an html list requires different editing operations than adding an item to a markdown list, even though it's conceptually the same operation.<br/>In summary, I think that a "file system" / "database" should provide a set of primitives that can naturally represent common data structures. Sequences of bytes organized in a tree seem limiting to me. To put it another way: You wouldn't want to work with a PL that only offered trees of byte-strings, so why would you accept that as a file system?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566520216.369100"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1566430274.337300.html#1566520216.369100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-08-22 17:30</span><br/>
+&gt; These two paragraphs feel contradictory. Text files already provide roughly the same sequence of operations to update. Can anybody tell what the article expects the benefits of databases to be? I see something about the CPU cycles to parse text files. But that seems to perversely ignore the complexities of using a database.<br/>&gt; <br/>&gt; Another take: your file system already has much that looks like a database with journalling and so on. Mission accomplished?<br/><br/>Maybe you’re right. There’s a lot in the OS and our UIs that isn’t editable as text. I wonder if the author‘s dissatisfaction comes from that? If deleting the line in the ‘ps’ output that represented a process killed the process, would that make them happy?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566548444.402300"></a>
+      <img src="https://secure.gravatar.com/avatar/b3405d9d5e0d530832a9511b27c6974e.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1566430274.337300.html#1566548444.402300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Bachler</b>
+<span style="margin:2em; color:#606060">2019-08-23 01:20</span><br/>
+I haven't read the paper yet but I think such efforts often come from the frustration that so much data is opaque to other programs. Databases have a shared set of primitive types and a limited set of combination semantics that can be shared across languages. If programs would use a serialization format that would be inter-operable on the units of work of the application it would be much easier to create rich interactions between applications.<br/><br/>Imagine for example that image formats instead of being binary blogs with exif style metadata sections that are xml encoded rdf embedded in binary, the entire object model would be persisted into a database - let's say sqlite. Let's say further that no files would exist in the OS and instead applications would have to add additional tables and entries in those tables to store their data. It would then be much easier to create queries that want to find image files that were created in a certain period, with a certain camera and lens. Or it would be easier to query for emails in your local email client because every message, contact etc would live in the shared database.<br/><br/>Unix style OSs solved this issue by treating everything as a file but thus you loose a lot of structure and ability to discern data from metadata.<br/><br/>The real world problem that I would see with such a system is that this is only really powerful if different applications share types as much as possible, but in reality applications rarely share type definitions even on a superficial level even for the exact same concern. I think that great effort would have to be spent to try to avoid a proliferation of types that would in the end not make it much easier to deal with data because every app would represent it's data in different tables in the database and queries would have to accommodate all these different forms.<br/><br/>WinFS was a Microsoft effort around the mid 2000s that for what I can tell went into this direction but was unfortunately abandoned. I wrote about this back in ... 2005: <a href="http://danielbachler.de/coding/2005/07/03/how-we-will-be-crushed-by-terrabytes-of-data.html">http://danielbachler.de/coding/2005/07/03/how-we-will-be-cru&hellip;</a> (I just noticed that these old articles didn't transition the markup correctly, sorry about the mess)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

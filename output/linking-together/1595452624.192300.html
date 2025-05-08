@@ -1,0 +1,510 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:17</span><br/>
+are there any lispers around who can explain the decision / make the argument for function call syntax looking like <tt>(function-name arg1 arg2 arg3)</tt> and not <tt>(function-name (arg1 arg2 arg3))</tt> or in clojure: <tt>(function-name [arg1 arg2 arg3])</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595452852.196200"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-03/1220847671058_4980e1f3e51a273b630a_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595452852.196200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ope</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:20</span><br/>
+Less parenthesis perhaps? Plus conceptually, everything is a function? Plus lightest syntax possible?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595453508.196500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595453508.196500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:31</span><br/>
+Yeah. It's an interesting question I haven't encountered before. It's not quite the usual discussion about <tt>function-name(arg1 arg2 arg3)</tt>. What would be the advantages of this approach, Garth?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454031.196700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454031.196700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:40</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> Not 100% sure what sort of explanation you are looking for. <tt>(function-name (arg1 arg2 arg3))</tt> would have to have different evaluation semantics. Typically if you see <tt>(something here)</tt> it is a list and if it isn't quoted then it is a going to be interpreted as a function call.<br/><br/>So with this change you'd have to say that things are only function calls if their first argument is a list and functions only can take 1 argument (i.e. <tt>(function-name (arg1) (arg2))</tt> would be undefined? What would <tt>(f x)</tt> now mean? Would it just be like a quoted list?<br/><br/>Of course, you wouldn't want <tt>(arg1 arg2 arg3)</tt> to be an actual list, because now you have allocate just to call a function so it is just syntatic grouping but at the macro level it is of course still a list.<br/><br/>In general, it would make syntax more awkward (just think about math). It would make the evaluation semantics much more awkward.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454396.202900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454396.202900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:46</span><br/>
+i’ll be more coherent about why i’m having this thought later as i’m on my phone and can’t just type my way to coherency—i’m thinking about things like symmetry, especially for macros and fexprs, and also what i found confusing when i started with lisp (i’d say “a function takes a list of arguments” but syntactically it doesn’t look like that, so i found it harder to read where calls were... not that beginner’s confusion is a super productive place to go with lisp)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454469.204600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454469.204600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:47</span><br/>
+The original 1960 paper on Lisp provides the context. <a href="https://web.cs.dal.ca/~vlado/pl/recursive.pdf">https://web.cs.dal.ca/~vlado/pl/recursive.pdf</a><br/>• The original syntax for function call in Lisp was intended to be f[x,y].<br/>• The paper describes S-expressions, which are the Lisp syntax for literal constants. '42' is an S-expr representing a number. '(1 2 3)' is an S-expr representing a list of numbers. 'f' is a symbol. '(f x)' is a list of two symbols. And so on.<br/>• The paper provides source code for a Lisp interpreter. In order for the interpreter to work, programs must be represented as data structures. So the function call 'f[x]' is <b>encoded</b> as the data structure '(f x)'.<br/>• One of McCarthy's students implemented the interpreter described in the paper, but didn't bother to implement the complicated Lisp syntax. Instead, he just used S-expression syntax for programs.<br/>• Everybody in the lab liked using S-expression syntax, so the original Lisp syntax was never implemented.<br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454474.204900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454474.204900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:47</span><br/>
+another way of putting it is purely aesthetic... like a function being invoked is a different “type” (loosely) of thing than a list of inert data
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454561.206900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454561.206900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:49</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> i’m familiar with the history side of this—it’s more like why do s-expressions consider the “listness” of a function call higher priority than its “pairness” if that makes sense
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454712.210300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454712.210300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:51</span><br/>
+i’d consider arguments to a function hierarchically subordinate to the invoking of a function—like in the notation we use for mathematical functions—to ahistorically backpropogate a justification for f(x) notation, the parens show that x is in some sense being “put inside” the function x
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454736.210600"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454736.210600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:52</span><br/>
+I think it is history and path-dependence. A syntax is chosen by a hacker based on pure expediency and ease of implementation, then the decision sticks. It's the same reason why the Lisp community took so many years to accept lexical scoping and lexical function closures, even though closures were invented in 1964. It's because that original interpreter used dynamic scoping, and once they started using the original interpreter, nobody wanted to change the design.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454772.211700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454772.211700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:52</span><br/>
+totally! i’m wondering if anyone who works with lisp finds it more ergonomic for non-path-dependence reasons
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454807.212600"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454807.212600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:53</span><br/>
+(i know that i’m weirdly trying to evaluate the idea of adding MORE parens to lisp syntax)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454848.212900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454848.212900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:54</span><br/>
+Yeah, <em>more parens</em> is drowning out everything else for me at the moment. I'm going to noodle on it and see if I can get past that..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595454975.215700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595454975.215700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:56</span><br/>
+i’m particularly agnostic to more parens because i’m working on languages that are at a minimum frame-based, and at a maximum completely gamified—so the typing part gets mostly replaced by doing actions rather than typing syntax
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595455027.216600"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595455027.216600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 14:57</span><br/>
+<span style="background-color:#ccf">@Ope</span> if you take the less parens logic to its conclusion you get something spacing-based like haskell
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595455245.218500"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-03/1220847671058_4980e1f3e51a273b630a_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595455245.218500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ope</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:00</span><br/>
+Yeah and tbh, I struggle with no parens with Haskell sometimes. I think it’s the tension between explicit but tedious to write vs. implicit be could but be ambiguous
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595455581.219300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595455581.219300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:06</span><br/>
+Yeah, systems with fewer spaces have been discussed many times. Which is why this thread is interesting :smile:<br/><br/><span style="background-color:#ccf">@Garth Goldwater</span> your reference to frame-based systems is helpful. Extra parens make a lot more sense if a "function" can take more than args. It might even make sense to indent it like this:<br/><br/><pre style="white-space:pre-wrap">(function-name<br/>    (arg1 arg2 arg3)<br/>    (block1<br/>     block2<br/>     block3)<br/>    metadata1<br/>    ...)</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595457653.227500"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595457653.227500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:40</span><br/>
+this may be running way to far down into specifics but stuff like injecting runtime args for eg a thread macro—i know with lisp it would really just be eg <tt>(cons (append (cdr (call-site)) new-arg))</tt>, but if you look at it from a destructuring perspective or even more like a prolog-esque unification, something like (completely made up syntax)<br/><tt>return (function-name (...args additional-argument))</tt> <br/>makes more sense to me than <tt>return (function-name ...args additional-arg)</tt>... i think. i may have just persuaded myself out of this discussion lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595457917.233200"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595457917.233200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:45</span><br/>
+ok, here’s my take: original, mutable lisp, sees code firstly as a <b>list of instructions to be executed</b>, not a <b>data structure reflecting the semantics of code evaluation,</b> if that makes sense. i now realize that part of my interest in more parentheses comes from the idea of parens indicating order of execution, so it makes sense to parenthesize function arguments, as a mnemonic reminding the user that they’ll be evaluated before being passed to the function. i have no opinion anymore lol
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595457990.233600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595457990.233600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:46</span><br/>
+So macros wouldn't have parens! I think you're on to something here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595458018.233900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595458018.233900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:46</span><br/>
+exactly!!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595458168.235900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595458168.235900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 15:49</span><br/>
+ironically i’m implementing the first pass of this in json because i’m uncultured swine and i live in a ditch with all the web app apis. but this has been super helpful!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595461729.236900"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595461729.236900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-22 16:48</span><br/>
+Well, it seems you want <tt>(apply fun (list arg1 arg2 arg3))</tt> to be the default, with syntactic sugar for it. It feels odd, but you are correct in pointing out that while function calls are destructured as pairs, syntactically there is no indication that this is the case. But honestly I can't think of a way to make this work short of the usual <tt>fun(arg1 arg2)</tt> syntax. <br/><br/>This is a bit unrelated, but it came to mind when thinking of uniform syntax—in fennel-lang, unquoting something that isn't quasiquoted moves its evaluation to compile time, which kind of gives you something like "anonymous macros" for free, which I've always found really neat.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595466257.243600"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595466257.243600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 18:04</span><br/>
+<span style="background-color:#ccf">@S.M Mukarram Nainar</span> i think you’ve nailed it, except i think i’m reaching for something maybe-impossible, which is <tt>(apply (fun arglist))</tt> , so that apply is the same kind of form as a function is—a tree-shape that dictates something about its children. <br/><br/>i REALLY like the sound of the fennel-lang thing—i hadn’t heard of it. that’s exactly the kind of symmetry i go bananas for, particularly because it sounds like it deals with a model of managing the order of interpretation/execution. thanks for pointing me to it! (for any lurkers the link is <a href="https://fennel-lang.org/">https://fennel-lang.org/</a> )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595466355.245100"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595466355.245100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 18:05</span><br/>
+in the example above, <tt>arglist</tt> might have to be something analogous to boxed. idk. trying to figure out if i can make it all consistent 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595468455.245300"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595468455.245300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-22 18:40</span><br/>
+I think there is something to be explored here, for sure, personally I wasn't really too comfortable with lisp style function calls until I did the interpreter chapter in sicp and implemented apply. I think for beginners it's hard to tell the difference between eval and apply—it took me a long time to understand it. I have it in my mind as one of those cs stopping points like recursion.<br/><br/>Unfortunately I don't have any concrete ideas on the topic other than suggesting that everyone should study interpreters at some point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595470204.247000"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595470204.247000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-22 19:10</span><br/>
+yeah. this is definitely in the territory of trying to do something similar
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595479232.248100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595479232.248100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-22 21:40</span><br/>
+I've been on this road before! Here's my story:<br/><br/>Making a Lisp/Scheme-like language. There is no "compile time", just immediately invoked code -- BUT, that code can just happen to setup stuff to be invoked later. So compile time magic is replaced with regular old code of any sort, that just runs once at "startup". Any function can be a "macro", in this sense.<br/><br/>(I think this is an unacknowledged genius of JavaScript, which is why people can do so many very interesting and powerful things with the language on levels that you don't really see elsewhere).<br/><br/>Want to "compile away" that startup pass? Have that code do the "setup" and then just spit out the result, and send <b>that</b> off as the "built" code -- which is possible because all the "code" is just lists and stuff; just print it all out or copy it out of the inspector/repl/etc.<br/><br/>Ok, so who needs macro expansion, right? But beyond that, if a "macro" is just a function that <b>happens</b> to take unevaluated code as arguments, then there needs to be a good way to control when arguments are or are not evaluated before passing them in. And hey, if these "macros" can be called any time (at "setup" or on the fly at "normal runtime" -- something macro expansion cannot do), then what if I want to use an expression whose <em>result</em> is the code to pass to the "macro"?<br/><br/>I'll detail a could options I've gone through in a separate reply, since this is getting long
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595480931.262300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595480931.262300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-22 22:08</span><br/>
+One option is to always evaluate everything, BUT have a concept of a "code block" that is not evaluated. This is the same idea as in SmallTalk or Rebol / Red, or lambda functions in languages like C# or JavaScript.<br/><br/>In my lang (which I'm piloting in JavaScript, so think JSON), "functions" are represented as objects with "code", "args", and "parent" (lexical scope) fields. The "apply" function (i.e. the part of the interpreter that handles function calls) creates a new "lexical scope" object with <em>its</em> "parent" scope copied from the "parent" of the function. BUT, given a parent-less function-object, it uses the scope of the caller (dynamic scope) instead (Ta da! Closures! C# and JavaScript lambdas effectively do the same thing) ... So if I want to pass a code-block, I use { code: ..expr.. }. Otherwise I just use a regular old expression (which might happen to return a function).<br/><br/>(Note: I'm making an editor where you build the code structure up directly, rather than type it out; so I care more about simple underlying structure than textual syntax, because I can dress it up. Not unlike how '(a b c) is shorthand for (list a b c) in some Lisps).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595481564.262500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595481564.262500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-22 22:19</span><br/>
+In a scenario where JSON is passed ad-hoc as code to be evaluated and I needed to make the syntax as non-programmer friendly as possible, It was better to let the function itself determine when to evaluate which arguments (i.e. by manually calling eval as needed)<br/><br/>So an "If" (written as a lambda) would be:<br/>(cond, T, F) =&gt; eval(cond) ? eval(T) : eval(F)<br/><br/>So someone might expect all of this to be evaluated:<br/>["Foo", ["&lt;", a, b], [c, d], [e, f]]<br/><br/>But (because it's documented) only expect either c-d or e-f to be evaluated for this:<br/>["If", ["&lt;", a, b], [c, d], [e, f]]<br/><br/>Or might expect this a-b-c to be used as-is as <em>a list</em>:<br/>["ExpectsListAndNum", [a, b, c], 10]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595493109.266100"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595493109.266100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 01:31</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> <tt>(apply (fun arglist))</tt> is <tt>(apply (partial fun arglist))</tt> in the usual semantics. Some of what you're thinking about might be illuminated by a quick look into dialects that assume function composition, like <a href="http://shenlanguage.org">Shen</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595493335.266300"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595493335.266300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-23 01:35</span><br/>
+A note on the history mentioned by <span style="background-color:#ccf">@Doug Moen</span>: the person referred to in the oft-repeated litany as "one of McCarthy's grad students" is Slug Russell. In addition to coding the first Lisp interpreter, he invented continuations, designed and coded <em>Spacewar!</em> (the first video game), and taught Gates and Allen programming on a PDP-10 as part of a school program in Seattle.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595497171.266500"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595497171.266500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-23 02:39</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> At the risk of being a pedant, I wanted to point out that <tt>'(a b c)</tt> is not equivalent to <tt>(list a b c)</tt> in exactly the topic of this discussion—<tt>quote</tt> does not evaluate its arguments, and <tt>list</tt> does. So <tt>'(a (+ 2 3))</tt> is self evaluating, but <tt>(list a (+ 2 3))</tt> evaluates to <tt>'(a 5)</tt>. It's for that reason that <tt>quote</tt> requires a special case in an interpreter, but <tt>list</tt> does not.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595499783.267400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595499783.267400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-07-23 03:23</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> Let's add that how neat JITting can be with modern JavaScript heaven help us.  Go ahead and compile away at runtime.  (I confess I haven't followed any recent developments along those lines, so I don't know whether it's getting better or worse or just weirder.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595510199.268200"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595510199.268200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-23 06:16</span><br/>
+&gt; i’m working on languages that are at a minimum frame-based<br/>Thanks for showing me the term "frame-based". I'm working on something similar, having problems finding prior art, and googling "frame-based" gave me this: <a href="https://www.greenfoot.org/frames/">https://www.greenfoot.org/frames/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595513868.268500"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595513868.268500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-23 07:17</span><br/>
+Consider the hypothetical language T-Lisp, based on T-expressions:<br/><br/>(f x)<br/>&gt; A call. f is an abstraction (function or macro). Abstractions always have a single argument, like in ML/Haskell. In a call, 'f' is an evaluated subexpression, like in Scheme.<br/>(f x y z)<br/>&gt; A call chain. (f x y z) is sugar for (((f x) y) z). This gives us a natural syntax for invoking a curried function or macro.<br/>[a b c]<br/>&gt; A list. The subexpressions a, b, c are evaluated, similar to (list a b c) in Lisp.<br/>List exprs and call exprs are orthogonal concepts. A list expr expresses the fundamental concept of an ordered sequence of expressions.  It is a mistake to intertwine or complect list exprs with call exprs, because that creates complexity.<br/><br/>A function has a single argument, but you can simulate multiple arguments using Currying, or by passing a list as an argument. There is no need for the 'apply' function. This is important for composability. Let's say that the + function takes a list of zero or more numbers, as it does in Scheme. Then you write (+ [a b c]). Suppose you want to abstract out the list [a b c], replace it with the variable x. No need for mental gymnastics, you just write (+ x).<br/><br/>Macros can be curried. The 'let' macro has two curried arguments. For example,<br/><pre style="white-space:pre-wrap">(let [[x [a b c]]] (+ x))</pre><br/>In T-Lisp, every value is printed as a constructor expression. When you evaluate this printed representation, you reconstruct the original value. List values are printed as list expressions, eg <tt>[1 2 3]</tt>. This is intuitive, easy to understand, useful.<br/><br/>One of my criticisms of Lisp is that the printed representation of a list is a function call, and this is confusing to non-experts. For example, in Lisp, the printed representation of <tt>(list 'a 2)</tt> is <tt>(a 2)</tt>. You can manually convert this to an expression that reconstructs the original list by writing <tt>'(a 2)</tt>, but now you have lost composability (the ability to substitute like for like). You can't trivially abstract out one of the subexpressions and replace it with a variable containing the same value.<br/><br/>Here is empirical research supporting my complaint about list syntax in Lisp:<br/><a href="https://www.cs.kent.ac.uk/people/staff/dat/miranda/wadler87.pdf">https://www.cs.kent.ac.uk/people/staff/dat/miranda/wadler87.pdf</a><br/>&gt; The difference between (1 2 3) and (quote (1 2 3)) is subtle, and it inevitably confuses students. In particular, it plays havoc with the substitution model of evaluation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595564501.281300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595564501.281300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-23 21:21</span><br/>
+holy crap this discussion has been insanely valuable. <span style="background-color:#ccf">@Dan Cook</span> it sounds like we’re working on super similar stuff <span style="background-color:#ccf">@Jack Rusher</span> i have absolutely checked out shen. wish there was more video content on it. aditya siram has demonstrated a lot of really cool stuff but i could really use a tutorial lol. <span style="background-color:#ccf">@S.M Mukarram Nainar</span> this is exactly the kind of pedantry that’s really important to get right in this discussion! <span style="background-color:#ccf">@Doug Moen</span> i’m going to have to pin this message on my wall. i think there are a lot of great specifics about the lisp you outlined that line up with what i’m thinking about and i will reread this when it’s not midnight my time
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595566869.281800"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595566869.281800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-23 22:01</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> - Or "compile away" ahead of time, but by having your code operate on itself rather than being bound by some set-in-stone compiler/language. Instead, YOU choose how to programmatically express the program you want to build.<br/><br/>Computationally / expressiveness-wise, you get the same benefit (minus the optimization) by just doing it "at runtime" (like JavaScript), but it can be done Ahead Of (rather than Just In) Time.<br/><br/>But especially for Lisp-like languages where the compile-time stuff is really no different than the runtime stuff (i.e. macro expansion), that "compile pass" can be made of your own code that does whatever you want, rather than having to be granted (and locked down by) something separate called a compiler.<br/><br/>... WAIT ... Have I just been describing Racket this <em>whole time</em>?? :exploding_head:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595573271.283000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595573271.283000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-23 23:47</span><br/>
+On that note, I just found this:<br/><br/><a href="https://beautifulracket.com/appendix/why-racket-why-lisp.html">https://beautifulracket.com/appendix/why-racket-why-lisp.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595598824.289600"></a>
+      <a href="../linking-together/1595452624.192300.html#1595598824.289600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-24 06:53</span><br/>
+this is sage advice for everyone’s marketing pages!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595602759.290300"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595602759.290300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-07-24 07:59</span><br/>
+My response to "Why Racket/Lisp" is that these claims are true for other powerful, expressive language families as well. You need to seriously look at the Haskell and APL language families to understand the full picture (APL includes J and K).<br/>• "Lisp is concise" (compared to Java). Okay, I find Lisp verbose and klunky. Haskell programs are half the size of Lisp programs, and APL is far more concise than Haskell.<br/>• "Everything is an expression" (compared to Python). True, but Lisp is still an imperative language where most expressions are statements executed for their side effects. This claim is more true of Haskell and APL, where more of the work is done using true expressions (that have no side effects and return values). APL invented "map/reduce" style programming, where pure functions applied to bulk data replace imperative loops, and the APL family still supports this style much better than any other language.<br/>• Composability: "Since expressions are nestable, anything in the language can be combined with nearly anything else." Definitely a core strength of Lisp, but Haskell beats Lisp in this category by a large margin. If you only know Lisp, you can't even see the composability gap, you need to learn Haskell to understand what is missing. The APL family lags behind Scheme/Racket and Haskell due to the distinction it makes between functions and values. Common Lisp also lags behind Scheme and its descendents due to the distinction between functions and values.<br/>• "Every expression is either a single value or a list. Single values are things like numbers and strings and hash tables." This is meant to point out that lists are a universal data structure, and there are a ton of list operations, which you leverage if you use lists to structure data. Good point. But, this also points out one of the composability failures of the Lisp family: character strings are atoms. In the Haskell and APL language families, a string is a list of characters, so all of those available list operations also apply to strings. By contrast, Scheme has length and string-length; reverse and string-reverse; and so on and so on. In APL, everything is an array, and APL takes this idea of a universal data structure much farther than Lisp does.<br/>• "Functional programming". Haskell owns this space.<br/>• "Macros". The Lisp family owns this space. It's worth noting that due to its greater expressive power, Haskell programmers use functions in situations where Lisp programmers are forced to use macros instead. Haskell has lazy evaluation built in. In Lisp, control structures such as 'if' and 'and', which evaluate their arguments lazily, must be macros, not functions. Macros are not first class values, so there is a loss of composability relative to Haskell.<br/>• "Create new programming languages". Racket owns this space.<br/>• Externalities: libraries, documentation, tooling, community: If the language is good enough, these factors are more important than language design. I think Lisp family languages beat the traditional functional and array languages in this category.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595603452.291700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../linking-together/1595452624.192300.html#1595603452.291700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-24 08:10</span><br/>
+i agree with pretty much all of your points, <span style="background-color:#ccf">@Doug Moen</span> . i just meant that i see a lot of projects with description pages that read like the lisp flattery described above
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

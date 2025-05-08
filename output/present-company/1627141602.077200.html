@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-07-24 08:46</span><br/>
+Does anyone have recommendations for motion design "coding" guidance. I'm interested in making a little FRP-oriented library for managing motion designs and fluid transitions. My implementation will be for web, but I suspect there are a lot of ideas from other ecosystems as well (like data viz, and game dev)<br/>Right now, I have some foundational "spring" physics to manage my input "t" step values. Next, I'm planning on designing a basic API for describing the property value mapping mathematics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627143763.077400"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627143763.077400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-07-24 09:22</span><br/>
+I feel like Puredata or MaxMSP might be good to take inspiration from
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627181804.077600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627181804.077600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-07-24 19:56</span><br/>
+Are you asking for input on things like... how to structure the concepts so that you get the best motions possible?<br/><br/>As a motivating example, one approach might be to create a data structure that contains a start value, end value, perhaps the current time, and perhaps some ease function (or spring, sure). Then, each frame, you increment the time and compute a new intermedia value to display. But then what do you do if, midway through the transition, the destination needs to change? Or what happens if you need to cancel the transition mid-flight? You'll probably get discontinuities.<br/><br/>A better approach might be to store a current value and velocity, as well as a function that handles acceleration with respect to some goal value (again, could be a spring). Then if you need to change the destination, you can just change the acceleration function, and the velocity changes smoothly as a result, and you don't get discontinuities. But what if you need to revert the transition, and return to the start point? You'll need to store that too.<br/><br/>If this is the level of design thinking you're looking for, the best thing I remember coming across is a WWDC session titled <a href="https://developer.apple.com/videos/play/wwdc2018/803/">Designing Fluid Interfaces</a>, where they talk about <em>the stuff you want</em> when designing an animation abstraction, plus how to design the coding interface so that it's artist-friendly (in other words, so that you can more easily predict what sort of motion you'll get when specifying parameters).<br/><br/>Hope that helps!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627182263.077900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627182263.077900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-07-24 20:04</span><br/>
+(Note that there's a transcript, and you can click words in the transcript to jump the video to that spot)<br/><br/>I would suggest jumping ahead to 7:00, where it begins talking about "interruption".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627210922.078200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627210922.078200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-07-25 04:02</span><br/>
+Thanks <span style="background-color:#ccf">@Ivan Reese</span>, this sounds great! Using a spring as the lowest primitive has allowed me to avoid interrupted motions. The talk looks really applicable and inspiring, thanks for sharing!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627283067.078400"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627283067.078400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2021-07-26 00:04</span><br/>
+When you say 'FRP-oriented', do you mean you'll be integrating with some larger FRP library/framework/ecosystem?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627299108.078900"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627299108.078900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-07-26 04:31</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span>, yes. I’m primarily building around RxJS as our Observable primitive.<br/><a href="https://github.com/colelawrence/behavior-state/blob/master/src/spring/BehaviorSpring.ts">https://github.com/colelawrence/behavior-state/blob/master/s&hellip;</a> (this “Spring” is not React-specific)<br/><a href="https://github.com/storyai/jsx-view">https://github.com/storyai/jsx-view</a> (RxJS as values. e.g. <tt>&lt;div style={styleStringObservable$}/&gt;</tt>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627321675.085200"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627321675.085200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-07-26 10:47</span><br/>
+When I did this at invision, we leveraged the greensock API for our motion prototyping tool<br/>The barrier for most devs seems to be understanding the three animation cases (transition, add, and delete), handling the corner cases (usually things like a half-drag, undo/redo/back/forward, and click during transition), and dealing with topology morphing (square-&gt; circle or solid-&gt;gradient, though there are some decent libraries for this)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627321760.086200"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627321760.086200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2021-07-26 10:49</span><br/>
+Thanks for the reference Don! I’ll take a close look at Greensock’s animation concepts
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627321859.086800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627321859.086800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-07-26 10:50</span><br/>
+Greensock is great. Well worth the commercial license cost if you don't want to write your own animation lib.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627321876.087400"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../present-company/1627141602.077200.html#1627321876.087400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2021-07-26 10:51</span><br/>
+I’ll also say from experience that designers LOVE to tweak animation timings, so make that easy :)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-08/681438296241_88eacb7e65edebc579ab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aidan Cunniffe</b>
+<span style="margin:2em; color:#606060">2018-11-26 06:14</span><br/>
+Hey all -- We've gotten super focussed on using Optic to auto-document APIs and then provide autocomplete and compile-time feedback for API Requests. I think we can remove most of the friction between getting systems to communicate if systems are able to negotiate these more sophisticated contracts on their own w/o the need for humans or documentation.<br/><br/>I've gotten to see a ton of backends the last month as we've been pivoting to this new use case and I stumbled upon a really interesting trend in larger codebases: there's no one way to model data types.<br/><br/>One team was using Scala on the backend and they had case classes that represented each of their models, JSON Schemas for validation, MongoDB schemas to setup their tables and Play JSON schema validators that ran on the request body. On the JS frontends they had Ducktypes for each model, in Typescript they had interfaces, and on iOS they were using Swift Classes for each model. Oh and they maintain a Swagger Spec &amp; Raml Spec which duplicates all of this again...<br/><br/>That's at least 8 different representations of essentially the same information. Some of the differences affect syntax, like in JSON Schema it's <tt>type: 'string'</tt> while Ducktypes are <tt>type: String</tt>. Others are more functional -- like in MongoDB there's a notion of indices that are important for the domain of databases, but that's not important for the purposes of validating an object so folks like JSON Schema don't support it.<br/><br/>Anyway they had 44 models so imagine the wasted time and headache. This whole thing came up because we were setting up Optic to read their backend and I had to ask which one of these representations was supposed to be the source of truth.<br/><br/>Curious if A) you see this as a problem and B) how you might go about solving it. Hope this spawns some interesting ideas here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543248457.080800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543248457.080800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-11-26 08:07</span><br/>
+I've seen it a bit, but the problem seems to have really metastasized in this particular codebase. More common, I think, is 2-way duplication, say between a database migration and an ORM model definition. At that scale it's undesirable, but not too debilitating.<br/><br/>A related pattern I've seen: the same data getting multiple, subtly different schemas as it passes through multiple systems owned by different teams. Conway's Law strikes again. Did your example involve multiple teams/zones of ownership?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543250194.084500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-08/681438296241_88eacb7e65edebc579ab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543250194.084500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aidan Cunniffe</b>
+<span style="margin:2em; color:#606060">2018-11-26 08:36</span><br/>
+Yeah this one definitely seemed to be of a different level of severity. The team has high turnover and splits up responsibility. They have also adopted many new technologies along the way as the project has grown. <br/><br/>On your second point — what are some of the drivers for the subtly different schemes? Is data being omitted / included or do things just fall out of alignment over the years?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543252793.084700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543252793.084700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-11-26 09:19</span><br/>
+It was at Google, where data modeling happened using Protocol Buffers. Proto definitions would commonly expand to a hundred fields, all optional. So one often couldn't look at another team's proto definition and easily deduce the constraints, such as which fields had to exist together or be used disjointedly. Worse, old constraints would often be broken for the next feature so you often learned not to rely on them even in your own team's protos. So teams would be paranoid and do their own data validation, and each team's rules would be subtly different for the same data in different phases of processing. It was impossible to tell if a discrepancy between phases was a bug, or the validation truly needed to be different between phases. So we'd end up treating the whole thing as a can of worms and not dig too deeply into what other teams were doing.<br/><br/>All this led to the meme/lament that programming consisted of just translating between protos.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543263591.085400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-08/681438296241_88eacb7e65edebc579ab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543263591.085400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aidan Cunniffe</b>
+<span style="margin:2em; color:#606060">2018-11-26 12:19</span><br/>
+Wow that's a really interesting experience. I have yet to see any modeling language that handles correlated fields well. Even in Swagger's Spec for API Specs they often say "only set content-type if 'X' is not specified"<br/><br/>I guess the danger of writing all that down is that it tied very heavily on business logic which might change independently of the spec.<br/><br/>I'm having trouble envisioning how one would learn the structure of those Protobuffs without a lot of trial and error.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543331039.094000"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543331039.094000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2018-11-27 07:03</span><br/>
+Sad. Stage 4 Micro-services Cancer. The next fad will be a return to monoliths, but with a new buzzword that makes it sound fresh and cool
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543339770.094600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543339770.094600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-27 09:29</span><br/>
+&gt; Curious if A) you see this as a problem and B) how you might go about solving it.<br/><span style="background-color:#ccf">@Aidan Cunniffe</span> - yes I see this as a <b>huge</b> problem. Agree strongly with <span style="background-color:#ccf">@Kartik Agaram</span> here. We already had a problem with the repetition in the 3-trier model: db-schema -&gt; [wire schema] -&gt; app server schema -&gt; [wire-schema] -&gt; browser schema. Now this problem has just exploded and continues to grow superlinearly with the number of services involved. The best practices are to make everything optional, check before use, manually chase data flow across services, etc.<br/><br/>I think one key problem is our systems are built with models that make you think 'within the OS process'. When I create a class in Python/C++/Java I'm just defining the fields for an object present locally in memory, for that running instance and manually shuffle fields around via RPCs. The 'greater schema' of your user/data object is an emergent property of the system. Could we start instead from from the greater model and have that represented directly in the system? I think so but it requires throwing away a bunch of existing stuff and moving the ideas of 'database', 'rpc' and 'process' from designed artifacts to generated details.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543346305.101000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-08/681438296241_88eacb7e65edebc579ab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543346305.101000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aidan Cunniffe</b>
+<span style="margin:2em; color:#606060">2018-11-27 11:18</span><br/>
+I definitely like the direction of specifying the emergent stuff and making everything else derivative. Takes the unidirectional data flow concepts and applies them to modeling. <br/><br/>Ideally you could update that one spec and have changes flow throughout your projects.<br/><br/>I’m surprised nothing like this exists. I think the functional field properties  are what throws this off but it’d be really interesting to have a way to merge the expanded set of properties in as you go. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543351551.101500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543351551.101500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-27 12:45</span><br/>
+Well you'd have computations described in this model as well. Mapping these onto multiple machines and what if persisted, cached, etc is a separate concern. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543382791.105600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-08/681438296241_88eacb7e65edebc579ab_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543382791.105600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Aidan Cunniffe</b>
+<span style="margin:2em; color:#606060">2018-11-27 21:26</span><br/>
+Yeah that’s a good point, certainly complicates it. I don’t have a solution but often times identifying problems is more important :) let me know if anything else comes to mind.  
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543422318.106000"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543422318.106000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-11-28 08:25</span><br/>
+&gt; Proto definitions would commonly expand to a hundred fields, all optional. So one often couldn’t look at another team’s proto definition and easily deduce the constraints, such as which fields had to exist together or be used disjointedly.<br/>This is why API descriptions desperately need to embrace sum types (aka “variants” aka “tagged unions”). I’m still waiting for sum types to become more widely discovered outside of the FP community. JSON of course doesn’t have any first-class concept of sum types. Cap’n Proto does though (calls them “unions”), and it looks like you can do sums in Protocol Buffer using <tt>oneof</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543423734.106300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543423734.106300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-11-28 08:48</span><br/>
+Yes, newer systems use <tt>oneof</tt>. But a) we still have lots of legacy definitions, b) mistakes are hard to undo so you're stuck with them, and c) The situation is sometimes more complex than a simple <tt>oneof</tt>.<br/><br/>I should add that my experience is anecdotal, and a year old at this point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543615490.000600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543615490.000600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-11-30 14:04</span><br/>
+I think that 'different representations of essentially the same information' is really the deeper problem and having better models for each of those representations isn't going to get us where we want to be. Shuffling data between the db model, rpc model, language types model while mentally reasoning about consistency is just tedious busywork.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543629316.000800"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543629316.000800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2018-11-30 17:55</span><br/>
+This seems relevant to Protocol Buffers: <a href="https://lobste.rs/s/zdvg9y/maybe_not_rich_hickey#c_povjwe">https://lobste.rs/s/zdvg9y/maybe_not_rich_hickey#c_povjwe</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543767865.001300"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543767865.001300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2018-12-02 08:24</span><br/>
+So is it really possible to do this well at scale? I ask because it's easy as a lone programmer to think it can be done perfectly but arguably the reason Google has much of that problem is they have 30k programmers. There's just no way to communicate all the knowledge needed to follow "the one true way".<br/><br/>I know I've seen Google employees or maybe ex-google employees complain as well because they want to hack some new service together but were told "no, it must integrate with our system" and so something they could probably throw together if they were a 3 person startup ends up being 6-12 months of work.<br/><br/>Of course if Google had let them just hack then there'd be a new service incompatible with everything else. Then again I guess because of the communication issues they still have this problem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1543850871.002400"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1543241688.079600.html#1543850871.002400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2018-12-03 07:27</span><br/>
+Fascinating discussion at that link, <span style="background-color:#ccf">@Kartik Agaram</span>. Thanks for sharing. I wonder if you can solve the same problem (different subsystems producing/consuming slightly different sets of fields, and therefore all fields are optional) with subtyping and adaptors with defaults. My intuition is that you’re alway going to be better off if each subsystem publishes its I/O assumptions precisely (via input type declarations and output type declarations w/optional fields explicit) and then those differences are managed at an interface boundary. The reason for that intuition is that it’s always better to tell the truth.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

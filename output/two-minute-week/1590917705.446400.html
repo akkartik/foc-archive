@@ -1,0 +1,77 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1590917705.446400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-31 02:35</span><br/>
+Here is my Week 7 update.  In this video I mostly show the output of the synthesizer with 3 different sound setups.  Adding the effects units make things fun to play with!<br/>I didn't mention the technical aspects much in the video, but I've been working/thinking about:<br/>• How to manage the data structure to represent the timeline of note events.  I have a prototype that involves a linked list of timeline events, allocated from a memory pool which is thread safe.  It seems to work OK, but it is ongoing research.<br/>• Bugs!  I had a significant bug with the 'widen' button on the master output.  That just adds a small delay to the right stereo channel.  Every time I turned it on I would get audio corruption.  I eventually realized that this was caused by the spectrum analyzer(!) which was reading the graph 'too early' and breaking the 'history' buffer of the delay module.  As I also mention in the video, I have an audio glitch which could be one of several things, but is most likely caused by the new effect modules. <br/>Hopefully this week I'll find time to get to the bottom of the audio problem and try to add a LFO to add more interesting sound effects.  Now I have a large palette of units, I also want to try writing some 'ugens' to make synthesizer graphs.<br/>The current graph layout matches a synthesizer I have for my iPad, as I've mentioned before - Audio Kit Synth One.  This is great because I can try to reproduce sound effects from that synth; but I want to move on from that and create my own layouts - since at the heart of this design is the idea that live coders can build synthesizers to match what they want to create and tweak them 'live'
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590918714.446700"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1590917705.446400.html#1590918714.446700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-31 02:51</span><br/>
+In the video I manage to conflate the Stereo Pan and Phase effect.  The Stereo Pan is doing some oscillation between R/L stereo, but the phaser is a different effect.  As I've said before, the audio stuff is new to me, and I'm using the simple 'SoundPipe' 'c' modules.  Phaser is described here: <a href="https://en.wikipedia.org/wiki/Phaser_(effect)">https://en.wikipedia.org/wiki/Phaser_(effect)</a>.  The phaser code I call is here:<br/><a href="https://github.com/SeesePlusPlus/soundpipe/blob/master/modules/phaser.c">https://github.com/SeesePlusPlus/soundpipe/blob/master/modules/phaser.c</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591417534.462100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1590917705.446400.html#1591417534.462100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-05 21:25</span><br/>
+Ah — your comment answered one of my questions, that being, "Are you implementing the effects yourself or using libraries?"<br/><br/>I'll modify the question — are all the effects coming from libraries, or have you implemented some of them yourself?<br/><br/>I'm curious to see how you do the GUI for the LFO.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591425229.462600"></a>
+      <a href="../two-minute-week/1590917705.446400.html#1591425229.462600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-06-05 23:33</span><br/>
+I'm doing a combination of things; some of it is my own, such as the ADSR slopes (not technically an 'effect').  The infrastructure of Nodes and the data management is mine,  but a lot of it winds up calling a simple 'c' function from soundpipe to do the processing inside the compute part of the Node.  SoundPipe is great - it has very small c functions that just do one thing, and they are ported from CSound mostly.<br/>Screenshot of my work in progress addition of LFO
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591425278.463000"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1590917705.446400.html#1591425278.463000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-06-05 23:34</span><br/>
+You can see there there are a pair of LFO oscillators in a node (beside the piano).  Some units, such as the Oscillators beside it have buttons to enable modulations by the LFO; which is connected via a pin to the node.  The buttons toggle which of the 2 LFOs are used.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591425322.463200"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1590917705.446400.html#1591425322.463200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-06-05 23:35</span><br/>
+I added a bit of layout management inside the nodes to help with adding the extra stuff, such as the divider, labels, etc.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

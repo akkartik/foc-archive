@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1594586988.097300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-12 13:49</span><br/>
+<a href="../thinking-together/1593176908.480100.html#1593188563.490900">../thinking-together/1.593188.html&hellip;</a><br/><span style="background-color:#ccf">@Ivan Reese</span> Do you happen to have any resources on optimization for front-end stuff like what you mentioned here? I've never come across a systematic account.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594611898.097700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../linking-together/1594586988.097300.html#1594611898.097700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-07-12 20:44</span><br/>
+I also haven't come across a systematic account. I've learned what I've learned just through listening to <a href="https://podcasts.apple.com/us/podcast/the-path-to-performance/id983003732">podcasts</a>, asking folks on the Chrome team in <a href="https://youtu.be/V-s2QLZvc50?t=24">roundabout</a> ways, accruing <a href="https://css-tricks.com/css-triggers/">tips</a> for things that are fast, studying <a href="https://greensock.com">existing</a> high-perf animation <a href="http://velocityjs.org">libraries</a>, writing <a href="https://github.com/cdig/svg">high-perf</a> libraries and <a href="https://github.com/cdig/svga/">frameworks</a> of my <a href="https://github.com/ivanreese/doom">own</a>, and building things like <a href="http://lunchboxsessions.com/explore">this</a> (which is slow in ways I couldn't have predicted but now understand) and <a href="https://www.lunchboxsessions.com/materials/deere-hitachi-excavators-shovels/hitachi-john-deere-main-pump-regulator-simulation">this</a> (which is fast, finally, because of all I've learned).<br/><br/>I'll do a brain dump of my high-level SVG perf knowledge, in case that's of interest to anyone...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594613418.097900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../linking-together/1594586988.097300.html#1594613418.097900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-07-12 21:10</span><br/>
+<b>Browser Support</b><br/>When dealing with SVGs, there's sort of two tiers of browser support you have to worry about. Firstly, there's whether or not a browser supports a feature at all. IE11, for instance, doesn't support CSS transforms of SVG elements (that is, elements inside an <tt>&lt;svg&gt;</tt>). They just don't do anything.<br/><br/>Secondly, there's variation in how well different browsers handle different techniques. All the browsers have strengths and weaknesses when it comes to SVG, so a lot of my knowledge is in knowing the subset of things that aren't just <em>fast,</em> but are <em>uniformly</em> fast across browsers.<br/><br/>For instance — Safari is generally slow-ish, but very consistently so. Chrome is super fast if you do what it likes, but if you stray off the happy path it's super slow, and it eats battery. Chrome also tends to have poorer visual fidelity. Firefox has (had?) issues with nasty color banding in gradients, and also eats battery. Edge has (had?) issues with certain properties failing to animate in certain circumstances, requiring targeted workarounds.<br/><br/><b>Transforms</b><br/>In most browsers, transforming things inside of an SVG causes painting, which is slower than just pure GPU compositing. This will vary a bit depending on how you do the transform. You can use CSS transforms, which don't generally cause painting, but they don't work in IE11 and might not work 100% in Edge. So everything I do is with the <tt>transform</tt> attribute, which causes painting but works everywhere.<br/><br/>I have a hunch that it'd be way faster to blow apart a big <tt>&lt;svg&gt;</tt> element into many smaller <tt>&lt;svg&gt;</tt> elements, and animate the <tt>&lt;svg&gt;</tt> itself using CSS transforms rather than animating the contents of the SVG. That should have fantastic browser support, and stay entirely on the GPU. Haven't tried this yet.<br/><br/><b>Animation</b><br/>You generally can't use CSS animations, or the new Animations API, or SMIL, due to terrible browser support. JS-based animation is pretty much the only game in town, currently.<br/><br/><b>Painting</b><br/>Since SVG transforms seem to cause a lot more painting than CSS transforms, it's worth knowing what things are slow to paint. Gradients are fairly slow. Transparencies are terribly slow. The size of the gradient / transparent element affects your cost, so a screen-filling transparent gradient is a worst case.<br/><br/>SVG filters are bananas slow, and should be avoided entirely IMHO.<br/><br/><b>Caching</b><br/>There's a perf hit every time you touch any DOM properties, and in a non-trivial animation (or in an animation framework) it's not always easy to know for sure that you won't be touching things redundantly. A simple but effective fix is just to take advantage of JS being a dynamic language, and stick extra properties on your DOM objects that store the values of any DOM properties you're animating, and only update the real properties if they're different than what you've stored.<br/><br/>It's also faster to remove nodes from the DOM instead of making things invisible using display or opacity.<br/><br/><b>Etc</b><br/>I've been doing SVG animation tooling for about 5 years now, so in some ways my knowledge is about 5 years out of date, since that's when I did most of my hard learning. Things might have changed. If you have specific questions, feel free to let me know. When I look at something like Enso, I see what looks to me like the classic "rewrite it in X" performance win story, where you could have had just as much of a win rewriting it in the original technology given what you've learned about the problem domain. It's a shame (since I'm sure that WebGL rewrite had a hefty cost) but they have their priorities, and I expect <em>excellent interop with 2d art tools</em> isn't one of them (and that's the reason I'm so big on SVG).<br/><br/>I keep thinking of more tips to add, but I think I'll leave this as-is. Like anything, the best thing to do to get good front end perf is learn about the way the underlying tech works, run experiments, and measure measure measure!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594631089.099900"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../linking-together/1594586988.097300.html#1594631089.099900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-07-13 02:04</span><br/>
+Thanks so much! I'll have to read through some of the code you linked later
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

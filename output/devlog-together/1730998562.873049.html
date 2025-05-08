@@ -1,0 +1,113 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1730998562.873049.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 08:56</span><br/>
+Hi all :wave:.<br/><br/>I've started a project to try out some of the ideas I've had regarding markdown and writing.<br/><br/>The perspective I'm coming from is that I've found it difficult to write technical articles. Especially ones containing code examples. The <em>cut-n-paste</em> nature of building such articles usually results in some files missing, broken code or incorrect output.<br/><br/>I've had a bad habit of not sharing what i'm doing, so this time I want to share baby-steps i'm making with the project. It's very barebones. I've got the first feature (if you permit) working, so the below video demonstrates includable blocks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730999795.677659"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1730999795.677659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-07 09:16</span><br/>
+This is great! Elements of Block Protocol and Literate Programming combined together in a new and interesting way.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731001618.901699"></a>
+      <img src="https://avatars.slack-edge.com/2024-01-16/6476846237061_251479b6efa899c8f296_72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731001618.901699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 09:46</span><br/>
+Literate programming is definitely one source of inspiration! This is a form of "within-document tangling". Next is treating filenames and ID's interchangeably so that files can be included.<br/><br/>There are some interesting graph problems in that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731001654.682279"></a>
+      <img src="https://avatars.slack-edge.com/2024-01-16/6476846237061_251479b6efa899c8f296_72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731001654.682279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 09:47</span><br/>
+Oh, and the project lives here <a href="https://github.com/gamgi/murkdown">on github</a> if anyone is interested in the source. There is quite a lot of it compared to what it does so far...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731009644.794489"></a>
+      <img src="https://secure.gravatar.com/avatar/71ea8fa9b3a4ffb02c8ab88256ebb749.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731009644.794489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Albert Zak</b>
+<span style="margin:2em; color:#606060">2024-11-07 12:00</span><br/>
+Beautiful! You built something I <a href="https://clj.social/@albertzak/113416288696737948">dreamed of a few days ago</a>. Loving the natural and terse <tt>...</tt> syntax for placing snippets, and the simple piggybacking onto md's image tag. Why is your code in blockquotes though instead of triple-backticks? Very interested to see how you approach file tangling. Filesystem-to-editor unidirectional inclusions will probably be easier than the other way round. Do you think bidirectional editor&lt;&gt;filesystem tangling would be possible at all? Maybe tracking modification timestamps?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731012155.903849"></a>
+      <img src="https://avatars.slack-edge.com/2024-01-16/6476846237061_251479b6efa899c8f296_72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731012155.903849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 12:42</span><br/>
+&gt; and the simple piggybacking onto md's image tag.<br/>There's some level of depth in this one which i'll expand upon. The original inspiration (unspiration) was that GitHub added support for a syntax like this <a href="https://github.com/orgs/community/discussions/16925">some time ago</a>. This was how the syntax got started.<br/><br/>In fact, one of the goals is to be <a href="https://github.com/gamgi/murkdown/blob/main/tests/markdown/simple.in/file.md?plain=1">superficially markdown-compatible</a>. I.e. headings, lists, even "NOTE" blocks should be valid both in this project and on GitHub....<br/><br/>&gt; Why is your code in blockquotes though instead of triple-backticks?<br/>...but that's where the superficial compatibility with markdown ends.<br/><br/>This project is a playground for a few ideas i've had. One of them is related fascination over languages that don't have explicit "start" and "end" tags or fences (backticks). Hence, one of my explicit goals was to get to something that won't need me to use closing tags (i'll have to write design goals down some day).<br/><br/>It's a fun challenge! However, like you immediately noticed, using <tt>&gt;</tt> is janky. The future solution to this is three-fold:<br/><br/>• First, a block can be started by <a href="https://github.com/gamgi/murkdown/blob/ecb2fce4efae69c46b2a79bc2efae4e82be0ceda/src/lib/parser_grammar.pest#L27">one of many characters</a>. Blocks are generalizations of what markdown calls "lists", "headings" and "blockquotes". That means, lists are blocks (of semantic type <tt>LIST</tt>, and so on.<br/>• Second, supporting Markdown's "original" syntax of two-space indentation for starting a (code) block, which would make the current example almost "normal".<br/>• Third, i have something i call "sections" that are allowed on the root level. Hopefully i'll get to demo those in a few weeks.<br/>&gt; Very interested to see how you approach file tangling. Filesystem-to-editor unidirectional inclusions will probably be easier than the other way round. Do you think bidirectional editor&lt;&gt;filesystem tangling would be possible at all?<br/>I have some initial parts of this in my design, but the devil is in the details. It's one thing to support "a" editor, and another to support "any" editor. What you see on the video is an editor in the browser. I'll focus on that for now, but following filesystem events would be cool.<br/><br/>I've approached the architecture like a build system. There's an internal graph of tasks (think: load, parse, render) that should allow for both tangling (writing out) to filesystem, as well as loading in (weaving).<br/><br/>Loading already works somewhat, but working with graphs is tricky, and we'll see what's possible.<br/><br/>&gt; Maybe tracking modification timestamps?<br/>This is definitely one key piece in there. Not sure what else, tracking syscalls?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731012603.695309"></a>
+      <a href="../devlog-together/1730998562.873049.html#1731012603.695309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 12:50</span><br/>
+One more fun thing is how to compose many includes in one place, here's what works already:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731012645.994129"></a>
+      <img src="https://secure.gravatar.com/avatar/71ea8fa9b3a4ffb02c8ab88256ebb749.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731012645.994129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Albert Zak</b>
+<span style="margin:2em; color:#606060">2024-11-07 12:50</span><br/>
+Thank you for your thorough reply. Super excited follow your progress on this. Can you say more about why you wish to avoid explicit end markers?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1731015566.322689"></a>
+      <img src="https://avatars.slack-edge.com/2024-01-16/6476846237061_251479b6efa899c8f296_72.png" style="float:left"/>
+      <a href="../devlog-together/1730998562.873049.html#1731015566.322689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pietu</b>
+<span style="margin:2em; color:#606060">2024-11-07 13:39</span><br/>
+&gt; Can you say more about why you wish to avoid explicit end markers<br/>For fun mostly! But also, because I spent some time thinking too deep about what why Python chose to use indentation for scoping. There are some interesting properties, if you do "what python did" but for a markup language.<br/><br/>For example, there can not be "too many right parentheses".<br/><br/>This is useful, if you do collaborative editing. Consider what happens when someone writes <tt>&lt;div&gt;</tt> in a collaborative html document. All lines after it are potentially affected, until a <tt>&lt;/div&gt;</tt> is added (some time later). So someone editing content at the begining of a document can break a document for someone editing the end. Using a no fences, or "line-based" or "indentation based" language alleviates some of these issues, at least in naive cases.<br/><br/>...But mostly for fun!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

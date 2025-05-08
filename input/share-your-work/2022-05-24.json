@@ -1,0 +1,947 @@
+[
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1653376468.809199",
+        "client_msg_id": "5353c957-6ea6-4722-83e8-7470457d70d2",
+        "text": "If you decide to create a new surface syntax for what are essentially RDF triples, you might want to make sure your model is compatible with RDF so you can interoperate with other knowledge bases.\n\nFor some prior art in terms of the syntax itself, check out the rather similar <https:\/\/www.w3.org\/TR\/turtle\/|Turtle notation>:\n```@prefix : &lt;<http:\/\/example.org\/elements>&gt; .                                                                              \n&lt;<http:\/\/en.wikipedia.org\/wiki\/Helium>&gt;                                                                                  \n    :atomicNumber 2 ;               # xsd:integer                                                                      \n    :atomicMass 4.002602 ;          # xsd:decimal                                                                      \n    :specificGravity 1.663E-4 .     # xsd:double```",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "\/UFl+",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "If you decide to create a new surface syntax for what are essentially RDF triples, you might want to make sure your model is compatible with RDF so you can interoperate with other knowledge bases.\n\nFor some prior art in terms of the syntax itself, check out the rather similar "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.w3.org\/TR\/turtle\/",
+                                "text": "Turtle notation"
+                            },
+                            {
+                                "type": "text",
+                                "text": ":\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "@prefix : <"
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/example.org\/elements"
+                            },
+                            {
+                                "type": "text",
+                                "text": "> .                                                                              \n<"
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/en.wikipedia.org\/wiki\/Helium"
+                            },
+                            {
+                                "type": "text",
+                                "text": ">                                                                                  \n    :atomicNumber 2 ;               # xsd:integer                                                                      \n    :atomicMass 4.002602 ;          # xsd:decimal                                                                      \n    :specificGravity 1.663E-4 .     # xsd:double"
+                            }
+                        ],
+                        "border": 0
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "point_up",
+                "users": [
+                    "UA14TGLTC"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653378479.416069",
+        "edited": {
+            "user": "UDQBTJ211",
+            "ts": "1653389292.000000"
+        },
+        "client_msg_id": "bc42b881-f47b-4478-bd4f-586b6bbafefd",
+        "text": "It does essentially get compiled to triples under the hood, because it currently is implemented on top of Neo4j, but the queries are bewilderingly complex when expressed in those terms.\n\nFor example;\n`#sibling: @Bart`\n\nIs translated to the following Cypher query (it would be similar in SPARQL);\n```match (v_: Entity {{name:\"Bart\"}})\n    match p_v = ((v:Entity)-[:IMPLIES*0..]-&gt;(v_))\n    with distinct v, [m in nodes(p_v) where 'Context' in labels(m)] as contexts\n    match (k_:Attribute {name:\"sibling\"})\n    match p_k = ((k:Attribute)-[:IMPLIES*0..]-&gt;(k_))\n    with distinct v, k, [m in nodes(p_k) where 'Context' in labels(m)]+contexts as contexts\n    match (k)-[:VALUE]-&gt;(c:Context)-[:VALUE]-&gt;(v),\n                        (c)-[:CONTEXT]-&gt;(n:Entity)\n    with distinct n, contexts\n    where size(contexts) = 0 or \n    all(c in contexts where exists((c)-[:CONTEXT]-&gt;()&lt;-[:IMPLIES*0..]-()&lt;-[:CATEGORY|ATTRIBUTE*0..1]-()&lt;-[:IMPLIES*0..]-(n)))\n     \n    return distinct n\n```\nWhich is not reasonable for a user to write.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Wx7",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "It does essentially get compiled to triples under the hood, because it currently is implemented on top of Neo4j, but the queries are bewilderingly complex when expressed in those terms.\n\nFor example;\n"
+                            },
+                            {
+                                "type": "text",
+                                "text": "#sibling: @Bart\n",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\nIs translated to the following Cypher query (it would be similar in SPARQL);\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "match (v_: Entity {{name:\"Bart\"}})\n    match p_v = ((v:Entity)-[:IMPLIES*0..]->(v_))\n    with distinct v, [m in nodes(p_v) where 'Context' in labels(m)] as contexts\n    match (k_:Attribute {name:\"sibling\"})\n    match p_k = ((k:Attribute)-[:IMPLIES*0..]->(k_))\n    with distinct v, k, [m in nodes(p_k) where 'Context' in labels(m)]+contexts as contexts\n    match (k)-[:VALUE]->(c:Context)-[:VALUE]->(v),\n                        (c)-[:CONTEXT]->(n:Entity)\n    with distinct n, contexts\n    where size(contexts) = 0 or \n    all(c in contexts where exists((c)-[:CONTEXT]->()<-[:IMPLIES*0..]-()<-[:CATEGORY|ATTRIBUTE*0..1]-()<-[:IMPLIES*0..]-(n)))\n     \n    return distinct n\n"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nWhich is not reasonable for a user to write."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653379390.803009",
+        "edited": {
+            "user": "UDQBTJ211",
+            "ts": "1653379403.000000"
+        },
+        "client_msg_id": "fc248405-231d-48e9-9977-9af2a825eb0b",
+        "text": "I'm on a bit of an \"ethnographic\" thing at the moment so trying to come at stuff from a starting point of how people are already interacting with computers right now in the real world, rather than my own preferences which tend to be far too mathematical, \"precise\" and \"elegant\" for most of the species :upside_down_face:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "e=5DT",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I'm on a bit of an \"ethnographic\" thing at the moment so trying to come at stuff from a starting point of how people are already interacting with computers right now in the real world, rather than my own preferences which tend to be far too mathematical, \"precise\" and \"elegant\" for most of the species "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "upside_down_face",
+                                "unicode": "1f643"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "thinking_face",
+                "users": [
+                    "UA14TGLTC"
+                ],
+                "count": 1
+            },
+            {
+                "name": "+1",
+                "users": [
+                    "U013ZLJARC7",
+                    "U01A1C2K8MP"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1653379977.807489",
+        "client_msg_id": "83b50d38-a516-4ee6-9ce2-7de69a18aa5c",
+        "text": "Interesting! A small-scale knowledge graph with a lightweight interface looks very useful indeed.\n\nFrom my first impressions, I'd say yours is already getting too complex. Example: the way you disambiguate \"Bart\" by context. For a personal knowledge database, I'd probably prefer to keep entities unique, implying longer names, and add a completion interface for discovery and for faster entry. You'd type \"Bart\" and the system proposes all the entities containing \"Bart\" for selection.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "jI3CO",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Interesting! A small-scale knowledge graph with a lightweight interface looks very useful indeed.\n\nFrom my first impressions, I'd say yours is already getting too complex. Example: the way you disambiguate \"Bart\" by context. For a personal knowledge database, I'd probably prefer to keep entities unique, implying longer names, and add a completion interface for discovery and for faster entry. You'd type \"Bart\" and the system proposes all the entities containing \"Bart\" for selection."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653381049.112909",
+        "edited": {
+            "user": "UDQBTJ211",
+            "ts": "1653389261.000000"
+        },
+        "client_msg_id": "a0ce1ab2-d5d0-4f0c-8c99-4b678cbea813",
+        "text": "Yeah for sure you would need autocomplete in an actual system.\n\nTo clarify the underlying model, `@Bart` and `@[Bart Simpson]` are separate entities, marking it as synonymous just allows them to be switched in\/out in a query. This was meant to be like Wikipedia titles. The canonical title will be something globally unique like \"Queen Victoria (British monarch)\", \"Victoria (Australian state)\", but will typically be referred to by a name (\"Victoria\") which is only contextually unique. This was my attempt to reflect how humans use names, but without introducing too much \"magic\" on the computer side.\n\nA dumb example that might be more clearer of the point of this feature;\n```@[My front door]\n   !Door\n   #closed\n\n@[My garden door]\n   !Door\n   #not-open\n\n@[Half open interval [0, 1)]\n   ![Subset of the Reals]\n   #not-open #not-closed\n\n!Door\n   #not-open = #closed\n```\nThen the query `#closed` with return the two doors, but not the set, because the rule `#not-open = #closed` does not apply in the context of `!Set`, only `!Door`.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "GAX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Yeah for sure you would need autocomplete in an actual system.\n\nTo clarify the underlying model, "
+                            },
+                            {
+                                "type": "text",
+                                "text": "@Bart",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " and "
+                            },
+                            {
+                                "type": "text",
+                                "text": "@[Bart Simpson]",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " are separate entities, marking it as synonymous just allows them to be switched in\/out in a query. This was meant to be like Wikipedia titles. The canonical title will be something globally unique like \"Queen Victoria (British monarch)\", \"Victoria (Australian state)\", but will typically be referred to by a name (\"Victoria\") which is only contextually unique. This was my attempt to reflect how humans use names, but without introducing too much \"magic\" on the computer side.\n\nA dumb example that might be more clearer of the point of this feature;\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "@[My front door]\n   !Door\n   #closed\n\n@[My garden door]\n   !Door\n   #not-open\n\n@[Half open interval [0, 1)]\n   ![Subset of the Reals]\n   #not-open #not-closed\n\n!Door\n   #not-open = #closed\n"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nThen the query "
+                            },
+                            {
+                                "type": "text",
+                                "text": "#closed",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " with return the two doors, but not the set, because the rule "
+                            },
+                            {
+                                "type": "text",
+                                "text": "#not-open = #closed",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " does not apply in the context of "
+                            },
+                            {
+                                "type": "text",
+                                "text": "!Set",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", only "
+                            },
+                            {
+                                "type": "text",
+                                "text": "!Door",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1653381549.628129",
+        "client_msg_id": "fefe2c54-f1f1-4032-b697-68599eec7acb",
+        "text": "Neo4J is worse at this sort of thing than a TripleStore would be. In terms of making this query in SPARQL (using my Clojure wrapper):\n```(query `{:select [?siblingLabel]\n         :where  [[~(entity \"Bart Simpson\") ~(wdt :sibling) ?sibling]]})\n;;=&gt;\n[{:siblingLabel \"Lisa Simpson\"}\n {:siblingLabel \"Maggie Simpson\"}\n {:siblingLabel \"Hugo Simpson\"}]```\nMy own note-taking system includes a bunch of semantic web\/GOFAI stuff, but also uses neural nets, &amp;c. I strongly encourage this line of inquiry! :slightly_smiling_face: But I also wanted to give you some advice from farther down this road.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "GpQrm",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Neo4J is worse at this sort of thing than a TripleStore would be. In terms of making this query in SPARQL (using my Clojure wrapper):\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "(query `{:select [?siblingLabel]\n         :where  [[~(entity \"Bart Simpson\") ~(wdt :sibling) ?sibling]]})\n;;=>\n[{:siblingLabel \"Lisa Simpson\"}\n {:siblingLabel \"Maggie Simpson\"}\n {:siblingLabel \"Hugo Simpson\"}]"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "My own note-taking system includes a bunch of semantic web\/GOFAI stuff, but also uses neural nets, &c. I strongly encourage this line of inquiry! "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "slightly_smiling_face",
+                                "unicode": "1f642"
+                            },
+                            {
+                                "type": "text",
+                                "text": " But I also wanted to give you some advice from farther down this road."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653381681.844069",
+        "client_msg_id": "0b2502a2-5242-422a-a12b-dae153b910cc",
+        "text": "But how does it know that \"Bart Simpson\", sibling, \"Lisa Simpson\"?\n\nThe actual triple is \"Bart Simpson\", *sister*, \"Lisa Simpson\"",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "V7x0",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "But how does it know that \"Bart Simpson\", sibling, \"Lisa Simpson\"?\n\nThe actual triple is \"Bart Simpson\", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "sister",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", \"Lisa Simpson\""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653381804.537249",
+        "client_msg_id": "455327ba-0b77-4e25-be87-61dffddd42ff",
+        "text": "I actually had Hugo in the demo originally but I thought it would confuse people with deficit Simpsons knowledge :rolling_on_the_floor_laughing:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "xZw5N",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I actually had Hugo in the demo originally but I thought it would confuse people with deficit Simpsons knowledge "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "rolling_on_the_floor_laughing",
+                                "unicode": "1f923"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "joy",
+                "users": [
+                    "U013ZLJARC7"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1653399575.069229",
+        "client_msg_id": "f39695d2-0910-40c7-9120-75870813ff12",
+        "text": "<@U013ZLJARC7> I'm curious to hear more about how you use symbolic AI in your note taking system!",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "WQS0",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U013ZLJARC7"
+                            },
+                            {
+                                "type": "text",
+                                "text": " I'm curious to hear more about how you use symbolic AI in your note taking system!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1653407492.705799",
+        "client_msg_id": "e6a4b4e8-3c61-4cff-a3ee-6fd74c79d117",
+        "text": "<@UDQBTJ211> In this case the database happens to contain those assertions, as I'm running this query against Wikidata. If I had a DB with only brother and sister, I'd be able to specify what sibling means using a meta-language that would then allow this query to remain as simple.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "CYYYl",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UDQBTJ211"
+                            },
+                            {
+                                "type": "text",
+                                "text": " In this case the database happens to contain those assertions, as I'm running this query against Wikidata. If I had a DB with only brother and sister, I'd be able to specify what sibling means using a meta-language that would then allow this query to remain as simple."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1653407523.412919",
+        "client_msg_id": "580a0dad-ec4e-42aa-a01b-87dd6e7111d8",
+        "text": "<@UCUSW7WVD> I need to make a video about the whole thing",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653331495.527059",
+        "parent_user_id": "UDQBTJ211",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "01gl",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UCUSW7WVD"
+                            },
+                            {
+                                "type": "text",
+                                "text": " I need to make a video about the whole thing"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "100",
+                "users": [
+                    "UCUSW7WVD",
+                    "UEBG0NPDK",
+                    "UJBAJNFLK",
+                    "UDQBTJ211",
+                    "UAZT04VT4"
+                ],
+                "count": 5
+            }
+        ]
+    },
+    {
+        "user": "U022N3XFW0Y",
+        "type": "message",
+        "ts": "1653415480.538239",
+        "client_msg_id": "70777E37-3A9D-4C2A-BEDD-68DAC0F8CD87",
+        "text": "Tiny demo from some weekend hacking to bring the computer out of its box by mapping macOS spaces to physical spaces in my room\n\n<https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&amp;t=xULGxPhOKg3n6vR5UkVdJg|https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&amp;t=xULGxPhOKg3n6vR5UkVdJg>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "111442a17830",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-04-04\/3327738791383_111442a178308dc685e4_72.png",
+            "first_name": "Cristóbal",
+            "real_name": "Cristóbal",
+            "display_name": "Cristóbal",
+            "team": "T5TCAFTA9",
+            "name": "cristobal.sciutto",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653415480.538239",
+        "reply_count": 3,
+        "reply_users_count": 2,
+        "latest_reply": "1653422820.451189",
+        "reply_users": [
+            "U022N3XFW0Y",
+            "UDQBTJ211"
+        ],
+        "replies": [
+            {
+                "user": "U022N3XFW0Y",
+                "ts": "1653415587.439969"
+            },
+            {
+                "user": "UDQBTJ211",
+                "ts": "1653417152.023519"
+            },
+            {
+                "user": "U022N3XFW0Y",
+                "ts": "1653422820.451189"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "attachments": [
+            {
+                "from_url": "https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&amp;t=xULGxPhOKg3n6vR5UkVdJg",
+                "ts": 1653413462,
+                "thumb_url": "https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1529151717153054722\/pu\/img\/DD9Lp6NCWFKAx-w0.jpg",
+                "thumb_width": 1200,
+                "thumb_height": 750,
+                "video_html": "<video controls poster=\"https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1529151717153054722\/pu\/img\/DD9Lp6NCWFKAx-w0.jpg\" width=\"1200\" height=\"750\"><source type=\"video\/mp4\" src=\"https:\/\/video.twimg.com\/ext_tw_video\/1529151717153054722\/pu\/vid\/1152x720\/iROxSf1b0tU0HmOG.mp4?tag=12\"><\/video>",
+                "video_html_width": 1200,
+                "video_html_height": 750,
+                "id": 1,
+                "original_url": "https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&amp;t=xULGxPhOKg3n6vR5UkVdJg",
+                "fallback": "<https:\/\/twitter.com\/tobyshooters|@tobyshooters>: Pinning macOS spaces to physical spaces: Forgot my dictionary at my desk... walk over to grab it!\n\nDepending on one's physical location, a different macOS space is focused (see top-right). You can move windows between spaces by walking over, grabbing onto it, and walking back. <https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1529151717153054722\/pu\/img\/DD9Lp6NCWFKAx-w0.jpg>",
+                "text": "Pinning macOS spaces to physical spaces: Forgot my dictionary at my desk... walk over to grab it!\n\nDepending on one's physical location, a different macOS space is focused (see top-right). You can move windows between spaces by walking over, grabbing onto it, and walking back.",
+                "author_name": "cristóbal",
+                "author_link": "https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440",
+                "author_icon": "https:\/\/pbs.twimg.com\/profile_images\/1526555781654519808\/LgTF5SGp_normal.jpg",
+                "author_subname": "@tobyshooters",
+                "service_name": "twitter",
+                "service_url": "https:\/\/twitter.com\/",
+                "footer": "Twitter",
+                "footer_icon": "https:\/\/a.slack-edge.com\/80588\/img\/services\/twitter_pixel_snapped_32.png"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Shm",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Tiny demo from some weekend hacking to bring the computer out of its box by mapping macOS spaces to physical spaces in my room\n\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&t=xULGxPhOKg3n6vR5UkVdJg",
+                                "text": "https:\/\/twitter.com\/tobyshooters\/status\/1529153009032253440?s=21&t=xULGxPhOKg3n6vR5UkVdJg"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart_eyes",
+                "users": [
+                    "UA14TGLTC",
+                    "U02CTQDEZC4"
+                ],
+                "count": 2
+            },
+            {
+                "name": "the_horns",
+                "users": [
+                    "UF6RLAL7J",
+                    "U02CTQDEZC4"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "U022N3XFW0Y",
+        "type": "message",
+        "ts": "1653415587.439969",
+        "client_msg_id": "0C167FCE-F193-4888-898A-CB47DD726089",
+        "text": "And here’s the code: <https:\/\/github.com\/tobyshooters\/livepipe\/tree\/main\/spaces|https:\/\/github.com\/tobyshooters\/livepipe\/tree\/main\/spaces>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "111442a17830",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-04-04\/3327738791383_111442a178308dc685e4_72.png",
+            "first_name": "Cristóbal",
+            "real_name": "Cristóbal",
+            "display_name": "Cristóbal",
+            "team": "T5TCAFTA9",
+            "name": "cristobal.sciutto",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653415480.538239",
+        "parent_user_id": "U022N3XFW0Y",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "7etU",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "And here’s the code: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/tobyshooters\/livepipe\/tree\/main\/spaces",
+                                "text": "https:\/\/github.com\/tobyshooters\/livepipe\/tree\/main\/spaces"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UDQBTJ211",
+        "type": "message",
+        "ts": "1653417152.023519",
+        "client_msg_id": "aa722245-d216-4a1c-bcf1-54c6c16db3b9",
+        "text": "Do you notice a difference in remembering \"where things are\"?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "2624b1e78c0a",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-02-14\/551655871797_2624b1e78c0a9eaed529_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Knott",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "chrisknott",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653415480.538239",
+        "parent_user_id": "U022N3XFW0Y",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Zqq1",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Do you notice a difference in remembering \"where things are\"?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U022N3XFW0Y",
+        "type": "message",
+        "ts": "1653422820.451189",
+        "client_msg_id": "9A95FF04-BD72-4A23-8752-1CC1E78BD698",
+        "text": "Not quite sure yet in any general sense. While programming it I found that I quickly associated a chair with where the program was running. It was frustrating at first, but eventually just became expected.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "111442a17830",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-04-04\/3327738791383_111442a178308dc685e4_72.png",
+            "first_name": "Cristóbal",
+            "real_name": "Cristóbal",
+            "display_name": "Cristóbal",
+            "team": "T5TCAFTA9",
+            "name": "cristobal.sciutto",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1653415480.538239",
+        "parent_user_id": "U022N3XFW0Y",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "wy96",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Not quite sure yet in any general sense. While programming it I found that I quickly associated a chair with where the program was running. It was frustrating at first, but eventually just became expected."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

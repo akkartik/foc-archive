@@ -1,0 +1,736 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 19:29</span><br/>
+<b>Heretical idea:</b> a function call syntax where the function name can appear anywhere in the call.<br/><br/>First, presume we're using Haskell-style syntax, so that <tt>f(2,3)</tt> (C-style) is written as <tt>f 2 3</tt> (Haskell-style). Second, presume that parameters (in function signatures) must be prefixed with a <tt>&amp;</tt> symbol (or whatever symbol you prefer; we'll need this later), so the definition of <tt>f</tt> would look something like <tt>f &amp;x &amp;y = ...</tt>. Now, imagine the <em>definer</em> of the function can choose where the function name is supposed to appear. So we could define the function f in several ways:<br/>• <tt>f &amp;x &amp;y =</tt> , in which case a function call would look like <tt>f 2 3</tt><br/>• <tt>&amp;x f &amp;y =</tt> , in which case a function call would look like <tt>2 f 3</tt><br/>• <tt>&amp;x &amp;y f =</tt>, in which case a function call would look like <tt>2 3 f</tt><br/>Why would we want a syntax like this? Many reasons.<br/><br/>1. We get infix operators for free:<br/>• <tt>&amp;x + &amp;y =</tt> <br/>• <tt>&amp;x mod &amp;y =</tt><br/>2. We can have multi-word function names:<br/>• <tt>&amp;x is less than &amp;y =</tt><br/>• <tt>if &amp;cond then &amp;a else &amp;b =</tt><br/>3. This syntax erases the distinction between defining three separate functions returning one value each, and defining one function returning a record with three fields. I think this is nice; the distinction seemed arbitrary in the first place! Reducing the number of superficial choices a programmer needs to make helps reduce the cognitive burden of programming.<br/><br/>And probably more things :slightly_smiling_face:.<br/><br/>What are the downsides of this syntax?<br/>• Some of the "classic" syntax of programming languages now becomes ambiguous. In particular, we hit ambiguities when passing functions around as values. In Haskell you can write expressions like <tt>map f list</tt> where f is a function being passed as an argument. Given we could now define <tt>f</tt> as an infix or postfix function (see earlier), we need to make sure that we can <em>refer</em> to the function in an unambiguous manner. We could do this by writing something like <tt>map (. f .) list</tt> where the <tt>.</tt> symbol means an unbound parameter. For the multi-word functions, you'd write <tt>map (. is less than 5) list</tt><br/>• There are a few other potential issues I'm working out.<br/>Regardless, this seems like an interesting idea, right? :slightly_smiling_face: How do people feel about it?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633926081.306800"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633926081.306800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:21</span><br/>
+I think you will open up for a lot of ambiguities. It might be necessary to protect against them by automatic means, like Bison does.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633926285.307000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633926285.307000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:24</span><br/>
+Yeah, I'm taking that as a challenge. If I can find an unambiguous syntax and semantics, the payoff could be huge :slightly_smiling_face:. Think about all the fun natural-language tricks you could do when defining functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633926372.307200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633926372.307200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:26</span><br/>
+One constraint I'm going to be using is to demand each "function call" be delimited by brackets <tt>(...)</tt>. The contents of every pair of brackets will need to fit a function signature <b>exactly</b> (not a prefix or a subset of it). That means there will be no concept of operator precedence or associativity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633926391.307400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633926391.307400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:26</span><br/>
+But I may be able to recover associativity by adding a separate feature that captures it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633926856.307700"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633926856.307700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:34</span><br/>
+Multi-word function names look cool, but I'm not sure they are useful. For example, wouldn't your if...then...else function always evaluate all three arguments? Many lisps implement DSLs using macros, including some that appear more like English sentences, e.g. the Common Lisp loop macro (see <a href="http://cl-cookbook.sourceforge.net/loop.html">http://cl-cookbook.sourceforge.net/loop.html</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927023.310100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633927023.310100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:37</span><br/>
+The syntax concept I’m presenting can be contemplated separately from the operational semantics of the language. So it could be lazy, or strict :woman-shrugging:. I have some ideas about the semantics I want, but that’s for a separate thread :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927189.310600"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633927189.310600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:39</span><br/>
+Ah, with parenthesis around every call, you might be halfway there. Will you use the <tt>&amp;</tt> prefix for every argument in function calls also?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927257.311800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633927257.311800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:40</span><br/>
+Nah, I think the prefix is only necessary to disambiguate the definitions. It shouldn’t be necessary at the call site!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927480.312000"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633927480.312000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:44</span><br/>
+Consider any user defined functions <tt>(fun1 &amp;X &amp;Y)</tt> and <tt>(&amp;X fun2 &amp;Y)</tt>. What prevents the user from naming variables to make the ambiguous call <tt>(fun1 fun2 var3)</tt>?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927532.312300"></a>
+      <a href="../thinking-together/1633919351.305800.html#1633927532.312300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:45</span><br/>
+I played a bit with this idea few years ago, to use "symbols with spaces" for JavaScript functions. And I ended using parenthesis I also tried some other weird symbols, just to see if I can find one which is better visually (but failed).<br/><br/><a href="https://stackblitz.com/edit/symbols-with-space">https://stackblitz.com/edit/symbols-with-space</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927633.312500"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633927633.312500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:47</span><br/>
+I once thought to use a syntax like the_product_of_$1_by_$2 for the name of the function, to tell where exactly you take the parameters.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633927941.312800"></a>
+      <a href="../thinking-together/1633919351.305800.html#1633927941.312800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-10-10 21:52</span><br/>
+On this topic, maybe some inspiration can be taken from the text language to specify Scratch Blocks program using text. Which is only used on the Scratch forum. It is interesting that it is not a text language that is designed to be executed directly, only to generate an image of a Scratch Program that might be executed (or not).<br/><a href="https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax">https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633928669.313100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633928669.313100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 22:04</span><br/>
+<span style="background-color:#ccf">@Axel Svensson</span><br/>&gt; Consider any user defined functions <tt>(fun1 &amp;X &amp;Y)</tt> and <tt>(&amp;X fun2 &amp;Y)</tt>. What prevents the user from naming variables to make the ambiguous call <tt>(fun1 fun2 var3)</tt>?<br/>There should be some rules for how and when names/words can be re-used. The simplest is probably that if a word appears in a function name, then it can't also be the <em>full</em> name of a variable (nullary function).<br/><br/>Assuming <tt>fun1</tt> and <tt>fun2</tt> aren't pre-defined variables, your example doesn't violate the aforementioned rule. However, that call would match nothing, so you'd get a compile time error.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633929705.313700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633929705.313700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 22:21</span><br/>
+<span style="background-color:#ccf">@nicolas decoster</span> Cool! There are probably a million directions you can go with the idea of space-separated symbols, especially if you start treating them as <b>lists</b>, i.e. data, as Lisp does. I'm being conservative right now though, and just thinking about this as a "generalized function call syntax".<br/><br/>I'm going to check out that Scratch syntax :slightly_smiling_face:.<br/><br/>(Regarding brackets: I actually prefer the <em>square</em> bracket syntax partly because it's list-like, but also because you don't have to hold shift to type them :innocent:).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633930016.315600"></a>
+      <img src="https://secure.gravatar.com/avatar/80bf3c31da6a1f3f44e68bfe227fd35d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633930016.315600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>George Campbell</b>
+<span style="margin:2em; color:#606060">2021-10-10 22:26</span><br/>
+Check out objective-c’s inline arguments function syntax. <a href="https://www.tutorialspoint.com/objective_c/objective_c_functions.htm">https://www.tutorialspoint.com/objective_c/objective_c_functions.htm</a><br/><br/><tt>(int)max:(int)num1 andNum:(int)num2 {…}</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633932480.316200"></a>
+      <a href="../thinking-together/1633919351.305800.html#1633932480.316200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2021-10-10 23:08</span><br/>
+&gt; (Regarding brackets: I actually prefer the <em>square</em> bracket syntax partly because it's list-like, but also because you don't have to hold shift to type them :innocent:)<br/>That depends on your keyboard layout. On mine (AZERTY, French), it is the parenthesis that don't need extra key and <b>both</b> curly and square brackets require "Atl-Gr" key. Which is annoying when you code and that's why some French devs prefer using a qwerty keyboard (so without "éàè..." keys).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633932608.318500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633932608.318500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-10 23:10</span><br/>
+Ah, I didn’t realise they did that for brackets! I’d love to get some statistics on (for each ASCII symbol) the percentage of people on earth who can type that symbol without any modifier keys :face_with_monocle:.<br/><br/>It’s really important for a language designer to know :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633933358.318900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633933358.318900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-10 23:22</span><br/>
+I wanted something like this for my digital scientific notation Leibniz (<a href="https://github.com/khinsen/leibniz">https://github.com/khinsen/leibniz</a>) and found it very easy to implement since Leibniz is a term rewriting system. There are no function calls, only rewrite rules, so it's no problem to make the equivalent of function-call syntax function-specific.<br/><br/>For the parenthesis issue, I adopted a feature from the Pyret language (<a href="https://www.pyret.org/index.html">https://www.pyret.org/index.html</a>): it requires parenthesis around any operator/function call, the one exception being chained use of the same operator. So you can write <tt>2 + 3 + 4</tt>, meaning <tt>(2 + 3) + 4</tt>, which is the most frequent situation where parenthesis can become visually dominant.<br/><br/>It looks to me as if this approach could be transposed to more standard programming languages, but that's a bit outside of my expertise.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633940541.319300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633940541.319300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-11 01:22</span><br/>
+I created a language with similar ideas a while ago, it's almost complete: <a href="https://github.com/marianoguerra/interfix">https://github.com/marianoguerra/interfix</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633945505.320100"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633945505.320100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-10-11 02:45</span><br/>
+I'm sorry but did you reinvent Agda's Mixfix syntax? :sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633946551.320300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633946551.320300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-11 03:02</span><br/>
+never saw it, so coinvented :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633946599.320500"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633946599.320500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-11 03:03</span><br/>
+interfix doesn't require the underscores
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633951807.321000"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-28/2536072635510_da03e6d17065db49a1d3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633951807.321000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Diego Moya</b>
+<span style="margin:2em; color:#606060">2021-10-11 04:30</span><br/>
+You can call me a convert and subscribe me to your heresy :stuck_out_tongue:<br/><br/>I've always been convinced of the need to reduce the syntax needed in formal end-user languages, and decoupling parameters from their exact position is a basic tool for that; passing parameters by name instead of position was an improvement in post-C languages, so it's easy to imagine what benefits that style can bring.<br/><br/>I'll go deeper into heresy: in a visual environment (think e.g. a spreadsheet or graphical design tool), <em>you don't even need the function name to be adjacent to the parameters</em>; the environment itself can suggest the list of nearby locally available values that are compatible with the function's input types, and the user chooses which one is appropriate. Applying functions becomes a point&amp;click interaction rather than recalling which syntax I need.<br/><br/>This can even depend on named parameters. Think of an IDE where, when you're passing a parameter to a function, "intellisense" suggests all nearby variables in scope with the right type that could be used for that parameter. Conversely, you could select a value and type a parameter name over it, and it could suggest function names that use that type of the value with that parameter name as a role for the value, so that the user to choose the most adequate suggested function. How many less API reference queries would it take for the user of this system?<br/><br/>In this style of coding, the structure of connections is more important than the concrete syntax of the text you create them with. In my opinion visual languages are the ones that can benefit the most from this separation between structure and placement, as perfect placement of values w.r.t. functions in a graphical environment is more difficult than with raw text.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633957607.322100"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633957607.322100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-11 06:06</span><br/>
+Vaguely related: <a href="https://lobste.rs/s/jol24u/better_operator_precedence">https://lobste.rs/s/jol24u/better_operator_precedence</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633957771.322300"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633957771.322300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-11 06:09</span><br/>
+&gt; However, that call would match nothing, so you'd get a compile time error.<br/>&gt; <br/><span style="background-color:#ccf">@Nick Smith</span> could you explain how? I imagined it'd match both.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633989791.322600"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633989791.322600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:03</span><br/>
+Natural languages split into synthetic (eg Russian, Turkish) and analytic (eg English, Chinese) languages (very roughly). Synthetic languages do a lot of agglunitation and morphology, for example they have cases like accusative or locative and lots of agreement. Analytic languages don't bother much with aggrement and morphology (which is also why NLP on English always starts off so easily). But that comes with a price: English has a relatively fixed word order, whereas in Russian you can basically order the words in your sentence almost any way you like.<br/><br/>So from that we learn that in order to avoid ambiguity, if we could tag the tokens in our programming language with a 'case', we could get away with much more free token order in each statement.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633991515.323000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633991515.323000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:31</span><br/>
+<span style="background-color:#ccf">@Denny Vrandečić</span> Do you mean we could let the programmer choose the order of tokens for each function call? If so, I'd consider that an anti-feature, because now there are many syntaxes for the same call, and we can no longer exploit our "shape recognition" capabilities to quickly identify a function. There's merit to only allowing the <em>definer</em> of the function to choose the token order. But perhaps I'm missing your point.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633991584.323200"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633991584.323200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:33</span><br/>
+Yes, that was my suggestion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633991647.323400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633991647.323400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:34</span><br/>
+Do you think there are benefits to that level of freedom? Would it help Russians write more readable code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633992465.323600"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633992465.323600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:47</span><br/>
+<span style="background-color:#ccf">@Axel Svensson</span> We've probably got different ideas about the underlying semantics. If I had to guess, you're thinking of each symbol in the sequence <tt>(a b c)</tt> as a <em>value</em>. In contrast, I was thinking of each symbol as a "piece of syntax" that helps identify which function to call.<br/><br/>Under your interpretation, <tt>(fun1 fun2 var3)</tt> is ambiguous, because it could be interpreted as passing the symbolic value "fun2" to the fun1 function, or as passing the symbolic value "fun1" to the fun2 function.<br/><br/>Under my interpretation, there is no function definition with the signature <tt>(fun1 fun2 .)</tt>, so you get a compile-time error.<br/><br/>But since starting this thread, I've actually been trending towards the first interpretation. It might turn out to be "nicer" in practice, especially as an alternative to passing strings around everywhere. But I think you'd now want/need variable references to be distinguished from symbols, using the <tt>&amp;</tt> syntax as you mentioned, or even just the parentheses (after all, a variable reference is just a function call with zero arguments). So a function call would look like <tt>fun1 (a) (b)</tt> or <tt>fun1 &amp;a &amp;b</tt>. Though I've been thinking about a more lightweight syntax inspired by Rust's lifetime syntax: <tt>fun1 'a 'b</tt>. It's probably necessary to avoid parentheses/syntax hell.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633993018.324100"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633993018.324100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:56</span><br/>
+Since we're all wild heretic here: How about capitalization carrying syntactic significance? Small initial letter means it's part of the invoked function name, e.g. <tt>fun1 Fun2 Var3</tt> means invoke fun1 with fun2 and var3 as arguments, while <tt>Fun1 fun2 Var3</tt> means to invoke fun2.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633993107.324300"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633993107.324300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-11 15:58</span><br/>
+So essentially, capital first letter instead of <tt>&amp;</tt>. The heretical part would be to have the first character (or all characters) in identifiers be case insensitive.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633993341.324500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633993341.324500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 16:02</span><br/>
+Would that be giving special treatment to Latin-based alphabets though? It would be nice to support arbitrary Unicode. Imagine asking someone writing in Hiragana to start their words with an English letter!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633993514.324700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633993514.324700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 16:05</span><br/>
+Also, that proposal wouldn't work with symbols like <tt>+</tt> and <tt>*</tt>. But I do like the sneakiness of it :wink:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633995899.324900"></a>
+      <img src="https://secure.gravatar.com/avatar/59ad76d000ca1de86487e8af9da74f72.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0011-72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633995899.324900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Axel Svensson</b>
+<span style="margin:2em; color:#606060">2021-10-11 16:44</span><br/>
+True. "First character in Katakana or upper-case Latin!" :-D
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1633997151.325200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1633997151.325200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 17:05</span><br/>
+<span style="background-color:#ccf">@Diego Moya</span> I think there's a lot of merit to ensuring identical function calls have an identical visual structure. Readability/skimmability is one of my key concerns. I am definitely interested in smart IDEs, but I'm not sure that <em>requiring</em> the use of a smart IDE to specify arguments (rather than having a rigid syntax) is a good thing. If you had this, I'd hope the manipulations would be immediately serialized back into a rigid textual form that is easily skimmable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634015682.325500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634015682.325500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-11 22:14</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> To enable the writing of expressions like <tt>(2 + 3 + 4)</tt>, I'm now wondering if I can extend my proposed function call syntax to something based on <b>regexes</b>. For example, to parse the aforementioned expression you might be able to write a function signature like:<br/><tt>&amp;x (+ &amp;y)* = ...</tt><br/><br/>And then <tt>&amp;y</tt> would be assigned a <b>list</b> of numbers, rather than a single number.<br/><br/>Of course, regular expressions aren't known for being easy to understand. Perhaps I could find a somewhat simpler pattern language that still allows the description of arbitrary-length expressions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634027488.325700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634027488.325700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-12 01:31</span><br/>
+<span style="background-color:#ccf">@Denny Vrandečić</span> There's Perligata for a transposition of the analytic vs. synthetic concept to programming: <a href="https://users.monash.edu/~damian/papers/HTML/Perligata.html">https://users.monash.edu/~damian/papers/HTML/Perligata.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634027774.325900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634027774.325900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-12 01:36</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Pattern matching looks like an idea worth exploring. But as you said, it needs to be more human-friendly than regex.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634027813.326100"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634027813.326100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-12 01:36</span><br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> Was interfix in any way inspired by Smalltalk? Smalltalk keyword messages feel very similar.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634027883.326300"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634027883.326300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-10-12 01:38</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> yes, smalltalk and dylan where some of the inspirations
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634053471.326600"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634053471.326600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2021-10-12 08:44</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> not sure if there's a benefit. In natural language it has the advantage of emphasis. It can give some flexibility w.r.t. visual layout of the code. But in the end, it might make it more complex without a clear win. I am not advocating it, just an idea :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634101466.327500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634101466.327500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-12 22:04</span><br/>
+Having thought about things further, I think my proposal ends up being about metaprogramming and homoiconic languages pretty quickly. Perhaps I should search for inspiration from those.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634171771.336800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634171771.336800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-10-13 17:36</span><br/>
+I also took a crack at this 2 years ago. We called it "anyfix"/"omnifix". It's fun to see these other implementations with names like Interfix and Mixfix!<br/><br/>The use case for us was talking to medical care providers and discovering that many would invent their own written shorthands (grammars) for jotting down EMR data while working with patients, which would often have out-of-order parameters (20 inches 10lbs or 10lbs 20 inches etc). IIRC ambiguity was the exception rather than the rule. We figured if it's very clear to humans what the intent is the parser should be able to figure it out too.<br/><br/>It was rather easy to implement in Tree Notation, which is a whitespace based syntax where each row is a node split into cells. The line parser first determines what kind of node the line is, and then a cell parser determines what the type of each cell is. A node definition states the cell types expected and whether to use a prefix/postfix/omnifix parser. Simple tests (such as regex) are then used to detect the type of each word in the omnifix case.<br/><br/>In theory this puts the onus of avoiding ambiguity on the language designer, but in practice (IIRC from our small experiments) it was surprisingly easy to avoid. It seemed that usually when you have 2 params with the same type, it was often better to take a list instead.<br/><br/>A really dumb toy demo for our implementation: <a href="https://jtree.treenotation.org/designer/#standard%20poop">https://jtree.treenotation.org/designer/#standard%20poop</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634235182.341200"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634235182.341200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-14 11:13</span><br/>
+My language works this way because it's not based on functions as such, but on a lower-level mechanism: rewriting after pattern matching. The "function" symbol is just another pattern element, not distinguished from "data" or "parameters".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634250944.354000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634250944.354000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-14 15:35</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> Yeah, I'm thinking of this in a similar way: a "function signature" is just a pattern, where none of the tokens are special "function name" tokens. Function calling is just pattern matching. However, I'm not thinking about <b>rewriting</b>, since that is conflating operational semantics with the mere syntax presented here. The actual means by which a computer executes a program consisting of these patterns can be considered separately.<br/><br/>I'm aiming for a very non-conventional operational semantics, inspired by relational programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634280378.356700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634280378.356700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-14 23:46</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I see your point but I think you would probably gain from studying term rewriting systems. A main featured distinguishing term rewriting from traditional function-calling approaches is precisely the separation of syntax and evaluation. Term rewriting systems start from a term algebra, which just says what valid terms look like. The next layer adds patterns and pattern matching, the result of which is a substitution. With patterns you can define rules. Rewriting is yet another layer, in which you have to decide on a strategy to select and apply rules. If you want different operational semantics, you just change the last one or two layers, but you can keep the lower ones.<br/>In contrast, with traditional PL design, there is no useful layer between the AST and the full language, evaluation semantics included.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634280553.358100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634280553.358100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-14 23:49</span><br/>
+What if my semantics involves the equivalent of database equi-joins and aggregation? Surely those can’t be described in terms of term rewriting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634280599.359500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634280599.359500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-10-14 23:49</span><br/>
+i.e. my operational semantics has nothing to do with substitution of terms
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634290940.360300"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634290940.360300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-15 02:42</span><br/>
+I am not a database expert, but my first reaction is that everything can be encoded in terms. Terms are isomorphic to s-expressions, XML trees, etc. You may in the end want specialized hand-written implementations for some of those terms, for performance reasons, but I'd be surprised if your semantic would be impossible to express as terms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634291402.360500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634291402.360500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-15 02:50</span><br/>
+Rewriting is Turing Complete so you can do anything you want. :smiley::+1:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634291787.360700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634291787.360700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-15 02:56</span><br/>
+The actual transformation mechanism from before-state to after-state in the rewrite needn't be TC, though, and is probably better off not, so it terminates!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634292338.360900"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634292338.360900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-15 03:05</span><br/>
+Primitive Recursive perhaps? Need a fixpoint each time: when applying the rewrites has no effect or there are no matching rewrites.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634546205.393800"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634546205.393800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-10-18 01:36</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span><br/>&gt; My language works this way because it's not based on functions as such, but on a lower-level mechanism: rewriting after pattern matching.<br/>Sounds like Markov's Normal Algorithms and Refal programming language. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634563778.398700"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634563778.398700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-18 06:29</span><br/>
+Wow, that Ruskie Functional language is new to me! Thanks! I'll dig into that. The Markov thing is also new to me but I can't find any intro to it that's not behind a paywall!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634565644.399100"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634565644.399100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:00</span><br/>
+<span style="background-color:#ccf">@Duncan Cragg</span> that's strange, I thought every decent "introduction to the theory of computation" book has at least a chapter on it... :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634567169.399300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634567169.399300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:26</span><br/>
+Markov Chains maybe?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634567226.399500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634567226.399500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:27</span><br/>
+Or HMMs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634567511.399700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634567511.399700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:31</span><br/>
+Not the same Markov. Markov chains were invented by the father of the inventor of Markov algorithms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1634568735.400500"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1633919351.305800.html#1634568735.400500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2021-10-18 07:52</span><br/>
+Crikey, I'm learning a lot today! Two Markovs!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

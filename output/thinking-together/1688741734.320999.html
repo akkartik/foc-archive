@@ -1,0 +1,78 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688741734.320999.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2023-07-07 07:55</span><br/>
+Say, has anyone ever tried BASIC's non-consecutive numbers for spreadsheet coordinates?<br/>We programmers always laugh at spreadsheet's use of coordinates ("like machine code without assembly") but few users avail themselves of features to name ranges / structured/hierarchical data etc.<br/>But there are real annoyances with what-you-see-is-what-you count consecutive coordinates:  They <em>mostly</em> shift correctly on insertions/deletions, BUT one needs to grok $A4 vs. B$7 notation, which I suspect many don't.  Getting range E3:F34 boundaries for formulas <em>exactly</em> right is always a hassle.<br/>So I wonder if features like named ranges are "premature formalization" then maybe "structured numbers" in the BASIC's style could serve as more accessible "semi-formalization"?<br/><br/>BASIC users quickly learnt conventions like "increment by 10, start functions on hundreds, big modules on thousands".  And this allowed them to avoid re-numbering almost entirely!<br/>(This was good UX in teletype line-editor era :printer:, and of course now we have full-screen editors and can insert/delete — no need to "increment from 10 to 20 so you can later insert 15".<br/>But a 2nd aspect that imho was really genius was the numbers were <em>stable</em>, helping your brain :bike::brain:.  Your transcript :scroll: had partial <tt>LIST</tt>ings, followed by chains of edit actions (poor man's git) + REPL experiments, and the fact that line 60 remains 60 throught helped you mentally interpret that history — making you a better debugging detective :female-detective:.  It's insane to remember what <tt>GOSUB 437</tt> means; easier if you <em>assign</em> semi-systematic round <tt>GOSUB 2100</tt>.)<br/><br/>So, suppose spreadsheets let you use higher numbers/column names freely, by skipping display of unoccupied rows/columns.<br/>• If you have a long table that might grow, you won't put <tt>=SUM(...)</tt> computation directly beneath it; you put it at next 100 or 1000 — but it will still display close to its bottom.  And you can type the range as <tt>10:99</tt> from the start.<br/>• With some foresight allocating "big enough" ranges for tables, you might never run into situations where <tt>$B7</tt> vs. <tt>B$7</tt> matters.  (This means spreadsheet should become smarter yet in renumbering on insert/delete — do shift rows/columns, but stop at next unoccopied "moat".)<br/>• To introduce users to the idea, don't show consecutive numbers/letters.  Even in an empty spreadsheet, after some rows/columns, skip to some far-away numbers like 100 and 1000!<br/>• Perhaps it might also subsume the feature of "freezing" some rows/column from scrolling?  mockup below has one fake "scrollbar" to suggest a portion could be scrolled separately.<br/>attaching a mockup to this thread (drawn in a <a href="https://docs.google.com/spreadsheets/d/1tQt2MgCaqkJGvyPvsqxTDfo3AurgWptWBg03TZr07zo/edit?usp=sharing">regular spreadsheet</a>:wink:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688742093.275469"></a>
+      <a href="../thinking-together/1688741734.320999.html#1688742093.275469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2023-07-07 08:01</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688749943.408259"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688741734.320999.html#1688749943.408259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-07 10:12</span><br/>
+I love anchors, as my brain doesn't like it when things move around and aren't "where I left them". I want to add a <tt>table</tt> type to our language, like you can have a table <b>in</b> a spreadsheet (at least in Excel), which gives you this sub-thing that is a logical unit and structure, which can grow or change shape.<br/><br/>On the viz side, the trick is how to improve this. Today, at least in Excel, you have the worksheet model, and that's all you get for  UI (bear with me). e.g. you can't make a table and pop it up in it's own window. Worksheets are a flat stack, rather than something like MDI child windows. But what if you <b>could</b> do that, maybe something like Oberon or totally free-form. If you <b>want</b> to merge them all into a flat worksheet, their range IDs provide the layout positions, but they also have names and can be addressed relatively that way as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688751323.305789"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1688741734.320999.html#1688751323.305789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2023-07-07 10:35</span><br/>
+An interesting historical point is that the earlier language JOSS (from Rand Corporation, quite similar to BASIC except for syntax detaid) used floating point line numbers, which means that already written statements didn't need to be renumbered.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688772652.857479"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1688741734.320999.html#1688772652.857479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2023-07-07 16:30</span><br/>
+Though limited in many ways, I do like how Numbers on macOS can use column/row headers as names in formulas.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1688850465.250039"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1688741734.320999.html#1688850465.250039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2023-07-08 14:07</span><br/>
+Thinking more, thes might avoid relavite/absolute  <tt>B$4</tt> notation due to relocation, but it'll still be needed for replicated formulas when mixing cscalars/vectors/matrixes :-(<br/>E.g. if you have a column of prices * scalar tax rate stored in single cell, the reference to that cell must be absolute.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

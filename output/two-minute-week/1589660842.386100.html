@@ -1,0 +1,149 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1589660842.386100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-16 13:27</span><br/>
+Here is my weekly update.   Apart from some work on the internals to better represent time events, I spent some time on writing a little visualiser to help me understand scheduling.  I hope it will also end up being a nice additional tool for the end user to see what's going on too.  I really need some full days to work on some of the more interesting problems, and an hour or so a day (my usual schedule) is not cutting it at the moment :(
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589698152.388200"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589698152.388200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-16 23:49</span><br/>
+What is your end goal? Do you want to be able to develop vst's with your engine which can be used in daw's like ableton or something more standalone? 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589718551.393800"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589718551.393800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-17 05:29</span><br/>
+How do you handle the communication between the user interface and the graph engine? I assume that the graph engine runs in a separate thread, do you send messages from there to the UI main thread?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589721272.397000"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589721272.397000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-17 06:14</span><br/>
+Another question: how do you handle an LFO to modulate a filter frequency in your graph engine? Do they have there own timers and update a "generation number" themselves?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589732641.398800"></a>
+      <a href="../two-minute-week/1589660842.386100.html#1589732641.398800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-17 09:24</span><br/>
+To answer the first question, you should probably check out my first 2 minute week video: <a href="https://futureofcoding.slack.com/files/UUQ2EQW21/F011WFWEGMC/week2minute_1.mp4">https://futureofcoding.slack.com/files/UUQ2EQW21/F011WFWEGMC/week2minute_1.mp4</a><br/>The short story is that I've been working on a 'Live Coding' environment for some time; it is audio + visual.  Designed as a toolkit for performance, teaching, research.  So the audio is a smaller part of the whole.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589732907.399300"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589732907.399300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-17 09:28</span><br/>
+When used in the audio code, the graph is running in the audio thread (the same one which the sound card requests a new buffer on).  The generated notes from Orca/Music Language, etc. do run in a separate thread to this, but the notes are turned into PCM audio by the graph on the soundcard thread.<br/>The UI is indeed on a separate thread.  I like lock-free programming, so as much as possible the UI is detached from the audio.  Some special nodes have 'real time' sections designed to happen in the audio thread, and 'UI' sections for display purposes.  It's up to the nodes that do this to manage shared state correctly.  This localises the problem somewhat.  An example of that might be the ADSR curve which has blue dots running along it containing note events.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589732962.399700"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589732962.399700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-17 09:29</span><br/>
+None of this is perfect yet, it is still a work in progress, and I tend to jump around filling in gaps as I see fit!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589733232.399900"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589733232.399900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-17 09:33</span><br/>
+For the question on LFO, it is probably best to think of what a graph step is in my engine.  When the sound card requests a buffer of, say, 500 stereo samples, the graph is run.  Any notes that are due for scheduling are updated in the 'instrument' node, and then the output node 'pulls' 500 samples.  This means each node then processes 500 audio samples in its 'compute' step.  This is an atomic operation.  For example, the oscillator's compute sample might build 500 sin samples into the buffer from the wavetable.  Each node has to handle multiple channels, and doesn't know up front what it will receive.  This is the data flow part.  The LFO is no different.  Suppose it is feeding an oscillator to modulate the frequency.  The LFO data flow pin is connected to the oscillator modulation data flow pin.  At run time, the LFO will generate its 500 samples when the oscillator evaluates the modulation input, then the oscillator will generate its 500 samples and combine them with the incoming data.  If you look at the Frequency analyser in my last video, you will see the separate channels of audio.  This node simply looks at what is connected to it, and displays all the channels it finds.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589782409.403200"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589782409.403200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2020-05-17 23:13</span><br/>
+I now watched your 1st video and it's much more clear, awesome concept! 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589788652.403400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589788652.403400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-05-18 00:57</span><br/>
+How come your Orca schedules events in the future? I thought it generally executes in the 'now' - are you running it "ahead of time" and delaying the output? Doesn't that mess with user interaction?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1589793838.404000"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1589793838.404000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-05-18 02:23</span><br/>
+Hi <span style="background-color:#ccf">@Sol Bekic</span>, Indeed, I am scheduling into the future, but not much....  Orca does indeed schedule immediately, but those generated notes  are effectively played after a small delay when the arrive at whatever Synth you are using; you just don't notice.  It should be a similar situation here; and although I am testing far into the future, in reality I will probably be scheduling much more closely to 'now'.  I'm trying to plan a for a future containing a music generation language I've been working on, alongside Orca.   Although Orca is very fast, a music language may not be as fast.   I know, for example, that Sonic Pi has a delay of 250-&gt;500ms which is added to generated notes.   By scheduling a little bit into the future, there is I hope more time to generate and align notes correctly.  My sense is that i need this flexibility, but we will see.  Pattern languages also let you 'see' into the future, since you can run the pattern forward; so the concept of what is happening 'next' is something I want to at least be able to see.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1590083386.409400"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1589660842.386100.html#1590083386.409400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-05-21 10:49</span><br/>
+Yeah, that <em>scheduling into the future</em> seems like a necessary evil when it comes to music tools. Very interesting problem space, considering every system will have a different characteristic latency to be compensated for.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

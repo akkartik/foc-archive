@@ -1,0 +1,535 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-08 06:42</span><br/>
+<a href="https://programmingsimplicity.substack.com/p/massive-parallelism?r=1egdky">https://programmingsimplicity.substack.com/p/massive-parallelism?r=1egdky</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749394956.786269"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749394956.786269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-06-08 08:02</span><br/>
+I want to respond to this point, since I think it's a good stand-in for many of your other criticisms of the schematic:<br/><br/>&gt; It is too complicated, it contains too much nuance and detail, the DI (Design Intent) is not obvious. Someone tried to improve the DI by colourizing the schematic, but, it still looks to be too complicated.<br/>I'm not an EE, but I did spend almost 20 years working for <a href="https://www.lunchboxsessions.com">a schematic "programming" company</a>. To me, this schematic is about the typical complexity I'm used to seeing before you spill over to multiple pages. And the schematics I'm used to working with would come by the hundreds, bound in massive 3-ring binders, all describing a single piece of industrial equipment (like a single bulldozer or excavator).<br/><br/>So going by gut, this schematic feels about as "complicated" as few hundred LoC, in that it'd probably take me about as long to do a cursory scan or deep read of either — less than a minute to survey the broad structure, a few minutes to identify patterns, and maybe 20 minutes to deeply go over everything.<br/><br/>Is that "too complicated"? Too complicated… for what?<br/><br/>Without presuming too much about your background (for instance, I wouldn't be the least bit surprised if you were an EE with lots of schematic-reading experience and still held this opinion), I think it's interesting to work through your "too complicated" reaction in a few ways.<br/><br/>• How much of this detail and nuance is due to the <b>design of schematics</b> as a visual communication medium? Is there a different way of visualizing an electrical system that would be easier to read, while still being useful for the same purposes? Well, what's the purpose of a schematic? I believe they're primarily intended as documentation, useful if you need to repair an existing system to verify how it is supposed to work — they're a known-good reference you can compare your faulty system to, to identify short / open circuits, damaged components, etc. And, sort of like sheet music, these schematics elide plenty of information, such as the placement of components and routing of trace/wires — they aren't like blueprints. So maybe we could find a different way to do the same job, or a different way to do a different job, by choosing to elide different information. Or maybe we need to overhaul the "symbol language", so that instead of capturing information about what the components are and how they're connected, we capture information about the dynamics of the system. (Bret shows something like this in Inventing on Principle, but none of the EEs I showed it to found it at all compelling :shrug:.) So — would your criticism be addressed if we changed the standard design of electrical schematics, and if so, how and why?<br/>• You rhetorically ask how many pieces of paper it'd take to hold the code for Pong in a modern language. I think that's a fascinating comparison. To make it fair, we'd probably have to find some way of normalizing the I/O APIs so that they're the same as what's available to schematic. After all, if there was a "runPong()" API that'd be unfair. Would the Canvas2d API be fair or unfair? Etc etc. My gut is that if you did this normalization, you'd probably end up with code that felt to a typical coder about as "complicated" as this schematic would feel to a typical EE. After all, they'd both be doing roughly the same thing, and I don't think Pong is inherently complex enough to benefit from the sort of abstraction-building that makes code so powerful. (That's my gut sense, at least.) But maybe you disagree, and the code would be fundamentally different in some way that'd change how complicated it appears.<br/>• The schematic uses space and visual symbols in a way that's fundamentally different from textual code. When you computerize the schematic, you can animate it, and reveal all sorts of information about the runtime dynamics of the system. At that point, I think the schematic is significantly more expressive than the equivalent textual code. So maybe, in the absence of that augmentation, the visual "juice" isn't worth the complexity "squeeze", so to speak.<br/>Anyway, thanks for the post. Hit the spot!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749398576.504229"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749398576.504229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-08 09:02</span><br/>
+Yes, I learned to read schematics on my own, then I got an EE degree (which got me into compiler-writing! One 4th year course was "pick your own topic for the next two terms". Right at that moment, DDJ came out with its SmallC compiler article and my wire-wrapped Z80 was itching to be commanded (this was in an age of closed-source, so seeing other people's code was refreshing (the other thing I carried around in my briefcase was the source code to V7 UNIX)).<br/><br/>I don't think that schematics are better than code, nor that code is better than schematics. I think that they both suffer from containing way too much detail splayed out in a meat-tenderizer method (bigger means wider, not taller (layered)). Both are difficult to understand unless you get a degree or misspend your youth learning their secrets.<br/><br/>I do note:<br/>• when I built and debugged electronic circuits, I would be confident that they could be shipped with 0 bugs<br/>• when I build code, I always expect more hidden bugs to surface<br/>• I perceive our current software workflow as supporting the shipping of buggy designs (CI/CD, convincing unwary customers that they should act as our Q/A departments for free instead of suing us for selling them buggy products, quarterly Continuous Delivery updates, etc.)<br/>• I observe a major difference in the two techniques: code is sequential and synchronous, electronics is asynchronous and highly parallel even at low levels (cheapo ICs like the 7400 series)<br/>• I observe that both techniques are "too complicated" for getting a design overview<br/>• both techniques suffer from strongly-connected scoping - wires/globals poke through sides of sections and directly tweak the innards of sections.<br/>• debugging async systems was easier with hardware tools, like 'scopes, meters, than is debugging code with single-stepping debuggers and the plethora of doo-dads that have been pastied onto the single-stepping techniques to make them multi-thread-stepping.<br/>Sooo - what are "the good parts" of each? Can we pick and choose? I think that my 0D (PBP - Parts Based Programming) stuff is a step in that direction (surprise!). A system should be composed of multiple Parts, Parts must have well-defined Ports and must not allow their innards to be visible, tweaked, called by other Parts, i.e. data flow only (whereas FP transfers dataFlow+controlFlow). A system should be understandable in small (7+-5) chunks, digging deeper only by those interested in more detail (kinda like the colourized Pong schematic with all of the schematic details erased at the top level). It should be easily possible spray a design over multiple CPUs (functional thinking discourages that kind of thing due to its very low level over-synchronization / clockworkiness). Imagine each coloured box on the Pong diagram sitting on a separate Arduino with only thin wires connecting them through well-defined ports (my Wang word processor had a "bus" with 400 point-to-point wires on it to interconnect circuits plugged into the backplane - the S100 bus was much more general, hence, better and a breath of fresh air).<br/><br/>[I have a "The Good Parts" article sitting on my disk, unpublished thus far. A lot of our programming techniques are based on 1960s biases, like concern for "efficiency". We should know better by now]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749443076.123959"></a>
+      <img src="https://avatars.slack-edge.com/2025-05-12/8869553941623_afe258f63c3f6ecf0e55_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749443076.123959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Angus Mitchell</b>
+<span style="margin:2em; color:#606060">2025-06-08 21:24</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> your comment makes me think of “alternative representations” (is there an official word for this?) of the same underlying thing. Like in Step Functions/Airflow, you can toggle back and forth between a code-representation of a DAG and a visual representation of a DAG. And with React/Vue developer tools, you can pull up a tree based view of your application alongside your application. I’m trying to think of more examples like this
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749448201.625159"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749448201.625159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2025-06-08 22:50</span><br/>
+I'm fascinated by the asynchronous nature of the schematic. Is this not (yet?) a van Neuman computer? It also doesn't compare to modern GPU's where each thread usually runs the same program on different data.. this is different programs (on the same data?) Maybe more comparable to something like micro services.. or threads in an operating system. I always felt like our programming model is too ego-centric. We think of the computer as an entity that does stuff (just like ourself). That's why we like textual programs, it is a recipe, from top to bottom.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749479317.801589"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749479317.801589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-09 07:28</span><br/>
+I was inspired by the comments to respond and add some more thoughts to this thread, but the result was bigger than only a few lines... [Thoughts on Hindrances to Asynchronousity]( <a href="https://open.substack.com/pub/programmingsimplicity/p/thoughts-on-hindrances-to-asynchronousity?r=1egdky&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true">https://open.substack.com/pub/programmingsimplicity/p/though&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749481938.967339"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749481938.967339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-09 08:12</span><br/>
+Both text and schematics are "just" an encoding.<br/>This means you can come up with good/bad textual encoding describing PCBs,<br/>and with good/bad schematic describing bubble sort to be transpiled to e.g. python.<br/>So maybe the problem is "popular/familiar schematics/PL-syntaxes are not <tt>very good for anything</tt>, but <tt>ok for everything</tt>"?<br/>(cough <a href="../linking-together/1747153874.428279.html">../linking-together/1747153874.428279.html</a> cough)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749521798.715299"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749521798.715299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-09 19:16</span><br/>
+I read this to say that it's OK to settle for a mediocre PL. I strongly believe that language affects thought, and therefore affects how you solve problems and how easily you can solve problems. I know of at least two very common DSLs that are used in programming: BNF and REGEX. In physics, Richard Feynman used Feynman Diagrams to think through a hoary problem in physics. Syntax is cheap, paradigms are important. I think that it is much easier to create syntaxes today than it was in 1960. There is no good reason to settle on one mediocre syntax designed by someone else. Every project should have multiple syntaxes (and, not just textual). The remaining problem is: how to bolt many SCNs (nano-DSLs, Solution Centric Notations) together to form a whole solution. UNIX gave us some baby steps, but, we continue to believe that it's still 1960, that language design is hard and that only one language should be used per project.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749537135.482379"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749537135.482379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-06-09 23:32</span><br/>
+Recommended reading: <a href="https://doi.org/10.1145/358896.358899">Notation as a tool of thought</a>, Ken Iverson's Turing Award speech from 1979. The title says it all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749537619.748759"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749537619.748759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-09 23:40</span><br/>
+LISPs provide fairly easy (in the <a href="https://youtu.be/SxdOUGdseq4?t=160">simple made easy</a> sense: familiar, already at hand, convenient) way to make and use DLS. But maybe just 1% of all developers know LISP even exists. That, and memes like "using regex? now you have 2 problems", <a href="https://winestockwebdesign.com/Essays/Lisp_Curse.html">lisp curse</a>, <a href="http://www.laputan.org/mud/mud.html">big ball of mud</a> and <a href="https://dreamsongs.com/WorseIsBetter.html">worse is better</a> suggest (ability to have) more syntaxes is not the only factor at play.<br/><br/>I 100% agree that "good, fitting" DSL is a major writability, readability, maintainability factor.<br/>Need to solve integration UX and ergonomics, I guess.<br/><br/>I myself try to replace clojure's imo bad DSLs with my own (<a href="https://github.com/akovantsev/destruct">destructuring</a>, <a href="https://github.com/akovantsev/archery">-</a> threading>, <a href="https://github.com/akovantsev/bitmatch">control-flow</a>, <a href="https://github.com/akovantsev/blet">restructuring</a>, etc.), but immediately run into missing IDE support for nontrivial cases (again, nod to tree-orientation vs line-orientation <a href="../linking-together/1747153874.428279.html">thread</a>) so I need to re-implement macro multiple times for different contexts: actual runtime, then for IDE to understand and give me at least symbol-resolution and go-to-local-definition), and it is so painful, that writing my own IDE just to support these out the box is now not out of question (and is in fact in progress).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749539813.519299"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749539813.519299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-10 00:16</span><br/>
+re "look at this hairy schematic":<br/>Essentially, this is the same spectrum as:<br/>from "single 100-lines-long function"<br/>to  "100 clean-code-oneliners in 10 different files + 50 lines of composing those one liners",<br/>and it depends on the author and optimization goal: single function is way easier to debug, clean-code™ is easier to... I don't know, to (convince yourself you) get the gist maybe?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749540343.474209"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749540343.474209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-06-10 00:25</span><br/>
+<span style="background-color:#ccf">@misha</span> The best IDE I know for supporting DSLs is DrRacket. If you follow the Racket Way of making DSLs, you get a lot of useful IDE support automatically.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749547648.442599"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749547648.442599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-10 02:27</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> at this point I am locked professionally to clojure, but I will dig into DSLs the Racket way to maybe borrow some ideas, thanks! If you have some specific docs or keywords to start from – please share (<a href="https://docs.racket-lang.org/guide/Module_Syntax.html">Module_Syntax</a>?).<br/><br/>(unfortunately, backward compatibility is not only about APIs, but about individual's habits, knowledge, experience, tools, and... a day job)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749548603.166069"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749548603.166069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-06-10 02:43</span><br/>
+<span style="background-color:#ccf">@misha</span> A good entry point in the documentation is <a href="https://docs.racket-lang.org/guide/hash-languages.html">https://docs.racket-lang.org/guide/hash-languages.html</a>. If you follow those instructions when defining a DSL, DrRacket supports it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749668882.804669"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-26/6878305658801_8ca6563fd00d076a06d0_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749668882.804669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jeffrey Tao</b>
+<span style="margin:2em; color:#606060">2025-06-11 12:08</span><br/>
+<span style="background-color:#ccf">@Angus Mitchell</span> the rough term for this is "protectional editing", at least when it comes to modifying the underlying representation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1749672406.417569"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1749672406.417569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-06-11 13:06</span><br/>
+"Protectional editing" is so damn good
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750683897.654829"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750683897.654829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-23 06:04</span><br/>
+Something that <span style="background-color:#ccf">@Jack Rusher</span> said in his <a href="../share-your-work/1750405943.880479.html">talk</a> made me think of this thread. Here is another attempt at explaining why I think that <a href="https://programmingsimplicity.substack.com/p/lisp-source-code?r=1egdky">Lisp code</a> is tree-oriented.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750701464.079179"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750701464.079179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-23 10:57</span><br/>
+so, as soon as I implement read(str) in java, which would return a bunch of ArrayLists, Integers, Strings, Booleans and java.util.Maps – java code becomes tree-oriented? Is this <b>the</b> distinction?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750703297.261809"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750703297.261809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-23 11:28</span><br/>
+The Lisp reader is different from read(str). The Lisp reader does extra work and parses the str and conses up a list. The lisp reader produces something like the diagram above, containing list (yellow) and atom (gray) cells. Other languages' read(str) doesn't do all of that extra work - in those cases read(str) simply returns a string.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750704755.291639"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750704755.291639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-23 11:52</span><br/>
+I wrote "would return bunch of" (did not write "nested", but meant "nested").<br/>You are talking about some "out the box" read() fns, which <b>already</b> "do not do" extra work, as if there is no way to write such fn at any time.<br/>But writing fn to convert string to a bunch of nested data structures is easy.<br/><br/>+ all the code-manipulations in the talk were done in the editor which is a separate system from lisp, which makes lisp having such read function out the box - irrelevant, because replace emacs with a text input on a website with a js fn which knows how to turn str into nested structure and you get tree-orientation too, right? regardless of which PL str it was: python, js, common lisp, java, etc.<br/><br/>If that is all it takes to be tree-oriented... how is lisp special in this regard?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750711895.804049"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750711895.804049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-23 13:51</span><br/>
+Programming language ASTs are tree shaped in general, which is not by itself an interesting observation. Lisp syntax happens to be a good representation of those trees. Also, <tt>(read)</tt> is great, but things get much better when you also have <tt>(print foo)</tt>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750732985.567609"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750732985.567609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-23 19:43</span><br/>
+These are very good points. I watch Rusher's demo and I know from personal experience that much (~10x) better productivity can be had. You point out that it is possible to break the technical aspects down into tiny pieces using just about any language. I argue that it is "not enough" to work /only/ on pieces that can be easily identified. It's like trying to explain to a frequency-only oriented technical person why vinyl sounds better than CDs (and MP3s, digital, etc.). It is my opinion that developer productivity tanked when the strong-typing / FP craze took over. Lisp, Forth, Smalltalk, Rebol, etc., etc. all have that "something" that got lost in the type-checking frenzy. As you point out, that "something" ain't a piece of tech. So, what is that "something"? Why do non-programmers like spreadsheets, yet pro programmers would never consider using spreadsheets for real programming?<br/><br/>To say that emacs is not related to lisp is incorrect, in my experience. In fact, emacs is strongly related to pre-Common-Lisp lisp. For "some reason" (i.e. better productivity), emacs has led the way into creation and early adoption of a plethora of features, many of which have been Greenspuned into current editors and IDEs. Attempts to cut emacs over to Common Lisp have not borne fruit in terms of advancement of productivity and have mostly fallen to the wayside. Aside: note, too, that the concept of "macros" was invented in pre-Common-Lisp which used verboten technologies like FEXPRs. The concept of "macros" was later wrangled-over and tightened up in Scheme, but, the concept was not invented in Scheme.<br/><br/>I said that the lisp reader is essentially a "scanner", but I failed to state and only implied that lisp doesn't bother to break compilation off and put it somewhere else in the workflow. Edicts like "don't use eval()" have harmed developer productivity (compilation == eval). Rusher points out that even Python's REPL ain't as good for productivity as lisp's, and, he proceeds to show why and comments on the relationship of /normalization/ of data representation and code representation. Poking at Rusher might be a good idea - we should extract from him more insights on what this means and how it helps productivity.<br/><br/>Note that Rusher quotes "it's better to have 100 functions that operate on one data structure than 10 that operate on 10 data structures", but doesn't take it to the extreme conclusion that providing user-defined data structures ('structs', 'records') is a bad idea.<br/><br/>Now that we're 50+ years down the road, I think that we should step back, take a deep breath, and observe what we've discovered about programming PtGP (Programming: the Good Parts). I've started to do this over on the "programming simplicity" discord and am looking for a better name (than the current "SCP") before proceeding much further. We need to recognize that just about everything they did in 1960 is old-fashioned and based on the erroneous presumption that computers are just mathematics machines that must be based on Gutenberg type-setting.<br/><br/>In conclusion: lisp was tree-oriented from the start. The normalized data format - lists - used for data and for code and various seemingly-irrelevant design decisions (e.g. lisp scanner/parser/compiler built into the language). Today, we can duplicate this tree-orientedness using just about any programming language, but, we haven't managed to duplicate lisp's "productivity" for designing software (which is not the same as productivity for optimizing software). Rusher, Girba, Hinsen, Clojure+emacs, etc. are poking at design productivity instead of hard-core optimization. I see there being two different fields of programming - Engineering and Production Engineering (Design and Optimization). You can't schmoo both sets of goals into a single programming language, like we tried to do in 1960. Today, with better hardware and newly developed ideas about software, we can afford to build different tools aimed at different goals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750746307.919489"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750746307.919489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-23 23:25</span><br/>
+I am trying to pinpoint what tree-oriented actually is:<br/>Is it just a handful of functions, which happen to be in the std-lib of lisp, but not in other langs, but can be straightforwardly retrofit with a library to any lang.<br/>Or is it such combination of design and implementation decisions that only lisps have it, no matter how hard you try to put a lipstick on a python.<br/>"rename variable" and "extract as function" are tree-oriented features available for all languages in one IDE or another after all, so could it be that quacking like tree-orientation is enough to be tree-orientation? If so, then distinction would be not between languages but between IDEs/editors:<br/>• vim with this plugin for python is tree oriented, and this notepad.exe for lisp is not<br/>• default git diff tool is not tree oriented for anything, but difftastic is t-o for lisps<br/>• etc.<br/>re "would be nice to have print()":<br/>same argument: could it be retrofit onto js/etc? is it enough? Not every list is a valid code in lisp, not any tree is a valid clojure code, not every  printed string would be valid js, but some would be, and there is an eval() in js...<br/><br/>re "emacs+lisp": what I meant by "separate system" is emacs sends strings-of-code to repl (cider or nrepl etc), not pointer to the root of the tree emacs parsed code into, hence, conceptually, is not any different from html input with <a href="http://js.xhr.post">js.xhr.post</a>(code-as-str) of string to repl socket.<br/><br/>re "python shell is not a repl": is the only difference – python's shell is not your running project's process, but a separate one? so you can't overwrite some fn definition live.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750758492.106669"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750758492.106669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-24 02:48</span><br/>
+In JS, <tt>eval()</tt> takes a string, so if you want to create and evaluate an expression at run time you must build a string representation. In any Lisp, it takes the AST to evaluate. The printer should be able to print everything the reader can read, and evaluation should be done on the result of read (which can also be built up with code without any string manipulation).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750758929.585769"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750758929.585769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-24 02:55</span><br/>
+For those of us who have used lisps, the fact that the Python and JS interpreters contain fast, well-tested parsers for their syntaxes that we cannot use from within the language is a source of angry disappointment. Why should I need to write a JS parser in JS? They have a good one written in C++ already!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750761576.662609"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750761576.662609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-06-24 03:39</span><br/>
+Python has at least <a href="https://docs.python.org/3/library/language.html">https://docs.python.org/3/library/language.html</a>. But it's true for JavaScript. There is no excuse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750805027.378679"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750805027.378679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-24 15:43</span><br/>
+I find this discussion to be quite stimulating.<br/><br/>I summarize this discussion with a play-by-play:<br/><br/>The graybeards say that programming could be more productive.<br/><br/>The youngbloods are saying “but, we’ve identified and duplicated every piece of technology that you say leads to more productivity. Why is this not enough? What’s the missing piece(s)?. Maybe you’re simply tilting at windmills, maybe current programming is at least as productive as you think that old-fashioned programming is/was?”<br/><br/>Jack Rusher’s video evidence shows that he could knock off some programming task using Clojure+emacs with the implication that this same kind of one-off productivity is not possible using other combinations of current PLs and IDEs, etc. The response is: there’s nothing here that hasn’t already been duplicated using current technology.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750839361.171379"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750839361.171379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-25 01:16</span><br/>
+Yeah, we use this PLS stuff as part of a system that implements a probabilistic programming DSL in Python. It’s not a very elegant substitute for the things I’m talking about :white_frowning_face:  
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750839423.663119"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750839423.663119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-25 01:17</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> one of the things I think stands in the way of transmitting this message is that the magic lives in the gestalt, not in the individual features :man-shrugging::skin-tone-2:  
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750863384.269619"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750863384.269619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-25 07:56</span><br/>
+Jack Rusher,<br/>&gt; and evaluation should be done on the result of read<br/>1. should it really? or "should to exactly match lisp api you are familiar with"?<br/>2. <tt>(-&gt; "[:a]" read (conj :b) eval)</tt> is not far from <tt>(-&gt; "[:a]" read (conj :b) str eval-from-str)</tt> (this is what sending forms from emacs buffer to cider/nrepl/etc. repl <b>actually</b> does, so meh. Talking <b>concepts</b> here, not extra-compute/std-lib-vs-ext-lib-convenience, those ofc matter, but, imo, not for definition). To address your familiarity with api: <tt>(defn eval-sexpr [sexpr] (-&gt; sexpr str eval-string))</tt> and you would never know :)<br/>&gt; Why should I need to write a JS parser in JS?<br/>this is comment on convenience, not on concept. Imagine tomorrow in Chrome/Firefox canary build you get evalJsFromString(s) objToCodeString(obj). Are we tree-oriented then?<br/><br/>Again, only trying to zero-in on actual conditions of being worthy to be called tree-oriented.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750863400.432009"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750863400.432009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-25 07:56</span><br/>
+&gt; programming could be more productive.<br/>hell yes
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750863515.402419"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750863515.402419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-06-25 07:58</span><br/>
+&gt; Why is this not enough?<br/>I think "there is no friction between concepts, but there is one between implementations"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750877371.921099"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750877371.921099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-06-25 11:49</span><br/>
+Maybe think a little harder about how much work it is to build programs (or do anything else) through string concatenation vs through manipulating data structures. This is also the fatal flaw of SQL as a programmatic interface, btw.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750878127.990539"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1750878127.990539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2025-06-25 12:02</span><br/>
+Is it time to invoke Philip Greenspun's Tenth Rule of Programming?  <a href="https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule">https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751201331.648289"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751201331.648289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-06-29 05:48</span><br/>
+&gt; ... that the magic lives in the gestalt ...<br/>I continue to hope that we could further dissect the magic. Yes, there is something more than feature-set here, and I under-spoke when I used the phrase "tree-oriented". At present, I am thinking that it might be goals: (a) do you want to build an MVI (Minimum Viable Implementation, regardless of "efficiency" (not the same as MVP))? (b) do you want to use power tools to just get something done? (c) do you want to optimize a system for production release? I don't see all of these goals being satisfied by just one language, nor one class of languages (e.g. dataflow IPC vs. function-based IPC). For example, the fact that we can build AST data structures in many languages does not have the same effect as lispers getting ASTs under their fingernails. After 50+ years, can we graft some of the lisp-y magic onto our current workflows?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751356439.512999"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-04/7377091009748_d0343f70ca57c18eeb41_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751356439.512999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>misha</b>
+<span style="margin:2em; color:#606060">2025-07-01 00:53</span><br/>
+I see several things going for lisp in synergy:<br/>• homoiconicity (convenience, probably enabled macro system, and made it easier to provide print/read/eval out the box), <br/>• macro system (convenience, less error prone than C's string-templating, easier/faster/cheaper to implement DSLs)<br/>• out-the-box print/read/eval (convenience, interactive development, I bet many had idea for repl for JS, but implementing print/read was a deal breaker),<br/>• code compactness (in contrast to eg TypeScript/Java/etc explicit types: basically less text on screen, faster to keyboard-type it in, faster to try things out/iterate, and cheaper custom DSLs/control-flow speed this up even further)<br/>• homoiconicity also sets a baseline expectation on how custom DSLs (should) look like, so most popular ones are not over-the-top funky-looking<br/>but it seems like the underlying theme is <b>convenience</b> (with a touch of uniformity maybe)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751420197.436339"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751420197.436339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-07-01 18:36</span><br/>
+The way I see it, the concept of macros came about due to features of pre-Common-Lisp and pre-Scheme lisps. Features such as FEXPRs and EVAL. Both of these ideas have essentially been erased from history. FEXPRs are like functions, except that calls to FEXPRs do not cause evaluation of args. FEXPRs are expected to evaluate their args when appropriate (using EVAL). These ideas have been formalized more tightly over time, but, the existence of loosey-goosey concepts like FEXPRs enabled the /invention/ of macros. Homoiconicity was part of the equation. Furthermore, the attempt to force all concepts into a single language, in a self-consistent manner, contributed to the erasure of FEXPRs. EVAL become "compilers" and was allowed to exist outside of formalized, consolidated programming languages. FEXPRs just went away. I feel that OhmJS/PEG bring back FEXPR-like features and I currently call the concept "transpilation". I expect it to run in a separate pass in kinda like a multi-headed UNIX pipeline. Issues of hygiene simply dissolve when separate passes are allowed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751435320.403559"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751435320.403559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-07-01 22:48</span><br/>
+Both FEXPR and macros are techniques to do <a href="https://hal.science/hal-02877319/document">staged computation</a>. As are compilers, or more generally build systems. I'd love to see people focusing on the bigger picture of staged computation, rather than on the detailed differences of its various realizations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751536931.702419"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751536931.702419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-07-03 03:02</span><br/>
+It's my impression that FEXPRs were condemned in the 1980s and essentially disappeared. Maybe that view is too narrow? Are there counter-examples that I should become aware of?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751606089.896809"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751606089.896809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-07-03 22:14</span><br/>
+I am not much of an expert on the history of Lisp, but my impression is that FEXPR disappeared in the wake of the realization that eval was awesome but also dangerous.<br/><br/>Your t2t is pretty much FEXPR, right? Across two languages rather than inside a single one, but that's a technical detail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751630127.694909"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751630127.694909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2025-07-04 04:55</span><br/>
+FEXPRs made static analysis, and this compiler optimization, too hard during the period of the 80s when getting Lisp to run fast enough was a major concern. There’s a paper about it by Kent Pitman.<br/><br/>Edit: here’s an annotated copy of the paper <a href="https://www.nhplace.com/kent/Papers/Special-Forms.html">https://www.nhplace.com/kent/Papers/Special-Forms.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751634568.674989"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751634568.674989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-07-04 06:09</span><br/>
+I think of of T2T primarily as "staged computation". T2T is macros (with syntax beyond parens). Is T2T FEXPRs? I don't know now. I just learned that FEXPRs can be treated as full-blown 1st class entities, like 1st class functions. Macros execute at "compile time". FEXPRs execute at "run time".  Pondering ... <span style="background-color:#ccf">@Konrad Hinsen</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751635107.869409"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751635107.869409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-07-04 06:18</span><br/>
+Eval() /is/ awesome. We use it every day under the politically correct name "compiler". The dangerous part is allowing end-users access to it or using it to slurp in used chewing gum that we peel off of dirty sidewalks. That, to me, doesn't mean that eval() should be expunged from programming languages. Production Engineers and their tools should detect instances of eval() leaking into production code, but, design Engineers should not be prohibited from using it. IMO, t2t does a lot of stuff - in a separate pass - that I would use eval() for.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1751856705.178879"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1749390179.045749.html#1751856705.178879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-07-06 19:51</span><br/>
+Poking at how FEXPRs were expunged, it appears that the first paper about this was Hart's 1963 <a href="https://dspace.mit.edu/handle/1721.1/6111">proposal for macros</a>. FEXPRs were invented by McCarthy in Lisp 1.5.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

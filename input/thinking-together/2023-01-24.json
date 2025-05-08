@@ -1,0 +1,238 @@
+[
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1674555091.488049",
+        "client_msg_id": "1b2dd842-fce1-4eac-8683-fe48fd1dd1de",
+        "text": "... re: transpiler pipelines question, progress towards answering the question, WIP ...\n... this doesn’t necessarily answer the question, but might show where my thinking is going, while I try to figure out what is really being asked ...\n... I think of a PL as 2 issues: (1) data (2) control flow, i.e. (1) operands and (2) syntax ...\n... I am playing with Orthogonal Programming Languages, where (1) is OO, (2) is syntax ; based on Cordy’s Orthogonal Code Generator ideas and based on RTL and based on dataless PLs (like Holt’s S\/SL (used in PT Pascal, Concurrent Euclid, Turing, etc.)) ...\n... I think that dataless languages boils down to 2 entities: (1) Things, (2) Lists of Things.  Types are opaque and cannot be defined at the dataless language-level (Types are defined and manipulated in other layers, implemented in common PLs (e.g. Python, C, etc.))\n\n# Src\nString s\ns &lt;- ‘abc’\ns &lt;- 7\n\n# Gather\n$defsynonym (‘s’, ⟨od, kind=var, type=“String”, key=‘s’⟩)\ns &lt;- ‘abc’\ns &lt;- 7\n\n# Normalize\n$defsynonym (‘s’, ⟨od-var, “String”, ‘s’⟩)\n$Assign s, ⟨od-lit, “String”, ‘abc’⟩\n$Assign s, ⟨od-lit, “int”, 7⟩\n\n... same as ...\n\n$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “String”, ‘abc’⟩\n$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “int”, 7⟩\n\n# Semantic Check\n“String” == “String” --&gt; OK\n“String” != “int” --&gt; Error\n\nThis looks like simple name equivalence.  Lower layers are free to use structural equivalence instead (using names as keys to a map containing more detail for each type).\n\n[The goal here is to think of a compiler as a string of pearls on a pipeline instead of as a honking big tree].\n\n[od - oh-D, not zero-D, means “object descriptor”]",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Ps=v",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "... re: transpiler pipelines question, progress towards answering the question, WIP ...\n... this doesn’t necessarily answer the question, but might show where my thinking is going, while I try to figure out what is really being asked ...\n... I think of a PL as 2 issues: (1) data (2) control flow, i.e. (1) operands and (2) syntax ...\n... I am playing with Orthogonal Programming Languages, where (1) is OO, (2) is syntax ; based on Cordy’s Orthogonal Code Generator ideas and based on RTL and based on dataless PLs (like Holt’s S\/SL (used in PT Pascal, Concurrent Euclid, Turing, etc.)) ...\n... I think that dataless languages boils down to 2 entities: (1) Things, (2) Lists of Things.  Types are opaque and cannot be defined at the dataless language-level (Types are defined and manipulated in other layers, implemented in common PLs (e.g. Python, C, etc.))\n\n# Src\nString s\ns <- ‘abc’\ns <- 7\n\n# Gather\n$defsynonym (‘s’, ⟨od, kind=var, type=“String”, key=‘s’⟩)\ns <- ‘abc’\ns <- 7\n\n# Normalize\n$defsynonym (‘s’, ⟨od-var, “String”, ‘s’⟩)\n$Assign s, ⟨od-lit, “String”, ‘abc’⟩\n$Assign s, ⟨od-lit, “int”, 7⟩\n\n... same as ...\n\n$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “String”, ‘abc’⟩\n$Assign ⟨od-var, “String”, ‘s’⟩, ⟨od-lit, “int”, 7⟩\n\n# Semantic Check\n“String” == “String” --> OK\n“String” != “int” --> Error\n\nThis looks like simple name equivalence.  Lower layers are free to use structural equivalence instead (using names as keys to a map containing more detail for each type).\n\n[The goal here is to think of a compiler as a string of pearls on a pipeline instead of as a honking big tree].\n\n[od - oh-D, not zero-D, means “object descriptor”]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UGWUJUZHT",
+        "type": "message",
+        "ts": "1674562402.434799",
+        "client_msg_id": "868f9ae9-9fdc-41cb-9954-3484841848c7",
+        "text": "Hmmm, is it valid to say that “0D is Combinators for impure languages”?\n\nIs that the appeal of \/bin\/sh pipelines?  Combinators for C?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "41a8bada7812",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-02-06\/4754627914258_41a8bada781281751d07_72.jpg",
+            "first_name": "",
+            "real_name": "Paul Tarvydas",
+            "display_name": "guitarvydas",
+            "team": "T5TCAFTA9",
+            "name": "paultarvydas",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674396396.762359",
+        "parent_user_id": "UGWUJUZHT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "60czt",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Hmmm, is it valid to say that “0D is Combinators for impure languages”?\n\nIs that the appeal of \/bin\/sh pipelines?  Combinators for C?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UKM22EFEG",
+        "type": "message",
+        "ts": "1674607462.887019",
+        "client_msg_id": "c4b7d2c4-663d-472d-8ed8-d08720a94d57",
+        "text": "Does anyone have any resources they’d recommend for learning about Rust\/WASM?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "754116f11f53",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-09-12\/4065647670117_754116f11f53e46db3cd_72.jpg",
+            "first_name": "Nick",
+            "real_name": "Nick Arner",
+            "display_name": "Nick Arner",
+            "team": "T5TCAFTA9",
+            "name": "nicholasarner",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674607462.887019",
+        "reply_count": 6,
+        "reply_users_count": 4,
+        "latest_reply": "1674808803.065909",
+        "reply_users": [
+            "UNCP67JSK",
+            "U01QM14CZ2Q",
+            "UBN9AFS0N",
+            "U03J1HP9C0G"
+        ],
+        "replies": [
+            {
+                "user": "UNCP67JSK",
+                "ts": "1674607492.488589"
+            },
+            {
+                "user": "U01QM14CZ2Q",
+                "ts": "1674609862.787939"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1674638055.439419"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1674638070.869319"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1674638140.342389"
+            },
+            {
+                "user": "U03J1HP9C0G",
+                "ts": "1674808803.065909"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "1PIYc",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Does anyone have any resources they’d recommend for learning about Rust\/WASM?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UNCP67JSK",
+        "type": "message",
+        "ts": "1674607492.488589",
+        "client_msg_id": "E5D33526-DDEC-429B-8DD3-C84133D6AE8A",
+        "text": "Rustbook!",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e950179feb1",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-02-11\/947800888119_9e950179feb1f81e1123_72.jpg",
+            "first_name": "Leonard",
+            "real_name": "Leonard Pauli",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "leonardpauli",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674607462.887019",
+        "parent_user_id": "UKM22EFEG",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "QuRK",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Rustbook!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01QM14CZ2Q",
+        "type": "message",
+        "ts": "1674609862.787939",
+        "client_msg_id": "fabec8f2-e3f9-4c5c-8e85-e63bd8962e82",
+        "text": "<https:\/\/doc.rust-lang.org\/stable\/book\/>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gea33f9c885c",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/ea33f9c885cc7e60cdf910930c32d55e.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png",
+            "first_name": "",
+            "real_name": "Cameron",
+            "display_name": "Cameron",
+            "team": "T5TCAFTA9",
+            "name": "c",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1674607462.887019",
+        "parent_user_id": "UKM22EFEG",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "W0I",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "link",
+                                "url": "https:\/\/doc.rust-lang.org\/stable\/book\/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

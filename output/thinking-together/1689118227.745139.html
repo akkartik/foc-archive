@@ -1,0 +1,439 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-28/5179303716261_07fbb70c0e3980e07e51_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Buckmaster</b>
+<span style="margin:2em; color:#606060">2023-07-11 16:30</span><br/>
+<b>What we talk about when we talk about expressivity</b><br/><br/>I enjoyed the little tangent on expressivity in the latest episode. I've had thoughts on this recently and it prompted me to skim Felleisen's paper. I really resonated with the hosts' reframing of expressivity as being the part of the language that's oriented towards the programmer, not towards the machine.<br/><br/>I currently think that most programmers, when talking about "expressivity", actually mean essentially two things:<br/><br/>1. I can use my own words<br/>2. I am not restricted by grammar<br/>These things are strongly tied to writing, as that's still how we do most of our coding.<br/><br/>"Using my own words" is literally that - in any given chunk of source text, how many of the words were chosen by the programmer (e.g. to be particular to their domain or their theory of the program) and how many were specified by the language or environment? Punctuation, I think, also counts as words the programmer didn't get to choose. Random examples:<br/><br/>• In Ruby, one can create little DSLs where almost all words in a specific part of the code are "my own words"<br/>• In assembly languages, the programmer can choose almost none of the words (except labels?)<br/>• Being able to rename imported symbols lets the programmer choose their own words in specific contexts (same goes for type aliases, etc.)<br/>• Languages with few keywords should tend to have more words chosen by the programmer... or at least, by the authors of the standard library?<br/>I equate being "unrestricted by grammar" roughly to whether a language is statement-oriented or expression-oriented. The Austral spec has a great section on why it chose to be statement-oriented, and concludes that "a statement-oriented syntax is less simple, but it forces code to be structurally simple": <a href="https://austral-lang.org/spec/spec.html#stmt-orientation">https://austral-lang.org/spec/spec.html#stmt-orientation</a><br/><br/>In Austral, it's an ideological choice to force programs into a certain shape. But in general, it seems to me that languages with less "grammatical restrictions" in their parser are described as more expressive. Maybe this is just correlation with other features of those languages.<br/><br/>I'd love to know how everyone else understands "expressivitiy" when we talk about programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689127730.508099"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689127730.508099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-11 19:08</span><br/>
+There's a risk I'll go on for a long time. :^)<br/><br/>I work on Red (<a href="http://red-lang.org">red-lang.org</a>), a descendant of Rebol, which was inspired by Lisp/Forth/Logo. A key point in Carl Sassenrath's design of Rebol was that it was first a messaging language; a data format. Secondarily, you could interpret it to make stuff happen.<br/><br/>To the first point, everything is data, so the number of lexical forms is very high compared to most langs. But the number of keywords is zero. Yes, in a standard environment there will be a lot of words you expect to be there, and work in a certain way. But you <b>can</b> break or enhance the system by altering them.<br/><br/>Another key feature in standard Red is the <tt>parse</tt> function, which makes it relatively easy to write BNF-like PEG grammars to build dialects (eDSLs). Not only at the string/char level, but at the value level, because everything is data once loaded from text.<br/><br/>All those lexical forms (and also standard types that don't have a literal syntax) can be used in your dialects. This makes for a very flexible and powerful "language construction toolkit", which is how I sometimes describe Red. And to bring it full meta-circle, <tt>parse</tt> and other features are dialects, as is the low level <tt>Red/System</tt> language, a C-level language that shares syntax, but not semantics, with Red and is used to write the runtime for performance reasons (it compiles to machine code). e.g. it's static and lacks most high level datatypes. Red also has a GUI dialect.<br/><br/>Now, for how expressive this all is...I'm biased, but there <b>is</b> an aspect that <b>isn't</b> very flexible: lexical forms (literal syntax for values). You have to hack the lexer and add new types for that, which is by design. Why not make it easy? Back to Red being a messaging language. In the context of data exchange, you need to agree on the basic language elements.<br/><br/>Formatting is another facet of expressivity. Consider poetry, free verse versus something like a pantoum or sestina, which are very rigid forms. This relates to both form and function for PLs. Whitespace, line breaks, statement-ending punctuation, all effect how you write for your readers, and perhaps how susceptible things are to (un)intentional corruption. e.g., you can't strip spaces and lines from a Python program. On the function side, we veer into static/dynamic aspects.<br/><br/>The less rules you have, the more expressive you can be. Consider art. What you gain in expressive freedom, you may give up in appreciation. Constraints are important, but also contextual. Can you have an effective fully expressive GPL? Or to get that (ASM) do you give up too much "appreciation", because we also <b>have to</b> share, communicate about, and understand these works we craft.<br/><br/>Personally, I think we have to balance things based on context. Be as flexible and expressive as possible, in the target domain, to the point where any more leads to less benefit and more cost for target users. Please some of the people, most of the time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689127787.195669"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689127787.195669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-11 19:09</span><br/>
+I warned you. :^)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689148319.568939"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689148319.568939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-07-12 00:51</span><br/>
+I'll let everyone read both above long posts before adding my own take, but briefly, I'm a secret fan of Red/Rebol as my own lang shares much with it/them. I have type=grammar for both inline small types and whole objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689151304.101499"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689151304.101499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-12 01:41</span><br/>
+Rebol and descendents are something I have been looking at as well every now and then. Red seems to be the most active project in this space right now. Another one that seems stuck in an early design phase is <a href="https://altscript.com/">https://altscript.com/</a>. But there is nothing I see as good enough for actually playing with at this time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689178546.327129"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689178546.327129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-12 09:15</span><br/>
+<span style="background-color:#ccf">@Daniel Buckmaster</span> Glad you enjoyed the discussion. I definitely think you've hit on some really important aspects of expressivity.  I do think it is a complicated subject and hard to pin down exactly what we want to say it is.<br/><br/>On one hand expressivity is how we say something, your "Using my own words" on the other hand it is also about what can be said. A DSL would then be more expressive in the "Using my own words" sense, but less expressive in what can be said.<br/><br/>To me an expressive language works on both of these aspects. It allows me to express things the way I might want them to, but also allows me to express more kinds of things. Depending on my interests and contexts those kinds of things might change. So I don't think we can make a total order out of expressivity in languages.<br/><br/>For example, if we compare Haskell and Idris, I can express types in Idris that I can't (without contortions) in Haskell. I am able to represent the type of printf in the language itself in a very clear and concise way.<br/><br/>But when we compare lisp and Idris things are a bit confusing. Lisp does not have the kind of type system does. So for example, I can't express things things like "this function is total" in the way I can in Idris, but I also can express complex macros and have fewer limits on the kinds of things I can express because I lack that type system.<br/><br/>C feels less expressive than Java say, but I can express things about memory layout and allocation that I can't (easily) in Java.<br/><br/>I think this is what make expressivity so hard. Gaining to the ability to express something can restrict some other aspects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689178590.934669"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689178590.934669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-12 09:16</span><br/>
+<span style="background-color:#ccf">@Gregg Irwin</span> Super interested in Red/Rebol. Though I haven't written much/any. It's definitely a tradition that doesn't get much attention.Any good texts on it that we should read?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689181906.161099"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689181906.161099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-12 10:11</span><br/>
+My best shot at defining expressivity is in terms of some abstract space of logical relations/structures. The elements to be related include types, machine details, phase distinctions, etc, as well as elements of your application domain.<br/><br/>A more expressive language is one that can span more of this space. To the extent that languages cover (roughly) the same space, you can rank them by (roughly average) concision. We can recover notions like C being more expressive for machine details, or a DSL being more expressive for a given domain, by restricting the logical space we're considering.<br/><br/>It gets tricky, though, because you're probably talking about Turing complete languages that can all simulate each other, and just ranking by concision doesn't quite capture the notion that writing a simulator doesn't "count" as expressing it; even if you could write a logical inference engine in five lines of C, that doesn't change the intuitive notion that Prolog is more expressive for certain problems. You want a notion of "direct expression" that's not covered by concision. Maybe something to do with (cyclomatic?) complexity of the code to express a given thing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689191089.737759"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689191089.737759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-12 12:44</span><br/>
+The old Rebol core guide (<a href="http://www.rebol.com/docs/core23/rebolcore.html">http://www.rebol.com/docs/core23/rebolcore.html</a>) is still a seminal reference for the language. <a href="http://www.rebol.com/docs.html">http://www.rebol.com/docs.html</a> links to some other primer bits. Red's reference docs are [here](<a href="https://github.com/red/docs/tree/master/en">https://github.com/red/docs/tree/master/en</a>) but not in User Guide form for learning. A Red user has written <a href="https://helpin.red/">https://helpin.red/</a>. You can also scan the old blog entries at <a href="https://www.red-lang.org/">https://www.red-lang.org/</a> for Red-specific features.<br/><br/>There are a few other langs out there with the same heritage, which we sometimes call Redbol as a "genre". :^)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689191258.868469"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689191258.868469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-12 12:47</span><br/>
+Thanks definitely helpful. I'm mostly interesting in something a bit more meta/philosophical on the perspective. Like a paper giving the why of Rebol like languages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689191376.962689"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689191376.962689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-12 12:49</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> we don't know if Carl will continue with AltScript or not. He tends to disappear into his cave for long stretches. :^) Rebol2 (R2) was closed source, but Rebol3 (R3) was done quickly by Carl and a few others to make a FOSS version. It's still alive as well. Where Rebol is written in C at the low level, Red was bootstrapped on R2 and is designed to be self-hosted, hence the need for Red/System.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689192276.153629"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689192276.153629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-12 13:04</span><br/>
+If we go Rich Hickey on this: <b>expressive</b> - Effectively conveying thought or feeling.<br/><br/>To <span style="background-color:#ccf">@Jimmy Miller</span>’s point, a language might be expressive in terms of type systems, but not at all able to express a GUI.<br/><br/>We also have limits, which tooling can help us overcome. For example, in a low level language, you may want/need to express multiple integer types by size and signing ability, but no strings. In an HLL, you just need <tt>number</tt> but have many types of strings (plain, filename, email address, url, tag, etc.). Maybe you justify a Cartesian coordinate type, but not UTM coordinates for mapping projections. How do we keep from being overwhelmed, while being able to express things (thinking text here) as we do with natural language?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689193594.843739"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689193594.843739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-12 13:26</span><br/>
+The why: Rebol was designed for the semantic exchange of information between people and machines.<br/><br/>That's why there are so many datatypes with literal forms. Because we need them to talk about things easily, both on the human and the machine side.<br/><br/>On the philosophy of Redbol, that's quite unfortunately strewn throughout time and space. I can say that Carl spent 20 years <b>designing</b> Rebol, after deep study of denotational semantics, before building and releasing it. The first version was done in Scheme, but was too slow. He had built things using many paradigms, and rejected OO as the answer after trying it. I can't speak for him, but his designs say he values simplicity and will give up other things for that. He also values the human side which is why while Rebol is a totally wacky language internally, when compared to how other langs work, there is this lovely, simple façade that lets you wade in comfortably for a while (or forever) before you fall off the edge and into the deep.<br/><br/>For this chat, Red is expressive in different ways to different people. To a high level user, it's a single EXE with a built-in GUI system, compiles standalone EXEs without any external tools, and is easy to learn. To a PL enthusiast, it's Logo (Lisp without parens) that uses definitional scoping, f-exprs, and free ranging evaluation. Each word is bound to a context and there is really no such thing as "code". There is only data that is evaluated. See: [this](<a href="https://github.com/red/red/wiki/%5BDOC%5D-Why-you-have-to-copy-series-values#a-designers-view">https://github.com/red/red/wiki/%5BDOC%5D-Why-you-have-to-co&hellip;</a>)<br/><br/>I could say it's a contradiction in terms, but it's probably just as accurate to say "Old School". :^)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689210689.961569"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-06/5085861186081_e3e6bba2ae4575d17358_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689210689.961569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Alan Hjelle</b>
+<span style="margin:2em; color:#606060">2023-07-12 18:11</span><br/>
+<span style="background-color:#ccf">@Gregg Irwin</span> What's the best way to try Red on Apple Silicon? I tried the macOS download on the website, but I got "“<a href="http://red-view-12jul23-aea09888d.app">red-view-12jul23-aea09888d.app</a>” needs to be updated.". Maybe I should just pull out a Raspberry Pi…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689225498.782189"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689225498.782189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-12 22:18</span><br/>
+Red is currently 32-bit only, so no latest MacOS, and also no Apple silicon support. The downside of being your own toolchain.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689252225.662369"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-06/5085861186081_e3e6bba2ae4575d17358_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689252225.662369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Alan Hjelle</b>
+<span style="margin:2em; color:#606060">2023-07-13 05:43</span><br/>
+Darn. But makes sense. Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689286791.149829"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689286791.149829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-07-13 15:19</span><br/>
+&gt; I enjoyed the little tangent on expressivity in the latest episode. I've had thoughts on this recently and it prompted me to skim Felleisen's paper. I really resonated with the hosts' reframing of expressivity as being the part of the language that's oriented towards the programmer, not towards the machine.<br/>Many decades ago I coined the acronym "DTIL" or Domain and Target Independent Language, to clarify what I was seeking in my Perfect Programming Language. Meaning: a language that's not in any way constrained by the machine (the Target) OR the Domain of application. A pure language of thought. A language that allows expression by humans in their most intuitive way of what they wanted the computer to manifest for them. So a cognitive-oriented programming language, but I was only allowing a formalism or symbolic mechanism, rather than in any way a natural language, which I saw as redundancy-heavy and fuzzy.<br/><br/>Declarative languages immediately stood out and wiped out Imperative languages for me, as these had too much Target (machine) orientation. The Declarative mantra "What not How" gives it away: just say What you want, don't tell the machine laboriously How to do it.<br/><br/>&gt; I currently think that most programmers, when talking about "expressivity", actually mean essentially two things:<br/>&gt; 1. I can use my own words<br/>&gt; 2. I am not restricted by grammar<br/>&gt; <br/>&gt; These things are strongly tied to writing, as that's still how we do most of our coding.<br/>Hmm, then that's "just" asking ChatGPT!<br/><br/>&gt; "Using my own words" is literally that - in any given chunk of source text, how many of the words were chosen by the programmer (e.g. to be particular to their domain or their theory of the program) and how many were specified by the language or environment? Punctuation, I think, also counts as words the programmer didn't get to choose. Random examples:<br/>&gt; • In Ruby, one can create little DSLs where almost all words in a specific part of the code are "my own words"<br/>&gt; • In assembly languages, the programmer can choose almost none of the words (except labels?)<br/>&gt; • Being able to rename imported symbols lets the programmer choose their own words in specific contexts (same goes for type aliases, etc.)<br/>&gt; • Languages with few keywords should tend to have more words chosen by the programmer... or at least, by the authors of the standard library?<br/>It's important in a DTIL that the mechanisms available are pure and singular: there should be only one language representation of each cognitive entity and nothing that biases the language to either a machine or a domain. Ideally the whole base syntax should be just half a dozen unique things (like symbol, sequence, structure, consequence).<br/><br/>An important aspect of this whole conception is that data should be simply strings or text and structures of that. If you have a "double" - rather than a "float" or "int"- you're immediately binding yourself to machine concepts, as provided to you by the FPU. In reality, humans don't think like that, we simply write our "data" in text. So spreadsheets and Awk have some precedent there.<br/><br/>This leads to the (apparently radical) concept of type being simply syntax: if you parse a string or structure in a way that's meaningful to you, you've made your own type matcher and thus your own type. You don't have to be bound by the types in the mind of the originator of some data, or by the types the machine supports best.<br/><br/>&gt; I equate being "unrestricted by grammar" roughly to whether a language is statement-oriented or expression-oriented. The Austral spec has a great section on why it chose to be statement-oriented, and concludes that "a statement-oriented syntax is less simple, but it forces code to be structurally simple": <a href="https://austral-lang.org/spec/spec.html#stmt-orientation">https://austral-lang.org/spec/spec.html#stmt-orientation</a><br/>&gt; <br/>&gt; In Austral, it's an ideological choice to force programs into a certain shape. But in general, it seems to me that languages with less "grammatical restrictions" in their parser are described as more expressive. Maybe this is just correlation with other features of those languages.<br/>Not sure about the statement- vs expression-oriented thing, but again, simplicity and power are key to maximising human expression of virtual stuff and their desired behaviours.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689286973.508699"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689286973.508699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-07-13 15:22</span><br/>
+Grand Plans, but over 4 decades later I'm still working on it! :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689287064.559459"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689287064.559459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-07-13 15:24</span><br/>
+It was kinda spooky when the phrase "DSL" appeared, and of course I immediately knew it would be anything I wanted!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689326858.826909"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689326858.826909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-14 02:27</span><br/>
+Thanks <span style="background-color:#ccf">@Gregg Irwin</span> for the links to and the background of Rebol/Red!<br/><br/>&gt; How do we keep from being overwhelmed, while being able to express things (thinking text here) as we do with natural language?<br/>The comparison with natural language is difficult. Natural language serves for informal, i.e. context-dependent, reasoning. It's OK to have the same terms refer to different meanings in different contexts. In a formal language, everything needs to be explicit and non-ambiguous. So I guess different but similar-in-spirit and interoperable languages are probably our best bet. That's something I think Red got right. As did Racket (although it lacks the system layer for now).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689351631.644589"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689351631.644589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-14 09:20</span><br/>
+Im starting to think that expressiveness is not a solvable problem at least directly <br/><br/>Any representation will have downsides, so we need multiple representations.<br/><br/>When im glancing over my code, id prefer to look at the lines of regex in text because its terse and can be readable enough to know “this is a phone number validator”<br/><br/>But when im writing regex, or testing it, i want a UI - i use <a href="http://regex101.com">regex101.com</a><br/><br/>I think there are many things like this, where if we try to tackle the expressiveness problem directly with text we may fall into problems of performance, optimization, terse vs readable. <br/><br/>If we have ways to easily swap out parts of our code with different representations, it may make the language &amp; the specific expression less important. <br/><br/>Libraries can expose their API as a verbose yet clear data format, while providing plugins to swap between representations of it. - calendar plugin allows you to manipulate a calendar to set hardcoded holidays for your system, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689357166.933889"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689357166.933889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-14 10:52</span><br/>
+I think regex is a good example of why grammar/representation are a red herring. No matter the syntax, the underlying formalism of regex cannot <em>express</em> a language with matching brackets, or HTML. This is, if not the only, then the most important aspect of expressivity.<br/><br/>Within the domain of regular languages, or perhaps the extended domain of PCRE, I would suggest that grades of expressivity come in the form of primitives and compositions that let the abstract structure of your "program" correspond more directly to the structure of the problem in your mind. Maybe combinator-based APIs are nicer, for instance, and I'm sure we could define less-expressive languages with the same power if we wanted...<br/><br/>Looking back at what I've written, I wonder if I'm stretching the meaning of "expressive" too far to include formal power. But I do feel it's part of the intuitive idea of "expressivity", and I stand by the idea that trivially isomorphic representations of the same formalism can only have minor differences in expressivity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689359668.018179"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689359668.018179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-14 11:34</span><br/>
+&gt;  Natural language serves for informal, i.e. context-dependent, reasoning. It's OK to have the same terms refer to different meanings in different contexts. In a formal language, everything needs to be explicit and non-ambiguous.<br/><span style="background-color:#ccf">@Konrad Hinsen</span> context is the very thing I meant. The question is, can we have both context and unambiguous use in a proglang? Red tries. For some people it's a reason to never consider using it, and they run screaming in terror. For others it's "I can use that to do this really wacky thing.". For most I believe it's "Oh, I have no idea what's going on under the hood. It just works."  Finally, a few deep divers will say "It makes this edge/exception case impossible to handle in all cases, so it's a bad design." Maybe prompt-based development will lead us to new approaches where, like with human dialogue, the system can say "Did you mean A or B here?"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689427049.380399"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689427049.380399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-07-15 06:17</span><br/>
+<span style="background-color:#ccf">@Gregg Irwin</span> Making context explicit is indeed one way to handle this problem, and if Red is working towards that goal, that's a reason for me to take a closer look. There is some tradition of this kind in Lisp/Scheme, but it's a bit fringe.<br/><br/>Prompt-based development is perhaps a solution at the IDE-level, but not at the language level. The IDE must store the developer's answers in some way that makes the code usable without prompts later and elsewhere. That some way would then have to be part of the language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689560324.847499"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-05/2248942033796_99d013fa8bfb537f563a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689560324.847499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Irwin</b>
+<span style="margin:2em; color:#606060">2023-07-16 19:18</span><br/>
+On prompts, agreed. Integrated lang and tooling is out of fashion for many people, rightly fearing lock-in, but you get more leverage.<br/><br/>Red's context isn't explicit, per se, as it's internal and not shown by default for words. Tooling could reflect on it however.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689595407.279989"></a>
+      <img src="https://secure.gravatar.com/avatar/7588e3d3aa94ba40f57f495ec8c3206b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0017-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689595407.279989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Dekorte</b>
+<span style="margin:2em; color:#606060">2023-07-17 05:03</span><br/>
+For me, “expressiveness” is how concisely one can both express (and modify) a program, which of course depends on what sorts of things you want to express. Two languages may have the same level of expressiveness for one class of programs while wildly diverging for another.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689664080.946329"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689664080.946329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2023-07-18 00:08</span><br/>
+A related paper on the topic; “On the Expressive Power of Programming Languages” by Matthias Felleisen (1990)<br/><br/><a href="https://citeseerx.ist.psu.edu/doc/10.1.1.51.4656">https://citeseerx.ist.psu.edu/doc/10.1.1.51.4656</a><br/><br/>Summary of the paper:<br/><a href="https://m.youtube.com/watch?v=43XaZEn2aLc">https://m.youtube.com/watch?v=43XaZEn2aLc</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689686006.386839"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689686006.386839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-18 06:13</span><br/>
+Yep, that's the paper I brought up in the episode. I find that definition very unsatisfying because it isn't about the end-user, it is about the computer. I mean, the definition is incredibly clever. But it is a formal definition to something I don't think will be captured by a formal definition. As is evidence by this thread, we can often mean many different things by expressivity. I think there are ways to capture those uses, but it won't be by a formal property that holds in the programming language. It will be in the same way we can explore things like free will, gender, knowledge, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689690710.666009"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689690710.666009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-18 07:31</span><br/>
+I think it's a useful aspect of expressiveness. And I disagree that it's "not about the end-user". TBH I'm only going by the video, but he gives some examples in the Q&amp;A where it's really clear how end users are affected. Any rigorous theoretical definition of a vague intuitive idea is going to look distant from that intuition until you follow the consequences and see how they line up. You probably aren't explicitly thinking about the set of all possible contexts for a piece of code when you try to understand it, but you're still feeling their effects.<br/><br/>I agree we're unlikely to get a complete rigorous definition, but I don't think we should surrender to the extent of comparing expressivity to free will, et al. The formal rigor of the computer is intrinsic to the subjective experience of programming, so it should definitely be possible for formal results about computers to help understand that experience.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689692447.496359"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689692447.496359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-18 08:00</span><br/>
+Yeah it definitely has effects on the end user. But it isn’t about the end user. An programmer can find something to be more expressive and yet it fail to meet this definition. I don’t think the definition gives us any reason to think we are wrong that something is more expressive just because it doesn’t change halting behavior. <br/><br/>Being able to draw the transformations of a red black tree graphically rather than textually for example is a more expressive way of specifying that computation. But it clearly isn’t by this definition. <br/><br/>The definition fails to capture at least my intuition about expressiveness. Because expressiveness isn’t about the computer, it’s about people. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689697348.623959"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689697348.623959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-18 09:22</span><br/>
+I certainly agree it's a mistake to treat it as the full story. I think I was fairly clear about that. (But don't forget that "halting" in PL theory is mainly a tractable proxy for lots of directly user-relevant complications.)<br/><br/>I strongly disagree that a visual representation of a red-black tree transformation is more expressive than a textual one <em>in the same sense</em> that a language with higher order functions is more expressive than one without. Even in end-user terms those are very different questions, and acting on the belief that they're the same will eventually lead to confusion. As with regex, the two representations of the tree transform are isomorphic; with the right tooling you could switch them with a toggle, "expressing" them with no human involvement at all. You and I could keep our editors on different settings and still work together on the underlying structure.<br/><br/>I look at it this way: the notion of the ability of a language to express different programs as a function of basically its abstract syntax and semantics exists and needs a name. "Expressivity" already means pretty much that in academia, as far as I can tell anyway. Different serializations of the same abstract syntax (visual, textual, morse code) definitely do have effects on our squishy brains, making coding easier or harder, but they're easily localizable to a different part of the computing system. Different thing, different name.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689706884.779879"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689706884.779879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-18 12:01</span><br/>
+The two interpretations of "expressive" are not completely separate in that, multiple representation of a program may allow for new kinds of program that would otherwise be unmaintainable &amp; such few programmers would choose to express such ideas in its textual representation.<br/><br/>Given that even complex semantics like generator functions in javascript used to be implemented in typescript for older browsers using arcane set of pre-es5 trickery.. the pattern would not be used by most pre syntax, but the new representation allows now a whole set of new very well maintainable programs in new ways.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689706998.246149"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689706998.246149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-18 12:03</span><br/>
+Not as an extreme example, but I often found when programming state machines in the javascript library "xstate" I reached for their visual editor for debugging &amp; thinking bigger.<br/><br/>I would not have created all the state machines I did without it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689708564.446159"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689708564.446159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-18 12:29</span><br/>
+Generators are an excellent example of structural expressivity. The code you write with them is quite differently shaped, and compiling to generator-free code requires global transformations.<br/><br/>I don't have a ton of experience with xstate, but I do recall the code interface being fairly clunky. It's easy for me to believe that a visual interface could be genuinely simpler for the same functionality. That would fit in with the desugaring style of expressivity improvements, less drastic than e.g. generators or HOFs, but significant in their own way. Anyway, not isomorphic, I'm guessing? The abstract syntax tree (graph?) probably has fewer nodes.<br/><br/>In a similar vein, I'd suggest that NFAs and regex are more expressive due to their concision than full DFAs, despite being at the same level of the Chomsky hierarchy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689711216.445119"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689711216.445119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2023-07-18 13:13</span><br/>
+&gt; I strongly disagree that a visual representation of a red-black tree transformation is more expressive than a textual one in the same sense that a language with higher order functions is more expressive than one without.<br/>&gt; I look at it this way: the notion of the ability of a language to express different programs as a function of basically its abstract syntax and semantics exists and needs a name. "Expressivity" already means pretty much that in academia, as far as I can tell anyway. Different serializations of the same abstract syntax (visual, textual, morse code) definitely do have effects on our squishy brains, making coding easier or harder, but they're easily localizable to a different part of the computing system. <br/>&gt; Different thing, different name.<br/>I don't see any reason to privilege one of these as expressivity vs the other. Nor do I think they are clearly distinct concepts. They definitely do not form a natural kind and how we decide to divide them up is going to be based on our concerns and desires. Personally, I think it is good to call both of these things (and some others) expressivity because it causes us to look holistically at the way in which we express ourselves in programs. That to me is what expressivity about, how does this language help and hinder me from expressing things the way I want to express them.<br/><br/>You might not want to call that expressivity for your purposes. I think that's totally fine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689716161.587319"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1689118227.745139.html#1689716161.587319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-07-18 14:36</span><br/>
+If possibilities for easily reversible transformations of structures don't seem like a different natural kind than possibilities for whole new kinds of structures, then I guess we have irreconcilable differences in what we consider a natural kind. Granted, there are also other ways you could reasonably slice the space, but I'm very certain that's one of them.<br/><br/>As for privileging one over the other: Certainly to each their own, but I believe, and this seems to be a well-accepted principle ranging from physical engineering to social organization, that you should pay more attention to (and solve earlier) decisions that are harder to change later. This does not apply <em>super</em> rigorously to PL design, but it suggests to me that the choice of structures that affect the architecture of programs, the stdlib conventions, etc, are higher priority for thinking about than, e.g. sexprs vs ML-ish syntax vs something visual. (Especially if part of your goal is to efficiently support arbitrary representations anyway.)<br/><br/>Which is not to say that no one should work on the representation side; by that logic no one would ever work on anything but disease research and agriculture or some nonsense. And as I've agreed repeatedly (since my first post in this thread), nothing has the whole story on the intuition of expressivity. But I think the structural aspect of expressivity, if you insist on specifying it so, has higher practical leverage than the representational.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

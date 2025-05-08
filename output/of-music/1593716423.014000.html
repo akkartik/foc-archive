@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #of-music</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../of-music/1593716423.014000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-07-02 12:00</span><br/>
+Nice little dump of my synthesizer project - setup to generate many notes on many different synthesizer graphs.  Each row is a different worker thread, and the blue bar is the total duration of the audio callback thread.<br/>I still have lots of optimizations to try, but this is just a first step to ensure I can do this without issues.<br/>Some of this work is actually unnecessary too; the small blocks tacked on the end are the FFT for visualization.  They can be pushed out until just before the thread returns, so they don't take away audio processing cycles.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593718140.015100"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../of-music/1593716423.014000.html#1593718140.015100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-07-02 12:29</span><br/>
+How many samples does this process at a time? 512?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593763333.015600"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../of-music/1593716423.014000.html#1593763333.015600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-07-03 01:02</span><br/>
+yes, currently 512.  I have various investigations to do, and there are trade offs to be considered.<br/>• As you can see, there isn't much startup delay assigning work to the threadpool, especially compared to the processing time for an individual graph/synth.<br/>• With less samples (as you were possibly hinting at), the dynamics would change.<br/>• The graph is optimised for flexibility, but making nodes that did combined work might be prudent at some point.  Each node effectively means that the memory is passed over again, and in general is copied.  The effect chain that works on the stereo path could be an optional single node that combines delay, phaser, reverb, etc.  Since it will often be the same.<br/>• I've actually spent very little time optimising anything; just the bigger picture stuff; using memory pools for buffers, ensuring the audio thread doesn't have to wait for anything.<br/>• I have to also make this work in the context of the overall app where graphics/rendering are also occurring.   I may have mentioned before, that making a unified app has interesting challenges because the process boundaries have gone.  Sonic Pi for example has a ruby process that is working on the notes, and SuperCollider.  This is effectively 'free' threading once the communication is worked out.  In a single app, you have to manage more threading issues to get it all to work together.<br/>In short, lots of tuning to do.  But I'm going for the bigger picture 'get it all working/stable', ship it, and work on the details once people can play with it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

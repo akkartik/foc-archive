@@ -1,0 +1,307 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 05:34</span><br/>
+I wrote a blog post about constant data in PL. Which is kind of curious in text based PL and a place where more visual approaches can really shine. <a href="https://medium.com/@bitteldany/where-does-constant-data-go-b650338b2ee9">https://medium.com/@bitteldany/where-does-constant-data-go-b650338b2ee9</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713099605.126929"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713099605.126929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-04-14 06:00</span><br/>
+> We would need to execute the parsing during compilation, but as far as I know no programming language allows allocation during compile time execution.<br/>You could just include the parsed data as a const byte array, which basically all compiled languages allow. The tradeoff is of course in increasing the size of the binary, having less control over when to pay the cost for loading the data into memory (and when to unload it), and increased stress on instruction cache. Anyway, this has been quite common as an optimization in game development.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713101145.309739"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713101145.309739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2024-04-14 06:25</span><br/>
+You say you are using a “C-like language” for the examples, so I’m not sure what the <tt>string</tt> type of that language translates to. But in C the trouble with const is that you either point to a constant value, and the pointer can still change, or you declare a constant pointer to a variable, and you can’t change the pointer, but you can change the value. Both of these need to be held in a read/write segment and I assume that is probably why your example copies the string contents o the heap?<br/><br/>In C you can use double const to explicitly have a constant pointer to a constant value, but I have no idea how that plays out when you compile it and no means to try it right now. I wouldn’t be too surprised if that also does something unexpected, given that C compilers have a lot of wiggle room in terms of “implementation details” and “undefined behavior”.<br/><br/>Swift has <a href="https://developer.apple.com/documentation/swift/staticstring">an explicit </a><tt>StaticString</tt><a href="https://developer.apple.com/documentation/swift/staticstring"> type</a> that is used for literals and enables all kinds of compiler optimizations and compile-time shenanigans, like <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/macros/">macros that are type-checked proper Swift code run at compile-time</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713101886.306839"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713101886.306839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2024-04-14 06:38</span><br/>
+There’s also an <tt>ExpressibleBy…Literal</tt> protocol, which I guess would enable you to implement your own types with their own custom binary representations that can be specified as literals in the code and read and converted at compile time while treated as constants. How useful that really is though, I’m not sure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713104961.228849"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713104961.228849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 07:29</span><br/>
+<span style="background-color:#ccf">@Jarno Montonen</span> , that's what I'm doing in that example, or do you mean to include the binary byte stream as a const byte array? Then you'd need to escape all special characters and copy paste from a binary file? Or how would you go about it? That sounds like a dependency with extra steps.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713105023.742089"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713105023.742089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 07:30</span><br/>
+<span style="background-color:#ccf">@Stefan Lesser</span> Should have said C syntax, sorry. With string I'm eyeing c++ std::string. It does a copy when constructed from const char*. I assume swift would do the same. As far as I can tell StaticString is swifts way of doing const char*. ExpressibleBy.. is syntactic sugar for constructors. What I want is StaticFont, StaticImage, StaticGraph ... :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713105395.418919"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713105395.418919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-04-14 07:36</span><br/>
+Yes, I meant the binary representation of the results of the parsing. It could be a prebuild step to do the parsing and write the prebaking code into a codefile. You wouldn't need to escape anything. It could just appear as initialization of a byte array in the source code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713105941.941249"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713105941.941249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-04-14 07:45</span><br/>
+The actual implementation would depend on a language, but essentially you'd then point a pointer of correct type to the beginning of the bytes. But you could also just have the prebaking step generate the actual source code that initializes the objects/structs that represent the parse results. So say you're reading in a json "root: { prop1: 23, prop2: "test" }. Your baking step would generate code "static readonly ROOT = new Root {Prop1 = 23, Prop2 = "test" }. I suppose it would depend on the language how much of this ends up being just loading the binary (on program startup) and how much is left to runtime.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713110853.041169"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713110853.041169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-04-14 09:07</span><br/>
+I like the insight that declarative programming is entirely working with constants.<br/><br/>There <em>are</em> ways to convert constants to a representation that the computer can just copy from disk into RAM. It's not clear to me why we don't do that. It's non-trivial (e.g. making sure references to the same object don't serialize to two copies of it) but definitely not rocket science. Looking forward to seeing where you go with this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713117555.806449"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713117555.806449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 10:59</span><br/>
+&gt; We would need to execute the parsing during compilation, but as far as I know no programming language allows allocation during compile time execution.<br/>Did you look at Zig?<br/>&gt; • Call any function at compile-time.<br/><a href="https://ziglang.org">https://ziglang.org</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713118055.801289"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713118055.801289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 11:07</span><br/>
+Anyway, what code a compiler accepts in a compile-time context shouldn't be limiting you. There are many ways other ways to execute arbitrary code on compile-time. Traditionally you run a tool like Make (or a more modern option), which lets you run any program to process an input file and generate an output file that is used by the next tool. The tool can either generate a blob that you can include in your program to get untyped data, or a source file you can include to get typed data.<br/><br/>Rust has its own tool Cargo that runs the file '<a href="http://build.rs">build.rs</a>' for this purpose, but it also allows procedural macros, that are libraries loaded by the compiler that can run arbitrary code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713118292.097099"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713118292.097099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 11:11</span><br/>
+&gt; In conclusion, declarative programming is nothing other than defining constants in a text form.<br/>Same goes for non-declarative languages. Think of Lisp.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713161057.982209"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713161057.982209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:04</span><br/>
+<span style="background-color:#ccf">@Fredrik</span> Thanks for bringing up zig, it has indeed nice comptime features. Looking into it now, it seems to allow allocation into the data segment and even reading a file. This is a good general solution. (I will add this to the blog post). Data structures like a graph that contains pointers to itself will need some extra work though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713161151.655639"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713161151.655639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:05</span><br/>
+<span style="background-color:#ccf">@Fredrik</span> You kind of proof my point. Why is it so simple to define a constant integer, yet if I want for example a constant list of integers I have to go through all those extra steps you outlined.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713161617.532779"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713161617.532779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:13</span><br/>
+That's a good point. It personally bothers me a lot that Rust has five different features that do the same thing, with five different limitations. (<b>1.</b> generics, <b>2.</b> const evaluation, <b>3.</b> declarative macros, <b>4.</b> procedural macros, <b>5.</b> build scripts) I prefer to have one good way to do it, like in Zig.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713162134.408879"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713162134.408879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:22</span><br/>
+&gt; Data structures like a graph that contains pointers to itself will need some extra work though.<br/>Looking at Rust, const data can contain references to const data as long as they are not circular. I don't really care though. I never put references in my const data, but instead put indexes that are relative to the base pointer of the const data. A reference is 8 bytes, so I don't want to have that in const data. An index is 1, 2 or 4 bytes depending on the size of the data. Sometimes I've even packed a 12-bit index and a 4-bit length in two bytes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713162710.011709"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713162710.011709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:31</span><br/>
+<span style="background-color:#ccf">@Fredrik</span> Oh really? So (in rust) the pointers inside the data segment get relocated when the executable is loaded? How does the loader know whats data and whats pointers? The linker would need to add that to the relocation data?<br/>I agree data structures with indices are the way to go. It is also easier to serialize, clone and you can (ideally) allocate everything in single block. You cannot however easily extend, join, reuse part of it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713163556.337849"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713163556.337849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-14 23:45</span><br/>
+I suppose they get relocated. I made an example, but don't know how to make Compiler Explorer show the relocation table. Relocations would be another reason to prefer indexes, as the relocation table adds a number of extra bytes for each pointer, and also slows down loading of the executable, and also takes up memory for the relocated copy of the const data, as opposed mapping the memory directly to the executable file.<br/><a href="https://rust.godbolt.org/z/8YvfPr5G9">https://rust.godbolt.org/z/8YvfPr5G9</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713165817.436579"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713165817.436579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-15 00:23</span><br/>
+Ok I'm confused. Does this create a linked list inside the data segment or.. 3 list segments and links them on startup. The assembly would suggest the first, but could also be the latter, sadly it doesn't show what's actually in the data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713165943.313859"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713165943.313859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-15 00:25</span><br/>
+The three nodes are in the data segment. The disassembly shows that the function copies a node right out of the data segment without any further processing, showing that the pointer is already correct.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713166556.415569"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713166556.415569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-15 00:35</span><br/>
+On second thought, the disassembly of the function doesn't show that clearly enough, due to optimization. Let's instead return a reference to the node, so the constant data cannot be inlined. Now you can also see the relocation being there in the form of a label in the data in the assembly.<br/><a href="https://rust.godbolt.org/z/nYxh47def">https://rust.godbolt.org/z/nYxh47def</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713166840.605729"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713166840.605729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-15 00:40</span><br/>
+I see it know, even better if you return B2 and link to B1 inside B2.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713166941.321659"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713166941.321659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-15 00:42</span><br/>
+You can also do away with the function entirely and make the data show up in Compiler Explorer by declaring any entry points as <tt>pub static</tt> instead of <tt>const</tt>.<br/><a href="https://rust.godbolt.org/z/o9qc8d5Y4">https://rust.godbolt.org/z/o9qc8d5Y4</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713241402.418759"></a>
+      <img src="https://secure.gravatar.com/avatar/df6784b7d6d97fb67dec89320cc88a84.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0007-72.png" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713241402.418759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dany</b>
+<span style="margin:2em; color:#606060">2024-04-15 21:23</span><br/>
+Thanks for all the feedback, I updated the blog post.. hopefully also making it more clear, what I actually want to see.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1713251806.020289"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1713098099.807429.html#1713251806.020289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-16 00:16</span><br/>
+Those are some interesting thoughts you have added. It seems like you want to see something like the Smalltalk system, where everything is an object, and you can use one tool to edit and object, such as a drawing or a document, and then reuse the same object in your programming. The Smalltalk system solved this by not having a compile-time, but instead doing all programming in a live system. When you want to deploy it on another machine, you save an image of the heap, and that's const data that you can run on another machine without doing any processing on startup. This is what Alan Kay calls <em>real OOP</em>. You can find videos of Alan Kay and Dan Ingalls demonstrating it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

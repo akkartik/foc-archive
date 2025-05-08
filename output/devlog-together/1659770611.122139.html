@@ -1,0 +1,337 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1659770611.122139.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-06 00:23</span><br/>
+Hi, I have been working on adding statemachines to the node and wire interface that I am building.. The current state of the statemachine and the execution path of the flow are updated live when you interact with the flow/form-nodes. Yesterday I improved updating the execution path in combination with the OnStateChange nodes so that the path is cleared when a OnStateChange node is not triggered because of its expected state is not the current state of the statemachine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659774381.369359"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1659774381.369359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-06 01:26</span><br/>
+I hope to find some time to make a video soon to better show how things work.. I'll try to explain it in text here: the statemachine definition is shown on the left. The states are the boxes with only a border and the current state is the blue box. The event/messages to trigger a state transition are defined by the boxes with a grey background. <br/>The flows on the right side use this statemachine: the flow on the top right handles storing the current state in a cookie but also initialises the statemachine with the stored state when the flow is loaded. <br/>A special node "OnStateChange" responds to statemachine changes... you can define the state that a OnStateChange node reponds to and trigger the output flow. <br/>In this example the statemachine shows the behavior of a lightswitch which can have 3 states: off, on and max.. the lightswitch can be put in "max-mode" only when the lightswitch is on. This is visualized by the image in the form-node. The buttons in the form-node also respond to the currentstate. <br/>Currently there's only support for 1 statemachine per flow, which is far too limiting offcourse, so I am going to change that soon.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659781642.170619"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1659781642.170619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-06 03:27</span><br/>
+I notice that my current rendering method using html5 canvas with dom elements on top is getting really to its limits.. at some near point in the future I will need to rewrite the rendering and handle the UI elements differently .. I am thinking of an approach where I use only svg together with a floating propert editor (which will only be visible when a node is selected or hovered). Another approach would be pure webgl, although the complexity of that is a lot bigger then using pure svg. I hope to find the time to experiment with both.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659810814.708749"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1659810814.708749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-06 11:33</span><br/>
+Is this correct? The two graph views on the right are editable, and the state machine view on the left is derived from them.<br/><br/>Good luck reworking the rendering. Using pure webgl or svg sounds like it could burn a lot of time though, is there some reason you don’t want to use a higher level library?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1659812114.377379"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1659812114.377379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-06 11:55</span><br/>
+All is editable and nodes can be placed anywhere, it's a 2d infinite canvas. I have put the different graphs into sections to make the functionality more clear (hopefully). The different node-types can have constraints so that for example you cannot connect a State-node to something that is not meaningful.<br/><br/>Currently I use react and react-konva as higher-level libraries, but I have to connect to the direct DOM-elements and konva-canvas elements to gain performance. I know that react and react-three-fiber can be very fast (also from pure development perspective not just performance). But I also want to try to and minimize the dependencies, so that would be my main reason for not using higher level libraries. Although loosing react would be painful I think. Something like tldraw uses react as well. I'll first start to do some experiments anyway before I ditch my current rendering solution and start using a different rendering solution. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660332026.901479"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1660332026.901479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-12 12:20</span><br/>
+OK, I misunderstood the graphs. Nice that it’s bidirectional.<br/><br/>Hope you find a comfortable balance with the rendering.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660467565.939059"></a>
+      <a href="../devlog-together/1659770611.122139.html#1660467565.939059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-14 01:59</span><br/>
+Started rendering a flow using webgl and webassemembly this friday/weekend, using my own visual webassembly compiler (it can already render basic data using pure webgl). I've made a new node type which converts a json flow to webassembly memory so that it can be used to generate a 3d view of the flow. This approach serves multiple purposes.. since I am dogfooding my own editor, I use my own feedback to hopefully improve it and the custom programming language. Another goal is to build a webgl node and wire editor which has the least amount of dependencies (hopefully only javascript and webassembly manipulating the dom and webgl without the help of libraries). It will be a great learning experience for sure (whether I succeed or not). Hopefully I can show some screenshots later this week/next weekend of the progress.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660784294.200749"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1660784294.200749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2022-08-17 17:58</span><br/>
+Admirable dogfooding!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661070502.991379"></a>
+      <a href="../devlog-together/1659770611.122139.html#1661070502.991379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-21 01:28</span><br/>
+I've managed to render a flow using raw webgl and my own visual webassembly compiler.. in the screenshot you see the visualization in webgl on the top-right.. this is the visualization of the flow that you can see in the regular editor that I already have. Basically the flow is rendering itself. <br/>Although it lacks a lot of visual elements from the canvas/dom renderer (bezier curves , different node shapes and even the node-type names are not shown yet). You can't interact with it yet, except for being able to navigate in 3d using mouse and keyboard. It does have basic shadows and lighting, although I am not yet sure if I'll keep that in. For now I am happy with the progress. I just wish I had more time to spend on this. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661601314.119379"></a>
+      <a href="../devlog-together/1659770611.122139.html#1661601314.119379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-27 04:55</span><br/>
+Spend some time again on the flow-based editor part of my project instead of the new renderer, because thanks to a colleague I've gotten an idea on how to render complex forms automatically based on a flow.. I'll provide more details in the thread.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661601453.540839"></a>
+      <a href="../devlog-together/1659770611.122139.html#1661601453.540839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-27 04:57</span><br/>
+In the last years I've had to make some complex forms with backed calculations/logic, a lot of visibility conditions and multiple form-steps and I came to the conclusion that when using a visual flow editor that this can quite easily be made and will provide a lot more insight for people on how the form works (even non-programmers). <br/><br/>The missing link was generating the UI.. I already made a simple UI editor with which you can manually create a UI based on a flow and relevant nodes. But this week I came to an insight that this can actually be automated by showing each form node in its own step when a node of a type that is relevant for a user gets executed by the flow engine (for example : nodes of type "Form" require user input) (the advantage is that this also is much more user friendly, because you show less form fields at once to a user: so less cognitive load).<br/>The execution of the flow is then paused when that node is shown and continues execution after the user submits the form. <br/><br/>I think that I am now much more closer to having a product that can be used in actual real world projects! In the upcoming months I will test this. <br/><br/>Meanwhile, next week I'll continue working at the new rendering approach and start focussing on drawing text using fonts with single distance fields. I'll keep you posted! <br/>(Screenshots have dutch content.. I still hope that they provide info on what I am talking about in this post)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1661602713.424159"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1661602713.424159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-08-27 05:18</span><br/>
+The flow in the above post is a flow of questions to determine if your kid could go to daycare during the pandemic here in the Netherlands.. I still had this flow in my repo as an example, and I think it illustrates the use-case. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662822789.389829"></a>
+      <a href="../devlog-together/1659770611.122139.html#1662822789.389829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-10 08:13</span><br/>
+Made some progress on the rendering of text in webgl.. something straight forward in html (or a lot of other environments) is a tough problem in webgl. Luckily a lot is to be found on the internet (I use sdf bitmap fonts). Still a lot of work todo offcourse, next up is adding some interactivity and tweaking the rendering further (the shadows are crap currently, I probably remove them anyway). 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662994394.313109"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1662994394.313109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-09-12 07:53</span><br/>
+The shadows are a little stark but a more moderate use can help orient people in the scene.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1662996511.169769"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1662996511.169769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-12 08:28</span><br/>
+Yes, the shadows can be softened quite a bit. also the camera system needs a lot of work.. currently you can move around freely but that can result in angles that are not practical as you can see in that screenshot:blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663105936.938509"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663105936.938509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-13 14:52</span><br/>
+You need ambient occlusion
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663167719.284389"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663167719.284389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:01</span><br/>
+Ah yes, good suggestion! I am rather new to shader-coding, so that will take a while before I have figured out how to do it. Although I'll focus on other tasks on my todo list first
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168219.110329"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168219.110329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:10</span><br/>
+Not saying I know myself, in Vulkan one simply copies code from Sascha Willems! Or for fonts I copied from <a href="https://github.com/kocsis1david/font-demo">https://github.com/kocsis1david/font-demo</a> :grin::+1:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168687.999749"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168687.999749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:18</span><br/>
+Thanks for that tip, I am going to take a look:grinning:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168733.081009"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168733.081009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:18</span><br/>
+Well, it's Vulkan so maybe not for you? Just empathising with you!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168798.664389"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168798.664389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:19</span><br/>
+Yeah I know, but the shader code might be easy converted to webgl-glsl
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168857.148279"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168857.148279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:20</span><br/>
+For threejs there also lots of example where I can borrow from, although I am not using threejs myself (just pure webgl for now)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663168963.666049"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663168963.666049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:22</span><br/>
+I don't think "minimising dependencies" is necessarily a good reason to give up React, btw? It's a compact library really, or was last time I used it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663169077.059619"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663169077.059619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:24</span><br/>
+I am still using react but not for the webgl part.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663169206.820909"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663169206.820909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:26</span><br/>
+Not that I dont like threejs or think that I can do it better (which I can't). But at least I can try to do it without it to have less dependencies and hopefully a smaller codebase and targeted on purely the needs of what I am building. It's also a good learning experience
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663169321.975639"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663169321.975639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:28</span><br/>
+Cool. Happy hacking! :blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663169452.540519"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663169452.540519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:30</span><br/>
+Thanks! i'll keep posting my progress here and hopefully I can share a 2 minute video soon:sweat_smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1663169507.664369"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1659770611.122139.html#1663169507.664369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-09-14 08:31</span><br/>
+I'll be following along :nerd_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

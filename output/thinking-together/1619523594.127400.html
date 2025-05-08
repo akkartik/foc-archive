@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-04-27 04:39</span><br/>
+A question for people knowledgeable in smalltalk: Can you send a smalltalk image to another smalltalk image as an object? How would that look like?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619579209.128500"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619579209.128500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-04-27 20:06</span><br/>
+A worthy question and a worthwhile endeavor.  Living in he Smalltalk-lite land of Ruby, my firm does have a way of sending object graphs to each other that's somewhat (and could be better) integrated into our bug tracker.<br/><br/>An intrinsic problem is how to merge/switch/select-part of two images.  I'm sure there are good solutions just wish I knew about them back when a different group was trying to collaborate with Lisp images.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619581420.128800"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-29/1686621807717_3a9710d9a208814fffb1_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619581420.128800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Thanh Dinh</b>
+<span style="margin:2em; color:#606060">2021-04-27 20:43</span><br/>
+That sounds fascinating. Can you elaborate more on your approach to handle Ruby object graphs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619625826.137400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619625826.137400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-04-28 09:03</span><br/>
+There are many Smalltalk systems, which could handle this differently. The one I know is Pharo. It has a class <tt>SmalltalkImage</tt>, which might look like what you are looking for, but it's really an entry point to access low-level system information. It's not an object that you could archive or send around. "The image" is not an object, it's the set of all objects. Better avoid Russel's paradox by not having the image be an element of itself!<br/><br/>However, you can do things that come very close to what you describe. For example, you can ask class <tt>Object</tt> for all instances of itself and its subclasses, and send those around the world. That's all objects in the system, including their classes. You might run into resource limits trying to send them from one image to another, I didn't try. If you want to play with this, I suggest Fuel (<a href="https://github.com/theseion/Fuel">https://github.com/theseion/Fuel</a>) as the most adequate serialization framework for large sets of objects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619683188.154700"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619683188.154700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-04-29 00:59</span><br/>
+Thank you for sharing your insight!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619686175.156200"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619686175.156200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2021-04-29 01:49</span><br/>
+<span style="background-color:#ccf">@Thanh Dinh</span> We're basic.  So far we've managed with <tt>Marshal.dump</tt> and <tt>Marshal.load</tt>.  Classic Ruby dark side: quicker, easier, more seductive.  Dump to file, send to somebody else.  Is this unsound?  Absolutely!  But for a decade plus it's only occasionally been a problem: when dumps get into the 100s of MB.  A rewrite some years back to use a database like a normal Rails shop failed, so I may try something different.  Would have tried already if we weren't living in the end-times.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619719064.159600"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619719064.159600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2021-04-29 10:57</span><br/>
+<span style="background-color:#ccf">@Andreas S.</span> what do you want to achieve? For me it is not clear what you want. There are many directions this could go. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619721708.160400"></a>
+      <img src="https://avatars.slack-edge.com/2019-05-06/616300651267_e35958b94f07da17cf17_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619721708.160400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andreas S.</b>
+<span style="margin:2em; color:#606060">2021-04-29 11:41</span><br/>
+Just thinking about the relationship between object and image
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1619856279.175000"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../thinking-together/1619523594.127400.html#1619856279.175000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2021-05-01 01:04</span><br/>
+Well I think most Smalltalk implementations will not regard there image as an Object. The VM is probably often the element responsible for reading the image and creating the actual Objects (including Class, CompiledMethod, Context, etc) and continue execution where it left of when being saved.<br/>That said, it would definitely be possible to see it as an Object. A Smalltalk implementation could even run (simulate?) the environment inside a supplied image. Do remember that things like garbage collection are often (must often) be done by the VM. So simulation is not trivial and might require quite a few extra features in the ‘receiving’ Smalltalk image. HTH
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

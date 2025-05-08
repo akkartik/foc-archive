@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 12:50</span><br/>
+Is anyone aware of a data structure that supports SQL-like operations on bags such as projection, selection, and join? I wrote something in Java patterned vaguely on Guava's Table interface, but my first crack at the API was too unreadable to actually submit. :sweat_smile: The important part for me was that it had a join that was implemented as the application of an arbitrary mapping function (input row → 0 or more values for the new column).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568146018.064000"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568146018.064000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 13:06</span><br/>
+For example, you might want a table like &lt;country, account, agent, agent-is-active&gt; with restrictions like the agent is located in the country, and whether an agent is active is account-specific. So it doesn't compress nicely into countries.map().map().map(), unless you either make a record type for each intermediate result so you can refer back to the country later in the computation, or one big record type where each field's validity depends on the current level of nesting. You can alternatively use for-loops if you're willing to nest a bunch of for-loops.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568150911.065000"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568150911.065000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2019-09-10 14:28</span><br/>
+I’m confused; is the data structure a bag?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568152128.065200"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568152128.065200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 14:48</span><br/>
+I wanted to make sure people knew that I wasn't talking about sets even though I was using relational algebra terms... From the way the Wikipedia page is worded, it seems that relational algebra fans are generally sad that SQL operates on bags instead of sets: "Even the query language of SQL is loosely based on a relational algebra, though the operands in SQL (tables) are not exactly relations ... (arguably to the detriment of optimisers and/or users). The SQL table model is a bag (multiset), rather than a set." <a href="https://en.wikipedia.org/wiki/Relational_algebra#Implementations">https://en.wikipedia.org/wiki/Relational_algebra#Implementations</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568152230.065600"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568152230.065600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 14:50</span><br/>
+But the container of rows is only half the data structure, since you also need to describe the columns...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568152316.065800"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568152316.065800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 14:51</span><br/>
+Eh, maybe I need to publish a draft of the library for it to be concrete enough for anyone to know what I'm talking about. :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568157761.066000"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568157761.066000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 16:22</span><br/>
+<a href="https://observablehq.com/@alltom/relational-algebra">https://observablehq.com/@alltom/relational-algebra</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568158056.066200"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568158056.066200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-10 16:27</span><br/>
+flatMap but you get to keep the left side of the map for reference in future maps.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568183093.066800"></a>
+      <img src="https://avatars.slack-edge.com/2019-09-09/753296041488_3447742b735b104a7ff2_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568183093.066800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Don Abrams</b>
+<span style="margin:2em; color:#606060">2019-09-10 23:24</span><br/>
+Looks an awful lot like CQL
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1568210262.069600"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../linking-together/1568145003.063900.html#1568210262.069600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-09-11 06:57</span><br/>
+Thanks, I haven’t heard of that! I also realized that it’s probably just a regular flatMap that feels very natural to write in languages where it’s easy to add and remove fields from records, and I just haven’t needed it in a language with syntax for that yet.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

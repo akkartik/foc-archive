@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-02-07 11:28</span><br/>
+It is not possible in the general case to go 100% backwards from a change in the AST. You can't fully reconstruct source from the compiled code, but you can get close. But we are talking exactitudes, so unless your language is visual to begin with, in which case the AST is identical to the source, this won't be happening.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549567861.924500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549567861.924500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-02-07 11:31</span><br/>
+You're talking about things like.. reconstructing the exact pattern of indentation, comments (if they aren't represented in the AST).. right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549567896.924700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549567896.924700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-02-07 11:31</span><br/>
+That's no longer an issue if you use something like <a href="https://prettier.io/docs/en/index.html">https://prettier.io/docs/en/index.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549567947.924900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549567947.924900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-02-07 11:32</span><br/>
+&gt; Prettier enforces a consistent code style (i.e. code formatting that won't affect the AST) across your entire codebase because it disregards the original styling by parsing it away and re-printing the parsed AST with its own rules [...]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549568130.925200"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549568130.925200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-02-07 11:35</span><br/>
+I think, in general, it's worth taking it as a given that if AST-aware version control becomes <em>a thing</em>, it'll be in the context of a language that has something like Prettier or gofmt to enforce consistent mapping between AST and source — or it'll be a language where you're expected to edit it in a structural or visual editor.<br/><br/>In other words, I don't think anyone is suggesting we use an AST-aware SCM for Java. That's like oiling the doors on the already-sunk Titanic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549607268.944100"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549607268.944100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-02-07 22:27</span><br/>
+I am one of those opposed to prettiers. The topic comes up about once a year on the Chrome team. Someone suggests "We should add a auto formatter to the commit system" and then it's always pointed out that an auto formatter never handles the exceptions and ends up making the code less readable.<br/><br/>Maybe you believe there should be no exceptions. I disagree. As a simple example let's take javascript objects. should they be<br/><br/><pre style="white-space:pre-wrap"><br/>const arrayOfRects = [<br/>  { x: 0, y: 0, width: 100, },<br/>  { x: 123, y: 45, width: 10, },<br/>  { x: -45, y: -410, width: -123, },<br/>];<br/></pre><br/><br/>vs<br/><br/><pre style="white-space:pre-wrap"><br/>const arrayOfRects = [<br/>  {<br/>     x: 0,<br/>     y: 0,<br/>     width: 100,<br/>  },<br/>  {<br/>     x: 123,<br/>     y: 45,<br/>     width: 10,<br/>  },<br/>  {<br/>     x: -45,<br/>     y: -410,<br/>     width: -123,<br/>  },<br/>];<br/></pre><br/>vs<br/><br/><pre style="white-space:pre-wrap"><br/>const arrayOfRects = [<br/>  { x:   0, y:    0, width:  100, },<br/>  { x: 123, y:   45, width:   10, },<br/>  { x: -45, y: -410, width: -123, },<br/>];<br/></pre><br/><br/>I prefer the last one depending on the situation. There are plenty of places where turning the data into something more like a table makes it much much easier to find errors and see exceptions but auto formaters normal destroy such formatting.<br/><br/>In the same way I'd expect issues with VPLs in that people want to arrange their nodes the way that works best for them, not on some auto-layed out way. Consider 6 nodes that could be stacked vertically, horizontally, 3x2, 2x3 or just manually placed wherever. Now two or more people move the nodes and you've got a conflict that needs resolving.<br/><br/>Maybe not a good example. I'm just trying to point out that just like an code AST generally removes all formatting info which is often an issue, VPLs probably also have similar types of metadata that will end up causing similar issues.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549622317.947300"></a>
+      <img src="https://avatars.slack-edge.com/2019-01-20/529811744742_ca63ca2aa38fa658cc4f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549622317.947300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Woods</b>
+<span style="margin:2em; color:#606060">2019-02-08 02:38</span><br/>
+&gt; code AST generally removes all formatting info<br/><br/>I'm not sure how true this is in the real world. The AST libraries I have written for myself and those I have used (e.g. Roslyn) retain text-span information so you can navigate to/from the source code, display warnings on the right characters,  perform refactorings etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1549699848.954500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1549567685.924300.html#1549699848.954500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-02-09 00:10</span><br/>
+you are forgetting about lots of things that are eliminated during compilation, like comments for the reader, and what about conditional compilation? Many advanced languages have a preprocessor step with conditional compilation and if you say in C, #if flag .... #else.... #end then the skipped code will not be reconstructed. I have often theorized that the reason C won over every other competitor language of its day, is that it was one of the only ones with a pre-processor. Remember that C was a reaction to PL/1 which was a superior language, but much "heavier". PL/1 was a much better language IMHO. Anyway preprocessors are very important in commercial work, where you often create demo versions, expiring versions, crippled versions, and not having a pre-processor is very painful for commercial developers.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

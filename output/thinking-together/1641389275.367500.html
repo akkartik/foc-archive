@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-05-20/1137095139906_6bd6fe3fcf91b6f41781_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dalton Banks</b>
+<span style="margin:2em; color:#606060">2022-01-05 05:27</span><br/>
+I’m struck by how rare it is for basic control systems knowledge to show up in our projects; my impression is that the common approaches to closed loop feedback are:<br/>• Ad hoc event handling and state management<br/>• An exercise left to the user<br/>• ‘I’m sorry dave, I’m afraid I can’t do that’<br/>I think we tend this way because the underlying substrates (CPUs, peripherals, ISAs, PL grammars) are so well characterized as to allow formerly unthinkable consistency with open-loop methods.<br/><br/>It seems like there’s a lot of low hanging fruit here, and it gets at the heart of what ‘liveness’ is about. I’m curious if anyone here has experience working with controls/dynamical systems, or pointers to FoC type projects being approached in this way.<br/><br/>PS if you’re not familiar with controls, a wikipedia trip makes it seem like a lot of daunting math, but the basics are actually pretty simple. Basically you’ve got your current system state, a function to compute the next state, and then whatever parameters you can actual directly control (“direct manipulation”). If you’ve ever used React or FRP, they get halfway there, then overcomplicate and oversimplify it at the same time. Here’s a friendly intro if you’re curious: <a href="https://www.youtube.com/watch?v=O-OqgFE9SD4">https://www.youtube.com/watch?v=O-OqgFE9SD4</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641399650.368400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-26/5176774456644_bc46d9e86f7dc3780301_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641399650.368400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Corey Montella</b>
+<span style="margin:2em; color:#606060">2022-01-05 08:20</span><br/>
+Hi Dalton,<br/><br/>You may be interested in my project, the Mech programming language, which is designed specifically for these kinds of systems. I actually posted an update about it here just yesterday! <a href="../share-your-work/1641347451.138200.html">../share-your-work/1641347451.138200.html</a><br/><br/>My background is in robotics, so I am designing Mech to be the ideal language to use on robotic systems, which of course make heavy use of control! You are right, there is a lot of low-hanging fruit here:<br/><br/>• Units are a big one. Control systems operate in the real world, which has all kinds of dimensions. Adding units to type systems can be a big win, allowing you to verify correctness and improve reliability (<a href="https://en.wikipedia.org/wiki/Mars_Climate_Orbiter">this</a> should never happen again).<br/>• Handling time explicitly is important for control systems. Having temporal operators (whenever, until, before, followed by, as soon as) can help programmers reason about control systems.<br/>• Asynchrony be default. The real world is asynchronous, so control systems must be as well. There's no blocking when it comes to reality.<br/>• Parallelism by default. A lot of algorithms for control systems are highly parallelizable. <br/>• Distributed programming by default. Control systems are all about coordinating disparate physical machinery to achieve a desired outcome. It's often the case that this system is composed of upwards of dozens of processing units. Think of all the computers that are in your car. A robot might have a dedicated computer per limb, networked with a CANN bus or ethernet. IOT control systems might have sensors that span a building or an entire town. <br/>• The same kind of math that GPUs do on games is done for control systems, so native GPGPU support is critical.<br/>• The real world is continuous but computerized control systems are discrete. It's important to take this into account as well. Consider a real-world control system that handles money. You don't want to use IEEE floating point for that.<br/>• Data is everything, so logging, searching, slicing, and visualizing data need to be first-class. Visualization is one of the most important debugging techniques for these kinds of systems. Logging must also be built-in and robust to failures. Typically the development cycle for a robot goes like this: 1. write some code 2. run the robot 3. watch the robot crash 4. look at the logs and figure out why the robot crashed 5. goto 1. So automatic logging and replay-ability of logs is also crucial. Once upon a time when I was in gradschool, I heard a tale from before my time of woe due to forgetting to set the logging flag to on. The goal was to make scans like <a href="https://www.youtube.com/watch?v=n8YKShFlKvY">these</a> of the town using the remains of <a href="https://vimeo.com/373043">Little Ben</a>, but parked cars obstructed the sidewalk view from the road. The solution then was to go out at 3 in the morning when all the cars were gone to take these scans. But one tired grad student forgot to set the logging flag to true, so they drove around all night collecting data, but it was all immediately lost. People were not happy with him.<br/>Current approaches rely on middleware to enable some of the above features. <a href="https://ros.org">ROS</a> is one such middleware for robots. It's called an operating system but it runs on top of Linux. It provides a networking api to publish and subscribe to messages produced by control nodes. But the problem, aside from the fact that ROS is nigh unusable even for experts, is that the actual programming is still done in C++ or Python. I don't think I have to explain to this crowd how much of a letdown that is. C++ and Python and any other imperative language is the exact wrong kind of tool to use in this scenario.<br/><br/>Parallel, async, distributed code is way easier to write if the whole system is designed for it. Parallel/async code got a reputation for being a nightmare to write because it's a nightmare to write in C++. But that doesn't preclude other systems being better! I think you see a general recognition in the industry that things are going this way. But I don't think they have realized yet that it's better to use a system designed from first principles to support these features than to bolt them on to C++ or Python or Javascript.<br/><br/>Mech is still really early, so even it doesn't support all the features I laid out above. But that's one of the goals for the project: to be a better language for robot systems.<br/><br/>Anyway, I'm happy you brought this topic up, because I love talking about it!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641404132.369000"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-20/1137095139906_6bd6fe3fcf91b6f41781_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641404132.369000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dalton Banks</b>
+<span style="margin:2em; color:#606060">2022-01-05 09:35</span><br/>
+Hey, that’s awesome!! Thanks for sharing, you’re in my neck of the woods too (Philly). Everything you laid out here is great. What I’m most interested in is a layer down I think: reifying the <em><a href="https://www.youtube.com/watch?v=-FvrON0OmYc">dynamics</a></em> of the systems being programmed (which FRP is silent on). A corollary to this is being able to work easily with data-driven models, which is necessary when practically designing this systems but can also be easier than closed-form equations for beginners. Is this something you’ve thought about incorporating into Mech?<br/><br/>I have a hunch this approach could scale nicely from beginner games, robots, and websites all the way to some very cutting edge stuff based on <a href="https://diffprogramming.mit.edu/">differentiable programming</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641407309.369600"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641407309.369600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-01-05 10:28</span><br/>
+I kind of think the kubernetes control plane is a control theory esq.<br/><br/><a href="https://kubernetes.io/docs/concepts/architecture/controller/">https://kubernetes.io/docs/concepts/architecture/controller/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641407607.369900"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641407607.369900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-01-05 10:33</span><br/>
+I also have a patent in using kubernetes as an actual robot controller... <a href="https://uspto.report/patent/app/20200344293">https://uspto.report/patent/app/20200344293</a><br/><br/>I think control theory is very applicable to distributed system because failures have to be considered, and not in PL research because a single computer is considered error free (or unrecoverable at least).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641414892.370500"></a>
+      <img src="https://avatars.slack-edge.com/2020-05-20/1137095139906_6bd6fe3fcf91b6f41781_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641414892.370500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dalton Banks</b>
+<span style="margin:2em; color:#606060">2022-01-05 12:34</span><br/>
+Nice! Yes, large industrial systems are where I see ideas from control systems being applied (by necessity). I’d love to see more of that power accessible to end users and smaller communities. Kubernetes is a cool illustration because it’s part of the “abstract” digital world where people forget that they’re working with physical dynamical systems in the end—not to mention the name itself. Alan Kay has recently been hammering on about how software systems should be designed more like the industrial “CAD&lt;-&gt;SIM&lt;-&gt;FAB” approach.<br/><a href="https://www.quora.com/Does-Alan-Kay-see-any-new-ideas-in-computing">https://www.quora.com/Does-Alan-Kay-see-any-new-ideas-in-computing</a><br/><a href="https://www.quora.com/What-would-software-CAD-SIM-look-like">https://www.quora.com/What-would-software-CAD-SIM-look-like</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641893642.030800"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-28/8529753983250_8f365fd896e9c8f573b5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641893642.030800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>xyzzy</b>
+<span style="margin:2em; color:#606060">2022-01-11 01:34</span><br/>
+I was thinking the exact same thing a few months backs! I believe control systems and systems theory which is rooted in electronics can give solid theoretical foundations to programming instead of programming as types or programming as objects which is rooted in maths.  While data flow and message passing might seem similar to control systems ..... they don't capture the notion of state which is central to control systems. The closest we get to control systems in programming is state machines / workflow systems.<br/><br/>In some ways 'liveness' is captured by threads / processes and co-routines in programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641929474.031500"></a>
+      <img src="https://secure.gravatar.com/avatar/ad56605c67614493105108548a283792.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641929474.031500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mark Santolucito</b>
+<span style="margin:2em; color:#606060">2022-01-11 11:31</span><br/>
+This might be more technical than you are looking for, but in my research look at the connection between FRP and reactive systems/control systems.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641929475.031700"></a>
+      <img src="https://secure.gravatar.com/avatar/ad56605c67614493105108548a283792.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641929475.031700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mark Santolucito</b>
+<span style="margin:2em; color:#606060">2022-01-11 11:31</span><br/>
+<a href="http://www.marksantolucito.com/papers/cav-19.pdf">http://www.marksantolucito.com/papers/cav-19.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1641953438.032000"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1641389275.367500.html#1641953438.032000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-01-11 18:10</span><br/>
+Oh <span style="background-color:#ccf">@Mark Santolucito</span>!  I think your paper is going to highjack my morning.  :+1:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

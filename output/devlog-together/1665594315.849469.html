@@ -1,0 +1,372 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1665594315.849469.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-12 10:05</span><br/>
+I've been having an extended, multimodal conversation with <span style="background-color:#ccf">@Jack Rusher</span> over the course of 2022, culminating in a couple of in-person conversations in recent weeks. Watching his Strange Loop talk (<a href="../share-your-work/1665503282.267399.html">../share-your-work/1665503282.267399.html</a>) finally got something to click in my head, and I put 70 lines of Lua together for this demo. I'm also including the .love file for anyone to try out, which is just a zip file containing said 70 lines of code. Instructions for running it: <a href="https://love2d.org/wiki/Getting_Started">https://love2d.org/wiki/Getting_Started</a><br/><br/>I can imagine driving this through Emacs or some other Slime-like interface (e.g. <a href="https://github.com/jpalardy/vim-slime">https://github.com/jpalardy/vim-slime</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665599896.622049"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665599896.622049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-12 11:38</span><br/>
+<a href="https://media.giphy.com/media/jErnybNlfE1lm/giphy.gif">https://media.giphy.com/media/jErnybNlfE1lm/giphy.gif</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665600075.200439"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665600075.200439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-12 11:41</span><br/>
+One of the big things about using a livecoding approach for GUI applications is that you can inspect and fix a problem in your running program while it is already in the faulty condition. The inverse of this is when you need ten clicks into some sub-menu to recreate the state every time you attempt a fix, which is both tedious and flow destroying. One guy who came up to me after my SL talk mentioned that while workin on a big commercial video game he had to play the game for 30 minutes each time to get back to the part he was trying to fix!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665601689.663509"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665601689.663509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-12 12:08</span><br/>
+I've been suffering from Blub here.<br/><br/>Me: you should take charge of your tools, automate whatever you can.<br/><br/>Also me: bah, all this IDE stuff takes too long to set up, it's brittle, keeps breaking on me, I'm just gonna print, because it's reliable and I always have it.<br/><br/>(Except wait, I can't even get print to work reliably anymore. That's good reason to shop around.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665619782.602009"></a>
+      <a href="../devlog-together/1665594315.849469.html#1665619782.602009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-12 17:09</span><br/>
+Oh I screwed up creating the .love file above. Here's a corrected version.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665644372.483689"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665644372.483689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-10-12 23:59</span><br/>
+I like to understand regular GUI interaction as taking a path through some state space.  Then I can use all the equipment of state machines and parsers to represent (syntax) and analyze (semantics) behavior.<br/><br/>For the pragmatics, the trick is to reify both state (what is here right now) and transition (the steps to get here) so that you can swap between the two: <em>integrate</em> steps to get state, <em>derive</em> steps from states.  If it takes 30 minutes to get to the buggy state, then you should be able to get a pointer to that state.<br/><br/>From there my thoughts revolve around making richly interactive systems tractable by explicitly separating more and less embellished versions and from managing the embellishment in a principled way.  For example if you want to find bugs or at least glitches, try touching anything animated.  The animation usually increases the number and variety of states in ways that are easy to overlook as a developer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665648153.523259"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665648153.523259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-10-13 01:02</span><br/>
+Now you just need to make Time a parameter, and you've got a live coding performance tool :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665670323.669369"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665670323.669369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-10-13 07:12</span><br/>
+Yes, exchanging time for space is a good way to think about things.  What is a "script" if not a written version of something that usually happens over time?  Steps in a procedure or lines of dialog.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665685783.693469"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665685783.693469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2022-10-13 11:29</span><br/>
+<a href="https://pernos.co/">https://pernos.co/</a> is perhaps relevant. Once I hit the screwed up state, I want to ask how I got here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665811604.346219"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665811604.346219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-14 22:26</span><br/>
+When I built this I wasn't sure LÖVE had a good way to recover from errors, but I think it can be done. I just need to call the event loop through an <tt>xpcall</tt> that takes a second function for error recovery and returns first whether it hit an error.<br/><br/>What should I do on error recovery? Answering that seems to require thinking about the representation of an app. Following various past demos in Mu and Teliva, I'm planning a repo of apps to consist of the following:<br/><br/>• A numeric sequence of versions (analogous to git commits).<br/>• Each version updating a single top-level definition compared to its "parent" version<br/>• Each version pulling in other top-level definitions from its parent<br/>For example, suppose a version <tt>n</tt> includes definitions <tt>foo</tt> and <tt>bar</tt>, with each definition coming from a unique version.<br/>• <tt>foo</tt> was last defined in version <tt>n-1</tt><br/>• <tt>bar</tt> was most recently defined in version <tt>n</tt>.<br/>Now suppose we edit <tt>foo</tt>. We get a version <tt>n+1</tt> whose manifest looks like this:<br/><br/>• <tt>foo</tt> comes from version <tt>n+1</tt><br/>• <tt>bar</tt> comes from version <tt>n</tt><br/>In this way, the complete manifest at some version might include multiple definitions. But only one of them was actually modified in that version compared to its parent.<br/><br/>Ok, so back to errors. Say I'm at version <tt>n</tt> and try to edit <tt>foo</tt>. I submit <tt>n+1</tt> in the UI. When my live program runs it crashes. The error recovery function simply switches the most recently modified definition (<tt>foo</tt>) from the most recent version (<tt>n+1</tt>) back to its version in the parent (<tt>n-1</tt>). When the next frame comes around, the UI continues to show version <tt>n+1</tt>, augmenting it with the error message from the crash. Now I can try to make a fresh edit and resubmit, see if that fixes the crash.<br/><br/>I think I can do all this in a few hundred LoC of Lua. I can get away with a simple implementation because a paradigm of GUI development (without threads) forces most functions to return quickly. Frames are a nice boundary for snapshotting, and state lives in some global location between functions, while work done with locals within functions can be thrown away after a crash.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665863359.669659"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665863359.669659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-15 12:49</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> What if the visible bindings are a projection over a graph where every node is a versioned fn? (as opposed to versioning at the program level)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665863938.946509"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665863938.946509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-15 12:58</span><br/>
+Yes, that feels like a more concise rephrasing of my comment. All the file fiddling could be seen as implementation details. Does that seem right?<br/><br/>One difference potentially is that I'm imagining a single global version number rather than versions by binding. But that's probably also just an implementation detail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665864227.532939"></a>
+      <a href="../devlog-together/1665594315.849469.html#1665864227.532939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-15 13:03</span><br/>
+Today I'm playing with two communicating LÖVE apps, a driver and the app being driven live[1]. Stdin/stdout doesn't work very well when it's a machine on the other end (and I want to support Windows). I spent some time trying out sockets, but that goes against the grain of Windows firewalling. Now I'm just using a file for communication.<br/><br/>[1] After I'm done somebody else can implement the driver within Emacs :smile: I want some amount of structured editing that feels faster to prototype in LÖVE.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665864434.666979"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665864434.666979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-15 13:07</span><br/>
+Some initial ideas of the protocol between driver and app:<br/><br/>DEFINE name ...<br/>DELETE name<br/>GET name [n] (returns definition as of version n)<br/>MANIFEST [n] (names with active bindings at version n)<br/>TIMELINE [n] (returns say 10 most recent interactions before version n)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665864497.862229"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665864497.862229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-15 13:08</span><br/>
+You might want <tt>COMPLETE symbol-fragment</tt> for later editor integration (if you go the versioning route, need to specify that context as well)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665864895.597439"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665864895.597439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-15 13:14</span><br/>
+Oh, you mean for typing in part of a name and autocompleting it in queries? :bulb:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665865834.321359"></a>
+      <a href="../devlog-together/1665594315.849469.html#1665865834.321359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-15 13:30</span><br/>
+Current state. The app started out on the right without a love.draw, and updated on the fly after I sent the code on the left.<br/><br/>Now I can focus on implementing the protocol and the on-disk representation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665873495.631329"></a>
+      <a href="../devlog-together/1665594315.849469.html#1665873495.631329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-15 15:38</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Yeah, for this sort of thing in the editor:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665965631.022339"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665965631.022339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-16 17:13</span><br/>
+Error recovery is looking <em>extremely</em> promising. I spent an hour live-coding with my kids and didn't have to pop a terminal once. I hope to do a video in a few hours. Lines of code needed to be live:<br/>• Driver: 118 (over a basic text editor)<br/>• App: 400 (just the framework bits before the app does anything)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665989897.803169"></a>
+      <a href="../devlog-together/1665594315.849469.html#1665989897.803169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-16 23:58</span><br/>
+Ok, here's a take I spent too much time on. It shows too little, takes too long, etc., etc. But it shows the error flow I have so far. It's clear much more is possible: providing commands to undo the previous edit, inspect variables, etc. The top-level options Common Lisp provides on an error.<br/><br/><a href="https://spectra.video/w/wkDB5fsjBNBbsqKXGhGzwT">https://spectra.video/w/wkDB5fsjBNBbsqKXGhGzwT</a> (video; 5 minutes)<br/><br/>(Many thanks to <span style="background-color:#ccf">@Ivan Reese</span> for showing me how to finally up the volume on my mic.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665992431.658069"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665992431.658069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-10-17 00:40</span><br/>
+This looks very interesting, and promising. And got me interested in LÖVE. Is there any high-level overview of that framework? I'd like to know in particular what its limits are. You mentioned somewhere the requirement of short (in time) state update and drawing functions. That's good to have in anything interactive, so it's not much of an additional constraint. Any other important limitations? How much of the embedding system can LÖVE access? Files, apparently yes. Network, probably. But can I use the microphone of my Android phone, for example? It's not obvious to find answers to such questions in the various tutorials and reference manuals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1665994787.211509"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1665994787.211509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-17 01:19</span><br/>
+I find it's pretty full featured! Here's the microphone on Android, for example: <a href="https://love2d.org/wiki/love.audio.getRecordingDevices">https://love2d.org/wiki/love.audio.getRecordingDevices</a><br/><br/>One limitation I've run into is lack of https support. That's coming in the next version, but could be 1-2 years away.<br/><br/>On the other hand you can always add libraries for yourself from the larger Lua eco-system. Https comes from luasec. I've been ignoring that option in favor of a download-and-done cross-platform experience, but it's pretty well-trodden ground. Maybe even on Android :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666000082.616069"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666000082.616069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-10-17 02:48</span><br/>
+Thanks for that summary and pointer! Integration of Lua libraries was another point I was wondering about. It's not obvious with a framework. Good to know it's an option, while not forgetting that this is the entrance to dependency hell.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666024287.650129"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666024287.650129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-10-17 09:31</span><br/>
+I especially like the note about how little code it really takes to have a nice experience like this. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666085153.905939"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666085153.905939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-10-18 02:25</span><br/>
+You have certainly excited me about the idea of using LÖVE as a prototyping platform!  Love how simply you managed to put this together (a lesson I often need to relearn)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666157766.491199"></a>
+      <a href="../devlog-together/1665594315.849469.html#1666157766.491199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-18 22:36</span><br/>
+If any of you would like to try it out (say for some coroutine experiments, ahem <span style="background-color:#ccf">@William Taysom</span>), I've packaged up the two sides into a single repo at <a href="https://codeberg.org/akkartik/20221018-live.love">https://codeberg.org/akkartik/20221018-live.love</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666160741.747089"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666160741.747089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-10-18 23:25</span><br/>
+Ha!  You've tricked me.  I'll have to give it a try.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666164130.296129"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666164130.296129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-10-19 00:22</span><br/>
+Coroutines work!  Super dumb example, text extracted from screenshot.  Seemed better than sending an image:<br/><pre style="white-space:pre-wrap">x=x+10<br/><br/>if x &gt; 100 then<br/>x= 10<br/><br/>end<br/><br/>silly = function()<br/>return x<br/>end<br/><br/>cosilly = coroutine.create(function()<br/>local = 3<br/>while true do<br/>coroutine.yield(r)<br/>coroutine.yield(r + 1)<br/>coroutine.yield(r + 2)<br/>coroutine.yield(r + 3)<br/>coroutine.yield(r + 2)<br/>coroutine.yield(r + 1)<br/>r=r+0.1<br/>if &gt; 100 then<br/>r=3<br/>end<br/>end<br/>end)<br/><br/>on.draw = function()<br/>color(1,1,1)<br/>for i,c in ipairs(Circles) do<br/>if i == 1 then<br/>circ('fill', c.x, c.y, silly())<br/>else<br/>local status, radius = coroutine.resume(cosilly)<br/>circ('fill', c.x, c.y, radius)<br/>end<br/>end<br/>end</pre><br/>I put <tt>x</tt> in with <tt>Circles</tt> as a way to track syntax errors since pressing F4 fails silently in that case.  As you know, runtime errors have a big red "stack traceback" popup that can over up what you were doing.<br/><br/>I also learned that switching definitions and then trying to use the cursor keys, can break it with a blue screen:<br/><pre style="white-space:pre-wrap">Error: text.lua:86: attempt to index local 'line_cache' (a nil value)<br/>stack traceback:<br/>	[love "boot.lua"]:345: in function '__index'<br/>	text.lua:86: in function 'populate_screen_line_starting_pos'<br/>	text.lua:583: in function 'pos_at_start_of_screen_line'<br/>	text.lua:409: in function 'up'<br/>	text.lua:318: in function 'keychord_pressed'<br/>	edit.lua:293: in function 'keychord_pressed'<br/>	keychord.lua:11: in function &lt;keychord.lua:5&gt;<br/>	app.lua:34: in function &lt;app.lua:25&gt;<br/>	[C]: in function 'xpcall' </pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666209086.338149"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666209086.338149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-19 12:51</span><br/>
+Thank you for those reports! The text is on disk btw. Let me start printing out the location on startup. You can also select text in the driver with shift + arrow keys and press ctrl+c to copy to clipboard<br/><br/>&gt; I put <tt>x</tt> in with <tt>Circles</tt> as a way to track syntax errors since pressing F4 fails silently in that case.<br/>I don't follow this. Did you mean you tried creating a new definition for <tt>x</tt> and hit F4 and it failed without error?<br/><br/>One weirdness with the current implementation: creating a new definition doesn't automatically update the buttons up top. You have to hit the <tt>manifest</tt> button again.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666239227.877139"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666239227.877139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-10-19 21:13</span><br/>
+I'm not able to get your code snippet running, so I'd love to get a snapshot of your save directory, maybe do a call with you about what you saw.<br/><br/>However, I can confirm that coroutines seem to work:<br/><br/><pre style="white-space:pre-wrap">silly = coroutine.create(function()<br/>	while true do<br/>		coroutine.yield(love.math.random())<br/>	end<br/>end)</pre><br/><pre style="white-space:pre-wrap">on.draw = function()<br/>	local _, r = coroutine.resume(silly)<br/>	local _, g = coroutine.resume(silly)<br/>	local _, b = coroutine.resume(silly)<br/>	color(r,g,b)<br/>	for _,c in ipairs(Circles) do<br/>		circ('fill', c.x, c.y, c.radius)<br/>	end<br/>end</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1666242695.096459"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1665594315.849469.html#1666242695.096459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-10-19 22:11</span><br/>
+Yeah, why <tt>x</tt> as a way to track syntax errors?  It's so silly.  I have the first circle use radius <tt>x</tt>, which keeps changing so if I hit F4 and see a change to that circle I know the code parsed.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

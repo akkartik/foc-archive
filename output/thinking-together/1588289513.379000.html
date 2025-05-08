@@ -1,0 +1,211 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 16:31</span><br/>
+"On the usability of editable software"<br/><a href="https://flak.tedunangst.com/post/on-the-usability-of-editable-software">https://flak.tedunangst.com/post/on-the-usability-of-editable-software</a><br/><a href="https://lobste.rs/s/qkpwpa/on_usability_editable_software">https://lobste.rs/s/qkpwpa/on_usability_editable_software</a><br/><br/>Lots of room for thinking about how language design affects the ability to customize software without the anticipation of the original developer. Eg emacs lisp allows redefining functions without having to fork the original library. Eg languages with private/public settings that are enforced by the compiler completely prevent that kind of reuse/rediting, forcing the user to fork which is a pretty heavy-weight operation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588291600.379700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588291600.379700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-30 17:06</span><br/>
+I don't follow why public/private prevent 'rediting' (nice coinage there). Isn't it just a simple edit to change 'private' to 'public'?<br/><br/>Redefining functions that weren't really designed to be extended is just as much a reason to fork as anything else, because you often want to reuse some part of the body of the function. It becomes a game of Russian Roulette if you start updating the library without updating your copy of the redefined function. So the leap from editing copies of things to editing things in place isn't that big, I think.<br/><br/>The key here is to make forking a lightweight operation. And version control systems have already done a lot of heavy lifting for us by refining the erstwhile-heavyweight operation of branching into something light and inexpensive. I suspect making forking lightweight is mostly just a switch in mindset. There are no chains here except those we place on ourselves.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588294425.380000"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588294425.380000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 17:53</span><br/>
+&gt;  rediting<br/>Been a long day :smile:<br/>&gt; don't follow why public/private prevent 'rediting'<br/>The distinction I was getting at is editing something "from the outside" vs having to fork. Eg if there is a function in a libary whose behavior I want to change in...<br/>• ...Julia, then I define a new method of that function in my code<br/>• ...Rust, then I search for the repo, checkout the correct version as a git submodule, change the Cargo entry to point at my local repo, edit the code in the repo, then rebase my changes when I want to upgrade the library<br/>The end result is that same - I've changed some logic and I have to maintain that diff. But in the latter case there is a <b>lot</b> more busywork involved.<br/><br/>Making forking more lightweight would definitely help, but I think there is an additional point of friction in maintaining the diff as text vs maintaining the diff as a language mechanism. Eg if the code gets moved around a bunch in the file then rebasing the diff is painful, whereas nothing has to change with the override. Also version control and package managers don't play together very well at the moment. If the original version of the package gets updated the rust package manager won't even warn me about it, let alone help me rebase my changes.<br/><br/>I think we're agreeing in principle - we both want forking to be a lightweight mechanism. You could come at this from either end - a version control system that understands the language and helps you manage forks, or a language with built-in mechanisms for composing code with changes.<br/><br/>This kinda sounds like <a href="http://akkartik.name/post/wart-layers">http://akkartik.name/post/wart-layers</a> - did you continue working on that idea?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588294505.380200"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588294505.380200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 17:55</span><br/>
+I guess <a href="https://www.unisonweb.org/">https://www.unisonweb.org/</a> has gone pretty far done this road - providing builtin tools for editing a function and updating all of it's callsites to point to the new version.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588295765.381000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588295765.381000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-30 18:16</span><br/>
+I still use layers in my projects. But the idea with layers is to emphasize convenience and rely on the programmer to preserve composability-related properties. In other words, you can easily make changes to a function that create arbitrarily-difficult-to-debug holes for yourself. I rely on the people using layers to use them tastefully.<br/><br/>I think this is an irreducible trade-off. If you want extending functions to always be nice and safe, you'll be restricted in the number of places the safe mechanism is available to you.<br/><br/>In my current project I instead focus on catching any possible breakage in the project using some combination of tests, types and correct-by-construction design. This is the <em>top</em> priority, and I give up as much as possible while preserving it. Now others can modify functions all they want, safe in the knowledge that <em>something</em> will complain if they break something when forking a function.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588296760.381400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588296760.381400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-30 18:32</span><br/>
+I absolutely agree with this:<br/><br/>&gt; I search for the repo, checkout the correct version as a git submodule, change the Cargo entry to point at my local repo, edit the code in the repo, then rebase my changes when I want to upgrade the library... there is a <b>lot</b> more busywork involved.<br/>To me this is the lethal problem with packages: by making them easy to consume we make them harder to modify. And that seems like a hard, black-or-white, us-vs-them trade-off. And if that's right, if there's no place for compromise here, I prefer keeping it easy to modify. Even if that is a harder sell, even if it means most people will gravitate towards the competition.<br/><br/>Same goes for binary distributions of anything. Always keep source along for the ride, have the binary rebuild automatically if the source ever changes. Anything else makes the world a worse place, IMO. (I've been feeling a lot more strongly about this in the past couple of months.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588306106.383100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588306106.383100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-30 21:08</span><br/>
+I :heart: every single one of your comments on that <a href="http://Lobste.rs">Lobste.rs</a> thread, <span style="background-color:#ccf">@Jamie Brandon</span>. We are of absolutely one mind here.<br/><br/>I responded to a few comments there, but I have nothing to add to yours.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588309203.388200"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588309203.388200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-30 22:00</span><br/>
+<span style="background-color:#ccf">@Jamie Brandon</span> the system Josh and I are working on revolves entirely around a remixing model :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588309496.388700"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588309496.388700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-04-30 22:04</span><br/>
+Not sure if you remember, but this was one of the footnotes in my essay on modeling: <a href="https://www.chris-granger.com/2015/01/26/coding-is-not-the-new-literacy/#fn4">https://www.chris-granger.com/2015/01/26/coding-is-not-the-new-literacy/#fn4</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588310994.390600"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588310994.390600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-04-30 22:29</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span><br/>&gt; I feel very cynical/fatalistic about Emacs/Lisp/Smalltalk lately. Yes, the core design choices exhibit a high trust for users. But then it seems to be inevitable that the layers on top start chipping away at this trust. Vim's package managers introduce hurdles for anyone who wants to modify sources. (See my recent war story.) How does the Emacs eco-system compare? Is it really common for people to modify packages? Racket's raco feels the same, additional complexity between me and the libraries they want me to ‘use'.<br/>&gt; <br/>(Responding here since I don't have a lobsters account)<br/>When I first started using emacs I had the same thought, since it's really hard to override a package with the default package manager <tt>package.el</tt>, but there is actually a quite sane package manager that makes modifying packages trivial, <tt>straight.el</tt>, it's based on the nix/guix model, but it's even simpler—to edit a package, you just edit the files in the git checkout it creates, that's it. maintaining your own branch is as simple as... making a git branch, and so on. Recently I had a problem when I upgraded my packages, and to switch to an older version, I just checked an older version of the package from git, and the package manager handled rebuilding and everything automatically. It felt very nice.<br/>In a way, it's like the package manager uses git metadata as its database, so you don't need extra cruft on top.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588311223.390900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588311223.390900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-04-30 22:33</span><br/>
+<a href="https://github.com/raxod502/straight.el">https://github.com/raxod502/straight.el</a><br/><br/>Wow, look at that Readme! Thanks for showing me this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588315881.392400"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588315881.392400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 23:51</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> Are you guys still at rai?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588316112.392600"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588316112.392600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 23:55</span><br/>
+Wow, straight.el does address a lot of the things we were complaining about.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588335205.401600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588335205.401600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-05-01 05:13</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Easy to consume and easy to modify lead to almost opposite criteria for software architecture. I see that as the essence of Knuth’s reusable vs. re-editable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588345298.408100"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588345298.408100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-05-01 08:01</span><br/>
+<span style="background-color:#ccf">@Jamie Brandon</span> nope! We stepped away at the beginning of the month. Going to try our own thing for a bit and take it from there. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588346356.408400"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-24/1392332871012_8d5fa305f272f9d0c9e3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588346356.408400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Roben Kleene</b>
+<span style="margin:2em; color:#606060">2020-05-01 08:19</span><br/>
+This is another great comment from the <a href="http://Lobste.rs">Lobste.rs</a> thread <a href="https://lobste.rs/s/qkpwpa/on_usability_editable_software#c_qxnh4i">https://lobste.rs/s/qkpwpa/on_usability_editable_software#c_qxnh4i</a><br/><br/>&gt; User modifications in computer games are a lot more common than other software types and are even possible in some big budget proprietary software. I think this can offer some insight into how this can work for other software.<br/>&gt; The most basic version is to move all content/assets (3d models, textures, sound files, etc.) into its own subfolder tree and give it clear human readable names. Users can then simply swap out files.<br/>&gt; The next level is to abstract how the metadata for high level objects that use these assets is stored out to a text based format like json or xml so that the assets can be reused and new high level objects defined.<br/>&gt; This can be extended to more and more engine content, including defining behaviours and simple functions in json/xml
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588346909.408700"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-24/1392332871012_8d5fa305f272f9d0c9e3_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588289513.379000.html#1588346909.408700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Roben Kleene</b>
+<span style="margin:2em; color:#606060">2020-05-01 08:28</span><br/>
+After text editors and terminals (which have the unfair advantage of explicitly targeting programmers, who are the best position to do the editing),<br/>computer games might be the most widely-edited software there is?<br/><br/>I did an analysis of the most popular creative apps across industries, and one of the patterns is extensibility  (<a href="https://blog.robenkleene.com/2019/08/07/apples-app-stores-have-failed-creative-apps/">https://blog.robenkleene.com/2019/08/07/apples-app-stores-ha&hellip;</a>). Now that I look for it I start seeing it everywhere, for example as far as I can tell, this chain is possible: Open an After Effects project, add a Cinema 4D 3D model to it via a plugin, then open a Houdini project in Cinema 4D via a another plugin, then render it all via a third-party renderer like Redshift. Now I'm not sure if all of that would actually work, but it's fascinating how flexible the workflows for professional creative apps are, especially compared to consumer software. Like compare that to just trying to get something like Apple Notes to talk to Excel...
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

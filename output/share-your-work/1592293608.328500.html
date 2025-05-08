@@ -1,0 +1,78 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1592293608.328500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-16 00:46</span><br/>
+A little calculator app on my minimal virtual computer, inspired by chapter 2 of Jack Crenshaw's "let's build a compiler!"<br/><br/><a href="http://akkartik.github.io/mu/html/apps/arith.mu.html">http://akkartik.github.io/mu/html/apps/arith.mu.html</a><br/><br/>(Details: <a href="https://github.com/akkartik/mu">https://github.com/akkartik/mu</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592421765.330300"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-28/811814014976_259a1e56ad2e11fe3d56_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1592293608.328500.html#1592421765.330300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shubhadeep Roychowdhury</b>
+<span style="margin:2em; color:#606060">2020-06-17 12:22</span><br/>
+I love this "book". Will check out <span style="background-color:#ccf">@Kartik Agaram</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592438249.330600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1592293608.328500.html#1592438249.330600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-06-17 16:57</span><br/>
+I suggest you work on reducing the amount of punctuation in your syntax. For example, the token 'break-if-= $term:loop' should probably be reduced to 'breakif'. Punctuation characters cause the user to slow massively down in their typing. Few people have memorized the punctuation characters. And it impairs readability massively when the key operator is the = sign afterwards. so 'breakif ='. but since it is so frequently used, how about 'bif ='.  Also the break statement having to specify the name of the block it is breaking out of is a huge waste of typing. 99% of the time you are breaking out of only one level, so make it the default unless you override it with an explicit label (as so many other languages do).<br/><br/>Also, in this day and age, having to refer to registers the same way intel does is counterproductive. In the 8086 you ad the AL and AH registers because people were doing byte based stuff. AX was the 16 bit register. then 32 bits came along and they called that EAX. Why not go in the reverse, where you assume 64 or 32 bit registers, call that R1, R2, ... RN., and if you want to specify 16-bit parts you use a longer string, like RL1, RH1 ,and if you want to just grab a single byte (very rare), you use RLL1. The point is to take the most frequent operations and make them short, and let the less frequent operations. Of course it goes without saying to avoid nutty instructions like the insane intel GF2P8AFFINEINVQB instruction, which to me is the most obvious sign of intel's decline.<br/><br/>At present your calculator sample is so many characters that i would consider it a punishment to use the language. You've got to be ruthless about abandoning historical notations, and arrive at one that is compact, readable, and avoids unnecessary use of hard to type characters.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592442141.331300"></a>
+      <a href="../share-your-work/1592293608.328500.html#1592442141.331300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-17 18:02</span><br/>
+Thanks for the feedback, Edward. My sense is that <tt>break if</tt> is easier to <em>read</em> even if <tt>bif</tt> is easier to type. But that's very much a hypothesis. Certainly my hands would suffer less RSI if I switched over. I'd appreciate feedback from others.<br/><br/>> 99% of the time you are breaking out of only one level, so make it the default unless you override it with an explicit label.<br/>Yup, that is already the case. Are you seeing the innermost level redundantly specified somewhere? Notice that there's an intervening '{' between <tt>break-if-= $term:loop</tt> and the <tt>$term:loop</tt> label definition (screenshot attached).<br/><br/>I would love to rename registers, but then a reader consulting the Intel manuals has to constantly translate in their minds. I consulted the Intel manuals intensely when I built the lower layers, so it's hard to be sure I've eliminated the need for consulting them by now. I try not to impose unnecessary labor on the reader. Labor I didn't have to perform feels particularly egregious.<br/><br/>There will likely be a RISC-V or ARM rethinking of Mu at some point, particularly in light of recent news. That will certainly fix the register names.<br/><br/>In general, I care a lot about minimizing how much a reader has to learn to start reading Mu code. It might sound funny to anyone who's actually tried to read Mu code, but it's very much true. I care more about the reading experience than minimizing characters; I think dropping letters has historically made code less approachable to non-programmers. As I said, I'll keep your feedback in mind, and I'll look for confirming feedback from others.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593838628.345200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1592293608.328500.html#1593838628.345200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-07-03 21:57</span><br/>
+That was the first compiler tutorial I ever read, and it was awesome! That was my introduction to recursive decent parsing. Have you read "the dragon book", by chance?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593844059.345400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1592293608.328500.html#1593844059.345400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-07-03 23:27</span><br/>
+Indeed. Or at least some part of it. It was a long time ago.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

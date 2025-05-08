@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606580326.162400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-11-28 08:18</span><br/>
+Are there languages where files are functions and imports are parameters?<br/><br/>I am annoyed with file path issues when building typescript. When I try to build the same exact files with tsc, webpack, jest, or yarn, I get 4 different results.<br/><br/>Are there any languages out there where a file is a function that takes parameters which are the paths to its imports? Where you don't include a file, but call it? Built-in dependency injection at the build level?<br/><br/>ie:<br/><br/><br/><tt>// main.foo</tt><br/><tt>printLib = printLib ?? "a_default_value_for_print.foo_import"</tt><br/><br/><tt>printLib.print "hello world"</tt><br/><br/><tt>// project.build</tt><br/><tt>main.foo(printLib = "print.foo")</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606582534.162700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1606580326.162400.html#1606582534.162700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2020-11-28 08:55</span><br/>
+Newspeak<br/><br/>There is no import statement or hard linked external dependencies. Modules are just top level classes you instantiate and pass in the deps. See <a href="https://bracha.org/newspeak-modules.pdf">https://bracha.org/newspeak-modules.pdf</a><br/>and <a href="https://gbracha.blogspot.com/2010/02/serialization-killer.html">https://gbracha.blogspot.com/2010/02/serialization-killer.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606591555.165800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606580326.162400.html#1606591555.165800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-11-28 11:25</span><br/>
+The relevant bits: "Imports Code within a module must often make use of code defined by other modules. For example, ShapeLibrary requires utility classes such as List, defined by the standard collections library. In the absence of a global namespace, there is no way to refer to a class such as List directly. Instead, we have defined a slot named List inside ShapeLibrary. The slot declarations used in figure 2 differ slightly from our earlier examples. Here, slot initialization uses = rather than ::=. The use of = signifies that these are immutable slots, that will not be changed after they are initialized. No setter methods are generated for immutable slots, thus enforcing immutability. When ShapeLibrary is instantiated, it expects an object representing the underlying platform as an argument to its factory method usingPlatform:. This object will be the value of the factory method’s formal parameter platform. During the initialization of the module, the slot List will be initialized via the expression platform collections List. This sends the message collections to platform, presumably returning an object representing an instance of the platform’s collection library. This object then responds to the message List, returning the desired class. The class is stored in the slot, and is available to code within the module definition via the slot’s getter method. The slot definition of List fills the role of an import statement, as do those of Error and Point. Note that the parameters to the factory method are only in scope within the instance initializer. The programmer must take explicit action to make (parts of) them available to the rest of the module. The preferred idiom is to extract individual classes and store them in slots, as shown here. It is then possible to determine the module’s external dependencies at a glance, by looking at the instance initializer. Encouraging this idiom is the prime motivation for restricting the scope of the factory arguments to the initializer"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606591586.166000"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1606580326.162400.html#1606591586.166000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2020-11-28 11:26</span><br/>
+(better of course to look at the PDF to see the source example, but just wanted to paste that for easier ctrl+f)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1606745437.172700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1606580326.162400.html#1606745437.172700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2020-11-30 06:10</span><br/>
+A different solution to the same problem is offered by the universal build systems Nix and Guix. They turn all file references into content addressing via cryptographic hashes, which they compute from a global build configuration.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

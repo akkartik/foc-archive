@@ -1,0 +1,307 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2019-03-14 10:22</span><br/>
+Anyone have an opinion on implicit member access vs explicit? Or even better, seen any concrete research or reason for one over the other?<br/><br/>What I mean is C++, Java, C#, Swift, etc when you're in a method you can access members of the current instance implicitly. You don't have to specify <tt>this</tt> or <tt>self</tt><br/><br/><pre style="white-space:pre-wrap"><br/>class Rect {<br/>   int width;<br/>   int height;<br/>   int area() {<br/>      return width + height;  // implicit<br/>   }<br/>}<br/></pre><br/><br/>vs<br/><br/><pre style="white-space:pre-wrap"><br/>class Rect {<br/>   int width;<br/>   int height;<br/>   int area() {<br/>      return this.width + this.height; // explicit<br/>   }<br/>}<br/></pre><br/><br/>I feel like I prefer explicit over implicit. IMO it makes the code more readable since I can look at the only the line in question a little easier. In the implicit case when <tt>area()</tt> is defined many lines below I'd have no idea if <tt>width</tt> and <tt>height</tt> are variables in a more outer scope, global variables, or member variables. In the explicit case I immediately know they are member variables. That seems like a win. It also means one less argument over naming conventions. Microsoft use to use <tt>m_variable</tt>. Google uses <tt>variable_</tt>. That would all disappear if the language required explicitness like python and JavaScript for example.<br/><br/>What are some negatives? I can see one being typing but if for all other reasons explicit is better than implicit then some language could just shorten the syntax. <tt>_.height</tt> for example.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552591984.333100"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552591984.333100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-14 12:33</span><br/>
+I believe implicit access is better, because I think singletons and global variables are rarely the best design decision.<br/><br/>It's a pit of success thing: in general, the "likely right" way of doing things should be easier than the "likely wrong" way. If you decide that globals can be accessed unqualified but member variables must be qualified with "this.", you're encouraging global variables. Plus, I hate writing <tt>this.</tt> a lot, so you'll catch me writing <tt>let foo = this.foo</tt> in JS which just adds noise.<br/><br/>Instead I'd propose that globals should be specially qualified instead. Ruby's convention of qualifying both <tt>$globals</tt> and <tt>@members</tt> is good too. And it doesn't necessarily have to be the programmer doing the qualification - the editor could colorize or add a sigil to indicate the scope instead.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552596344.334200"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552596344.334200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-14 13:45</span><br/>
+I prefer explicit (and my first love of 17 years is C++).<br/>It means that the model of the language is simpler in my head and thus I need to load less context in my head; this means I have more working mind-space for conceptual things over syntactic/technical details.<br/>It's not just globals but also function arguments and scope variables one needs to care about. With explicit <tt>this.</tt> one doesn't need to think.<br/>Code is written less often than it is read, and I believe this applies even when I'm working on the codebase alone. I'm not a poor typist.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552603889.335500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552603889.335500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-03-14 15:51</span><br/>
+In JavaScript, I avoid using this, new, and class as much as possible, because there are issues with them. Instead I use function-constructors, and the "members" are either the function arguments, or vars declared inside of it. These are accessed directly (without this. ) because they are captured in the closure.<br/> <a href="https://www.youtube.com/embed/DePE0ffiMf4">https://www.youtube.com/embed/DePE0ffiMf4</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552608175.336000"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552608175.336000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-03-14 17:02</span><br/>
+When I first started, I worried about these design details quite a bit, now I don't so much.  Just so used to flipping.  Sometimes explicit gets tedious.  Sometimes implicit gets ambiguous.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552611724.336900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552611724.336900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-14 18:02</span><br/>
+Dan Cook, I was actually just thinking about how exactly closures are an argument in favor of explicit member access (in the cases where one actually does choose to use 'this' and related OO patterns, that is).<br/><br/>Closures make the, uhh.. 'identity' of identifiers even more pronounced: they are no longer just handy convenience aliases or transient temporary variables, but a central building block of the closure semantics, if you will.<br/><br/>This in turn means that it's even more important that the semantics of the identifiers themselves be both as simple and as explicit as possible.<br/><br/>And I feel like the implicit 'this' actually adds complexity here instead of reducing it. It extends the two categories of unqualified identifiers (the lexical local/param and ideally-lexical global scopes) with a third one: member access (which might not even be lexical if the language has dynamic typing).<br/><br/>In order to reduce the complexity back to two categories in ones mind one has to both 1. imagine the implicit lexical 'this.' there and 2. be convinced that the implicit lexical this in the language is actually semantically identical to the other lexical constructs, which it might not be.<br/><br/>Having the 'this.' be explicit in the first place removes both of these extra burdens: "'this' is just a function parameter of the surrounding 'method' and gets captured the exact same way as other parameters"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552625015.338500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552625015.338500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-03-14 21:43</span><br/>
+<span style="background-color:#ccf">@Iridian Kiiskinen</span> - That makes perfect sense in a class-based language, i.e. where "x" is really just a shorthand for "this.x".<br/><br/>However, JavaScript does not have <b>actual</b> classes, and "x" and "this.x" always mean different things. So when you choose to use "this", then you must <b>always</b> say "this.x".<br/><br/>The usage of closures I described does not have any "this" at all, not even an implicit one. And it doesn't extend the categories, it reduces them: it's essentially throwing out member access altogether, and instead accessing everything directly through lexical scope -- not something else that can be <b>confused with</b> lexical scope, but actual lexical scope to begin with.<br/><br/>It's no different than referring to "x" in:<br/><pre style="white-space:pre-wrap">function foo(x) {<br/>   ...<br/>   return x;<br/>}</pre><br/>That "x" is not short for "foo.x". There isn't a "this" that holds x, it's just the x in the current lexical scope. And you're not going to confuse the x in foo(123) with the x in foo(456), because both calls create a different "instance" of that scope.<br/><br/>Closures are about holding onto values in that scope, rather than attaching them to some "this" object. For example:<br/><pre style="white-space:pre-wrap">function plus(x) {<br/>   return function(y) {<br/>      return x + y;<br/>   }<br/>}<br/><br/>var plus2 = plus(2);<br/>var plus4 = plus(4);<br/><br/>plus2(5); // result is 7<br/>plus4(5); // result is 9</pre><br/>Plus takes some x, and returns a function that adds that x to some y. Each call to plus activates a new "instance" of that scope, with its own value for x, and returns a <b>new</b> function that uses <b>that</b> x.<br/><br/>When you want to create multiple functions for one set values, you can return an object that has them as properties. This might be where it gets confusing, because it <b>looks</b> like member access:<br/><pre style="white-space:pre-wrap">function foo(x, y) {<br/>   function sum() { return x + y; }<br/>   function diff() { return x - y; }<br/>   function inc() { x = x + 1; }<br/>   return { sum, diff, inc };<br/>}<br/><br/>var a = foo(1,2);<br/>var b = foo(3,4);<br/>a.sum(); a.diff(); // 3, -1<br/>b.sum(); b.diff(); // 7, -1<br/>a.inc();<br/>a.sum(); a.diff(); // 4, 0<br/>b.sum(); b.diff(); // 7, -1</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552626723.340000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552626723.340000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-14 22:12</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> just to avoid confusion, I wasn't extending or responding to your thought per se (the same way you weren't responding to the original, which had the premise "this exists, implicit or explicit?", which you subverted "I don't use this, so neither").<br/>I was just noticing the funny coincidence about us both thinking about closures from different angles. So there's a high chance we're talking across each other.<br/><br/>My point was this and only this: if one uses closures in conjunction with a class system, then explicit "this." avoids madness, while implicit "this." would invite madness.<br/><br/>I was explicitly not commenting whether class system should be avoided, it's a bit orthogonal to the original question.<br/><br/>On that topic, about JavaScript and classes, while you're naturally correct in that javascript doesn't have native classes but only runtime prototyping, I genuinely don't think that the difference to languages with native class semantics is that big.<br/><br/>This is especially true now with ES6 which offers a default easy-mode boilerplate solution for classes, but I think this was true even on earlier iterations given the assumption that the boilerplating was done consistently.<br/><br/>I mean, even in C++ the runtime semantics of classes are really not much more than dynamic dispatch plus a hidden zeroth 'this' argument. And javascript as natively dynamically typed language naturally has dynamic dispatch natively. So runtime behaviour is the same...<br/><br/>And what comes to static typing etc., on whether dynamic typed language constructs compare to statically typed language constructs, well, that's a completely different discussion and outside the scope of this thread, I feel. :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552627042.340500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552627042.340500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-03-14 22:17</span><br/>
+Ah, you are correct! I indeed thought you <b>were</b> commenting about my reply, which made me think you didn't understand what I meant about closures in JavaScript.<br/><br/>Yeah, maybe this has gotten a bit scattered for that reason :P ... But hey, now we have disambiguated between the different "scopes" we were speaking within.<br/><br/>Maybe if we had only just put "this." before our separate comments, it would have been clear which contexts our comments were referring to :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552627334.340700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552627334.340700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-14 22:22</span><br/>
+But actually on that note: do you know if there are languages which actually have implicit "this" <em>and</em> fully-developed closures? My experience is mostly limited to C++ and JS, and C++ only has the rather constrainted and clunky lambdas. So neither counts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552627600.341400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552627600.341400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-14 22:26</span><br/>
+Heh. Seems like Swift has both closures and implicit 'self'... except when used together: inside closures you need to use 'self' explicitly all the time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552628140.341600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552628140.341600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2019-03-14 22:35</span><br/>
+What if the IDE/editor could label the variables: local/method parameter/class/global and keep them with the same syntax. I think is a win in case you want to change the code, having to rewrite less. And delegating it to a process made automatically by the computer and not by a human.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552652196.342000"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552652196.342000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2019-03-15 05:16</span><br/>
+I am against the expression of code bound to "special" scopes such as member variables and closures in general, so this discussion to me is "settling the point of precedency between a louse and a flea"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552681509.342300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552681509.342300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-15 13:25</span><br/>
+Intriguing take, <span style="background-color:#ccf">@Antranig Basman</span>. I do feel that the typical scopes end up with the problem of copying the same information around without adding any meaning. Could you elaborate on your thoughts and alternative models?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552682967.342500"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552682967.342500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-15 13:49</span><br/>
+Java (kinda) and C# have implicit this and also lambdas/closures. C++ lambdas are clunky but I'm not sure how they aren't "fully developed".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552691114.343000"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552691114.343000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2019-03-15 16:05</span><br/>
+Hi there <span style="background-color:#ccf">@Shalabh</span> - the basic strategy is in the OAP paper that <span style="background-color:#ccf">@Kartik Agaram</span> and I were talking over in the #thinking-together thread - lets see if this link works - <a href="1544229974.163900.html">1544229974.163900.html</a> . Instead of special scopes (objects/closures) designed to eliminate power of reference (and hence, preventing global oversight of the contents of memory), we code against a single, global, structural scope, but reserve all power of reference to the integration domain. Wherever we write anything resembling traditional code it is expressed as pure functions of its immediate arguments.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552693718.350600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-05/567982344725_a9ca5b79893ede5381e5_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552693718.350600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Iridian Kiiskinen</b>
+<span style="margin:2em; color:#606060">2019-03-15 16:48</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> re C++: lack of full closures means workarounds are needed. If you leave the scope you need to capture the identifiers by value (preventing sharing mutable values across several lambdas), or if you do capture local scope identifiers by reference you obviously can't use the lambda outside it. They do cover majority of the useful use cases, but I wouldn't call them fully developed because of this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552694080.350800"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552694080.350800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-15 16:54</span><br/>
+Okay, that's due to C++'s lack of GC so Java/C# don't have that issue. Note that Java can only capture read-only variables (i.e. it captures by value) while C# has no such limitation (but since captured variables end up on the heap, there must be limitations, as certain data types can't be stored on the heap in C#.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552771285.356400"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552771285.356400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2019-03-16 14:21</span><br/>
+Shouldn't we prefer the object-oriented features that C has to offer?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552797305.357600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552797305.357600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-16 21:35</span><br/>
+In the Beads language we do not allow closures, as they create a weird hybrid of code + data that is not statically checkable. You will never be able to prove code correctness if you allow such weird dangling things. Closures although highly convenient for solving callbacks where you want to retain local data are quite evil, because looking at the code you cannot tell how many closures exist at any one point, thus creating great ambiguity in the code readers' minds. Closures were invented inside Actionscript 2 (which is the source material for JS, which was a direct, almost verbatim copy of AS2 at the time, including weird library quirks like the date function returning the day 1-based, but the month index 0-based. ). AS2 used closures all the time because otherwise it was super inconvenient for the AddEventListener callback functions, which inevitably need to reference some local variables telling the system where to put the data. Closures have been adopted so strongly by people like Crockford, that they program almost entirely in a meta-programming manner by generating a whole series of functions at the start of a program by customizing various functions. Makes it hard to debug unless your debugger can show the contextual variable values.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552843737.360000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552843737.360000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-03-17 10:28</span><br/>
+I'm pretty sure closures have been around before JS language family (e.g. as lambdas in Scheme); but maybe you're just taking about when &amp; why they were introduced into JS (or its predecessors)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552892903.361500"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552892903.361500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-18 00:08</span><br/>
+You are probably correct, as everything either goes back to LISP or Algol/FORTRAN.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552920483.361700"></a>
+      <img src="https://secure.gravatar.com/avatar/75184556fcf3aa660f5e56b8e5bdd46d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0021-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552920483.361700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Antranig Basman</b>
+<span style="margin:2em; color:#606060">2019-03-18 07:48</span><br/>
+They were in Algol-68, but not FORTRAN, which initially didn't even have a stack to support recursion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1552924297.364500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1552924297.364500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-03-18 08:51</span><br/>
+Apparently a <b>lot</b> of things go way back:<br/><br/><a href="https://youtu.be/eEBOvqMfPoI">https://youtu.be/eEBOvqMfPoI</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1553278691.416600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1552584175.332300.html#1553278691.416600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-03-22 11:18</span><br/>
+Lambdas/closures are older than electronic computers themselves - see Lambda Calculus, 1936
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

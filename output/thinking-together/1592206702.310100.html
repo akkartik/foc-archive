@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2020-06-15 00:38</span><br/>
+I'm looking for papers / projects / programming languages in which the presentation / editing representation is text and the storage representation is decoupled from presentation / editing. In typical programming languages these representations are the same (code is edited as text and stored 1:1). In structured / projectional editing environments the editing representation is often non-textual. Even though these environments separate presentation from storage, it seems like a by-product while the focus lies on the editing experience. I'd like to see studies of the implications of separating presentation and storage representations for programming languages. I can imagine that this could help backwards-compatible language evolution, end a lot of syntax bike-shedding discussions and probably even let different programming languages share common concepts. I'm not the first one to think about this for sure, but I didn't manage to find useful resources.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592206794.310200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592206794.310200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2020-06-15 00:39</span><br/>
+Do you know related research or have some thoughts on this? Please post below and thanks in advance :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592221693.311000"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592221693.311000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-15 04:48</span><br/>
+You might look at the Intentional Programming project. <a href="https://en.wikipedia.org/wiki/Intentional_programming">https://en.wikipedia.org/wiki/Intentional_programming</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592237524.311700"></a>
+      <img src="https://secure.gravatar.com/avatar/34185a5422416f82b3e4a62964f2866b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592237524.311700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Doug Moen</b>
+<span style="margin:2em; color:#606060">2020-06-15 09:12</span><br/>
+As for implications...<br/>If the storage representation is quite different from the text presentation (eg, XML vs C-like syntax), then you'll be using a tree as an intermediate representation. Even though "the presentation / editing representation is text", there is a challenge if you want to provide a convention text editing interface, because maybe not all texts can be backward mapped into your tree representation (eg, what about mismatched parentheses)? So what happens? If there is a syntax error, you can't save your file until the syntax error is fixed? Or you provide a "structured editing" interface that doesn't allow you to make syntax errors? What I've read about structure editors is that there's a learning curve, and you run into the problem that a lot of common idioms that programmers learn for editing code using a conventional text editor don't work in a structure editor, creating frustration.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592240266.311900"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592240266.311900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-06-15 09:57</span><br/>
+<span style="background-color:#ccf">@Felix Kohlgrüber</span> I hope you're doing well!<br/>At Storyscript we have a projectional editor which doesn't show syntax errors per se, it only says when code is correct and "runnable". We couple that with "grammar suggestions" like in MS Word / Grammarly to help show you how to make corrections. In this way, any syntax that isn't "valid" is simply stored as stylable text. It took a lot of trial-and-error to figure out how strict our exportable/saveable representation would be to an AST, but we struck a pretty good balance IMO (leaning more towards flexibility / error tolerant than what we started with).<br/>A part of our approach was made more complex, because we threw the whole "compilation pipeline concept" out the window, and went with managing our authoring tool using an ECS data model (like in game development)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592248589.314700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592248589.314700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2020-06-15 12:16</span><br/>
+<span style="background-color:#ccf">@Doug Moen</span> Thanks for bringing Intentional Programming up. I heard of it but never really took a deeper look. It's time for that I guess. Regarding mapping into the storage representation: I would be ok with not allowing to save code that contains syntax errors. It shouldn't be too hard to bring code into a form that parses, and on the other hand this forces you to deal with these kinds of errors early. Committed code and input to compilers would be guaranteed to be well formed to some extend, which I think is a good thing.<br/>Structured editing doesn't work IMO when requiring each edit to map from one valid AST to another valid one. There's just to many operations needed for this to be practical. Text editing allows composing a few simple edit operations into larger transformations, kinda unix-philosophy style.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592311767.334200"></a>
+      <img src="https://avatars.slack-edge.com/2020-04-19/1070853245589_9c42167d8bfa4cbf26ad_72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592311767.334200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nuno Leiria</b>
+<span style="margin:2em; color:#606060">2020-06-16 05:49</span><br/>
+Hey <span style="background-color:#ccf">@Cole Lawrence</span>, I'd be interested in knowing more about this. Especially the 'throw away compilation pipeline model' for ECS. I'm a game developer :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592329640.341000"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592329640.341000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2020-06-16 10:47</span><br/>
+<span style="background-color:#ccf">@Felix Kohlgrüber</span> You might want to check out Ryan Fleury's work-in-progress "DION": <a href="https://twitter.com/kevinwatters/status/1261371419201548289">https://twitter.com/kevinwatters/status/1261371419201548289</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592329685.341300"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592329685.341300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2020-06-16 10:48</span><br/>
+there isn't a central hub of information for it currently, just scattered gifs (and he talks about it a lot on the Handmade Network Discord)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592379799.360400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592379799.360400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2020-06-17 00:43</span><br/>
+<span style="background-color:#ccf">@Cole Lawrence</span> Sounds interesting! I've tried building really strict program representations before (e.g. ones that can't represent programs with unresolved names) but it turned out to be a huge pain. I'm currently leaning more towards simplicity and flexibility which matches what you've experienced.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592380171.361200"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592380171.361200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2020-06-17 00:49</span><br/>
+<span style="background-color:#ccf">@Andrew Reece</span> I think I've seen this before. Do you know if there's information on what they're using for storing code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592430326.367100"></a>
+      <img src="https://avatars.slack-edge.com/2021-04-20/1975289475446_adf09dea9be29fa422a0_72.png" style="float:left"/>
+      <a href="../thinking-together/1592206702.310100.html#1592430326.367100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Reece</b>
+<span style="margin:2em; color:#606060">2020-06-17 14:45</span><br/>
+<span style="background-color:#ccf">@Felix Kohlgrüber</span> I know that Ryan has explained it a bit on HMN - the basics are that each node in the abstract syntax tree is kept at a fixed virtual address in memory, so can always be uniquely and stably referenced. When saving to disk, I think the total virtual address space is broken up into "megachunks", such that libraries that would otherwise have conflicting virtual addresses can safely interact.<br/>I don't know much more detail than that. I'm aware he recently rewrote a fair amount of code and I'm not sure exactly what has changed.<br/>I suggested he join this community, but he's pretty busy, so not sure if he will. He regularly answers related questions on the HMN discord if you want to probe further: <a href="https://discord.gg/hxWxDee">https://discord.gg/hxWxDee</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

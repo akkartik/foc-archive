@@ -1,0 +1,103 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-31 12:28</span><br/>
+A couple of days ago I noticed a bug that's been in all my apps since I started programming with LÖVE at the start of 2022. Start searching for text, type nothing into the pattern to search for, then find again repeatedly. Crash. Caused by misusing a Unicode library, even though this bug needs no special chars to trigger.<br/><br/>Now I've pulled the bugfix into 54 forks :face_exhaling:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730627183.074749"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730627183.074749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-11-03 01:46</span><br/>
+That's a frequent criticism I hear when I try to convince colleagues to go for re-editable (rather then re-usable) software.<br/><br/>I believe this should be automatable, though perhaps require adapted tooling. The hard part is keeping track of forks as they are made. For a single person this just requires adopting some discipline, but for groups it probably requires some mechanism to register forks in some central place.<br/><br/>Any thoughts on this? I guess you are in the "individual" category for now.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730646519.632749"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730646519.632749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-11-03 07:08</span><br/>
+&gt; ... The hard part is keeping track of forks as they are made. ...<br/>FWIW: I don't know of a solution for this kind of problem, but, things like <a href="https://research.cs.queensu.ca/home/cordy/Papers/CR-NiCad-Tool-ICPC11.pdf">NiCaD</a> make me believe that steps towards solving this kind of thing are possible. I find <tt>git</tt> to be a bother when I'm re-editing code, hacking and exploring problem spaces. I don't know before-hand where I'm going nor what I'm going to do next. I need a tool that auto-saves a tree of branches of my explorations without needing me to stop and stroke git, trying to predict when I will want to save a change vs. backtracking, trying something else, and, cleaning up after myself. I need <tt>emacs</tt> to create and commit a new git branch every time I do a save.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730647641.293649"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730647641.293649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-03 07:27</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Yeah, this is the key question to the whole approach, isn't it? I have a few responses:<br/><br/>• The conventional approach is to trust a third party to make sure changes are applied everywhere they should be. That isn't going well. Software is full of regressions.<br/>• The conventional approach is to bundle a bunch of unrelated code higgledy-piggledy as features in shared codebases. That isn't going well. It remains challenging to ensure a bug is fixed in every applicable combination of features.<br/>• Paradoxically the best way to avoid the drawbacks of reeditable software is to avoid editing it too much. The goal of my prolific spawning of forks is to keep each fork simple and stable as far as possible. The root of my tree, for example, only gets modified for bugfixes these days. And bugfixes are growing more rare, particularly in the subtree since <a href="https://akkartik.name/post/programming-2024">my recent big rewrite</a>. Though I'm still maintaining previous subtrees, which brings me to..<br/>• The conventional approach is to let old configurations go stale. Once you've written a paper you don't bother updating its code. You can do that just as well with this approach, just with greater transparency, jettisoning outdated configurations to obviously outdated forks. I've been taking on more pain than I need to, just to get a sense of problems beyond an individual scale.<br/>• I think we can build tools for reducing the pain of fixing merge conflicts repeatedly in a bunch of forks. Git can remember and replay merge conflicts, but currently only in a single fork. I track new version control programs like Pijul and jj because they may help with this use case by starting from more principled foundations. (It's unclear so far if they do.) So it's important not to compare the fully mature state of conventional software with the embryo of a new approach. (Has anyone experimented with training AI to fix merge conflicts? Delegate the boring parts of building, not the fun parts.)<br/>• I do have some tools for speeding things up. (My tool for keeping track of forks is just a flat file containing a topologically sorted list of directories to iterate through. Each directory keeps track of its upstream in git config.) It takes me 1-2 hours to pull a patch through all my forks. Where the tools are lacking, I prioritize the quality of the result over some periodic tedium.<br/>Bottomline for now: the conventional way to make software is better in one way: it lets us all sit around, stewing in incompetence, pointing fingers at each other, safe in the knowledge that nobody will blame any single one of us directly for most problems. The conventional way is worse in one way: there's no good way for the individual who truly <em>cares</em> about the quality of their work to carve out an area to cultivate. In my approach they can start managing their own forks, do the tedious work needed to stamp out bugs once and for all, and to avoid regressions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730718106.977299"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730718106.977299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-11-04 03:01</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I use <a href="https://github.com/simonthum/git-sync">git-sync</a> for automatic snapshots of explorative work, and also for my notes. You could easily tell Emacs to do it for every save. You can also use Git hooks for committing and pushing automatically when a file changes in the repository, that's what I do for my password collection (via <a href="https://www.passwordstore.org/">Password Store</a>). None of this is perfect, but I find these solutions good enough for me.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730718241.377299"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730718241.377299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-11-04 03:04</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Thanks for the extensive reply! Your thoughts are a superset of mine, so I have nothing to add for now. I agree in particular with your point about tooling for new approaches being necessarily less complete and less mature. Which is why mainstream is always attractive.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730737919.836599"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730737919.836599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-11-04 08:31</span><br/>
+I'd say the mainstream is less appealing to me for the reasons I gave :smile: Once I understand the consequences to quality of that approach, I can't let lack of tooling keep me from aiming higher.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1730749619.050049"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1730402897.670529.html#1730749619.050049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-11-04 11:46</span><br/>
+Indeed.... Maybe it's more like: the mainstream is always attractive to mainstream-type people :wink:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

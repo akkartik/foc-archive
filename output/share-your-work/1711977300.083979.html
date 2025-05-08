@@ -1,0 +1,186 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-01 06:15</span><br/>
+I'm currently building <a href="https://resheet.dev">https://resheet.dev</a>, a notion-spreadsheet-hybrid. Started because I often ran into limitations with Notion and with spreadsheets. In Notion I wanted to be able to just do some calculations (or even have some embedded spreadsheet). Spreadsheets are nice, but I always ran into limitations. I always thought these could easily be overcome by having a more feature-complete programming language. Because I previously failed very hard by being too ambitious, I tried to keep this project simple. ReSheet runs JavaScript with React because of the vast ecosystem and wide adoption.<br/><br/>It was important to me that it's core is simple and extensible: Everything revolves around the concept of a "Block", which can be thought of like a cell in a spreadsheet. Blocks can be nested and you're able to write and then use your custom Block completely in ReSheet itself. As ReSheet itself is just one big Block you can embed ReSheet in itself.<br/><br/>Maybe sometime in the future I'll get to work on a Block for visual and interactive programming, but currently I'm trying to get it reliably working and useful in the current state.<br/><br/>I'd love to hear your feedback and to answer any questions! (Documentation is still lacking. Currently working on adding some example documents (in ReSheet) to better show what's possible)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712060521.809589"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712060521.809589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-02 05:22</span><br/>
+I'm wondering why there is a keyboard calibration wizard. Everything else on the web works without calibration.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712061141.867479"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712061141.867479" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-02 05:32</span><br/>
+Problem is: <tt>Ctrl+?</tt> for example is a different combination in different keyboard layouts. I wanted to keep the "?" constant, not the physical keys which have to be pressed. The latter would be possible without the wizard. And I didn't want to maintain different shortcut settings for different layouts. So this was the easiest solution I could come up with. :man-shrugging: It would be almost possible without, but a tiny detail in the keyboard event handling makes this necessary: On a US layout <tt>Shift+/</tt> is "?" and is reported as <tt>event.key === '?'</tt> , but as soon as I add another modifier, like <tt>Meta+Shift+/</tt> I get <tt>event.key === '/'</tt><br/><br/>I suspect others either just use the physical location to determine the shortcut or they maintain different shortcut mappings for different keyboard layouts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712065382.609279"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712065382.609279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-02 06:43</span><br/>
+I see. As a user, the latter is what I want anyway. The fact that character mapped to <tt>Shift-'/'</tt> does not equal the character mapped to <tt>Meta-Shift-'/'</tt> is not a mistake and needs not be corrected. As soon as you add another modifier, you're in a different and unrelated group in the keyboard layout, and you can't assume that the <tt>Meta-Shift</tt> group equals the <tt>Shift</tt> group.<br/><br/>There's really no such thing as <tt>Control-'?'</tt>. When I see such a key binding, it confuses me, and I think it was made by some American who has a question mark key on their keyboard, and I assume it's not accessible to me. The key binding is really <tt>Control-Shift-'/'</tt>, regardless of whether <tt>Shift-'/'</tt> happens to type a question mark.<br/><br/>Keyboard layouts vary in what modifiers need to be pressed. Imagine you have the key binding <tt>Shift-'1'</tt>, and then someone comes with a Czech keyboard, which requires holding <tt>Shift</tt> to type digits, and then the key binding becomes the nonsensical <tt>Shift-Shift-'+'</tt>.<br/><br/>Here's an excerpt from a handbook I'm writing in text editor design:<br/><br/>&gt; Key bindings should be the actual keys on the keyboard, not the characters the keys type after applying a keyboard layout that may change due to locale and user preference. <em>Control-z</em> should be the same place on the keyboard regardless of whether the keyboard layout causes the <em>z</em> key to type the character <em>z</em> (English), <em>y</em> (German), <em>w</em> (French), <em>Я</em> (Russian) or <em>;</em> (Dvorak).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712067338.793459"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712067338.793459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-02 07:15</span><br/>
+Regarding your example on Ctrl-z: It is mostly practice that it still is Ctrl-z on a german keyboard, even though it is a different location. Without judging if this was a good design in the first place, I think it's not unreasonable to follow this practice.<br/><br/>Your example with the Czech keyboard layout is one of the cases I avoid with this design: Neither do I have <tt>Shift-'/'</tt> nor do I have <tt>Shift-'1'</tt> as a keybinding.<br/><br/>Another note: I'm not sure if/where you're speaking of <tt>'/'</tt> as the key in any keyboard layout that generates a <tt>'/'</tt>, or if you mean the key location, that generates a <tt>'/'</tt> on a US layout. If you were only speaking of the former, then your remark about <tt>Control-Shift-'/'</tt> has the same problem as you described in your Czech example: On a german keyboard <tt>'/'</tt> is typed by pressing <tt>Shift-'7'</tt>, so there is no <tt>Shift-'/'</tt> as this would be <tt>Shift-Shift-'/'</tt> .<br/><br/>The part about not being clear enough how <tt>Control-'?'</tt>  can be typed is indeed something I have to clarify in the app.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712068175.967869"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712068175.967869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-02 07:29</span><br/>
+I'm also not super-invested in the way I solved this. I may change it in the future. It was just the option that seemed most sensible to me under the circumstances I had. (Which included how much time I want to invest, does it work cross-keyboard-layout, how do I display the shortcut, do I have memorable shortcuts, etc)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712071101.591709"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712071101.591709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-04-02 08:18</span><br/>
+> It is mostly practice that it still is Ctrl-z on a german keyboard, even though it is a different location.<br/>Which is a practice that annoys me every time. Even more so the Vim style directional keys <tt>j</tt>, <tt>k</tt>, <tt>l</tt>, <tt>;</tt>, a variation of which is present in your app.<br/>> Your example with the Czech keyboard layout is one of the cases I avoid with this design<br/>Even if you never bind the digit keys, you'll still have problems with Russian layouts among others that don't have the letters <tt>a</tt> to <tt>z</tt>. I used to have a keyboard layout where a question mark is typed with the <tt>Alt Gr</tt> modifier, which the calibration wizard does not support at all.<br/>> I'm not sure if/where you're speaking of <tt>'/'</tt> as the key in any keyboard layout that generates a <tt>'/'</tt>, or if you mean the key location, that generates a <tt>'/'</tt> on a US layout.<br/>I wasn't generalizing this particular example beyond the US layout, so the distinction doesn't matter. When generalizing, my suggestion is to bind keys to actual locations every time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1712087364.322489"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1712087364.322489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-02 12:49</span><br/>
+I see, you're right, my approach still has limitations. When I have time, I need to work on that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714164940.219969"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-10/6931478324918_5b4c95c70d98784a05cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714164940.219969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-04-26 13:55</span><br/>
+ReSheet looks great, I like the mix of examples - versatile!<br/><br/>&amp; I like the portability via json<br/>Will it be feasible to embed sheets: onto a static site, for example?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714229288.452949"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714229288.452949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-27 07:48</span><br/>
+Yes, it is itself completely static (in the sense that the webserver just serves static files and doesn’t do anything else). In <a href="https://github.com/keenbug/ReSheet/tree/main/src/web">https://github.com/keenbug/ReSheet/tree/main/src/web</a> you can see how it is built at the top level in index.html and index.tsx. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714229523.259369"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714229523.259369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-27 07:52</span><br/>
+You can also switch what the outermost block should be by changing ToplevelBlock in src/web/index.tsx. So for example you could just have a SheetOf(Note) without the whole pages and sidebar stuff (which is implemented in the DocumentOf block)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714253246.536019"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-10/6931478324918_5b4c95c70d98784a05cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714253246.536019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-04-27 14:27</span><br/>
+Cool, close tie to React is interesting. I use Observable JS a lot. You hit a key thing I like a lot about reactivity, and React for complex UI could be neater (yet every time I try to mix reactivity things it gets messier than I can comprehend!).<br/><br/>My project is like a spreadsheet: calculang (<a href="http://calculang.dev">calculang.dev</a>), but detached from layout/UI: only the abstract calculation part as a core concern. To now though all my examples are using OJS.<br/>I think that ReSheet blocks are non-module type, any plans to interoperate with module type/ESM?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714255183.147359"></a>
+      <a href="../share-your-work/1711977300.083979.html#1714255183.147359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-04-27 14:59</span><br/>
+I looked at running a calculang model (savings calculator) from resheet and resheet UI elements and got something :grinning:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714375897.633039"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-01/6913917017328_6d06451d05f1b3ef47eb_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714375897.633039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Krüger</b>
+<span style="margin:2em; color:#606060">2024-04-29 00:31</span><br/>
+Nice! Ah yes, I've seen calculang and was intrigued by the concept and really like the examples! I'd love to see more projects here to interoperate and I thought maybe ReSheet could provide some sort of framework for that.<br/><br/>(Edit: Removed comment about OJS, because I confused it with something else)<br/><br/>I'm not sure what you mean by interoperating with ESM:<br/>Do you mean that one could use ReSheet documents (or parts of it) like modules somewhere else? I thought about adding some type of export, so you could generate .mjs files from your document. But I don't have any concrete plans yet. The current workaround could be to write some converter from the saved json documents to mjs.<br/>Importing ESM is possible, like you already did.<br/>And writing custom blocks and importing them as ESM is also possible, but still need some workarounds. I want to split ReSheet into packages, so you can use the Blocks API as a package to build your own Block. Currently the best way is to create a function, that takes global <tt>resheet</tt> value as an input and uses the ReSheet API from there. So after importing the function in ReSheet you'd call it with <tt>resheet</tt> to get your Block. (A little bit like the module system workarounds predating ESM) So it would look something like that:<br/><br/><tt>@your/block-on-npm</tt>:<br/><pre style="white-space:pre-wrap">export default function(resheet) {<br/>  return {<br/>    MyBlock: resheet.core.block.create({<br/>      /* your block definition */<br/>    })<br/>  }<br/>}</pre><br/>in ReSheet:<br/><pre style="white-space:pre-wrap">myLib<br/>= (await import('<a href="https://esm.sh/@your/block-on-npm?external=react').default(resheet">https://esm.sh/@your/block-on-npm?external=react').default(resheet</a>)<br/><br/>/myLib.MyBlock</pre><br/>You can also send me a private message any time, I'm happy to help if for example you're trying to build something and the documentation is lacking or some weird errors come up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1714392717.524979"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-10/6931478324918_5b4c95c70d98784a05cc_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1711977300.083979.html#1714392717.524979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Declan</b>
+<span style="margin:2em; color:#606060">2024-04-29 05:11</span><br/>
+Thanks Daniel. One ESM import didn't work, maybe something on my localhost but I'll try it again when hosted.<br/>Overall seems very interesting for customizable UIs!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

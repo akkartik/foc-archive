@@ -1,0 +1,78 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1732732726.325769.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-27 10:38</span><br/>
+So orthogonal artifact 1 of (maybe) 3 for reimplementing (a subset of) Observable in userspace is done (<a href="https://observablehq.com/@tomlarkworthy/exporter">exporter</a>).  The next thing, as discussed in the demo, is to preserve the editing experience by adding a userspace code editor, so that the exported, unbundled (offline-first) notebook carries its own editor around with it.<br/><br/>Progress is pretty good. It ends up a little different to Observable as it is pinned to a specific cell, but it can also do extra things like edit the variables in dependancies which is what you want when the export format has bundled all the dependancies. You might need to change them too!<br/><br/>The third required project, I thought of while preparing for the demo, is the notebook renderer itself. That should also be in userspace and hackable. Even with the editor component, you can't reorder cells, as there is a whole presentation layer that lives above the runtime that chooses how to render the results. That rendering process itself needs to be hackable, so you can leave the vertical notebook format entirely. Currently the single file format follows the path of the existing observable runtime of instantiating the DOM before starting the runtime and piping observations to the DOM, but for maximum control we should let userspace be informed of the runtime changes and choose how to render. Just a shower thought at the moment but I definitely think the "renderer" should be another orthogonal component.<br/><br/>I am trying to document my learnings about the Observable system in some reference documentation <a href="https://observablehq.com/@tomlarkworthy/observable-notes">here</a> if you want to learn more. That documentation actually hacks the runtime so the concepts are explained adjacent to the actually executing concepts. I love literate programming.<br/><br/>aside: I am enjoying the single file hermetic webpage format, its like portable statically linked binary that ends up being way faster than normal webpages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732736907.812709"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732732726.325769.html#1732736907.812709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2024-11-27 11:48</span><br/>
+How big is the single file?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732737031.714269"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1732732726.325769.html#1732737031.714269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-27 11:50</span><br/>
+500kb and gzips to 256kb which it auto does on s3 upload (I did not demo that). It prints out it's content so often I find a 1mb image in there accidentally
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732737086.390219"></a>
+      <img src="https://avatars.slack-edge.com/2025-03-16/8613805779220_533c1a6943bfc0b7f150_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1732732726.325769.html#1732737086.390219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Maikel van de Lisdonk</b>
+<span style="margin:2em; color:#606060">2024-11-27 11:51</span><br/>
+Thats pretty small, very good!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732737163.164389"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1732732726.325769.html#1732737163.164389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-27 11:52</span><br/>
+Yeah if you look at the file attachments they are gzipped, so the notebook decompresses as part of the importmap dance
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732737213.870409"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1732732726.325769.html#1732737213.870409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2024-11-27 11:53</span><br/>
+The raw JavaScript in the notebook is left uncompressed for hacking, it's just the dependencies like the runtime that are compressed
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

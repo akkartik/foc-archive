@@ -1,0 +1,437 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 00:55</span><br/>
+Hi everyone!<br/><br/>I’d like to give an account of the research project we’re doing at JetBrains.<br/>It is called Ludwig after Ludwig Wittgenstein and has an ambitious goal of re-engineering the foundations of the software development stack.<br/>At the moment, we are still at a very early design and prototyping stage, but we believe that this project will let us create the next generation of development tools.<br/><br/>Here are the most important ideas we’re trying to materialize:<br/><br/><b>Liberation of code from the shackles of textual representation</b><br/>Human-readable textual notations were a great innovation back in the 1950s. However, we have made great progress in the ways we store complex data structures since then, and the typical codebase sizes have also grown by a few orders of magnitude.<br/><br/>Code is essentially a graph with one tree-like perspective more important than others. An adequate way of storing such complex and evolving data as code would be to put it in a versioned graph / linked document database, supporting Git-like branching and merging. That would get rid of the need for continuous parsing, indexing, symbol resolution and typechecking that constitute the code editing workflow in modern IDEs.  We would resolve symbols once, at the moment of typing and store their unique identifiers (not just names!) in an indexed by construction and preserving referential integrity database.<br/><br/>That would also make such intentions as Rename, Move, Find Usages or Go To Definition trivial to implement. Of course, structural representation of code will come hand-in-hand  with structural (semantic) diff and merge.<br/><br/>This graph-like representation should allow for a fine-grained tracking of changes and dependencies and dramatically reduce feedback times in such scenarios as incremental compilation.<br/><br/><b>A minimalist approach towards programming language design</b><br/>To prevent our language from becoming “fat and weak” as John Backus has put it in his famous <a href="https://dl.acm.org/doi/pdf/10.1145/359576.359579">lecture</a>, we want to pass our language through a series of aggressive optimization rounds or distillation passes.<br/><br/>This should result in something comparable with Smalltalk’s “syntax on a postcard”. Actually, we believe that we could make it even more symmetric by eliminating the distinctions between methods, named and anonymous functions, operators and statements. (As you know, Smalltalk has different syntaxes and different behavior of return statements for methods and blocks and “surprising” execution order rules for different kinds of messages).<br/><br/>The goal is to come up with a language that would be easy to learn and read and straightforward to reason about for all kinds of agents-be it humans, static analysis tools or AI.<br/><br/>In terms of notation, it will look like an indentation-based syntax for a tiny subset of Lisp, but without its macros or the zoo of “special forms”. Being freed from the limitations of plain text, we’re going to use semantic coloring to make the notation even more expressive and compact.<br/><br/>Obviously, our programming language, as any other, should be able to express computation logic and code structure; what is less common is that we also want it to be able to express data, configurations and knowledge, thus eliminating the need for additional DSLs. A YAML-like data notation emerges from our tiny language as naturally as JSON emerged from JavaScript. The only difference is that JSON was discovered by chance, and our language is consciously designed to be able to declaratively describe complex data structures.<br/><br/><b>Unification of Object-Oriented and Functional programming</b><br/>As a part of our minimalist program, we are aiming to heal the great schism that divided programming into the object-oriented and the functional worlds.<br/> We believe that the class-free approach in the form <a href="https://youtu.be/DxnYQRuLX7Q">proposed</a> by Douglas Crockford will let us make OOP an integral part of functional programming, thus converging the two into what could be called unified programming. This form of OOP will keep the best parts—encapsulation and polymorphism and get rid of the "considered harmful" implementation inheritance.  There will be no need for classes, constructors, prototypes, visibility modifiers, this and new - just immutable structures and anonymous functions.<br/><br/><b>An IDE designed for focus and context awareness</b><br/>We want to build an immersive Smalltalk-like environment with structural navigation, a smaller editing scope and richer and more dynamic context compared to the traditional file- and text-based IDEs. This seems well-aligned with both the minimalist design of the language and the non-textual storage format. The latter should allow us to store some additional information alongside the code. That will include all kinds of metadata, normally invisible to the users, but also some unusual forms of embedded content. Think of a documentation comment containing a video explaining the algorithm or a discussion between multiple developers linked to a certain place in the code.<br/><br/><b>Smart typing</b><br/>We also have some ideas on how we could implement some smart typing techniques, combining the convenience of automatic type inference with the solidness and discipline of explicit type annotations.<br/>The key idea is that the flexibility of the non-textual representation will eliminate the need for the user to choose between the two worlds. Manual annotations can be hidden to reduce visual distraction, automatically inferred types can be displayed and persisted in the code database, etc.<br/><br/><b>Designed to be AI-fitting</b><br/>Finally, we want the whole thing to be future-proof and provide better support for AI-aided development compared to the traditional languages. The simplicity of the language as well as its fine granularity and its property of always having all the symbols resolved should allow for high-quality “understanding” and retrieval-augmented generation of code compared to such languages as Python or Java.<br/><br/><b></b>*<br/><br/>As I said, at the moment we’re still at a very early stage. Many of our challenges are not technical, but about finding the way of how we could shape this set of ideas into a product vision. We are, of course, open to collaboration with like-minded people.<br/><br/>I will be happy to answer your questions and hear your feedback.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725436594.062289"></a>
+      <a href="../share-your-work/1725436552.259159.html#1725436594.062289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 00:56</span><br/>
+A little example, illustrating the syntax:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725462785.538279"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725462785.538279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 08:13</span><br/>
+Very interesting. Thanks for sharing and great to see JetBrains represented here!<br/><br/>Your "liberation from textual representation" and the "context aware IDE" -paragraphs describe my thoughts exactly while building my textual projectional language workbench (some demo videos at: <a href="https://levlo.com">https://levlo.com</a>). Although, I suppose one wouldn't build a projectional language at all if those paragraphs wouldn't resonate.. Is there a reason you don't seem to be referring to your language as a projectional language? To not compete with MPS :sweat_smile: ?<br/><br/>I certainly agree that having all the symbols resolved, and generally the AST/semantic tree in a valid state at all times, helps in guiding AI to produce semantically valid code and I'm heavily utilizing this for Levlo's AI Copilot. However, I feel that new programming languages might be at an disadvantage in the new AI era as there aren't large amount of samples for the LLMs to train on (and it would take a while for the common LLMs to train on new public samples). Coincidentally this doesn't seem to be an issue if the language is very natural language like.. I suppose having a similar syntax to existing languages could also help. Although, if the semantics are different it could also hurt. I'm not sure I understand what you mean when you say that the "fine granularity" of the language should make it more AI-fitting. Can you elaborate on that?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725468318.691339"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725468318.691339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 09:45</span><br/>
+Your project indeed has a lot of similarities with our work. Many of the ideas I described had been proposed as early as in the 1960-70s. I know that Erik Meijer is also working on something very similar to what you are doing—programming in plain English that gets translated into something Prolog-like, able to call external functions.<br/><br/>I avoid the term "projectional editing" for two reasons. First, in my opinion, projectional editors have got a bad reputation for being pain to use. Problems typically start with arithmetic operators and handling of parenthesis. I am not saying that those problems are unsolvable, but the fact is that way too many attempts to implement projectional editing resulted in a terrible experience. We hope to avoid the usual pitfalls by having really minimalist and uniform syntax without precedence rules and by not trying to imitate text.<br/>The other reason is that I think that a more specific term like "autocompletion-driven editing" would better reflect the idea of having most of the symbols resolved at the time they are typed.  The term "projectional editor" is oversaturated, and it's hard to impress anyone by saying that you're building yet another one.<br/><br/>With regard to your question about LLMs, we hope that we will be able to transpile a reasonably big corpus of programs written in some mainstream language into our tiny little Lisp, preserving most of the structure, and then use that transpiled code to train the LLM. Another possibility is that the advancement of AI will soon allow us to simply teach LLMs to program in our simple language without feeding them with a large number of examples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725471898.089349"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725471898.089349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-09-04 10:44</span><br/>
+FWIW: brainstorming...<br/>(1) Get LLMs to generate code in some large-corpus language, like JS, Python. Use text-to-text transpilation to convert the generated code, syntactically, into tiny little lisp (going from JS to Lisp-y, or Python to Lisp-y is straight-forward using PEGs)<br/>(1a) Get LLMs to generate code in full-blown lisp, then ask nicely to get it to remove the hoary bits (special forms, macros)<br/>(1b) No need to re-train LLMs with tiny little lisp if conversion can be done.<br/>(2) Steve Philips used an LLM to generate OhmJS code to create a new language over top of an existing language (in his case, he built his new language using Golang as "assembly code"), he might have advice on how to ask an LLM to build syntax converters
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725473107.558729"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725473107.558729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:05</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Thanks for your suggestions. There's indeed a number of techniques that can be used to LLM-generated transform code in some traditional language into our "Lisp". However, that would only increase the complexity of the development stack, and our goal is to radically simplify it. That's why we want the LLM to be able to generate code and "think" in terms of our language. That would be a faster, cheaper and more robust solution. Ideally, the LLM should be able to generate neat code without any knowledge about the bloated languages of the past :wink: This doesn't mean we couldn't use any dirty tricks and hacks for the initial training.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725473422.737709"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725473422.737709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:10</span><br/>
+Interesting, didn't know about Erik Meijer's natural language programming stuff. Are there any material about it? I only found some possible references in his twitter.<br/><br/>And yeah, I'm sure it's possible to build an AI Copilot for a new language. And if your language is always authored using your IDE, there shouldn't be a need for users to go get help from Chat GPT for example.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725473572.753279"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725473572.753279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:12</span><br/>
+<span style="background-color:#ccf">@Jarno Montonen</span> He gave a talk about it at KotlinConf and we had a long talk afterwards. The video of the talk should be published on YouTube. Unfortunately, the talk was interrupted by a false fire alarm.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725473698.886679"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725473698.886679" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:14</span><br/>
+It's hard to predict what AI will be capable of in let's say two years—a very optimistic estimate of how long it's going to take us to build our solution.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474062.600839"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474062.600839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:21</span><br/>
+Sorry, I forgot to clarify what I meant by "fine granularity. I wanted to say that in our system the minimal unit of editing will be something like a function and that function will not be buried in a large file, so we will be able to provide a fully resolved and relatively small context for that single function only, That should make it easier for the AI to understand the meaning of a function and, at the same time, for the IDE to validate AI's output.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474151.904639"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474151.904639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:22</span><br/>
+Oh and I sympathize with your thoughts about the term projectional language. The problem is that basically the same things are already called Projectional/Structured/Structural Language/Editor/Editing. I'm not sure one more term would help with the matter. :sweat_smile:<br/><br/>I feel that both my self and the Hazel folks have basically solved the parenthesis and more generally "just boxes inside boxes" issue in projectional editing. Although, admittedly neither in a battle tested context.<br/><br/>I seriously considered to not implement support for operator precedence in Levlo, but concluded that if the target users are non-programmers, math just has to work the way it's taught in schools.. If the target audience was programmers, I'd probably go the same route you've decided to.. Precedence rules bring so much pain for no gain. Although, I wonder if you'll have some trouble trying to explain the missing operator precedence to LLMs..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474315.345199"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474315.345199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:25</span><br/>
+<a href="https://www.youtube.com/watch?v=ySKS719R6fc">https://www.youtube.com/watch?v=ySKS719R6fc</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474384.902909"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474384.902909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:26</span><br/>
+Awesome, thanks! Will certainly check it out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474761.865079"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474761.865079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:32</span><br/>
+I actually don't want the LLM to understand our indentation- and color-sensitive notation (that's a more correct term than syntax). That notation can be mechanically converted to/from S-expressions). A bigger challenge is that we want to use unique ids, invariant to renames (re-labeling) and moves, and yet, expect the LLM to generate human-readable labels and be able to get some insights from them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725474815.946639"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725474815.946639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:33</span><br/>
+&gt; IDE to validate AI's output<br/>This is what I'm doing. Although I call the component that the LLM feeds into an "language engine". I have a very simple parser that reads through the LLM response and feeds it in appropriate pieces to the engine. The engine maintains the AST and is able to provide all the possible valid sequences at any given location. If LLM output doesn't match any of the valid options, I reprompt and ask it to reformulate the answer so that it continues with one of the valid sequences. Additionally I'm using the language engine to generate semantically valid samples for the LLM.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725475045.181869"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725475045.181869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:37</span><br/>
+Yes, it's basically RAG. And by IDE I meant "the thing performing analysis of the generated code", not sure if we should distinguish between the IDE and the compiler here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725475136.457739"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725475136.457739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:38</span><br/>
+Moonbit seems to take a very similar approach <a href="https://www.moonbitlang.com/blog/moonbit-ai">https://www.moonbitlang.com/blog/moonbit-ai</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725475382.026239"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725475382.026239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:43</span><br/>
+Yeah, I suppose it could also be called language server.. But not an important distinction.<br/><br/>So what kind of usages are you thinking for the color-sensitivity? And as for labels, I think it's beneficial for the LLMs to work with the human readable labels. Although I've faced some challenges getting LLM generate sensible human readable ones. But how else would it work if the LLM needs to define new variables for example? Or do I misunderstand what you meant by "use unique ids". Why couldn't you use human readable labels in the s-expressions when interacting with the LLM? In Levlo the LLM generated labels just go into the language engine and it resolves those into new identities or references to existing identities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725475616.855209"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725475616.855209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:46</span><br/>
+Well, it can, for example, have the form <tt>(let bf191635-10f4-4032-a90f-3a02e867b345 "the-answer" 42 ...)</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476163.953939"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476163.953939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:56</span><br/>
+Didn't know about MoonBit. Thanks for bringing up!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476195.553509"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476195.553509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 11:56</span><br/>
+And I like the idea of indentation- and color-based notation as both techniques allow you to express the structure and the semantics without cluttering the visual field. It works like magic - "show something without showing anything". Like what is called negative space in photography. And we know that at least indentation works very well in Python and YAML
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476495.966359"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476495.966359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:01</span><br/>
+Yes, I definitely agree about indentation, but I'm not sure I see how handy color-sensitive semantics would be. Or am I getting it wrong. Do you mean that changing the color of say the label in variable definition would change it's type?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476668.912109"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476668.912109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:04</span><br/>
+I suppose readability vice it should work, I'm wondering more what the authoring experience would be. Although, I guess user could still type the type, but then the editor would remove it and set the label color instead. I do a bit similar thing with colors in one of my demos. The user can type the hex value (or use a picker) and then the editor just shows a colored circle.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476713.031959"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476713.031959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:05</span><br/>
+And if you focus the circle, it turns into the hex value again.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725476895.384169"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725476895.384169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:08</span><br/>
+The color will depend on the usage type. Look at the factorial example that I posted. The color red means it's a definition of a new symbol, so I can omit <tt>let</tt>, blue means it's a parameter declaration, white  - just passing value as a constant, teal - function application. Same symbol, like <tt>factorial</tt> can be passed as a value to a high-order function or applied.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725477115.670639"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725477115.670639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:11</span><br/>
+I see, but does the user choose in which color they're going to be typing next or is the color just applied by the IDE after the semantics have been resolved?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725477585.000609"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725477585.000609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:19</span><br/>
+the idea is that you insert a symbol by typing a special symbol that defines the type of use - for example, <tt>d</tt> for definition of a new symbol, <tt>v</tt> - for passing as value, <tt>a</tt> - for application of as function, etc. You would need to learn less than 10 shortcuts. And that doesn't mean typing more than in a traditional text editor — there you typically press SPACE before starting typing a new identifier. This is just a sketch of the  idea—we're actually going to do some empirical and theoretical research to come up with a useful UX
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725477879.917289"></a>
+      <a href="../share-your-work/1725436552.259159.html#1725477879.917289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:24</span><br/>
+This is a screenshot of my presentation where I explain the idea of semantic coloring. Not to be taken as the final design:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725477908.053319"></a>
+      <img src="https://avatars.slack-edge.com/2022-09-08/4075674207584_59de929720a2fe0a13d8_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725477908.053319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jarno Montonen</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:25</span><br/>
+I see. That could work. It's been great chatting with you! However, getting late here so have to start heading to the bed.. :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725477975.848029"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725477975.848029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-04 12:26</span><br/>
+Thank you for your interest. Good night!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725885405.311109"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-09/225308926294_e8f4c2151d2b70ebfae3_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1725885405.311109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jonathan Edwards</b>
+<span style="margin:2em; color:#606060">2024-09-09 05:36</span><br/>
+An ambitious and inspiring vision <span style="background-color:#ccf">@Pavel Mikhailovskii</span>! I’ve been banging on related ideas for over 20 years now in my <a href="https://www.subtext-lang.org">Subtext</a> research project. We need to innovate on many dimensions at once to escape the local maximum programming is stuck in. But it is incredibly hard to invent new solutions to so many different problems at the same time. All of us who have come before you have failed. I’ve thought a lot about why that is and how to avoid it. One common failure pattern is to try to build a usable product. There is a fundamental conflict between building a product and inventing new technologies. It’s conventional wisdom now to budget “innovation tokens”. People whose whole job is Science or research have evolved different approaches. They share partial results and iterate upon each other’s ideas. Some of us have been trying to grow such spaces patterned on academic workshops and conferences. Like LIVE, PAINT, PX, Onward!. I’d be happy to introduce you to those communities, or more specifically talk about your ideas. Good luck!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726159657.329339"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1726159657.329339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2024-09-12 09:47</span><br/>
+Hi <span style="background-color:#ccf">@Pavel Mikhailovskii</span>! I read the thread here with great interest. Do you have a whitepaper or anything like that for further reading?<br/><br/>I would like to point you to our project <a href="https://wikifunctions.org">Wikifunctions</a>, where we have some similar ideas. There are major differences: Wikifunctions is not about writing whole applications, but only individual functions. But that seems to be core to your abstraction too. Your programming language seems to be quite close to what our compositions allow. It looks like your design of the data objects is quite a bit smarter than ours, this would be interesting for us to look into. And we definitely broke the shackles of text-based programming for Wikifunctions. I'd love to chat more if you have the time, and to figure out if maybe a collaboration might make sense.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726160638.604779"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1726160638.604779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2024-09-12 10:03</span><br/>
+<span style="background-color:#ccf">@Pavel Mikhailovskii</span> What are your thoughts on projects like Lamdu and Unison? What are the main similarities and differences with Ludwig?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726217579.726969"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1726217579.726969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-13 01:52</span><br/>
+<span style="background-color:#ccf">@Daniel Garcia</span> Both projects are very interesting and have a lot of similarities with Ludwig. One major difference is that none of them has the same minimalist approach to language design as Ludwig.<br/>Both are basically dialects of Haskell, and that implies currying, destructuring pattern matching, linked lists, etc. I would argue that all these features, in spite of being conceptually simple, lead, for various reasons, to bad ergonomics of the language.<br/><br/>It's a pity that Lambdu is so scarcely documented, and that the UX is still quite unsatisfactory. I like the idea of typed holes that can be also found in Hazel (it looks more mature than Lambdu). It would be great to have typed holes in Ludwig as well, not sure if that's possible without bringing too much type theory.<br/><br/>Unison brings about many more ideas: code immutability, a novel approach to distributed computations, etc.; it's really amazing how much they have achieved already! I would really love to see it becoming popular one day. My main concern regarding Unison is that they have too many novel ideas in one project; I'm afraid their niche may be too narrow. Again, the choice of Haskell-like syntax might be not the best option. One interesting thing about Unison, is that their chat-based approach to code editing that once served as a temporary replacement for an IDE can in fact be very AI-friendly - imagine a GPT bot chatting with Unison!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726219048.569599"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-03/7668845581365_2a947ead33895d0c5a20_72.png" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1726219048.569599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pavel Mikhailovskii</b>
+<span style="margin:2em; color:#606060">2024-09-13 02:17</span><br/>
+<span style="background-color:#ccf">@Denny Vrandečić</span> Thanks for your interest! I have a white paper, but it's already outdated; I'm working on an updated and more detailed version. I expect to finish somewhere next week or so; I'll share it here.<br/><br/>Regarding Wikifunctions: some ideas are indeed very similar. We should definitely talk, but I first need to think a little bit more.<br/><br/>I've been playing for quite some time with the idea of creating a functional/procedural language for writing/documenting algorithms that would have no IO or OOP, just math and a few basic data structures. My idea was to be able to automatically transpile functions from that language to a number of target programming languages, taking care of such things as transforming tail calls into loops for languages that don't support the former, etc. The most challenging part here is designing the type system, finding the right way of annotating generic algorithms without diving too deep into abstract algebra.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1726223820.785119"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1725436552.259159.html#1726223820.785119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2024-09-13 03:37</span><br/>
+Let me know when you're ready to talk! :slightly_smiling_face: And good luck with the project and the thinking in the meantime.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

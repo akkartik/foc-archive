@@ -1,0 +1,664 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1737055326.025559.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-16 11:22</span><br/>
+I've been trying some new stuff lately:<br/>• <a href="https://beyondloom.com/decker/">Decker.</a> I'd for some reason assumed it was some npm and/or wasm monstrosity (perhaps because it's so dang inefficient), but it turns out it's nice zero-dependency Javascript in a single html file! And that's in addition to the native version that uses SDL just like LÖVE. So in some ways it has a better cross-platform story than LÖVE, which is non-trivial to run on iOS.<br/>• Rust. I spent some time playing around with a LÖVE-inspired game engine called <a href="https://crates.io/crates/ggez">ggez</a>, and the much more basic <a href="https://crates.io/crates/wgpu">wgpu</a> crate. The promise here: Rust seems to be evolving some pretty nice cross-platform tooling, so in time we may end up with a world where it's easy to cross-compile to any platform. Of course, the compile step is not ideal, but it promises to yield much more efficient binaries that might run on lower-end devices like old phones. The eco-system is not quite there, and the npm-like dependency explosions are rough. But I want to try to look outside my comfort zone. It's possible the way forward isn't unique-snowflake minority platforms like LÖVE or Decker, but just to use a majority platform with better taste, taking the time to understand and curate the landscape of dependencies.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737069152.349319"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737069152.349319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-16 15:12</span><br/>
+I realize this may be passé, and folks love to kick JS, but have you considered plain JS, with no build system, targeting the browser? <br/><br/>It’s pretty easy to target oooooold apis and get cross platform support. Everything I make in my hobby programming is this, pretty much. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737069224.298199"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737069224.298199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-16 15:13</span><br/>
+Like, all of <a href="https://smallandnearlysilent.com">these experiments</a>, toys, tools, and games are plain Jane JS, written in a text editor and sourced from a static file server. I have no external deps outside of the browser itself. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737080935.809999"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737080935.809999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-16 18:28</span><br/>
+Yeah, JS has definitely been <a href="https://merveilles.town/@akkartik/111999557758396293">on</a> <a href="https://merveilles.town/@akkartik/112894409139529154">my</a> <a href="https://merveilles.town/@akkartik/113563984582442021">radar</a> in the latter half of 2024 in a way it wasn't <a href="https://akkartik.name/freewheeling/">back in 2023</a>.<br/><br/>What would be the best place to start for learning how to write cross-browser, cross-device, dependency-free Javascript?<br/><br/>I should try recreating lines.love or something in html+javascript. Just create a new canvas when I want to draw. No need to invent line-wrapping, so it'll hopefully be quick.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737081173.585189"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737081173.585189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-16 18:32</span><br/>
+Let me noodle for a bit about some learning resources. Cross browser is essentially something you get for free these days as long as you don’t reach for cutting edge APIs. I try to keep my code as boring as possible to achieve this. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737081398.291879"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737081398.291879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-16 18:36</span><br/>
+Yeah, I fear I just lack the instinct for what is cutting-edge that I have developed on other stacks.<br/><br/>Thinking about it some more, stuff like <a href="https://akkartik.name/post/2024-10-07-devlog">my doodle experiment</a> may not be a good fit for html+js, not without reinventing textareas in Javascript (something I don't want to ever go near, CodeMirror included). Any sort of syntax highlighting is also excluded because of that, I think. Historically I've done a certain amount of stuff with text, and it feels awkward to slice it between html or canvas.. but maybe it's for the best to move on to new kinds of projects.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737081469.493169"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737081469.493169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-16 18:37</span><br/>
+What I’d suggest is looking at what you get from the browser, like the canvas, and textareas, and then see how you can work within those bounds. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737082230.632439"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737082230.632439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-16 18:50</span><br/>
+Also, happy to help if you’ve got questions! 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737188656.155329"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737188656.155329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2025-01-18 00:24</span><br/>
+For staying compatible between browsers: I use dev <a href="http://docs.io">docs.io</a> and install both JavaScript as well as WebAPI docs (for offline usage). Then you have access to MDN docs for the browser stuff. At the bottom of each page you have a table with compatibility info.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737209616.101039"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737209616.101039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-18 06:13</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> I'd be interested in learning resources as well for working in plain JS. Although I suspect that there is no solution for what is a fundamental issue for me: nearly all code I want to write needs read and write access to my computer's file system.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737216397.811239"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737216397.811239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-01-18 08:06</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> aside: I am trying to understand the issue mentioned of writing to local disk. On the surface, it sounds like the phrase "plain JS" - in this case - is a code-phrase for "app running in the browser". Apps running in the browser can't write to disk. Apps running locally can (i.e. on the command line, etc.). JS, HTML, CSS are the "assembly language" for making and operating GUIs in browsers. It <b>sounds</b> like all that's wanted is to create local apps that scribble on the disk, while creating GUIs in browsers. Common Lisp (etc.) gives you all of the local-ness needed and allows programs to write to disk. CLOG takes the approach of running a tiny JS evaluator in a browser taking GUI "assembly" commands through a websocket. CLOG is - in essence - a transformer between CL and GUIs-in-browsers. CLOG lets you use CL to do whatever you want locally, while providing a transpiler from CLOG's class hierarchy into commands that form actions on the browser's window (is this like a modernized version of X11?). I haven't tried yet, but, I think that CLOG's tiny in-browser evaluator could be used by apps written in any machine-local programming language. CLOG's class hierarchy shields one from having to learn the niggly details of operating browser-based GUIs. Likewise, DSLs created for this purpose might do the same. [advertisement for t2t and OhmJS omitted].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737221823.117739"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737221823.117739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 09:37</span><br/>
+CLOG looks great, but I believe anything that transpiles to something that runs on a browser will inherit the browser's sandboxing restrictions against file system operations.<br/><br/>I've not been keeping up, though. Perhaps there are new APIs now for file:// URLs. I've never understood the threat model that leaves browsers insisting on sandboxing those.<br/><br/>I see now that <span style="background-color:#ccf">@Eli Mellen</span>'s <a href="https://smallandnearlysilent.com/pico-cam">pico-cam project</a> demonstrates downloading local files. It downloads images, but it should be possible to use the same techniques to download itself.<br/><br/>I can also open html files to my Android phone, though the flow is a little weird. It can't use Firefox for some reason, forces me to use one of the (many!) other browsers installed on my device. Hopefully this also works in some form on iOS.<br/><br/>The omnipresent danger with mobile devices is that you end up with a minority workflow that is at the mercy of the OS company. This is true of both offline web-browser flows as well as side-loading native apps. Static js hosted remotely -- as demonstrated by pico-cam -- may well be the sweet spot of durability here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737224785.601289"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737224785.601289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-01-18 10:26</span><br/>
+The importance of this - to me - is the idea of thinking of a GUI as an attached device, like a postscript printer. The GUI engine has its own scripting language (like PS, or HP's PCL). Programmers can still write in their language-of-choice, but, need to send commands with appropriate syntax (aka "API") to the attached device. Local commands still work, but anything sent to the GUI engine must follow browser sand-boxing rules (i.e. don't send requests for file access to the browser).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737225440.597049"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737225440.597049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 10:37</span><br/>
+That approach certainly buys you the "G", but feels like a substantial restriction on the "UI"? Any interaction you provide needs to be on the paper emitted by the PostScript printer, in this analogy. But the printer can't send anything back to the computer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737226410.297819"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737226410.297819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 10:53</span><br/>
+<span style="background-color:#ccf">@Erik Stel</span> <a href="http://docs.io">docs.io</a> redirects to Microsoft now :confused:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737229736.665919"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737229736.665919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-18 11:48</span><br/>
+sliding in to mention that <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API">there is a filesystem API</a>, but it comes with a few caveats, but it is 100% there
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737230839.034889"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737230839.034889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-01-18 12:07</span><br/>
+Rich communication flows in both directions. You get "G" and "UI". I don't actually use CLOG, I just troll things like this to see what ideas can be stolen. Somewhere, I saw a full-blown IDE written in CLOG. The GUI portion ran in a browser, the rest of the IDE stuff ran locally on the server in the language-of-choice. The first time I saw this idea was several years ago. Someone at a Torlisp meeting demo'd turning a phone into an I/O device. The app stayed on the server, just enough code was sent to the phone to display a keypad and to tell it "when someone pushes a key, send me a message and tell me which key was pressed". That demo was abandoned because CLOG already does all of that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737232109.976929"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737232109.976929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-18 12:28</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> and <span style="background-color:#ccf">@Kartik Agaram</span> I pulled together a <a href="https://eli.li/_assets/bin/read-write/index.html">teeny tiny demo that uses the filesystem API</a> -- defo a lot of caveats (namely that it doesn't seem to be available outside of Chromium browsers right now...) but I included a fall back in the demo so it'll work anywhere.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737232134.192989"></a>
+      <a href="../devlog-together/1737055326.025559.html#1737232134.192989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-18 12:28</span><br/>
+Also, if you wanna test it on a real PNG here is one of those, :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737232646.636509"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737232646.636509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-18 12:37</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> <span style="background-color:#ccf">@Kartik Agaram</span> I use CLOG every day, it's my main GUI provider for Common Lisp. At its core, it provides local proxy objects for the browser's DOM, maintaining a Websocket connection to keep both sides synchronized. On top of that core, CLOG provides a nice GUI construction toolkit. There are IDEs and even a full desktop environment implemented via CLOG.<br/><br/>Treating a browser as an external device with CLOG as the API is indeed a good mental model.<br/><br/>The reason I am interested in something browser-only (that's indeed what I meant implicitly with "plain JS", as I wouldn't bother with JS at all except for the browser) is deployment simplicity, especially for friends and family. I routinely hack personal tools in Lisp with CLOG, and for me that's fine. But I am not going to explain to my wife how to set up a Common Lisp environment, just to use one of my personal tools. And yet, there are personal tools I'd like to share with her, such us analysis/visualization for our bank accounts.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737233391.989219"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737233391.989219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-18 12:49</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> Thanks a lot! I'll see if I can figure out how it works. Right now I am on a machine with only one graphical browser (i.e. not counting eww in Emacs): Librewolf, a fork of Firefox. With that browser, I can load a PNG and save the edited version, but it can't do in-place modifications. But I have something Chromium-based (Brave) elsewhere for testing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737234563.729659"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737234563.729659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:09</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> My goals (stated before but not in this thread) are 1) cross-platform apps that are 2) easy to maintain and 3) can be operated offline. Depending on a server can never satisfy all 3, I think, no matter how you arrange things.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737235194.700649"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737235194.700649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:19</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Eli has already shown how to do this with JS in a browser, but, to help further my own understanding: would not a Python app, running a localhost:XXXX do the job? Run Python program, open browser and point it at localhost:XXXX.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737235211.979749"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737235211.979749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:20</span><br/>
+You can't do that on Android or iOS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737235334.701879"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737235334.701879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:22</span><br/>
+Going back to the start of this thread, the reason I am looking at Decker is it gives you a single html file you can modify and save on any device. Though I haven't actually tested the save-load flow on Android, now that I think about it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737235393.939179"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737235393.939179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:23</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I wonder if I could modify my <a href="https://smallandnearlysilent.com/playground/">playground</a> (which is a little buggy and in need of some love) to play nicer on mobile?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737235420.810699"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737235420.810699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:23</span><br/>
+The program is kind of a quine, you can download the file, including the contents of the text area as a new file
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737236532.493049"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737236532.493049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-18 13:42</span><br/>
+Oh this is cool!<br/><br/>And.. I'm fucking pissed off. I could open local html files on my phone 30 minutes ago, and I can't anymore.[1]<br/><br/>One interesting design choice Decker makes is in creating its own file format. So it's not quite one html file. It's one html file for the platform and then a .deck file for your data. It still needs the html file somehow, though, but maybe it reduces its exposure to shit experience like this.<br/><br/>[1] I was trying different browsers, being careful to not set any default, always choosing "just this once," and then I had the grave misfortune to tap on the Samsung Browser (that manufacturer-installed piece of malware that you can't uninstall). First it asks me to accept ToS. I'm like, oh never mind not worth the fucking trouble so I hit cancel. And now I can't open local html files anymore. At first it would always pop up that (Samsung!) (ToS!) window for any local html file, no matter what file it was or what app I was opening it from. So I finally accepted ToS because what else. And it <em>still</em> doesn't work. Ironically I can't even find Samsung's browser anymore :joy: :sob: Gonna reboot now, see how things look then.<br/><br/>This is a good reminder, everyone: <em>never</em> depend on people who don't give a fuck. And phones are always fucking contingent. Never rely on them for anything.<br/><br/>So yeah, <span style="background-color:#ccf">@Eli Mellen</span> maybe mobile is a tire fire and I should just rip out all the mobile stuff from Lua Carousel.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737244687.164329"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737244687.164329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2025-01-18 15:58</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> it should be <a href="http://devdocs.io">devdocs.io</a> 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737275920.720229"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737275920.720229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-19 00:38</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Your Samsung experience is exactly why I adopted <a href="https://e.foundation/e-os/">/e/OS</a>. No regrets.<br/><br/>BTW, you can run client-server assemblies in Android, by running the server part from <a href="https://termux.dev/en/">Termux</a>. I run CLOG apps this way on my e-ink reader, just to be able to work on an e-Ink screen. But it's a bit of a pain to work with, and probably not good for battery life if you have a long-running server,
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737276257.315949"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737276257.315949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-19 00:44</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> Thanks for the playground link!<br/><br/>I have been wondering for a while if something like that could be integrated with <a href="https://tiddlywiki.com/">TiddlyWiki</a> as a UI toolkit to make a personal coding platform inside the browser. But I didn't find anything similar in spite of the huge TiddlyWiki community, so perhaps there are technical obstacles that I am not aware of.<br/><br/>Another reason to build on TiddlyWiki is that they have a large collection of workarounds for the file saving issue. Quines are cool, of course, but if manual downloading is the only way to save your code, you end up saving it much less than you should.<br/><br/>UPDATE: I just did another quick search on this and found this recent project: <a href="https://github.com/tiddly-gittly/zx-script">https://github.com/tiddly-gittly/zx-script</a><br/>Second UPDATE: "This plugin requires TidGi Desktop App...", so it's actually not for TiddlyWiki in general, and in particular requires Node.js
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737358562.323939"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737358562.323939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-19 23:36</span><br/>
+I am making <a href="https://tomlarkworthy.moldable.app/index.html">https://tomlarkworthy.moldable.app/index.html</a> for this kind of usecase. I am very interested in what kind of minimal app you would want, as the webpage version is probably too engineered to be a good starting point.  IMHO you don't need FileSystemAccess API to upload and download a file from the web to a browser, especially if the page itself is single statically executable webpage from the filesystem, you can just replicate the entire webpage.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737359167.482819"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737359167.482819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-19 23:46</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> I tried it with great interest! Keep it in a single (unminified) html file and get to a workflow that works on Android and iOS, and I won't care too much about anything else.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737378731.364299"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737378731.364299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2025-01-20 05:12</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> About TiddlyWiki, I'm planning to build out a much more "robust" saving path there, hopefully in the next few months. For example, I'd like TW to use browser local storage (for user prefs) and have the option of a (in-browser!) Git repo as durable storage. Hopefully that would be useful to others as well. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737443385.601719"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737443385.601719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-20 23:09</span><br/>
+<span style="background-color:#ccf">@J. Ryan Stinnett</span> Looking forward to it! I have absolutely no idea how one can have in-browser Git repos, but if that's possible and if they can actually connect to on-line repos, that sounds like a minor revolution in linking in-browser and out-of-browser data storage.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737444610.370609"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737444610.370609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-20 23:30</span><br/>
+yeah they can <a href="https://isomorphic-git.org/docs/en/authentication">https://isomorphic-git.org/docs/en/authentication</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737486746.260779"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737486746.260779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-21 11:12</span><br/>
+Oh sure. Just rewrite Git. I tend to forget the immense resources poured into the Web ecosystem.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737494238.209599"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737494238.209599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-21 13:17</span><br/>
+we waste so many resources reinventing the wheel across all the ecosystems. Its not just JS, I feel like there is a python binding to a Rust port of X, as well as the pure Python implementation of X, plus the bindings to the original X.<br/>• <a href="https://github.com/jelmer/dulwich">https://github.com/jelmer/dulwich</a><br/>• <a href="https://github.com/GitoxideLabs/gitoxide">https://github.com/GitoxideLabs/gitoxide</a><br/>• <a href="https://github.com/gitpython-developers/GitPython">https://github.com/gitpython-developers/GitPython</a><br/>I do feel LLMs could do this, they have a reference implementation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737531943.743509"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737531943.743509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-21 23:45</span><br/>
+Having an LLM translate a real-life project such as Git would be an excellent test for the capabilities of LLM coders.<br/>That said, even if LLMs routinely did such jobs, there would still be people motivated to rewrite stuff themselves for ideological reasons. In particular in crusade-driven communities such as Rust.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737570310.269359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737570310.269359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 10:25</span><br/>
+Going back to <span style="background-color:#ccf">@Eli Mellen</span>'s idea of locally running JavaScript, I focused earlier on phones because I implicitly assumed browsers on computers would be able to handle it, but support is irregular on the weird browsers I'm trying to use:<br/>• Zen Browser has some sort of restrictive Content Security Policy that blocks all Javascript on file:// pages<br/>• SeaMonkey is definitely missing features. I can't download edits to <a href="https://cristobal.space/note">Cristóbal Sciutto's quine document</a> or <a href="https://smallandnearlysilent.com/playground/">your Javascript Playground</a> above. I can't save the canvas in <a href="https://smallandnearlysilent.com/inknswitch/">inknswitch</a>. <a href="https://m15o.ichi.city/yon/">Yon</a> seems to mostly work except alt-meta-click which it uses to open links in other "windows". There might be some other nooks and crannies like that.<br/>So even seemingly simple stuff in the Javascript world currently feels locked behind the Firefox-Chrome duopoly :confused: But there are probably lessons to be learned from m15o's work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737573815.227979"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737573815.227979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-22 11:23</span><br/>
+not all browsers work the same, thats a feature not a bug. If you want to target reach then you stick to the Chrome-Edge-Safari, if you want to support an ideology you have to decide what that ideology is and target that, and not all browsers will be coherent with that ideology. I actually consider Firefox in the ideology camp and definitely not part of any dystopian duopoloy. The shit samsung browser has more users than Firefox.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737574894.454879"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737574894.454879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 11:41</span><br/>
+My "ideology" is to build things others can use without having to think about fine distinctions in the software their computer has. So not all browsers working the same, I don't understand in what world that's a feature.<br/><br/>Chrome-Firefox is a duopoly in the sense of browser engines. Edge/Safari/Samsung are under Chrome the way I think of it. Any other rendering engine has really tiny market share.<br/><br/>> even seemingly simple stuff in the Javascript world currently feels locked behind the Firefox-Chrome duopoly :confused:<br/>Another way to say this is, browsers keep adding features that require using their latest and greatest version, which also mixes in a bunch of user-hostile stuff. Minority forks of those browsers avoid the user-hostile stuff but also lag behind on useful (and not particularly advanced) features.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737575035.455339"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737575035.455339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 11:43</span><br/>
+I suppose the "ideology" lies in my use of SeaMonkey or Zen. But I'm not saying I only want to support those browsers. Is it so bad that the software I make for others I also want to be able to use myself?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737575497.495019"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737575497.495019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 11:51</span><br/>
+Do you only care about supporting Chrome for your notebook thing?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737576243.876339"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737576243.876339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-22 12:04</span><br/>
+I’m gonna be a little pedantic and point out that Edge, Samsung, Chrome, Brave, etc. are all the same engine<br/><br/>Firefox and Safari are each different. <br/><br/>Safari is WebKit, which a handful of Linux browsers use, too. <br/><br/>A lot of the differences come from the different sandboxing models adopted by the various engines. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737576249.299709"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737576249.299709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-22 12:04</span><br/>
+no I target safari as well (iphone users).  Any random program can call itself a browser is a feature of an open platform. But its not sane to say I will support every random program that calls itself a web browser. Its literally impossible to do a local first browser if the browser consciously shuts down javascript or indexdb. Some people want utmost privacy and will see javascript and indexdb as a dangerous fingerprinting vector. I am glad they get to choose not to use indexdb, but saying that because there exists browsers that don't have indexdb that this is a problem for the web has got their priorities wrong IMHO, its <em>good</em> people can choose not to have specific web APIs working and that they can continue to surf with some gracefull degradation is good.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737579505.986649"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737579505.986649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 12:58</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> Oh I thought Webkit folded up with Chrome at some point? Was I completely imagining that?! Will go check..<br/><br/><span style="background-color:#ccf">@Tom Larkworthy</span> That makes sense from the perspective of a creator but not as a user for features that seem simple but turn out not to be. Perhaps this is my fundamental dissatisfaction with the web as platform. It's metastasized under commercial pressures until there's no meaningful distinction between engine and UI, protocol and user agent. That and not prioritizing offline single-html-file use cases.<br/><br/>Zen is a direct fork of Firefox, and SeaMonkey has been a funded project for longer than Firefox. These aren't exactly randos!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737579844.310829"></a>
+      <img src="https://avatars.slack-edge.com/2023-05-22/5286358617767_edc1c9acb12dfa7d1a20_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737579844.310829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>J. Ryan Stinnett</b>
+<span style="margin:2em; color:#606060">2025-01-22 13:04</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> Chrome's Blink engine started as a fork of WebKit in 2013. WebKit has remained its own separate thing since, powering Safari and other smaller browsers (plus all iOS browsers, at least outside the EU...).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737580090.037929"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737580090.037929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 13:08</span><br/>
+Ah, thanks. Common heritage so I was collapsing them in my mind.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737583838.835329"></a>
+      <a href="../devlog-together/1737055326.025559.html#1737583838.835329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-22 14:10</span><br/>
+I tried desktop  Zen, this is literally the first clicks I made in this application and it worked. I also jsut tried opera on my mobile and the full download, open from filesystem worked local-first too (and I already tested web chrome local first works on android). Some web projects don't work across the full ecosystem, as it does require a bit of extra work to test. Safari in particular has a few JS divergences but generally they are easy to fix once you spot them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737584587.015979"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737584587.015979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 14:23</span><br/>
+Oh interesting. :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737600205.938619"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737600205.938619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-01-22 18:43</span><br/>
+Yes, upgrading from 1.0.2 to 1.7.2 did the trick on the CSP. Zen has moved quickly in a couple of months. Sorry for the noise, everyone. All my test links above work now in Zen.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737613003.140759"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737613003.140759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-22 22:16</span><br/>
+What I worry most about with browsers is the combination of (1) their complexity and (2) their central place in cybersecurity. Together, they mean that whatever works today in some browser may be broken tomorrow, "for security reasons", and there isn't much an ordinary mortal can do about that. It's the worst kind of dependency.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737634640.181069"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737634640.181069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-01-23 04:17</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> do you have any specific examples of this biting you or others in the past?<br/><br/>&gt; together, they mean that whatever works today in some browser may be broken tomorrow, “for security reasons”, and there isn’t much an ordinary mortal can do about that. It’s the worst kind of dependency.<br/>I know my question likely comes off as sort of a snide reply-guy, and I promise up and down on Ivan’s powerful :cake: emoji use that it isn’t, I’m genuinely curious because I’ve worked in web dev for 10+ years, and maintained a lot of gov and industry web tools that required STRONG and LONG backwards compatibility. Working in JS, at least, it has been my experience that, with very little exception, once a feature is introduced it will be there pretty much forever.<br/><br/>There was a time where some browsers, namely IE, had bespoke, or weirdo implementations, but these days, browsers have pretty much converged on all but the cutting edge, where Chrome is typically happy to adopt anything and everything they invent and then try to push the others to adopt it by baking it into a core experience of YouTube :melting_face:<br/><br/>I don’t think browsers are perfect, by any means, but I think that they generally offer a much more stable, well defined, and wide-spread target than most operating systems do. I’ve also been an iOS and Android dev for years, and those platforms burn old APIs every single point update.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737636161.188009"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1737055326.025559.html#1737636161.188009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-01-23 04:42</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> The best-known story is probably TiddlyWiki. It used to be a straightforward document in local storage for which the document editor happened to be the Web browser. Sweet and simple. Today, you can't use TiddlyWiki without a careful study of various storage solutions and their trade-offs. I no longer recommend TiddlyWiki to non-techies for this reason.<br/><br/>But even leaving aside issues related to local storage, I have plenty of memories of sites (usually sites run by my employer, or by some other mid-size institution with little technical competence) that work only in some range of version numbers for some browsers, which is tiring in the long run. Right now, I have one of my employer's sites that I can't get to work in Firefox, so I need Chrome on all of my machines as well. Another weird story is <a href="https://fun-mooc.fr/">FUN</a>, which works for me with Firefox but not Chrome, whereas for a colleague, it's just the other way around. FUN officially recommends Chrome, so it's me who has the weird variant of the problem.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

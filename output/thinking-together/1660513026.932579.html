@@ -1,0 +1,245 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 14:37</span><br/>
+Hey all! I’m looking for a bit of help solving (what I think is) a really simple problem, but I just can’t seem to find someone - or the right article - to help me figure it out. It’s a simple graphics vector problem, and my inexperience in the space is doing me no favors in abstracting the problem to do the right maths. Does anyone here happen to know a good place to ask technical questions in that space, or, would anyone happen to know of friendly soul(s) with time to walk through the issue? StackOverflow and the dregs from days of search engine digging is chock full of answers that revolve around but don’t tackle exactly what I need, and the one solution I <em>have</em> found doesn’t seem to apply to my current state of code.<br/><br/>I consider help like this of the highest form of validation and “raising up”, and would happily compensate said helper or producer of article in any reasonably requested way :heart:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660514093.696449"></a>
+      <img src="https://secure.gravatar.com/avatar/109d67ddc5af7c5e446a4ec14b2009ad.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660514093.696449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tony Cheal</b>
+<span style="margin:2em; color:#606060">2022-08-14 14:54</span><br/>
+Here is probably quite good. There are mathematicians here, and plenty of graphics experts…. Is it easy to explain?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660515004.118389"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660515004.118389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 15:10</span><br/>
+I think it is, yeah. It really seems so darn trivial, but I just… can’t get it! Let me type it out, and if it’s helpful, I can upload some of the sketches I have trying to break it down. So, here’s the gist:<br/><br/><tt>Keywords: Texture / glyph atlas, macOS, Swift, Metal, iOS, vector space transforms</tt><br/><br/>Given: I’ve got a set of “vertices” (x, y) in normalized space, from (-1, 1) on the domain and range. Just a simple cartesian space. I’ve also got a set of “texture coordinates” (u, v), which instead map to (0, 1) on the domain and range, with (0, 1) on the range an x-axis flip. This is apparently really common, and it’s the way the Metal shading language defines its coordinate spaces.<br/><br/>I also know how to convert from vertex-space to uv-space:<br/><br/><pre style="white-space:pre-wrap">u = (x + 1) / 2<br/>v = -(y - 1) / 2</pre><br/>Also given: I have a texture in UV space where I want to define arbitrary rectangles. These rectangles are glyph-stamps in the [(0,1), (0,1)] bounding box range. These are easily computed given the full size of the texture I am creating rectangles from.<br/><br/>The problem: I have a single set of vertices that define a quad. Top left / right, bottom left / right. These are always centered around the origin. Meaning, I can have a square that fills the vector space with these coordinates:<br/><pre style="white-space:pre-wrap">(-1,  1)<br/>(-1, -1)<br/>( 1,  1)<br/>( 1, -1)</pre><br/>Assume we will “resize” those in some way by symmetrically bringing in the sides as needed - again, all around the origin.<br/><br/>Given that I have those precomputed coordinates above which map to UV space, how do I take those arbitrary vertices in vertex space and map them to the ‘rectangular sections’ of uv-space?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660516704.278099"></a>
+      <img src="https://secure.gravatar.com/avatar/109d67ddc5af7c5e446a4ec14b2009ad.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660516704.278099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tony Cheal</b>
+<span style="margin:2em; color:#606060">2022-08-14 15:38</span><br/>
+Not sure I followed that completely. Surely all the mappings from x,y space to u,v space will be given by your formulae or their inverses. Ie x=2u-1;y=-2v+1. <br/>Bit unclear about your use of the words ‘domain’ and ‘range’ in this context. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660516934.999629"></a>
+      <a href="../thinking-together/1660513026.932579.html#1660516934.999629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 15:42</span><br/>
+You asking the question in that way is helpful. Yeah, the inverse does give me the <em>expected</em> vertex for a given uv coordinate, but the issue is that <em>inverse</em> should always map to the same vertices.<br/><br/>This is a terrible sketch, but let me shame myself anyway:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660516987.747189"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660516987.747189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 15:43</span><br/>
+Given the yellow vertices, I need to “transform” them to the matching UVs such that it ‘fills their space’, and the rasterizer can interpolate between the values.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660518909.858349"></a>
+      <img src="https://secure.gravatar.com/avatar/109d67ddc5af7c5e446a4ec14b2009ad.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660518909.858349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tony Cheal</b>
+<span style="margin:2em; color:#606060">2022-08-14 16:15</span><br/>
+No. Sorry you've lost me. Now I'm unclear why points on your diagram are marked as apparent products of u and v, and why the other points have only v on them. <br/><br/>You said earlier there was a square centred on the coordinate centre doing something. If this is some transform of one of the coordinate systems about the centre point I'd expect that scaling factor to appear in front of the u and v (or its reciprocal) in the relevant formulae. <br/><br/>Otherwise I'm baffled, and since it’s gone midnight here I'm hoping to see a lovely solution to your problem when someone picks up the story from another time zone while I'm asleep… :blush:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660518976.103929"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660518976.103929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 16:16</span><br/>
+You’re wonderful for your thinking and time anyway, and no worries friend! It’s rough when I can’t even <em>explain</em> the problem well, lol. That probably means if I dig in the question better, I’ll get closer to the answer implicitly…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660522015.198799"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660522015.198799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2022-08-14 17:06</span><br/>
+(I think present-company. is probably the channel for this. From the member handbook "If you’d like help with your homework, this is the place to ask." Not that this is necessarily homework. But anyway.)<br/>Is the question how to define a transformation that sends four coordinates v1,v2,v3,v4 to the four coordinates (0.25,0.25), (0.25, 0.75), (0.75, 0.25), (0.75, 0.75)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660522595.292599"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660522595.292599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 17:16</span><br/>
+I’ll happily remove this and pop it over there. I didn’t realize that was a line in there - my apologies for the break.<br/><br/>I think that’s my question, yeah… The target coordinates will vary, but that’s the idea. And the reason being that the same vertices (v1-4) will always pipe through the graphics pipeline, but the vertices for each constant that defines the instance being drawn will be unique. I want to take an input vertex which is at one of those coordinates, and say, “This coordinate is at <em></em>_ u,v position within the bounds given by the constants that define this instance)“.<br/><br/>I think I haven’t define the problem correctly, because the more I write it out, the more I think something is missing.. I’m just not sure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660528616.583249"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660528616.583249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2022-08-14 18:56</span><br/>
+I'll describe how you can map vectors v1...v4 to vectors w1...w4 assuming they label the edges of rectangles in the order top-left, bottom-left, top-right, bottom-right. The mapping can be expressed as the composite of three simpler maps:<br/>(1) Translate the original rectangle to the origin. This is achieved by the mapping sending an arbitrary vector x to x-v1.<br/>(2) Scale the resulting rectangle so it is the same size as the rectangle w1...w4. In the horizontal direction you have to scale by |w3-w1|/|v3-v1|. In the vertical direction it is |w2-w1|/|v2-v1|.<br/>(3) Translate the resulting rectangle from the origin to w1. This is the mapping sending an arbitrary vector x to x+w1. Composing these three maps will map  v1...v4 to w1...w4.<br/><br/>I hope this helps. I don't know graphics programming, but if you have any other math questions, or need some more detail, I'm glad to help.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660529481.122759"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660529481.122759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 19:11</span><br/>
+This is quite helpful Robin, I’m going to save this snippet because I’m going to be scaling nodes soon.. and this is exactly the math I think I’ll need. I sincerely appreciate it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660531484.766349"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660531484.766349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-08-14 19:44</span><br/>
+I'm personally quite happy to see this thread in this channel. I'm happy to give long-time members the benefit of the doubt that they're working on some sort of FoC project rather than extrinsically motivated "home work". It's not like there's a lot of thinking together going on here anyway :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660531674.443749"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660531674.443749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-14 19:47</span><br/>
+I love to read it Kartik, haha. This is something absolutely plan to share with FoC - as soon as I have it working. I’ve been making leaps all this week, and I’ve been reaching out more now I’m getting closer to a wrap up of this next step.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660542338.682429"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660542338.682429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-08-14 22:45</span><br/>
+u want a simple matrix that maps between the two vector spaces (which you can invert if you need to go the other way). A simple 2x2 matrix can;t do translations, which is what homogeneous coordinates solves. Instead of a point (x,y) you make them (x,y,1) and multiply by a 3x3 matrix which has 0s in certain elements. That extra 1 on the end is leverage by the transformation matrix to move the origin. See <a href="https://web.cse.ohio-state.edu/~shen.94/681/Site/Slides_files/transformation_review.pdf">https://web.cse.ohio-state.edu/~shen.94/681/Site/Slides_file&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660543865.718769"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660543865.718769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-08-14 23:11</span><br/>
+I would say you don't want to break the transform down into translating then rotating etc. It's all covered by vector-matrix multiplication, and it's far more composable and effecient (and idiomatic graphics programming) to stick to the matrix representation of transforms.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660546331.940939"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660546331.940939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-08-14 23:52</span><br/>
+here is a very concrete example in practice that matches your problem <a href="https://math.stackexchange.com/questions/296794/finding-the-transform-matrix-from-4-projected-points-with-javascript">https://math.stackexchange.com/questions/296794/finding-the-&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660580603.604969"></a>
+      <a href="../thinking-together/1660513026.932579.html#1660580603.604969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-08-15 09:23</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> <span style="background-color:#ccf">@Kartik Agaram</span> <span style="background-color:#ccf">@Robin Allison</span> <span style="background-color:#ccf">@Tony Cheal</span> <span style="background-color:#ccf">@Blad Tellez</span><br/><br/>Internet friends, epiphanies were had. I present the goal of this whole goofy adventure: High performance, 3d, arbitrary text glyph rendering, animation, and editing.<br/><br/>This is the backend that is going to start powering my code analysis project, and with it, comes the unlocking of rendering <em>many tens of code <b>repositories</b> character-for-character in 3D space</em>, instead of just a handful of 30-50 files. All of this is running on an M1 Air, so it’s a graphics horse but nothing “professional”. Getting this performance at this level means pretty much anyone will be able to render larger amounts of text at once.<br/><br/>Thank you, many times over, for taking time to help last night. I have so far to go, but this is the biggest project advance in a long while.<br/><br/>Enjoy: floating spinner letters at 60fps!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660586742.257249"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660586742.257249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-08-15 11:05</span><br/>
+Post it to #share-your-work or #devlog-together :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1660946738.707389"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1660513026.932579.html#1660946738.707389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2022-08-19 15:05</span><br/>
+Ooh. I've been using this:<br/><br/><a href="https://github.com/kocsis1david/font-demo">https://github.com/kocsis1david/font-demo</a><br/><br/>for my 3D font rendering in Vulkan.<br/><br/>Just thought I'd drop that in. Probably not relevant but similar kinda stuff
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

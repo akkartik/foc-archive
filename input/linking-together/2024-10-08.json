@@ -1,0 +1,849 @@
+[
+    {
+        "text": "see also some responses by diSessa: <https:\/\/groups.io\/g\/boxer-sunrise\/topic\/108687245>.\n\n----\n\nI'm fascinated with Boxer's `tell` (aka `ask`) mechanism for \"OOP\": It simply takes a piece of code to execute in another context.  E.g. if you have 2 turtles, you can `tell turtle2 right 90` (the inner code e.g. `right 90` can be wrapped in a box but that's optional for short things).  Pedagogically, this allows students to operate multiple stateful copies, without having to first learn encapsulation, interfaces, and having to expose a \"method\" for whatever you want to tell them to do (which requires being comfortable with defining functions).\n\nThe only other language I've seen with such model is <https:\/\/snap.berkeley.edu\/snap\/help\/SnapManual.pdf|Snap!> (see \"Sending Messages to Sprites\").\n\n[Well, does JS depracted `with` statements count?  But JS has real methods too, plus it lacks an expression form.]",
+        "files": [
+            {
+                "id": "F07QNLRFC2J",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "U02QC0PPER3",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "uAclE",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "see also some responses by diSessa: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/groups.io\/g\/boxer-sunrise\/topic\/108687245"
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n\n----\n\nI'm fascinated with Boxer's "
+                            },
+                            {
+                                "type": "text",
+                                "text": "tell",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " (aka "
+                            },
+                            {
+                                "type": "text",
+                                "text": "ask",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ") mechanism for \"OOP\": It simply takes a piece of code to execute in another context.  E.g. if you have 2 turtles, you can "
+                            },
+                            {
+                                "type": "text",
+                                "text": "tell turtle2 right 90",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " (the inner code e.g. "
+                            },
+                            {
+                                "type": "text",
+                                "text": "right 90",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " can be wrapped in a box but that's optional for short things).  Pedagogically, this allows students to operate multiple stateful copies, without having to first learn encapsulation, interfaces, and having to expose a \"method\" for whatever you want to tell them to do (which requires being comfortable with defining functions).\n\nThe only other language I've seen with such model is "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/snap.berkeley.edu\/snap\/help\/SnapManual.pdf",
+                                "text": "Snap!"
+                            },
+                            {
+                                "type": "text",
+                                "text": " (see \"Sending Messages to Sprites\").\n\n[Well, does JS depracted "
+                            },
+                            {
+                                "type": "text",
+                                "text": "with",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " statements count?  But JS has real methods too, plus it lacks an expression form.]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1728378108.232499",
+        "client_msg_id": "8a000433-4e4c-40bf-ab60-8eb5743d660f",
+        "thread_ts": "1727918572.802539",
+        "parent_user_id": "UCUSW7WVD"
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1728378131.720669",
+        "client_msg_id": "3296c5b8-4c9d-4769-82ab-6ee770d30489",
+        "text": "This mechanism however comes at pedagogical cost wrt. parameters, due to scoping :thinking_face::\nE.g. consider \"firing an arrow\" in Snap! where you want to initializing a new sprite at x,y position matching current sprite.\nYou can't just tell new sprite to \"move to x: (my x) y: (my y)\" block to the new sprite since the whole thing including \"my x\" will be evaluated in new sprite context :disappointed:\n• In Snap!, the solution is to first introduce local variables, set them to parent's x and y, then you can refer to these variables inside the envelope.  (That works cause Snap does have Scheme-like lexical scoping, it's only \"current sprite\" operations like position that are affected by `tell` context.)  This is rather complex.\n• In Boxer, local variables wouldn't solve this either, _all_ name lookups are affected by `tell`.  This is consistent with Boxer's \"copy and execute\" mental model of how calling a doit box works. (Opt-in lexical scope _is_ possible via ports, but that's really an advanced escape hatch.)  So, how do you pass a block of code to be executed in new context yet _parametrize_ it from current context?!  Boxer added a special `^` syntax just for that:\n&gt; For example, ASK JOE FORWARD X has JOE use _his_ X, while ASK JOE FORWARD ^X has JOE use _the X available where ASK appears_.\n&gt;   — from \"Boxer Structures\"\nSo, syntactically `^X` etc looks kinda like templating [btw Boxer has a generic \"semiquote\" too — `build`, with a different syntax].\n(Semantically, this is not really templating but a 2nd runtime context Boxer interpreter keeps track of)\nLike all templating, it'd get horrific if you need more levels deep...\n\nIn regular OOP, this Just Works when you do something like `arrow.moveTo(this.x, this.y)` — the argument expressions are computed in the caller's environment, then method body is evaluated in target's environment.  The call boundary is also the `this` switch boundary!  And one can become productive before having to think too deep about that.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1727918572.802539",
+        "parent_user_id": "UCUSW7WVD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "8kOIp",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "This mechanism however comes at pedagogical cost wrt. parameters, due to scoping "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "thinking_face",
+                                "unicode": "1f914"
+                            },
+                            {
+                                "type": "text",
+                                "text": ":\nE.g. consider \"firing an arrow\" in Snap! where you want to initializing a new sprite at x,y position matching current sprite.\nYou can't just tell new sprite to \"move to x: (my x) y: (my y)\" block to the new sprite since the whole thing including \"my x\" will be evaluated in new sprite context "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "disappointed",
+                                "unicode": "1f61e"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "In Snap!, the solution is to first introduce local variables, set them to parent's x and y, then you can refer to these variables inside the envelope.  (That works cause Snap does have Scheme-like lexical scoping, it's only \"current sprite\" operations like position that are affected by "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "tell",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " context.)  This is rather complex."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "In Boxer, local variables wouldn't solve this either, "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "all",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " name lookups are affected by "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "tell",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": ".  This is consistent with Boxer's \"copy and execute\" mental model of how calling a doit box works. (Opt-in lexical scope "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "is",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " possible via ports, but that's really an advanced escape hatch.)  So, how do you pass a block of code to be executed in new context yet "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "parametrize",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " it from current context?!  Boxer added a special "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "^",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " syntax just for that:"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "For example, ASK JOE FORWARD X has JOE use "
+                            },
+                            {
+                                "type": "text",
+                                "text": "his",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " X, while ASK JOE FORWARD ^X has JOE use "
+                            },
+                            {
+                                "type": "text",
+                                "text": "the X available where ASK appears",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n  — from \"Boxer Structures\""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nSo, syntactically "
+                            },
+                            {
+                                "type": "text",
+                                "text": "^X",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " etc looks kinda like templating [btw Boxer has a generic \"semiquote\" too — "
+                            },
+                            {
+                                "type": "text",
+                                "text": "build",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", with a different syntax].\n(Semantically, this is not really templating but a 2nd runtime context Boxer interpreter keeps track of)\nLike all templating, it'd get horrific if you need more levels deep...\n\nIn regular OOP, this Just Works when you do something like "
+                            },
+                            {
+                                "type": "text",
+                                "text": "arrow.moveTo(this.x, this.y)",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " — the argument expressions are computed in the caller's environment, then method body is evaluated in target's environment.  The call boundary is also the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "this",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " switch boundary!  And one can become productive before having to think too deep about that."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UCUSW7WVD"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U013ZLJARC7",
+        "type": "message",
+        "ts": "1728395795.446469",
+        "client_msg_id": "89fe66dc-4612-4331-a837-4ff2b2599e0f",
+        "text": "So many nice ideas in this demo :slightly_smiling_face:\n<https:\/\/www.youtube.com\/watch?v=ehR-KIgw7T8>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "8ea58fc41bd6",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-10-13\/6057269405632_8ea58fc41bd6baa7dda6_72.png",
+            "first_name": "",
+            "real_name": "Jack Rusher",
+            "display_name": "Jack Rusher",
+            "team": "T5TCAFTA9",
+            "name": "jack529",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1728395795.446469",
+        "reply_count": 1,
+        "reply_users_count": 1,
+        "latest_reply": "1728539414.637589",
+        "reply_users": [
+            "U01T2PC8LBA"
+        ],
+        "replies": [
+            {
+                "user": "U01T2PC8LBA",
+                "ts": "1728539414.637589"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "attachments": [
+            {
+                "from_url": "https:\/\/www.youtube.com\/watch?v=ehR-KIgw7T8",
+                "service_icon": "https:\/\/a.slack-edge.com\/80588\/img\/unfurl_icons\/youtube.png",
+                "thumb_url": "https:\/\/i.ytimg.com\/vi\/ehR-KIgw7T8\/hqdefault.jpg",
+                "thumb_width": 480,
+                "thumb_height": 360,
+                "video_html": "<iframe width=\"400\" height=\"225\" src=\"https:\/\/www.youtube.com\/embed\/ehR-KIgw7T8?feature=oembed&autoplay=1&iv_load_policy=3\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Run, Build and Grow Small Systems Without Leaving Your Text Editor | LIVE 2024\"><\/iframe>",
+                "video_html_width": 400,
+                "video_html_height": 225,
+                "id": 1,
+                "original_url": "https:\/\/www.youtube.com\/watch?v=ehR-KIgw7T8",
+                "fallback": "YouTube Video: Run, Build and Grow Small Systems Without Leaving Your Text Editor | LIVE 2024",
+                "title": "Run, Build and Grow Small Systems Without Leaving Your Text Editor | LIVE 2024",
+                "title_link": "https:\/\/www.youtube.com\/watch?v=ehR-KIgw7T8",
+                "author_name": "Albert Zak",
+                "author_link": "https:\/\/www.youtube.com\/@albertzak8578",
+                "service_name": "YouTube",
+                "service_url": "https:\/\/www.youtube.com\/"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "f6hmf",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "So many nice ideas in this demo "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "slightly_smiling_face",
+                                "unicode": "1f642"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.youtube.com\/watch?v=ehR-KIgw7T8"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "exploding_head",
+                "users": [
+                    "U05UF5P8PT8",
+                    "U01T2PC8LBA",
+                    "U06131CATV3",
+                    "U02N3QJC405",
+                    "USJ9LD0E4"
+                ],
+                "count": 5
+            },
+            {
+                "name": "heart",
+                "users": [
+                    "UQZ0SRA7N",
+                    "UMQ6LR9NZ",
+                    "U01JNTE35QS",
+                    "UJBAJNFLK",
+                    "U01T2PC8LBA",
+                    "U02N3QJC405",
+                    "U85HCL7JP",
+                    "USJ9LD0E4"
+                ],
+                "count": 8
+            }
+        ]
+    },
+    {
+        "user": "U6KQ2S410",
+        "type": "message",
+        "ts": "1728399011.374519",
+        "client_msg_id": "f4b2042c-a01c-467c-b812-754d1ac3a091",
+        "text": "“My simple answer is that we need better programming languages and less AI.” - Alan Blackwell\n<https:\/\/moralcodes.pubpub.org>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e8f4c2151d2b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2017-08-09\/225308926294_e8f4c2151d2b70ebfae3_72.jpg",
+            "first_name": "Jonathan",
+            "real_name": "Jonathan Edwards",
+            "display_name": "jonathoda",
+            "team": "T5TCAFTA9",
+            "name": "jonathoda",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1728399011.374519",
+        "reply_count": 18,
+        "reply_users_count": 4,
+        "latest_reply": "1728552876.634679",
+        "reply_users": [
+            "UBN9AFS0N",
+            "U03U0SCU5LH",
+            "UJBAJNFLK",
+            "UJFN50C00"
+        ],
+        "replies": [
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1728461218.680369"
+            },
+            {
+                "user": "U03U0SCU5LH",
+                "ts": "1728474984.061699"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1728475051.678669"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1728478911.453399"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549359.121729"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549408.946639"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549467.612989"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549681.612579"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549683.336879"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549772.042829"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549853.675029"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728549944.854319"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728550018.901769"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728550019.891499"
+            },
+            {
+                "user": "UJFN50C00",
+                "ts": "1728550074.978839"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1728550564.440619"
+            },
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1728550676.355179"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1728552876.634679"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "attachments": [
+            {
+                "image_url": "https:\/\/assets.pubpub.org\/pgts2b3e\/51663925325401.png",
+                "image_width": 640,
+                "image_height": 590,
+                "image_bytes": 908835,
+                "from_url": "https:\/\/moralcodes.pubpub.org\/",
+                "service_icon": "https:\/\/moralcodes.pubpub.org\/favicon.ico",
+                "id": 1,
+                "original_url": "https:\/\/moralcodes.pubpub.org",
+                "fallback": "Moral Codes",
+                "title": "Moral Codes",
+                "title_link": "https:\/\/moralcodes.pubpub.org\/",
+                "service_name": "moralcodes.pubpub.org"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "cB\/WX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "“My simple answer is that we need better programming languages and less AI.” - Alan Blackwell\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/moralcodes.pubpub.org"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "eyes",
+                "users": [
+                    "U075Q2WP3UK",
+                    "U07PYD02V2S",
+                    "UML4ZEKDK",
+                    "UJBAJNFLK",
+                    "UA14TGLTC"
+                ],
+                "count": 5
+            }
+        ]
+    },
+    {
+        "text": "I'm working on something related to this discussion! Here's two screenshots. One with a structure corresponding to <@UFPRPSA4S>'s initial image, and the second corresponding to <@UBKNXPBAB>' response image.\n\nI was thinking along the line of circuits rather than spreadsheets, where arrows roughly mean \"depend on\" but I think the interesting common ground is doing computation over geometric\/topological structures that aren't euclidean.",
+        "files": [
+            {
+                "id": "F07QY2N3LBV",
+                "mode": "hidden_by_limit"
+            },
+            {
+                "id": "F07QHJYV7C7",
+                "mode": "hidden_by_limit"
+            }
+        ],
+        "upload": false,
+        "user": "U05M5A8E0NT",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "9hA1I",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I'm working on something related to this discussion! Here's two screenshots. One with a structure corresponding to "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UFPRPSA4S"
+                            },
+                            {
+                                "type": "text",
+                                "text": "'s initial image, and the second corresponding to "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UBKNXPBAB"
+                            },
+                            {
+                                "type": "text",
+                                "text": "' response image.\n\nI was thinking along the line of circuits rather than spreadsheets, where arrows roughly mean \"depend on\" but I think the interesting common ground is doing computation over geometric\/topological structures that aren't euclidean."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1728403394.792989",
+        "edited": {
+            "user": "U05M5A8E0NT",
+            "ts": "1728403415.000000"
+        },
+        "client_msg_id": "07012230-3138-4eda-ba54-e13b192180e7",
+        "thread_ts": "1727247298.811129",
+        "parent_user_id": "UFPRPSA4S",
+        "reactions": [
+            {
+                "name": "eyes",
+                "users": [
+                    "U05UK5T7LPP",
+                    "UCUSW7WVD",
+                    "UJBAJNFLK"
+                ],
+                "count": 3
+            },
+            {
+                "name": "fire",
+                "users": [
+                    "UFPRPSA4S"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U5STGTB3J",
+        "type": "message",
+        "ts": "1728424908.187449",
+        "client_msg_id": "B48A82B0-447F-475F-A8F6-A5E6C7409217",
+        "text": "<https:\/\/www.frontiersin.org\/journals\/psychology\/articles\/10.3389\/fpsyg.2024.1362658\/full|Naturalizing relevance realization: why agency and cognition are fundamentally not computational>\nThis is a psychology paper, so perhaps not what you usually consume, but I want to encourage you to give this a go. I think it’s super useful to leave our bubble from time to time and learn about what other disciplines’ perspectives on computation are. I’ll quote the summary at the end, but there is so much more building up to that that you don’t want to miss, certainly not before commenting on it. :)\n\n&gt; The view that intelligence equals some kind of computational optimization is no longer tenable. It does not help us make sense of a large world. Therefore, claims that the study of intelligence is converging onto computational rationality as its ultimate foundation are not only premature, but outright misguided. Quite the opposite: we have shown here that the basic foundation of natural agency and cognition, and therefore of anything we could reasonably call “intelligence,” cannot be computational at all because it cannot be completely formalized. The dream of generating purely algorithmic systems able to think and act like human beings is and remains a pipe dream, because purely symbolic machines exist in small worlds, in which there is no problem of relevance to be solved.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "649181907e06",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2017-08-20\/228447816352_649181907e06ec450c64_72.jpg",
+            "first_name": "Stefan",
+            "real_name": "Stefan Lesser",
+            "display_name": "Stefan",
+            "team": "T5TCAFTA9",
+            "name": "stefanlesser",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1728424908.187449",
+        "reply_count": 15,
+        "reply_users_count": 5,
+        "latest_reply": "1728674235.425399",
+        "reply_users": [
+            "U013ZLJARC7",
+            "U5STGTB3J",
+            "UGWUJUZHT",
+            "UJBAJNFLK",
+            "U059ED7QSVB"
+        ],
+        "replies": [
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1728461980.575889"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728471647.431599"
+            },
+            {
+                "user": "UGWUJUZHT",
+                "ts": "1728471688.338619"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728472482.025449"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1728473426.090779"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728474207.299069"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1728479246.414369"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728486457.389659"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728486865.483669"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1728497866.034039"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1728572930.565789"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1728630327.940339"
+            },
+            {
+                "user": "U059ED7QSVB",
+                "ts": "1728630878.056879"
+            },
+            {
+                "user": "U5STGTB3J",
+                "ts": "1728642232.686449"
+            },
+            {
+                "user": "U013ZLJARC7",
+                "ts": "1728674235.425399"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ciRoR",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.frontiersin.org\/journals\/psychology\/articles\/10.3389\/fpsyg.2024.1362658\/full",
+                                "text": "Naturalizing relevance realization: why agency and cognition are fundamentally not computational"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\nThis is a psychology paper, so perhaps not what you usually consume, but I want to encourage you to give this a go. I think it’s super useful to leave our bubble from time to time and learn about what other disciplines’ perspective"
+                            },
+                            {
+                                "type": "text",
+                                "text": "s"
+                            },
+                            {
+                                "type": "text",
+                                "text": " on computation are. I’ll quote the summary at the end, but there is so much more building up to that that you don’t want to miss"
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "certainly not before commenting on it."
+                            },
+                            {
+                                "type": "text",
+                                "text": " :)"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "The view that intelligence equals some kind of computational optimization is no longer tenable. It does not help us make sense of a large world. Therefore, claims that the study of intelligence is converging onto computational rationality as its ultimate foundation are not only premature, but outright misguided. Quite the opposite: we have shown here that the basic foundation of natural agency and cognition, and therefore of anything we could reasonably call “intelligence,” cannot be computational at all because it cannot be completely formalized. The dream of generating purely algorithmic systems able to think and act like human beings is and remains a pipe dream, because purely symbolic machines exist in small worlds, in which there is no problem of relevance to be solved."
+                            }
+                        ],
+                        "border": 0
+                    }
+                ]
+            }
+        ]
+    }
+]

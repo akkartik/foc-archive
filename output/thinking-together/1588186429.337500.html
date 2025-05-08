@@ -1,0 +1,306 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-04-29 11:53</span><br/>
+Lately I’ve been working on and thinking about gui layout. I’m building a gui builder, and I’m trying to figure out what the interface should be between parent and child components to allow for maximum flexibility of layouts while still having things mostly just work when they get combined. I’ve been taking inspiration from the existing gui toolkits (html/css, QT, GTK, WinForms), and from more fanciful gui designs (the iron man interfaces, rainmeter skins). I’m trying to understand what tradeoffs are being made in these systems in a holistic way. Like, what layouts are expressible. I would like to generalize away from are the heavy focus on rectilinearity. Things I’ve been imagining are force-based layout algorithms, and some sort of path-based deformation/matching between child and parent, but they’re just thoughts for now. Has anybody come across any literature on these sorts of topics? The only thing I’ve come across is constraint-solvers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588186711.337700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588186711.337700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-04-29 11:58</span><br/>
+Here's a question that has usefully guided my thinking on the subject: Have you ever seen a force-directed GUI layout that looked good?<br/><br/>I haven't, so what I've pivoted toward is "make the tools really good, so it's easy to design a nice layout" rather than "make the layout happen automagically".<br/><br/>Not sure if you'd find this framing helpful, but it might help you narrow what sort of research is relevant. To me, a force-directed layout is appropriate for something like data-viz, where you can be a little loosey-goosey about where things end up. In a GUI, you generally care a lot more about getting a result that <em>feels good</em> in a way that's hard to encode algorithmically.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588187484.338300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588187484.338300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-04-29 12:11</span><br/>
+As for literature... <a href="https://www.youtube.com/watch?v=KfxE99eN44c">https://www.youtube.com/watch?v=KfxE99eN44c</a> and <a href="https://www.youtube.com/watch?v=0msyWHrw40A">https://www.youtube.com/watch?v=0msyWHrw40A</a> were posted here (IIRC) a few months ago. Kevin Lynagh was also doing a lot of research in this area for <a href="https://subformapp.com">https://subformapp.com</a>, so he might be worth reaching out to. (He was also on the podcast: <a href="https://futureofcoding.org/episodes/025">https://futureofcoding.org/episodes/025</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588187870.339800"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588187870.339800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-04-29 12:17</span><br/>
+Nice links! Will definitely take a look at those. I guess the thing that’s leading my thinking in a more automatic direction is I’m picturing an ecosystem and sort of appstore of components. I want somebody to be able to develop a parent component without knowing what type of components it’s going to contain, and somebody else to develop a child component without knowing what type of container it will be put inside (or what siblings it will have), and for that to <em>just work</em>. Or I want to figure out why that’s wrong.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588188956.340000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588188956.340000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-04-29 12:35</span><br/>
+Follow-up question — when you say "path-based deformation/matching", what do you mean by path? Like, the conceptual path to the element in the hierarchy (like CSS selectors) or some sort of visual path in the layout (like aligning things to splines)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588190472.340400"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588190472.340400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-04-29 13:01</span><br/>
+Along the non-rectilinear idea, a parent telling the child, I can give you this shape to display yourself in (maybe a rectangle, maybe something else), and the child either rendering according to that, or saying, I’d really like to be this shape, and some sort of middle ground being achieved. Path in the visual path/SVG sense.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588213760.343900"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588213760.343900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-04-29 19:29</span><br/>
+can you do away with the notion of parent-child? perhaps you could think in terms of clustering things, scrolling, zooming, connecting, etc. All components could live at the same level instead of being nested in one another
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588213816.344100"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588213816.344100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-04-29 19:30</span><br/>
+since you are thinking ironman your screen would be potentially infinite... you would have to find a way to focus the desired cluster inside the viewport
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588216162.344800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588216162.344800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-04-29 20:09</span><br/>
+The trick with constraint layout systems is that they're often too complicated to reason about reliably.  You don't know who is in charge: the container or the content.  Simultaneously, they are often too rigid.  You discover you want two things to lineup cross-hierarchy, and your kind of out of luck.  What to do then?  Give feedback.  Explain why a thing ends up the way it does.  Then make it easy to give examples of what you want, which may be realized in more than one way.<br/><br/>Browsers have been getting better with explaining CSS, but not without eliminating rage inducing headaches.  For instance, it might be hard to select a border in order to determine where it is coming from.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588235865.345300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588235865.345300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-04-30 01:37</span><br/>
+The Iron Man interfaces are wonderfully entertaining pieces of graphic art. There are just a few people in hollywood who know how to make those things. They are mixture of 3D and 2D animations, always using glowing lines and very few colors so it looks terrific. But as a user interface it would be horrible because all the buttons look alike, and the font sizes are microscopic. So although they are sexy from a distance, if you had one in front of you, it would be confusing, hard to use. A lot of music software is enraptured with sub-6pt fonts, and microscopic icons. So i would be wary of chasing Hollywood's ideas.  Remember Star Trek next generation, with their buttonless screens that would be sure to create carpal tunnel syndrome in record time? A lot of the futuristic stuff is unergonomic, and possibly harmful to the human body, and presumes a magical artificial intelligence that just graduated from CalArts and spent 1000 hours making a screen that appears in the movie for 2 minutes. A 100 million motion picture is a time compression device, where 50,000 man hours go into making something that lasts 2, so a 25,000 : 1 ratio there. By all means see what you can come up with, but don't hold yourself to unattainable graphic standards that are the work of genius graphic designers who are at the top of a very specialized field (i.e. fake UI's for futuristic films). Hollywood has a long history of faking the future; Irwin Allen was a famous TV producer who loved banks of flashing lights and nutty rubber monsters. I think you are better off studying from the great masters of the Renaissance, who used proportions to draw everything, and also the great book "Designing for people" by Henry Dreyfuss, the greatest industrial designer in the history of the world. Everyone who does any design work should know that man's output because he was so great. He didn't do computer interfaces, but he had a systematic way of attacking every problem that resulted in an optimal final design. It is his methodology that is still useful today.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588239050.350000"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588239050.350000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-04-30 02:30</span><br/>
+I come to realize again and again that great design comes from building something over and over again, exploring different options and putting in what you learned from the last time you built it. Great designers build lots of prototypes to figure out what works and what doesn’t. <br/><br/>In software engineering we often see design more as planning, as that one time we think a little about architecture and then we just have to implement it. Sometimes that works and it good enough. But if you really want to build something great, you’ll likely have to build it several times.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588239733.357700"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588239733.357700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-04-30 02:42</span><br/>
+Tying this back to the original question: I’m most familiar with Apple’s explorations of layout systems over the last few decades. They went from a very simple to understand and just powerful enough “Struts and Springs” model in Cocoa to a somewhat more refined version of that as part of Core Animation, then a constraint solver based “Auto Layout” model plus some layout-specific components like UITableView and UICollectionView, and are now exploring some new ideas with SwiftUI.<br/><br/>Given the way Apple <em>designs</em> their APIs, and their experience having built several widely used layout systems over the years, there should be some good material to be inspired by.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588247920.358200"></a>
+      <img src="https://secure.gravatar.com/avatar/5231a4183b420b2f43a0acdf4330550d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588247920.358200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Samuel Squire</b>
+<span style="margin:2em; color:#606060">2020-04-30 04:58</span><br/>
+I have an open source library for plotting widgets on the screen according to inequalities<br/><a href="https://github.com/samsquire/inequality-solver">https://github.com/samsquire/inequality-solver</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588258475.359200"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588258475.359200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-04-30 07:54</span><br/>
+&gt; can you do away with the notion of parent-child?<br/>This is the kind of outside-the-box thinking I was looking for (pun-intended). I’m not sure. I think containers are inherent, but maybe a model where a container is just a set of constraints over some children with no graphical presence itself would be possible. This deserves more thought.<br/>&gt; You don’t know who is in charge: the container or the content.<br/>This is very much the issue I’m running into. I keep thinking of these fairly naive systems where its either parent-driven or child-driven, or possibly there is a point in the tree where it switches, but I don’t know how to rectify them into something consistent and intuitive. I guess that’s why constraint-layout is a thing.<br/><span style="background-color:#ccf">@magicmouse94937</span> Great points. I think there’s an element of me being suckered into thinking these interfaces would be more useful than they really would be (and I will definitely be reading Designing For People). Part of my goal, though, is to just avoid baking in too many assumptions about what makes for a useful/ergonomic/good UI. Which is perhaps itself naive.<br/>&gt; great design comes from building something over and over again<br/>Absolutely. Part of my goal with this system is for things to get forked and redesigned and reshared by end users over and over again. I think even a great designer can’t anticipate an individual’s idiosyncracies as well as the individual can tweak and reshape something to fit their own brain.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588289985.379300"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588289985.379300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 16:39</span><br/>
+The Flutter layout model is very simple and expressive - <a href="https://youtu.be/UUfXWzp0-DU?t=201">https://youtu.be/UUfXWzp0-DU?t=201</a>. The proposed model for extensible layouts on the web uses almost exactly the same api.<br/><br/>Many immediate-mode gui libraries don't have a concept of parent-child relations. Instead widget functions take a rect that tells them where to draw themselves, and there are a bunch of convenience functions for splitting rects in different ways. Eg page 31 of <a href="https://ourmachinery.com/docs/writing-tools-faster/index.html">https://ourmachinery.com/docs/writing-tools-faster/index.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588296858.381600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588296858.381600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-04-30 18:34</span><br/>
+Tangent: slide 31:<br/><pre style="white-space:pre-wrap">No need for "layout managers" -- instead we split rects directly in code</pre><br/>I understand the sentiment but dismissing automatic layout seems wrong. In a database analogy, would be like doing away with SQL and performing all queries programmatically with lower level API calls and for loops. Makes me think there must be a different way to layout graphics that is to CSS as Datalog is to SQL :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588307788.387300"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588307788.387300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-04-30 21:36</span><br/>
+Speaking of movie UIs... <a href="https://www.youtube.com/watch?v=4-yFRjqn9Tc">https://www.youtube.com/watch?v=4-yFRjqn9Tc</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588315794.392100"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588315794.392100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-04-30 23:49</span><br/>
+<span style="background-color:#ccf">@Emmanuel Oga</span> I think of it more as not having <b>one</b> layout manager. The widget functions just want a rect. You can write the rect out by hand, or write some simple layout calculation, or import a layout manager library if you want, or use multiple different layout algorithms in different places. But the widget libraries don't care.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588363414.410300"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588363414.410300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-05-01 13:03</span><br/>
+I spent some time looking into flutter. They have this RenderObject base class that is almost exclusively used through a RenderBox subclass, but in their examples they also have a RenderSector subclass, which does polar coordinate widgets. This was my strawman non-rectilinear example that I was thinking about. So I think their RenderObject interface is probably more or less what I was looking for in terms of layout generality.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588363543.410500"></a>
+      <a href="../thinking-together/1588186429.337500.html#1588363543.410500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-05-01 13:05</span><br/>
+For anybody who's curious and doesn't want to install the flutter sdk, this is what their sector layout looks like
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588363837.411000"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588363837.411000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-05-01 13:10</span><br/>
+<span style="background-color:#ccf">@Jamie Brandon</span> do you have a link to the extensible web layouts proposal? I haven’t been able to find it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588365121.411400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588365121.411400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-05-01 13:32</span><br/>
+Flutter to my understanding is a unique beast among graphical layers. It renders the entire UI into bitmap form, and sends the bitmaps to the underlying OS. So It is effectively its own virtual machine that interfaces with the world by emitting bitmaps. Only an entity with Google's money would attempt such a huge task. My own Beads project maps my language concepts into the lower layers, which for web apps is JS.  Flutter is its own universe, and of course is rather tied to the Dart language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588375177.412500"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588375177.412500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-05-01 16:19</span><br/>
+<span style="background-color:#ccf">@Jared Windover</span> Nope, I can't find it either. I remember it was part of a collection of proposed extensions aiming to un-hardcode some of the lower levels of the web.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588626131.001100"></a>
+      <img src="https://avatars.slack-edge.com/2019-04-10/604262911488_be27878783b4b23a5ed4_72.png" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588626131.001100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Niko Autio</b>
+<span style="margin:2em; color:#606060">2020-05-04 14:02</span><br/>
+<span style="background-color:#ccf">@Jared Windover</span> you mean "Layout API"? <a href="https://houdini.glitch.me/layout">https://houdini.glitch.me/layout</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1588683364.033500"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1588186429.337500.html#1588683364.033500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-05-05 05:56</span><br/>
+Thanks <span style="background-color:#ccf">@Niko Autio</span>! I had found houdini, but I hadn’t seen that layout page.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

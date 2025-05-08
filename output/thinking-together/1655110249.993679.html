@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2022-06-13 01:50</span><br/>
+[This is like 5min into the future, so not sure it qualifies as a topic in FutureOfCoding slack? Admins fell free to delete or move]<br/><br/>A language construct terminology question: <b>What is a good name for the  “transposition” of a Case expression?</b> (see below)<br/><br/><b>Motivation</b>: The idea is to integrate some more expressive language patterns into e.g. JavaScript using Continuation-Passing Style (CPS), in a friendly way by putting the CPS functionality in predictable places in readable  constructs. The Case expression is similar to Haskell pattern matching in intended usage. The corresponding JavaScript syntax needs a few extra parens and commas.<br/><br/><b>Clarification</b>: By Case expression I intend:<br/><pre style="white-space:pre-wrap">Case<br/>    &lt;pat p1&gt; &lt;fn succ1&gt;<br/>    &lt;pat p2&gt; &lt;fn succ2&gt;<br/>    ...<br/>    &lt;fn failAll&gt; -- optional</pre><br/>Success at p#n means choose succ#n.<br/>Failure at p#n means continue with clause n+1.<br/><br/><br/><br/><br/>By ‘transposition of Case’ I intend:<br/><pre style="white-space:pre-wrap">CaseTransp<br/>    &lt;pat p1&gt; &lt;fn fail1&gt;<br/>    &lt;pat p2&gt; &lt;fn fail2&gt;<br/>    ...<br/>    &lt;fn succAll&gt; -- not optional</pre><br/>Failure at p#n means choose fail#n.<br/>Success at p#n means continue with p#(n+1).<br/><br/>Note: &lt;pat&gt; are CPS constructs in the form of functions that can succeed or fail. &lt;fail&gt; and &lt;succ&gt; are ordinary functions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655125776.394849"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655125776.394849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2022-06-13 06:09</span><br/>
+I don't know what the acronym "CPS" stands for.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655127421.308969"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-14/2726013476404_46b1d789abee49842525_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655127421.308969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Henning Sato von Rosen</b>
+<span style="margin:2em; color:#606060">2022-06-13 06:37</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> “Continuation-Passing Style” is the intention; didn’t mean to be unclear, the first non-abbrevitated wording fell out during editing; now reintroduced! Thanks!<br/><br/>As an aside, there are two things that make CPS worthwhile and fun IMO:<br/>1. One can implement any control structure in any language that has first-class functions.<br/>2. CPS style is known to be mind-bening/not very readable, but can be turned the opposite using appropriate abstractions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655130830.013909"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655130830.013909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-06-13 07:33</span><br/>
+By "can be turned the opposite using appropriate abstractions," what do mean?<br/><br/>For more everyday programmers, if you say Callback-Passing Style, they'll at least understand how (1) is obvious.<br/><br/>About (2) as one who was mind-bent as a young person by, I honestly can't remember whats hard abou,t say, callcc now.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655132389.263069"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655132389.263069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-06-13 07:59</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> I'm jealous. My mind gets bent all over again, every time I go back to it after a few years. Perhaps I didn't get exposed to it while my mind was supple.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655144698.559329"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655144698.559329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-06-13 11:24</span><br/>
+I'm not sure a case expression or any derivatives thereof should so intimately involve a notion of "failure" or "success". From a mechanical standpoint, those are just human-friendly tags on regular ol' control flow paths. If you strip that away, the only difference I can see is that you've made the default case mandatory. If anything, I feel like you have syntactic sugar for a case expression where all cases but the default get wrapped in some domain-specific failure indicator.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655145067.926699"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655145067.926699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2022-06-13 11:31</span><br/>
+I can see adding a keyword to let people avoid negating their patterns, if that is more convenient. I don't see a reason to enforce catchall. The coder might just prefer to state exhauative options negatively. I might just call it "not case."
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655181384.405829"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655181384.405829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-06-13 21:36</span><br/>
+Case expressions and failure?  I think of destructuring  pattern matching.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1655319943.485919"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1655110249.993679.html#1655319943.485919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2022-06-15 12:05</span><br/>
+Seems similar to De Morgan's laws, whose generalizations are discussed here <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws#Generalising_De_Morgan_duality">https://en.wikipedia.org/wiki/De_Morgan%27s_laws#Generalising_De_Morgan_duality</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

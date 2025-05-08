@@ -1,0 +1,330 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-15 04:02</span><br/>
+I've been working on editor integration for the alv livecoding language, and finally have something worth showing. Alv scripts being a bunch of stateful pieces, <b>seeing</b> that state feels like a gamechanger to me, even more than I originally anticipated. I feel like this single demo clip might now show what alv is about better than my attempts at communicating it verbally or textually; maybe those who have followed along with my (few) videos in #two-minute-week or the other posts can confirm or deny that?<br/><br/><a href="https://twitter.com/S0lll0s/status/1283349999213051904">https://twitter.com/S0lll0s/status/1283349999213051904</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594817042.386900"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594817042.386900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-15 05:44</span><br/>
+I always love to see livecoding bound to external devices! Here's a video showing something I made in 2012 to allow easy remote control of a Clojure visualization I had been commissioned to create for a dance performance in NYC.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594832900.387700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594832900.387700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-07-15 10:08</span><br/>
+His is really cool <span style="background-color:#ccf">@Sol Bekic</span>. I love the visualizations. I didn't know that atom supported that sort of inline visualization. How is that implemented? Is it rendering arbitrary html or some custom font? I'd love to learn a bit more about how you made it work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594835876.387900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594835876.387900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-15 10:57</span><br/>
+<span style="background-color:#ccf">@Jack Rusher</span> Nice! This supports MIDI CC and note input currently, and OSC whenever I get around to it. With the language features you can build things like step sequencers out of a MIDI Controller... maybe that will make it into the next 2min demo video :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594836075.388100"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594836075.388100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:01</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> yeah, it's a touchy subject ;)<br/>Since Atom renders as a html page, you can do all kinds of things (adding DOM, changing styling) etc, but the hard part is staying within what Atom can handle to make the editing experience still work. For example you could add or remove content with these featues, but then clicking at one location places the cursor at a different one and similar things, so you can break the editing experience really quickly.<br/><br/>If you pay close attention in the moments where I toggle the live view feature on and off, you can see that all my widgets take the place of the [tags] that every expression has. This way I can get rid of them and also reserve space for the widgets :wink:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594836225.388300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594836225.388300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:03</span><br/>
+I'm using a tree-sitter parser in Atom to parse the source code into a simple AST, then I get the Ranges that different elements occupy and turn them into "Marker". The Markers can be "decorated"; I use three styles of decoration:<br/>- type: text with color: transparent to make the tags invisible<br/>- type: overlay with a custom DOM node to fill the custom widget into the newly created gap<br/>- type: highlight to highlight the background behind active elements in (switch) etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594836384.388500"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594836384.388500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:06</span><br/>
+<span style="background-color:#ccf">@Jimmy Miller</span> most of what you are interested in is in this file: <a href="https://github.com/s-ol/language-alv/blob/editor-support/lib/highlights.js">https://github.com/s-ol/language-alv/blob/editor-support/lib/highlights.js</a><br/><br/>Atom also knows "block decorations" which are more or less the only way of adding larger and varying-size pieces of custom information to the editor. They can be placed only <b>between lines</b> of the editor and can show whatever they want at any height they choose there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594836495.388800"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594836495.388800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:08</span><br/>
+That's super useful. Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594839569.389000"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594839569.389000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:59</span><br/>
+this looks fantastic! can’t remember if I’ve sent this to you before, but I do similar stuff in a web-based live coding language: <a href="https://gibber-cc.github.io/gibber/playground/">https://gibber-cc.github.io/gibber/playground/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594839592.389200"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594839592.389200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-15 11:59</span><br/>
+and if you haven’t looked at Ben Swift’s work with Impromptu there seems like some parallels: <a href="https://eprints.qut.edu.au/61525/13/liveannotations.pdf">https://eprints.qut.edu.au/61525/13/liveannotations.pdf</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594846980.389900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594846980.389900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2020-07-15 14:03</span><br/>
+What wonderful thing to inline the pulsations and speeds of the different oscillators. I think you will be better off writing your own editor. It just isn't that hard, and wrestling with Atom is probably consuming more hours than you realize. Atom was never designed for this level of animation. Look at how many features Atom has, and ask yourself, how many of those am i actually needing for editing the music code? Atom and other fancy editors spend a lot of time to be able to handle million line files, etc., none of which you need.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594859349.390500"></a>
+      <a href="../share-your-work/1594810935.386500.html#1594859349.390500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-15 17:29</span><br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> I’m getting a 404 but I want to check it out—is it a private repo
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594859367.390900"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594859367.390900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-15 17:29</span><br/>
+<span style="background-color:#ccf">@Sol Bekic</span> I <b>love</b> the inline visualizations
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594864560.391100"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594864560.391100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-15 18:56</span><br/>
+<span style="background-color:#ccf">@Garth Goldwater</span> sorry looks like I pasted it in twice there: <a href="https://gibber-cc.github.io/gibber/playground/">https://gibber-cc.github.io/gibber/playground/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594864829.391300"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594864829.391300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-15 19:00</span><br/>
+awesome! does that mean the repo is here: <a href="https://github.com/gibber-cc/gibber">https://github.com/gibber-cc/gibber</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594864921.391700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594864921.391700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-07-15 19:02</span><br/>
+this is extremely fun to play with already. you picked a great demo file/track
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594865057.392000"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594865057.392000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-15 19:04</span><br/>
+thanks! It currently works best in Chrome. And yes, that’s the repo, although it mostly just wraps the AV libraries (which were written for gibber) and deals with the editor / annotations / visualizations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594879942.392500"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594879942.392500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2020-07-15 23:12</span><br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> Nice :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1594932872.393400"></a>
+      <img src="https://avatars.slack-edge.com/2021-11-13/2722434855730_0c210ee2df74838f8683_72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1594932872.393400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>nicolas decoster</b>
+<span style="margin:2em; color:#606060">2020-07-16 13:54</span><br/>
+Really cool text/visual combination <span style="background-color:#ccf">@Sol Bekic</span>, I love it. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595060244.395100"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595060244.395100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2020-07-18 01:17</span><br/>
+This is awesome, and exactly the kind of thing I’m hoping to do in my custom editor.  The way it currently works for me is that I can reserve pixels above and below a current text line; and then render custom graphics in that space.  But your image inspires me to do inline things too; I had previously thought about a custom comment marker that gets replaced.  Like /<b> SlideFloat </b>/
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595166349.395900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595166349.395900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-19 06:45</span><br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> thank you for the links! Gibber looks very interesting; how are you handling annotation lifetimes wrt editing of the code?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595166635.396100"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595166635.396100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-19 06:50</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> That sounds similar to what the Atom block-type-decoration can do. One thing I've been looking for that no editor seems to be able to do currently is let me flexibly make changes within lines that transparently respond to editing; e.g.<br/>- replace a number of characters by a visual entity (extra credit: of a different width) that can be moved past, selected and deleted as a single entity<br/>- attach a visual entity to a (group of) characters and have it push the text to the side<br/>- hide characters (tricky for deleting)<br/><br/>I'd be very interested in working with your editor if you make progress on this!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595178448.396800"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595178448.396800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-19 10:07</span><br/>
+<span style="background-color:#ccf">@Sol Bekic</span> it’s not perfect, and the parsing is a nightmare because .js has so many edge cases, but it “kinda mostly” just works. Most of the annotations are css on top of the actual code, so you can edit away no problem. If annotations do get broken during editing—for example, if you completely delete a token and insert a new one the previously associated CSS is also deleted—they are usually correctly restored once the edited line of code is evaluated again. The inline visualizations can be deleted / skipped over with regular key/mouse gestures just like text, but currently don’t get copied to the clipboard. Curious if you looked a CodeMirror… I do think it handles many of the use cases you just listed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595178482.397000"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595178482.397000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-19 10:08</span><br/>
+Also, I really like the way you give users the power to decide when / where annotations are placed… I think it’s much saner :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595538175.399600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-20/844081492646_f5598145b9e31ad2c4bd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595538175.399600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sol Bekic</b>
+<span style="margin:2em; color:#606060">2020-07-23 14:02</span><br/>
+<span style="background-color:#ccf">@Charlie Roberts</span> I will take a look at CodeMirror. Did you write about the visual editor for Gibber somewhere? I did a quick search on articles to reference to compare with Gibber's editor, and I found two of your papers on Gibber, but they don't seem to mention it (at first glance).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595581999.401800"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595581999.401800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-24 02:13</span><br/>
+<span style="background-color:#ccf">@Sol Bekic</span> yeah, there’s a few references that touch on this. The best is probably an interactive web essay that I presented at SPLASH in 2018: <a href="https://charlieroberts.github.io/annotationsAndVisualizations/index.html">https://charlieroberts.github.io/annotationsAndVisualizations/index.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1595582405.402000"></a>
+      <img src="https://secure.gravatar.com/avatar/72cfca823894034e7bdbc31623c007d3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../share-your-work/1594810935.386500.html#1595582405.402000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Charlie Roberts</b>
+<span style="margin:2em; color:#606060">2020-07-24 02:20</span><br/>
+Works best in Chrome. There’s a bibliography at the bottom of that essay that has links to more references. The 2015 NIME paper was the first description of the work and also discusses some other features that are kinda fun, like using font characteristics to convey signal information. The journal paper is basically a short artist statement about using these annotations in performance… happy to send it to you (and anyone else) if you don’t have access and want a copy.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

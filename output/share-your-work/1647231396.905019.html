@@ -1,0 +1,138 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/cd378611a91eb7852ae19cd582de718a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-13 21:16</span><br/>
+Along those lines, I have another Clerk demo, this time with interactive animations of physical systems powered by a state of the art ODE solver that lives in the browser.<br/><br/>For this “viewer”, given a Lagrangian (basically a function from some description of a system =&gt; kinetic minus potential energy, a SCALAR), the viewer is able to figure out how to physically animate the system. This is bonkers stuff.<br/><br/>Here is a Twitter thread with a link to three videos: <a href="https://twitter.com/sritchie/status/1503220063264026629">https://twitter.com/sritchie/status/1503220063264026629</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647238770.816009"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647238770.816009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-03-13 23:19</span><br/>
+Excellent. That's the most convincing demo so far for physicists who don't fundamentally care much about programming. I don't know any platform other than Mathematica that could do this - and you can't really share Mathematica with your students.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647241162.289199"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647241162.289199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2022-03-13 23:59</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> :100: which reminds me that when it first came out I had to un-license key Mathematica (by editing the binary with emacs to NOP the JMP to the license check) because their approach to copy protection broke running the binary over an NFS mount :joy_cat:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647260193.753029"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647260193.753029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:16</span><br/>
+This was super compelling! I’m really interested in the interactive animations and physics here, but I’d actually love to know more about the TeX integration. Is there somewhere I can read more about that? I’ve only done a little Clojure so maybe it’s nothing novel, but goddamn would I love to have tighter TeX integration in my day-to-day work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647260821.627209"></a>
+      <img src="https://secure.gravatar.com/avatar/cd378611a91eb7852ae19cd582de718a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647260821.627209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:27</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> great question; one goal of this project is to NOT present a big monolithic thing, but a fissionable artifact where folks can make off with individual components. SO in that spirit the TeX rendering is definitely independent.<br/><br/>On the clojure side, there are three main ideas that work together for TeX:<br/><br/>1. <a href="https://github.com/sicmutils/sicmutils">the sicmutils library</a> ships generic versions of functions like <tt>+</tt>, <tt>-</tt>, <tt>*</tt>, <tt>/,</tt>, all the trig operators, <tt>transpose</tt> , etc etc, and those functions are overloaded for (among other types) numbers and symbolic math. Symbolic math operations simply build up a clojure expression tree, like <tt>(+ (sin x) (expt (cos x) 3))</tt><br/>2. the library also contains a powerful simplifier that can transform tree =&gt; simplified tree…<br/>3. There there is a <a href="https://github.com/sicmutils/sicmutils/blob/main/src/sicmutils/expression/render.cljc#L574-L581">-</a>TeX&gt; function that can turn this expression into a string of TeX. When you use Clerk to show TeX, it uses <tt>-&gt;TeX</tt> and then points katex or mathjax at the resulting string.<br/>There are some other fun features of <tt>-&gt;TeX</tt>, like, if a symbol is named after a greek letter it gets shown as greek. <tt>'x_1</tt> , underscores, show up an subscripts, and superscripts work too;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647261067.719389"></a>
+      <img src="https://secure.gravatar.com/avatar/cd378611a91eb7852ae19cd582de718a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647261067.719389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:31</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> ACTUALLY check this out: <a href="https://nextjournal.com/try/samritchie/sicmutils/">https://nextjournal.com/try/samritchie/sicmutils/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647261130.329359"></a>
+      <a href="../share-your-work/1647231396.905019.html#1647261130.329359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:32</span><br/>
+the library can also run in Nextjournal fully in the browser, forget all this hybrid clerk stuff :slightly_smiling_face: scroll down a bit and you can see examples of TeX generation:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647261174.872729"></a>
+      <img src="https://secure.gravatar.com/avatar/cd378611a91eb7852ae19cd582de718a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647261174.872729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:32</span><br/>
+<span style="background-color:#ccf">@Orion Reed</span> if there’s more tuneability you want (almost guaranteed) let’s talk, I fully agree that the ability to write TeX with something more lispy than <tt>\the{usual}</tt> , without any ceremony, would be REALLY valuable beyond physics etc
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647262144.894589"></a>
+      <img src="https://avatars.slack-edge.com/2024-06-15/7281936611971_808c371ba00918560d75_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647262144.894589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Orion Reed</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:49</span><br/>
+<span style="background-color:#ccf">@Sam Ritchie</span> this is really really cool! I’m going to have to dig more into this, interested to find out where its limits/weak points are. And yeah, this feels close to something I could write without referencing a cheatsheet and a lot more idiomatic to the actual math I want to represent, instead of being wrapped in typesetting jargon. It also seems like an interesting intermediate representation that would be easier to work with than TeX itself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647262353.592659"></a>
+      <img src="https://secure.gravatar.com/avatar/cd378611a91eb7852ae19cd582de718a.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0025-72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647262353.592659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sam Ritchie</b>
+<span style="margin:2em; color:#606060">2022-03-14 05:52</span><br/>
+:+1: well let’s keep talking, here or in a Github Discussion on <a href="https://github.com/sicmutils/sicmutils">https://github.com/sicmutils/sicmutils</a> if a specific project like, for example, “I want to use -&gt;TeX without thinking about Clojure, from this editor” etc comes to mind
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1647265460.859729"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1647231396.905019.html#1647265460.859729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2022-03-14 06:44</span><br/>
+This sounds like the beginning of Markdown but for LaTeX. Go ahead!  :slightly_smiling_face:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,258 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 09:20</span><br/>
+My basement flooded this week. So that's going to set me back a bit. But, hey, here's a quick update on the two FoC-relevant things I'm floating.<br/><br/>• DANK WIKI • At the last FoC virtual meetup, we talked about setting up a super lo-fi, friendly-to-nontechnical-folks, hackable community wiki. I've got a repo all set up for that locally, and just have a tiny bit more experimentation to do before it's ready to share. All the pages are just simple HTML or MD. There is a build step — wait, stop, don't run away — it's a build step, but it's cool and different!! There's a really simple spec and a short reference implementation. Zero dependencies, less than 100 loc. Everyone is encouraged to port the script into their language of choice and commit that. That way, other people can check out the repo, add some pages, and build it locally without having to conform to whatever ecosystem the build script requires. I'd ideally like to have impls in each of the most common ecosystems right away (JS, Python, Ruby, maybe bash, etc). Finally, the wiki is (for now) going to be hosted on Github, with an action that runs the reference build script on commit, so if people want to edit it via the Github web interface they can. (I'll be liberal with handing out the commit bit). This is going to be a social experiment as much as a technical one. Excited to see how it goes. Hoping to have the initial version of this go live this weekend.<br/>• LIFE RAFT • I'm itching to get cracking on a Slack successor. I'm thinking I'll spin up a dedicated channel, and solicit people to drop in whatever random wishes / ideas / requests / suggestions / advice they feel like offering, so that these can filter in to the design process. I'm also hoping to put together goals for an MVP. This will need to include several things, including but not limited to: visual mockups for the GUI on desktop and mobile, technical architecture, priority features, estimated timeline. I intend to be quite restrained here — I want to make the smallest possible <em>good enough</em> thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722446556.714029"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722446556.714029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-31 10:22</span><br/>
+It's been on my mind to come up with a schema for this. You've mentioned channel -> post -> comment before, and cerca has post -> comment. I feel we need something slightly richer that allows wiki-like workflows as well. Revisions. The ability to summarize a thread in a wiki page while maintaining provenance to the original thread (so another kind of revision?) The ability to create multiple views of a thing, <em>qua</em> Glamorous Toolkit. Maybe that's also another kind of revision?<br/><br/>One challenge in combining markdown with an easy build script: markdown is notoriously hard to parse. Do you have thoughts on how to slice that tension? My thought so far has been to just restrict ourselves to a subset of html. Many forums and blog platforms allow html in comments but only a short list of permitted tags they can just mention below every textarea. That feels like one reasonable approach.<br/><br/>(I'm so sorry to hear about your basement!)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722447788.934919"></a>
+      <a href="../devlog-together/1722442852.630609.html#1722447788.934919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 10:43</span><br/>
+I'm thinking we can get pretty far with a subset of markdown, parsed using a series of not-awful regexes. Here's what I currently have — cobbled together from a few different sources online, not well tested yet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722450330.146739"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722450330.146739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-31 11:25</span><br/>
+FWIW: I strongly favour the use of OhmJS (PEG) over the use of REGEXs... REGEXs fool you into thinking that they work, until you hit some edge-case that doesn't work. Unlike CFGs, PEGs can be used for simple parsing tasks instead of mega-project full-blown compilers. I would immediately jump to using OhmJS for parsing something like markdown.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722453047.857029"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722453047.857029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2024-07-31 12:10</span><br/>
+<a href="https://djot.net/">https://djot.net/</a> is mostly markdown but is significantly easier to parse. You probably don't want all of djot, but studying what they changed to make markdown easier to parse seems worthwhile.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722455009.631319"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722455009.631319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 12:43</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I'm generally inclined to agree. Humblebrag: I work on a three-person team at my job, and Alex Warth is one of those three people. But in this case, I value the code being dependency-free and trivial to rewrite in other languages, so Ohm is probably out. So if we figured out a way to parse this subset of md syntax that satisfied the goals of this project, that'd be awesome. Would be happy to switch to that once it's figured out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722456499.123379"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722456499.123379" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:08</span><br/>
+&gt; dependency-free and trivial to rewrite in other languages<br/>Translation: only languages with built-in regex support are allowed, and let's hope that their notions of regex are sufficiently similar (probably not an issue unless you need advanced regexes, but... we will see).<br/><br/>Just to point out the can of worms hidden behind any idea in the space of "let's keep data transformations simple".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457280.291069"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457280.291069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:21</span><br/>
+This is strengthening my preference for "html (subset) all the way". Consistently across both wiki and life raft.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457354.726899"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457354.726899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:22</span><br/>
+OhmJS (unlike Ohm?) is portable to every browser of note.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457546.004629"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457546.004629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:25</span><br/>
+Reminder that the build script is a sideshow. The main attraction is authoring content for the wiki. That experience should be made as good as possible for as many folks as possible. This goal is in tension with the goal of making the build script stupid-simple and portable (in several senses — don't want to be tied to any particular host platform either).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457650.012429"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457650.012429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:27</span><br/>
+To the extent that we have a build script at all, the reason to have multiple impls is to allow people to run it locally without prescribing a single ecosystem (eg: npm). But that's not the same goal as "support every language in existence".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457730.026629"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457730.026629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:28</span><br/>
+Yeah, fair. I can live with a markdown subset. We just need to be able to clearly communicate what subset it is, that'll be part of the authoring experience.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722457731.078719"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722457731.078719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-07-31 13:28</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I meant OhmJS, sorry.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722460639.418999"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722460639.418999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-07-31 14:17</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> In your defence, a bird in the hand is worth two in the bush. And, my opinion is highly polluted by the notion that most existing 3GLs (Python, Haskell, WASM, etc.) are just assemblers and that OhmJS is the vehicle for making zillions of little DSLs using these assemblers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722493251.838199"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722493251.838199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-07-31 23:20</span><br/>
+We are re-enacting "worse is better" here: go for a simple solution that does 90% of the job and leaves the remaining 10% to the user to deal with? Or go for the Right Thing with a proper parser and proper error messages, at the cost of more code and some dependencies?<br/>The relevant question then is: will our users (present and future community members) be able to deal with the 10%, or will they give up when they can't get their contribution to render correctly?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722521953.367309"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722521953.367309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-01 07:19</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> But what different set of tradeoffs would you make? Can you find one that might better satisfy more people?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722523016.473079"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722523016.473079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-01 07:36</span><br/>
+Not to ignore your question, though it seemed a bit rhetorical: I don't think the regex will produce an unsatisfying result 10% of the time — not to take the idiom literally, but we're engineers, so let's try to work with realistic numbers. I think it'd be more like 0.01% or 0.001%, and the failure mode would be rendered text that visibly doesn't match your intent, not a silent failure. The ultimate fallback in that case is likely "just write that bit in html". My hunch is that people will generally prefer writing in the subset of md, and would more often hit a case where plain html fails them (they miss a closing tag, say) than where the md regex fails them.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722523174.482099"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722523174.482099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-01 07:39</span><br/>
+Shipping a bigger, more complex build script will make it harder to port and maintain the build script in multiple ecosystems. That'll mean fewer people use the build script locally, relying on the build step that runs on push. That's a much longer feedback loop.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722539381.509449"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722539381.509449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-01 12:09</span><br/>
+I think we have something similar to <a href="https://en.wikipedia.org/wiki/Zooko%27s_triangle">Zookoo's triangle</a>: out of three desirable characteristics, we can pick any two. The three are:<br/>1. Simple build system<br/>2. User-friendly input syntax (Markdown)<br/>3. Well-specficied build system (meaning an input format specification that actually corresponds to what the parser takes)<br/>If we give up 1, we use a Markdown-to-HTML compiler with a parser for something well-defined (Commonmark, djot, etc.).<br/>If we give up 2, we use HTML as our direct input format.<br/>If we give up 3, we use some regexp-munging for transforming something Markdown-like to something HTML-like.<br/><br/>My personal order of preference is 2, 1, 3 (the number being the feature I am willing to give up). I am not going to give any arguments, because I can easily give arguments for any of the three choices. It really comes down to weighing them against each other.<br/><br/>If everyone agrees that these are the trade-offs, we could do a poll to see what we mostly care about.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722542983.612249"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722542983.612249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-01 13:09</span><br/>
+I appreciate the effort to find a framing that helps us think about this issue. But I disagree with the premise behind this particular framing. I think all 3 are achievable, and are already sufficiently achieved for the immediate needs of this project. The parsing worries expressed in this thread are missing the point of markdown. (For those who know their markdown history — I side solidly with Gruber, and solidly against Atwood.)<br/><br/>I'm going to go ahead and ship what I've got. That's the spirit I'd like to engender with this project — just get something out there, it doesn't have to be perfect. If people try to use it and find that something about the setup impedes their desire or ability to contribute to the wiki, we can work on that concrete problem. I don't expect that what I have will work perfectly, especially not at first. That's a non-goal. The goal is to get people writing wiki entries.<br/><br/>(And because I love a framing, even one I disagree with: 3, … … … … … … …  1, 2)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1722584471.469419"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1722442852.630609.html#1722584471.469419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-02 00:41</span><br/>
+My point 3 indeed assumes Atwood's perspective on Markdown ("Markdown is a formal language"). I have a lot of sympathy for Gruber's view ("Markdown is a notation") but judging from the Markdown use cases I have experience with, it has failed in practice. It could perhaps be implemented robustly using AI, but there isn't much money to be made there so it won't happen.<br/><br/>Side note: Markdown history deserves being studied in detail because it showcases many general issues with human-computer interfaces.<br/><br/>That said, please go on with your project. "We believe in rough consensus and running code."
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

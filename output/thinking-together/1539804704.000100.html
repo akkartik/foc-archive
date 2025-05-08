@@ -1,0 +1,31 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1539804704.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-10-17 12:31</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> and others. I was thinking about subject of your article.<br/>Here are some thoughts that I haven't yet enough time to prototype (recently even weekends are packed), yet I think you and others may find interesting.<br/><br/>Assumption: actors with isolation (like in Erlang) might be really good abstraction to shape systems.<br/><br/>1) Any applications is just bunch of actors that spawn children, send and receive messages from/to each other.<br/>2) If actors depend only from their input (received messages), then we can have live time-travel code editing. We can record all IO for processes, select moment in the middle, change code of process and start execution again. Create a new branch of history.<br/>2.1) But this is not always possible. There must be actors which depend not only on their input: e.g. file handlers, sockets, OS timer. Similar to pure and dirty functions, we also have pure (processes) and dirty (ports) actors. Processes can go back in time and start new branch of exection (with different code). Ports cannot -- they terminate and supposed to be restarted by system.<br/><br/>Interesting, but looks like code for process might be in any PL, as long as it fits into behavior of process.<br/><br/>3) Supervisor config in Erlang and kubernetes config for services are awfully similar. Can we manage instances of applications the same way we manage little processes inside application? Probably there must be third kind of actors: a remote instance.<br/><br/>Remote instances are similar enough to ports and processes to be managed by same supervisor code, yet they behave differently:<br/><br/><li> they may lose some of the messages in the middle of conversation<br/><li> there is no way to learn that it died, in case of network split<br/><br/>This very fact that you can have everything in single system, is really powerful.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1539812270.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1539804704.000100.html#1539812270.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-10-17 14:37</span><br/>
+Very interesting. This here is a key observation, I believe:<br/><br/>&gt;  If actors depend only from their input (received messages), then we can have live time-travel code editing. We can record all IO for processes, select moment in the middle, change code of process and start execution again. Create a new branch of history.<br/><br/>I'm going to dig into this aspect a bit, and ignore the others for now, because it is the part I find most interesting.<br/><br/>Basically computation processes are modeled as this transform:<br/><br/><tt>messageIn + objectX@v1 --&gt; objectX@v2 + messageOut</tt><br/><br/>And this is reliable, repeatable transform - aka 'functional'. This is the start of managed time.. if you keep the object history, you can go back to the older version and then replay the inputs to get exactly the same subsequent state. An interesting write-up about these ideas is: <a href="https://www.quora.com/Why-is-functional-programming-seen-as-the-opposite-of-OOP-rather-than-an-addition-to-it">https://www.quora.com/Why-is-functional-programming-seen-as-&hellip;</a><br/><br/>Excerpts:<br/>&gt; this would allow “real objects” to be world-lines of their stable states and they could get to their next stable state in a completely functional manner.<br/><br/>&gt; You really only want views to be allowed on stable objects<br/><br/>The above point is important, while the object is 'processing' the message, it doesn't process other messages, so it is only visible in its stable, consistent states.<br/><br/>Now how do these individual objects compose as peers? Some ideas are in Pseudo Time (David Reed) and Virtual Time (David Jefferson). The main idea is to embed a 'pseudo time' in each and every message. So each object transformation propagates monotonically increasing pseudo times to the emitted messages. Now perhaps we can revert entire clusters of objects to previous, consistent states and replay some messages. If messages leave our system into a different world (e.g. the 'file system world' - then we've already lost) -- but if the whole system consists of objects modeled and incorporates the pseudo time, you can basically roll back any object (in theory). The pseudo time tracks which 'timeline' objects are part of, globally. (In practice even if you can't roll back, you'll know exactly where the system becomes inconsistent.)<br/><br/>IMO this is the essence of the idea behind MVCC, git and datomic too, but they limit the idea to a subset of the system - just a dead data structure, and operate on it from the outside.<br/><br/>There are lot of details that would need to be worked out, e.g. if and how objects compose to form larger encapsulated structures? How is the object state and functional transform actually represented? Etc.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

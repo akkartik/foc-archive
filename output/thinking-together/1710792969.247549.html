@@ -1,0 +1,233 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-18 13:16</span><br/>
+Is there any wisdom on <b>how to best lay out code in a visual code browser</b>?<br/><br/>In my experience, code can be layed out either more horizontally on long lines or more vertically on short lines. This is controlled by setting a criterion for how many levels of nesting there can be before a node switches to a multiline layout. Long lines use space efficiently but tend to get hard to read. Short lines are easier to read, as tokens of similar significance line up in columns, but tend to take up much vertical space while leaving most of the horizontal space unused, as the average line is just one key and one value.<br/><br/>Shall I accept that code gets very vertical, and use the free horizontal space to add multilevel navigation panels, or is there a third option that is more horizontal while still easy to read? I can go really fancy and add tables and multiple columns, since I have full control over the layout function, but not all code is regular enough to fit a tabular format, and I cannot require the person editing the code to manually bikeshed it by editing whitespace or dragging around visual nodes. I've seen the <a href="https://gitlab.com/procps-ng/procps/-/blob/master/src/top/top.c">horrors of manually bikeshedded plain-text languages</a> and the horrors of node-based languages where the programmer makes a simple one node change and then has to drag all the nodes around so they line up. Are there any examples of interesting solutions to look at?<br/><br/>Here's how I mean a more horizontal layout:<br/><br/>&gt; <b>element 1</b> { <em>key 1</em>: value 1, <em>key 2</em>: value 2, <em>key 3</em>: <b>surprise</b> { <em>key 1</em>: value 1 } }<br/>&gt; <b>element 2</b> { <em>key 1</em>: value 1 }<br/>Here's how I mean a more vertical layout:<br/><br/>&gt; <b>element 1</b> {<br/>&gt;     <em>key 1</em>: value 1,<br/>&gt;     <em>key 2</em>: value 2,<br/>&gt;     <em>key 3</em>: <b>surprise</b> {<br/>&gt;         <em>key 1</em>: value 1,<br/>&gt;     },<br/>&gt; }<br/>&gt; <b>element 2</b> {<br/>&gt;     <em>key 1</em>: value 1,<br/>&gt; }<br/>In the more horizontal layout, I can barely parse the surprise structure at a glance, and I can barely see if I've made a mistake in editing. It takes a lot less screen space though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710795604.617009"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710795604.617009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2024-03-18 14:00</span><br/>
+Not sure if this really helps, but, navigating your examples with a screen reader (something I use for work but not full time) the first example is read verbatim, like a sentence, whereas the second example is read in a more structured way, making the user navigate from key to value, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710796898.306469"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710796898.306469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-18 14:21</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> That's the reading you get from the plain text on Slack. In my real app, you get a different reading. I've found it helpful to test my apps with a screen reader, and I've decided to design separately for visual presentation and screen readers, so there's no need to adjust the visual presentation to work with screen readers. Screen readers get the full hierarchy of all nodes, and the user can use the arrow keys to navigate individual nodes. Each node reads a summary, and the user can navigate into it to read more about the child nodes.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710821462.327829"></a>
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710821462.327829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2024-03-18 21:11</span><br/>
+I think two general books about typography/ print layout may be relevant to . Both make the point that text is scanned / reread repeatedly. Because it isn’t necessarily read linearly, having “landmarks” that gives your eyes something to hook onto and make related structures chunkable as shapes is valuable. These marks are provided by the indentation. Apart from the words, both of these books practice what they preach when it comes to creative and memorable text layouts.<br/><br/>• what we see when we read by Peter mendelsund <br/>• Seeing with fresh eyes by Edward Tufte <br/>In visual neuroscience they benchmarked the page width at which reading speed / comprehension drops off a cliff aside from the basic physical constraint of reducing the amount of eye or neck movement to follow along.<br/><br/>The specific count varies by language / what comprehension means for your context, but it helps provide empirical backing for the intuition for why there’s a sweet spot in between being vertical vs horizontal heavy.<br/><br/>Your code / json data editor sounds neat. I get your concern about the risk of an author getting caught up in formatting bikesheds. One middle ground that comes to mind looking at your examples is letting the code be autoformatted however, but if I add a comment annotation before a section, in “view mode” for the next section, that section could be forced into a vertical or horizontal mode, whatever I the author recommended.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710834246.901459"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710834246.901459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-19 00:44</span><br/>
+<span style="background-color:#ccf">@Cameron Yick</span> You make an interesting point about having an automatic default but letting the author override it for selected code. This is an idea I have already largely rejected. I don't trust myself to manually format my own code. I have way too much cognitive bias for that, so my formatting choices tell only how I was feeling the day the code was formatted, and what code I was reading earlier that day.<br/><br/>This problem occurs to me with argument lists of function definitions in Rust. Traditionally, argument lists are formatted horizontally, but sometimes they get long, or one argument may have a long name or long type, and then I format them vertically. Then I go edit another function which doesn't have a long argument list, and I format that vertically too, because of the <a href="https://en.wikipedia.org/wiki/Halo_effect">halo effect</a>. Rust has a tool called <em>rustfmt</em> that does exactly this middleground, automatic formatting with manual overriding in places, and I've not found it helpful.<br/><br/>Manual formatting also assumes that everyone views the code the same way as the person who formatted it. That's why we have silly commandments that the tab size must be set to a certain number of columns, or a page must be viewed in IE 5.5 with a screen resolution of 1024×768 pixels, or perhaps worst of all, assuming that everyone will view the code with a monospace font. (I don't, and even the <a href="https://www.youtube.com/watch?v=uknEhXyZgsg">Smalltalk browser from the 1970s</a> didn't.)<br/><br/>Thanks for the book recommendations! I will need to take more time to look at them. I love a good book about typography.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710885147.978319"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710885147.978319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 14:52</span><br/>
+Prettier (JS formatter) has a link to a paper on this. They do a kind of recursive line breaking <a href="https://archive.jlongster.com/A-Prettier-Formatter">https://archive.jlongster.com/A-Prettier-Formatter</a><br/><br/><a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf&ved=2ahUKEwi4tPDzqYGFAxXqOEQIHXhtCxMQFnoECBYQAQ&usg=AOvVaw3vySA2A21-D_yQk1Dqqx-O">https://www.google.com/url?sa=t&source=web&rct=j&opi=8997844&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710885230.443909"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710885230.443909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 14:53</span><br/>
+You can do neat things like split horizontal layouts into vertical at the root first and the leaves stay horizontal
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710905357.768639"></a>
+      <a href="../thinking-together/1710792969.247549.html#1710905357.768639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:29</span><br/>
+<span style="background-color:#ccf">@Joe Eagar</span> The paper assumes that more horizontal is always better, which is what I was questioning. It crams as much as it can into one line, ignoring readability, then breaks when necessary, and then adds more bits and pieces from the parent level horizontally if possible.<br/><br/>Here's an example I made where I depart from traditional plain text code and format a list as a table with a balance of horizontal and vertical spread.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710906225.925409"></a>
+      <a href="../thinking-together/1710792969.247549.html#1710906225.925409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:43</span><br/>
+Here's an example of an object literal with vertical and horizontal spacing:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710906331.746489"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710906331.746489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:45</span><br/>
+Btw, the underlying system (at least as implemented in Prettier) is flexible enough to achieve basically whatever balance of horizontal and vertical you want, the core insight is just that breaking recursively at a structural level can produce more readable formatting.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710906640.374599"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710906640.374599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:50</span><br/>
+If you want to go beyond plain text editors, you could try converting code to/from a HTML representation (or LaTex if such a thing as a real-time renderer for LaTex exists).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710906657.992789"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710906657.992789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:50</span><br/>
+<span style="background-color:#ccf">@Joe Eagar</span> I suppose Prettier has some extended variant of the method from the paper. That example of an object literal is interesting. It's the kind of example I was thinking of when asking the question. In ordinary plain text code, I would avoid that, as I don't like the runs of space characters, but in a non-plain text layout I can do such things with advantage.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710906703.997519"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710906703.997519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:51</span><br/>
+I actually forked Prettier and added support for aligning columns that way; Prettier by itself doesn't insert quite so much whitespace (I find it easier to read).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710907013.485389"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710907013.485389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-19 20:56</span><br/>
+<span style="background-color:#ccf">@Joe Eagar</span> There's Typst, which is like Tex but almost real-time. My primary output is a native app where I render directly to a region of pixels, so I have a lot of freedom. Secondarily, I also want HTML output, because I want it to be easy to share code with people who don't have the native app. The example I posted is HTML, where the big parentheses are a creative use of CSS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710907201.613609"></a>
+      <img src="https://secure.gravatar.com/avatar/acbd57e11a3096341812aef991cd5cfa.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0016-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710907201.613609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Eagar</b>
+<span style="margin:2em; color:#606060">2024-03-19 21:00</span><br/>
+You can get pretty far with the DOM editable document command api, though it's an enormous pain.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710907367.897759"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710907367.897759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-19 21:02</span><br/>
+I'll keep the HTML read-only and have the native app for editing, or let people use an ordinary plain text editor if they don't have the app. I've done editable DOM many times enough before to know that it's a never-ending pain. Editable DOM apps are always buggy, and it's never going to be fixed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710947097.533449"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710947097.533449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2024-03-20 08:04</span><br/>
+Personally in this case I would lean toward more vertical (with good folding), even though in hand written code I tend more horizontal. Vertical seems like the safe choice, with no fine tuning necessary. But if you're already shouldering the burden of a separate UI for screen readers, it seems like it might not be a big lift on top of that to make the balance of horizontal or vertical space into a user setting? I mean, if you're feeling ambitious.<br/><br/>There's also a sort of middle ground, where the user chooses between vertical and horizontal formatters per syntax tree node, with a UI (and state management) akin to code folding. You could think of horizontal formatting as a folding state intermediate between fully vertical and fully hidden.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710948167.176889"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-17/6799011689143_bd0e56d083a4f5152bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710948167.176889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Fredrik</b>
+<span style="margin:2em; color:#606060">2024-03-20 08:22</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> Yes, I'm feeling ambitious. The layout algorithm is a small enough part of the project that making it more complex is not a big deal. Personally I can't stand folding interfaces. I always end up setting them to the worst possible folding that gets the job done. I could as well keep my old automatic layout that is slightly better than the worst possible.<br/><br/>For top level navigation, there is a series of menus where the user selects a module, a class and then a method, similar to the Smalltalk browser. That replaces <em>macro-folding</em>. Once the user has selected a method, there is no more navigation, as the user likely wants to read the full source code of the selected method. It's here I'm trying to achieve a readable layout without implementing <em>micro-folding</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1710957971.279669"></a>
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../thinking-together/1710792969.247549.html#1710957971.279669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2024-03-20 11:06</span><br/>
+Hi <span style="background-color:#ccf">@Fredrik</span> , thanks for the response and the rationale about avoiding the path of author overriding the default for the user.<br/><br/>One idea I’ll offer is that the annotation is something the reader could offer bring to the table in their viewer. This is similar to how you can opt to fold/expand sections in VSCode for either bracketed code, or sections in markdown. A set of annotations is a filter, with unique filters for each situations. The name escapes me but I thought I saw a cool digital humanities project that used this “standoff annotation” technique to help people with doing close readings.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

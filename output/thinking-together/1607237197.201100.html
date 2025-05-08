@@ -1,0 +1,211 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-05 22:46</span><br/>
+Have people seen many programming languages where <b>Sets</b> are represented as functions from X → Bool and (more importantly) <b>Lists</b> are represented as functions from Int → X? And I mean they're <em>truly</em> just functions: all of the operations upon them are just operations upon functions, and thus they might be repurposed for other uses as well. Javascript and Lua <em>kind of</em> do this, except their philosophy is more like "all collections are just dictionaries", where a dictionary is a heavily-restricted class of function.<br/><br/>This approach ("all collections are just functions") seems like a versatile foundation (especially in the context of the semantics of the programming language I'm working on), so I've been digging into the ramifications of it lately. My biggest challenge so far is figuring out how to identify for which functions operations like set union and intersection are computable. Depending on how the function is constructed/defined, it seems like it could be quite hard to figure out a static "safety check". I want these operations to be well-defined even on <b>recursively-defined</b> functions, so it's not as simple as "ensure the function definition is just a finite list of cases" (i.e, a dictionary).<br/><br/>This doesn't seem unreasonable: Datalog works this way. Datalog predicates are recursively-defined functions from X → Bool (i.e. sets) that obey certain constraints so that queries upon them are answerable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607239949.201400"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607239949.201400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-05 23:32</span><br/>
+clojure
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607239978.201600"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607239978.201600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-05 23:32</span><br/>
+well, not sure about "representation" but sets, lists and maps in clojure are also functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607240102.201800"></a>
+      <img src="https://secure.gravatar.com/avatar/aa31b79adedc3f60547769f1a8971ba6.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607240102.201800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Emmanuel Oga</b>
+<span style="margin:2em; color:#606060">2020-12-05 23:35</span><br/>
+being a function simply means that you can apply parameters to them and they return a value. The semantics is what you would imagine they should do (applying 0 to a list returns the first element, etc)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607245145.202100"></a>
+      <img src="https://secure.gravatar.com/avatar/8a72dfb84ee31009c2810f7f590d4ff8.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607245145.202100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Philipp Krüger</b>
+<span style="margin:2em; color:#606060">2020-12-06 00:59</span><br/>
+People do this kind of thing in haskell/other FP languages sometimes (although I don't have an example at hand right now).<br/><br/>The biggest question is: how do you support other operations than construction or membership? I.e. set size, or more generally, iteration?<br/><br/>Lists like you represent them have a similar problem. If you want to iterate, at what index will you start and end?<br/><br/>Representing collections as functions is something that people tried to figure out in the lambda calculus a lot. You might be interested in e.g. fold lists.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607246234.202400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607246234.202400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-06 01:17</span><br/>
+Yeah, figuring out how to do the operations is interesting! One possibility I'm considering is identifying classes of function where the codomain has some "zero value", and allowing the range of those functions to be summed if the domain maps to finitely-many non-zero values. These conditions are obeyed by finite sets, and by finite lists whose codomain is a "Maybe" type (sets of size 0 or 1). "Safe" functional languages already handle list indexing using Maybes, so it doesn't seem that bizarre.<br/><br/>It does seem a little bit hacky though!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607248137.203000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607248137.203000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-06 01:48</span><br/>
+The above operation would allow us to encode vectors as multisets and compute their norm :slightly_smiling_face: (square each element, then sum the components)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607277265.207200"></a>
+      <img src="https://secure.gravatar.com/avatar/ce240a8e5a8fdc65e86bbb869975ccfe.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607277265.207200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Will Crichton</b>
+<span style="margin:2em; color:#606060">2020-12-06 09:54</span><br/>
+You’re probably familiar with Conal Elliot? A lot of his work seems to focus on this idea (representing data &amp; operations as functions / combinators).<br/><br/>I don’t know of many languages that do this, though, probably for efficiency reasons. Adding an element to a set means allocating a new closure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607293615.213000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607293615.213000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-06 14:26</span><br/>
+Yeah, I know some of Conal Elliot’s stuff. I’m not sure if he’s addressed the above ideas; I’ve only seen his stuff on recursive algebraic data types, which these are not. I’m avoiding/disowning ADTs in my language.<br/><br/>And to be clear, I’m not interested in exploring mathematical curiosities and publishing a library or a paper, I’m interested in building a practical programming language, so the constraints of existing language implementations aren’t of concern to me. A language designed around data structures being encoded as functions isn’t going to be allocating millions of closures every second. Functions are just the interface; the implementation can do anything semantically equivalent!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607293817.215500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607293817.215500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-06 14:30</span><br/>
+So I’m optimistic I can get things to compile efficiently :slightly_smiling_face:. The challenge is understanding if there’s a nice semantics to be found here. I’m hoping someone’s tried something similar before.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607320659.217200"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607320659.217200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-12-06 21:57</span><br/>
+<tt>set-size(my_set)</tt>, where <tt>set-size</tt> is implemented by dynamic dispatch on its argument.<br/><br/>This also reminds me of the idea of records as (dependently typed) functions from a key type to whatever thing the struct was constructed with (or updated with? Hmm).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607326678.217400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607326678.217400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-12-06 23:37</span><br/>
+I'm reminded of Barry Jay's Pattern Calculus.  If on the one hand a hash table is a bunch of key, value pairs and, on the other, a standard lambda takes anything and uses it to come up with something else, you can imagine a pattern as living somewhere between: takes some things and uses them to come up with a value.  Given two patterns you can glue them together.  The standard way is that if the first one matches you take it, otherwise check the second one.<br/><br/>Not sure what he's been up to in the last while <a href="https://scholar.google.com/citations?hl=en&amp;user=eWreFm4AAAAJ&amp;view_op=list_works&amp;sortby=pubdate">https://scholar.google.com/citations?hl=en&amp;user=eWreFm4A&hellip;</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607328696.222400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607328696.222400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-07 00:11</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> I looked into Barry Jay’s stuff a while ago and remember not being impressed. Is there something that patterns are better than functions at expressing? One can already compose functions in many different ways.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607329762.222600"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607329762.222600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-12-07 00:29</span><br/>
+Well, not at all in an important sense, but kind of depending on your domain.  Patterns here basically amount to partial functions.  So if your domain happens to be all about partial functions (that's me sometimes where I end up using a lot of tables), then there's something to find here.  But it's not going to be anything more than having a few functions for nicely composing <tt>a -&gt; Maybe b</tt>, generally.<br/><br/>I guess a potential important difference can be whether you want to model order.  For instance, Rubyist that I am, the keys in a <tt>Hash</tt> are ordered and I use this all the time.  In another context, you may not want to keep that information around.<br/><br/>Another thought that I had while trying to remember the pattern calculus is why prefer a composition operator like this<br/><pre style="white-space:pre-wrap">&lt;+&gt; :: (a -&gt; Maybe b) -&gt; (a -&gt; Maybe b) -&gt; (a -&gt; Maybe b)<br/>(f &lt;+&gt; g) x = f x `orElse` g x</pre><br/>over something that collects all the results:<br/><pre style="white-space:pre-wrap">&lt;*&gt; :: (a -&gt; [b]) -&gt; (a -&gt; [b]) -&gt; (a -&gt; [b])<br/>(f &lt;*&gt; g) x = f x ++ g x</pre><br/>And so on.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607329842.222800"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607329842.222800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-12-07 00:30</span><br/>
+I think Jay's most interesting idea was in giving up referential transparency for a kind reflection.  I like being able to look inside my methods.  So that's neat.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607330022.225100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607330022.225100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-07 00:33</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Partial functions are my mortal enemy :innocent:. It’s a strict requirement that my programming language only permits total functions. The challenge is then making it expressive enough that you never feel you “need” a partial function somewhere!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607330121.226200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607237197.201100.html#1607330121.226200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-12-07 00:35</span><br/>
+Thanks for the details though. Sounds like pattern calculus is not what I want.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

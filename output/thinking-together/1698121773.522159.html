@@ -1,0 +1,475 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:29</span><br/>
+<b>Replacing authentication with visual identity</b><br/><br/>Background: I'm starting to think about building a new forum. Given <a href="https://akkartik.name/freewheeling/">my past</a>, it won't surprise anyone that I mean to do this outside the morass of non-convivial software that is the modern web browser. My broad plan is:<br/><br/>• LÖVE v12 will support https, and <a href="https://github.com/love2d/love/actions">release candidates</a> are already quite stable. Good enough to start building on.<br/>• I'll build my forum out of a server-side API in Lua and a client in LÖVE v12. (Should be easy to support Windows, Linux, BSD and Android. Mac and iOS will require some annual contortions to build LÖVE for oneself.)<br/>• The server side will of course be open source just like the client. In addition, all post/comment data will be published to a git repo on something like a daily basis.<br/>The one major open question concerns authentication. How can we have stable identity? The above architecture is intended to allow anyone to host the forum (without trying to build galaxy-brain merkle trees, federated protocols or CRDTs), and I would prefer to not take a position of power as the source of everyone's hashed passwords (an intrinsically centralizing architecture).<br/><br/>A few months ago someone showed me this ancient essay called <a href="https://web.archive.org/web/20091126092028/http://www.kuro5hin.org/story/2009/3/12/33338/3000">"attacked from within"</a>, and I find myself thinking about it often. The whole thing is worth reading, but for this thread the crucial list of bullets halfway down is:<br/>• Registration keeps out good posters.<br/>• Registration lets in bad posters.<br/>• Registration attracts trolls.<br/>• Anonymity counters vanity.<br/>A provocative worldview that seems at least worth exploring. Keeping this in mind, I have a hazy idea that looks like this:<br/>• When you run the client you get to choose your handle, but it's not unique (cf. <a href="https://en.wikipedia.org/wiki/Zooko%27s_triangle">Zooko's Triangle</a>)<br/>• When you run the client for the first time, it creates an RSA keypair for you.<br/>• When composing messages, the client signs the message with your private key (<a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Signing_messages">description on Wikipedia</a>)<br/>• When rendering messages, the client validates the signature against your public key and shows something like an <a href="https://en.wikipedia.org/wiki/Identicon">identicon</a> of the public key.<br/>Implications of this setup:<br/>• No registration<br/>• Your "password" (private key) never leaves your device(s).<br/>• When reading a thread you see a handle like <tt>spiralganglion</tt>. However, the handle is not authoritative. Next to it is an identicon that is authoritative.<br/>• It's easy in a thread to see if there are ever two people with the same handle but different identicons.<br/>• Since the client platform is starting from scratch, accessibility and internationalization will be a challenge for a long time :confused:<br/>No guarantees this is all doable. It's quite possible the cryptographic operations will be untenably slow when implemented in Lua, and a native library for them would complicate the simple install story that is LÖVE's greatest strength.<br/><br/>But I'm curious to get people's thoughts on this idea in principle.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698122697.788409"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698122697.788409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:44</span><br/>
+&lt;Cue flashbacks to the “what should we use instead of Slack?” discussions&gt;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698122716.743899"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698122716.743899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:45</span><br/>
+Exactly!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698122843.585619"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698122843.585619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:47</span><br/>
+I am curious what you think about harassment? Not quite trolling, not quite vanity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698123307.250089"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698123307.250089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:55</span><br/>
+Moderation in general is the single biggest thing that has always put me off from creating any public forum of any sort across any modality. I have a lot of appreciation for people who do it, like Ivan here -- and have successfully mooched off of their labors all these years.<br/><br/>And yet, it's starting to feel like my projects need a central place of their own where someone can come see past questions and discussions that are currently only centralized in my notes. (And if it gets people here off Slack, I wouldn't be above spinning up a forum that forks this place.)<br/><br/>So I have zero grounds to pretend at any sort of knowledge or expertise on moderation. Mostly I figure, it looks like I have to get to this some time, the sooner I start, the more of a hope I have of learning to not suck at it. So your question about these gradations completely goes over my head. But ask me after I've been running something for a year.<br/><br/>Oh, one random note: Maybe pseudonymity makes harassment more difficult? It's easier in my system to create a new handle than it is on say ActivityPub. Does that seem to move the needle?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698123450.609659"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698123450.609659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-23 21:57</span><br/>
+My naive plan for moderation is: make commits in git. By nature, this moderation log will be totally public, just the git log.<br/><br/>But by the same token, for any sort of scale I can hope for, it should be super easy to detect and delete harassment?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698125007.921669"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698125007.921669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-10-23 22:23</span><br/>
+Probably. I’ve never run a community. If you’re going to comb git logs before harassment hits anyone’s inboxes, I don’t see anything wrong with starting there.<br/><br/>A common kind of harassment that drives people away from online communities is, in its simplest form, randos dropping slurs then poofing. So long as I’m me and want others to know I’m me, the people who do that sort of thing can find me too. I don’t see that accounted for in the four-point framework you mentioned, and that’s what makes me curious.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698126331.061839"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698126331.061839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-23 22:45</span><br/>
+That's a good point. I don't think attacked from within is trying to be perfect, or to guarantee absence of various sorts of dysfunctions. It seems to be trying rather to sculpt energy barriers for good vs bad actions. So yes, you're going to need moderation independent of the auth mechanism.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698131315.026339"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698131315.026339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-10-24 00:08</span><br/>
+Have you considered? <a href="https://en.m.wikipedia.org/wiki/Usenet_newsgroup">https://en.m.wikipedia.org/wiki/Usenet_newsgroup</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698132063.546539"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698132063.546539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 00:21</span><br/>
+No! :memo:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698142153.959709"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698142153.959709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 03:09</span><br/>
+My very boring question would be why not an email list?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698149832.759449"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698149832.759449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-10-24 05:17</span><br/>
+I was wondering as well what you want to do differently from existing approaches. The obvious part is lightweight software, and that's something I like very much. But then? What are the specific features you want to have? Which ones you definitely do not want to have?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698149861.118749"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698149861.118749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 05:17</span><br/>
+I'd also add what features are you willing to walk away from?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698153927.887259"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698153927.887259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 06:25</span><br/>
+Why not an email list: lot of work to self-host, kinda like a proprietary service if you don't self-host, and it excludes large swathes of people who just don't like it.<br/><br/>For a long time my twin reasons for not creating any community were:<br/>• Any medium I choose excludes a majority of people who don't care for it.<br/>• Moderation headaches.<br/>The big insight here is realizing that these reasons are in opposition. Excluding people reduces my moderation headaches :smile: So I just need a way to avoid excluding the people I want to hear from. Requiring people to install LÖVE seems like a good filter. The goal is a place to ask questions after you've run one of my freewheeling apps, and making the communication tool itself a freewheeling app seems like an elegant solution.<br/><br/>What features I am willing to walk away from: how much time do you have? :smile: <a href="https://archive.org/details/akkartik-freewheeling-2023-07-06">https://archive.org/details/akkartik-freewheeling-2023-07-06</a> demonstrates a tiny browser replacement UI that might give you a sense for how bare-bones this might start out as. Really the only thing missing in <a href="https://git.sr.ht/~akkartik/pothi.love">https://git.sr.ht/~akkartik/pothi.love</a> is a server for requesting posts/comments from and some way to tell that two comments are by the same person. And maybe I don't even care about guarantees on that?!<br/><br/>I might still end up holding my nose and creating a new community on Discord, just because that seems most popular in the LÖVE community.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698160670.499829"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698160670.499829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2023-10-24 08:17</span><br/>
+Cozy Web by design - interesting! Plus dogfooding.<br/>In that context, your question about authentication becomes: which sign-up effort will my intended audience accept?<br/><br/>Example: assuming your audience is proficient with a Unix shell, you could use shell accounts with ssh access and use the ssh keys for authentication. That also scares a lot of people away, but if you don't care about such people, that's fine.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698161927.745039"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698161927.745039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 08:38</span><br/>
+Yeah, I don't want to make any assumptions about my audience beyond a willingness to install the tool.<br/><br/>Though now I'm reading what I wrote and imagining someone modifying the client to automate sending spam to the forum. Good thing the code is so hackable! :lolsob:<br/><br/>Seriously, though, I would love to get lots of Windows people.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698162119.651239"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698162119.651239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 08:41</span><br/>
+> Yeah, I don’t want to make any assumptions about my audience beyond a willingness to install the tool.<br/>The biggest assumption to me here is around accessibility — while an OS or browser brings a TON of headaches and complexity, it also brings with it a TON of accessibility tooling that love2d has none of. I can’t change the text appearance of a love2d application without modifying the application, and while I know how to do that, it isn’t necessarily as easy as using my operating system’s zoom capabilities.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698163855.659719"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698163855.659719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:10</span><br/>
+You're absolutely right, and this very much wears on my mind.<br/><br/>Is there any good history of accessibility efforts in web browsers? How <em>did</em> this highly capitalist-owned product end up achieving so much for accessibility.<br/><br/>One correction: all my LÖVE apps support <tt>ctrl+=</tt> and <tt>ctrl+-</tt> for increasing or decreasing the font size. So at least I have that covered..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164014.424019"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164014.424019" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:13</span><br/>
+and, also, that wasn't meant as a judgement, I love what you do with love2d, btw
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164036.013219"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164036.013219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:13</span><br/>
+I didn't know that about your love apps! That is rad
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164143.130429"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164143.130429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:15</span><br/>
+as for how accessibility was achieved in browsers, my honest guess is that it was an accident of history more than it was intentional.<br/><br/>Like, if you think through the architecture, it is sort of backwards how we apply accessibility as sort of a veneer on top of a finished product, even WCAG is this -- it is accessibility guidance when a standard already exists. Why not bake it into the standard? Why not have a standard for how to implement accessible rendering of an element like they do for browsers, instead most accessibility tech (even the stuff baked into browsers a lot of the time) mostly function as a black box. It is hard to tell what they do and why
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164565.539949"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164565.539949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:22</span><br/>
+Yeah, my goal is to judge myself so that nobody else has to. Or before anybody else does. :slightly_smiling_face:<br/><br/>I would <em>love</em> to have a set of criteria (say in the form of behavioral tests) that my app has to hit to be accessible.<br/><br/>For example, screen readers. My app has text. I can provide the text in any API you like. But I don't know anything about how say a text to speech generator would hook up to a web browser. But this feels like it should be easy? I'm just missing some key knowledge.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164628.454179"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164628.454179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:23</span><br/>
+I, too, would have to have that level of detailed knowledge about how such tools work :laughing:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164692.882969"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164692.882969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:24</span><br/>
+I have tried to get it, and you can <em>sort</em> of get there, but, like, the way JAWS works versus NVDA versus VoiceOver are all different. There isn't a clear and easy path -- so, we're left with sort of heuristics and well known patterns for widely targeted system (e.g. web and "native")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164721.338879"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164721.338879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:25</span><br/>
+the work some game studios are doing I think really highlights how this is mostly unexplored ground since they're all sort of having to invent it as they go along
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164743.073329"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164743.073329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:25</span><br/>
+whereas if you wanted to render HTML to pixel-based screen today that is relatively achievable
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164762.545609"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164762.545609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:26</span><br/>
+I would love to be bombarded with links!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698164780.185349"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698164780.185349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 09:26</span><br/>
+I can't bombard ya with links at the moment, but I'll consider that a mission!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698169906.663439"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698169906.663439" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-10-24 10:51</span><br/>
+I think the path is well-lit if you target a single platform. I’ve followed accessibility tutorials on Android and Apple. I just have no idea how to make them all happy simultaneously without embedding a browser. :face_with_peeking_eye: <br/><br/>Probably the way to go is convince a government agency to build apps in LÖVE. Then someone has to make it happen.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698170149.921349"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698170149.921349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-10-24 10:55</span><br/>
+Oops, I forgot you wanted this thread to be about identity.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698171706.833499"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698171706.833499" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-10-24 11:21</span><br/>
+<span style="background-color:#ccf">@Eli Mellen</span> Accessibility in browsers was no accident! We fought for that stuff for <b>years</b>, starting in the mid-90s. Here’s a web designer <a href="https://alistapart.com/article/dao/">writing</a> about it in 2000:<br/>&gt; Designing adaptable pages is designing accessible pages. And perhaps the great promise of the web, far from fulfilled as yet, is accessibility, regardless of difficulties, to information. It’s an important belief of the <a href="http://www.w3.org/">World Wide Web Consortium</a>, and is becoming an imperative of web design, as web pages will be required by law to provide universal access, just as building codes around the world require access to buildings.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698171779.323609"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698171779.323609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-24 11:22</span><br/>
+Sorry, I didn’t mean to imply that the fight to bring it was an accident, but the way it was implemented, like so much of the web, seems sort of … layered on? Does that make sense? Again, this isn’t to belittle what we’ve got (I think the web is by and far the most accessible platform around). I should have used a less loaded word, for sure!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698214263.711269"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698214263.711269" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2023-10-24 23:11</span><br/>
+All the web stuff is definitely a bit ad hoc! I just wanted to point out that that particular thing wasn’t an emerging property, and that we can’t just assume that accessibility will happen :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698232957.289349"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698232957.289349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2023-10-25 04:22</span><br/>
+Yes! 100%
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698329861.583519"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-23/5937523466869_1beaa0968ce502c4375e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698329861.583519" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Arcade Wise</b>
+<span style="margin:2em; color:#606060">2023-10-26 07:17</span><br/>
+I must admit that I'm very wary of "anonymous by default" systems, given the horrible cess-pool that is chan boards.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698329880.391229"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-23/5937523466869_1beaa0968ce502c4375e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698329880.391229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Arcade Wise</b>
+<span style="margin:2em; color:#606060">2023-10-26 07:18</span><br/>
+Have you considered a petname system for user ids? It could be really interesting to see in practive
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698333094.358109"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698333094.358109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-26 08:11</span><br/>
+Thanks for reminding me to reread <a href="http://www.skyhunter.com/marcs/petnames/IntroPetNames.html">http://www.skyhunter.com/marcs/petnames/IntroPetNames.html</a>! I got a lot more out of it this time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1698346711.057869"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1698346711.057869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-10-26 11:58</span><br/>
+4chan is indeed a concern. I don't quite (yet) buy fully into the worldview of "attacked from within". This is all an experiment I want to be very careful about scaling up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1699040861.005419"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1698121773.522159.html#1699040861.005419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-11-03 12:47</span><br/>
+The goal of the "Attacked From Within" article seems to be designing a forum that can scale arbitrarily. Is that really your goal? It probably still has some ideas you can use in a "community" setting, which I'm guessing is more useful for discussing your apps with the handful of initially interested people, but... I guess what I'm saying is that you're right to not take it all as gospel.<br/><br/>Also I think their proposed "comment dyad" system of ranking, while interesting, would still be pretty trivial to game with enough sock puppet accounts.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

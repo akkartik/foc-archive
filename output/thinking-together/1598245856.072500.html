@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-23 22:10</span><br/>
+Why isn't any kind of <b>logic programming</b> considered a <a href="https://en.wikipedia.org/wiki/Model_of_computation">model of computation</a>? Why do we talk about Turing Machines and recursive functions as fundamental, but not <b>inference</b>? I can't find any resources discussing this disparity. It's like there are two classes of academics that don't talk to each other. Am I missing something?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598247221.072600"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598247221.072600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-08-23 22:33</span><br/>
+I'm not an expert, but logic programming a la prolog etc is usually based fundamentally on term rewriting, which is essentially what the untyped lambda calculus is. (Please correct me if I'm wrong, this is something I've been studying recently but I'm still quite new to the field)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598247641.072800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598247641.072800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-23 22:40</span><br/>
+Isn't term rewriting destructive, i.e. it consumes an input to produce an output?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598248238.080300"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598248238.080300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-08-23 22:50</span><br/>
+I suppose? i am afraid I am not sure what the relation is and what you are getting at here.<br/>Would you consider beta-reduction "destructive"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598248717.080900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598248717.080900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-23 22:58</span><br/>
+I guess a better question is: what is the "term" that is getting re-written in evaluating a logic program? Is it the entire program? As a conjunction of clauses? I guess the destructivity doesn't manifest in such a case because you're producing a "new program" (term) which you guarantee is going to be strictly larger than the last one (adding new deductions). That suggests term rewriting might be "too powerful" for logic programming though, because it can also model the deletion of facts (unless you want that capability, for some reason).<br/><br/>But yeah, I'm now seeing how you could map inference to term rewriting!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598258729.089200"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598258729.089200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-08-24 01:45</span><br/>
+Interesting. When logic shows up in the foundations of computing, it's usually in the context of the Curry-Howard isomorphism. From that perspective, logical inference is sort of... program synthesis, I think? More broadly, finding elements that occupy a type that represents a proposition.<br/><br/>It could be that logical inference is (IIUC) inherently search-oriented, so people who make "models of computation" don't see it as a good primitive operation: too many steps and decisions behind the scenes. If that's the case, I think there's still some good mileage to be had from making a model where logical inference is stupid easy to write and tractable for an optimizer as well. (Uncoincidentally, this is an approach I'd like to do, but I don't know enough yet)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598262498.093100"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598262498.093100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-24 02:48</span><br/>
+There probably are two classes of academics not talking, yes, and the logic folk seem to have lost the popularity race to the functional folk.<br/><br/>You can implement functional programming with term rewriting or reduction and similarly you can use rewriting or reduction in proof systems. My memory of all this has faded since my university days mind you.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598263455.093300"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598263455.093300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2020-08-24 03:04</span><br/>
+Horn clauses are Turing Complete with tail recursion IIRC
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598265721.093800"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598265721.093800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-08-24 03:42</span><br/>
+<a href="http://maude.cs.illinois.edu/w/images/0/0d/Maude-book.pdf">http://maude.cs.illinois.edu/w/images/0/0d/Maude-book.pdf</a><br/>This may be of interest. I was pointed to it recently, and have been meaning to read it (though I haven't yet). As I understand it, it's a platform along the lines of Racket, except based on term rewriting rather than syntactic macros.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598268550.098900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598268550.098900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-24 04:29</span><br/>
+<span style="background-color:#ccf">@S.M Mukarram Nainar</span> I read some pages from that book just now, and the whole system looks overly complicated. Meanwhile the authors are using the words “simple”, “easy”, and “natural” everywhere, but I can’t find any good justification for why I should keep reading. The Wikipedia article is the same. It’s raising a lot of red flags.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598270638.105500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598270638.105500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2020-08-24 05:03</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> Not all logic programming involves search. Each logic language comes with its own “standard” evaluation strategies, and by my understanding, each strategy effectively yields a different model of computation (including different time and space complexities).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598270768.105700"></a>
+      <img src="https://secure.gravatar.com/avatar/bc3e6041047849518d1b042f0a29d5af.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1598270768.105700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>S.M Mukarram Nainar</b>
+<span style="margin:2em; color:#606060">2020-08-24 05:06</span><br/>
+Well, it <em>is</em> an academic reference work. While unfortunate, I think that's pretty normal. I posted it because it is one of the few "production" systems based on term rewriting that I am aware of.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1599829655.269400"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-03/652459184852_2b4594ccf61c401763eb_72.png" style="float:left"/>
+      <a href="../thinking-together/1598245856.072500.html#1599829655.269400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Prathyush</b>
+<span style="margin:2em; color:#606060">2020-09-11 06:07</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I think logic programming indeed began as identifying itself as a programming language: <a href="http://www-public.imtbs-tsp.eu/~gibson/Teaching/Teaching-ReadingMaterial/Kowalski74.pdf">http://www-public.imtbs-tsp.eu/~gibson/Teaching/Teaching-Rea&hellip;</a><br/><br/>The extant thread of how this plays out I think is in the work of John Reynolds in the form of logic relations right now. But the present day incarnations that have the major mindshare happens to be Prolog variety of languages and I think its a fertile ground for bringing in novel work with it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

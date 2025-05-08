@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2023-02-02 23:32</span><br/>
+Hi everyone I did a talk at the Peckham Digital festival yesterday! It's about spatial programming! I come in at 42:59   :) <br/><a href="https://www.youtube.com/live/L2U_Sd1qMJ4?feature=share&amp;t=2579">https://www.youtube.com/live/L2U_Sd1qMJ4?feature=share&amp;t=2579</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675456455.115099"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675456455.115099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-03 12:34</span><br/>
+brilliant talk/demo! it seems like those rules work really well on the GPU (although the cell splitting would take some gymnastics) -- is that what you're doing / have you tried that?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675465494.658649"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675465494.658649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2023-02-03 15:04</span><br/>
+Thank you very much!<br/><br/>Yes I reckon there's some scope to run them on the GPU, but it might be harder than expected.<br/><br/>So, just for context - the engine's main bottleneck currently is rendering, because it's just using javascript canvas. The renderer could be sped up loads by using webgl instead, and then the bottleneck would become the computation behind it.<br/><br/>At that point, GPU would be a consideration! Cellular automatons are usually great for GPU optimisations, because all the classic (like game of life) involve rules where only the 'middle' of an 'event window' gets edited. Which is perfect for shaders.<br/><br/>One of the challenges of an engine like CellPond (which stems from Dave Ackley's <a href="https://movablefeastmachine.org/">Moveable Feast Machine</a> engine) is this: When a rule gets applied, it can affect <b>any</b> cell in the event window. This doesn't work so well with shaders. However, with the rise of GPU compute, eg: webgpu, it might become easier to leverage the GPU for this kind of thing! I need to look into it more!<br/><br/>Another challenge is this: Most cellular automatons are deterministic. But CellPond (and the Moveable Feast Machine) are non-deterministic. So parallelising 'events' involves having to make sure that any randomly-picked locations don't overlap with each other. You can't just get away with a classic <a href="https://en.wikipedia.org/wiki/Block_cellular_automaton">block cellular automata</a> approach.<br/><br/>I did manage to do a dodgy solution to that once on the GPU with <a href="https://github.com/TodePond/GPU-SandPond">this experiment</a> though. And I made two videos about it:<br/><br/>1. <a href="https://youtu.be/W7HRay9RPNg">The initial idea of using GPU to speed up one of these engines</a>.<br/>2. <a href="https://youtu.be/9mbs0sx3z2A">Taking the idea to its logical conclusion</a>.<br/><br/>Big answer but it's an interesting topic, thanks for asking :)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675515922.114959"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675515922.114959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-04 05:05</span><br/>
+Oh fascinating, thanks for the details response! So these nondeterministic event windows; do they pick a single rule to evaluate at random? Or do they evaluate all available rules? And is it critical that the window be a fixed size, or could it adapt to the size of the largest rule?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675516027.231629"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675516027.231629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-04 05:07</span><br/>
+(I see movable feast has some papers written,I can just go read those as well)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675516215.638109"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675516215.638109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-04 05:10</span><br/>
+In the London creative coding video, say at one point that cell splitting was a big leap forward, because it allowed you to encode direction, which was difficult before. How is it different from encoding direction as a color (blue goes up, red goes down) or pairs of colors in a non-split grid? (For that matter, I bet split grids make event windows quite complicated :sweat_smile:)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675519085.030009"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675519085.030009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2023-02-04 05:58</span><br/>
+So, in CellPond, I was hoping to do this:<br/>1. Pick a random position (within the 0.0 -&gt; 1.0 range of x and y)<br/>2. Apply a random rule (if it matches).<br/>However, for some performance reasons, it actually does this:<br/>1. Pick a random position.<br/>2. Shuffle all rules.<br/>3. Apply the first rule that matches.<br/>The 'variable event window size' was a key new thing for the engine to do! The Moveable Feast Machine (MFM) has a fixed diamond-shaped window. SandPond has a square shaped one.<br/><br/>CellPond needs to be flexible. The way it gets around this is...<br/>When you make a rule with the drag-and-drop interface, it actually gets compiled down into multiple rules -- one for each cell in the diagram silhouette.<br/><br/>The classic sand rule...<br/>:large_yellow_square::arrow_right::black_large_square:<br/>:black_large_square::arrow_right::large_yellow_square:<br/><br/>... would produce two rules on the virtual machine.<br/>One where the top cell (yellow) is the 'center/origin' of the event window. And one where the bottom cell (black) is the origin.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675519590.646779"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675519590.646779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2023-02-04 06:06</span><br/>
+Regarding the encoded direction... You certainly could encode direction as colour! And I did it a lot in <a href="https://youtu.be/2qfjJ-0ZeVM">this video</a>!<br/><br/>However, this isn't a very useful abstraction when it comes to writing rules. You'd need a rule for moving up, a rule for moving down, and so on.<br/><br/>By encoding direction as a spatial relationship, we can just make one rule: Move 'forward'.<br/><br/>Other examples of this include:<br/>Using a split cell where one cell indicates an element type, and the other cell indicates its temperature. You could make water that heats up and does something (eg: freeze/evaporate) when it hits a certain temperaure.<br/><br/>Cold water<br/>:large_blue_square:<br/>:white_large_square:<br/><br/>Hot water<br/>:large_blue_square:<br/>:black_large_square:<br/><br/>Tepid water<br/>:large_blue_square:<br/>(grey)<br/><br/>It's nice that it lets you 'quote' extra data in a way! We can use the black colour to mean temperature when attached with a blue cell, but it might mean different things in other places.<br/><br/>You could use a similar thing to make the 'demon horde sort' that Dave Ackley uses to exemplify the MFM too by the way!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675519808.058539"></a>
+      <img src="https://avatars.slack-edge.com/2023-01-25/4713451001249_43e7ef32ef6c84455dbd_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675519808.058539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Forsyth</b>
+<span style="margin:2em; color:#606060">2023-02-04 06:10</span><br/>
+hmm yeah that's neat! I wonder how it would be to have one (or several!) "hidden" or "background" layers for metadata, and rules that could take them into account, but the fore-most layer is the one that gets rendered :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675519902.698449"></a>
+      <img src="https://avatars.slack-edge.com/2022-08-26/3992499177765_78c476adad42ab6cfe32_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675519902.698449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Lu Wilson</b>
+<span style="margin:2em; color:#606060">2023-02-04 06:11</span><br/>
+Yes that would be great to try out! I was originally planning for every cell to be controlled by its own mini 9x9 cellular automata world, and the middle cell was the only one that got rendered when zoomed out. But when I started trying it out, I got tempted by the dynamic splitting/merging idea :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1675528911.846879"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../share-your-work/1675409540.909829.html#1675528911.846879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-02-04 08:41</span><br/>
+Very interesting. I had no idea how large the influence of Dave Ackley and his MFM was here.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,367 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 01:57</span><br/>
+<b>Huge idea:</b> what if tensors are the next-generation replacement for RAM? Classic RAM (I'm talking about the software abstraction, not the physical hardware) is just a vector with 2^64 cells, most of which are zero and not backed by physical memory. This is commonly known as a <em>sparse</em> vector. The current AI boom has made it obvious that higher-dimensional memory chunks, known as <em>tensors</em>, are an important idea, especially sparse ones. Other than being higher-dimensional, key differences between tensors and RAM include:<br/>• An AI app will typically work with multiple tensors, but a classical app will only work with one RAM. (Though Wasm can have multiple RAMs, known as "linear memories", and of course, you can pretend to have multiple memories using abstractions like <em>malloc</em>).<br/>• Tensors can be subjected to <b>unary operations</b> such as slicing, permuting, and aggregation (min, max, sum, product), that generalize the boring read and write operations on RAM.<br/>• Tensors can be subjected to <b>binary operations</b> such as multiplication/contraction (generalizing matrix multiplication), convolution, and element-wise addition.<br/>The data of everyday programs is often very heterogeneous, which corresponds to having lots of <b>sparse</b> tensors. Sparse tensors need good support in software and <em>ideally</em> in hardware. Thankfully, there is AI hardware being developed that is designed to operate on sparse tensors, by way of dedicated circuits that can compress and decompress them. <a href="https://tenstorrent.com/">Tenstorrent</a> is probably the leader here.<br/><br/>Here's a fun fact: multiplication of sparse Boolean tensors is equivalent to a database equi-join. So if you think databases are important, then maybe you should give tensors some thought.<br/><br/>And relatedly: operations on tensors are typically massively-parallelizable, thus could be a good foundation for a high-performance programming language that compiles to AI hardware.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630750683.074300"></a>
+      <img src="https://avatars.slack-edge.com/2019-10-28/811814014976_259a1e56ad2e11fe3d56_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630750683.074300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shubhadeep Roychowdhury</b>
+<span style="margin:2em; color:#606060">2021-09-04 03:18</span><br/>
+&gt; And relatedly: operations on tensors are typically massively-parallelizable, thus could be a good foundation for a high-performance programming language that compiles to AI hardware. <br/>You hooked me there
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630778381.075000"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630778381.075000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-09-04 10:59</span><br/>
+So we already store tensors in RAM and perform various operations on them. You said software not hardware, so is the difference here that the abstraction between the 1D (flattened) data and its higher dimensional form is provided at a lower level in the software?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630795361.078700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630795361.078700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 15:42</span><br/>
+I mean the <em>assembly language</em> of the hardware should be phrased in terms of operations on tensors. :slightly_smiling_face: The programmer should not be concerned with whether the tensor is ultimately flattened into a linear array of SRAM or DRAM cells. (In AI hardware, they definitely won’t be.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630795536.081700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630795536.081700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 15:45</span><br/>
+My goal with this post is just to get people thinking a little differently about the memory model upon which a programming language is built. Tensor-based memory models are about to become mainstream (next 5 years) thanks to the AI boom. Could lead to some exciting new paradigms of programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630795876.084800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630795876.084800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 15:51</span><br/>
+Here’s a challenge for everyone: when you visualise the act of “allocating memory”, what do you see? If you see a big linear chunk that you can address with a pointer, then maybe you’re trapped in 1-dimensional thinking. I certainly was/am.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630806483.085100"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-09/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630806483.085100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Denny Vrandečić</b>
+<span style="margin:2em; color:#606060">2021-09-04 18:48</span><br/>
+How's your memory mostly zeros? If it is, you should use smaller machines. I think the idea that RAM is similar to a sparse vector is often not right. At least not if you use Chrome for browsing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630806818.088800"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630806818.088800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 18:53</span><br/>
+I’m referring to virtual memory (i.e. what apps see). I guarantee you that your 64-bits of virtual memory are mostly zeroes! And with a paging system, you can write across vast swathes of the memory whilst only consuming physical resources for the pages you actually touch. That’s what I mean when I describe linear memory as a sparse vector.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630807242.093300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630807242.093300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-04 19:00</span><br/>
+Now imagine what it would be like to have a memory model where your memory is sparse at the <em>byte</em>-level, and is multidimensional, and you can have multiple memories and perform massively-parallel operations (such as aggregations) over them. This is what sparse tensors are.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630829040.093600"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630829040.093600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-09-05 01:04</span><br/>
+N-dimensional arrays as a fundamental data representation? That's an idea that has been around since the days of Fortran and APL. The 1960s. Efficient parallelization has been investigated as well, with today's Fortran containing very good support, though it's less automatic / miraculous than people tend to expect.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630829126.093800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630829126.093800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-09-05 01:05</span><br/>
+BTW, I avoid calling N-dimensional arrays tensors because a tensor for me is a algebraic and geometric object, not a data structure: <a href="https://en.wikipedia.org/wiki/Tensor">https://en.wikipedia.org/wiki/Tensor</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630831671.094000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630831671.094000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-05 01:47</span><br/>
+Does Fortran handle large and high-dimensional (10000x10000x10000x...) <b>sparse</b> tensors, though? That's the main enabler of a lot of interesting applications. Tenstorrent handles sparse tensors completely in hardware; as a programmer you work with them as if they were dense. For context: if you multiply a pair of 99% sparse tensors using a dense multiplication algorithm, you’re doing 10000x more work than you need to (repeatedly multiplying by 0). In general, the asymptotic complexity is different.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630831833.094200"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630831833.094200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-05 01:50</span><br/>
+I'm aware of the more "mathematical" definition of tensor. But I believe the difference is just that the array representation is what you get once you've chosen a basis. You can also talk about tensors without reference to any basis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630867715.095800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630867715.095800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-09-05 11:48</span><br/>
+Fortran doesn't support sparse arrays as a language feature, but library support has been around for decades, getting better all the time.<br/><br/>As for the tensor, yes, once you pick a basis, you get an array representation. But the whole point of tensor algebra and tensor analysis is that the tensor has a meaning (and properties) <em>independent</em> of the choice of a basis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630919270.102200"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630919270.102200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 02:07</span><br/>
+Have you heard about <a href="https://chapel-lang.org/">https://chapel-lang.org/</a> ? It natively supports not only sparse but *<b>distributed</b>* N-dimentional arrays. Still take a look at the <em>problems</em> and the means to make it <em>efficient</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630919399.102400"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630919399.102400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 02:09</span><br/>
+Besides, "tensor operations" are only good for <em>numerical</em> computations. I don't know how much numerical computation you develop, but I develop none. Haven't come across a single one in any of Web-dev projects I was involved. :woman-shrugging:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630919603.106300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630919603.106300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 02:13</span><br/>
+Thanks I’ll check out what Charity does. But you’re not correct with the claim that tensor operations are only for numerical computation. I gave a very important example in my original post: contraction of Bool-valued tensors is precisely an equi-join between two database tables. I guarantee you’ve come across databases in your web dev projects :innocent:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630919660.107900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630919660.107900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 02:14</span><br/>
+This isn’t merely a curiosity. Given hardware like Tenstorrent’s, we might now have the opportunity to radically rethink high-performance databases, including in-memory DBs (i.e. the memory model of arbitrary programs). 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630923308.108900"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630923308.108900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 03:15</span><br/>
+Yeah and my DBs were full of Strings, DateTimes and Foreign Keys -- good luck putting all of that into "tensors" and performing <em>parallel</em> operations on them! :grin:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630923435.109100"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630923435.109100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 03:17</span><br/>
+In reality your parallelism stops as soon as you encounter a fold with <em>non-associative</em> operations. And pretty much all operations performing <em>side effects</em> are non-associative. That's basically leaves you with numeric (plus boolean) computations.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630923655.112000"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630923655.112000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 03:20</span><br/>
+Mate, foreign keys aren’t a problem, they’re the very thing you equi-join on. Have a play around with the idea in the 2D case (Boolean matrices); you should be able to figure out how it works. Stuff like strings aren’t a problem either, they’re just a bunch of bytes along one dimension of the tensor.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630926920.112200"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630926920.112200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 04:15</span><br/>
+I know how it works. I know how it <em>performs</em>. I know how GPUs and "tensor processors" are implemented and what they are capable of. Do you? :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630930637.115400"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630930637.115400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 05:17</span><br/>
+I came to share some exciting ideas with the community; I’m not interested in having a pissing contest. Clearly you’ve come to this thread with an ulterior motive. I think we can leave it there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630931054.115600"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630931054.115600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 05:24</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> you clearly know my motives and intentions much better than I do so I'll take your word for it! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630940171.116400"></a>
+      <img src="https://avatars.slack-edge.com/2021-01-13/1631845309525_97155db555c2091ecd20_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630940171.116400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vijay Chakravarthy</b>
+<span style="margin:2em; color:#606060">2021-09-06 07:56</span><br/>
+Very interesting - I’ve been looking at XLA and JAX as a means of abstraction over such hardware. I also think a number of problems can be decomposed into “tensor friendly” representations - lots of interesting work going on in this area.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630943903.116700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630943903.116700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-09-06 08:58</span><br/>
+<span style="background-color:#ccf">@Alexander Chichigin</span> ""tensor operations" are only good for <em>numerical</em> computations." No, that's merely what they have been used for most commonly. Recommended reading for this thread: "The memory models that underlie programming languages" (<a href="http://canonical.org/~kragen/memory-models/">http://canonical.org/~kragen/memory-models/</a>). The third model discussed in that overview is "parallel arrays", and it's very similar to what <span style="background-color:#ccf">@Nick Smith</span> has proposed when starting this thread. It can be combined with ideas from "nested records" (the first model), which is what NumPy's "structured arrays" are. And there is also overlap with "relations", the last model in the overview.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630944775.117000"></a>
+      <img src="https://avatars.slack-edge.com/2021-07-07/2254853369060_d6900487d9109f495c79_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630944775.117000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alexander Chichigin</b>
+<span style="margin:2em; color:#606060">2021-09-06 09:12</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> yeah thanks for "The memory models that underlie programming languages", that's a good one as far as I remember. :slightly_smiling_face:<br/><br/>I agree that as a <em>model</em> "tensors" (or multi-dimensional arrays, parallel or not, though J language was calling them "tensors" some decades before ML frameworks did :grin:) can accommodate pretty much everything, including certain notion of "objects", "relations" and "tables" as evidenced by APL, K/Q, J again or even R, NumPy and Pandas. But <span style="background-color:#ccf">@Nick Smith</span> was talking about (sparse) "tensors" as a <em>low-level</em> model of actual hardware memory of "tensor processors", and in reality this processors can <em>efficiently</em> handle only numerical (and packed boolean, yes) computations. As soon as we throw pointers (or indexes into <em>other</em> tensors) in the mix and start chasing them the "model" breaks and efficiency plummets. Thus I claim "tensor operations are only <b>good</b> for numerical computations". :grin:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630968182.118100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630968182.118100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 15:43</span><br/>
+On these new distributed memory tensor processors, you don't usually "point" at things (there is no global memory / address space), you usually <em>join</em> things (in the form of tensor contraction). These chips are specifically built to do insanely fast contractions. You won't be running Java code on these chips (the epitome of pointer-chasing), but that's fine, that's not the promise.<br/><br/>Operations on databases are mostly equi-joins and aggregations, <b>both</b> of which are basic operations in the Numpy/Pytorch API (which Tenstorrent is essentially using as the initial "instruction set" for their hardware). Fancier kinds of joins (i.e. on predicates) are less-obviously translated to tensor operations. It would be fun to explore how to re-implement them efficiently in terms of lower-level ops (cross-join + filter is always an option, but probably not the smartest one). A good ISA would have the right primitives available.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630968344.118300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1630968344.118300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2021-09-06 15:45</span><br/>
+Thanks <span style="background-color:#ccf">@Konrad Hinsen</span>. That article looks really interesting! I'll have a dive in.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631025210.120600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1630745854.074100.html#1631025210.120600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-09-07 07:33</span><br/>
+This thread is definitely made for "thinking together" :heart:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

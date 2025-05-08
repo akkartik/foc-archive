@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1736202248.512499.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-06 14:24</span><br/>
+OK I finally put all the pieces together into a coherent whole but its still an MVP<br/><a href="https://tomlarkworthy.github.io/lopecode/webpage.html">https://tomlarkworthy.github.io/lopecode/webpage.html</a><br/>a self-hosted, self-sustainable, recursively exportable, offline-first, file-first, hermetic, web-based programming substrate based on the Observable runtime (and the source code is an Observable notebook)<br/>I am seeking ideas on what to do next with it next? What would make it desirable to use for a project? There is an AI in it but I don't have a UI for it. Or maybe I figure out how to do content editable cells, or maybe port some bigger demos (e.g. 3d stuff, maybe VR?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736208950.335209"></a>
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../share-your-work/1736202248.512499.html#1736208950.335209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2025-01-06 16:15</span><br/>
+So many cool ideas in here, I like the tab/panes system too<br/><br/>I would love to know more about why you decided to build this! 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1736227517.809739"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1736202248.512499.html#1736227517.809739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-06 21:25</span><br/>
+Several reasons that added. I love observable and used it for several years. I think the mixed source with reactive runtime is genuinely an advancement. However, I keep hitting limitations with the iframe sandboxing and application users want something more recognizable or feel insecure piping data to a 3rd party domain. So I want a self hosted version that can be 3rd party self hosted. When the app is cloned you get a perfect copy that will always be like that, so it avoids things breaking over time problem. And it's a single file so it's easy to run, everyone has a browser. The goal is a substrate for forever software by avoiding tying it to servers or domains or native  tooling.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737692874.137339"></a>
+      <img src="https://secure.gravatar.com/avatar/8449ebbf703fcee4e1eadc3e78478f01.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png" style="float:left"/>
+      <a href="../share-your-work/1736202248.512499.html#1737692874.137339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cameron Yick</b>
+<span style="margin:2em; color:#606060">2025-01-23 20:27</span><br/>
+I’ve been using the observable notebook VSCode extension for local dev, but you’re right it doesn’t lend itself especially well to self hosting. It is nice to have everything fit into 1 file. <br/><br/>Do you find yourself wanting to pull in dependencies, whether from npm or just splitting the project into smaller files?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1737704365.483959"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1736202248.512499.html#1737704365.483959" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-01-23 23:39</span><br/>
+Observable runtime has "modules" with private "scopes". To get an npm dependancy to work offline, I save the ESM to a static file in a dedicated notebook (a.k.a. a module) so then I can import that where needed. The Golden Layout is a good example, its what gives it the frames and thats a npm JS ecosystem dependancy.<br/><br/><a href="https://observablehq.com/@tomlarkworthy/golden-layout-2-6-0">https://observablehq.com/@tomlarkworthy/golden-layout-2-6-0</a><br/><br/>I go slightly further to reduce file size by gziping the ESM module and using native gzip decompression stream to dynamically construct the URL to import<br/><br/><pre style="white-space:pre-wrap">unzip = async (attachment) =&gt;<br/>  await new Response(<br/>    (await attachment.stream()).pipeThrough(new DecompressionStream("gzip"))<br/>  ).blob()</pre><br/><br/>So the design is modular, it can do modules, its just shoved all in a single file bundled but unpacked dynamically. I do wonder if I should have the concept of a dynamic import from another file though, for a website you might want to share the page index. It would be possible to do: read the other file, find the dependancy in it, and unzip it like we do internally. The file structure is a structured HTML doc, which is easy to parse with DOMParser and lookup dependancies with document.querySelector
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

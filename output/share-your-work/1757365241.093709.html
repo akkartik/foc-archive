@@ -1,0 +1,114 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-08 14:00</span><br/>
+Hi everyone :wave:<br/>I’ve been working on a JavaScript implementation of Sussman & Radul’s propagator model and wanted to share some progress + questions. here's the link to the repo: <a href="https://github.com/Semi-0/Propagator">https://github.com/Semi-0/Propagator</a><br/>I currently have two branches:<br/>    a. A custom push-based version (works, but <tt>amb</tt> can get weird). (In the AMB branch)<br/>    b. A more *f*aithful scheduler-based version, closer to the original design. (but amb still acts weirdly when execution gets large) <br/>It supports almost all of the original Scheme machinery, and I’ve been experimenting with a <b>reactive extension</b> so propagator networks can drive UI updates.<br/>Lately I’ve been exploring some theory: I noticed interesting parallels between <b>wired diagrams in category theory</b> and <b>propagator networks</b>, and I’m researching how to <b>separate representation from execution</b> (syntax vs. scheduler). And how I can perhaps making the propagator more self-reliant as independent programming languages.<br/>Since I’m pretty new to open-source, I’d really appreciate advice on two fronts:<br/>1. <b>Research direction</b> → does this “wired graph  <a href="-">-</a>  propagator <a href="-">-</a> representation/execution” connection resonate with anyone? Are there papers or projects I should look at?<br/>2. <b>Sharing the code</b> → what’s the best way to make an infrastructure repo like this easier for others to understand? (Docs? examples? small demos?)<br/>Thanks in advance for any pointers
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757371109.897939"></a>
+      <a href="../share-your-work/1757365241.093709.html#1757371109.897939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-08 15:38</span><br/>
+For anyone not already familiar with propagators, here’s a quick refresher:<br/><br/>A propagator network is a collection of small, independent agents connected by cells that hold partial information. Each agent watches its inputs and, whenever it can deduce something new, it updates other cells. Unlike ordinary functions, information can flow in many directions at once — for example, if you know two sides of a right triangle, the Pythagorean propagator can solve for the third no matter which two you provide. This makes propagators a general model for constraints, dataflow, multi-directional reactivity and incremental reasoning.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757430459.603569"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-18/8487018839873_af3f4f3c0604a679e817_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757430459.603569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>When Leggett</b>
+<span style="margin:2em; color:#606060">2025-09-09 08:07</span><br/>
+I’ve never actually worked with propagators - they’ve always been a little academic for my needs, but I am interested in them. I’ve written reactive/incremental compute systems from scratch, and there’s a little resemblance, but I’ve mostly just heard about them from seeing some talks online and reading a bit about it. I’m curious the scale of system you’ve built with propagators.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757430639.487819"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-18/8487018839873_af3f4f3c0604a679e817_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757430639.487819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>When Leggett</b>
+<span style="margin:2em; color:#606060">2025-09-09 08:10</span><br/>
+In terms of your questions - have you looked at Statemate for inspiration? It’s more specifically for reactive systems, but it has a strong separation of spec and implementation and uses diagrams.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757437962.554179"></a>
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757437962.554179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-09 10:12</span><br/>
+i am primarily an artist and designer working with multi-media, so i work with propagators more frequently on creative exploration. The current prototype face scalability issues because all the intermedia value are retain in the memory, this gains expressiveness but also creates memory pressure. i think this could be solved by distinguishing between discrete and continuous cell. What draws me to propagator is how they enable language level expressiveness while the topology of graph is traceable  and modifiable at run time, and all the value is inspectable. Also compound propagator reinforce composable structures naturally. Most reactive systems i encountered in production level seems to deviate from the core ideas in the FRP from first principle and original Haskell implementation of FRP around behaviour  composition, like (draw (circle mouse-position)) where every behaviour is a pure function, so they maintain predictability and testability. And in Propagator because every cell is continuous value, therefore you could have similar behaviour composition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757438273.449669"></a>
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757438273.449669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-09 10:17</span><br/>
+The most promising aspect for me is how propagator might be utilized in live coding. Right now most tools for artist are imperative like Processing, or open-framework. A few advanced tool like Tidal Cycle made by Alex McLean utilizes reactive programming. But propagators might have same  expressiveness with functional reactive programming while being much more generic and utilizing multi-directional linking. This could potentially enable cooperative visual audio or even more experimental cross-media uses. In live coding, this might enable something like:  <tt>(to-synthesizer (take-arm-rotation (gesture-recognition webcam)) audio-out)</tt><br/><tt>(bi-link circle-position (some-transform-function synthesizer))</tt>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757438285.504399"></a>
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757438285.504399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-09 10:18</span><br/>
+Since you've built reactive/incremental systems, what drew you away from propagators being too academic?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757438404.546119"></a>
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757438404.546119" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-09 10:20</span><br/>
+also thank you for your inspiration i am reading the documents right now
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1757438990.650749"></a>
+      <img src="https://avatars.slack-edge.com/2025-09-08/9467835379175_221467034b8129ae2050_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1757365241.093709.html#1757438990.650749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pandi Lin</b>
+<span style="margin:2em; color:#606060">2025-09-09 10:29</span><br/>
+What's particularly interesting is that while in reactive programming, connecting multiple reactive functions to one subject is not recommended (due to side effects, resource issues, and race conditions), in propagators this is actually encouraged for robust structure.<br/>Cells are built to accumulate all related information, then delay the decision of what to do with that information. So you could have multiple sensor tracks feeding data from different channels with different world views into the same cell, and the dependency tracking system and contradiction handler can determine what to do with these messages - whether to combine them, defer them, or resolve conflicts, or attempt selecting them based on what might fit in a bigger picture
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

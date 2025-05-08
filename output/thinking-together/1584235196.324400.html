@@ -1,0 +1,559 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-14 18:19</span><br/>
+Hey everyone, as someone who's new to language oriented programming (e.g. language workbenches, projectional editors, etc), are there any commonly used libraries or tooling?<br/>For context, I'm trying to make a very simple projectional editor that has a 1-1 mapping between basic GLSL-esque language and a visual nodegraph representation. Normally I just reach for a handrolled parser &amp; LLVM and lots of scaffolding/boilerplate making the visual editor. What I'm trying to do now is just make it be one editor
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584499844.379300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584499844.379300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-17 19:50</span><br/>
+I'm working on a tool that I think if as being at the intersection of being able to "roll your own", but getting to use language-oriented tools and interfaces to do so. It's being made "in itself", so it's self-moldable. Let's talk and see if we have common ground to work from.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584672264.423600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584672264.423600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-03-19 19:44</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> I've been thinking of making a "WYSIWYT" (what you see is what you type) editor for (the newer version of) <a href="http://loyc.net/les/">LES</a>. The advantage of this approach would be that LES is not designed as a programming language, but rather as a foundation for building languages (especially DSLs), and so the editor could be re-used for various languages. Also, presumably while building the editor I could <em>figure out</em> how to generalize parts of it so that those parts could be used to build WYSIWYT editors for somewhat different-looking languages... anyway, this is just a thing I'd like to do, but I might never find the time for it unless I pair up with someone, so I thought I'd mention it. I am also curious to hear about what you're building.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584757194.466300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584757194.466300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-20 19:19</span><br/>
+Firstly, I think you're not the only one on here building a language-agonistic editor. Someone described an generic AST editor of some sort? If you could all find each other, you might be able to form a collaboration.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584764693.467400"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584764693.467400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-20 21:24</span><br/>
+I'll explain what I'm building in phases, because it's not about the specific tool, but the process that it enables:<br/><br/>I'm building a tool in which code and data can be edited and interacted with as live objects on a canvas. Code and data are made of the same "building blocks" (structural representation) that can be inspected, edited, and executed (interpreted) directly from the live structure.<br/><br/>All the LIVE code for the tool itself -- including the user interface and the interpreter -- is also exposed for live editing through the same interface. You can use the tool, to completely change itself (down to the metal if you like) to work completely differently. This entire transformation can happen at runtime, without the tool ever "stopping".<br/><br/>What I'm making is much more about this self-bootstrapping ability/ process, than it is about a specific tool that works a specific way. Building a specific tool is only necessary in the first place, just to bootstrap this ability into existence. So the initial "tool" just has to be minimally capable, even if it sucks -- and from there, I'll evolve it into something better through direct manipulation.<br/><br/>Imagine a robot capable of physically modifying itself, and programmed to improve itself. Even if it's not great at that, it could improve it's ability to improve itself, or even it's criteria for reasoning about what that means. If you can somehow make that initial robot <em>at all</em>, no matter how crappy, then you've succeeded in bootstrapping arbitrarily better robots. That's what I'm trying to do, but with software &amp; programming.<br/><br/>There's more to it than that, which is my philosophy on "programming language" not needing to be a solidly defined thing, or perhaps not even a thing at all! What is a compiler or interpreter, other than just code that operates on code? Why not put THAT code and YOUR code all in the same bucket? Instead of code + compiler, you have code (in whatever form makes sense for the context) + other code that executes or translates that code?<br/><br/>Here is where the line blurs between programming language, and having code that iterates over a hardcoded list to avoid having to repeat a bunch of code that differs only by specific values. That's as much of a "language" as the one your code is written in!<br/><br/>Now take that to the extreme, but think of being able to customize your own visual representation and / or editor for whatever makes sense for a given context. Imagine if "code" could contain instructions that told your IDE how to behave? That's the same as putting your code and the code OF the IDE in the same codebase. Just like I described for removing the separation between compiler + code.<br/><br/>One (example) vision I have is that "code" for something is not a text file that you open in another tool, but a self-contained executable program that, when you run it, presents you with a custom interface / model for "the code", including the code of the whole running program &amp; interface that it presents. No more dependency on some other interface! It's the same idea (in a sense) as infrastructure as code, or HATEOS<br/><br/>But what's that? you need a Java program? Fine, click a button, and it spits out a compiled-to-Java equivalent of "just the product code". Any code in any language or for any system, has a structure, and there's no reason that cannot be stored and executed as a <em>live</em> structural representation, prior to generating the actual "compiled" built product from it.<br/><br/>What's that? Execution in the tool is not the same as execution in the JVM (or whatever other target)? Well, the tool is written "in itself", and you already made a generate-the-equivalent-Java-code functionality; use that on the tool itself, and bootstrap the tool right into the JVM (or what have you). That's one perk of having just some generic code model with self contained rules for execution or translation.<br/><br/>There are so so many things and approaches and models for what "code" could be and how to model or visualize it, how it can be edited or projected, and what to even DO with the code (e.g. translate it) ... a tool like this would make it very easy to explore that space.<br/><br/>What if the representation I choose is not great? What if the tools and process I provide for molding better tools and processes, really sucks? Well, then I mold better things for molding better things.<br/><br/>Software is not just made of levers; it's made of levers for making levers. And I want to put that power in everyone's hands. This makes sense not just for programmers, but also for everyone else: What the heck does it even mean to have the power of a computer in your hand, without actually having any power of a computer in your hand? What a joke!<br/><br/>But what if people suck at computer stuff, though? Well gosh, if only they had the power of a computer to assist with using the power of a computer...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584766787.468900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584766787.468900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-20 21:59</span><br/>
+Also, most software is horrendously more complex than it needs to be. The level of "intrinsic complexity" of software IS NOT what many software professionals claim it to be. I blame the layers of language and tools and frameworks, and not having good visibility / representation of "a program", so much so that it's just freaking hard to be and to even think about it very well if you just have layers and layers of code. (As Bret Victor says, the role of programming language in most cases is that of a user interface -- and in that regard, it's a <em>terrible</em> interface)<br/><br/>I think a tool like this could get a lot of that junk or if the way, and a program that "does x y and z" would look like whatever the most immediately way to humanly depict that in simple terms would be. Which may be code, or a diagram, or whatever.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584767029.469300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584767029.469300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-20 22:03</span><br/>
+<span style="background-color:#ccf">@ikrima</span>  - Regarding discussing our projects / goals -- see my comments above.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584829437.487200"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584829437.487200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 15:23</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> fuck yes; so much this
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584829484.487400"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584829484.487400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 15:24</span><br/>
+re: our earlier DMs, yeah, i think we're very much in agreement and we're 90% in viewpoint overlap
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584829498.487600"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584829498.487600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 15:24</span><br/>
+(for others: my personal notes are up on a notion: <a href="https://www.notion.so/kitelightning/Guiding-Principles-3d817ee6c71c4ee19e9e3497fbdabb2d">https://www.notion.so/kitelightning/Guiding-Principles-3d817&hellip;</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584832188.487900"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584832188.487900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 16:09</span><br/>
+@Dan Cook a nuanced point of departure: i think everyone gets complexity of software wrong (caveat: still formulating this mental model)<br/><br/>TLRDR: By analogy, imagine being transported to an alternate universe where the world hasn't discovered complexity theory.<br/>And imagine all the discussions people have on how fast/slow algorithm X is over Y or library A over B.<br/>Everyone would be "wrong" in the way they think about thinking about the problem, regardless of whether they were right/wrong in a specific instance<br/>But this is how we are tackling the complexity of software.<br/><br/>Details:<br/>-(handwaivy assumption)  ∃a theory of software development to be discovered and that is homomorphic to complexity theory<br/>- Different "software development methods" have an inherent design complexity<br/>- handwaiving what "software development methods" means but reasonable to say it could be <br/>  HW = {set of hardware archs}<br/>  L = {set of programming langs}<br/>  OS = {set of OS}<br/>  IDE = {set of IDEs, including debuggers}<br/>  F = {set of libraries/frameworks}<br/><br/>  P = {set of platforms} = HW x L x IDE x OS x F e.g. iOS, Facebook, Android, PS4,<br/>  E = {set of ecosystems} = IDE x L x F<br/>  etc<br/>- Some problems have a combinatoric complexity while others may have linear or sublinear (for whatever that means)<br/>  - Ex: designing a new general purpose language is the problem space of HW x OS x IDE x F<br/>  - designing a DSL is a significantly smaller subspace of that vector space <br/>- everyone "gets it wrong" bc we don't understand the problem space. <br/>  - I posit that some solutions are inherently NP-hard or lower bounded but people don't realize it (analogy: you're not getting below Θ(nlogn) for a comparison based sort)<br/>  - Some solutions are great bc they reformulate the problem (oh look, let's use radix sort and now we have sub Θ(nlogn) sorts)<br/>  - Most of the time the underlying "method" is bad Θ(n^2) and all the solutions proposed are simply ameliorating constant factors so we'll never solve the root problem<br/>  - But ofc, sometimes constant factors are super important and big wins (eg the canonical example these days of how much faster linear search is than most things for small N)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584832495.488100"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584832495.488100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 16:14</span><br/>
+------------------------------------------<br/>In that frame of reference, i'd say i disagree that "better understanding tools" fundementally address the problem. <br/>Software is complex bc it's a combinatorial explosion of multiple layers/components. I bemoan the multitiude of layers in software development but bc software is intangible, people forget they're necessary. Few people propose writing their own OS as a solution; even fewer propose writing their own HW ISA.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584833717.488800"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584833717.488800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-21 16:35</span><br/>
+<br/>I'd class most people's solutions:<br/><li> "Just don't do it" e.g. Casey Murati crowd<br/>  - Viable but these guys miss the fact that what they're doing is solving a subspace of the problem, not the general solution<br/>  - I concur that sometimes there are accidental layers of abstraction but in the real world, we can't carte blanche remove them all<br/>  - Analogy: <br/>    Me: my sort algorithm is O(n^2) and it's slow when I have to sort 10,000s of records<br/>    Them: don't sort 10,000s records<br/>    Me: ....<br/><br/><li> "Better tooling"<br/>  - "if we had better understanding, we could reason about stuff better" e.g. better debuggers, things like sourcegraph, sourcetrail, etc<br/>  - I think this is by far necessary and good but it's also often times linear solutions to <b>combinatorial problems</b><br/>  <br/><li> "DSL approach"<br/>  - "everyone should be using their own DSLs" e.g. Jonathan Blow's approach to Jai vs. the Rust approach<br/>  - (unproven but working assumption) the general case of the problem itself is NP Hard<br/>  - but domain specific problems are clearly not<br/>  - no one makes their own DSLs bc it's a lot of overhead<br/>  - Solution: we can bring that cost down orders of magnitude and then everyone can create their own DSLs. Ex:<br/>    - LLVM ecosystem is the best example of this<br/>    - JAI language's approach<br/>    - Any shading language <br/>    - Any particle/fx system in games is effectively it's own DSL even if it's not textual<br/><br/>I've personally moved from the 2nd camp to the 3rd camp and my whole approach is predicated on that in a sense
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584849424.495300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584849424.495300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-21 20:57</span><br/>
+I see what your saying about combinatorial complexity! People get gung-ho about things (languages, tools, patterns, practices, programming paradigms) that are "better" along one dimension, and ignore that maybe they're worse along other dimensions, so the material improvement overall is actually negligible or negative (of you include all costs -- which you must, or you're cooking the data).<br/><br/>Now sure, the <em>incidental</em> (accidental) complexity in software/code is just a sub-space of the total complexity. You cannot tool-away or language-away <em>any</em> of the complexity of the <em>problem</em>-space -- that just is what it is.<br/><br/>...Well, <em>sort of</em>. There can be unnecessary complexity on that side, too. You need a software system to run your factory, and even if you had the perfect language and code for that kind of thing, the factory is very complicated to manage! ... But wouldn't you know it, you could have accomplished better productivity with 3 people and a small toolbox! No amount of software solutioning for that factory had any hope of fixing that situation!<br/><br/>But here's the thing: That <em>should</em> be the level that software professionals think at! Software is just one tool in your toolbox. (And that's not secret knowledge; it got pounded into our heads at a SCRUM bootcamp last week). Not just <em>should</em>, but that's the entire thing that a software professional is  <em>being paid for</em>! So it's a disaster that the status quo is not even at that level!<br/><br/>And why isn't it? I think it's because there's so much complexity at all the layers <em>below that</em>, that <em>that's</em> what software developers thing their job is about. But none of the focus on languages and patterns and tools has <em>any real value</em> if it doesn't improve our ability work and reason about (and in) the problem space.<br/><br/>What's super frustrating to me, is we've had sufficient means for <em>decades</em> (in terms of programming language) to outline the problem space in code, and (for the most part) none of the "advancements" (aka recycling) in PLs have improved that in any significant way. And developers <em>still don't know how to do it</em>.<br/><br/>Let me explain: Let's say the problem space can be well represented by a picture or diagram, on terms of looking at it and thinking about it, pointing at it and discussing it, changing it, etc. It doesn't significantly matter whether you use a pencil, a whiteboard, arrange pebbles on the ground, or toothpicks on a table-top ... In all cases, you can <b>look</b> at the darn thing, and see what it is! Sure, you can <em>see</em> the pebbles, or the ink, but that's not the thing you're actually <em>looking at</em>. So long as the medium is <em>sufficient</em> for creating a picture of the thing so that <em>that's</em> what you are looking at, that's what matters.<br/><br/>Now an <em>insufficient</em> <b>medium</b> would be boulders or colony of ants. An insufficient <em>representation</em> would be throwing toothpicks on the ground and arbitrarily assigning meaning to it; or writing down a list of coordinate-pairs or a crap ton of prose (:zipper_mouth_face:) <em>describing</em> a diagram. If you get <em>that</em> wrong, then it doesn't matter how much "better" your medium is!<br/><br/>Now sure, you could argue that pen is more fine-grained then sand (:slightly_smiling_face:) for writing text annotations, or that pencil is eraseable, or that text-files are easier to share and track changes ... And <em>of course</em> those things matter; but they matter <em>far far less</em> than a coherent model -- which is much more a matter of discipline (or in a world where it's been done enough times to know better, <em>common [freaking] sense</em>) than anything else.<br/><br/>From where I stand, the status quo of software is more at the level of debating whether red ink is better than blue ink; or pencil vs keyboard; or how much better one can diagram with an ergonomically shaped pen (oh thank goodness you solved that one!). Or maybe it's that some people diagram with axially-aligned rectangles, and others with circles and ovals, and there's a never-ending debate as to which is better or more "geometrically pure". But for crying out loud, a crayon with your non-dominant hand is better if you know what a coherent picture of the thing would even look like!<br/><br/>So what is "sufficient"? Functions, variables, conditions, abstraction; and making those be proper subsets of the <em>human</em> model that the software IS. (This topic is hard to discuss, due to deeply ingrained ideas about how a "computer thinks" -- We "have to" do it that way ... NO, you HAVE TO deliver <em>human value</em>, and be and to reason about your code in terms of the <em>human model ...</em> I'll leave it at that for now).<br/><br/>... But alas, I'm only half-right on this.<br/><br/>Yes, if people knew how to make sane human models in code (which is <em>not that hard to understand</em>, but unfortunately stunted by tons of the wrong thinking that's painfully difficult to challenge / unlearn) ... then things would already be 100x better on so many levels. We'd be thinking <em>way</em> closer to the human model; that would actually be <em>the thing that is being designed</em> in the code and the thing that developers <em>see</em> when looking at the code. The <em>code</em> (and language, etc.) is <em>just</em> the medium for expressing it!<br/><br/>... I'm half-right because code (as currently done) is only <em>borderline</em> sufficient. <em>If</em> developers had the right mindset, and it was used properly -- and a (<em>freaking reasonable</em>) expectation of a <em>professional</em> (or having earned a college degree in the stuff), then maybe it would be obvious enough. But alas, this is not the state of things, and a pile of text is <em>really hard</em> to point at and discuss this matter. Even if <em>developers</em> could work with that though, not just any human could look at that and make sense of it.<br/><br/>That's a barrier that I think can be breached, if there's something malleable enough to be / become a more obvious representation.<br/><br/>I think both these "halves" go hand-in-hand. When you can see the model for what it is, it will be much easier to see sanity / insanity. And when things can be sane, then YES, the ability to model things more fluidly will be invaluable and people <em>will</em> be able to manage it -- because the thing they are designing is something that makes sense on a human level!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584855908.495600"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584855908.495600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-21 22:45</span><br/>
+I might as well add some remaining pieces of my software vision, now that I've already dumped most of it into a single thread :P <br/><br/>1. Despite the power of abstraction and recursive generation that code offers, source code itself is still more or less a hand-written 1-to-1 representation of the running program that is to be generated from it. That's like drawing a fractal manually, rather than recursively. But in a self-contained system where any code can operate on or generate any other code, that power can be bootstrapped right back into the code. The same goes for programming language and user interface, etc.<br/><br/>2. Many software systems are divided by architectural or language boundaries (e.g. SQL database + .NET backend service + JavaScript running in a browser). But in a self-contained self-building system, all that code could "live" (literally, as I explained before) in the same place, and using a common representation, and the separate artifacts &amp; code could be generated out from it. For example, a single variable could affect logic in all components. Or perhaps that whole system could be coded as if the boundaries did not exist (e.g. like Dark lang) and in the most direct human terms possible, and then the "build" code could walk the code structure and identify which data and behaviors live where, and use some sorry if communication pattern to bridge the gap, without that having to be a thought in the "design" code.<br/><br/>3. (Building off of #2) In systems where code is stored (and executed) in a structural form, you can send code from one system to be executed in another. This has the benefit of not needing multiple calls back and forth, and that the sent code could do (sandboxed) things that must remain on that side of the boundary; or vice versa. For example, taking HATEOS to a new level by <em>sending</em> the "engine of state" back as part of an HTTP response (i.e. here's the data you requested, and here (code) is how to submit this back, and here (more code) is how to request more about this and what to do with the response; etc.) ... I mean, heck, the browser (or app or whatever else) engine itself could be sent, too! Here's some code, and <em>here's</em> an interpreter for it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584926537.003200"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584926537.003200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-22 18:22</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> 100% in agreement
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584926605.003400"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584926605.003400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-22 18:23</span><br/>
+~~IRC~~ discord is a terrible way to discuss and develop complex highlevel ideas :P
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584926938.003800"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584926938.003800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-22 18:28</span><br/>
+but i was vehemently nodding in agreement reading those points. i have to gestate a little bit more to congeal more articulant follow up thoughts but now that I think we're both philosophically aligned/share similar notions of what the problem is, the question is how to tackle it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584936184.004000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584936184.004000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-22 21:03</span><br/>
+We should discuss this further over a call sometime
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584949436.004500"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584949436.004500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-23 00:43</span><br/>
+I've got a bit of a sprint crunch this week but maybe next weekend?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1584996497.009500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1584996497.009500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-23 13:48</span><br/>
+Sure. This upcoming weekend, or the one after?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585051254.011900"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585051254.011900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-03-24 05:00</span><br/>
+Dan, It's hard to know what you're getting at with your prose explanation. It reminded me at first of Kartik Agaram's work, which is all about bootstrapping, but then, his solution ends up being steeped in x86 assembly language and I think yours is somehow higher-level?<br/><br/>I'm afraid I have to push back on what you began to describe. You're saying "Why not put (the IDE's) code and YOUR code all in the same bucket?" Okay, so let's say Visual Studio Code is in "the same bucket" as the program I'm writing. So what? What does this buy me? I don't understand VS Code's code, since it's new to me. I've never seen it, but more importantly, I don't care about seeing it either. Based on the number of extensions people have written for VS code, I imagine it's less of a confusing mess than the old Visual Studio (whose extension model I've had to deal with) but still, it's a big mass of code that someone else wrote, that I don't understand. If it's like most codebases, it doesn't come with any explanations ("literate programming" is something most devs haven't heard of, and wouldn't aspire to if they had - at many companies, even the most important classes have zero documentation).<br/><br/>If my editor is editable, I can edit it. So far, so good. But weren't there entire Smalltalk or Lisp operating systems in the 1980s that worked exactly this way? If so, why not start from there? Why start from scratch? But also, what does this buy me? I really don't want to modify the core editor, because if I do, I will be the only person with this version of it. If I change VS Code's core in a way that makes it more useful to me, I now cannot download updated versions of VS Code. This is a really fundamental problem that pops up again and again, and not just in the realm of code - I used to work at a company that decided to modify metadata on some road map files, but then the map provider produced a new version of the maps, but wait, we modified the old version, so how do we merge the old and the new? I spent months solving problems like that.<br/><br/>"presents you with a custom interface / model for the code, including the code of the whole running program &amp; interface that it presents. No more dependency on some other interface!" But... how? The OS doesn't understand your code, it expects raw machine code. What machine code will you provide, where did it come from, and can I edit this machine code? (My suggestion: check if WebAssembly works for you as a starting point, so you can run in a browser. And it's easiest if the kernel is not modifiable.)<br/><br/>"Well, the tool is written in itself, and you already made a generate-the-equivalent-Java-code functionality; use that on the tool itself, and bootstrap the tool right into the JVM (or what have you)" I've done bootstrapping myself - the parser for the language that my parser generator LLLPG understood, LES version 1, was written in itself, which meant at first that I had to parse it some other way (I came up with a scheme to construct grammars in C# in order to bootstrap it), and then LES v1 evolved to <a href="http://loyc.net/les">LES version 2</a>, and then I wrote a parser for Enhanced C# in LESv2, and then eventually I decided to support a new syntax for the parser generator which was written in Enhanced C#. Bootstrapping is cool, but it's kinda hard and time-consuming. Anyway, so let's say bootstrapping is done AND you can "generate-the-equivalent-Java-code". What you've written is an interpreter, so you can generate a Java interpreter that is able to run your "code that is written in itself". But the code is still written in itself, not in JVM bytecode, so... you can run the interpreter in the JVM, but you still have a long way to go if you want something that fits reasonably well into the Java ecosystem... certainly you can't just start calling out into Java libraries, let alone write Java libraries that call into your code, let alone pass rich data structures seamlessly between you and ordinary Java code. And what if performance sucks, because it's an interpreter after all? I guess that's okay for what you're trying to do, but how broad of an audience do you want with your software?<br/><br/>"most software is horrendously more complex than it needs to be." On this we are in complete agreement. Software in industry is generally awful. Even my own open-source software, elegant compared to most people's, has a bunch of ugly hacks and limitations because of flaws in the .NET platform it is built on. But I chose .NET because it was the only major platform designed for multiple programming languages to interoperate, and amazingly that's still true, though I guess the new WASI standard will do... something... about this (as we speak they're probably inventing all-new design flaws for me to work around later.)<br/><br/>"I think a tool like this could get a lot of that junk or if the way, and a program that does x y and z would look like whatever the most immediately way to humanly depict that in simple terms would be." I assume you mean "out of the way". But I don't see how your tool would be able to suddenly make code simple. It does not follow from "I can see and edit all the code in my system! And convert the interpreter to Java!" to "now everything is easy!"<br/><br/>"Despite the power of abstraction and recursive generation that code offers, source code itself is still more or less a hand-written 1-to-1 representation of the running program..." I imagine you're talking about how we should be able to describe the properties I want the program to have, or describe a domain-specific solution in domain-specific declarative terms? I agree with that... but again it just doesn't seem to follow from what you've written before. I don't see a path from A to B. And similarly for items (2) and (3).<br/><br/>So you have good principles, but I don't see how they follow from your starting point. They are also hard problems - each one is something a person could spend their careers perfecting. And that's pretty much what I would advocate for people: specializing our work. BUT ALSO I would advocate working together by combining our stuff, not just spiritually copying but coming up with a plan to literally re-use and combine code where possible. But literal re-use, of course, leads to ideas like <a href="http://loyc.net">Loyc</a> - because we don't all want to work in the same programming language, what we really need to work on right now is better interoperability, OR code conversion between languages. At minimum there should be a common-but-still-high-level way to represent different languages, hence my LES proposal. But advocating code re-use seems to make me unusual around here and I don't know why. Anyway, while I've been specializing by playing with homoiconic language designs and thinking about interoperability &amp; code conversion, Paul Chiusano's been working on sending code from one system to execute in another (with content-indexed addressing for efficiency), others have been working on projectional editing (Lamdu uses the WYTIWYS = what you type is what you see principle)... I think if we were better at specializing and working together, we might actually get somewhere. Especially if funding were available so it didn't have to be a weekends-only-until-you-burn-out-from-writing-code-7-days-a-week thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585410542.011500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585410542.011500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-28 08:49</span><br/>
+I've made a mess trying to respond to this on my touch screen phone, and realized I didn't even properly answer some of the questions.<br/><br/>So now I've got slack on my desktop, and better notes, and I'm just going to try this again while sitting and focusing better.<br/><br/>I'll probably delete this reply too, just before I post my responses.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585465775.017800"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585465775.017800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-29 00:09</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> free anytime this week. how about yourself? <span style="background-color:#ccf">@David Piepgrass</span> you're more than welcome to join too
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585539994.025900"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585539994.025900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-03-29 20:46</span><br/>
+This weekend turned out very busy (I'll answer David's questions once I can squeeze time back into my schedule -- working from home with kids out of school and a bad internet connection, and taking time out to fix it, has been interesting). How about this upcoming weekend?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585559509.027100"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585559509.027100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-03-30 02:11</span><br/>
+:+1:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585923314.091600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585923314.091600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-03 07:15</span><br/>
+You're proposing a meeting tomorrow or Sunday? Sure.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585935106.093300"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585935106.093300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-03 10:31</span><br/>
+<span style="background-color:#ccf">@David Piepgrass</span> <span style="background-color:#ccf">@Dan Cook</span> :+1: What times work for ya? Sat/Sun post 2 pm is best for me
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585935179.093500"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585935179.093500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-03 10:32</span><br/>
+my sched is usually flexible with constraint that i just need ~24hr notice (sometimes work UK hours so might be asleep during the day)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585947109.094000"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585947109.094000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-03 13:51</span><br/>
+My schedule is open. Sat 3pm?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585954733.097000"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585954733.097000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-03 15:58</span><br/>
+works for me <span style="background-color:#ccf">@Dan Cook</span>?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585966811.099700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585966811.099700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-04-03 19:20</span><br/>
+That works for me! Mountain time, or Pacific?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585971608.100300"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585971608.100300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-03 20:40</span><br/>
+sweet; how about Pacific time
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1585971646.100500"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1585971646.100500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-03 20:40</span><br/>
+and let's say just convene here on the channel and we can try the builtin slack teleconferencing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586009358.104600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586009358.104600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-04 07:09</span><br/>
+OK 4pm mountain time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586023268.114800"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586023268.114800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 11:01</span><br/>
+sorry guys but it's like 50/50 i may not make it to 3 pm
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586023416.115000"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586023416.115000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 11:03</span><br/>
+went from mild discomfort to waves of coughs.+ increasing fever over last 24 hrs
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586023628.115300"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586023628.115300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 11:07</span><br/>
+better now but was rough this morning so just wanted to give a heads up incase I fully devolve into an infected
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586038223.135000"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586038223.135000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:10</span><br/>
+Ok, so FINALLY, here's my reply to some of David's questions:<br/><br/>1. High-level bootstrapping, UI to edit itself - How? Where's the machine code?<br/><br/>There's a set of low-level operations (+, -, get, set, etc.), end everything else (interpreter, compiler, bootstrapper, UI) is built on top of that. The interpreter is just a function that takes a "context" (dictionary) and an expression, and recursively looks up each operation by name in the given context. Each operation is either a high-level function, which is fed back into the interpreter, or a native-function which is invoked directly. Native code will either be directly editable, or (re)generatable from high level (or other) code. The system can "save itself" by generating a native executable that contains everything in the system stored in a statically initialized structure, with the native base operations nested within it, and a native version of the interpreter (generated by feeding the interpreter into the compiler), and a bit of code to start interpreting whatever is needed to "start" it up. A compiler (for some target) basically just needs to generate native code for calling a native function with arguments, and native-coded versions of the base operations.<br/><br/>2. Why put the IDE in your code? What about compatibility &amp; updates?<br/><br/>I think the devision between "code" and "programming language" and also IDE is completely artifcial &amp; unnecesary. There's more "language" describing a software system itself -- every function or API or UI has its own language (grammar and rules of application) that higher logic is composed from -- than is nececcary to describe the <em>few</em> fundamental building blocks of programming (functions, variables, conditionals, etc). So instead of an IDE and editor for a "programming language", I'm looking to make it easy to bootstrap whatever language or editor or model for the specific software system, with PL being a relatively tiny, or using regular old programming abstractions to hide it's complexity away. It's a similar philosophy to this:<br/><br/><a href="https://ngnghm.github.io/blog/2015/08/02/chapter-1-the-way-houyhnhnms-compute/">https://ngnghm.github.io/blog/2015/08/02/chapter-1-the-way-houyhnhnms-compute/</a><br/><br/>But also, I can stretch these ideas into the UI itself: In the same way that functions + data can replace "grammar" and code "written in" that grammar, so can a user interface and some other model.<br/><br/>3. Why not start with SmallTalk, or a LISP OS?<br/><br/>Maybe it could be done there, but that's also a full OS and not a thing that people use it for. In practice, it's still a specific language that locks you in like any other (notwithstanding its late-binding philosophy). What about JetBrains MPS? That's closer, but has similar problems: It's turned LOP into a specific locked down formalization of languages and tools (ironic), that I also think is far more complex than it needs to be. Do you need all that just to be and to say "when I say x y, I mean foo(y(x))". You can do that with ordinary programming paraphernalia (that's what programming is!). What about Racket or Scheme? Maybe that solves a lot, but is restricted once again to dead text, not a living model that may (for one example) have a visual representation instead of a textual syntax.<br/><br/>4. What about interop with a different runtime? Boostrapping this whole system into another runtime would create bloated and inefficient programs. Can I just make a <em>Java</em> program in this?<br/><br/>Bootstrapping the system to another runtime was more about using the system itself as a replacement / reinvention for the computer or OS itself: A truly open-ended moldable thing that you can tap into and do whatever with, as needed. And for that, I'd want to be able to boostrap the system elsewhere. I'm starting this thing in JavaScript in a browser, but once it gets far enough, and given an implementation of some low-level ops somewhere else, I could take the exact thing I've developed and load it somewhere else, and keep working. And then have more capability than JavaScript in a browser. There's also other potential applications, like a system being able to "send itself" somewhere.<br/><br/>But using the system to create a product for another runtime, is a different idea. You would only <em>model</em> your product in this system, and have other code to generate-out a built-product. The advantage is all the stuff I described in #2 (similar to those offered by JetBrains MPS). Also you could do something similar to what Dark lang is doing, and have a full system modeled in one place, with conditionals that effect parts of code that will end up on different machines or layers, but created in one place with one set of logic. For example, a single variable to control one aspect of everything, without having to have that extra logic embedded or repeated in any of the generated components of the built product. Also there's being able to version-control the whole thing as a single entity (so a feature change equates to exactly what changed in the WHOLE system being built).<br/><br/>5. "Getting the junk out of the way" will not suddenly make code simple.<br/>It doesn't follow from "I can see everything, can now convert to and interp with Java" to "now everything is easy"<br/><br/>Code is as simple as we make it to be. There is a LOT wrong with how "professional" (and other) software code is composed. You could have the perfect language and tools etc. and still write horrible code. But I think much more of that is blamed on "software is just so complex!" than on all the overhead of language and code and tooling than is reality. I think that if it can be more easily possible to have the business logic be <em>the thing</em> you are building and seeing, then this gets a lot easier. I also think that this stuff is much easier than it's often MADE to be, because of all the other noise, and because it's the LAST thing that programmers are thinking about. If we can make it easy to see, then this problem can become more visible, and it can be demonstrated how straight-forward programming CAN be. Yes, there are hard problems and circumstances where the logic is just not as easy as one would think; but that's more like 10% than like 90% of software. Even the simplest things are made horribly complex!<br/><br/>But also, If code is something that can be generated or specified more fluidly than basically giving a one-to-one specification for all the instructions in the code, than that can also help to make it much simpler.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586038296.135300"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586038296.135300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:11</span><br/>
+<span style="background-color:#ccf">@ikrima</span> - Sorry to hear you're not doing well! Are you still wanting to do a call today, or would it be better to hold off?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586038313.135500"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586038313.135500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:11</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> <span style="background-color:#ccf">@David Piepgrass</span> is now still good? i'm good enough to hop on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586038363.135700"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586038363.135700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:12</span><br/>
+I'm not sure; I need to check on some things, so I'll let you know in a few minutes, if that's ok
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586038496.135900"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586038496.135900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:14</span><br/>
+sure np; i'll loop back in a couple of minutes and make coffee in the meantime
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586039133.136500"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586039133.136500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:25</span><br/>
+Ok, I'm good to go when you are, but I should note that if things get chaotic here, I'll need to jump off.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586039248.136700"></a>
+      <img src="https://avatars.slack-edge.com/2020-03-14/1000271226192_bf5b5671eceac85250cf_72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586039248.136700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>ikrima</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:27</span><br/>
+sure
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1586039519.136900"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1584235196.324400.html#1586039519.136900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2020-04-04 15:31</span><br/>
+It appears I can't join the call.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

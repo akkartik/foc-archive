@@ -1,0 +1,486 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-30 23:20</span><br/>
+Traditional models of communication between devices, processes, and threads include message-passing, remote procedure calls, and shared memory. Here's a model I haven't seen before: <em>shared game-playing</em>.<br/><br/>How it would work:<br/>• The rules for a "game" of some kind are expressed as a code library... or whatever representation works best.<br/>• A set of "players" (processes or threads) express interest in playing the game with each other. (somehow...)<br/>• The players communicate with each other by interacting with the game (in accordance with its rules), and receive information about each other's actions by observing how the game state has changed.<br/>The "game" could be an <em>actual</em> game like chess or Factorio (implemented via peer-to-peer communication), or it could be a standardized protocol like HTTP, FTP, or (most commonly) it could be an application-specific protocol that would normally be implemented via message-passing or RPC.<br/><br/>Imagine if this were the only model of communication that a programming language exposes. What if it were the "building block" of communication — the only way to build concurrent systems? I think it's an intriguing thought :thinking_face:. I'm surprised I haven't heard this model proposed before.<br/><br/>(This post was inspired by <a href="https://syndicate-lang.org/">Syndicate</a>, which is an actor-based PL that eschews message-passing and RPC for the idea of a "data-space" that actors use to exchange information. But unlike my proposal above, Syndicate's data-spaces don't contain <em>rules</em>, and thus cannot be used to model video games or communication protocols.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672482469.842989"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672482469.842989" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2022-12-31 02:27</span><br/>
+if you replace game for server, players for client and game rules for protocol or API, how is it different to client/server?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672482638.391559"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672482638.391559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 02:30</span><br/>
+The difference is that the “game” isn’t a device. It’s just code that runs on each of the players’ machines such that each player can keep track of what has happened and what can be done next. It’s <a href="https://en.m.wikipedia.org/wiki/Peer-to-peer">peer-to-peer communication</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672482730.031719"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672482730.031719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 02:32</span><br/>
+(Peer-to-peer communication is more general than client-server. The former can be used to model the latter, but the converse isn’t true. Or put another way: a “peer” can act as a server if it wants/needs to, but it’s entirely optional.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672483492.291539"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672483492.291539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 02:44</span><br/>
+The network topology isn't the interesting thing here though. The interesting thing is the proposal that in order to engage in communication with someone, you have to specify a "game" that you are going to play with them.<br/>• Nobody can communicate without first specifying the rules of the game.<br/>• There is no ability to send unstructured "messages". There is only the ability to make "game moves". :hushed:<br/>And ideally, your programming language has a type system capable of verifying that your program only makes <em>valid</em> game moves. But that's a whole different discussion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672492198.593029"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672492198.593029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 05:09</span><br/>
+Sounds like statemachine replication. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672496658.754979"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672496658.754979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2022-12-31 06:24</span><br/>
+I think you might want to take a look at <a href="http://croquet.io">croquet.io</a> . <span style="background-color:#ccf">@yoshiki</span> is a core developer and is sometimes active here.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672524583.949789"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672524583.949789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-12-31 14:09</span><br/>
+Kind of sounds like a mix of session typing and tuple spaces. I like the idea, and I think it would be fun as an available option, but I'm not sure I'd try to make it a primitive. <a href="https://en.wikipedia.org/wiki/Session_type">https://en.wikipedia.org/wiki/Session_type</a> I guess Syndicate already references tuple spaces, but I'll toss that link here for completeness. <a href="https://en.wikipedia.org/wiki/Tuple_space">https://en.wikipedia.org/wiki/Tuple_space</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672543825.966709"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672543825.966709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:30</span><br/>
+<span style="background-color:#ccf">@Chris Granger</span> This communication model definitely involves replication, though when I google "state machine replication" it turns up unrelated stuff about fault-tolerant servers. Nothing about a communication model.<br/><br/><span style="background-color:#ccf">@Tudor Girba</span> Oh that's interesting! Croquet OS seems to be built upon replicated virtual machines (the things I'm calling "games") as well. But I suppose that's not surprising — Croquet is quite literally a platform for games (and other virtual worlds). I'll suss it out :slightly_smiling_face:.<br/><br/><span style="background-color:#ccf">@Andrew F</span> Yes, this model is definitely somewhat reminiscent of session types and tuple spaces. The motivation for making it a primitive is the same as the motivation for putting session types into a programming language — to allow users to write programs against a known interface, and to allow the computer to check that the interface is being used correctly. RPC (in a statically-typed language) is an ultra-simplistic example of this — it models one action, followed by one response.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672544642.820549"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672544642.820549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:44</span><br/>
+I just feel it ought to be possible to do it as a library given an adequately expressive type system, but I haven't thought about it that deeply. :)<br/><br/>Also, re state machine replication: yeah, I'm guessing the fault tolerant server stuff is what Chris was referring to. Communication is a big part of fault tolerance. From the perspective of designing abstractions, it probably looks more like a potential implementation detail, but it will constrain what kinds of "games" can run over an unreliable (i.e. real) network.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545147.902239"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545147.902239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:52</span><br/>
+Definitely any mechanism for fault-tolerance should be a library. I doubt it is possible to find "the ultimate answer" to fault-tolerance, and thus bake it into a PL. :innocent:<br/><br/>Type checking, on the other hand, is definitely the job of a PL!<br/><br/>To make a "game" fault-tolerant, you'd just have to add corresponding rules to the game — e.g. allow clients to vote an unresponsive client out of the game.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545241.691389"></a>
+      <a href="../thinking-together/1672471217.151219.html#1672545241.691389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:54</span><br/>
+yep, I did indeed mean that, though not for the fault tolerance, but because it almost exactly describes the model you mentioned. From the wikipedia article:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545280.867449"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545280.867449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:54</span><br/>
+your “game” is a state machine which defines the only valid inputs and transitions that any peer in the system can take
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545311.510979"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545311.510979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:55</span><br/>
+the crux is #3. Choosing an order is very hard. Croquet solves that by using relays as timestamp providers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545425.369189"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545425.369189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:57</span><br/>
+Ah, but the trick is that you <em>don't</em> have to choose an order :wink:. Not in general. There exist data models that allow for much more loosely structured interaction. In fact, you're the one who introduced me to those data models Chris! My research project over the last few years has been based on Datalog, extended with a declarative model of time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545498.103459"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545498.103459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 19:58</span><br/>
+unless you’re only allowing monotone programs, you’ll need an ordering once there’s communication
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545636.918759"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545636.918759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:00</span><br/>
+e.g. I don’t think it’s possible to guarantee a limited number of turns in one of your games without it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545660.879649"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545660.879649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:01</span><br/>
+Yes, a partial ordering. Real-time video games often do this by stratifying a game into "frames", and allowing players to simultaneously submit their actions for that frame. You'd do something similar.<br/><br/>The key idea is that the rules for how inputs affect each other are specified as part of the game rules. This is a good alternative to forcing a global order upon all inputs, as Croquet seems to do!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545742.608069"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545742.608069" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:02</span><br/>
+That's pretty much the Datalog philosophy: order emerges from the structure of rules. There is no total order imposed upon everything.<br/><br/>(This is also the philosophy required to develop distributed systems. If you want your distributed system to be scalable and responsive, it's often <em>not possible</em> to impose a total order on all events.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545885.328309"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545885.328309" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:04</span><br/>
+Yep, that’ll work for some programs :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672545905.299169"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672545905.299169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:05</span><br/>
+Peter Bailis’s IConfluence work explains exactly which ones
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546046.165909"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546046.165909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:07</span><br/>
+I mean, it can work for <em>all</em> programs, because a total order is just a special case of a partial order :unicorn_face:. If your program needs a total order, you can always impose one. But it can happen at the "game" level, not the programming language level. For example, if you think your game needs the "relay" architecture that Croquet uses, you can implement that at the game level. Instead of writing a game that clients play with each other directly, you write a game that the clients play with the relay.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546365.303359"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546365.303359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:12</span><br/>
+Sure, but at that point you’re right back at “present day.”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546491.273339"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546491.273339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:14</span><br/>
+In some sense, we’re saying you could relax #3 from the description of state machine replication and still have something useful, which is definitely true depending on the shape of the state machine
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546535.171139"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546535.171139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:15</span><br/>
+if the state machine happened to be IConfluent, then it’s guaranteed to be safely eventually consistent and we can just broadcast inputs everywhere and be good to go
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546637.627089"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546637.627089" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:17</span><br/>
+an interesting take on all of this, is rather than just leaving this “up to the game” why couldn’t the programming system determine where this type of coordination is necessary and have it handle these topological concerns for me?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546679.924809"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546679.924809" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:17</span><br/>
+we know programmers are pretty terrible at this stuff, so pushing it into the application layer is likely going to end up in something analogous to today
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672546942.230589"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672546942.230589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:22</span><br/>
+I think we're on the same page here — that's the solution I'm envisaging (and working on). I'm envisaging a programming language wherein you write these "games" using Datalog-style rules, which are partially ordered. Tuples would be stratified by timestamps similar to how it's done with Dedalus (I've been working on a generalization). Then, much of the explicit coordination logic is handled by the language runtime — e.g. the actual exchanging of messages between game-players. But there is always going to be <em>some</em> logic — such as fault-tolerance — which must be written into the game itself, because there is no blessed solution that will work for all games. For example, how to handle unresponsive players should be up to the game. Maybe the game waits indefinitely, maybe there's a timeout, or maybe the other players have to vote the unresponsive player out. (Standard mechanisms could be offered as <em>libraries</em>, but not as language-level constructs.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672547094.785329"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672547094.785329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:24</span><br/>
+I’ll be curious to see what it’s like programming with the time stratification. It led to a lot of unfortunate weirdness in Eve. It’d be awesome if you found something more natural :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672547315.068039"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672547315.068039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2022-12-31 20:28</span><br/>
+I believe I have! I'm working towards a shareable prototype as we speak. The hardest part has actually been figuring out a good syntax for it. I've had to invent a wholly different syntax to standard Datalog — something that is easier for us humans to read. I should have something to share in February. At least, that's when I'll have the time to work on it. Stay tuned :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672579347.339879"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672579347.339879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-01-01 05:22</span><br/>
+Hi Chris - can you elaborate on the "unfortunate weirdness"?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672581794.183839"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672581794.183839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2023-01-01 06:03</span><br/>
+We found that people struggled dealing with the implications of stratified time so we tried to hide it to some degree. We made it so that <tt>commit</tt> which permanently added a fact into the world and <tt>bind</tt> which only adds a fact for as long as it was supported represented T+1 and T respectively. For many things that worked well, but it can be very hard in multi-step processes to understand why something may not behave correctly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672581822.773259"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672581822.773259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2023-01-01 06:03</span><br/>
+More generally stratified time adds another dimension to the call graph, which is already a difficult thing to piece together
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672581900.505899"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672581900.505899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2023-01-01 06:05</span><br/>
+unlike in imperative programs, there’s no “starting” place so now not only do you have to consider the dependency graph of all the assertions in your program you now have to model an invisible timeline that indicates “when” those assertions happen
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672581916.166729"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672581916.166729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2023-01-01 06:05</span><br/>
+you <em>might</em> be able to paper over that with tooling, but it’s going to be complex either way
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672609772.280589"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672609772.280589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2023-01-01 13:49</span><br/>
+I'm leaning towards thinking that time is another domain or application level thing that the user or programmer deals with, but that they should be given engine support in that data should be both spatial /and/ temporal in its presentation to them. In other words, don't build in strict synchronisation because often best effort is good enough, but let them sew things together precisely temporally if their application needs it. Don't have always-reliable messaging, have best efforts and make it easy to define timeouts for important application protocols or interactions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672612206.844169"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672612206.844169" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2023-01-01 14:30</span><br/>
+In the language semantics I’m working on, time is application-level as you suggest. What’s built-in is the notion of stratification by inductive types (think Haskell ADTs), of which the natural numbers are a special case. Stratifying by natural numbers allows you to model linear time, but you can also stratify by other structures, which allows you to model bottom-up (memoized) recursion, a.k.a. “dynamic programming”. So my proposed semantics for time is also a semantics for provably terminating (or productive) non-monotonic recursion — something Datalog is sorely missing :innocent:. Concretely: this means you can model any iterative or recursive computation that you’d perform in an imperative language, by defining a (possibly non-linear) “virtual machine” that executes it. The state of the machine can be observed by supplying “timestamps” for the steps you want to observe. (For a dynamic programming algorithm, these steps are the cells of the table.) The end result is a <em>de facto</em> Turing-complete programming language built upon Datalog semantics. <em>De facto</em> because it‘s impossible to crash or hang your program — unless you invoke a computation that takes a long-but-finite time to resolve. For any Haskellers reading this: the semantics is a generalization of “recursion schemes”.<br/><br/>This may or may not make sense to anyone. I’ll be able to explain it properly once I’ve finished putting together the prototype. It might sound <em>complicated</em>, but I’ve been working on a syntax that (I hope) makes it feel simple. (And debuggers that <em>visualize</em> these dynamic processes are going to be important too.)<br/><br/>This stratification scheme would be a very general way to drive the “games” I’ve been talking about :innocent:. It’s a means of specifying partially-ordered <em>non-monotonic</em> computations.<br/><br/>(Apologies to readers who don't know what "monotonic" or "stratified" means. These are terms from the logic programming community. You'll encounter them in most Datalog tutorials.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672660135.808759"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672660135.808759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2023-01-02 03:48</span><br/>
+I get the feeling that <a href="http://bloom-lang.net/">bloom</a> is related to this:<br/><br/>Bloom is a language …<br/>… for disorderly distributed programming<br/> <em>because order is expensive</em><br/>… with powerful consistency analysis<br/> <em>CALM guidance on coordination</em><br/>… and concise, familiar syntax<br/> <em>based on data-centric languages</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672662324.435639"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672662324.435639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2023-01-02 04:25</span><br/>
+Indeed it is! Bloom is based on Dedalus, which I briefly mentioned above. They were both developed at UC Berkeley :slightly_smiling_face:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1672666753.552109"></a>
+      <img src="https://secure.gravatar.com/avatar/f521cc065bb724c90c57c263ec7ee857.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1672471217.151219.html#1672666753.552109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Naveen Michaud-Agrawal</b>
+<span style="margin:2em; color:#606060">2023-01-02 05:39</span><br/>
+This model also seems close to how DynamicLand's RealTalk system works. Pages (representing computational objects) don't communicate with each other, they just make claims and wishes and the runtime system resolves them (apparently at 60 times a second). In your description in the first post the RealTalk system provides the 'game rules'.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

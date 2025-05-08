@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-10 09:43</span><br/>
+Hi guys!<br/>I have an idea, I believe it must exists but can’t figure out the exact keywords.<br/><br/>First, let me enumerate the keywords which I think are related:<br/>• Transactions<br/>• OO<br/>• Eventstreams<br/>• “Transactions in OO” or “Transactions with Eventstreams”<br/>• Async &amp; Concurrent computation<br/>• Erlang / Akka<br/>• STM (too low level?)<br/>I want to create an object graph (or eventstream graph?) where objects do not have direct reference to each other, they only communicate via messages. Objects are nodes and there is an edge from o1 to o2 if o2 is subscribed to o1 (o1 dispatches events which o2 listens to). Objects supposed to be “Processes” similar to erlang, objects are some kind of an “Async Computation”.<br/><br/>Here comes the “new” stuff:<br/><br/>There is also a root “StateManager” node which is subscribed to messages contain data about “UPDATING EXISTING IDENTITIES” like “SetGlobalScore &lt;amount&gt;“, any “Async Computation” (object) which directly depends on changing data must subscribe to this root node.<br/><br/>If any data gets altered it does not happen immediately but via transactions. The computation which comes up with the new piece of data and wants to share it sends a message to the root “StateManager” node which handles the update.<br/>It must check if the data is in use somewhere down in the dependency graph (which I think might be a DAG with the exception of root node): if it is used, the computation might be interrupted (which is more like an exception in my mind) and the whole state might be rolled back to proper state or “handled properly”. If it is not used the state just can be updated: the root emits the message and it propagates down.<br/><br/>This is just the core idea and quite vague, but the general goal is to add some safety to concurrent programming.<br/><br/>Ah, and I’d like to do that everywhere, not just on server side but on client as well! :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576002587.303700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576002587.303700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-12-10 10:29</span><br/>
+This sounds a little bit like π-calculus — <a href="https://en.wikipedia.org/wiki/Π-calculus">https://en.wikipedia.org/wiki/Π-calculus</a> — but with a bit more stuff added on top.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576007860.304400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576007860.304400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-10 11:57</span><br/>
+Ty, I’ll check it out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576010402.309100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576010402.309100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-12-10 12:40</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> you've got me reading Milner's tutorial at <a href="http://www.lfcs.inf.ed.ac.uk/reports/91/ECS-LFCS-91-180/ECS-LFCS-91-180.ps">http://www.lfcs.inf.ed.ac.uk/reports/91/ECS-LFCS-91-180/ECS-LFCS-91-180.ps</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576010643.309300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576010643.309300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-12-10 12:44</span><br/>
+Let me know what you think. I've only gone as far as buying his book (&lt;https://archive.org/details/communicatingmob00robi&gt;) and reading the first few chapters. <em>So many things...</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576011596.309800"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576011596.309800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-10 12:59</span><br/>
+Seems useful for pi calculus:<br/><a href="https://www.youtube.com/watch?v=WO8rGA8AjD0">https://www.youtube.com/watch?v=WO8rGA8AjD0</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576042756.351400"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576042756.351400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-12-10 21:39</span><br/>
+My Beads language does this type of subscription system, with dependency analysis. Dependency analysis was really put forth in PROLOG, and we haven't seen much of it for a very long time. You are entirely correct that this approach solves some, but not all, issues of concurrent programming. It works wonders for multiplayer games, but does not solve the issue of contradictory transactions, which in business is not really done outside of bitcoin-like stuff, because once you transfer money to a bank account, there is nothing stopping the party from further transferring it; so one in general business does not presume unwindability. Traditionally you issue a credit or debit to cancel out the prior transaction, but you don't erase anything ever.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576065642.364100"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576065642.364100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-11 04:00</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span>  jesus! I was not aware of this but seems really close to my thoughts! (I've just checked a reddit thread by CodingFiend - its you right? :) ).<br/><br/>It is really interesting you mentioned Prolog, because I just wanted to add a question to this thread: if you (FoC) are aware of a language which uses declarative constraints + a solver as a robust glue between core pieces of code.   With loose declarative constraints instead tight/rigid imperative code seems inevitable to me if we want better programming environment. <br/><br/><span style="background-color:#ccf">@magicmouse94937</span>  is this something you have already considered, right? Where can I find more about your thinking process which lead you to beads?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576066473.368300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576066473.368300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-11 04:14</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span>  I asked the question because the links were down for the old site but now I found " <a href="http://beadslang.org/blog">http://beadslang.org/blog</a> " and I see the same expressions what I have "fed up with current complex programming" :) Do you have more on the design process? Can  try the lang / read a docs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576220663.395200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576220663.395200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-12-12 23:04</span><br/>
+you can take beads for a test drive at <a href="http://beadslang.com">beadslang.com</a>. I only have a 100 page user manual and a dozen examples so far. Mac or Windows required for development; emits web apps or using Haxe/Air can generate IOS/Android.  I use deduction to determine which part of the screen needs refresh automaticallly. Publish/Subscribe takes advantage of the same internal tracking system. Not a multithreaded system at present. Currently a few people are testing it while we keep on improving the documentation. There are various solvers in the product; one is the layout solver, where you declare the constraints on how you want the objects to be laid out and it does the final calculations. To make things look good on many screen sizes is a very tricky task, and my system aids a skilled programmer but the level of precision one needs to generate mobile apps that fit tight spaces i doubt will ever be easy for anyone. The only other solver in constants use is the rectangle solver. There was a sequel to Visicalc called TKSolver which allowed you to iterate and work backwards; Excel has some of those features, but TKsolver was very clever. I haven't seen anything like it since frankly. So many people working in ML now, solving a formula seems old fashioned.  The other area that is highly declarative is the schema designer for the graph database. in Beads you typically declare before you stuff the data into the graph the structure and type of the nodes, which allows the compiler to check for dumb errors. But that is nothing new.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576240475.002400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576240475.002400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-13 04:34</span><br/>
+Great, I'll check out.<br/><br/>So there is no generic solver like in Prolog which might determine the temporal order of things (just with more features and different approach)?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576383926.011700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576383926.011700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-12-14 20:25</span><br/>
+PROLOG to my knowledge is not a temporal solver, but is decision tree explorer, where you can ask hypotheses and it will do a backtracking search through this decision tree to find a winning match. It could also follow predicate chains; so you could say a dog is a mammal, all mammals nurse their young, and it could make the conclusion that dogs nurse their young. But as the 5th generation project found out to their dismay it is not a good general purpose language, and if you ask someone to make a payroll system in PROLOG they are in deep s**t. Even in areas where PROLOG would be expected to be great, like making a chess program, the winning chess programs use heuristics, and very careful pruning algorithms which PROLOG did not facilitate. I think PROLOG reflects the intrinsic problem of making something too closely tied to logic, and not enough practical aspects. Coq, Agda, and other languages exist which can prove programs correct, but making something useful in those languages is quite difficult. This has created a rather serious gulf between academic logicians and those striving to make a useful tool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576419341.012400"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576419341.012400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-15 06:15</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> This is why I am really excited about Idris. It wants to be a verifiable general purpose language with dependent types.<br/><br/>Programming hard in prolog: I think it reflects on the mostly procedural (temporal?) nature of the useful algorithms. Even in a declarative environment/language like prolog the procedural parts must be written procedurally (embedded in declarative abstractions) - and I think what turns out is that most of the code is procedural(/temporal?) so that’s why it’s not a huge gain itself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576461342.017200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576461342.017200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-12-15 17:55</span><br/>
+Idris was not intended to be a general purpose language. It can't draw in the language, it expects you to call a C compatible library for that. Don't get me wrong, Idris is indeed forward progress for the theorem proving crowd towards some semblance of practical use. But anyone in this day and age who ignores the protected arithmetic of Excel is not leading the charge. At least JS has a 3 valued boolean (Idris is stuck at 2). But Excel has a 4 value boolean which is the proper and final state.  There is a whole category of errors related to temporal bugs (i.e. doing something in the wrong order) related to drawing. Every time you change your underlying model in an interactive graphics programs you have to refresh the affected parts. Idris with all of its fancy powers cannot do this, because what is on the screen is outside of their fancy deductive runtime. And they should have included fuzzy logic (which Excel has by virtue of UNDEF# and ERR#) so that one can handle edge cases precisely. In real life some information is known to be missing or is erroneous. You can't pretend in a business program that you have perfect data. You have to account for missing and erroneous data. Maybe some Idris practitioners can rebut these statements, but i can't see Idris helping anyone bring simplicity to programming, which to me is the underlying goal of all of the Future of Computing initiatives. If we can't make it easier overall, then is it progress?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576546875.024600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576546875.024600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-16 17:41</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> From <a href="https://www.idris-lang.org/">https://www.idris-lang.org/</a> : “Idris is a general purpose pure functional programming language with dependent types.” - this is what I meant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1576568476.031200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1575999812.302200.html#1576568476.031200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-12-16 23:41</span><br/>
+I find Idris to be a very difficult language to learn. It has a lot of abstraction in its definition. People who are knowledgable in proof theory will like it, but for people with more ordinary math backgrounds it is DOA.  I would be keen to take some simple project and have someone do it in Idris, and I could use Beads to see how they compare. Maybe some simple graphical interactive project. When you take the same spec, and implement the task in two different languages, and put them side by side you can see much more clearly what is powerful about the runtime. Most languages today carry extremely powerful runtimes, and the syntax of the language can look simple, but not convey the power underneath. For example, the king of multithreaded languages is Erlang/Elixir, because their runtime can handle hundreds of thousands of threads no problem, because of the unique way they give each thread its own heap and stack, which permits super fast garbage collection and relaunch. You can't see this in the syntax, but it is one of its superpowers, and those in the biz know when they need massive multithreading, they reach for that tool.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1700405882.617679.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2023-11-19 06:58</span><br/>
+I built a Magic Inky interface at work a while back. A metadata editor that presented as a nested bulleted list of English sentences with clickable words, like:<br/><br/>“From [time T1] to [time T2], an [event type] happens with [property P], and it’s very [adjective].”<br/><br/>The event descriptions are highly multi-dimensional and resonate well with this information design, though the timestamps suffer a bit. They want to be on a timeline, but I didn’t have the budget. Despite this, the UI has saved us loads of time and people <em>love</em> the sentence-based configuration compared to the forty-column table of dropdowns they envisioned when I started the project.<br/><br/>The biggest failure was that enforcing a few global constraints was <em>also</em> outside my budget. Lacking those has led to data loss—never more than a few minute’s worth, but still. I felt bad. Thankfully, someone else recently picked up the project and will be correcting those omissions.<br/><br/>But we disagreed immediately on how to do it! I thought we should <em>present</em> the errors: “These events overlap!” The other person thought we should make the errors impossible: when you edit a timestamp, you implicitly edit all the others that are involved in the constraint.<br/><br/>I generally agree with their approach. I mean, it’s baked into the rest of the UI. When you change an event type, it changes the rest of the sentence. But if you change the type back, the sentence structure is restored and your previous values all come back. Cascading edits are more destructive than that. They force you to be careful about what you change and to be observant of unintended side-effects.<br/><br/>The block editor problem of representing invalid states is another way to look at it. Sometimes the most efficient path between two valid states passes through an invalid one. If you want to reorder two events, for example, a first step might be to copy the start and end times from one to the other, as part of an “a = b; b = oldA” sequence. They overlap until you’re done. To do the same without ever breaking global constraints requires user ingenuity or a more featureful editor with a “swap events” button. Requiring user ingenuity wastes a lot of time and energy and happiness over the lifetime of the UI, but observing users and adding features to address every desired editing operation takes a lot of dev time too, and it has to happen <em>now</em>, or else people editing this data will be blocked whenever they find an impossible edit.<br/><br/>Anyway, not too many answers here, but I thought it was an interesting case study, with thought-provoking <em>questions</em> at least!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700409466.535389"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1700405882.617679.html#1700409466.535389" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2023-11-19 07:57</span><br/>
+My bias is fewer smarts. Like you said, it sucks when one change changes many things. You can mitigate it with undo (which would then be essential), but even so things can change outside your field of view. You now need to be able to visualize everything that changed. There's seldom the budget for that, and probably for the best; I'm sure it'll lead to new problems.<br/><br/>Another reason to prefer lower smarts: Often there are multiple ways to propagate a change to satisfy the constraints. Which one should you choose?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1700453584.358159"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1700405882.617679.html#1700453584.358159" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2023-11-19 20:13</span><br/>
+Not sure if this is related, but I’ve recently noticed how disabled (greyed out, non-interactive) interface elements can be frustrating. If you put something invalid into a form, you usually get an error message which explains what was wrong. But there’s no similar convention by which disabled interface element explain WHY they’re disabled. The user sits in front of a mysterious, taunting disabled interface element, wondering why they can’t use it.<br/><br/>In other words: I’d rather get consistent options for interaction with fast feedback if there are problems than work with an interface that limits my interactions in unexplained ways.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

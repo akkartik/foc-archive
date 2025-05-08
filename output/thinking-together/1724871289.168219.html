@@ -1,0 +1,150 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1724871289.168219.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-28 11:54</span><br/>
+I’m trying to figure out why you (<span style="background-color:#ccf">@Ivan Reese</span>) think that using OhmJS to produce the wiki would create a dependency, while I (<span style="background-color:#ccf">@Paul Tarvydas</span>) don’t think so.  Here’s a diagram of how I understand the situation...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724911421.182709"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724911421.182709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-28 23:03</span><br/>
+In such discussions, always make the distinction between runtime dependencies and build dependencies. Basic example: for a C program, gcc (or whatever other compiler) is a build dependency: you need it to create a binary, but then you can throw it away. But glibc (under Linux) is a runtime dependency: you must have it to run the compiled C program.<br/><br/>In your diagram, OhmJS is a build dependency for tonedown.py.<br/><br/>The main insight behind the latest generation of package managers (Nix, Guix) is that build dependencies matter just as much as runtime dependencies for auditable and reproducible provenance tracking. In your example, any change to the specs requires rebuilding tonedown.py, so OhmJS is an important dependency, even if it is not required every time someone changes a Wiki page.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724911676.621719"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724911676.621719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-28 23:07</span><br/>
+Of course, that also holds for programming languages, which <span style="background-color:#ccf">@Ivan Reese</span> tried to play down yesterday. Compilers and interpreters can be nasty dependencies. Bugs and backwards-incompatible changes in them are a real pain. As an example, I see computational scientists slowly moving away from their pet language, Python, because they are fed up with the slow but steady stream of compatibility-breaking changes (in the interpreter and the foundational libraries) that make their complex programs return somewhat different results with each new version.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724912111.871079"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724912111.871079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-28 23:15</span><br/>
+So far for theory. In practice, some dependencies are more acceptable than others for pragmatic reasons. A C compiler is rarely critical: they tend to be stable, and there are lots of them. Stick to standard C and you can expect little trouble. Same for other standardized languages with multiple implementations (C++, Fortran, Common Lisp, ECMAScript ...).<br/><br/>Next are languages with only one major implementation, but backed by a team/community focused on stability. That covers Java, Clojure, and Lua, and possibly Ruby (which I don't know well).<br/><br/>Other uncritical dependencies are small convenience utilities that you could maintain yourself, or even rewrite if necessary.<br/><br/>There's of course another cost to dependencies: the cognitive effort for learning how to use them correctly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724926070.022919"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724926070.022919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-29 03:07</span><br/>
+Thanks! I might add:<br/><br/>There is a third kind of dependency - hidden runtime dependency. For example ‘f(x)’ implies that the given lump of code can <b>only</b> be used in systems that supply a function called “f”. This (deeply) impacts multiple-use of the lump of code and testability of the lump of code. The lump of code cannot be tested in a test jig unless “f” is supplied or stubbed out, i.e. the unit of code cannot be considered to be a “component”. Hardware designs get this more right through the use of very independent / isolated ICs. Unit tests in hardware documentation tend to be more concise and focussed and meaningful than software equivalents. [The ensuing question "Why?" interests me].<br/><br/>The cost of learning how a system works before maintaining it. This includes understanding all dependencies in the system (runtime, compile-time, hidden) and all paradigms used in the system. I am of the opinion that this cost is greater than the cost of learning multiple notations and convenience tools that are used for building the system. I am drawn to emphasizing (a) reduction of this kind of learning curve (b) dividing and conquering this kind of information, allowing one to understand everything about only <b>parts</b> of the system before performing maintenance without any surprises. Hidden dependencies tend to oppose the dividability / composability of such learning. Fundamentally, you have to know <b>everything</b> about a system before making any changes, or, you end up playing whack-a-mole with unexpected gotchas that are triggered by your changes. I have formed the opinion that you can best fix this problem by starting out with isolated units instead of backing isolation in later. (Analogy: “How do you build a light airplane? Build an airplane, then, add lightness.” - an overly difficult approach which tends not to work).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724932909.709209"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724932909.709209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-08-29 05:01</span><br/>
+Why do you call this a hidden dependency? In statically linked binaries, it is very explicit: the linker will tell you "missing symbol f" if f(x) is missing. In more dynamic languages, the error message may be deferred to runtime, but it's still very explicit, as in Python's "NameError: name 'f' is not defined".<br/><br/>But I fully agree on the second part. In terms of cognitive load, it's not the number of dependencies nor the size of the codebase (dependencies included) that matters.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1724935164.231319"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1724935164.231319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-08-29 05:39</span><br/>
+&gt; Why do you call this a hidden dependency?<br/>Probably because I haven’t found the words to express what I mean :slightly_smiling_face: . To me, ‘f(x)’ produces a mindset where it is OK to call outside of your “scope”, and, one tends not to even notice, i.e. it’s “hidden” (unrecognized) , AND, it is a (psychological?) dependency that you don't even notice that you're using. ... [working on an example as a way to further explain] ...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725121374.752729"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1725121374.752729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-08-31 09:22</span><br/>
+Backing up:<br/><br/>The primary goal of the project is to make a wiki that is nice to read. To that end, there's a build script that adds things like indexes and backlinks, maybe more stuff in the future.<br/><br/>The secondary goal is to make a wiki that is easy enough to write, for now, via GitHub. It doesn't have to be perfect, it's fine if it's a bit clunky. This will probably change — later.<br/><br/>The (distant) third goal is that people can check out the repo locally, and run the build script on their own machine. They might want to see how their writing will be processed without having to loop through GitHub. Or they might want to hack on the stylesheet, or the build script, or add some new dimension to the project that I haven't conceived of.<br/><br/>The (even more distant) fourth goal is to allow people to do stuff from the third goal without needing to run the "canonical" build script. One possibility here is that, if the build script is really simple, people might be able to rewrite the build script in other languages. The original build script would still be canonical — it's the one that GitHub runs, after all — but if a 90% (or 50%) port sufficed for whatever "third goal" thing someone wanted to do, that'd be cool and good and fun.<br/><br/>I have been sharing my thoughts about that distant fourth goal because I find it winsome. There's a Rosetta Code quality to it that makes me wonder a bit. It puts interesting pressure on how I think about the canonical build script, which I've found oddly productive.<br/><br/>What I haven't communicated very well is that I'm still trying to get the primary and secondary goals accomplished, and I'm not ready to get bogged down in considering the fourth goal. I mustn't let myself get distracted by it, because — and I can't stress this enough — the third and fourth goals are not essential to the success of the project.<br/><br/>So by all means, I love that you're playing in the space of that fourth goal. I'd just invite you to treat it as play, and not feel like you need to, say, change my mind about any of it. I don't have a strong sense of what's going on at that level yet, because I'm still trying to achieve the top two goals. Also, when considering that fourth goal, I invite you to think of the build script as a throwaway thing. I'd like there to be a canonical <em>social</em> understanding of the build script. If we somehow lost all the implementations, we'd just build a new one that did mostly the same thing. If it didn't quite work, we'd tweak it. I have no interest in treating the code or its execution as a source of truth, because the truth is just "do we like reading this wiki?" and that's going to change over time, and it's not a single concrete thing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725709936.778099"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1725709936.778099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-09-07 04:52</span><br/>
+&gt; Why do you call this a hidden dependency? (<span style="background-color:#ccf">@Konrad Hinsen</span>)<br/><a href="https://programmingsimplicity.substack.com/p/function-entanglement-vs-structured?r=1egdky">https://programmingsimplicity.substack.com/p/function-entang&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725782454.239199"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1725782454.239199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-09-08 01:00</span><br/>
+Thanks <span style="background-color:#ccf">@Paul Tarvydas</span>, that detailed discussion was very helpful! I now realize that what you call "hidden dependency" is something I have seen many times, but I tend to classify as "interface definition" rather than "dependency". For me, dependency relations are between two units of code, e.g. "unitA depends on unitB". What you describe is "unitA can only interface with units that have property X", with X in this case being "has name f". I have encountered name-based interface issues in OO (method names) but also in statically typed languages with nomainal types (type names).<br/><br/>Your solution is interesting but not the only one. The idiomatic Smalltalk solution would be (1) unitA uses a namespaced method name for the method name it expects from its partners, and (2) the glue code making the interface adds a same-named method as an extension method to unitB and unitC. Like your approach, it involves a distinct integration layer, but its techniques are very different. Yet another solution is to replace the fixed name by a parameter, e.g. via callbacks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725787765.272889"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1725787765.272889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-09-08 02:29</span><br/>
+Another aspect that impinges on my thinking, that I fail to mention, is that I think in terms of distributed machines. Something like 2 Arduinos that can only communicate via a thin, low-bandwidth wire. As I understand callbacks, they would not be practical in that situation (nor is RPC). In general, any solution that relies on shared memory tends to be impractical. Most existing programming languages wire shared memory into every app by default (due to 1950s biases towards "efficiency" for 1950s hardware). Most programming languages also need a 50,000,000 LOC substrate (i.e. "operating system"). [I first developed these ideas on bare hardware]. I suspect that I don't quite understand the idiomatic Smalltalk solution yet and am thinking on it... Is there an easy-to-find basic/early ref to this ($0.00)? I used to understand Smalltalk (in fact the first version of this stuff was done in Smalltalk-V), but I am more comfortable with Common Lisp these days. Further, I tend to want to break free of the 1-in 1-out discipline of function-based thinking (adding warts if you want to use exceptions). I think that electronics schematics-like thinking should map to software CAD. (<span style="background-color:#ccf">@Konrad Hinsen</span>).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725861460.748769"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1724871289.168219.html#1725861460.748769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-09-08 22:57</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I didn't read much Smalltalk theory, I just know the actual practice. The Common Lisp equivalent of the technique I described is unitA defining a generic function f and expecting unitB and unitC to provide methods for their respective objects. That's also a pattern I see in real life. In Smalltalk, it's a bit more complicated because there is a single globalnamespace for methods. If multiple units use the same method name privately, that's not much of an issue (except for making the system as a whole harder to understand), but for method names that are neither unit-local nor really global, the convention is to use a two-letter prefix to method names that identifies the package that owns it.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

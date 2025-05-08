@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-08-27 08:59</span><br/>
+Inspired by conversation last night at the virtual meetup, <a href="https://eli.li/to-the-surprise-of-literally-no-one-im-working-on-implementing-a-programming-language-all-my-own">I wrote a blog post to introduce the toy language I’ve been working on.</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756311426.824549"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756311426.824549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-08-27 09:17</span><br/>
+"That’s some baba yaga shit" (affectionate)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756311791.870299"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756311791.870299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-08-27 09:23</span><br/>
+didn’t mention in the post that the language is called baba yaga just so that I can have <tt>.baba</tt> or <tt>.yaga</tt> files
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756322106.908129"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756322106.908129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2025-08-27 12:15</span><br/>
+This is lovely! <br/><br/>Did you consider some sort of separator like <tt>|</tt> between guards/clauses? I've been reading Dijkstra's <em>Discipline</em>, and love the symmetry between his <tt>if ... | ... | ... fi</tt> and <tt>do ... | ... | ... od</tt> constructs. But your one liner conditionals are much harder to read than his. Particularly when (when!) you get to more than 2 cases on a line. (With 2 cases the <tt>_</tt> kinda saves your bacon.)<br/><br/>Then again, Dijkstra is designing for mutation. Maybe you won't need one liners with more than 2 branches..<br/><br/>Do you support curried functions with return types? Some potential for ambiguity there..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756322394.520429"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756322394.520429" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-08-27 12:19</span><br/>
+A copy pasta from baba yaga’s docs (which you of course haven’t seen because they’re just on my computer)<br/><br/><pre style="white-space:pre-wrap">### Curried Typed Functions<br/><br/>Curried functions take one parameter at a time and return functions for partial application:<br/><br/></pre>baba<br/>// Curried function with typed first parameter and function return type<br/>mul : (x: Float) -&gt; (Float -&gt; Float) -&gt; y -&gt; x * y;<br/>double : mul 2.0;          // Partial application: double : (Float -&gt; Float)<br/>result : double 3.5;       // 7.0<br/><br/>// Three-parameter curried function<br/>add3 : (x: Int) -&gt; (Int -&gt; (Int -&gt; Int)) -&gt; y -&gt; z -&gt; x + y + z;<br/>add5 : add3 5;             // add5 : (Int -&gt; (Int -&gt; Int))<br/>add5and3 : add5 3;         // add5and3 : (Int -&gt; Int)<br/>result : add5and3 2;       // 10<br/><pre style="white-space:pre-wrap"><br/><br/>### Function Type Syntax<br/><br/>Function types use the syntax `(ParamType -&gt; ReturnType)`:<br/><br/></pre>baba<br/>// Simple function type<br/>transform : (x: Int) -&gt; (Int -&gt; Int) -&gt; y -&gt; x + y;<br/><br/>// Function that returns another function<br/>makeAdder : (x: Int) -&gt; (Int -&gt; Int) -&gt; y -&gt; x + y;<br/>add5 : makeAdder 5;           // add5 : (Int -&gt; Int)<br/>result : add5 3;              // 8<br/><pre style="white-space:pre-wrap"><br/>Heads up! Complex nested parameter types like (f: (Int -&gt; Int)) aren't implemented. The first parameter must use simple types like Int, Float, String, or Bool.</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756322498.231949"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756322498.231949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-08-27 12:21</span><br/>
+as for the <tt>|</tt> — I hadn’t considered it, mostly because I wanted to see how far I could get without having to add extra stuff like that, but I agree, especially for deeply nested <tt>when</tt> statements it can get kinda gnarly — I have a sort of functional <tt>fmt</tt> command, a la Go’s <tt>fmt</tt> that <em>mostly</em> resolves the issues by enforcing some strict, more legible formatting, but I likely will need to noodle on it further
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1756347770.237109"></a>
+      <img src="https://secure.gravatar.com/avatar/f70d12f2630b6c2a0854e3bef118e73c.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1756310381.772759.html#1756347770.237109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Eli Mellen</b>
+<span style="margin:2em; color:#606060">2025-08-27 19:22</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> — this doesn’t include the <tt>fmt</tt> command because I found it to be buggier than I realized, but, <a href="https://smallandnearlysilent.com/baba-yaga/">I’ve cobbled together a playground where you can actually evaluate code! </a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

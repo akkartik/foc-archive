@@ -1,0 +1,235 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2024-09-25/7807695316512_bcf86f2e207ef54d3bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tomas Petricek</b>
+<span style="margin:2em; color:#606060">2024-10-01 16:59</span><br/>
+This is a very random thought - but something that I've been occasionally wondering for some time now. If we have lambda calculus as a model of functional languages and Turing machines as a model of imperative languages, what would be a good model for programming systems that have "document" as the basic underlying structure (Subtext is an example of this) - i.e., you have some tree structure and the program evaluates by modifying this document - appending new things or rewriting evaluated bits. (Lambda calculus itself is basically a tree, but what if this also allows imperative document edits?)<br/><br/>Could this be something like a "Turing machine" that works on trees rather than tapes? There would be "current location" which can move in various ways around the tree and modify it. If your document has references (perhaps you can have <tt>../../foo</tt> to refer to <tt>foo</tt> of a parent of a parent), the machine would have to somehow walk up the tree, remembering that it wants to copy a value back to the original location - and then walk over the tree back to put the value in place of the reference).<br/><br/>Is this something completely silly or something that lots of people have already done but under different names?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727839827.395039"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727839827.395039" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2024-10-01 20:30</span><br/>
+I might be missing some nuance here. But what you are describing sounds to me pretty similar to term or graph rewriting systems. <a href="https://en.m.wikipedia.org/wiki/Rewriting#Term_rewriting_systems">https://en.m.wikipedia.org/wiki/Rewriting#Term_rewriting_systems</a> They are Turing complete formalism. And there has been plenty of working using them for transforming documents, but also general evaluation. They do work exactly as you described. You have a tree structure and you modify it by rewriting things. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727847147.660189"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727847147.660189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-10-01 22:32</span><br/>
+Supporting <span style="background-color:#ccf">@Jimmy Miller</span>'s suggestion because that's exactly how my <a href="https://leibniz.khinsen.net/">Digital Scientific Notation</a> works. It's a term rewriting system embedded in a Wiki-like graph of cross-linked pages.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727849045.817219"></a>
+      <img src="https://avatars.slack-edge.com/2023-10-13/6057269405632_8ea58fc41bd6baa7dda6_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727849045.817219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jack Rusher</b>
+<span style="margin:2em; color:#606060">2024-10-01 23:04</span><br/>
+Note also that Lisp was originally conceived of as an automated form of term rewriting, the keyword “lambda” having been borrowed based on an incomplete understanding of Church’s paper. The first Lisp that was actually based on the lambda calculus was scheme.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727857436.296279"></a>
+      <img src="https://avatars.slack-edge.com/2018-12-18/508431502471_8073c43d5d8dd3d3b4b2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727857436.296279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Duncan Cragg</b>
+<span style="margin:2em; color:#606060">2024-10-02 01:23</span><br/>
+you're getting some "already done under different names", so I'll add mine! my PL is really just a graph rewriter.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727879746.740669"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727879746.740669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-10-02 07:35</span><br/>
+<span style="background-color:#ccf">@Robin Allison</span>'s <a href="../linking-together/1727247298.811129.html#1727247298.811129">recent idea</a> seems tantalizingly related, but breaks my brain to think about..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727906391.078199"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-25/7807695316512_bcf86f2e207ef54d3bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727906391.078199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tomas Petricek</b>
+<span style="margin:2em; color:#606060">2024-10-02 14:59</span><br/>
+Term rewriting is a nice reference I did not think of! I guess one difference between those and what I've been thinking about is that I imagined that you'd have a special "current" location in the tree (like instruction pointer...).<br/><br/>You can certainly do this with term rewriting systems too though, if you just have a special term like <tt>[X]</tt>  that marks the term/tree node <tt>X</tt>  as being the current one.<br/><br/>I guess term rewriting systems are basically how people define operational semantics of programming languages. It's strange people do not talk more about the connection between the two!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727906657.735399"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-25/7807695316512_bcf86f2e207ef54d3bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727906657.735399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tomas Petricek</b>
+<span style="margin:2em; color:#606060">2024-10-02 15:04</span><br/>
+<span style="background-color:#ccf">@Robin Allison</span>'s idea reminded me of something I wrote about in a post inspired by spaces in cities (see <a href="https://tomasp.net/blog/2023/vague-spaces/">https://tomasp.net/blog/2023/vague-spaces/</a>) There are some thoughts about how programs live in a different kind of space than cities (which have fixed space they have to fit into, whereas program spaces can expand - but spreadsheet space expands in only limited ways - you cannot create arbitrary amount of space in any particular location - which I guess this idea was getting at?).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727907073.490539"></a>
+      <img src="https://avatars.slack-edge.com/2024-09-25/7807695316512_bcf86f2e207ef54d3bda_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727907073.490539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tomas Petricek</b>
+<span style="margin:2em; color:#606060">2024-10-02 15:11</span><br/>
+... but using some kind of term rewriting system as the basis for document-like programming systems seems like a nice way of doing things - and it looks like there's lots of (some, at least) people here thinking in this direction!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727936087.586529"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727936087.586529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-10-02 23:14</span><br/>
+Maybe term rewriting systems <em>should</em> have something like a "current node". Rule application order is something usually swept under the rug. It's there, but everybody hopes it doesn't matter, and it's usually implicit (part of the rewriting engine) rather than explicit (part of the rule set).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727936520.898839"></a>
+      <img src="https://secure.gravatar.com/avatar/f5f4ac5375e539e50ceedb08f65e9dd3.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727936520.898839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robin Allison</b>
+<span style="margin:2em; color:#606060">2024-10-02 23:22</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> I think there might be a connection here too. I don’t know if I can speak to document-based languages in general, but at least for subtext, there is the loose connection in that both are based on spreadsheets. Beyond that non-abelian spreadsheets serve as mathematical models, although they aren’t models of computation specifically. They actually take computation mostly for granted, although I think that can be an interesting perspective too. When I was first reading Tomas’ question it occurred to me that non-abelian spreadsheets could be thought of as a model of the ‘document’ part of ‘document-based programs’.<br/><br/><span style="background-color:#ccf">@Tomas Petricek</span> Part of the point is absolutely that the space these things is is fixed, has particular characteristics, and is not created arbitrarily. I’m not sure if this makes them less like regular programs though. Generally the space of a non-abelian spreadsheet is far more expansive than the two dimensional space of a spreadsheet or paper or city. For one the “two dimensional” non-abelian spreadsheet has uncountably many cells, whereas a normal spreadsheet has countably many cells. And this only gets worse in the countably infinite dimensional case you need to account for syntax trees.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727954487.856939"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727954487.856939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-03 04:21</span><br/>
+<span style="background-color:#ccf">@Tomas Petricek</span><br/>1) WRT to "current node", we already know how to do this using textual code and have many programming languages for this purpose. So, divide-and-conquer says that all you need to do is to map "trees" onto textual code, then you're done.<br/><br/>2) Here is my (probably over-simplified) understanding of term rewriting augmented by the concept of "current node":<br/><br/>1. Programmer writes an AST (the "inhaler AST")<br/>2. Programmer writes a 1:1 corresponding rewrite AST that dove-tails with the inhaler AST. (Or, programmer annotates the above inhaler AST (this, though, violates the principles of KISS and human-readability))<br/>3. Term rewriter app inhales linear text and makes a CST (concrete parse tree) by culling the AST driven by the inhaled text (commonly known as "parsing")<br/>4. Term rewriter app walks the rewrite AST using the newly-created CST.<br/>5. Term rewriter app unparses the rewritten walked-tree into (new) linear text ("code").<br/>6. Run the generated code.<br/>If that's even close to what you're imagining, then I contend that this is "easily possible" to do using modern technology whilst loosening the thumbscrews, i.e. using OhmJS plus a nano-DSL written in OhmJS. I call it "t2t" (text-to-text transpilation) and am actively experimenting with it and its implications (meta-syntaxes, metaprogramming, etc.). More info/blather/discussion if interested.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1727961243.777349"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1727961243.777349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-10-03 06:14</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> The problem with your proposal is that it doesn't fit the way rewriting-based documents are used in practice. They are more like spreadsheets. The fundamental action of the computer is not "run a program" but "update everything after the user has made a change to the document". The point of a "current node", as I see it, would be to make it clearer to the user what exactly happens during such an update. It's more of a user interface than a programming issue.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728035142.700859"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728035142.700859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-04 02:45</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Continuing to ponder, some half-baked thoughts:<br/>1) "run a program" and "update everything after the user has made a change to the document" are the same thing, except maybe differing in speed ; if your machine is fast enough, there is no point in trying to optimize the update by keeping update pointers, just re-do the whole thing in one fell swoop so fast that a human user perceives them to both be the same ; you want the action(s) to "feel" like a REPL<br/>2) possible relationship: "... current node ... a user interface than a programming issue ..." ; Lisp lists are "trees". I use a Lisp debugger (Lispworks) that lets me single step through Lisp code ("trees") in the same way that an assembler debugger lets me step through lines of code ; does this sound like "current node"-iness?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728132331.851319"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728132331.851319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-10-05 05:45</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> I guess we first have to agree on what we mean by "program", in particular if and how it is distinct from "input data". At the bit level, there is no such distinction. Both program and input data are bit patterns in memory that the computer acts on. But in what I see as the most common usage of the term, a "program" is something long-lived that reads "input data" for one of its many execution phases. With that distinction in place, it's the rewriting engine that is the program, and all the rules and terms/graphs to be rewritten are input data. Just like Excel is the program and all of the spreadsheet, including the formulas, is input data. But if you look at it from the point of view of semantics, it's the rewrite rules that are the program. Which are changed all the time in a computational document. Describing the interaction between a human and a computer via a rewriting-based document is running generated code is not wrong, but it's not helpful either unless you are thinking about writing a rewrite rule compiler.<br/><br/>As for 2), that's a very nice example. But I haven't seen anything similar for rewriting. I tried building my own, but gave up because it turned out not to be that useful. I came up with different debugging tools, none of which traces the work done by the computer.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728176946.384549"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728176946.384549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-05 18:09</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span>, You touch upon a good point. My feeling about "what is a program" is somehow different and I'm struggling to put it into words.<br/><br/>Observation / pondering: control flow is not data. Smalltalk's encapsulation of data is not sufficient to isolate control flow, like how Unix pipelines isolate control flow.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728203918.216799"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728203918.216799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-10-06 01:38</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Smalltalk is an interesting case. Control flow in Smalltalk is entirely implemented in terms of the method dispatch algorithm. That's similar to rewrite engines in that it's hidden from view. All you see in the code is messages sent around.<br/><br/>That's somewhat unrelated to your observation that data encapsulation doesn't imply control flow encapsulation. Or maybe it is related. I am decided for now.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728210579.504329"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728210579.504329" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-06 03:29</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> Aye, and there's the rub. In my books, Smalltalk does not do message-passing (!). Smalltalk does method-calling. Method-calling involves blocking. Blocking is usually implemented as a state machine that performs low-level synchronization. In my mind, message-passing is "fire and forget".<br/><br/>Blocking mixed with FTL (faster-than-light) rewriting ("referential transparency") works when your medium is paper, but, is overly-restrictive when your medium is reprogrammable electronic machines (aka "computers").<br/><br/>Continued...<a href="https://programmingsimplicity.substack.com/p/control-flow-is-not-data?r=1egdky">https://programmingsimplicity.substack.com/p/control-flow-is-not-data?r=1egdky</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1728223573.895489"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1727827197.316359.html#1728223573.895489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-10-06 07:06</span><br/>
+FWIW, some brainstorming, trying to get back to the original question <a href="https://programmingsimplicity.substack.com/p/tree-current-node-brainstorming?r=1egdky">https://programmingsimplicity.substack.com/p/tree-current-no&hellip;</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-03-01 22:32</span><br/>
+Was thinking about <span style="background-color:#ccf">@Shalabh</span>'s idea about abstracting away from DB<br/><br/>We work with SQL table pretty much same way we would work with lists or sets locally. Find, select, filter, sort, insert.<br/>What if we split application in two distinct parts:<br/>1) where we work with data, do business logic. We globally specify data structures we want to use (set, queue, stack, dict) and number of template requests that work with them. Then we just implement our business logic using these data structures.<br/>2) where we configure storage for data structures defined in first part. This code takes info about used data structures and requests, statistics of use. It selects appropriate database engine (or may be several for different data structures) and generates schema that fits description given in 1). It should also be possible to manually specify desired database engine. The choice of database engines for different data structures is limited by how they are used.<br/><br/>When description of used data structures is changed, then it may require migration in 2)<br/><br/>This will greatly simplify programming. It reminds ORM, but taken on whole different level.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551526031.023200"></a>
+      <img src="https://avatars.slack-edge.com/2018-09-11/433781465829_7c31dc735c6c1257fe1f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551526031.023200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Krouse</b>
+<span style="margin:2em; color:#606060">2019-03-02 03:27</span><br/>
+I think <span style="background-color:#ccf">@Jonathan Edwards</span> and <span style="background-color:#ccf">@Michael Arntzenius</span> would have things to add here. Jonathan on adding the database to code, and migrations, and Michael on making code data structure operations fast by using optimizations from the db literature
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551526452.023400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-13/399377633206_43873346f949174e340e_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551526452.023400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Felix Kohlgrüber</b>
+<span style="margin:2em; color:#606060">2019-03-02 03:34</span><br/>
+You mean like programming your business logic against Abstract Data Types (<a href="https://en.m.wikipedia.org/wiki/Abstract_data_type">https://en.m.wikipedia.org/wiki/Abstract_data_type</a>) and choosing appropriate implementations (dbs / data structures) afterwards?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551527622.023700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551527622.023700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-03-02 03:53</span><br/>
+Imagine that you work with job queue, and write business logic around it.<br/><br/>There might be three different configurations of the same app:<br/><br/>1) in-memory queue<br/>2) queue via table in postgresql<br/>3) queue in redis<br/><br/>You can use any of those without touching business logic that you've written, simply by changing configuration.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551561954.091000"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551561954.091000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-02 13:25</span><br/>
+Is there a specific comment you are referring to <span style="background-color:#ccf">@Vladimir Gordeev</span> Most recently I tweeted a bit about how DBs shouldn't be a separate service: <a href="https://twitter.com/chatur_shalabh/status/1090677577918775296">https://twitter.com/chatur_shalabh/status/1090677577918775296</a>. In general I agree with your idea. In theory switching out a queue implementation is possible with class or module based abstraction but the 'coupling' of the higher level code is still deeper. E.g. the code that uses a simple list looks very different from something that uses a class that abstracts away writes to a queue service. Can we make it look like the simple case, but separately (in a separate layer?) map the higher level operations to the next lower level details, such as list X is local, list Y is a remote queue implemented here, etc.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551604881.101800"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551604881.101800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-03 01:21</span><br/>
+In my design, the database and drawing system are tightly integrated into the language itself, so that one can define data structures (which imply some kind of database, that the program doesn't have to know the details of, just that it exists), and at the beginning of each program you define the data structures and type of quantity for each node of the graph database that will be filled in later with data. It is very much as Gordeev suggests. Then there is drawing code, event handling code, and a small bit of business logic related to operations triggered by the event handlers. The program is structurally segregated, which makes for easier comprehension. By the way, on every product i can think of the business logic was a small part of the overall code words; most of the words are devoted to drawing, which is always a very tedious aspect, especially now that we are in the era of extreme wide ranges of device resolutions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551606043.107700"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551606043.107700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-03-03 01:40</span><br/>
+&gt; E.g. the code that uses a simple list looks very different from something that uses a class that abstracts away writes to a queue service<br/><br/>when you use queue service, then read from queue may fail. Also you need to ack the consumption, which may fail too.<br/><br/>We can define same interface that takes that into account for both remote and local queue.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551606220.108100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551606220.108100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2019-03-03 01:43</span><br/>
+I think it's possible to find such an interface, that would free user from thinking is it remote or local.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551641894.120500"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551641894.120500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-03 11:38</span><br/>
+Also, something like a queue is a distribution concern and perhaps not meaningful if we think about business logic? Is it possible to program with higher level models and how these get implemented would be specified in separate layers.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551646353.120700"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551646353.120700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-03 12:52</span><br/>
+Finite State Machines are a big part of every game and almost every program has a few small FSM's inside. I devoted a special syntax to notate them, as it is such a common occurrence. However from a word-count point of view the FSM's are tiny. Since most programs imitate some human-evolved system, the logic just isn't that complex.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551746577.167400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551746577.167400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-03-04 16:42</span><br/>
+<span style="background-color:#ccf">@magicmouse94937</span> - interesting stuff - is there more information publicly available about the Beads Project?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1551780710.169200"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1551508329.022600.html#1551780710.169200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-03-05 02:11</span><br/>
+there is some notes about it on my blog at <a href="http://e-dejong.com">e-dejong.com</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

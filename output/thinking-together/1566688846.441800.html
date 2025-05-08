@@ -1,0 +1,247 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-24 16:20</span><br/>
+In most programming languages, when you define a composite type (e.g. <tt>class User {string name}</tt>), you define both - the business shape ('a user entity has one name') and also the memory layout used to represent it internally. Are there any languages that let you define these separately?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566694942.443200"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566694942.443200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-08-24 18:02</span><br/>
+Classes in languages like C++/C#/Java define both the type of entity and the memory layout for it. Languages like Haskell treat types more like an abstract algebra over combinations of data.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566747978.456100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566747978.456100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-08-25 08:46</span><br/>
+Almost all languages you don't really define the memory layout, because you have only 1 choice. Languages that give you &gt;1 choice for layout are typically very low level.. and in those if you want to not hard-code that choice you use.. templates? :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566750950.456300"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566750950.456300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-25 09:35</span><br/>
+Yes that's what I mean. You don't get any choice and the 'definition' implies both - the data model and the memory layout. Even in Haskell where you define only algebraic data types, and implicit layout is provided by the language. In C it seems like the memory layout is more explicit, though you're still defining a data model. Maybe some trickery is possible with C++ templates but it seems really clunky to do it everywhere. What I'm looking for is languages that explicitly support the notion of <b>data type only</b> and separately <b>mapping to bits</b> - potentially even support multiple representations at the same time in different places. The motivation is our business logic should not be coupled to lower level details, but optimization should still be possible - separate 'design' from 'optimization' in some sense. Here's a related post from before: <a href="../linking-together/1562010026.133300.html#1562172714.184400">../linking-together/1.562172.html&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566751384.456600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566751384.456600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-08-25 09:43</span><br/>
+I'm not sure I follow.. in some sense, Java, Python, Haskell.. these languages you define data type only, since mapping to bits is either mostly invisible to you or not under your control anyway.. are you saying you want a low level language where flipping between, say, inline and heap allocation of members is more convenient than with templates or whatever?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566751760.456800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566751760.456800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-08-25 09:49</span><br/>
+maybe you should give an example
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566763148.458600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566763148.458600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-25 12:59</span><br/>
+How about in Jai, where you choose whether to store collections as AOS vs SOA? That's a language-level feature (whereas in C, you still do AOS vs SOA, but you do it manually IIRC)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566763254.458800"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566763254.458800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-25 13:00</span><br/>
+I think that should count as separately defining the "business shape" — <em>this is a collection of structs with these fields</em> — and the memory layout — <em>this is to be stored as a struct of arrays, since that better matches my access pattern and better leverages the cpu caches</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566763515.459000"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566763515.459000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2019-08-25 13:05</span><br/>
+I've also seen something like this in Clojure. For instance, Karsten Schmidt's <a href="http://thi.ng">thi.ng</a> geom library is full of functions that operate on various kinds of vector, which have an explicit sense of the data type (vec2 vs vec3 vs arbitrary dimension vector).. but the underlying bit representation in memory is left up to the programmer — it just needs to support positional access by conforming to the appropriate Clojure protocols.<br/><br/>Also, what about swizzling? Would that count? That tends to be offered as a language level feature for handling separately the memory layout of fields and their meaning.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566821720.463500"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566821720.463500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-08-26 05:15</span><br/>
+There is a seriously neglected research area that addresses the approach wherein you leave it to a compiler to select the byte layout for you (rather than making the choice yourself). The research area is "data structure synthesis" or "data representation synthesis". You can google these terms to find the relevant literature. I'd love to hear from anyone that knows something about how data structure synthesis has been (or could be) applied in a general purpose language.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566838055.464600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566838055.464600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 09:47</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> yes the Jai's AOS/SOA is a great example is great and kind of the thing I'm looking for - I didn't know you could do that.<br/><br/><span style="background-color:#ccf">@Wouter van Oortmerssen</span> the main idea is that there's a 'business shape' as Ivan called it, and a separate mapping onto memory bits (and other implementation details). In languages where you don't define the latter, a default mapping is provided for you. Unfortunately this may not always be optimal. To take a simple example, objects are always stored as references in Python so a string attribute is a pointer to a string object. Strings are immutable so I should be able to <b>easily</b> say, for this class, store this attribute inline (i.e. embedded). So whenever you assign 'obj.strvalue = something', it would get copied (no refcount update). In Python you can write a custom C extension that does this, but it's too much work and not available within Python itself. C++ has copy constructors but they only work very isolated cases because the machine types (<tt>char *</tt> etc) are exposed and pervasive across APIs.<br/><br/>The motivation behind this is that I should be able to design with and write 'pure business logic' (for lack of a better word) without consideration of memory layouts and other lower level details, but also be able to specify these details separately. So if I change the memory layout, my business logic code doesn't have to change one bit. The business logic should only be coupled to the business shape. Consider how often in C++ a bunch of code will need to change if I switch from using a pointer to a reference. I also would like to do more advanced things, taking the Python example again, I may want to say that one attribute is always stored in a specific arena in memory. So whenever you assign to this attribute the value gets copied to the arena and aggregate operations on this attr become very fast. This would have to be baked into the language from the start - so <tt>map</tt> etc can be designed to be aware and use the internal structure of things. The ultimate extension of this idea is that you can take the same 'business logic' code and run it in a distributed fashion, but just providing a different implementation mapping.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566838339.464800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566838339.464800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 09:52</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> - thanks for the pointers - will check them out.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566872812.469400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566872812.469400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-08-26 19:26</span><br/>
+The problem with decoupling that more than say C++/Rust manage to do is that the representation matters a whole lot for how it is used.. if for example I pass on an array element to other code, its representation may determine its lifetime (who owns it), wether it is copied, or has object identity in comparison, and in the case of SOA the fields may not even be adjacent in memory which poses further challenges. And you don't necessarily want the above issues to be fully transparent either, given that you obviously must care about performance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566881776.469600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566881776.469600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-08-26 21:56</span><br/>
+Yes I agree lifetime is another gnarly issue related to this. It is one of the other implementation details often implied by the schema definition. I don't think C++/Rust have really explored everything though. While a simple lifetime policy that works for business models is 'anything reachable is alive' (Python, Java, etc.) it leads to the generally slower GC model. We do have to care about performance, the question is whether the performance related details can be separated from the business logic. Which is why I'm looking for other examples.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566883089.469800"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566883089.469800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-08-26 22:18</span><br/>
+I don't think you can. But lifetimes being part of the business logic is actually kind of nice. Who really "owns" data? What business do you have looking at data that was owned after the parent has died?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566900105.470200"></a>
+      <img src="https://secure.gravatar.com/avatar/e52a48f76fc911d40711f788d74773a0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566900105.470200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brendan Zabarauskas</b>
+<span style="margin:2em; color:#606060">2019-08-27 03:01</span><br/>
+Ahh, I’ve been thinking about this for Pikelet! <a href="https://gist.github.com/brendanzab/eba7015e6345abe79a57a704091820bb/#high-level-declarative-descriptions-of-data-types-are-conflated-with-low-level-data-layout">https://gist.github.com/brendanzab/eba7015e6345abe79a57a7040&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566900240.470500"></a>
+      <img src="https://secure.gravatar.com/avatar/e52a48f76fc911d40711f788d74773a0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566900240.470500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brendan Zabarauskas</b>
+<span style="margin:2em; color:#606060">2019-08-27 03:04</span><br/>
+I’d like declarative data descriptions separate from where I ultimately decide how things are going to be laid out/allocated/packed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566900330.470700"></a>
+      <img src="https://secure.gravatar.com/avatar/e52a48f76fc911d40711f788d74773a0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566900330.470700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brendan Zabarauskas</b>
+<span style="margin:2em; color:#606060">2019-08-27 03:05</span><br/>
+I was thinking perhaps some multistage programming could be leveraged here. Getting it to work nice and ergonomically could be a challenge.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566900548.471000"></a>
+      <img src="https://secure.gravatar.com/avatar/e52a48f76fc911d40711f788d74773a0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566900548.471000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brendan Zabarauskas</b>
+<span style="margin:2em; color:#606060">2019-08-27 03:09</span><br/>
+I have some papers I’ve come across further down: <a href="https://gist.github.com/brendanzab/eba7015e6345abe79a57a704091820bb#a-marriage-of-high-and-low-level-data-type-programming">https://gist.github.com/brendanzab/eba7015e6345abe79a57a7040&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1566908920.471600"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1566688846.441800.html#1566908920.471600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-08-27 05:28</span><br/>
+Note that AoS/SoA can be solved in existing languages with type parameters / “Higher Kinded Data”
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

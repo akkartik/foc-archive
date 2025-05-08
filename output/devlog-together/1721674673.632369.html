@@ -1,0 +1,126 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-22 11:57</span><br/>
+For the past month I've been doing something very unnatural for myself: "throwing the first one away." Going back and rewriting an aspect of a working program just to improve one property of the <em>code</em> rather than the behavior: eliminating all derived data structures and re-deriving everything all the time in a performant way.<br/><br/>The result is a simpler API that seems applicable to pixel-based editors that use proportional fonts. Basically the problem is: as you do line-wrapping on a screen, how do you deal with interactive operations like clicking at a pixel coordinate or pressing the down arrow (which might result in a scroll). These primitives seem to make the implementation fairly self-evident: <a href="https://git.sr.ht/~akkartik/lines2.love/tree/main/item/move.lua#L11-28">https://git.sr.ht/~akkartik/lines2.love/tree/main/item/move.lua#L11-28</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725335659.871449"></a>
+      <a href="../devlog-together/1721674673.632369.html#1725335659.871449" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-09-02 20:54</span><br/>
+Now that I have a nice design for a text editor widget, I've been putting it through its paces, particularly for ideas like syntax highlighting and something I call "syntax geometry". Here's a kinda whimsical toy where '+' flips the direction of writing from horizontal to vertical and <em>vice versa.</em> I only had to put this rule in in one place, and all my support for editing, moving and clicking on the screen to position the cursor continues to work.<br/><br/>(I did need to generalize a couple of things to get to this point.)<br/><br/>Can anyone think of potential uses for syntax geometry?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725342314.166969"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725342314.166969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-09-02 22:45</span><br/>
+Really interesting! Reminds me of <a href="https://dorianbrown.dev/befunge/">Befunge</a> for some reason.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725344767.707229"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725344767.707229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-09-02 23:26</span><br/>
+Also some talk by Alan Kay where he shows a DSL based on ASCII representations of diagrams, used for implementing a network stack.<br/><br/>But then, if I give up the simplicity of linear chains of characters, I guess I'd go for real diagrams without the limitation of the character grid. Like <span style="background-color:#ccf">@Paul Tarvydas</span> does.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725345407.757489"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725345407.757489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-09-02 23:36</span><br/>
+There's no character grid here since it's a proportional font :slightly_smiling_face:<br/><br/>My very simple motivation here is WYSIWYG experiences for notations <a href="http://canonical.org/~kragen/sw/dev3/rpn-edit#2015_1975_-_365_1_4_/<em>+</em>*_17_31_30_8_-<em>+</em>+_365_1_4_/_+_14_19_3_+<em>+</em>+_/">like</a>:<br/><pre style="white-space:pre-wrap"> 1<br/>---<br/>n+1</pre><br/>Or math summation notation.<br/><br/>So there isn't a clear line here between linear chains of characters and "real" diagrams. The membrane is porous.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725349222.814729"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725349222.814729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-09-03 00:40</span><br/>
+I immediately thought about ASCII diagrams, if the direction can be any of right, down, left, up it would make it really easy :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725357203.250829"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725357203.250829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-09-03 02:53</span><br/>
+for fun, try to use em-dashes instead of "abcdefgh" and or-bars for "ijklmn" (em-dash  == minus sign that's just a bit longer and contains no white pixels at the ends of the dash -- could use minus sign as above, leaving the result looking "dashed" (as above 1/(n+1)), and "or bar" == "|"). And, try Unicode instead of ASCII --&gt; many more possibilities (incl. arrowheads and the like). Once done, pour it through t2t (text-to-text transpilation) to transpile to LaTeX (i.e. use LaTeX as assembly code).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725359467.553559"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725359467.553559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2024-09-03 03:31</span><br/>
+FWIW, the above comments about "grids" led me down this path: <a href="https://programmingsimplicity.substack.com/p/character-grids-vs-overlapping?r=1egdky">https://programmingsimplicity.substack.com/p/character-grids&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725373126.089599"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725373126.089599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2024-09-03 07:18</span><br/>
+There's an interesting difference between what you've made, Kartik, which I would describe as a "first-person draw-er" and something like <a href="https://monodraw.helftone.com">Monodraw</a>, which I would describe as a "third-person draw-er", to borrow from video game jargon. I wonder what other ideas would support the first-person approach.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1725431176.793149"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1721674673.632369.html#1725431176.793149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-09-03 23:26</span><br/>
+"First-person drawer" makes me think of Logo's turtle graphics. Which looks indeed much like what <span style="background-color:#ccf">@Kartik Agaram</span> is doing here.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,277 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-13 11:18</span><br/>
+I'm at an impasse with my project of a live-updating postfix programming environment (<a href="../two-minute-week/1607329853.147000.html">../two-minute-week/1607329853.147000.html</a>) and would appreciate some UX ideas/feedback:<br/><br/><li> It's not clear how to scale this UI along several dimensions. What should happen when a line gets too long for the screen? What should happen as values on the stack get wide? Or deep? My screen objects (<a href="../two-minute-week/1605244930.088000.html">../two-minute-week/1605244930.088000.html</a>) explored multi-line values on the stack, but it feels wasteful to repeatedly show screens, especially as the screen sizes grow larger and more realistic/useful.<br/><br/><li> Many attempts to add capabilities hit the scaling limits even faster. If I try to reimplement shell utilities like <tt>grep</tt> I need to support files with at least 50-character lines. Requesting URLs on the internet also requires showing long URL strings on the stack.<br/><br/><li> One thing I keep rubbing up against is the distinction between editing a program and browsing its state. Bret Victor's demos like <a href="https://vimeo.com/36579366">https://vimeo.com/36579366</a> consistently gloss over this. Yes, it's nice to be able to play what-if experiments with your program, but you quickly realize you need to unwind one experiment to try out another. Either you need smart undo, with the ability to somehow drop milestones into the timeline after the fact. Or you need to somehow separate browsing operations from manipulations of the program itself. It feels more feasible to show many copies of a screen object if most of them stay collapsed. Or to truncate URLs if they can be expanded on demand.<br/><br/>I do have one more idea for an interesting demo: supporting APL-like array operations. But I'm not sure if I should go down that road if there are potentially fatal problems with this whole approach.<br/><br/>A Mu-specific constraint here is the lack of a mouse. My UI has a single point on the screen where I can manipulate things. There's no mouse, because mouse support in text-mode terminals is non-standard and requires understanding differences between terminals. Which requires dependencies beyond a Linux kernel. That's something I've managed to sidestep so far by staying extremely lowest-common-denominator in terminal capabilities.<br/><br/>Perhaps I'll switch gears and focus on getting off the Linux kernel. Then I won't need to worry about terminal compatibilities. But then people would be required to use Qemu to play with Mu. Which sucks :confused: Perhaps that's the fundamental psychological block here: I want to keep Mu easy to try out, but beyond a point I can't undo bad historical decisions without adding some friction to checking it out. Then again, it's not like many people try it out anyway, and requiring Linux is just as much friction for someone on a Mac. Yeah, perhaps there's more OS hacking in my future. Thoughts/suggestions appreciated on this angle as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607888355.285600"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607888355.285600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-13 11:39</span><br/>
+I would love to help sketching some designs. Where I normally start is having examples for longer/more complex functions and from there sketch different UX design options
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607891714.289000"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607891714.289000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-12-13 12:35</span><br/>
+&gt; What to do about line getting too long?<br/>Just infiniscroll to the right within in a window/frame (perhaps I'm misunderstanding the issue, this seems completely analogous to new lines in a source file).<br/><br/>&gt; What about awkward values on the stack<br/>I think you'll have to just put a marker on the timeline stacks (like [$1]), then on the left of the screen show [$1]["<a href="http://example.com/blah/122512">http://example.com/blah/122512</a>"] with the same colouring. The values are const (IIUC), so you can show a single list of values across all stacks in the timeline view
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607891941.289900"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607891941.289900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-12-13 12:39</span><br/>
+Your point about BV skimming over the crux of live editing is a whole other thing...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607892362.298600"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607892362.298600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-12-13 12:46</span><br/>
+i’m also free to sketch whenever! my initial suspicion on the stack depth stuff is that the stack shouldn’t ever really get too deep—some examples would help here. i tend to err on the side of “worry about it when it’s a problem because then you’ll have enough information to make the tradeoff”<br/><br/>truncation is tricky and my temptation would be to truncate with a reasonable default but make the default accessible. visual stuff like this also benefits from examples. if i were to put my rebol hat on my suspicion would be that long data is often secretly structured in one of two ways: you’re using data to represent a lot of small differences, like with hash ids, and all you need is displaying something like a scannable difference, or it’s deeply structured and made linearized (like urls) and you actually want a struct and to display relevant differences based on some context (in a web app you might care if something belongs to a person or a team, or you might just be interested in document ids)<br/><br/>if you’re just worried about unix compatibility, it might be helpful to investigate the goals: do you want to keep the ui the same? or do you want to have code for unix work on your platform? or do you just want equivalent functionality?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607926103.303000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607926103.303000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-13 22:08</span><br/>
+Thanks everyone for the offers! While I come up with some scenarios, please free to also suggest things you wish you could do.<br/><br/><span style="background-color:#ccf">@Garth Goldwater</span><br/><br/>&gt; my initial suspicion on the stack depth stuff is that the stack shouldn't ever really get too deep<br/>&gt; <br/>Yeah, for sure, stack depth feels like less of a constraint compared to line length and how much horizontal space we devote to the stack state of each word.<br/><br/>I don't care about compatibility with Unix or functional equivalence. Just something that is internally consistent and reasonably discoverable. I think if push came to shove I'd make the same trade-off as everyone else and compromise on discoverability.<br/><br/><span style="background-color:#ccf">@Chris Knott</span><br/><br/>&gt; Just infiniscroll to the right within in a window/frame (perhaps I'm misunderstanding the issue, this seems completely analogous to new lines in a source file).<br/>&gt; <br/>You're right. If we can solve the problem of wide values on the stack, long lines seem viable.<br/><br/>---<br/><br/>One constraint I hadn't mentioned until now: I'd like for the number of hotkeys this environment needs to be small enough that I can describe them all in the menu at the bottom for some reasonable screen width. Excluding intuitive stuff like arrow keys.<br/><br/>I think I have a new idea after this thread. Values on the stack will have 3 possible states: collapsed, truncated and maximized. By default, any value wider/taller than some threshold will be collapsed -- except at the top of the stack, where it's truncated to the threshold width and height by default.<br/><br/>Now we need just one new hotkey: toggle the top of stack at the cursor between trunated and maximized.<br/><br/>Maximize does exactly what it sounds like. It puts you in full screen mode browsing the data as necessary. The idea is to avoid any ambiguity about what will scroll. No nested scrollbars.<br/><br/>Values in the stack are always in read-only mode when maximized; you can only browse within them. This suggests an analogous maximized edit mode for input words (say literal strings or arrays). But I haven't thought that angle through.<br/><br/>Ideally I'd like this to be the totality of the UI (or some single prototype UI) for the Mu computer. Just text mode, no mouse. A single cursor on screen, an infinite 2D space that you can move around in, containing panels (functions or sandboxes) that in turn contain values. Panels and values can be collapsed or maximized. Everything one can do to be done within this framework, whether it's editing code or browsing data or running programs. (Tentatively I imagine a single address space so strong sandboxing, no concurrency only lazy streams.)<br/><br/>Thoughts?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1607939386.303600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1607939386.303600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2020-12-14 01:49</span><br/>
+Sounds like good ideas. Difficult to know how well a lot of good ideas actually work until they make contact with the enemy :joy: <br/><br/>There's a very early Unix demo here  <a href="https://youtu.be/tc4ROCJYbm0">https://youtu.be/tc4ROCJYbm0</a> (5:58) where he corrects spelling in a pipeline. This could be a good stress test for whatever you come up with? I think your eventual solution will be far more discoverable than Unix because you'll be able to hop up and down the pipe and won't have to play computer, but you'll face the challenge of representing a dictionary that will always be too large to show in full.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608003434.306100"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608003434.306100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:37</span><br/>
+Really cool documentary, thanks Chris. I'm going to think about that spellcheck pipeline.<br/><br/>Lol, look at the code they considered worth including in the show.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608003855.308500"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608003855.308500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:44</span><br/>
+The more I think about this, the more I want the stack to be horizontal instead of vertical. And now the interface looks just like a Repl! (Not sure yet if it’s good or bad :stuck_out_tongue_closed_eyes:)<br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608003958.311400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608003958.311400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:45</span><br/>
+Also interesting to see how they chose to reword Unix commands for the documentary:<br/><br/><pre style="white-space:pre-wrap">makewords file |lowercase |sort |unique |mismatches</pre><br/>I believe this would in reality have been something like:<br/><br/><pre style="white-space:pre-wrap">sed 's/ /\n/g' |tr A-Z a-z |sort |uniq |grep -vf dictionary</pre><br/>(The <tt>sed</tt> could also be replaced by a call to <tt>awk</tt>. <tt>sed</tt> was created in 1973, and <tt>awk</tt> in 1977.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004092.312600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004092.312600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:48</span><br/>
+Oh no, I missed your second screenshot <span style="background-color:#ccf">@Daniel Garcia</span>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004103.313000"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608004103.313000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:48</span><br/>
+A function call looks like this. <br/>First image is collapsed, second image is after expanding it.<br/>Sorry for the poor drawings I made them with my phone. Also I can explain further if it’s not clear what’s going on
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004195.313600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004195.313600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:49</span><br/>
+A vertical layout <em>does</em> have some advantages. I've been wondering what it would mean to "click into" a primitive. Ideally we'd switch to Mu's statement-oriented language and start showing logs of statements executed. That would flow more smoothly with a vertical layout.<br/><br/>Can you elaborate on what advantages you see with the vertical layout?<br/><br/>(I actually chose the horizontal layout partly because it looked like more a repl. How would you chunk a complex task into 'lines' with the vertical layout?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004471.317300"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608004471.317300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:54</span><br/>
+Strings can grow horizontally in the stack and have a max-width after witch they will show with an ellipsis “really long string ...”
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004636.321100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004636.321100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:57</span><br/>
+Can you type more than 1 digit numbers in your current design? (Happy to move to DMs if you think we’re creating too much noise here)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004684.321300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004684.321300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:58</span><br/>
+Sure thing. In fact, if you like we can do a quick Zoom, and you can try it out interactively (with me as operator).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004747.322400"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004747.322400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:59</span><br/>
+I'm happy with this noise for now. This feels like "thinking together" :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004753.322700"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004753.322700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:59</span><br/>
+Will you be available for a zoom call later today? It’s 4 am in my time zone :grimacing:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608004796.322900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608004796.322900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-14 19:59</span><br/>
+Oh yes, :grimacing: for sure. Let's DM for scheduling.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608190990.334700"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608190990.334700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-16 23:43</span><br/>
+<b>Conditionals and multi-line functions</b><br/><br/>I've been noodling on how to do conditionals in my postfix shell. Some ideas for keywords/functions:<br/><br/><li> <tt>return</tt> seems quite essential. Stops executing the current function and returns top of stack.<br/><li> <tt>if{</tt> and <tt>}</tt> and <tt>}else{</tt>. Here's how factorial would look with them:<br/><pre style="white-space:pre-wrap">n fact<br/>  = n 1 &lt;= if{ 0 return } n 1- fact n *</pre><br/><li> <tt>-&gt;</tt> executes rest of line only if top of stack is true. Factorial again, this time in two lines:<br/><pre style="white-space:pre-wrap">n fact<br/>  = n 1 &lt;= -&gt; 0 return<br/>    n 1- fact n *</pre><br/><li> <tt>-&lt;</tt> executes one of the next two words depending on whether top of stack is true or false.<br/><li> <tt>-&gt;</tt> and <tt>-&lt;</tt> may also work well with <tt>{</tt> and <tt>}</tt> which group words together:<br/><pre style="white-space:pre-wrap">n fact<br/>  = n 1 &lt;= -&gt; {0 return} n 1- fact n *</pre><br/>A more challenging example is binary search. The gold standard here is Bret Victor's demo in <em>"Inventing on Principle"</em> (linked above; screenshot below). Some attempts in postfix:<br/><pre style="white-space:pre-wrap">array key bsearch<br/>  = array key 0 array len bsearch-range          # delegate to helper with explicit low and high<br/><br/># option A<br/>array key low high bsearch-range<br/>  = low high &gt;= if{ null return }                # not found<br/>    low high + 2 div =mid                        # mid = (low+high)/2<br/>    array mid [] key = if{ mid return }          # if array[mid] == key, return mid<br/>    array mid [] key &lt; if{ array key mid high bsearch-range return }  # if array[mid] &lt; key, recurse over [mid, high)<br/>    array key low mid bsearch-range              # otherwise recurse over [low, mid)<br/><br/># option B<br/>array key low high bsearch-range<br/>  = low high &gt;= -&gt; null return                   # not found<br/>    low high + 2 div =mid                        # mid = (low+high)/2<br/>    array mid [] key = -&gt; mid return             # if array[mid] == key, return mid<br/>    array mid [] key &lt; -&gt; array key mid high bsearch-range return   # if array[mid] &lt; key, recurse over [mid, high)<br/>    array key low mid bsearch-range              # otherwise recurse over [low, mid)<br/><br/># option C<br/>array key low high bsearch-range<br/>  = low high &gt;= -&gt; null return                   # not found<br/>    low high + 2 div =mid                        # mid = (low+high)/2<br/>    array mid [] =midval                         # midval = array[mid]<br/>    midval key = -&gt; mid return                   # if midval == key, return mid<br/>    midval key &lt; =upper?                         # upper? = (midval &lt; key)<br/>    # return bsearch-range(array, key, upper ? mid : low, upper ? high : mid)<br/>    array key upper? -&lt; mid low upper? -&lt; high mid bsearch-range</pre><br/>But how to visualize a function spanning multiple lines that operates on an array? There aren't enough dimensions.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608218332.345700"></a>
+      <img src="https://secure.gravatar.com/avatar/10d754210ed4e4706eba3d063cdf99f0.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0019-72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608218332.345700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Garth Goldwater</b>
+<span style="margin:2em; color:#606060">2020-12-17 07:18</span><br/>
+i think collections and branching are the two hardest things for a stack language to pull off ergonomically. <br/><br/>here’s how factor handles them: <a href="https://docs.factorcode.org/content/article-cookbook-combinators.html">https://docs.factorcode.org/content/article-cookbook-combinators.html</a> . i like the approach of using quotations for control flow, although it could get hairy since your quotations would also have variable names in them. <br/><br/>i may have some harebrained ideas incoming on a couple of these fronts, although they may be nonstandard (example preview: you should have a stack language, an array language, and a hash/record/dictionary language, and their editors should just compose/nest )
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608219697.346000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1607887127.284300.html#1608219697.346000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-17 07:41</span><br/>
+I've been thinking similarly. Though I'm not sure what an array language with indexing looks like.<br/><br/>I should have mentioned quotations. I'm resistant to them because they occupy space on the stack without advancing the computation. However, Daniel Garcia did point out that the effect of <tt>if</tt> could be expanded like a function call. So it's worth trying.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1608291598.346500"></a>
+      <a href="../thinking-together/1607887127.284300.html#1608291598.346500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-12-18 03:39</span><br/>
+I'm now noodling on two ideas: <tt>break</tt> and <tt>loop</tt> words and infix-chunking. It seems promising how <tt>break</tt> and <tt>loop</tt> carry over like themes from lower levels of the stack. And we really need infix-chunking once we start indexing into arrays. Most of the time you want to see <tt>«array[i]»</tt> with a single stack under it, but to edit it I'm imagining first expanding it to <tt>array i []</tt> with 3 stacks under it.<br/><br/>The following mock-up could be 6 months of work. I'm still weighing whether it's worthwhile.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

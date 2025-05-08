@@ -1,0 +1,199 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-07 15:46</span><br/>
+Progress on supporting a subset of Markdown in my text-mode paginator, and how programming languages can use modules without explicitly importing them.<br/><br/><a href="https://archive.org/details/akkartik-2min-2020-06-07">https://archive.org/details/akkartik-2min-2020-06-07</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591622169.471500"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1591622169.471500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-06-08 06:16</span><br/>
+The algorithm you use to determine the types is interesting. Did you come up with that yourself? Or do you have any pointers to what inspired you?<br/><br/>I‘m also curious how you settled on Markdown parsing for the demo? I‘m strangely attracted to Markdown for a prototype as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591627376.471700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1591627376.471700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-08 07:42</span><br/>
+I'm basically noodling on what a simpler world wide web looks like, where we only use browsers for reading and hyperlinking, not for web apps. The only reason there was a demand for sandboxed web apps historically was that native apps on PCs had so thoroughly polluted the well for users. But in a world where apps are always distributed with source and there's a culture of calling folks out for dark patterns, you don't need the web to run apps anymore.<br/><br/>My ideas here are a lot less well-formed than for the foundations of Mu, so I'm extremely open to suggestions. Markdown's just the first syntax I tried to avoid designing a 15th standard. Though I'm already seeing crap I'm never going to support, like this:<br/><br/><pre style="white-space:pre-wrap">This is *emphasized<br/># text.* Or is it?</pre><br/>Things are simpler if I require headings to always start a new paragraph.<br/><br/>---<br/><br/>I came up with the algorithm myself, but it felt like a fairly straightforward multi-pass compiler design. The only minor issue was the chicken-and-egg problem of needing sizes to compute field offsets, and needing field offsets to compute sizes. I'm not well-versed with the theory of Algorithms so I can't cite good keywords here. But I think a lot of people would be able to come up with it after completing a grad course in compilers. Once the problem was framed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591631974.472100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1591631974.472100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2020-06-08 08:59</span><br/>
+Yeah, there are some weird edge cases in Markdown. I'm all for a simpler standard and would be happy to break backwards compatibility, getting rid of some of those weird edge cases. Complexity of implementation is particularly important for standards where we hope to see many implementations, but hardly ever considered.<br/><br/>We learn so much from implementing a thing, but we tend to only practice additive design, cramming more things into it over time. Maybe that is the nature of things. At some point more people feel that the old thing is now bloated and that opens the door for another, better designed, simpler thing to take over. Somewhat the story of Mu, I guess… ;)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592174217.490500"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592174217.490500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-14 15:36</span><br/>
+Definitions appearing after usage reminds me a bit of the original literate programming, where it's important that the source code be free to occur in whatever order best fit the explanation around it.<br/><br/>How does your approach to out-of-order compilation interact with other language features, like error handling or polymorphism or extension (if you have those)? Eg: what happens if you've used a field that doesn't appear in the type definition? How do you do namespacing without modules?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592174280.490700"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592174280.490700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-14 15:38</span><br/>
+(I imagine some of these questions are irrelevant given the design of Mu, but I don't know enough about the design of Mu to know that I'm being a total noob about it :P)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592179372.491500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592179372.491500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-14 17:02</span><br/>
+Yeah, Mu doesn't have namespaces, anything dynamic like <tt>method_missing</tt> (did I understand "error handling" right?) or open types. It's fairly unambitious as a language; all the attention has gone to bootstrapping the implementation out of machine code.<br/><br/>But your concrete question is quite acute. "What happens if you've used a field that doesn't appear in the type definition?" I hadn't thought of it yet when I made the video. It only occurred to me in the past week. I now raise an error if a type definition failed to reconcile some field from earlier. But it's a fairly klunky error message; it just says, "you used field <tt>x</tt> but it doesn't exist." It can't give the line or even function that used <tt>x</tt>. Providing such errors is going to complicate the implementation quite a bit, needing to attach source info to uses of fields in types. But I <em>did</em> stake out a position in my paper as being all about the quality of error messages. This whole thing is now making me quite unhappy. Perhaps I'll toss out this flexibility after all.<br/><br/>Funny story: the previous prototype of Mu (a tree-walking interpreter) <em>did</em> have support for literate programming. (And function overloading, and generics, none of which are in the current prototype.) I hadn't connected the dots to think of this as a particularly Literate feature. That might be a good justification to take it out. Thanks!<br/><br/><em>The reason Mu doesn't have LP anymore</em>: I was fine encouraging hunks to refer to local variables that were in the same scope but far away in some other part of the description. However, the way Mu now exposes and requires using registers, hunks can now <em>destroy</em> local variables far away in the same scope (that happen to share the same register). That feels too mind-bending.<br/><br/>Then again, maybe I should allow <em>shadowing</em>. So you can't insert naked statements using Literate directives, only blocks. Hmm, that could work. (If I can get the error messages good enough.) Thanks!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592180740.491700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592180740.491700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-14 17:25</span><br/>
+I'm growing aware of a major inconsistency in my belief system. On the one hand I'm constantly pushing for programs in a system to be aware of their dependencies. However, I also dislike modules and namespaces and the need in general to micromanage dependencies in the small within a single program, to manually provide information that a compiler could just deduce.<br/><br/>Perhaps this is a contradiction, and I need to give up opinions that made sense in the context of a highly dynamic, high-level, expressive Lisp dialect. Perhaps a low-level language built in machine code should throw up its hands and require the programmer to do a little more work.<br/><br/>On the other hand, perhaps this is a <em>paradox</em>, and what the two positions share is a desire for parsimonious dependencies. Tools to specify dependencies within a project tend to encourage larger projects with more code. Mu lacks modules for the same reason Mu lacks packages and will never have a package manager.<br/><br/>Reader, please let the author know what you think of this precious-snowflake navel-gazing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592188455.491900"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592188455.491900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-14 19:34</span><br/>
+&gt; I hadn't connected the dots to think of this as a particularly Literate feature. That might be a good justification to take it out. Thanks!<br/>You troll!<br/><br/>&gt; Reader, please let the author know what you think of this precious-snowflake navel-gazing.<br/>I think you have some tough decisions ahead of you.<br/><br/>&gt; Then again, maybe I should allow <em>shadowing</em>.<br/>Is Mu aimed at beginners? If so, be careful about shadowing. In my experience every new programmer steps on that nail, and I've known some who were then scared away from taking advantage of it for evermore. (Example of the nail: top-level variables can be shadowed, struct members can't, but you often assign to both in the same way.)<br/><br/>&gt; Perhaps a low-level language built in machine code should throw up its hands and require the programmer to do a little more work.<br/>That could be a worthwhile bunt for the time being, and you could come back to this in the future.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592192558.492200"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592192558.492200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-14 20:42</span><br/>
+I'd <em>almost</em> made up my mind in the same direction. Then I remembered that I plan a type-checking pass anyway. It'll be some redundant work then, but not more complex. Best of both worlds.<br/><br/>All problems can be solved with an extra pass.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592192786.492500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592192786.492500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-14 20:46</span><br/>
+Still no Literate Programming :+1: Mu <em>does</em> have shadowing, though. Your example of struct members is interesting :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592193843.493300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592193843.493300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-14 21:04</span><br/>
+That shadow-nail example just another incarnation of references vs values.<br/><br/><pre style="white-space:pre-wrap">top level<br/>a = 5<br/>b = a<br/>a = 6<br/>wtf is b?<br/><br/>struct<br/>a = {x: 5}<br/>b = a<br/>a.x = 6<br/>wft is b?<br/><br/>shadowing<br/>a = 5<br/>{<br/>  a = 6<br/>}<br/>wtf is a?</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1592195545.493600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1592195545.493600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-14 21:32</span><br/>
+Maybe I'll disallow reusing the same variable name. Really I only need shadowing for reusing <em>registers</em>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593319113.010600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1593319113.010600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-27 21:38</span><br/>
+Update: I didn't do much this week due to RSI, but I've fixed the problem of "What happens if you've used a field that doesn't appear in the type definition?"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593323151.011300"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1593323151.011300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2020-06-27 22:45</span><br/>
+I feel you. Hands?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1593326136.011500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../two-minute-week/1591570004.468100.html#1593326136.011500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2020-06-27 23:35</span><br/>
+Yeah..
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

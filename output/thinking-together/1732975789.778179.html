@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-06-12/5403931675222_25ed978f2a92f81ad513_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Flockton</b>
+<span style="margin:2em; color:#606060">2024-11-30 06:09</span><br/>
+Hey folks! Bit of a random question, but can any one think of any language interpreters which parse text straight to bytecode, omitting the AST step completely? Quick.js is one of the most well-known (<a href="https://github.com/bellard/quickjs/tree/master">https://github.com/bellard/quickjs/tree/master</a>) but I wondered if any one knew of any other interesting examples for other languages?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1732979758.761249"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1732979758.761249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2024-11-30 07:15</span><br/>
+I think the original pascal did it doing a one pass parsing to p-code <a href="https://en.wikipedia.org/wiki/P-code_machine">https://en.wikipedia.org/wiki/P-code_machine</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1734684370.776359"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-09/8018418277633_5d7e31d5613cd1abbe3c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1734684370.776359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Alex North</b>
+<span style="margin:2em; color:#606060">2024-12-20 00:46</span><br/>
+The bytecode version of the language defined in Bob Nystrom’s <em>Crafting Interpreters</em> does this.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1740423931.053239"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1740423931.053239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-02-24 11:05</span><br/>
+[EDIT: oops I didn't notice I'm necroposting on old thread]<br/><br/>[bad example]<br/>Tcl formally had no AST, it's all just strings.<br/>Informally though, <a href="https://github.com/tcltk/tcl/blob/core-9-0-a3-rc/changes#L2551-L2557">since 1996</a> there are <a href="https://www.tcl-lang.org/man/tcl/TclLib/Object.htm">multiple internal representations</a>—all satisfying same stringy API but each optimized for particular uses—and those include "list" (a string adopts this representation after operations like indexing) and "bytecode" (a string adopts this representation after it gets evaluated).<br/>(there is a command to <a href="https://wiki.tcl-lang.org/page/representation">peek under the hood</a>; e.g. <a href="https://youtu.be/M59FJbNFbUY?t=1985">here</a> I'm showing a string becoming bytecode after <tt>eval</tt>. it's part of a longer video on one-API<a href="=">=</a>multi-representation dualities across several languages.)<br/><br/>So while the code for control structures like <tt>if</tt> or <tt>proc</tt> may never say so explicitly, in practice it ends up slicing strings into something quite akin to AST tree, with parts converted to bytecode on-demand. :magic_wand:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1740424146.607079"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1740424146.607079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-02-24 11:09</span><br/>
+[better example]<br/>Forth is more interesting case to study, it really doesn't have an AST.<br/>Nor exactly bytecode, but builds up a sequence of "word" pointers to execute (or in direct-threaded implementations, a sequence of JMP instructions); I'll let you decide whether that's closer to bytecode or tree-walking.<br/><br/>But am I cheating because Forth has <em>no syntax</em> either, just flat sequence of words, right?<br/>Well, it has <em>some</em> syntax here and there, it's just implemented in diffuse fashion by various words.  (Which means it has <em>no grammar</em>.)<br/>For example <tt>( ... )</tt> is comments, implemented by <tt>(</tt> word eating up and discarding stdin until it meets <tt>)</tt> character.<br/><br/>And <tt>: NAME word1 word2... ;</tt> is word definition, eating up single NAME from stdin, allocating its entry-to-be-built in dictionary, then toggling main loop from "interepreter" to "compile" mode where following words are appended to the dictionary entry not executed — unless they're marked "immediate" for special handling.<br/>- <tt>;</tt> is immediate word that wraps up the dictionary entry and toggles main loop back to "interpreter" mode.<br/>- <tt>IF</tt>, <tt>THEN</tt> etc. are immediate words that take notice of addresses and later fixup some pointers to build up conditional, loops, etc. in a manner similar to assembly language.<br/><br/>---<br/><br/>Assemblers could answer your question in similar spirit (mostly flat 1:1 mapping to output, with some fixups), except most assemblers are not interpreted.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1740424767.947939"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1740424767.947939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-02-24 11:19</span><br/>
+I suspect neither are what you meant.<br/>IMHO they're interesting not for the behind-the-scenes implementation choice of skipping a parser-&gt;AST step, but for the syntax malleability they were able to expose to user-space: in both Tcl and FORTH it's possible to define custom control structures / DSLs in the language itself.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1740426093.202139"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1732975789.778179.html#1740426093.202139" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-02-24 11:41</span><br/>
+As for Pascal, conceptually it does have a grammar, and parts of the implementation can be marked a "parser"—but it's not a separate "pass" in the sense it doesn't <em>allocate</em> the whole AST as data structure.  You could probably write something similar with YACC actions that build p-code instead of allocating AST nodes?<br/>The grammar was carefully designed to enable this, e.g. requiring all variables declared before code starts.<br/><br/>I think Wirth experimented with single-pass approaches in his later languages too?<br/><a href="https://people.inf.ethz.ch/wirth/Articles/Modula-Oberon-June.pdf">https://people.inf.ethz.ch/wirth/Articles/Modula-Oberon-June.pdf</a> sheds interesting light on historic constraints:<br/>&gt; ... PDP-11 with a 64K-byte store. The single-pass strategy of our Pascal compilers could not be adopted; a multipass approach was unavoidable in view of the small memory. ...<br/>&gt; The first Modula-2 compiler, written by K. van Le in 1977 consisted of 7 passes, each generating sequential output written onto the 2M-byte disk.<br/>IIUC what he means is multi-pass allows you to reduce RAM occupied by compiler <em>code</em> by loading one pass' code at a time, leaving more RAM for data (plus data can be streamed from/to disk).<br/>Funnily, similar reason also motivated Unix "do one thing" + pipes design :smile:
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

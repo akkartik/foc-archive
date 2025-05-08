@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-12-29 15:17</span><br/>
+After a conversation with <span style="background-color:#ccf">@Jack Rusher</span> and others about <a href="https://merveilles.town/@akkartik/113635605044781800">Emacs</a> <a href="https://merveilles.town/@akkartik/113656713644512122">Nature</a>, and playing with <a href="https://harc.github.io/seymour-live2017">Seymour</a> by <span style="background-color:#ccf">@Alessandro Warth</span>, I'm getting interested in building..<br/><br/>An environment for visualizing programs<br/><br/>(Not to be confused with visual programs, or visualization more generally.)<br/><br/>• Start with a tiling window manager for managing named graphical canvas "buffers", using Emacs operations like split and resize.<br/>• Each buffer exposes a coordinate space of its choosing, listens for messages and positions objects in the space in response to messages.<br/>• Buffers can send messages to other buffers.<br/>Examples, etc. in :thread:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735515864.710359"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html#1735515864.710359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-12-29 15:44</span><br/>
+Examples of coordinate spaces:<br/><br/>• Graphical game engines use the obvious 2D/3D cartesian systems. You position stuff using <tt>(x, y)</tt> or <tt>(x, y, z)</tt>. You could also imagine polar or other coordinate systems that are studied in geometry.<br/>• The HTML DOM is a space where positions can be specified using CSS selectors or XSLT.<br/>• You can imagine a text editor operating in a coordinate space as well. Emacs seems to use a 1D coordinate, just character count from start of buffer. My stuff so far uses 2D: (line index, UTF-8 codepoint index within line)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735516693.146569"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html#1735516693.146569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-12-29 15:58</span><br/>
+Example messages:<br/>• In a text editor, the cursor tracks a position, and keyboard and mouse send messages to move the cursor or insert objects (characters or longer text) at the cursor.<br/>• You can imagine <tt>print</tt> statements as a message from the "code" coordinate space to a different, 0-D (append-only so there's no notion of coordinate) space.<br/>• Terminal buffers in Emacs take the mostly 0D space of a terminal and augment it with a cursor. When you scroll up to an earlier command and hit a hotkey, the buffer sends a message to itself with the text around the cursor. The message is received at the bottom of the buffer.<br/>• Emacs Slime and other IDEs support keyboard shortcuts to send text from the current buffer to a REPL in some other buffer.<br/>• <a href="https://100r.co/site/ronin.html">Ronin</a> and <a href="https://futureofcoding.org/episodes/049.html">sketch-n-sketch</a> support bidirectional messages between two spaces with very different coordinate systems.<br/>• Live programming systems often show the results of a statement to its right. Examples: <a href="https://alv.s-ol.nu/stable/index.html">alv</a> by <span style="background-color:#ccf">@Sol Bekic</span>, Bret Victor (of course), Seymour as above. These too can be seen as a reflexive message from a space to itself. In addition, the message contains an implicit coordinate: the current line.<br/>• GToolkit, Lisp Machines and other Smalltalk systems do a lot of stuff like this. I think all of this can be cast in terms of buffers, coordinate spaces and messages, though you can imagine them as a single, very complex coordinate space like the HTML DOM, or many simple spaces with different possible coordinate systems. For example, in any of them you can create a new "log" space that you can append graphical objects to. Maybe even self-contained interactive graphical widgets.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735517148.339399"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html#1735517148.339399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-12-29 16:05</span><br/>
+The major question for me now is: how do you configure a buffer? You need some concise way to specify the space (perhaps just by naming from a small menu of options), handlers that listen for messages (e.g. keypress or mousepress), handlers for sending messages (e.g. widgets on the space that perform tasks when you interact with them), and generic handlers for sending messages to other buffers (e.g. <tt>print</tt>; here I'm imagining it to send a message from some arbitrary process, through say a socket, back into the environment, with enough information to route it to the appropriate buffer accompanied by a reasonable coordinate)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735524952.906929"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html#1735524952.906929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2024-12-29 18:15</span><br/>
+Elena and I explored this space a <em>little</em> and you might find a useful thing or two in <a href="https://github.com/alltom/debugview">https://github.com/alltom/debugview</a><br/><br/>I think session management was the most annoying part of our approach. Like if two parts of a program want to make bar charts, suddenly there was a coordination problem, because we wanted to stick to a tadi protocol that any process with a stdout could speak and wouldn’t require a library to effectively use.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1735541398.776279"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../devlog-together/1735514277.187609.html#1735541398.776279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2024-12-29 22:49</span><br/>
+Buffer configuration is what Emacs has modes for, and Smalltalk objects (what else?). In both cases, it's a finite but possibly large list of choices.<br/>You could have Emacs-like modes and have programs specify their mode in an initial message.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

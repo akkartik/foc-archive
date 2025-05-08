@@ -1,0 +1,198 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1598684481.204900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Pearson</b>
+<span style="margin:2em; color:#606060">2020-08-29 00:01</span><br/>
+I'd like to know more about how Eve managed reactivity (eg 'commit vs bind' and the idea of tables that contain events). What worked well? Did later iterations/inspired projects tweak this approach? How (if at all) can lazy vs eager reactivity be managed using this approach?<br/><br/><a href="http://docs-next.witheve.com/v0.2/handbook/bind/">http://docs-next.witheve.com/v0.2/handbook/bind/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598693227.206000"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598693227.206000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-08-29 02:27</span><br/>
+The quote sounds about right.  I forget why, but I remember getting sequences of commits to work was tricky in Eve.  Stepping back, first-class time is a really interesting idea that I'd like to see more systems explore.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598706021.207000"></a>
+      <img src="https://secure.gravatar.com/avatar/86b404ba64c84041168e5b10b7148030.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598706021.207000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Pearson</b>
+<span style="margin:2em; color:#606060">2020-08-29 06:00</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> yes - <span style="background-color:#ccf">@Chris Granger</span> said similar comments in 2018 here: <a href="https://news.ycombinator.com/item?id=16631333">https://news.ycombinator.com/item?id=16631333</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598706056.207200"></a>
+      <img src="https://secure.gravatar.com/avatar/86b404ba64c84041168e5b10b7148030.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598706056.207200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Pearson</b>
+<span style="margin:2em; color:#606060">2020-08-29 06:00</span><br/>
+when you say 'first-class time', do you mean having a ticker (of varying granularities) that can be observed?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598847143.029100"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598847143.029100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-08-30 21:12</span><br/>
+I mean making change of time more explicit: more directly observable, manipulatable, and constrainable.  This can take many forms.  Here's an example.<br/><br/>Step 0: Setup<br/>Imagine a fairly conventional imperative system.  We have a bunch of boxes (variables) in which we can put values.<br/><br/>Step 1: Observable<br/>We show which values go which boxes in what order.  Often systems let us check state only in the moment or keep dubious logs about what happened in the past.  Forget asking about the future.  Imagine lining up the boxes.  We might be able to scrub forward and backward through time, or add a timeline showing what values were in each box when.<br/><br/>Step 2: Manipulatable<br/>Good old structured programming is kind of nice on this front.  Each assignment statement records how the contents of a box change.  Suppose we directly manipulate the boxes in some other way, then we can record a script of the assignments made.  Glue scripts together.  Good, clean fun.<br/><br/>Step 3: Constrainable<br/>Except we don't abstract cleanly from the step-to-step to composable recipes.  With functions/procedures, we keep track of arguments and return values, but we don't keep track of what boxes get examined or updated.  We can't easily tell if ordering of calls matters, and we cannot easily require that things always happen in a certain order.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892105.031200"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892105.031200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:41</span><br/>
+If you try to create a fully declarative, reactive semantics, I think you eventually run into the bind/commit distinction no matter what you do. Fundamentally, it’s a question of how the lifetime of an assertion is controlled. Commit is saying the lifetime of this assertion is unconditional, whereas bind is conditioned on the other information this assertion is derived from. You’ll want both, but it’s awkward trying to make them play together.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892209.031400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892209.031400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:43</span><br/>
+Not being able to come up with something better is a big part of what convinced me that we needed to find something in the middle of the declarative/imperative spectrum, rather than constantly looking at the ends.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892378.031600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892378.031600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:46</span><br/>
+programming with just rules or just procedures sucks, but being able to freely mix them both together is pretty magical :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892742.031800"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892742.031800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:52</span><br/>
+our implementation of bind/commit led to a lot of complexity and we thought that we had hidden the implications of the different timelines from people, but as <span style="background-color:#ccf">@William Taysom</span> said, it turned out there were cases where trying to get the right sequence of things to happen exposed you to that complexity and it was unequivocally worse than what you would normally do. Eve was much better than conventional languages on some axes, but on the axis of expressing process-like things it was significantly worse.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892847.032000"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892847.032000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:54</span><br/>
+Part of that comes from bind/commit naturally wanting to happen at different “times,” the other part came from blocks being islands that weren’t obviously tied together in any meaningful way. Discovering the forest was pretty hard to do just by looking at the trees.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598892968.032200"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598892968.032200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:56</span><br/>
+If you don’t mind exposing users to the actual semantics/complexity of time, I would look at statelog as a better approach to the problem
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598893081.032400"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598893081.032400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 09:58</span><br/>
+It makes time fully explicit, though I don’t know that it really makes it that much better when compared to something that can just express a procedure cleanly
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598893429.032600"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598893429.032600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-08-31 10:03</span><br/>
+in any case, I’d read the <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-173.html">dedalus paper</a> and the <a href="http://www2.informatik.uni-freiburg.de/~dbis/Publications/98/moc98.pdf">statelog paper</a> if you want to really dig into this stuff
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1598941740.056400"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1598941740.056400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2020-08-31 23:29</span><br/>
+In case the Statelog link doesn't work <a href="http://users.sdsc.edu/~ludaesch/Paper/moc98.pdf">http://users.sdsc.edu/~ludaesch/Paper/moc98.pdf</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1599502258.128100"></a>
+      <img src="https://avatars.slack-edge.com/2023-12-09/6320751143555_acf65c259768ce3a90a4_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1599502258.128100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jamie Brandon</b>
+<span style="margin:2em; color:#606060">2020-09-07 11:10</span><br/>
+I think differential dataflows loops might be useful here. They allow having lexically scoped areas of ordered time, rather than having to try to mash everything into a single global timestep.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1599503878.128300"></a>
+      <img src="https://avatars.slack-edge.com/2018-11-25/487455880658_9e85c7bdd45b1d2d4721_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1598684481.204900.html#1599503878.128300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Granger</b>
+<span style="margin:2em; color:#606060">2020-09-07 11:37</span><br/>
+Yeah with DD, you’re bringing more imperative control to the declarative-ness so you can try to manually resolve some of the semantic issues that arise (via a combination of careful ordering and explicit branching)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

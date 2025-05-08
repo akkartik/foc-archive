@@ -1,0 +1,126 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-01-20 18:29</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I don't think so, but it's just because you're talking about the quality of the communication and I'm talking about the amount. I'm saying that when protocol boundaries match team boundaries, cross-team discussion is only ever needed when the protocol changes, whereas without protocol boundaries, the teams potentially step on each other's toes with every change.<br/><br/>You're right about maintainability, but today it's very easy technologically and organizationally to enforce a single programming language across the organization, whereas it's nearly impossible for people to collaborate in multiple languages at any level smaller than a server. That's a lever that we just can't pull, even in cases where it might make collaboration more efficient.<br/><br/>A type of collaboration I see a lot is when my team needs another team's expertise. An RPC protocol can be written to satisfy almost any language's type system guarantees, so theoretically the only difference between calling a method written in the same language and one in a different language should be where the computer looks for the implementation. But when I ask a team of machine learning experts to write a GetRecommendedMovies() function for my web site, and their preferred ML library is TensorFlow, their implementation strategy varies <em>dramatically</em> based on which language I want to call the function from. I don't think we necessarily want that collaboration overhead. Usually, we don't gain anything from it.<br/><br/>And if in the course of writing GetRecommendedMovies(), they accidentally introduce a memory leak, does the user get a connection-lost error because the whole server goes down, or is the movie recommendation part of the page just empty because I handle the error on my side? Do I have to fix their bug to work on other parts of my page?<br/><br/>And if I want to continue development with a working version of their code (not just a black hole that behaves as if the function never existed), do I have to root cause the bug to figure out which commits to revert, or can I just back out all of that team's changes (the ones on their side of the protocol boundary) from the past week? Can I do that without losing everyone else's changes from that same period?<br/><br/>This is the shape of my collaborative coding dream. :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556141350.183100"></a>
+      <a href="../thinking-together/1548037741.399400.html#1556141350.183100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-04-24 14:29</span><br/>
+Just had a great experience collaborating at work yesterday. I’m in Japan this week for a prototype sprint, paired with another engineer. His ML component took a few days to build, so we defined a protocol (over gRPC—actually pretty easy because his team had already been using protocols for collaboration, so we just recombined a few), then split up. I wrote a stub implementation in Go that I could use until his C++ service was ready. I kept telling him it’d work the first time, but he wouldn’t believe me… until he finished, I switched the address to point to his laptop instead of my in-memory stub, and it worked seamlessly!<br/><br/>I keep the stub around for when his laptop is down or his code is broken because he’s iterating simultaneously with me.<br/><br/>We’ll probably move it all into the same computer for the demo, but maybe not.<br/><br/>This is easy collaboration!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556141891.183500"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556141891.183500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-24 14:38</span><br/>
+In my experience the experience is great when 2 or 3 people collaborate over short periods of time, but goes awry when we go overboard and try to use it over larger groups of people and over longer periods of time.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556198662.187000"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556198662.187000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2019-04-25 06:24</span><br/>
+I’d love to hear more. I mentioned earlier in this thread how integral I think it is to my department’s functioning (~100s of engineers).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556201791.187300"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556201791.187300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-25 07:16</span><br/>
+Let me go back and refresh my memory, thanks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556223353.187600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556223353.187600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-25 13:15</span><br/>
+I reread back from <a href="1548029205.388800.html">1548029205.388800.html</a> (not sure what “conversation about collaboration” it was referring to at the start). Using microservices is definitely a great idea because of the operational isolation benefits. That part scales fine, as you say[1]. My disagreement is more with the way you describe how microservices are <em>created</em>. Here’s my preferred approach (from <a href="https://news.ycombinator.com/item?id=13908458#13917333">https://news.ycombinator.com/item?id=13908458#13917333</a>):<br/><br/>&gt; When working with someone on a project don’t “design an interface” and then work alone on either side of it. Work together all over it.<br/><br/>This works just as well when the interface is an endpoint. And it tends to encourage more debate and discussion of what the interface should look like.<br/><br/>Now, maybe the interface is obvious to you. Maybe you’re immersed in your domain or have tons of experience or are just preternaturally good at API design. But in my experience, while some people can be good all the time and all people can be good some of the time, everybody can’t be good at API design all the time. So you need some sort of escape hatch. What do you do when you realize the interface isn’t ideal? In that situation, things are a lot easier if you and your collaborators have experience with the internals of all the different microservices you’re creating. Negotiation can be more fluid, the space of alternatives gets more thoroughly explored.<br/><br/>[1] Though it’s not a panacea. What do you do when one team wants another to add a feature to their API? Do you end up having 16 different models called ‘user’ for different microservices, each subtly different? (/cc <span style="background-color:#ccf">@Shalabh</span>) The trouble with microservices is that Conway’s Law kicks in and the fluid movement of each programmer’s attention between interfaces stops.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556224036.188100"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556224036.188100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-25 13:27</span><br/>
+&gt; A big motivating force for young children is being around their family, working on a common goal. This motivation is lost if we divide up chores so everyone is working solo (or give kids mock work). So for example, if you’re doing laundry, be sure everyone is folding everyone’s clothes. If you have the children just fold their own clothes while you fold your own, the tasks becomes more about working independently.<br/><br/><a href="https://www.npr.org/sections/goatsandsoda/2018/06/09/616928895/how-to-get-your-kids-to-do-chores-without-resenting-it">https://www.npr.org/sections/goatsandsoda/2018/06/09/6169288&hellip;</a><br/><br/>Maybe my motivational structures just never grew up.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556226543.188400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556226543.188400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-04-25 14:09</span><br/>
+Yeah I'm generally disillusioned with all the system level composition methods we have. Libraries, services, microservices etc. We end up with a lot of model duplication and pervasive reimplementation. There's tight coupling between higher level and lower level processes. E.g. the higher level business logic is encoded in the topology, so if you're just changing an implementation detail, you still have to change the business logic code.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556226832.188600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556226832.188600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-04-25 14:13</span><br/>
+The next blog post I'm writing is actually along this theme 'Pervasive Reimplementation'.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556432083.209300"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1548037741.399400.html#1556432083.209300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-04-27 23:14</span><br/>
+People who don't understand modules just haven't written large enough programs. Once you hit 100k lines or so, it really helps keep things organized. The module system of Modula-2 was why i had several software companies abandon C and switch to Modula-2. Modula-2 for those not familiar with it, was the 10 year later sequel to Pascal by Prof. Wirth. he later did Oberon and Oberon 2 to build the Lilith machine + OS. Anyway the JS module system is the mangled subset of the Modula-2 system. It had the unique ability at the time to allow separate compilation, and during the link phase it would detect out-of-date errors. very clever, and when you have teams changing API's all the time, it forces it to be tightly controlled. A great deal of the allure of many of the so-called new languages is basically a recapitulation of this module system, which prevent one from calling a function with the wrong type of arguments or wrong number of arguments. The Modula-2 compiler i used, formerly stony brook is now freeware at ADW. Lightning fast, tiny executables, way better than C in every aspect I can think of.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

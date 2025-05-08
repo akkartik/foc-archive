@@ -1,0 +1,173 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../thinking-together/1563105819.259800.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:03</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> See this example -<br/>In the implementation of <tt>sum</tt>, <tt>fold</tt> wants a “binary operator” function that takes two parameters - an “accumulator” and an “item”. In Haskell, which is based on positional arguments, I’d simply pass the operator “+”. But in Lamdu I can’t because the parameters of “+” are not called “accumulator” and “item”. So instead I use a lambda which uses “+”. However it gets sugared as a “lightweight lambda”, with underlines under the lambda symbol and under its parameters where used. This isn’t too heavyweight and it also gives us helpful places to display the intermediate values of everything (when display of evaluation results is enabled)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563106480.260100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563106480.260100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:14</span><br/>
+Oh cool. Does the sugar happen automatically? Does the programmer still type the full lambda before it gets simplified? Seems like an interesting feature. I'd imagine that for larger functions the lack of an explicit parameter list might harm readability, but at that point the sugar is probably unnecessary anyway.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563106738.260300"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563106738.260300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:18</span><br/>
+The sugar happens automatically when the code matches a certain pattern (all parameters are in use is one condition). The conditions are such that it doesn’t tend to happen for larger functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563107819.262400"></a>
+      <a href="../thinking-together/1563105819.259800.html#1563107819.262400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:36</span><br/>
+Btw here is the same example with syntax sugars disabled.<br/>All functions (including the “..” or “+” operators) get a single argument which is a record, constructed by adding fields one by one to the empty record. Instead of “sum” having a parameter in the LHS it equals to a lambda, etc
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563108529.264100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563108529.264100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:48</span><br/>
+Why do you represent records this way? Seems like it introduces an ordering amongst fields.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563108608.264300"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563108608.264300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:50</span><br/>
+Also seems to preclude the possibility of having a "merge" operator for two records?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563108772.264500"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563108772.264500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:52</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> Perhaps “merge” is the way to go, and I’m interested in compelling examples for it.<br/><br/>However with “merge” you still have the same ordering freedom where you can either construct a full record or merge many small ones where you have freedom in their ordering.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563108905.264700"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563108905.264700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:55</span><br/>
+Unless "merge" is an operator from a set of sets to a set :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563108970.264900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563108970.264900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:56</span><br/>
+I have no familiarity with language implementation but I tend to (over)think about conceptual simplicity :shrug:. Merge seems naturally to be an operation on a set of sets (or a labelled set I guess... I think there's a mathematical term for it).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563109059.265300"></a>
+      <img src="https://secure.gravatar.com/avatar/24ac39488e9c4f2833d087a1343707dc.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563109059.265300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Yair Chuchem</b>
+<span style="margin:2em; color:#606060">2019-07-14 05:57</span><br/>
+Yeah it appears like a nice idea. Iirc there is some language that has it. But it’s probably more complicated to make type-inference work for it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563143861.275800"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563143861.275800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2019-07-14 15:37</span><br/>
+The issue would seem to be that order and names don't matter to us as readers when it comes to addition. Addition is an abstraction layer high enough already.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563143931.276000"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563143931.276000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2019-07-14 15:38</span><br/>
+(reduce + 0 [1 2 3])
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563144049.276400"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563144049.276400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2019-07-14 15:40</span><br/>
+Other implantations of fold could benefit from the names though
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1563144057.276600"></a>
+      <img src="https://secure.gravatar.com/avatar/8d7dd06bd18b8fce6a4c04dfede7f616.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../thinking-together/1563105819.259800.html#1563144057.276600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Drewverlee</b>
+<span style="margin:2em; color:#606060">2019-07-14 15:40</span><br/>
+Again, it's contextual I think
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

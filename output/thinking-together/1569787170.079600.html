@@ -1,0 +1,150 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-09-29 12:59</span><br/>
+I want to eliminate the problem of Object-Relational Mapping by not using Relational database for the backend.<br/>Relational and in-memory representation are 2 different kind of beasts, I want something less rigid and more flexible then a Relational database: a Graph database. I am constantly looking for the best solution available on the market and to me it seems still Neo4j is the best witch its really cool language Cypher - even with the fact there is OpenCypher available pushed by their team.<br/><br/>For first I’d use it just a personal project as a React Native (Typescript) app backend, but later I’d like to use it for my projects.<br/><br/>Do you have XP any Graph database? Can you please share it with me? What do you think?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569816213.084000"></a>
+      <a href="../thinking-together/1569787170.079600.html#1569816213.084000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-09-29 21:03</span><br/>
+I've been thinking about graph databases recently. Some points:<br/>- Cypher is an interesting <b>query language</b> (as an alternative to SQL) because it does not force the concept of tables into a user's mental model. Tables are ultimately an arbitrary construct that were originally introduced as a mathematical construct for helping formalize "the relational model". They were not conceived with UX in mind and it shouldn't be too controversial to conclude that they add a lot of day-to-day complexity to SQL (normalization, key constraints, indices...).<br/>- Neo4j's data storage tech is <b>not</b> interesting, since its big idea is simply to store all data as pointer spaghetti. Other than that, it uses indices just like SQL DBs. Also on this point: if you're just trying to find a good programming model for users, then the underlying implementation details of your system are interchangeable and thus irrelevant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569816786.090900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1569816786.090900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-09-29 21:13</span><br/>
+I've only briefly looked at arangodb and it looked interesting. I've worked more with object databases in the past which have deep integration with the language/runtime (e.g. Durus for Python). I  feel that such a model is in many ways superior to any kind of external db with 'mapping' to the in memory objects. There are no in-memory objects vs out of memory data stores - you just have the objects in-memory which are also persisted and available beyond the lifetime of the process.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569832704.095700"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1569832704.095700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-09-30 01:38</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> What is your XP with Durus/ object database? Anyone any alternative in js/ts world?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569834124.096000"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1569834124.096000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-09-30 02:02</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> I agree with your points.<br/>I’d also add my observations: relational data optimizes for things like:<br/>- space (uniform rows)<br/>- queries in a single table (without any join)<br/><br/>But when we want to do joins then the tables themselves start to act like bloated objects including many partial identities (like bloated nodes in a graph-represented alternative) and hacks like “tables for caching / optimization” are likely to emerge.<br/>The problem is that the “identity” is split across multiple tables (in form of rows connected via inner/outer keys) so to use any information “accessible in the identity itself” it has to be stored in additional “cache” tables or recomputed every time only starting from the solely available “standard/ (non-cache) / bloated” tables which makes the initial relational data model very unfortunate(/impossible?) to use (long, stupid joins).<br/><br/>I might be wrong, please correct me, but this is what I see these days, however I am not a huge RDBMS fan/user.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569842180.105900"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1569842180.105900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2019-09-30 04:16</span><br/>
+I’ll just address one point: Queries in a single table may be fast, but trivially so.  Each index over a table is basically a tree data structure, which is not an innovation that came from DBs! Joins are the one “big feature” of relational DBs as far as I’m aware, aside from general DB features like integrity and replication. Whether relational joins offer a good user experience though comes back to the discussion of tables.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1569874683.119800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1569874683.119800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2019-09-30 13:18</span><br/>
+For smaller (under 10m records currently) databases, I’ve got one new one called TreeBase. It’s new so immature, but the theory is pretty sound so I think it will get there. <a href="http://Jtree.treenotation.org/treeBase">Jtree.treenotation.org/treeBase</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570075206.150500"></a>
+      <img src="https://secure.gravatar.com/avatar/fbf9758a8150cef0eea447876cd48346.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-72.png" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1570075206.150500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Hall</b>
+<span style="margin:2em; color:#606060">2019-10-02 21:00</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> I’ve done a fair amount of prototyping with arangodb and it’s pretty fun to use actually 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570075225.151200"></a>
+      <img src="https://secure.gravatar.com/avatar/fbf9758a8150cef0eea447876cd48346.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0014-72.png" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1570075225.151200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Robert Hall</b>
+<span style="margin:2em; color:#606060">2019-10-02 21:00</span><br/>
+As a more serious tool, I can’t speak to that
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570079757.153600"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1570079757.153600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-10-02 22:15</span><br/>
+<span style="background-color:#ccf">@Pezo - Zoltan Peto</span> I'm not sure of alternatives in the js world. I've built smallish apps with durus (e.g. a commenting system on a blog). The really great thing about something like that is there is no impedance mismatch because you're just working with objects in your language. So you modify an object and call a commit method and the new object is now persistent. If your process restarts you can find the object again, typically by traversing a root object of the db. The bad thing about something like this is also that it is integrated with one language/runtime only, so while you could build export mechanisms, there may not be any standard ones.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570079798.153900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1570079798.153900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-10-02 22:16</span><br/>
+<span style="background-color:#ccf">@Robert Hall</span> good to hear
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1570116602.154300"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1569787170.079600.html#1570116602.154300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-10-03 08:30</span><br/>
+Thanks guys a lot!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

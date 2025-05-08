@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/ff439d06cff4abfa8591800e52d92b3b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>fivo</b>
+<span style="margin:2em; color:#606060">2021-09-17 10:36</span><br/>
+Imagine a finished system that runs (in the sense of there are no runtime bugs) that has lots of threads/routines with all kinds of message queues/channels that interact. I am wondering what kind of visualization tools exist that help me understand where possible bottlenecks are, which parts are active and where there is congestion?<br/><br/>The closest I can kind of think of is <a href="https://visualvm.github.io/graal.html">VisualVM</a> , but it is still kind of basic in the sense that it only gives visually access to stuff like fine grained memory usage, performance of subparts, which threads are active, idle, parked but does not give me a lot of insight in how the different system parts interact with one another.<br/><br/>I admit that I also don't know exactly what I am looking for and therefore don't know what I should be typing into my favorite search engine. I am sure somebody has built more elaborate tools in that direction and would like to hear your thoughts and suggestions of what I should be looking at.<br/><br/>So as an example, let's take a simple producer/consumer model on a channel. Let's say the producer is producing more stuff of than the consumer can take from the channel. One could imagine a node (consumer/producer) and a line (channel) visualization where one sees how active the producer/consumer is (via a red to green spectrum), maybe also one could zoom in to see which subpart is active and how full the channel is (maybe also via a red to green spectrum). That is just an example that came to mind in which the channel would be become dark red over time as it becomes "congested".<br/><br/>Keen to hear your thoughts/ideas.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631900598.089400"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631900598.089400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-17 10:43</span><br/>
+<a href="https://github.com/Netflix/vizceral">https://github.com/Netflix/vizceral</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631900690.089700"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631900690.089700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-17 10:44</span><br/>
+<a href="https://www.youtube.com/watch?v=KVbTjlZ0sfE">https://www.youtube.com/watch?v=KVbTjlZ0sfE</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631900707.090000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631900707.090000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-17 10:45</span><br/>
+<a href="https://www.youtube.com/watch?v=MYHf_BXWuOc">https://www.youtube.com/watch?v=MYHf_BXWuOc</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631902322.090800"></a>
+      <img src="https://secure.gravatar.com/avatar/ff439d06cff4abfa8591800e52d92b3b.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0003-72.png" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631902322.090800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>fivo</b>
+<span style="margin:2em; color:#606060">2021-09-17 11:12</span><br/>
+Do I understand it correctly that you need to instrument your code for this to work? It's not something that is sort of build in into the lang/env.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631903668.091000"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631903668.091000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-09-17 11:34</span><br/>
+it's just the visualization part
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631906049.092100"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631906049.092100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2021-09-17 12:14</span><br/>
+Thinking of a generic visualization can be interesting, but I would suggest to consider starting from your context and the hypotheses you already have.<br/><br/>Chances are that you rely on one or more frameworks, some of which might be custom made. Maybe you even have naming conventions for different processes or queues. To get value from the analysis, you will want to start from those and walk your way up.<br/><br/>A challenge will be the scale. However, before you tackle the scale, I suggest to consider tackling a small scope. For example, focus on a single message. Can you trace that through the system? If not, you might want to change the system to ensure you can - perhaps logging. Once you have that information, you will find that it’s much easier to aggregate it across multiple queues.<br/><br/>You might also find that it’s cheaper to create a tool that works for you than to adapt to a generic tool that might not fit, regardless of how fancy the look and feel is. A tool is most effective when it allows you to (in)validate your hypothesis.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631915858.094200"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631915858.094200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2021-09-17 14:57</span><br/>
+It sounds a lot like the <a href="http://erlang.org/doc/apps/observer/observer_ug.html">Erlang observer</a>. It is not a graphical display but can give you an idea of what information is important
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1631915931.094700"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1631900181.089200.html#1631915931.094700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2021-09-17 14:58</span><br/>
+<a href="https://zipkin.io">https://zipkin.io</a> could also be interesting to you
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

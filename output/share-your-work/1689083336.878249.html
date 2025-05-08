@@ -1,0 +1,101 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-11 06:48</span><br/>
+I've started to work on a structural editor for my language coil <a href="https://coil-editor.netlify.app/">https://coil-editor.netlify.app/</a><br/><br/>It's still early &amp; buggy, but the idea is to directly turn the AST into html with contenteditable for leaf attribute nodes.<br/><br/>So an expression like:<br/><tt>document.body</tt><br/>which is the coil AST:<br/><pre style="white-space:pre-wrap">{type: :property_lookup, lhs: {type: :id_lookup, name: "document"}, property: "body"}</pre><br/>Turns into:<br/><pre style="white-space:pre-wrap">&lt;div data-kind="property_lookup"&gt;<br/>  &lt;div data-attr="lhs"&gt;<br/>    &lt;div data-kind="id_lookup"&gt;<br/>      &lt;div data-attr="name" contenteditable&gt;document&lt;/div&gt;<br/>    &lt;/div&gt;<br/>  &lt;/div&gt;<br/>  &lt;div data-attr="property" contenteditable&gt;body&lt;/div&gt;<br/>&lt;/div&gt;</pre><br/>And now we can easily query this expression with css selectors. So all the syntax highlighting AND formatting is done in css. It also means that static analysis can be done using querySelector.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689084896.166049"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html#1689084896.166049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-11 07:14</span><br/>
+Where I see this going is establishing a highly extendable editor system.<br/><br/>I want it to be attainable for an average library author to ship with a linter, and editor plugins.<br/><br/>To start I need a dead simple editor system. So with embedding AST information in the html, it gives web developers a clear path how to inspect the AST &amp; come up with custom rules, or swap out parts of the ast with something more visually interesting (imagine putting in a colour picker in usages of a color function).<br/><br/>I haven't realized its full potential yet, there might need to be more metadata in the DOM, but I'm starting small &amp; seeing how far I can get.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689111135.927889"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-06/5085861186081_e3e6bba2ae4575d17358_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html#1689111135.927889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Alan Hjelle</b>
+<span style="margin:2em; color:#606060">2023-07-11 14:32</span><br/>
+I'd wondered about such things myself. You are lot further along than I am, though! The "ground truth" representation is still the AST, right? Do you have to do a lot of work to keep the DOM and AST in sync with each other? Are you using something like ProseMirror or…hmm…looks like your are writing your own! Cool!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689112303.583349"></a>
+      <a href="../share-your-work/1689083336.878249.html#1689112303.583349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-11 14:51</span><br/>
+The code to do the mapping from html to ast, and vice versa is here <a href="https://github.com/coil-language/coil-lang/blob/main/editor/src/ast.coil">https://github.com/coil-language/coil-lang/blob/main/editor/src/ast.coil</a><br/><br/>The file is 67 lines of coil so its totally manageable, and I suspect it shouldn't have to grow much larger.<br/><br/>In terms of keeping them in sync, the data is stored in the dom, so when you edit a node, it will parse it as coil code &amp; turn it back into dom. So I guess ground truth is html. We only turn it back into coil AST when we evaluate it.<br/><br/>Keeping the state in the dom lets us use query selectors for all sorts of things. Here's an example of checking for using undefined variables:<br/><br/>And here's the linter in coil<br/><pre style="white-space:pre-wrap"><br/>fn lint-unused-variables {<br/>  let ids = document.querySelectorAll("<br/>      [data-kind=let] &gt;<br/>      [data-attr=assign_expr]<br/>      [data-text]")<br/>    ::map(:textContent)<br/>    ::into(Set[])<br/><br/>  document.querySelectorAll("[data-kind=id_lookup] [data-text]")<br/>    ::reject(:textContent ids)<br/>    ::each($.setAttribute["data-warn", "Use of undefined variable"])<br/>}</pre>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689173272.597409"></a>
+      <img src="https://avatars.slack-edge.com/2022-06-23/3708469439522_ea29e26e919bc202feb6_72.png" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html#1689173272.597409" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Peter Saxton</b>
+<span style="margin:2em; color:#606060">2023-07-12 07:47</span><br/>
+I think very cool, but I must admit I can't work out how to try it out. Would you be able to do a video where you explain the keypresses you do to make edits
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689173720.524199"></a>
+      <a href="../share-your-work/1689083336.878249.html#1689173720.524199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-12 07:55</span><br/>
+Admittedly it might be too early for #share-your-work but here's an attempt to show.<br/><br/>One thing is, its rough on mobile, you can eval it but editing is hard.<br/><br/>There's also a handful of crucial features missing notably<br/>• ability to tack on an operator after a node -&gt; going from <tt>a.b</tt> to <tt>a.b.c</tt><br/>• delete the upcoming node - going from <tt>a[0]</tt> to <tt>a::first()</tt> is hard/impossible right now<br/>Also there's some awkwardness of dealing with the editor as ast nodes, you can only edit within a leaf node, to move on to the next part you must tab into.<br/><br/>Here's a video, hope it helps.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689173788.144059"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html#1689173788.144059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-12 07:56</span><br/>
+I believe those problems are solvable, but right now I'm just showcasing the simplicity of the model, and the benefits of storing AST as html.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1689173930.393469"></a>
+      <img src="https://avatars.slack-edge.com/2023-07-06/5524013698279_0afa5db0b2d593650747_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1689083336.878249.html#1689173930.393469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marcelle Rusu</b>
+<span style="margin:2em; color:#606060">2023-07-12 07:58</span><br/>
+When you insert a new line, its temporarily a plain text editor for that line until you focus away &amp; it parses it
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-07 12:07</span><br/>
+Hey all! I need a tool / stack suggestion. We'd like to track internal metrics for development like build performance stats, build size, source control size, etc. I'd like to be able to see these trends in a graph by date/commit.<br/>• CI tools can do some of this, but they only surface a small, inconfigurable set of metrics. Usually just test failures and build times.<br/>• There are monitoring solutions like Grafana Cloud, Datadog, but these all seem geared towards monitoring servers and cloud systems. They also assume you're ingesting massive amounts of data.<br/>What I really just want is a POST-able URL that I can spit metrics to, and a dashboard with some basic alerting. Is there something like this that exists?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686166399.663979"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686166399.663979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2023-06-07 12:33</span><br/>
+Maybe pushing data to Prometheus and having that as a data source in Grafana? <a href="https://prometheus.io/docs/instrumenting/pushing/">https://prometheus.io/docs/instrumenting/pushing/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686167215.013279"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686167215.013279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-07 12:46</span><br/>
+My understanding was that Prometheus doesn't have persistent storage? Essentially I want to retain this data forever. It's on the order of a few hundred data points per day.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686168710.135689"></a>
+      <img src="https://secure.gravatar.com/avatar/7cefc64f7b1b53513625bf3487ecd16d.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686168710.135689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ionuț G. Stan</b>
+<span style="margin:2em; color:#606060">2023-06-07 13:11</span><br/>
+Yeah, it might not be the best choice. Are you looking for an existent service or is it something that you can set up yourself? One possibly very stupid idea might be to just Google Sheets API and push data into a spreadsheet there. A small script could handle the notifications too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686168784.625969"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686168784.625969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-07 13:13</span><br/>
+I guess I was hoping for an existing solution. :neutral_face: But if that fails I'm not above spinning up a couple of docker containers. What I'm trying to avoid is spending time doing sysadmin stuff down the road.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686168826.434419"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686168826.434419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-07 13:13</span><br/>
+So far it seems like maybe I could use influxdb + grafana and maybe that would be persistent. Not sure...
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282568.830969"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686282568.830969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:49</span><br/>
+I haven't tried this, but maybe writing to postgrest wrapping a postgres db, with Grafana providing the graphs? Postgrest is a smidge intimidating, especially the auth situation, but maybe still easier than handrolling something. Otoh, a very small single-endpoint web server that writes to postgres, which is read from grafana, might be a good compromise... (Thinking out loud at this point)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282635.285699"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686282635.285699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:50</span><br/>
+I ended up trying a <b>lot</b> of stuff. But ended with hosted InfluxDB + Grafana. Works well enough. Influx has a POST Rest API, and it's all pretty easy to query in Grafana.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282649.287129"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686282649.287129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:50</span><br/>
+Luckily Influx has a pay-as-you-go permanent storage option, too.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282674.169299"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686282674.169299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:51</span><br/>
+Hadn't tried postgrest, though! I considered TimescaleDB which is on Postgres, but it requires you to map out the schemas in advance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1686282694.153149"></a>
+      <img src="https://avatars.slack-edge.com/2020-09-12/1359700849458_a88832bbbfe7c26df530_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1686164858.059869.html#1686282694.153149" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Austin</b>
+<span style="margin:2em; color:#606060">2023-06-08 20:51</span><br/>
+The other contender was Graphite, which is essentially built just for this purpose, but it's pretty old and kludgy.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

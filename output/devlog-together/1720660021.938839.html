@@ -1,0 +1,42 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1720660021.938839.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-10 18:07</span><br/>
+I've been slowly reading "The Nature of Order" by Christopher Alexander and slowly thinking about how to make my editor for text and line drawings more timeless. (And mostly sleeping a lot, if I'm honest.) Today the combination of the two led me to draw this shape for the line-wrapping algorithm.<br/><br/>Until now I've been developing the editor the "usual" way, which for me consists of needing some computation, figuring out the most convenient place to perform the computation, then squirreling away the result somewhere it's available when needed. In an effort to get myself out of the rut of the inevitable problems of indirection and cache invalidation that result, I've been trying to replace all my <em>ad hoc</em> data structures with on-demand computation based on the base state of the program. And what I've been ending up with is umpteen variations of this pictured algorithm, just with different code stuck on to the protrusions.<br/><br/>There may be an abstraction that comes out of all this, but I don't see it yet. And as CA says, a flower isn't made up of identical petals. Each one evolves uniquely as a part of the whole.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720660543.429949"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1720660021.938839.html#1720660543.429949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2024-07-10 18:15</span><br/>
+Here's the Lua code skeleton corresponding to that drawing. The ellipses are the protrusions:<br/><br/><pre style="white-space:pre-wrap">for line_index, line in array.each(State.lines, State.screen_top.line) do<br/>	if line.mode == 'text' then<br/>		local initpos = 1<br/>		if line_index == State.screen_top.line then<br/>			-- top screen line<br/>			initpos = State.screen_top.pos<br/>		end<br/>		for pos, char in utf8chars(line.data, initpos) do<br/>			if char:match('%s') then<br/>				if line_wrap_at_word_boundary(State) then<br/>					...<br/>				else<br/>					...<br/>				end<br/>			else<br/>				if x+w &gt; State.right then<br/>					...<br/>				else<br/>					...<br/>				end<br/>			end<br/>		end<br/>	else  -- drawing<br/>		...<br/>	end<br/>end</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1720663256.621999"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2508698086192_565c54a4fa91a0c8c75a_72.png" style="float:left"/>
+      <a href="../devlog-together/1720660021.938839.html#1720663256.621999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Lieber</b>
+<span style="margin:2em; color:#606060">2024-07-10 19:00</span><br/>
+That shape doesn’t mean anything to me yet, but I love that it means something to you and that if we were to talk about it, it would probably become a useful artifact for us both to refer to as we forget the details…<br/><br/>I think there’s potential for semantics to be layered onto a diagram like that, in a way that can be maintained as the design evolves. It reminds me of <a href="http://tinlizzie.org/dbjr/high_contrast.html">http://tinlizzie.org/dbjr/high_contrast.html</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

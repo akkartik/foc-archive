@@ -1,0 +1,187 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-28 14:32</span><br/>
+(Unavoidable) shared mutable state marks cooperating objects + one’s data depends on the other’s (in time) for runtime branching.<br/><br/>Could not we explicitly restrict the access of (lets say 2) objects (1-1 methods) in time - relative to one other?<br/><br/>We could listen to all the relevant(!) messages to validate the access of objects for the shared state.<br/><br/>The dev should enumerate 2 things (for each accessing method per mutable state):<br/>• All the valid sequences of messages which indicate access is granted for the method. “Synced.” <br/>• All the valid sequences of messages which indicate access is denied for the method. “Sync needed.”<br/>(Modelled with Finite Automatons)<br/><br/>We should be also be able to determine (generate) all the relevant(!) sequences of messages (per state per accessing method) - and check if something is left out. If so, the system prompts us and we must fill put the remaining cases to “granted”/“denied”.<br/>(The general idea is to always EXPLICITLY enumerate when to do and when NOT to do something so we can later check with exhaustive search.)<br/><br/>By relevant messages and relevant sequences of messages I mean those which by cascading through in the system (calls) might have any chance to effect the access of the method.<br/><br/>Only if there are too many branches (combinatorial explosion) shall we narrow EXPLICITLY the cases we think behave the same. (By defining more Finite Automatons).<br/><br/>I have this idea for a long time now and I come back to it over and over again. Seems really simple, but did not find anything like that yet. The closest findings are something like TLA+ and Temporal Logic (especially from the complexity of CTL), but to me this process seems quite good and I am not sure why it does not exists yet. <span style="background-color:#ccf">@Kartik Agaram</span> <span style="background-color:#ccf">@prax08</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574980773.298000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1574980773.298000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-11-28 14:39</span><br/>
+Not following this at all.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574981068.298200"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1574981068.298200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-11-28 14:44</span><br/>
+Okay, I’ll try to rephrase it then.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574987369.298700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1574987369.298700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 16:29</span><br/>
+same here
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574987554.298900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1574987554.298900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-11-28 16:32</span><br/>
+there are several languages that have features to only allow valid sequences of method calls, usually by changing an internal state machine or chaining of state.. it sound similar to  what you're saying, but can't quite tell
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1574996969.299100"></a>
+      <img src="https://avatars.slack-edge.com/2018-05-22/369438371830_ec35ac5b251f37e26aca_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1574996969.299100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dan Cook</b>
+<span style="margin:2em; color:#606060">2019-11-28 19:09</span><br/>
+I are we talking about something like this?<br/><br/>Synchronization is only a problem in programs which allow shared mutable state, <b>and</b> parallel execution. Get rid of one or the other, and suddenly you don't need synchronization mechanisms like locks, semaphores, mutexes, etc.<br/><br/>It sounds like the topic is about using static code analysis to prove when code is not synchronous anyway, or otherwise under what conditions it isn't vulnerable to certain synchronization problems with shared mutable state.<br/><br/>And having determined this, the compiler (or something else) can make some sort of guarantee or restriction or optimization or call it an error if synchronization mechanisms are not put in place, or something.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575016839.299600"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575016839.299600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-11-29 00:40</span><br/>
+don't know if I follow, but isn't this related to session types? "In complex distributed systems communicating participants agree on a protocol to follow, specifying type and direction of data exchanged.<br/>•Session types are a type formalism used to model structured communication-based programming.<br/>•Guarantee privacy,communication safety and session fidelity"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575016884.299800"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575016884.299800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-11-29 00:41</span><br/>
+also pony's type system helps "Pony doesn’t have locks nor atomic operations or anything like that. Instead, the type system ensures at compile time that your concurrent program can never have data races. So you can write highly concurrent code and never get it wrong." <a href="https://www.ponylang.io">https://www.ponylang.io</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575016939.300100"></a>
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575016939.300100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2019-11-29 00:42</span><br/>
+erlang makes it simpler, the code inside an actor in single threaded and the message inbox serializes messages sent to it so you don't have to lock anything, just use many actors and you take advantage of multiple cores
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575418084.410900"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575418084.410900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 16:08</span><br/>
+<span style="background-color:#ccf">@Mariano Guerra</span> pony lang and session types are nice pointers, ty!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575419091.411100"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575419091.411100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 16:24</span><br/>
+<span style="background-color:#ccf">@Wouter van Oortmerssen</span> valid sequences of method calls: yes exactly, I need this! Can you give me examples of languages doing that? I’d be curious!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575419457.411400"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-27/582042668721_465336060ae83dc74288_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575419457.411400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Wouter van Oortmerssen</b>
+<span style="margin:2em; color:#606060">2019-12-03 16:30</span><br/>
+Trying to remember the name of the language.. but failing :disappointed:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575419479.411600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575419479.411600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-03 16:31</span><br/>
+<span style="background-color:#ccf">@Wouter van Oortmerssen</span> any other pointer? :stuck_out_tongue:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575562833.066600"></a>
+      <img src="https://avatars.slack-edge.com/2019-11-14/834114331988_5612322b81b6d142511b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575562833.066600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Pezo - Zoltan Peto</b>
+<span style="margin:2em; color:#606060">2019-12-05 08:20</span><br/>
+<span style="background-color:#ccf">@Dan Cook</span> “Synchronization is only a problem in programs which allow shared mutable state, <b>and</b> parallel execution. Get rid of one or the other, and suddenly you don’t need synchronization mechanisms like locks, semaphores, mutexes, etc.”<br/><br/>Yes, that is totally true, but unfortunately I meant something a little bit different by “Synced” / “Synced needed.” :slightly_smiling_face: (I intentionally tried to omit the word synchronization, but the meaning I’ve been looking for is too similar…)<br/><br/>Let me clarify. Earlier we had a discussion on the negative sides of FP and one point was something like “OO preserves identity, FP does not” <span style="background-color:#ccf">@Shalabh</span>. The point is that you might get rid of shared mutable state but then to “preserve identity” you have to make it up “by hand”.<br/><br/>No matter what, if there are 2 independent pieces of code (like objects) which both use the same piece of information (the same identity), then there must be some kind of “syncronization” which prevents the system to work on corrupt data (without sync).<br/><br/>Sure, one option is using references to the same memory address, but then the two objects are not really independent but coupled. If they are truly independent then the syncronization of “their common state” must be embedded in their communication (protocol).<br/><br/>The “protocol between communicating objects”/“mechanisms of the system” must ensure the sequences of events are valid  between all objects. My idea is to define both <tt>valid</tt> and <tt>invalid</tt> sequences of messages in the system so we can check out if some sequence (pattern) is left out, because in theory we are able to generate all the different kinds of sequences - expressing them with patterns. This really seems like connecting state machines, but still I did not find a well-known project which uses something like that. My closest findings are <tt>xstate</tt>  library (Typescript) and some SAT solvers coming from the CTL branch of Temporary Logic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1575567268.088900"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1574980329.297900.html#1575567268.088900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2019-12-05 09:34</span><br/>
+I'm not sure I really get where you're going. When you say 'valid sequence' do you mean a sequence of messages that are absorbed by a single object? So each class/object defines what the valid sequence is? Another concern is that there are multiple possible valid sequences and timing may still come into play. E.g. 'push', 'push', 'pop', 'pop', vs 'push', 'pop', 'push', 'pop' are both valid sequences to a stack like object.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

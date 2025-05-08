@@ -1,0 +1,306 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 06:45</span><br/>
+I have so many ideas I want to build that require a text editor. I often feel that if the editing sucks, the whole project just won’t feel nice. But recreating a decent text editor (by this typically mean for code) is always a reasonably big undertaking.<br/><br/>What I’ve started working on is a headless editor. There are some that exist like xi, but I’m aiming for something a bit simpler. Right now I’m dealing with proper cursor and multi-cursor support. I’m going to be working on a few implementations for textbuffers. Going to add treestyle undo and redo. Going to get syntax highlighting working. <br/><br/>What features would you want in a library like this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668095544.902579"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668095544.902579" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-11-10 07:52</span><br/>
+Hooks. Hooks everywhere.<br/>• first class ingress into any smart tools; expose parsed syntax in some way<br/>. Flat file of tree structure? Edit history?<br/>• Configurable anythings. Make a giant config file in whatever you want to use and make all cool decisions there. Local process endpoints, formatting choices, etc<br/>• if headless, the output could have preformat mode or raw “markup” mode. The former gives you pretty printable text, the latter spits out the formatting scheme you use to do your highlighting/ tree info, etc. <br/>• If you do any LSP integration of any kind, expose the high-level query results in the same way to act as a smart intermediate. <tt>smart-editor</tt> —<tt>headless -findusage “class User” -dir .*</tt> if you’re lucky, you can use the LSP for even stronger highlighting 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668095598.303029"></a>
+      <img src="https://avatars.slack-edge.com/2022-04-28/3450316621254_98f0011b77c61bbc241b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668095598.303029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Lugo</b>
+<span style="margin:2em; color:#606060">2022-11-10 07:53</span><br/>
+Also, I think you’re in for some fun. Based on your last project I saw, this is an interesting dive into editing processes, and I can imagine you picked up some tools you can apply from that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097130.450549"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097130.450549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:18</span><br/>
+When you say "headless" what do you mean? What stuff <em>wouldn't</em> this library do?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097298.177179"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097298.177179" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:21</span><br/>
+(I'm familiar with Xi — but I had thought it was going to be a full-on editor, like a successor to Atom)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097339.469509"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097339.469509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:22</span><br/>
+Primarily, it wouldn't render or be tied to any particular way of rendering. It wouldn't handle any direct IO. So no "if i press this key or click this mouse button". I also wouldn't want to tie it to any particular way of thinking about open files, buffers, tabs, whatever.<br/><br/>Think of it like a backend for any code text editor you could want. That's the goal
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097378.174099"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097378.174099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:22</span><br/>
+But the backend would still do, like, glyph positioning? (You'd need that if you're going to handle wrapping and cursor positioning, I'd think)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097524.681909"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097524.681909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:25</span><br/>
+Are you building on the Web? If so, I'm curious why not start with CodeMirror. CodeMirror 6's extension system is sophisticated and capable, and if it doesn't accommodate your needs you can mess with the source.<br/><br/>If not the Web: I'm less familiar with options, but would be surprised if there weren't an analogous project to start with.<br/><br/>Basically: Making a nice-feeling &amp; featureful text editor is hard, and I wonder why not start with something that already works, if your goal is to experiment with an idea where the text-editor itself is not the focus.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668097599.868109"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668097599.868109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:26</span><br/>
+It would handle things in text space, but not in screen space. So if I say move-right and there is a unicode character, the cursor should move N bytes in the text-buffer where it is now at the end of the unicode character, not split it. But it wouldn't tell you the pixel to render at.<br/><br/>Wrapping could be out of scope? I don't know. Maybe the renderer can cooperate? Not sure whose responsibility that should be. But I'm fine with that following on the "not my job side"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668098139.065909"></a>
+      <a href="../devlog-together/1668091548.239979.html#1668098139.065909" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:35</span><br/>
+<span style="background-color:#ccf">@Joshua Horowitz</span> Not the web. But for what its worth, codemirror 6 is impressive. But I have not found its extension system to be very fun to work with for the sorts of things I want to do. Someone here did a demo of an idea for layers for text, I implemented a POC of that in codemirror 6. It was super finicky though. (Gif attached)<br/><br/>&gt; Making a nice-feeling &amp; featureful text editor is hard <br/>My goal is to make hard software because that's what I have the most fun with and learn from the most. :slightly_smiling_face: I'm currently writing this in rust. You can seem my last exploration here. <a href="http://jimmyhmiller.github.io/editor-experience">http://jimmyhmiller.github.io/editor-experience</a> (Not what is in the gif, something totally different)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668098215.164559"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668098215.164559" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:36</span><br/>
+Hi Jimmy. I had this exact problem, so went away and built a Vim &amp; Notepad-like editor for my own use.<br/>While not headless (and perhaps I should have made that split more obvious), it does separate the buffer management from the rendering (which can be either ImGui or Qt).<br/>I wrote lots of little unit tests, which I found invaluable when things got complicated and I didn't want to break stuff.<br/>It's a big undertaking, and I'd do things different if I started again, but it has been useful.<br/>There is a video overview on the page....<br/><a href="https://github.com/Rezonality/zep">https://github.com/Rezonality/zep</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668098326.523359"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668098326.523359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:38</span><br/>
+There's an example of my most recent project using it in this video too:<br/><a href="https://www.youtube.com/watch?v=mebNIQt8pKE">https://www.youtube.com/watch?v=mebNIQt8pKE</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668098346.890099"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668098346.890099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:39</span><br/>
+<span style="background-color:#ccf">@Chris Maughan</span> That looks awesome! Definitely going to look into this :slightly_smiling_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668098623.008919"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668098623.008919" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:43</span><br/>
+FWIW, My focus was:<br/>• Enable VIM use wherever I built something / enable other users to switch to non-modal editing.<br/>• Enable editing inside a 3D/graphics environment.<br/>There were other motivations, as you can see from the project page; but those are the top-2.<br/><br/>The hardest parts:<br/>• Key mapping/supporting various editing modes/features..<br/>• syntax highlighting<br/>• Intellisense (I haven't done any of that)<br/>• Unicode/international rendering.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668099118.509129"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668099118.509129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:51</span><br/>
+Super helpful resource and information. Mine will definitely have a bit of a different focus. Sense it is primarily for me and I’m anti-modes, definitely won’t be worrying about those :) <br/><br/>For my goals, this is one part of many projects I want to make. Playing with making my own debugger for my day job work. There I at the very least need to be able to display code with color syntax. But for scripting/interactive programming I want an editor. <br/><br/>I also have a mega project in my head for making a truly integrated development environment. A place for my computation to live and grow. Where I can extend my own editor in the process of coding. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668099437.441099"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668099437.441099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-10 08:57</span><br/>
+If you want something more basic/non modal, you could also look at:<br/><a href="https://github.com/BalazsJako/ImGuiColorTextEdit">https://github.com/BalazsJako/ImGuiColorTextEdit</a><br/>This is another ImGui based editor; it is in a single file; although it has a UI, there is much in there to do with handling standard editing modes &amp; syntax highlight; you might find it useful.<br/><br/>FWIW: in my day job I work on source editors &amp; some UI parts of debuggers too.  But we use Scintilla under the covers (<a href="https://www.scintilla.org/">https://www.scintilla.org/</a>).  It is a pain to integrate, but it has a lot of features.  We use another layer on top of it, since our tools are Qt based.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668099885.509229"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668099885.509229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-10 09:04</span><br/>
+This is also an interesting editor (no source code though).  Much of its development live-streamed.<br/><a href="https://4coder.itch.io/4coder">4coder 4.1 by 4coder (itch.io)</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668102772.041619"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668102772.041619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-10 09:52</span><br/>
+I just want to say, having tried both: a text editor is a much more fertile trailhead for FoC experiments than a programming language. This realization has been building slowly, but seeing so many others take this path adds weight to it.<br/><br/>---<br/><br/><span style="background-color:#ccf">@Jimmy Miller</span> Do you have an idea of the API a headed editor will use to interact with this headless backend? Hmm, I haven't looked at all at Neovim's API..
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668110422.201539"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668110422.201539" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 12:00</span><br/>
+Right now, I’m less interested in the remote setup and more interested in a headless editor library. Both Xi and neovim focus on process model, I would be down with layering that on, but not my primary usage.<br/><br/>I’m not sure exactly the shape it will take, but I want it to be fairly lightweight yet customizable. Customization though would come from using the parts differently, not configuring things. I think Casey Muratori has some really good advice on api design <a href="https://youtu.be/ZQ5_u8Lgvyk">https://youtu.be/ZQ5_u8Lgvyk</a><br/><br/>So the plan is to start with small bits of functionality and make them nice and compositional.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668112948.270999"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668112948.270999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2022-11-10 12:42</span><br/>
+I'm not sure what you mean by "remote setup". I think I'm basically asking how you will try out the headless editor library as you build it. I was assuming it would be by creating throwaway editors using it. Are you imagining some other approach?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668114710.644549"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668114710.644549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2022-11-10 13:11</span><br/>
+Part of the motivation for the project was because I keep procrastinating on building things because I can’t find a gui setup I like. So I’m probably going to ignore building anything graphical. Maybe I’d do a command line one? But I feel like that is a potential distraction. The goal is to have a good testing setup. To evaluate things on performance and correctness. <br/><br/>Once I get my work debugger stuff going, maybe I’ll integrate it there? Maybe I’ll backport it to my last experiment? In general, I’m down with not making something graphical. Though I am considering like animated gifs of test failure or something. Not sure. 
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668139579.677859"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668139579.677859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-11-10 20:06</span><br/>
+Simple, headless text editor?  Sam's a classic and my dad's still using it <a href="http://sam.cat-v.org/">http://sam.cat-v.org/</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668139661.481719"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668139661.481719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2022-11-10 20:07</span><br/>
+The Sam paper is worth a read <a href="http://doc.cat-v.org/plan_9/4th_edition/papers/sam/">http://doc.cat-v.org/plan_9/4th_edition/papers/sam/</a>.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668162142.330049"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668162142.330049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-11 02:22</span><br/>
+My tests boil down to a tonne of macros like this:<br/>The strings are:<br/>'name', 'start text', 'commands to the editor', 'expected result'.<br/>COMMAND_TEST(paste_p_linewise, "(one)\ntwo\n", "Vyjp", "(one)\ntwo\n(one)\n");<br/>This one tests that you can select the whole line, yank it, move down a line, paste it below<br/><br/>I think a set of tests like this are essential, since as soon as you tweak the guts of the editor, it's really easy to break a small feature somewhere and not notice for a while.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1668162188.557129"></a>
+      <img src="https://secure.gravatar.com/avatar/2266cacc8f3c9964e7bfb1c357bf6873.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../devlog-together/1668091548.239979.html#1668162188.557129" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Maughan</b>
+<span style="margin:2em; color:#606060">2022-11-11 02:23</span><br/>
+I never thought of doing a command line interface, and I'm not sure what that would look like.  I will read the Sam paper with interest!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

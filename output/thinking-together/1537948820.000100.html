@@ -1,0 +1,342 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 01:00</span><br/>
+I’m curious: does anyone agree with the proposition that Elm (<a href="http://elm-lang.org/">http://elm-lang.org/</a>) has a pretty decent programming model and user experience which if matched with a “good” development environment can lead somewhere “future programmey”? I think it’s targeting the right platform (Web and soon WASM), is developed with the right mindset (extreme learnability) and using the right paradigms (purely functional programming and something close to the actor model). It is designed for producing GUI-based apps out of the box (abstractions over HTML/CSS) rather than printf-based terminal apps. What I feel it’s missing is integration with the “right” development environment (something like Light Table as a starting point).<br/><br/>I’ve been thinking about what a “right” environment entails. After having contemplated “future programming” for around 3 years now, I don’t think that developing visual languages or augmenting text with visual widgets (i.e. working on how to <em>present</em> code) will get us very far. This has been tried for decades in many different forms and the ideas rarely hold up, so my hunch is that addressing challenges through visual representations is a dead end. The right kind of question to ask is perhaps: what does an effective development <em>workflow</em> look like? This hints that a focus on tools may be needed: for example instant feedback tools (how do I see what the thing I’m building actually does), code organisation tools (where do I put code and documentation, how do I keep track of history, and how do I find the right thing when I need it), sharing tools (how do I share <em>libraries</em> and how do I share <em>applications</em>), and collaboration tools (how do I work as part of a team). Importantly, the building blocks of a language are themselves tools for constructing programs. They’re the “obvious” thing that has been a central focus for decades but they remain an important consideration.<br/><br/>So far I’ve been referring to things that many “Future of Programming” people have identified as desirable, but my own understanding of the Future of Programming involves technologies outside what we consider “programming tech” today: stuff like glasses-based AR for the interface (we’re headed beyond WIMP and the desktop metaphor; give it 5 years) and autonomous distributed systems as a computational material (“blockchains” but not as useless as existing ones: something close to the potential of <a href="https://dfinity.org/">https://dfinity.org/</a>). All this stuff is out of our hands, but we should factor it all into our understanding of what tech is on the horizon and how it will affect how we might build programming editors and programs. Some of it could be game-changing.<br/><br/>That’s my brain dump anyway. I’d be interested to hear where people agree and where your thoughts differ.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537955125.000100"></a>
+      <a href="../thinking-together/1537948820.000100.html#1537955125.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-26 02:45</span><br/>
+Hey <span style="background-color:#ccf">@Nick Smith</span>!<br/><br/>I don't have any experience with Elm but I got an image that it's too restricted with its' type system.<br/><br/>Future Programming for me always associated with hot code reload and live programming. How can programming platform both have static type check and code reload with state transition between old and new versions of code? As far as I understand, it will require to write migration code for each code reload.<br/><br/>I like this statement of Alan Kay:<br/><br/>&gt; I'm not against types, but I don't know of any type systems that aren't a complete pain, so I still like dynamic typing
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537955981.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537955981.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 02:59</span><br/>
+<span style="background-color:#ccf">@Vladimir Gordeev</span> My understanding is that static vs dynamic typing has very little impact on hot reloading or live programming. If you change code so that it causes a data type incompatibility, it will crash regardless of whether those types are statically checked or dynamically checked. Dynamic typing is just about delaying those checks until the moment the code runs, after all. Do you disagree with any of this?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537956511.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537956511.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-26 03:08</span><br/>
+Consider this:<br/><br/>Image we have some event callbacks that accept and return state. Image that this state is a tuple with six elements.<br/><br/>We change code, write some more event callbacks and realize that we need more data. We add new field, change state type from six to seven elements tuple.<br/><br/>We have working program that has data in state that we don't want to lose (say socket connection). We load new code. This additional field in tuple breaks typechecks, breaks matching.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537956613.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537956613.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-26 03:10</span><br/>
+You need some kind of migration, if you keep name of the type, but change what it describes, right?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537957119.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537957119.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-26 03:18</span><br/>
+I'm not totally sure that it's not possible with static typing. Maybe it's possible.<br/><br/>Just feels like this area is yet to explore.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537958341.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537958341.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 03:39</span><br/>
+I can talk in more detail later, but it turns out we can actually do this with static typing. The theoretical concept is known as “row types”, and in Elm they’re called “records”. Basically, a tuple/record of six named fields is treated as a supertype of a tuple/record with an additional seventh field. Therefore adding additional fields won’t break the static typing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537958395.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537958395.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-26 03:39</span><br/>
+Okay, I see.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537977376.000100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537977376.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2018-09-26 08:56</span><br/>
+Hi <span style="background-color:#ccf">@Nick Smith</span><br/>&gt; I don’t think that developing visual languages or augmenting text with visual widgets (i.e. working on how to <em>present</em> code) will get us very far.<br/>Would love to hear more about why you think this.<br/>To me something like projectional editing, that enhance text with other forms of presenting the code, could be a big improvement in understanding
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537977666.000100"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537977666.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2018-09-26 09:01</span><br/>
+My biggest concern with Elm is that is a really small team of people working on it and not willing to build Elm as a community project where everyone can contribute to it
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537980220.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537980220.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-26 09:43</span><br/>
+Great thread - a deeper question here is how many existing concepts do we want to throw out before we build the future. I agree that looking at the 'whole workflow' and use cases is a great way to start. Perhaps also reconsider the prevalent 'languages are distinct from tooling' mindset?<br/><br/>I was just writing something called 'Systems, not Programs' - arguing for a system-first perspective: we are 'crafting systems with behavior', not 'writing programs' -  the latter is only way to do the former but takes up most of the mindshare, etc. In the end any 'future programming' model needs to solve not just programming in the 'small' - i.e. what happens <b>inside</b> a single program - but more importantly it needs to solve 'in the large' - i.e. how programs compose with each other within a system. In fact, are these even two separate problems? (Only if you presume the 'program' concept).<br/><br/>This is where today's static typing approach breaks down - you can only build 'small' things because all the verification and binding happens in one shot. Composing programs is 'out of scope'. You cant build/deploy whole systems this way ('the internet is dynamically typed'). OTOH verification is nice so we need some way to reconcile with the fact that the system is continuously evolving with parts being upgraded and replaced. We may need some kind of incremental binding and verification model (~'bind time verification' instead of compile time or run time).<br/><br/>Re the text vs visual debate, I agree 'augmenting text with widgets' is a poor solution, but what about replacing text itself with a richer substrate? See <a href="http://subtext-lang.org">subtext-lang.org</a> for instance.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537999031.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537999031.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 14:57</span><br/>
+<span style="background-color:#ccf">@Daniel Garcia</span> I think projectional editing could turn out to be really useful for domain-specific languages (e.g. constructing math formulae), or for direct manipulation of data. I'd like to see it happen, but I think there are far bigger fish to fry. After all, it doesn't look like it will solve the major causes of programmer headaches (iteration times, spaghetti code &amp; code comprehension, preventing &amp; debugging errors, code management, data management, distributed systems...). And my belief is that we need to make "professional programming" orders of magnitude easier before we can really make leaps in end-user programming.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1537999587.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1537999587.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 15:06</span><br/>
+<span style="background-color:#ccf">@Daniel Garcia</span> The development of Elm is restricted to a small group of people for very good reason: <em>everyone</em> has ideas, but most of them wouldn't suit the project. That includes my own ideas. In particular, Elm draws a lot of attention from Haskell developers. These developers come to Elm with lots of ideas about how to "improve" Elm: often they want it to be more like Haskell. Haskell has never been considered a "learnable" or "simple" programming language, so Haskell features often conflict with Elm's goals.<br/><br/>That's not to say you can't discuss ideas for how Elm can grow. The community is very receptive to discussion (blog posts, forum posts...). The only challenge you'll face is that the core contributors won't integrate ideas (or accept your help to develop them) unless they fit Elm's goals.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538003079.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538003079.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-26 16:04</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> I feel like static typing naturally progresses to "bind-time typing" in a system that is developed in pieces and then bolted together. This is already done in C/C++ with header files and object files. Of course this doesn't support interface evolution, but that's a problem which is again independent of static and dynamic typing: if an interface breaks, it's going to cause errors whenever the types happen to be checked.<br/>(I'll again mention row types as a kind of data type that can adapt to non-breaking changes without causing static type checking to fail).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538032552.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538032552.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 00:15</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> the use cases I'm thinking of are one C++ binary talking to another C++ binary via a socket or opening a file and reading it, expecting a specific format. What kind of validation happens in either case? Do we just see if the bits 'look good'? Sounds an awful lot like dynamic typing! Now from the 'program perspective' there is no problem here because you have 'compile time' and 'run time' and these are distinct phases - static type checking only happens during compilation. But from the 'system perspective', <b>it is always run time</b>. If you look at any running system, you have parts that come together, 'compose' to form larger parts and then work together - and this happens on an ongoing, continuous basis at different scales. E.g. at some point the programmer composes some 'function parts', some 'type parts' together into a 'program part', stamped 'verified OK' by some checker. Then we go on to compose multiple 'program parts' into a service and there is no verification and thats ok? By 'bind time' I meant we need introduce the idea that whenever a coupling is introduced between one part' and another part, there is some verification that happens to ensure these two work well together. This could be used both 'in the small' - i.e. when building a program-like entity - and 'in the large'. The usual static typing model doesn't scale because you cannot build or deploy large system in one shot! You always have sub parts that are replaced/updated while the rest of the system remains intact.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538033853.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538033853.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-27 00:37</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> Again, it turns out that serialisation and de-serialisation doesn’t need to be done in a dynamically-typed context. In statically typed languages like Elm (or Haskell), you use “encoders” and “decoders” respectively. A decoder is built according to an expected data format and is equipped with plans B and C if the format doesn’t match (e.g. filling in default values, or returning a predetermined error value). Basically, it’s run-time error handling that is statically guaranteed to work as expected (and never crash).<br/><br/>Since all communication between programs can be boiled down to binary data, we have access to a foolproof way to never crash: we just use a binary decoder and explicitly specify how to handle all possible errors in advance. Of course, this isn’t ideal. Usually you can safely presume the data format is something better than binary, for example JSON, in which case you use JSON-specific decoders. If you need better guarantees than that (i.e. you want to be able to presume that the data will be precisely a list of three integers), then you’re right, suddenly you need the kind of “bind-time checking” you refer to, which happens when you plug programs together.<br/><br/>It’s definitely a topic worthy of research. I’d like to know if this kind of type checking exists! In summary though, I still disagree that any of the issues that arise when composing programs into systems has to do with static typing in particular. On the contrary, it’s a good step above dynamic typing in terms of guarantees.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538069872.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538069872.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 10:37</span><br/>
+<span style="background-color:#ccf">@Nick Smith</span> - I feel we are talking about different things :smile:. The decoders etc. sound useful and I am not against static typing.<br/>&gt;  I still disagree that any of the issues that arise when composing programs into systems has to do with static typing in particular.<br/>I'm not saying this at all. It's not that static typing causes problems, its that it doesn't solve the more general problems of composing programs into systems. IOW, the current static typing methods only apply 'within the program' and these ideas don't extend beyond the program boundary. In fact the 'program concept' itself - a fully fleshed out, static construct - is <b>essential</b> in this model. It is the thing being 'verified'. But systems are not programs - they are not 'static' - how do we start to think about verifying these? We build these little bundles we call 'executables' which may internally be statically verified and what not, but then we wire them up with very dynamic mechanisms because the models we use for building 'executables' don't work for building systems. The deeper idea I'm trying to challenge is the dominant paradigm which considers in-program composition a very different thing than cross-program composition.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538069873.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538069873.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 10:37</span><br/>
+What if we start with system composition first? In the system model there are no 'compile time' or 'run time' phases - a system is always live. You want to be able to pull out a part - could be large or small - tweak it and put it back. Or you want to fiddle with something in place. In each case you want to verify that certain consistency/correctness is preserved. How should these be specified? Maybe there is a whole range of consistency checks starting from the whole system to subsystems all the way down to small components (This unifies integration tests, unit tests and type checking into one general notion of consistency checking). If the general problem is solved well, do we need the current static typing models? Do we even need the program/executable concept? Can a general, recursive model provide a better, live, programming experience?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538082273.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538082273.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-09-27 14:04</span><br/>
+&gt; In the system model there are no 'compile time' or 'run time' phases - a system is always live. You want to be able to pull out a part - could be large or small - tweak it and put it back.<br/><br/>I follow this thread with great interest.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538090450.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538090450.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 16:20</span><br/>
+An interesting paper that touches on this (and other strong and abiding beliefs we tend to hold around programming) is <a href="https://www.shift-society.org/salon/papers/2018/preprints/semprola.pdf">https://www.shift-society.org/salon/papers/2018/preprints/semprola.pdf</a>. Excerpt:<br/>&gt; Another traditional choice is to view a program as an isolated mathematical or otherwise formal construct whose semantics is mostly determined at compile time in reference to itself and its imported libraries. And it makes a lot of sense that we’ve inherited this view given the history of programming, but today many ‘programs’ are really just small parts of a greater, ‘living’ network of programs and services that are each being updated at their own pace. Therefore there is no single moment of compilation and the semantics of one part in relation to the whole can be updated even if that part isn’t being changed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538099754.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538099754.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-27 18:55</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> Yeah, I'd started to suspect we were talking past each other. Sorry if I started on irrelevant tangents.<br/><br/>I think your description of the nature and challenges of developing systems is pretty accurate, and it's definitely a problem we need to solve. I'm sure relevant theories exist, but I don't know much about them yet.<br/><br/>One thing I think is true: Because parts of a system will inevitably be developed using different programming languages or frameworks, any kind of verification has to be done in a language-independent way. This means parts of a system need a common means to "advertise" how they behave to one another. There's a concept that already exists for this: Interface Description Languages (<a href="https://bit.ly/2ImaUf7">https://bit.ly/2ImaUf7</a>). Huge companies like Google and Facebook are using these languages to bolt their systems together already. Some of these languages, like ProtoBuf, have a way to specify forwards and backwards compatibility so that you can upgrade pieces of a system without the other pieces breaking.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538100913.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538100913.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-27 19:15</span><br/>
+There's also OpenAPI too (<a href="https://bit.ly/2OVAcDw">https://bit.ly/2OVAcDw</a>) but I'm yet to fully understand it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538102432.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538102432.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 19:40</span><br/>
+I don't think there's anything irrelevant in the above conversation, it's more about settling on a shared context. (If anything I took your original thread and threw in a different context.)<br/><br/>The solutions like protobuf, thrift, avro, etc. are good engineering solutions and they <b>build up</b> from the existing foundations. My belief (shared with some others here I think) is that the foundations themselves could use some rethinking. This means questioning some well established, fundamental ideas such as what is an OS? Do we need one? What belongs in an OS? E.g. should it provide a richer communication mechanism than 'byte streams'? Should it provide a richer persistence model than 'files'? Should it include a type system? Could it be distributed by default? Should it be virutalized by default? If we change the foundational substrate, it is possible the structures we build with it (our programming languages+environments, build systems, applications, runtimes, package systems, databases...) also look very different. Perhaps some problems that we solve in the higher layers and introduce complexity, could end up being very easy in this imaginary world. That said, it is extremely useful to invent and explore on top the existing foundations as well, to find the 'good ideas'. So there's a lot of avenues to explore wrt 'future of programming'.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538106952.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538106952.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-27 20:55</span><br/>
+&gt; What belongs in an OS? E.g. should it provide a richer communication mechanism than 'byte streams'? Should it provide a richer persistence model than 'files'?<br/><br/>I agree re-thinking some fundamentals can be necessary. I think this challenge is better phrased as a problem of <em>abstractions</em> though. For example, all of computing comes down to bytes, but abstractions like files, data types, and interface description languages make thinking about bytes unnecessary. I think the "future of programming" is about finding the best set of paradigms and abstractions for building systems.<br/><br/>(Thinking too much about reinventing <em>operating systems</em> can be dangerous. Operating systems are low-level behemoths, and realistically we don't have the resources, community, or industry agreement that is necessary for doing that kind of work. The right set of abstractions will be able to run atop any existing operating system and computer hardware.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538112212.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538112212.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-27 22:23</span><br/>
+Agree 100% with your comment about this being a problem of finding the best set of abstractions. Yes there's a risk in reinventing things too. If we build a new substrate, it should be widely portable and should run atop the existing behemoths. Then when everyone is on the new stuff, we switch out the behemoths underneath with something compact :wink:.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538112349.000100"></a>
+      <img src="https://avatars.slack-edge.com/2023-04-13/5095853045814_6402e9775ed73b75334f_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538112349.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nick Smith</b>
+<span style="margin:2em; color:#606060">2018-09-27 22:25</span><br/>
+Exactly :grinning:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538145722.000100"></a>
+      <img src="https://avatars.slack-edge.com/2017-08-20/228447816352_649181907e06ec450c64_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538145722.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Stefan Lesser</b>
+<span style="margin:2em; color:#606060">2018-09-28 07:42</span><br/>
+Very interesting thread! When talking about systems, there’s the additional challenge that everything is fractal and systems contain other systems or form another system. When we talk about composing systems, we might have something like Unix pipes in mind, where we chain certain executables which can be written in different programming languages. And it is one thing to think more about the qualities these executables need to have to make this possible. But then this only works because there is the Unix philosophy and concept of pipes and filters and byte streams, which in itself is a (more abstract) system that has been designed to make this all work. <br/><br/>It’s hard to figure out which level of abstraction we are currently thinking about as there will always be layers above and beneath it (e.g. the <em>What belongs into an OS?</em> question). It almost feels like the fundamental problem to me: pinning our thoughts and ideas to a certain level, so we can start experimenting and noticing when we make assumptions or specify requirements for the layers above and beneath.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1538153115.000100"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1537948820.000100.html#1538153115.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-09-28 09:45</span><br/>
+Yes! Everything seems like a system fractal. Every level is similar to every other level in some respects - definitely in the respect that each level is exactly as powerful as a Turing machine. What if we pin ourselves to an arbitrary level X - doesn't matter what it is - and we define an abstract model. Further, we design it such that if we go to Level X-1 or Level X+1, we find different details but with exactly the same abstract model. This is the idea of proof by induction and in recursive design ("make the parts have the same power as the whole" Bob Barton via Alan Kay). So if we define how Level X things compose and become Level X+1, but also require that the Level X+1 thus produced shares the same abstract model as X, we can now automatically go to Level X+2, employing the same composition rules. I don't know if this is feasible or even resonable, but it certainly is an idea that I find very interesting. There are faults here too, e.g. the 'single model fallacy' if there is such a term.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

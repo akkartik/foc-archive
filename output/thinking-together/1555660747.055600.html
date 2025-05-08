@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-02-05/542651515888_326328f75c3f2a08544c_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1555660747.055600.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Edward de Jong</b>
+<span style="margin:2em; color:#606060">2019-04-19 00:59</span><br/>
+Well guys, looks like Microsoft has dropped their latest research language, called Bosque.<br/><br/><a href="https://www.microsoft.com/en-us/research/project/bosque-programming-language/#!publications">https://www.microsoft.com/en-us/research/project/bosque-prog&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1555662217.056900"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1555660747.055600.html#1555662217.056900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2019-04-19 01:23</span><br/>
+Only have a moment for a scan.  The paper starts off promising in section 2.  Section 3 presents what just looks like a modern, typed language.  Section 4 suggests that Bosque has somewhat non-strict execution semantics.  That's something.  Am I missing something else interesting?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1555731810.068600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1555660747.055600.html#1555731810.068600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2019-04-19 20:43</span><br/>
+<em>"..the initial goal for Bosque is to build automated zero-effort code validation, automated SemVer checking, and compilation to use SIMD hardware, such as AVX or SSE."</em> -- <a href="https://www.theregister.co.uk/2019/04/18/microsoft_bosque_programming_language">https://www.theregister.co.uk/2019/04/18/microsoft_bosque_programming_language</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1555772928.070900"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-03/410049852848_d79ba47b2952e74a99d9_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1555660747.055600.html#1555772928.070900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Brian Hempel</b>
+<span style="margin:2em; color:#606060">2019-04-20 08:08</span><br/>
+Here’s my summary. The language in the paper is grandiose, which I found off-putting. If you wade through that, here’s what you find Bosque contains, in some rough order of goodness/novelty (most to least):<br/><br/>1. Primitives for collection operations (<tt>map</tt>, <tt>filter</tt>, <tt>fold</tt> etc)—no looping constructs. (Recursion is allowed but discouraged—you have to mark <em>callsites</em> to recursive functions with <tt>rec</tt>.)<br/>2. Those collection primitives are packaged with pre- and post- conditions to ease verification. (The verification story is a bit hand-wavy though.)<br/>3. Execution produces deterministic results, but there’s no guarantees on intermediate execution order. If a piece of code throws errors in parallel, which error is thrown may be non-deterministic, but that <b>some</b> error is thrown is deterministic.<br/>4. Function arguments are (apparently) matched by name and by type first, and then by position. This is an idea I’ve wanted to explore because it’s superficially more ergonomic but there may be some tricky downsides (e.g. with complicated arg matching rules, how do you determine if an API change breaks existing code?).<br/>5. There’s special syntax for denoting optional values that can be <tt>none</tt>, and syntax for allowing method calls on <tt>none</tt> to return <tt>none</tt> instead of crashing.<br/><br/>The following ideas are extolled in the paper but I don’t think they are quite so novel or worthy:<br/><br/>1. Local multiple assignments to the same variable are not actually mutations of the same memory location. I’ve thought about this before: the naive version doesn’t work work all the time because where you want multiple assignment is in folds and the above semantics doesn’t work there.<br/>2. All objects support record update syntax and record merge syntax. What’s novel here is applying this to a more traditional OO model; but its core is just plain old functional record update syntax. There’s also a field projection syntax, which is handy.<br/>3. Well defined interface to the outside world. It’s a good idea to have an API to the OS, but the writeup makes it sound like this solves all the messy IO system call stuff when really it just pushes that mess out of scope of the language. You’ll still have to deal with it sometime.<br/><br/>Ideas perhaps worth discarding:<br/><br/>1. No referential equality (that’s fine) but to support custom equality measures you simply define a field named <tt>key</tt> on your objects/records. You only get one of these: now you’re toast if you want a different equality metric or your equality metric wasn’t precise enough.<br/>2. No logging. (Stated justification: when your language is deterministic you don’t need logging.)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1556639409.316600"></a>
+      <img src="https://secure.gravatar.com/avatar/e4a9957508aa1bdb16018793cfc1bb40.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0020-72.png" style="float:left"/>
+      <a href="../thinking-together/1555660747.055600.html#1556639409.316600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>David Piepgrass</b>
+<span style="margin:2em; color:#606060">2019-04-30 08:50</span><br/>
+I just read the readme on GitHub, as that's what Slashdot linked to when it announced Bosque ... it was full of TODOs. I got a bit suspicious by how Bosque proudly solves so many problems by making all heap objects read-only - okay, you reinvented Haskell in C-style syntax, but don't imagine you're the first one to do it. To me, mutability is pretty useful, so the real challenge is to figure out how to make a language that somehow retains... analyzability/comprehensibility despite the presence of mutability. I mean, without mutability you can use "hash trees" instead of hashtables, but it's not free, there's a performance hit. And then I wondered how it scales, because I didn't see monads in there...
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

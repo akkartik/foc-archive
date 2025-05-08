@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601320424.020900.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-28 12:13</span><br/>
+Does anyone have resources about explicit versus implicit "casting" from a conceptual level? In the language I'm designing we're playing with the idea of describing all "Things" as a combination of:<br/>• "Representations" like Text, Audio, Image, File, etc and<br/>• "Properties" (described by the object's themselves) which produce a Thing<br/>The big idea here is that representations are the only way to get concrete data out of a Thing if you aren't the service which declares the "Thing". And any collaborating code would not be able to require the concrete "Thing" they expect, they could only describe the "representations" they require to work (such as representation as an "Email Address"). This is similar to the golang philosophy of specifying inputs to your function as interfaces and always return concretes.<br/><br/>So if we were modeling some Slack domain models, we might have:<br/><li>Slack Message (*repr: <b>Text)</b><br/>• <b>Sent: Timestamp</b><br/>• <b>Body:</b> <b>Slack Message Body</b><br/>• <b>Attachments: List of "attachment" (Slack Attachment) (</b><em>generics of some kind)</em><br/><li>Slack Attachment (*repr: <b>File)</b><br/>• ...<br/><b>Slack Message Body (repr: Text, Rich Text, HTML Text, Markdown)</b><br/>• <em>No properties</em><br/><b>Timestamp (repr: Timestamp)</b><br/>• Year: Natural<br/>• Month: Natural [1, 12]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601341397.021300"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../present-company/1601320424.020900.html#1601341397.021300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2020-09-28 18:03</span><br/>
+That all seems extremely reasonable (similar to ideas I'm working on, for sure), but I don't understand how casting comes into it. Implicitly casting Things to representations?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1601341642.021500"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../present-company/1601320424.020900.html#1601341642.021500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-09-28 18:07</span><br/>
+Yeah, so for example, in <tt>Alexa [speak] (message: ___)</tt> message might require a Thing with a representation of Any of: Text, Audio Playback, Spoken Audio, Timed Text (think like subtitles), etc.<br/>So, what ever "Thing" you pass in will be "casted" (sorta) into the representation based on some priority and perhaps the code author's help.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

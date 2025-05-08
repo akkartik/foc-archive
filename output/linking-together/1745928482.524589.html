@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../linking-together/1745928482.524589.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-04-29 05:08</span><br/>
+<a href="https://algot.org/">https://algot.org/</a> — a research visual, by-demonstration (aka code while seeing concrete values :cake:), language operating on graphs.  Papers largely closed-access but <a href="https://people.inf.ethz.ch/~sverrirt/publications/">preprints here</a>.<br/>I find it a bit hard to imagine how one uses it from screenshots, and ~didn't find videos / lectures?~ OK here's a (silent) demo: <a href="https://vimeo.com/729159376">https://vimeo.com/729159376</a><br/><br/>In some ways similar to <a href="https://www.youtube.com/watch?v=4rLGHBio5UI">Subsequently</a> in de-ambiguating user intent by "demonstration" not being "say the result" but "pick an action".
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1748124014.443639"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../linking-together/1745928482.524589.html#1748124014.443639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-05-24 15:00</span><br/>
+I've read the central paper on Algot: "<a href="https://people.inf.ethz.ch/~sverrirt/pdf/syntaxsemanticsgap2022.pdf">Bridging the Syntax-Semantics Gap of Programming</a>". Salient points [my opinions bracketed]:<br/><br/>It's PBDemonstration, where user conveys intent by actions, and not PBExample where intent is inferred from before/after or input/output pairs.  They attack the gap <em>during program construction</em>, admit it's weak for later comprehension.<br/><br/>State is <em>graph</em> with nodes containing numbers (to be extended in future).  Graph for pedagogical reasons — covers structures they want to teach + visualization is <em>universally understood</em>.<br/>[Target audience not explicitly stated; seems to be for beginning CS students? I'm personally more interested in PBD for end-user programming; but then I wouldn't teach them linked lists or binary search trees...]<br/><br/>It's showing concrete data when directly-manipulating top-level state. :cake:<br/>But when demonstrating a procedure ("helper"), in Input stage you denote parameters (+ pattern matching) by adding "abstract" nodes. IIUC new nodes created during your hepler are also abstract? Unlike concrete state nodes, you won't see abstracts' value at Action stage :see_no_evil:, only their label letter.  (Also, not all nodes will exist in all executions ⌥)<br/>[This is serious unsolved gap! Inherent question of how PBD can be parametrized — you don't see <em>actual</em> semantics, but some ≈symbolic approximation.]<br/>They aspire to improve this in future by letting you pick example inputs and see actual values [they cite <a href="https://arxiv.org/abs/1902.00549">https://arxiv.org/abs/1902.00549</a> which is good read and <a href="https://fermatslibrary.com/s/ancient-babylonian-algorithms">wonderfully</a>-motivated title]<br/><br/>They believe nested conditionals and loops to be confusing for beginners.<br/>=&gt; No loops, only recursion.<br/>=&gt; Boolean checks can only be made in Query stage before procedure starts (pro: order doesn't matter), and then Action stage code is <b>flat</b>, with <b>optional predication</b> — each step may be conditioned on each query being true/false/don't care.  [Heresy #1 :thinking_face: Personally I'm skeptical flatness scales well to complex codebases?]<br/>  Con: if you need checks and/or pattern matching depending on prior checks, you'll want to extract a 2nd procedure.  Each procedure has Input+Query stages, so not really as flat as it sounds!   (technically they reduce the need by allowing empty-set pattern matches [?] but they admit guard-before-access is mentally clearer.)<br/><br/>[Most interesting heresy :clap::open_mouth: #2, emphasis mine:]<br/>&gt; 4.1 State Should Be Relatable, Visible and Editable<br/>&gt; ... Conventional imperative languages such as C, Java, and C#, also separate state into local variables on the stack and objects living on the heap. This separation can be confusing and lead to misunderstandings.<br/>&gt; ... Even systems designed for beginners like Scratch tend to scatter state by maintaining variables, position for individual objects, or drawings on screen. <b>We believe that a scattered state leads to additional cognitive overhead and instead intend to maintain a single central state. Algot avoids variables as separate entities from other state.</b><br/>• Instead of local variables, one is supposed to insert a new (disconnected) node to the global graph, mutate/grow connections, and remove it from the graph when done.   (you do bind a local name to it, but that's immutable — the state lives in node's content and connections, and cosmetic — you don't really reference by name, you click it)<br/>• They didn't 100% banish scattered stack state: Procedure parameters get bound (by ref.) to concrete nodes given as arguments — so there are hidden activation records somewhere.<br/>• The recursive examples given do materialize in global state parts of what'd usually be implicit in stack :+1:.  E.g. fibonacci works with explicit linked list of prior results.  Is this purely stylistic?  No, it's encouraged by IIUC <b>not having return values!</b>  [interesting heresy #3! :open_mouth:]  Procedures can "return" results by mutating the global state graph (possibly via output parameter pointing there).  Even builtins like "add" take assembly-like src1, src2, dest.<br/>[All in all, my first instinct was to protest, but the goals are interesting and the choices nicely provocative :thinking_face:]
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1750540202.181239"></a>
+      <img src="https://secure.gravatar.com/avatar/3dec956efe594149cbf027145d37aa47.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0008-72.png" style="float:left"/>
+      <a href="../linking-together/1745928482.524589.html#1750540202.181239" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Sverrir Thorgeirsson</b>
+<span style="margin:2em; color:#606060">2025-06-21 14:10</span><br/>
+Thank you for the interest in our work!<br/><br/>We have now implemented the things that we aspired to implement when we wrote that 2022 paper. For example:<br/><br/>&gt; They aspire to improve this in future by letting you pick example inputs and see actual values.<br/>I added this a couple of years ago :slightly_smiling_face: Algot now supports example-based programming. You can test a recent version of the system here (with a tutorial): <a href="http://otp.algot.org">http://otp.algot.org</a>. Also, here's a really cool extension of the system for teaching software testing that my student Max Barth implemented last year: <a href="https://testvision.algot.org/">https://testvision.algot.org/</a><br/><br/>Here's a talk I gave on Algot and related topics last year: <a href="https://www.youtube.com/watch?v=fk9LctyrVLM">https://www.youtube.com/watch?v=fk9LctyrVLM</a>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

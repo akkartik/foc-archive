@@ -1,0 +1,211 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2018-10-28 00:00</span><br/>
+Dynamicland made me wonder if there are any, um, ah, input/output standards out there that have been used to do some of the things seen at Dynamicland. Would be relatively easy to write. Just wondering if it already exists.<br/><br/>Here's a video of what I saw. Not sure how clear it will be out of context<br/><br/><a href="https://www.youtube.com/watch?v=FtPOLzXtYIU">https://www.youtube.com/watch?v=FtPOLzXtYIU</a><br/><br/>In any case, one of the things in that video is how inputs and outputs are available from other programs. So for example they connect a "dial" program and use it to dial up the speed of the simulation (actually I think they dialed down the per frame delay).  They also had displays displaying number of sheep or number of plants. As well as dials for birth rate etc, and the graph.<br/><br/>So, that seems like a useful thing outside Dynamicland. Make various programs and they advertise their inputs and outputs. You can imagine for that plant-sheep-wolf sim as inputs their might be<br/><br/><pre style="white-space:pre-wrap"><br/>--inputs--<br/>{ name: "plantBirthRate", type: "Number", range: [0, 100], precision: 1 },<br/>{ name: "sheepBirthRate", type: "Number", range: [0, 100], precision: 1 },<br/>{ name: "frameDelay", type: "Number", range: [0, 1], precision: 1, },<br/>--outputs--<br/>{ name: "numPlants", type: "Integer", },<br/>{ name: "numSheep", type: "Integer", },<br/>{ name: "numWolves", type: "Integer", },<br/></pre><br/><br/>etc. I suppose outputs are just readonly inputs so no need to separate the two.<br/><br/>Anyway, the idea is you could build various kinds of inputs and displays. Example: You write a USB Midi input controller and then plug in any midi device and it auto assigns inputs to dials/sliders/buttons. (and of course somewhere you can set which ones go to which). You make a USB DAC Analog VU meter and plug it in and it takes the first unread output and displays it on the VU meter. You make some UI APP on a phone or tablet, connect it to the program over wifi and it presents various sliders, and or readouts etc.<br/><br/>That seems like systems like that have to already exist.<br/><br/>It would be nice to be able to write various programs with no UI, just declare the data and you get a UI for free. This happens in C# with the property inspector and it happens in Unity for example but disconnect it slightly more so the displays of properties and the editing of properties can happen externally to the program using those properties.<br/><br/>Anyone know of such projects?<br/><br/>Of course I can already see lots of issues. You want specific sliders or specific knobs or specific tablets to control specific inputs so it takes time to go and for each input or display configure it to work with the specific value you want.  That's kind of solved at Dynamicland with the little lines poking out. The problem though is there's only room for so many of those lines so if your simulation has 50 settings you're kind of out of luck.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540711892.019200"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-15/861537614034_222a2870915d24ec10cc_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540711892.019200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Vladimir Gordeev</b>
+<span style="margin:2em; color:#606060">2018-10-28 00:31</span><br/>
+Hey <span style="background-color:#ccf">@Gregg Tavares</span>! I was thinking about something similar, and had a discussion some time ago: <a href="https://github.com/d-cook/SomethingNew/issues/24">https://github.com/d-cook/SomethingNew/issues/24</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540715441.019500"></a>
+      <img src="https://avatars.slack-edge.com/2018-08-13/414472553296_f3eb3ca69d86feb77929_72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540715441.019500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Gregg Tavares</b>
+<span style="margin:2em; color:#606060">2018-10-28 01:30</span><br/>
+Interesting. I tried to do the hierarchy thing once and failed. Not saying it's a bad idea. If you want an external program to edit a tree then of course you need some kind of representation of that tree in the editor. For me though I'd prefer to start small I think and just allow the external apps to query for properties to edit, then maybe like JS apis they could <tt>addEventListener</tt> for changes if they want to be notified of changes to that specific property? I don't know until I make it<br/><br/>I've seen at least one game engine that just provided a webserver that served up it's scenegraph and all objects. You could edit the properties on the objects from a browser. It wasn't live. It was just http get and put operations.<br/><br/>Speaking of which maybe I should look into the browser's debugger protocols for inspiration<br/><br/><a href="https://chromedevtools.github.io/devtools-protocol/">https://chromedevtools.github.io/devtools-protocol/</a><br/><br/>I'm actually kind of interested in doing this as an internal library first (as in something I use in an app, not something that runs outside). Just as a way to simplifiy hacky interface building. Kind of like in C# I can just make a ProperyControl and point it at an instance of a class and I get a UI.  I do a lot of small JS things and end up writing the UI from scratch nearly every time<br/><br/><br/>I guess that's one advantage of a typed language for this kind of issue
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540740777.021600"></a>
+      <img src="https://avatars.slack-edge.com/2021-10-04/2564854327154_7acd71947ea203e9a69b_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540740777.021600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joe Trellick</b>
+<span style="margin:2em; color:#606060">2018-10-28 08:32</span><br/>
+<span style="background-color:#ccf">@Gregg Tavares</span> have you looked into systems aimed at art/performance like <a href="https://puredata.info">https://puredata.info</a>  and Max/MSP/Jitter?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823542.026900"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823542.026900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:32</span><br/>
+<span style="background-color:#ccf">@Gregg Tavares</span> there's a lot going on there that isn't shown
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823587.027100"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823587.027100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:33</span><br/>
+objects in the system can publish "claims" and "wishes", which are kind of like a generalized interface
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823608.027300"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823608.027300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:33</span><br/>
+any object can read any claims and wishes of any other object in the room
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823653.027500"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823653.027500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:34</span><br/>
+this was meant to make an ecosystem where one object didn't need to know a specialized "API" to communicate with other objects
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823720.027700"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823720.027700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:35</span><br/>
+as Alan Kay quotes Licklider, this is the "communicating with aliens" problem — how do two entities with no known shared context figure out how to talk to each other
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823780.027900"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823780.027900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:36</span><br/>
+this was Licklider's vision of the internet, an ecosystem more like how biological organisms talk with each other
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823810.028100"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823810.028100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:36</span><br/>
+Bret Victor described a system kind of like this in Magic Ink: <a href="http://worrydream.com/MagicInk/#engineering_inference_from_the_environment">http://worrydream.com/MagicInk/#engineering_inference_from_the_environment</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540823968.028300"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540823968.028300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:39</span><br/>
+The claims and wishes system is genius and is meant to be a system that supports programs and humans interacting all together in one abstraction
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540824030.028500"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540824030.028500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 07:40</span><br/>
+"claims" being facts about the world, like measurements or data, and "wishes" being how a human or program would like the world to be (with other programs free to interpret act on that wish and make it true if they have the ability)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540836783.031700"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540836783.031700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2018-10-29 11:13</span><br/>
+Thanks for the description <span style="background-color:#ccf">@Glen Chiacchieri</span> - that was really useful. I suppose there needs to be some shared vocabulary to express the claims and wishes?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540839312.032000"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540839312.032000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 11:55</span><br/>
+<span style="background-color:#ccf">@Shalabh</span> that's actually what Realtalk is, a protocol describing how these things are expressed
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540839325.032200"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540839325.032200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 11:55</span><br/>
+down to the byte level
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1540839343.032400"></a>
+      <img src="https://secure.gravatar.com/avatar/a6015b7c906ada6c2fe6f19feee54557.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0024-72.png" style="float:left"/>
+      <a href="../thinking-together/1540710053.019000.html#1540839343.032400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Glen Chiacchieri</b>
+<span style="margin:2em; color:#606060">2018-10-29 11:55</span><br/>
+I'm not familiar enough with the design or implementation to say more
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

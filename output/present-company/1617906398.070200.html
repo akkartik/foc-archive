@@ -1,0 +1,31 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-01-30/1694828418931_9ff8c2de03dba11dab1d_72.jpg" style="float:left"/>
+      <a href="../present-company/1617906398.070200.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Florian Cäsar</b>
+<span style="margin:2em; color:#606060">2021-04-08 11:26</span><br/>
+Continuing in a separate thread as not to derail the original one, on my question about <a href="http://nanopay.net">nanopay.net</a>:<br/>&gt; I'm curious about your company, Nanopay. How does its tamper-resistance &amp; security compare to databases with strong access control &amp; audit logs? <br/><span style="background-color:#ccf">@Kevin Greer</span> replied:<br/>&gt; If your audit logs are cryptographically signed by some kind of notarization service, then they are almost the same. The only difference is that the database would still load data from the database, so if you could corrupt the database then you might be still able to make off with the money, even if the logs were tamper resistant. In our system the audit logs are the database, so it isn't possible for the database and the audit log to get out of sync. Audit logs help figure out what happened after the fact, but often, that may be too late. Also, I'm not aware of any database which has sufficiently advanced access control mechanisms to fully implement the kinds of access controls that we have/require (not just ACLs, but also limits, structuring, AML, KYC, sanctions, risk exposure, maker/checker, compliance document expiry, etc.) We store all of these rules in the blockchain as well, so that they are as tamper resistant as the transactions themselves. When crypto-exchanges are broken into, it is never the crypto that is broken, but instead the surrounding infrastructure and meta-data, but we store everything in the blockchain, which helps to avoid that problem.<br/>Hmm, I can see where you're going, but I don't fully understand yet. Specifically:<br/>1. "if you could corrupt the database then you might be still able to make off with the money": By corrupt you mean obtaining access to? <br/>2. "In our system the audit logs are the database, so it isn't possible for the database and the audit log to get out of sync." does that mean the state is derived from the audit logs (like in a blockchain)? What prevents me from fudging with the audit logs? <br/>3. Overall I don't quite get yet what makes this more temper-resistant than just signing and storing all events. Ultimately, if I can access &amp; manipulate the data (logs, events, actual database state, whatever) somehow, it's not really tamper-proof. From my understanding, public blockchains get their tamper-resistance by being publicly distributed and making it very expensive to overrule consensus state (in terms of economic and social costs). Maybe my confusion is how you translate that aspect to a private, centralised blockchain?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1617911071.074600"></a>
+      <img src="https://secure.gravatar.com/avatar/6f94d2ed5e188be9865a531021b0afcd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../present-company/1617906398.070200.html#1617911071.074600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2021-04-08 12:44</span><br/>
+[moved from top level, original post by <span style="background-color:#ccf">@Kevin Greer</span>]<br/><br/>1. Yes gain access to the database. 2. Yes, the audit log is the database, like a blockchain. You can't fudge with the audit logs because they're cryptographically hashed. On a restart the server would detect the tampering and refuse to load or startup. This also lets us run our filesystem in append-only mode. Also, the data is not actually stored on the server, but is instead stored in separate append-only MEDUSA nodes. Each audit entry is actually in two blockchains, one specific to the MEDUSA node and the global chain (which is actually a DAG). You would need access to all of the MEDUSA nodes and be able to fake the signatures/hashes.<br/>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,283 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 09:59</span><br/>
+What minimal, universal AST specifications exist? Which are best?<br/><br/>Software that deals with code in multiple languages usually needs to handle that code in a common format. But trying to capture complete language semantics for all languages in a single format seems hopeless. Instead, we’re faced with a trade-off between the variety of languages we represent and the thoroughness of the representation. On one end, text data is essentially entirely universal (caveat: encodings), but is very low level. On the other extreme, a given language compiler’s AST format fully represents semantics, but only for that one language. There are also some complete AST formats for families of closely related languages. Language-independent compiler IRs like the LLVM IR represent code in many different languages, but I think their usefulness is limited because they require irreversible transformations (they always would, right?).<br/><br/>I’m interested in the spot just above text: interface specifications that can represent code as basic data structures for <em>nearly</em> all languages, with little to no specification of semantics. So generally little more than a tree spec with room left for language-specific data.<br/><br/>I’m only aware a few specifications like that:<br/><br/>• as a baseline, s-expressions (not the textual format, just the concept of nested lists)<br/>• Babelfish’s <a href="https://github.com/bblfsh/documentation/blob/master/uast/uast-specification-v2.md">UAST</a> — they lost their web domain, so presumed dead<br/>• unifiedjs’s <a href="https://github.com/syntax-tree/unist">unist</a> — I’m thinking of adopting this for my structure editor because its ecosystem seems healthy and my project is in JavaScript, but to date it’s largely used for markup languages<br/>Do you know of any similar specifications? What are other projects using? Are you in a different spot on the trade-off spectrum?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629824560.111900"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629824560.111900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 10:02</span><br/>
+For the record, this is just where I’m at based on my own hobbyist exploration, so if you feel like I’m missing some context here I’d love to hear about it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629829535.112500"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629829535.112500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-08-24 11:25</span><br/>
+Maybe <span style="background-color:#ccf">@breck7</span>' <a href="https://treenotation.org/">Tree Notation</a> is of interest for you.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629829945.112700"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629829945.112700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-24 11:32</span><br/>
+I always thought ASTs (abstract <em>syntax</em> trees) were about syntax and not semantics? For example, renaming a variable gives you a distinct AST but with identical semantics.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629830136.112900"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629830136.112900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-24 11:35</span><br/>
+<a href="http://loyc.net">http://loyc.net</a> by <span style="background-color:#ccf">@David Piepgrass</span> might be relevant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629839899.113400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629839899.113400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-08-24 14:18</span><br/>
+<a href="https://tree-sitter.github.io/tree-sitter/">https://tree-sitter.github.io/tree-sitter/</a> may be relevant
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629841178.113700"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629841178.113700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 14:39</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span><br/>Definitely relevant, thanks<br/><br/><span style="background-color:#ccf">@Kartik Agaram</span><br/>In my experience, people use “semantics” to refer to almost anything that they want to contrast with with “syntax”, which has a much more limited definition. Formally, <a href="https://en.wikipedia.org/wiki/Semantics_(computer_science)#Approaches">it seems</a> there are a bunch of subcategories.<br/><br/>I think your version is focusing on the end result of a program, where I’m thinking about the semantics of smaller units of code in a way that tracks pretty closely to the meaning of the term in linguistics, i.e., just whatever <em>meaning</em> the code has. So I would say that ASTs are made <em>out of</em> syntactic information, but because they bear meaning, they also have semantics.<br/><br/>Pragmatically, the issue is that if you look at a bunch of AST specifications, they are mostly comprised of data that’s specific to that language’s semantics. For example, a language with streams as first-class citizens might have an AST node type <tt>STREAM</tt> , which I would then have to account for individually if I was dealing with all language semantics.<br/><br/>re: <span style="background-color:#ccf">@David Piepgrass</span>, yeah his stuff is definitely related. His website says he currently has an AST format for certain languages <a href="https://loyc.net/#loyc-trees">in the Algol family</a> and is planning to expand it to cover more languages in the future. So at the moment he’s more on the other end of the trade-off spectrum, but heading towards my end.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629841249.113900"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629841249.113900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 14:40</span><br/>
+<span style="background-color:#ccf">@breck7</span> I’m going to take some time to digest Tree Notation, maybe I’ll DM you with some questions once I have?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629842582.114200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629842582.114200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:03</span><br/>
+For sure. Another relevant read may be the I-expressions report (<a href="https://srfi.schemers.org/srfi-49/srfi-49.html">https://srfi.schemers.org/srfi-49/srfi-49.html</a>), which might be more helpful reading for someone familar with S-expessions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629842947.114400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629842947.114400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:09</span><br/>
+The area I'm exploring with Tree Notation is basically new languages without syntax—so the semantic form === the syntactic form. Heavy reliance on positioning for determining scope, and a focus on mini DSLs rather than General Purpose languages. I think this is a disjoint set from the existing 10,000+ languages out there. I think for existing languages something like Tree Sitter would be a good bet.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629843278.114600"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629843278.114600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:14</span><br/>
+For indent-sensitive s-expressions there's also <a href="https://srfi.schemers.org/srfi-110/srfi-110.html">https://srfi.schemers.org/srfi-110/srfi-110.html</a>. And my Mu's syntax sugar (<a href="https://archive.org/details/akkartik-mu-2021-06-23;">https://archive.org/details/akkartik-mu-2021-06-23;</a> <a href="https://github.com/akkartik/mu/tree/main/shell#indent-sensitivity">https://github.com/akkartik/mu/tree/main/shell#indent-sensitivity</a>) This subject is close to my heart, but I don't see how it's a universal AST spec.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629843501.115200"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629843501.115200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:18</span><br/>
+(thanks for the links, still going through them)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629843638.115500"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629843638.115500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:20</span><br/>
+A funny thing about looking into this stuff is since I’m working on a non-language-specific structure editor, I’m not really concerned with textual formats because I’m assuming the AST will be an in-memory data structure with a certain interface by the time I get it. Meanwhile, most people trying to define ASTs are writing parsers or something related, so the textual format is central.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629843767.115700"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629843767.115700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 15:22</span><br/>
+On disk, I just store those data structures as JSON, but it could be any serialization language if you have a parser for it. unist (#3 above) has the same philosophy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629850983.116000"></a>
+      <img src="https://avatars.slack-edge.com/2019-07-14/687915485201_6e649a383cf8f9e366e3_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629850983.116000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kartik Agaram</b>
+<span style="margin:2em; color:#606060">2021-08-24 17:23</span><br/>
+This might be more relevant to interop: <a href="https://dion.systems/blog_0002_roadmap.html">https://dion.systems/blog_0002_roadmap.html</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629855791.116200"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629855791.116200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-24 18:43</span><br/>
+<span style="background-color:#ccf">@Kartik Agaram</span> nice, seems like their doing something in this zone, I’m going to hop on their discord
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629874875.116800"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629874875.116800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-08-25 00:01</span><br/>
+A bit of personal experience in this space: In the first iteration of my <a href="https://github.com/khinsen/leibniz">Digital Scientific Notation Leibniz</a> (which is <em>not</em> a programming language, but still a formal language with syntax and semantics), I opted for an XML representation of the AST in order to permit processing Leibniz code more easily, without having to implement a parser. I picked XML over s-expressions because of better tooling support in various languages, and XML over JSON because of the richer structuring possibilities.<br/><br/>I had no intention of doing anything one could call universal, but then, XML or s-expressions may well be as close to universal as one can get: a tree structure. Now I wonder: is there anything beyond the tree structure that is universal about ASTs?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629876986.117100"></a>
+      <img src="https://avatars.slack-edge.com/2021-08-16/2398026638401_39cf814320cd5bc3df99_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629876986.117100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kirill Chernyshov</b>
+<span style="margin:2em; color:#606060">2021-08-25 00:36</span><br/>
+<a href="https://en.wikipedia.org/wiki/Concatenative_programming_language">https://en.wikipedia.org/wiki/Concatenative_programming_language</a><br/>might be relevant.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629898076.117700"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629898076.117700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-08-25 06:27</span><br/>
+Indeed. Forth and Factor (the only concatenative languages I know a bit) pose the same challenge for a universal AST as Common Lisp with its reader macros: how to handle languages that permit extending the parser?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629945438.000100"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629945438.000100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-25 19:37</span><br/>
+<span style="background-color:#ccf">@Kirill Chernyshov</span> is the parser extension Konrad mentioned what you were suggesting there? (I thought for a second you meant the ASTs in those langs aren’t well represented as trees?)<br/><br/><span style="background-color:#ccf">@Konrad Hinsen</span> what could I search for learn more about that?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629965799.000700"></a>
+      <img src="https://avatars.slack-edge.com/2021-08-16/2398026638401_39cf814320cd5bc3df99_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629965799.000700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Kirill Chernyshov</b>
+<span style="margin:2em; color:#606060">2021-08-26 01:16</span><br/>
+I meant to say that it is possible to have a stack of words and atoms as an another form of AST. I have been working on some sort of translator from clojure to concatenative language (in-house language based on joy) some time ago. And that was surprisingly nice.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1629965842.000900"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1629965842.000900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2021-08-26 01:17</span><br/>
+<span style="background-color:#ccf">@Luke Persola</span> Check out <a href="https://lisper.in/reader-macros">Reader Macros in Common Lisp</a>, <a href="https://docs.factorcode.org/content/article-parsing-words.html">Parsing words</a> from the Factor documentation, and <a href="https://forth-standard.org/standard/core/PARSE">PARSE</a> from the Forth standard. All three are extension mechanisms for the language's parser, implemented in the language itself. Which means that a complete parser for either of these languages must include an implementation of the entire language.<br/>In Common Lisp, this is not much of an issue except if you want to write a code processing tool in a different language. There is a well-defined representation of code after parsing, which is the level at which macros work. Moreover, reader macros are a rare in practice.<br/>For Forth and Factor, parser extensions are very common and basically mean that there is no notion of an AST at all. As an example, consider the <a href="https://docs.factorcode.org/content/article-xml.html">XML parser</a> in Factor. It allows you to embed XML documents in Factor code, not as a string but as a syntax extension. Superficially, Factor code is a just a sequence of space-delimited words, but with embedded XML, it starts to look very different.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1630002447.002000"></a>
+      <img src="https://secure.gravatar.com/avatar/962b260c347a11e19b0fdce4a97a5d49.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0001-72.png" style="float:left"/>
+      <a href="../thinking-together/1629824355.111500.html#1630002447.002000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Luke Persola</b>
+<span style="margin:2em; color:#606060">2021-08-26 11:27</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span> thanks!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #present-company</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2018-07-09/395086754178_7f0f1c0238ec02befdab_72.jpg" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mariano Guerra</b>
+<span style="margin:2em; color:#606060">2021-07-28 03:14</span><br/>
+Have you ever seen/generated tabular data in JSON?<br/>If it wasn't one of the formats below, could you tell me?<br/><br/>Thanks!<br/><br/><br/><pre style="white-space:pre-wrap">listOfObjects = [{col1: 1, col2, true, col3: "text"}, ....]<br/><br/>csvArrayWithCols = [["col1", "col2", "col3"], [1, true, "text], ...]<br/><br/>csvArrayWithColsNoHeaders = [[1, true, "text], ...]<br/><br/>csvObject = {cols: ["col1", "col2", "col3"], rows: [[1, true, "text], ...]}</pre><br/>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627489057.088600"></a>
+      <img src="https://avatars.slack-edge.com/2019-02-14/551655871797_2624b1e78c0a9eaed529_72.jpg" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627489057.088600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Chris Knott</b>
+<span style="margin:2em; color:#606060">2021-07-28 09:17</span><br/>
+The only other format I can think of would be <tt>{"col1":[row1val, row2val], "col2":["row1val", "row2val"]}</tt> i.e. CSV but by column not row. Can't remember if I've ever seen it in the wild.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627511434.089000"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-24/8076913595155_ea40cf1a7c836d55cf1c_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627511434.089000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Beyer</b>
+<span style="margin:2em; color:#606060">2021-07-28 15:30</span><br/>
+I definitely have seen that occasionally in extracts from systems using column store dbs -- whether it's a good practice is another question
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627518664.089200"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627518664.089200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-07-28 17:31</span><br/>
+<span style="background-color:#ccf">@Chris Knott</span>’s one is very useful and used very often. At Our World in Data we were using a column oriented store, then as part of a refactor I switched us to a table based store, but perf was far worse so then we refactored that bit back to columns
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627518922.089400"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-22/1871363334903_cbd558604a21b23211c3_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627518922.089400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Breck Yunits</b>
+<span style="margin:2em; color:#606060">2021-07-28 17:35</span><br/>
+(If you're doing a lot of transformations, column first is the way to go for perf, and then do JIT to tables when serializing/deserializing)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627528826.089600"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-24/8076913595155_ea40cf1a7c836d55cf1c_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627528826.089600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Beyer</b>
+<span style="margin:2em; color:#606060">2021-07-28 20:20</span><br/>
+Sure, didn't mean to question column store themselves... I'm just not sure where the intersection of "benefits from columnar data" and "should be using json" exists
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627528880.089800"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-24/8076913595155_ea40cf1a7c836d55cf1c_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627528880.089800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Beyer</b>
+<span style="margin:2em; color:#606060">2021-07-28 20:21</span><br/>
+In my mind, if you've gone to json, it's usually for smaller data sizes and data interchange cases
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627528913.090000"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-24/8076913595155_ea40cf1a7c836d55cf1c_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627528913.090000" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Beyer</b>
+<span style="margin:2em; color:#606060">2021-07-28 20:21</span><br/>
+...at which point I'd favor the more common and universal row formats
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1627528998.090200"></a>
+      <img src="https://avatars.slack-edge.com/2024-11-24/8076913595155_ea40cf1a7c836d55cf1c_72.png" style="float:left"/>
+      <a href="../present-company/1627467242.088300.html#1627528998.090200" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew Beyer</b>
+<span style="margin:2em; color:#606060">2021-07-28 20:23</span><br/>
+(though totally understand that just sticking with the "native" major ordering might be the path of least resistance in some cases)
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

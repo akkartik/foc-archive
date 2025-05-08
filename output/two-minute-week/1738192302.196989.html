@@ -1,0 +1,125 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1738192302.196989.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-01-29 15:11</span><br/>
+I put together a brief writeup about how I've been doing semantic zoom with just a little CSS. I feel like I haven't seen a lot of recent visual programming interfaces (although there are certainly a lot of prior art) take advantage of fluid zooming and geometric encapsulation. Here's a couple small demos:<br/><br/><a href="https://bsky.app/profile/chrisshank.com/post/3lgu3v6nfq22s">https://bsky.app/profile/chrisshank.com/post/3lgu3v6nfq22s</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738200838.829399"></a>
+      <img src="https://secure.gravatar.com/avatar/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738200838.829399" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jason Morris</b>
+<span style="margin:2em; color:#606060">2025-01-29 17:33</span><br/>
+I have been moaning about the under-utilization of zoom and visual nesting for a long time, and this is a really nice low overhead approach. Are there downsides? It feels like needing to recalculate for every element in the DOM, regardless of whether it is in the viewport, is going to slow things down when you get to a certain volume of elements, maybe?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738204921.390299"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738204921.390299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-01-29 18:42</span><br/>
+I'd like to have a better grasp of where that threshold is, but I'm not sure at the moment. There's a good amount of low-hanging optimizations:<br/><br/>• What properties are being animated? Need to be careful about properties that cause large reflows like width/height/font-size. Properties like opacity, translate, scale, etc. should be consistently performant.<br/>• If possible, applying <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/contain">contains</a> properties to each element can really help browsers optimize rendering/layout. Some simple testing I've done shows that this could cut rendering time by 2-3x.<br/>• I want to build primitive(s) that don't render offscreen elements. We may even be able to do it with just CSS using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility">content-visibility</a>.<br/>• In the future, <a href="https://scroll-driven-animations.style/">scroll-driven animations</a> could potentially provide performance benefits since it's running off the main thread (I think browsers have a dedicated thread for scrolling) and zooming usually hijacks the <tt>wheel</tt> event.<br/>• It should be possible to hide (i.e. <tt>display: none</tt>) elements that are too scaled out in the near future with CSS <tt>if()</tt><br/>It's going to require some care, but I'm (currently) optimistic this can scale pretty well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738205059.588209"></a>
+      <a href="../two-minute-week/1738192302.196989.html#1738205059.588209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-01-29 18:44</span><br/>
+Performance aside, I'm finding the ability to easily start prototyping these types of zoom interactions valuable in and of itself! For example, here is the CSS for the first demo, the zooming logic is about 10 lines of CSS:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738206930.174949"></a>
+      <img src="https://avatars.slack-edge.com/2020-07-25/1286770110448_0c5d8f6a2266551a36f2_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738206930.174949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Daniel Garcia</b>
+<span style="margin:2em; color:#606060">2025-01-29 19:15</span><br/>
+This is really cool!<br/>Can you share the code that updates the “—folk-scale” variable?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738207231.310279"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738207231.310279" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-01-29 19:20</span><br/>
+Thanks <span style="background-color:#ccf">@Daniel Garcia</span>! It's a custom element defined here (still pretty WIP) <a href="https://github.com/folk-systems/folk-canvas/blob/main/labs/folk-pinch.ts">https://github.com/folk-systems/folk-canvas/blob/main/labs/folk-pinch.ts</a><br/><br/>If you're looking for something already published (but a little outdated) check out <a href="https://github.com/GoogleChromeLabs/pinch-zoom">https://github.com/GoogleChromeLabs/pinch-zoom</a><br/><br/>Also worth noting that a white boarding app like tldraw have <tt>--tl-zoom</tt> .
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738214246.813359"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738214246.813359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2025-01-29 21:17</span><br/>
+I've got a bit of a similar thing going on with my main project right now, <a href="http://laminarnotes.com">laminarnotes.com</a>, though I haven't really tried to make my zoom continuous (and it's also not a programming interface (yet)). I'll have to see if I can use any of your tricks.<br/><br/>Performance is definitely a problem. I have to virtualize any element that's not on the screen just to get it tolerable.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738217366.476949"></a>
+      <img src="https://secure.gravatar.com/avatar/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738217366.476949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tudor Girba</b>
+<span style="margin:2em; color:#606060">2025-01-29 22:09</span><br/>
+Elegant!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1738218564.074899"></a>
+      <img src="https://avatars.slack-edge.com/2022-03-23/3286745266387_1092a4f970985ebc8d2b_72.png" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1738218564.074899" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Christopher Shank</b>
+<span style="margin:2em; color:#606060">2025-01-29 22:29</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> super cool, next thing I want to figure out how to apply this to nested/recursive structures.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1743696382.188669"></a>
+      <img src="https://avatars.slack-edge.com/2023-08-15/5729371230167_3b2f7aa271abae44baef_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1738192302.196989.html#1743696382.188669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Elliot</b>
+<span style="margin:2em; color:#606060">2025-04-03 09:06</span><br/>
+great work! Cool that you're doing the zooming logic in css
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

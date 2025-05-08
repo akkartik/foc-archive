@@ -1,0 +1,197 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../share-your-work/1591039501.266000.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-01 12:25</span><br/>
+I've been working on a deep learning project that feels relevant to this community, and would love to hear some of your thoughts. I'm training a neural network to translate abstract syntax trees into images (and then back into ASTs since the whole system is an autoencoder.) Right now this is limited to simple arithmetic statements like <tt>c / (a+b)</tt>, but the goal is to try it out on larger expressions with a greater vocabulary, so that you can turn larger ASTs into images. In addition to being really fun and interesting, it feels like it could offer ideas for visual programming?<br/>Visualized here is an interpolation between different expression trees. Still kind of rough around the edges.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591057049.266400"></a>
+      <img src="https://secure.gravatar.com/avatar/5033feb257f3472c43bd6c45eb3202dd.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-72.png" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591057049.266400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Mike Cann</b>
+<span style="margin:2em; color:#606060">2020-06-01 17:17</span><br/>
+whats the ultimate goal? predictive of some sort? generative?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591107593.266900"></a>
+      <img src="https://avatars.slack-edge.com/2021-02-02/1706249229922_6a0cd939e41a68326c28_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591107593.266900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-02 07:19</span><br/>
+<span style="background-color:#ccf">@Mike Cann</span> it's a generative model, end goal is code -&gt; picture that represents that code
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591109326.267100"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591109326.267100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-06-02 07:48</span><br/>
+As somebody familiar with the transformation taking place, what do you see when you look at that interpolation? I have a hard time parsing meaning out of it.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591122362.267300"></a>
+      <img src="https://avatars.slack-edge.com/2021-02-02/1706249229922_6a0cd939e41a68326c28_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591122362.267300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-02 11:26</span><br/>
+<span style="background-color:#ccf">@Jared Windover</span> it's actually unfamiliar to me as well! I basically set up the constraints and it generates a solution without any guidance. I haven't dug into this one yet to try finding any patterns. If I were to guess on this one, it looks like the region on the left describes different operations while the patterns on the right are staying mostly constant. I'm interpolating between <tt>a ?? b</tt> where ?? is different operands like + - * /
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591122448.267500"></a>
+      <img src="https://avatars.slack-edge.com/2020-01-04/893378739792_34e7a55348e8c86c1901_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591122448.267500" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jared Windover</b>
+<span style="margin:2em; color:#606060">2020-06-02 11:27</span><br/>
+What are the constraints?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591124356.281600"></a>
+      <img src="https://avatars.slack-edge.com/2021-02-02/1706249229922_6a0cd939e41a68326c28_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591124356.281600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-02 11:59</span><br/>
+<span style="background-color:#ccf">@Jared Windover</span> constraints essentially being the loss function and design of the neural network. the big constraint I'm designing for is isomorphism, so a+b and b+a are represented in the same way, which I'm doing with a graph neural network
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591299181.288700"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591299181.288700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-06-04 12:33</span><br/>
+<span style="background-color:#ccf">@noahtren</span> I love this! I'm so excited to see how you adjust how you nudge the model and plan to incorporate more dimensions like color , shape, momentum, velocity, etc.<br/>How is the project going?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591299266.289100"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591299266.289100" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2020-06-04 12:34</span><br/>
+<span style="background-color:#ccf">@Steve Peak</span> this is a pretty wild idea you might be interested in<br/>also <span style="background-color:#ccf">@Felix Kohlgrüber</span> <span style="background-color:#ccf">@Dennis Dang</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591299434.289700"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591299434.289700" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2020-06-04 12:37</span><br/>
+<span style="background-color:#ccf">@noahtren</span> — Beautiful! Would love to explore your work more. I’m passionate about reimagining the human-computer interaction (HCI). I feel like placing this product in the scope of NeuralLink and <a href="https://www.kernel.co/">https://www.kernel.co/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591300185.290300"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591300185.290300" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2020-06-04 12:49</span><br/>
+Fundamentally, this is the future of coding, I must say. “Code” is but a tool to create something. Code, on it’s own, is useless; much like a hammer without something to nail. Projects like this are absolutely necessary to drive the “future of coding” forward because it’s more people than it is about “code”, the future of coding is about people not code.<br/><br/>Creating anything in the digital space is a two way street: Human to computer and computer to human. This work clearly falls under the human to computer, as does NeuralLink and Kernel. They solve the bandwidth interface issue as well as some complexities in translation (i.e. the act of physically programming or diagramming). These products satisfy one aspect of the future of coding as other products satisfy the other: how do humans understand/read/organize/explore what they created?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591300628.290600"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591300628.290600" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2020-06-04 12:57</span><br/>
+<span style="background-color:#ccf">@noahtren</span> my recommendation is to not focus on math and algebra, which require a level of complexity which is greater than giving simple directions like: “turn left”, “jump up”, “change color to red”. I would push for going for Alexa-like commands: “Turn on the TV” or “Remind me to call my mother.” because they have real world value.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591318830.290900"></a>
+      <a href="../share-your-work/1591039501.266000.html#1591318830.290900" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-04 18:00</span><br/>
+<span style="background-color:#ccf">@Cole Lawrence</span> thanks! I experimented a bit with introducing color today, here's a little snapshot (ignore the bottom row, that's image augmentation.) progress is going a lot faster since I'm using cloud hardware for training now
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591319196.291400"></a>
+      <img src="https://avatars.slack-edge.com/2021-02-02/1706249229922_6a0cd939e41a68326c28_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591319196.291400" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>noahtren</b>
+<span style="margin:2em; color:#606060">2020-06-04 18:06</span><br/>
+<span style="background-color:#ccf">@Steve Peak</span> thanks so much :smile: it sounds like you're suggesting this would improve the the human-to-computer interface rather than computer-to-human, how are you imagining it? programmers composing glyphs like this rather than coding? that would be really cool. my plan right now is to try building this as a visual parallel to text code, maybe as a helpful way to visualize the complexity of functions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591476403.296800"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591476403.296800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2020-06-06 13:46</span><br/>
+<span style="background-color:#ccf">@noahtren</span> exactly. I see the relationship, this interaction, being more natural and human. It's not programming, code, graphs... It's not one but any that fit the relationship best. We see this in movies like Iron Man and Star Trek; where the computer is more an AI assistant to assist and augment work.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1591476511.298800"></a>
+      <img src="https://avatars.slack-edge.com/2019-06-12/662675221668_6b9db1f76eed746965ca_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1591039501.266000.html#1591476511.298800" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Steve Peak</b>
+<span style="margin:2em; color:#606060">2020-06-06 13:48</span><br/>
+I don't see programming in the future for most people. I see a digital assistant that performs work for you. 
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~25MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

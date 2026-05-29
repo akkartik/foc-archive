@@ -358,7 +358,7 @@ function emit_text(outfile, s, channel, channels, users)
     s = s:gsub('<([^/@ |>][^ |>]*)|([^>]*)>', '<a href="%1">'..escaped_link_text..'</a>', 1)
   end
   -- convert links to tagged users
-  tagged_user_ids = {}
+  local tagged_user_ids = {}
   for user_tag in string.gmatch(s, '<@U[^ <>]*>') do
     table.insert(tagged_user_ids, user_tag:sub(3, -2))
   end
@@ -366,10 +366,10 @@ function emit_text(outfile, s, channel, channels, users)
     s = s:gsub('<@'..tagged_user_id..'>', '<span style="background-color:#ccf">@'..name(users[tagged_user_id])..'</span>')
   end
   -- convert links to individual items to go to this archive
-  slack_urls = {}
+  local slack_urls = {}
   for slack_url in string.gmatch(s, 'https://'..upstream_slack..'.slack.com/archives/[^/ ]*/p[0-9]*%?thread_ts=[0-9]*%.[0-9]*&?[^ \'"|<>]*') do
     -- turn slack_url into a regex
-    slack_url = slack_url:gsub('%?', '%%?')
+    local slack_url = slack_url:gsub('%?', '%%?')
     table.insert(slack_urls, slack_url)
   end
   for _, slack_url in ipairs(slack_urls) do
@@ -408,6 +408,7 @@ function emit_text(outfile, s, channel, channels, users)
   local result = ''
   local fence = false  -- block ```
   for sx,newline in string.gmatch(s, '([^\n]*)(\n?)') do
+    local sx = sx
     if sx:find('```') then
       while true do
         local nsubs
@@ -431,6 +432,7 @@ function emit_text(outfile, s, channel, channels, users)
           local backtick = false  -- inline `...`
           local first = true
           for frag in string.gmatch(sx, '[^`]*') do
+            local frag = frag
             if not backtick then
               frag = postprocess(frag)
             end

@@ -32,7 +32,7 @@ This repo is also served online at http://akkartik.name/archives/foc.
   lua generate_html.lua input/channels.json input/users.json file_list output
   ```
 
-  Tested with Lua 5.1, 5.2, 5.3, 5.4.
+  Tested with Lua 5.1, 5.2, 5.3, 5.4, 5.5.
 
   Does _not_ work with filenames with strange characters like spaces, but
   Slack exports seem well-behaved so far.

@@ -1,0 +1,138 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../share-your-work/1775510069.749669.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-06 14:14</span><br/>
+A Feelings of Computing one.<br/><br/>This is the 2nd time I have returned to the idea of using inverse kinematics to manipulate graphics. But I have moved to plain SVG now, thinking that that is somewhat of a universal representation.<br/><br/>And the new thing is reflecting on a reactive dataflow graph to discover parameterization automatically, and also extracting the params -&gt; svg from the computational graph automatically, so the author only has to write parameterized SVG, and choose location of drag anchors, and the system can figure out how the anchors related to the SVG parameterization via numerical differentiation magically, so the drag handling is all free.<br/><br/><a href="https://tomlarkworthy.github.io/lopebooks/notebooks/@tomlarkworthy_parameteric-svg.html">https://tomlarkworthy.github.io/lopebooks/notebooks/@tomlark&hellip;</a><br/><br/>You can get a lot of expressivity out of this for not much investment. You can choose how your parameters affect your SVG, it can  be quite weird. Not sure how to handle something like a normal drawing program though with multiple objects. I think I there is still something missing though. I generally want to make drawing diagrams easier, this is very finite dimensioned though.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775520682.545229"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1775520682.545229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2026-04-06 17:11</span><br/>
+epic dude
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775545795.908749"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1775545795.908749" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2026-04-07 00:09</span><br/>
+Wow, this is something I have been dreaming of for too many years to count!<br/><br/>I have been playing a bit with the examples, and trying to figure out how this works. Is there any way in Lopecode to search for references to specific cells? For example, I have been wondering how the "robotEditor" cell actually contributes to the animation, as I haven't seen it referenced so far.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775545834.400209"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1775545834.400209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-07 00:10</span><br/>
+probably easier to use the search on Observable <a href="https://observablehq.com/@tomlarkworthy/parameteric-svg">https://observablehq.com/@tomlarkworthy/parameteric-svg</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775546336.482839"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1775546336.482839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-07 00:18</span><br/>
+yeah the logic is hard to follow because of the meta-programming. robotEditor instanciates svgEditor, which clones a prototype dataflow subgragh (svgEditor_template), which is these cells pointing at an arbitrary ordinary svg node (i.e. each example has its own unique set of these cells so their state is kept separate)<br/><br/>    'viewof svgTargetName',<br/>    'svgTargetName',<br/>    'viewof svgTargetModule',<br/>    'svgTargetModule',<br/>    'svgTemplateVariable',<br/>    'svgRenderDefinition',<br/>    'svgInputNames',<br/>    'svgParameterViews',<br/>    'svgParameterNames',<br/>    'svgParameterViewByName',<br/>    'svgParameterVarByName',<br/>    'svgParameterViewElByName',<br/>    'resolveSvgRenderArgs',<br/>    'renderProbe',<br/>    'viewof inverseConfig',<br/>    'inverseConfig',<br/>    'pseudoInverseStepMxN',<br/>    'viewof svgEditorStatus',<br/>    'svgEditorStatus',<br/>    'svgEditor_setStatus',<br/>    'getCurrentParams',<br/>    'svgEditor_commitParams',<br/>    'svgEditorController',<br/>    'anchor'<br/><br/>The numerical methods are mainly "pseudoInverseStepMxN". The core clever part is 'svgEditor_estimateJacobianForAnchor' 'renderProbe' and 'svgEditor_commitParams'.<br/><br/>renderProbe transforms the rendering to a pure  <tt>(params) =&gt; svg</tt>  so that we can linearize the system (svgEditor_estimateJacobianForAnchor) and then invert the dynamics, svgEditor_commitParams actually writes back to the true dataflow graph via twiddling the real UI (which is the chosen paramaterization of the SVG). I should add some more technical documentation really.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775568040.580369"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1775568040.580369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2026-04-07 06:20</span><br/>
+Thanks <span style="background-color:#ccf">@Tom Larkworthy</span>! This raises the interesting question for Lopecode if metaprogramming can be made more transparent. And/or if some visual representation of the cell graph could make complex graphs easier to understand.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776043608.395929"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1776043608.395929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2026-04-12 18:26</span><br/>
+you may be interested in: <a href="https://omrelli.ug/g9/">https://omrelli.ug/g9/</a>, <a href="https://aprt.us/">https://aprt.us/</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776362556.859869"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1776362556.859869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-16 11:02</span><br/>
+Great recs <span style="background-color:#ccf">@Joshua Horowitz</span> those are amazing close to what I would like to do.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776362668.278469"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1776362668.278469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2026-04-16 11:04</span><br/>
+Also Ivan mentioned to me that Apparatus actualized productized into <a href="https://cuttle.xyz">https://cuttle.xyz</a> and its quite good but some of the cooler fancy bits are not there
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776362991.093209"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1776362991.093209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-16 11:09</span><br/>
+Oh I have used cuttle because I like Lazer cuttering.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776398159.384079"></a>
+      <img src="https://avatars.slack-edge.com/2024-03-28/6866700980471_7b3bc9e878d663396caf_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1775510069.749669.html#1776398159.384079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Joshua Horowitz</b>
+<span style="margin:2em; color:#606060">2026-04-16 20:55</span><br/>
+Indeed, Cuttle does not have the numerical-optimization-driven drag-and-drop stuff which motivates me to list Apparatus as related. I think it’s probably best to see Cuttle as “a canvasy thing Toby did, inspired by his experience with Apparatus”, not as “a productization of Apparatus”.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

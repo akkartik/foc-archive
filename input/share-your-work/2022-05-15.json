@@ -1,0 +1,376 @@
+[
+    {
+        "user": "UA14TGLTC",
+        "type": "message",
+        "ts": "1652671421.833859",
+        "client_msg_id": "1213b3a8-f18d-4767-aca5-249be668cc7e",
+        "text": "19 seconds is certainly time I can spare <@U85HCL7JP>.  I love it.  Rewriting some code yesterday, I would really benefitted from a better browser.  Let's see what I have open... here we go.  An example: I want to show a thing on the Web using Rails.  Exceptionally typical and illustrative.\n\nA templated snipped of HTML in `_current_assigning_products.html.erb`:\n```&lt;td class='number'&gt;&lt;%= format_total_blocks_to_assign_per_assignment_area_across_encumbrance_levels %&gt;&lt;\/td&gt;```\nWe have a helper `clock_stage_results_helper.rb` because we need to insert slashes and commas between a bunch of numbers with \"Block\" or \"Blocks\" tagged on the end depending on plurality (and potentially language):\n```  def format_total_blocks_to_assign_per_assignment_area_across_encumbrance_levels\n    _f_aa(&amp;:total_blocks_to_assign_across_encumbrance_levels)\n  end```\nNow this private method `_f_aa` is going to iterate across assignment areas defined in `assignment_area.rb` calling `total_blocks_to_assign_across_encumbrance_levels` for it:\n```  def total_blocks_to_assign_across_encumbrance_levels\n    product_numbers.map do |pn|\n      weighted(@clock_stage_result.winnings(pn))\n    end\n  end```\nSo then the main branch here goes through `clock_stage_result.rb` basically looking up the `@sold_package` .  It's a ClockStageResult::Package basically a product number indexed collection, basically a cache, a summary of a calculation.  This is as far as a call stack is going to get you, but it totally makes sense to ask where does the `@sold_package` come from?  What exactly is it summarizing about the clock stage?\n\nIn layered code like this, the idea of having some blocks to show is split across many files: files for adding the presentational details, files for gathering together the total from the parts, the parts themselves, and where those parts come from.  It's all well organized.  Everything has and is in its proper place.  I can even press ^z to jump from one definition to next, but I don't automatically have what I need right on the screen, and we totally could have the editor do this though it's not trivial.  Two challenges come to mind:\n\n1. The lesser: in Ruby, it's not statically perfectly clear from the text how the references work.  For my editor, \"Goto Definition\" generally works, is sometimes ambiguous, \"Goto Reference\" doesn't work.  I do a full text find.  It's not terrible, it just slows you down.\n2. Much more important: an editor needs some smarts to know what related parts to open up.  In an scenario like this, there is a main path to follow (view-to-model, whole-to-part), but a system needs to be smarter than just opening up every definition.  Consider this one:\n```  def total_blocks_to_assign_across_encumbrance_levels\n    product_numbers.map do |pn|\n      weighted(@clock_stage_result.winnings(pn))\n    end\n  end```\nOf the things referenced here `product_numbers`, `map`, `pn`, `weighted`, `@clock_stage_result`, `winnings`, how do you tell that `winnings` likely has priority as the thing you want to inspect as opposed to `map`, which is the least likely?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "gae6d55db9d1",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png",
+            "first_name": "",
+            "real_name": "William Taysom",
+            "display_name": "wtaysom",
+            "team": "T5TCAFTA9",
+            "name": "wtaysom",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1651636380.628219",
+        "parent_user_id": "U03E4LY27FS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "DIpc",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "19 seconds is certainly time I can spare "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "U85HCL7JP"
+                            },
+                            {
+                                "type": "text",
+                                "text": ".  I love it.  Rewriting some code yesterday, I would really benefitted from a better browser.  Let's see what I have open... here we go.  An example: I want to show a thing on the Web using Rails.  Exceptionally typical and illustrative.\n\nA templated snipped of HTML in "
+                            },
+                            {
+                                "type": "text",
+                                "text": "_current_assigning_products.html.erb",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ":\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "<td class='number'><%= format_total_blocks_to_assign_per_assignment_area_across_encumbrance_levels %><\/td>"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "We have a helper "
+                            },
+                            {
+                                "type": "text",
+                                "text": "clock_stage_results_helper.rb",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " because we need to insert slashes and commas between a bunch of numbers with \"Block\" or \"Blocks\" tagged on the end depending on plurality (and potentially language):\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  def format_total_blocks_to_assign_per_assignment_area_across_encumbrance_levels\n    _f_aa(&:total_blocks_to_assign_across_encumbrance_levels)\n  end"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Now this private method "
+                            },
+                            {
+                                "type": "text",
+                                "text": "_f_aa",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " is going to iterate across assignment areas defined in "
+                            },
+                            {
+                                "type": "text",
+                                "text": "assignment_area.rb",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " calling "
+                            },
+                            {
+                                "type": "text",
+                                "text": "total_blocks_to_assign_across_encumbrance_levels",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " for it:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  def total_blocks_to_assign_across_encumbrance_levels\n    product_numbers.map do |pn|\n      weighted(@clock_stage_result.winnings(pn))\n    end\n  end"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "So then the main branch here goes through "
+                            },
+                            {
+                                "type": "text",
+                                "text": "clock_stage_result.rb",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " basically looking up the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "@sold_package",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " .  It's a ClockStageResult::Package basically a product number indexed collection, basically a cache, a summary of a calculation.  This is as far as a call stack is going to get you, but it totally makes sense to ask where does the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "@sold_package",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " come from?  What exactly is it summarizing about the clock stage?\n\nIn layered code like this, the idea of having some blocks to show is split across many files: files for adding the presentational details, files for gathering together the total from the parts, the parts themselves, and where those parts come from.  It's all well organized.  Everything has and is in its proper place.  I can even press ^z to jump from one definition to next, but I don't automatically have what I need right on the screen, and we totally could have the editor do this though it's not trivial.  Two challenges come to mind:\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "The lesser: in Ruby, it's not statically perfectly clear from the text how the references work.  For my editor, \"Goto Definition\" generally works, is sometimes ambiguous, \"Goto Reference\" doesn't work.  I do a full text find.  It's not terrible, it just slows you down."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Much more important: an editor needs some smarts to know what related parts to open up.  In an scenario like this, there is a main path to follow (view-to-model, whole-to-part), but a system needs to be smarter than just opening up every definition.  Consider this one:"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "  def total_blocks_to_assign_across_encumbrance_levels\n    product_numbers.map do |pn|\n      weighted(@clock_stage_result.winnings(pn))\n    end\n  end"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Of the things referenced here "
+                            },
+                            {
+                                "type": "text",
+                                "text": "product_numbers",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "map",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "pn",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "weighted",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "@clock_stage_result",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", "
+                            },
+                            {
+                                "type": "text",
+                                "text": "winnings",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", how do you tell that "
+                            },
+                            {
+                                "type": "text",
+                                "text": "winnings",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " likely has priority as the thing you want to inspect as opposed to "
+                            },
+                            {
+                                "type": "text",
+                                "text": "map",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", which is the least likely?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U85HCL7JP",
+        "type": "message",
+        "ts": "1652677026.939449",
+        "client_msg_id": "9419D6D0-7111-436A-9B49-57F50C8CDAFA",
+        "text": "This is a great example and so useful explanation <@UA14TGLTC>. \nWith your code I was thinking how tiny functions are sold as the holy grail, but our tools (especially editors) suck at displaying them in a useful layout. \nFollow up question: what are your thoughts about inlining code vs opening it in a new column at the right?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "0c5d8f6a2266",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-07-25\/1286770110448_0c5d8f6a2266551a36f2_72.jpg",
+            "first_name": "",
+            "real_name": "Daniel Garcia",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "daniel.garcia.carmona",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1651636380.628219",
+        "parent_user_id": "U03E4LY27FS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "=+qV9",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "This is a great example and so useful explanation "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UA14TGLTC"
+                            },
+                            {
+                                "type": "text",
+                                "text": ". \nWith your code I was thinking how tiny functions are sold as the holy grail, but our tools (especially editors) suck at displaying them in a useful layout. \nFollow up question: what are your thoughts about inlining code vs opening it in a new column at the right?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

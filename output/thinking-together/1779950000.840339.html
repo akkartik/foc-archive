@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2025-04-07/8708093445814_8209e0d3973498fe2d57_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nova Morén</b>
+<span style="margin:2em; color:#606060">2026-05-27 23:33</span><br/>
+Hi FoC!<br/><br/>I'm looking into making a notation software (music composition) that is centered around constraints, due to writing music that is hard to express in current systems. I know Dorico has explored this area, but it seems that most such systems hit a ceiling where they can't be realtime anymore. At some point they start to hiccup like complex puzzle games or  that hang while finding a new solution to a change in the system.<br/><br/>I've been inspired lately by cellular automata, and its ability to approach solutions incrementally, so I'd like to implement my tool in that spirit — where changes are propagated over time, approaching a solution in real time, by allowing invalid states during transition (or I guess in general). The goal would be letting the user watch it unfold and continually change it even if it isn't fully settled yet.<br/><br/>Problem is, I don't know what keywords to search for or implementation strategies to use. The closest/modt useful inspiration I've found have been soft body physics simulations, UV map relaxation and soft interpolation of colors as well as rotations, because most talks on constraint programming focus on discrete values and proof-like-examples (sudoku and friends) which I guess is ... valuable, but not very concious / interested of how it moves through real time<br/><br/>Does that make sense? Do you have any tips / keywords for me?<br/><br/>Hugs!<br/>/Ivan
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779974349.909049"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1779974349.909049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-05-28 06:19</span><br/>
+We did a bunch of projects that used constraints a few years back. One of them is called <a href="https://github.com/inkandswitch/inkling">Inkling</a> (here's the <a href="https://feelingisreality.com">silly website</a> I made for it). It used a relaxation-based solver called <a href="https://github.com/sloisel/numeric/blob/656fa1254be540f428710738ca9c1539625777f1/src/numeric.js#L2764">uncmin</a>, which AFAIK is a port of a java port of some old fortran thing. But, it works really damn well. For Inkling, Alex Warth wrote a little <a href="https://github.com/inkandswitch/inkling/blob/main/App/src/app/Constraints.ts">constraint system</a> around the solver. Our use case was focused on constraining geometric objects in space, so we cared about things like the difference between solving in polar coords (good) vs cartesian (bad). But ultimately it's all just "here are a bunch of variables, and here are some limits on how they're allowed to change" and then you crank the solver over and over and it wiggles the variables until they converge on good values (ideally), or it blows up :)<br/><br/>Guillermo Webster made a little graphics library called <a href="https://github.com/bijection/g9/">g9</a> that includes a <a href="https://github.com/bijection/g9/blob/master/src/minimize.js">reworked version</a> of uncmin, but it didn't work as well for us.<br/><br/>Another keyword you might want to explore is "gradient descent".<br/><br/>Good luck! Feel free to ask me any questions and I'll help if I can.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779992562.640759"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1779992562.640759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2026-05-28 11:22</span><br/>
+Just to be clear... when you say "a notation software (music composition) that is centered around constraints" are you talking about "engraving" as in the typesetting of standard musical notation or are you picturing of some different music notation or do you mean constraint based music generation itself where visualization helps with whatever you're doing.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779992696.408729"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1779992696.408729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2026-05-28 11:24</span><br/>
+In general, constraint solving may require entirely backtracking from a failed attempt at solving the constraints and trying something else. You can represent this dynamically over actual time, but it's going to look more like thrashing around than "gradually approaching" a solution. If you want to avoid that, you want to look for constraint systems that can be solved monotonically (I don't know if that's the technical term, but it might be), especially by gradient descent would be nice. Otherwise you're pretty much into the space of representing arbitrary constraint satisfaction algorithms musically, which is cool but maybe not what you had in mind. Basically I think it's going to depend on what kind of constraints you allow.<br/><br/>I honestly don't see the link with cellular automata. Drawing a link between a particular cellular automaton and any constraints that its results do or don't follow is famously difficult.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779992985.235799"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1779992985.235799" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2026-05-28 11:29</span><br/>
+...hmm, Google results for "differentiable constraints" or "continuous constraint solver" are all irritatingly machine-learning-flavored, but otherwise that would kind of be the right idea for something that can be accurately solved gradually. Ivan's mentions of relaxation and gradient descent might be your best lead.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1780003402.928759"></a>
+      <img src="https://avatars.slack-edge.com/2025-04-07/8708093445814_8209e0d3973498fe2d57_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1780003402.928759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nova Morén</b>
+<span style="margin:2em; color:#606060">2026-05-28 14:23</span><br/>
+<span style="background-color:#ccf">@William Taysom</span> Oh, gotcha. Yeah, music generation. The main focus is exploring a scale/meter/tempo-agnostic approach to representation while still interacting graphically / structurally. For scores I'd implement an export and use LilyPond.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1780005236.250099"></a>
+      <img src="https://avatars.slack-edge.com/2025-04-07/8708093445814_8209e0d3973498fe2d57_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1780005236.250099" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nova Morén</b>
+<span style="margin:2em; color:#606060">2026-05-28 14:53</span><br/>
+<span style="background-color:#ccf">@Andrew F</span> Yeah I think you might be right. I have a hunch that what it's not so much about the constraints but rather how incremental computation in general can make an interface feel more responsive.<br/><br/>(<em>I think I got carried away because if changes propagate visibly it's easy to begin dreaming of allowing those propagations to dance around the score eternally, with grand battles of multiple conflicting changes trying to shape the score until some by chance take over or the user intervenes. I guess I'm not inspired by cellular automata specifically, but rather how it can be designed for non deterministic partial execution and still eventually settle (as demonstrated by Dave Ackley's robust first tiles and <span style="background-color:#ccf">@Lu Wilson</span>s sandpond implementations). It seems like such a fun way to delegate work, but I probably got carried away in my thinking.)</em>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1780005482.293949"></a>
+      <img src="https://secure.gravatar.com/avatar/aee3c99144dfc6644c6c1f1303683140.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1780005482.293949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew F</b>
+<span style="margin:2em; color:#606060">2026-05-28 14:58</span><br/>
+That does sound pretty awesome tbh. I hope you get something figured out. :smile:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1780007007.867699"></a>
+      <img src="https://avatars.slack-edge.com/2025-04-07/8708093445814_8209e0d3973498fe2d57_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1779950000.840339.html#1780007007.867699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Nova Morén</b>
+<span style="margin:2em; color:#606060">2026-05-28 15:23</span><br/>
+<span style="background-color:#ccf">@Ivan Reese</span> Thank you so much! Inklings was exactly the type of example I had somewhere in the back of my head. Installing and noodling around with it really helped me develop a <em>feeling</em> for its affordances. (Ah, embodied knowledge. Such a treat!) Also helpful to get a refresher on the linear regressions and gradient descent, the math really is pretty straight forward. Now I gotta sleep and decompress it all. Thanks again, lots of interesting ideas in that project!
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

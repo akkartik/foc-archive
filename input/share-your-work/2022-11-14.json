@@ -1,0 +1,244 @@
+[
+    {
+        "user": "U04AMFXENTF",
+        "type": "message",
+        "ts": "1668422171.614689",
+        "client_msg_id": "f3e4e49f-2f00-4909-b457-e1856ef23da4",
+        "text": "As promised in my intro, here’s a little bit of current thinking I wrote up about what feels like I’m going to end up building a DSL to let ecologists work on large datasets.\n\n<https:\/\/digitalflapjack.com\/blog\/yirgacheffe\/>\n\nCurrently it’s a Python library that lets ecologists just work with large geospatial files as if they’re variables, like numpy does, but manages the memory side of things, as these files quickly can cause you to run out of memory even on a 1TB RAM machine like we have in the group.\n\nThe next thing I have in the wings is trying to hide Python multiprocessing support behind my library, for two reasons:\n\n• I’m already chunking up the computation, so throwing it out to many cores to get concurrency seems like a natural fit. Early on in my time here I tried to encourage the ecologists to think in terms of small programs that would then be run concurrently, but that didn’t really work for how they think of programming, so I think letting them think single threaded whilst I hide concurrency is probably easiest.\n• GDAL, the library used for a bunch of the actual geospatial transforms is leaky as anything (or rather, it’s Python bindings are), and so pushing that into child processes is a win, as it’s the only real way to clean up properly.\nBut at this point I think what I’m not doing is a good fit for Python anymore, so I kind of envisage a Go backend, where I handle the concurrency side of things, and a small front end language where I let the ecologists reason about geospatial files as opaque blobs, and possibly have CSV as a natural thing.\n\nBut I also think this is a good fit for a visual programming language, where you connect the CSVs and geospatial files by the kind of operators you’d do normally, and then having that be the ecologist view on the world.\n\nI guess my main aim is to try and not do everything though - if you imagine this was wildly successful, then all I’m doing is making yet another data-processing system that is specialised in one thing that someone will then want to do what I’ve done for some other metric down the line. So I think I want to deliberately keep this focussed\/niche rather than accidentally drift into building something generic that will inevitably not be good for other purposes.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "d7dbb22c99a7",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-11-13\/4349957308535_d7dbb22c99a72ec24635_72.png",
+            "first_name": "Michael",
+            "real_name": "Michael Dales",
+            "display_name": "Michael Dales",
+            "team": "T5TCAFTA9",
+            "name": "michael584",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1668422171.614689",
+        "reply_count": 7,
+        "reply_users_count": 3,
+        "latest_reply": "1668623558.965059",
+        "reply_users": [
+            "UCUSW7WVD",
+            "UJBAJNFLK",
+            "U04AMFXENTF"
+        ],
+        "replies": [
+            {
+                "user": "UCUSW7WVD",
+                "ts": "1668469980.922499"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1668499651.363239"
+            },
+            {
+                "user": "U04AMFXENTF",
+                "ts": "1668505600.782689"
+            },
+            {
+                "user": "U04AMFXENTF",
+                "ts": "1668506119.627419"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1668525484.615959"
+            },
+            {
+                "user": "UJBAJNFLK",
+                "ts": "1668525966.843589"
+            },
+            {
+                "user": "U04AMFXENTF",
+                "ts": "1668623558.965059"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "bLJ2k",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "As promised in my intro, here’s a little bit of current thinking I wrote up about what feels like I’m going to end up building a DSL to let ecologists work on large datasets.\n\n"
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/digitalflapjack.com\/blog\/yirgacheffe\/"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\nCurrently it’s a Python library that lets ecologists just work with large geospatial files as if they’re variables, like numpy does, but manages the memory side of things, as these files quickly can cause you to run out of memory even on a 1TB RAM machine like we have in the group.\n\nThe next thing I have in the wings is trying to hide Python multiprocessing support behind my library, for two reasons:\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "I’m already chunking up the computation, so throwing it out to many cores to get concurrency seems like a natural fit. Early on in my time here I tried to encourage the ecologists to think in terms of small programs that would then be run concurrently, but that didn’t really work for how they think of programming, so I think letting them think single threaded whilst I hide concurrency is probably easiest."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "GDAL, the library used for a bunch of the actual geospatial transforms is leaky as anything (or rather, it’s Python bindings are), and so pushing that into child processes is a win, as it’s the only real way to clean up properly."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nBut at this point I think what I’m not doing is a good fit for Python anymore, so I kind of envisage a Go backend, where I handle the concurrency side of things, and a small front end language where I let the ecologists reason about geospatial files as opaque blobs, and possibly have CSV as a natural thing.\n\nBut I also think this is a good fit for a visual programming language, where you connect the CSVs and geospatial files by the kind of operators you’d do normally, and then having that be the ecologist view on the world.\n\nI guess my main aim is to try and not do everything though - if you imagine this was wildly successful, then all I’m doing is making yet another data-processing system that is specialised in one thing that someone will then want to do what I’ve done for some other metric down the line. So I think I want to deliberately keep this focussed\/niche rather than accidentally drift into building something generic that will inevitably not be good for other purposes."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "rainbow",
+                "users": [
+                    "USH01JEDQ"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UCUSW7WVD",
+        "type": "message",
+        "ts": "1668469980.922499",
+        "client_msg_id": "996fd4f9-13d9-41d7-b170-4d8cea93b7dc",
+        "text": "From <https:\/\/github.com\/carboncredits\/yirgacheffe#basic-layer-usage>:\n```elevation_layer = Layer.layer_from_file('elecation.tiff')\narea_layer = UniformAreaLayer('area.tiff')\nvalidity_layer = Layer.layer_from_file('validity.tiff')\n\n# Work out the common subsection of all these and apply it to the layers\nintersection = Layer.find_intersection(elecation_layer, area_layer, validity_layer)\nelevation_layer.set_window_for_intersection(intersection)\narea_layer.set_window_for_intersection(intersection)\nvalidity_layer.set_window_for_intersection(intersection)\n\n# Work out the area where the data is valid and over 3000ft\ndef is_munro(data):\n    return numpy.where(data &gt; 3000.0, 0.0, 1.0)\nresult = validity_layer * area_layer * elevation_layer.apply(is_munro)\n\nresult_band = result_gdal_dataset.GetRasterBand(1)\nresult.save(result_band)```\nI don't follow why the `area_layer` is in the computation of `result`. Or is it perhaps not needed in the definition of `intersection`, just `result`? Are the multiplications over matrices (so the ranks need to line up)? Just trying to make sure I understand the example. I don't know anything about GDAL.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6e649a383cf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-07-14\/687915485201_6e649a383cf8f9e366e3_72.png",
+            "first_name": "Kartik",
+            "real_name": "Kartik Agaram",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "ak",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1668422171.614689",
+        "parent_user_id": "U04AMFXENTF",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "PN0wf",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "From "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/carboncredits\/yirgacheffe#basic-layer-usage"
+                            },
+                            {
+                                "type": "text",
+                                "text": ":\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "elevation_layer = Layer.layer_from_file('elecation.tiff')\narea_layer = UniformAreaLayer('area.tiff')\nvalidity_layer = Layer.layer_from_file('validity.tiff')\n\n# Work out the common subsection of all these and apply it to the layers\nintersection = Layer.find_intersection(elecation_layer, area_layer, validity_layer)\nelevation_layer.set_window_for_intersection(intersection)\narea_layer.set_window_for_intersection(intersection)\nvalidity_layer.set_window_for_intersection(intersection)\n\n# Work out the area where the data is valid and over 3000ft\ndef is_munro(data):\n    return numpy.where(data > 3000.0, 0.0, 1.0)\nresult = validity_layer * area_layer * elevation_layer.apply(is_munro)\n\nresult_band = result_gdal_dataset.GetRasterBand(1)\nresult.save(result_band)"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I don't follow why the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "area_layer",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " is in the computation of "
+                            },
+                            {
+                                "type": "text",
+                                "text": "result",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". Or is it perhaps not needed in the definition of "
+                            },
+                            {
+                                "type": "text",
+                                "text": "intersection",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ", just "
+                            },
+                            {
+                                "type": "text",
+                                "text": "result",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "? Are the multiplications over matrices (so the ranks need to line up)? Just trying to make sure I understand the example. I don't know anything about GDAL."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

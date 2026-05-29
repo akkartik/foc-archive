@@ -1,0 +1,83 @@
+[
+    {
+        "user": "U0887QU9G2V",
+        "type": "message",
+        "ts": "1740258212.736049",
+        "edited": {
+            "user": "U0887QU9G2V",
+            "ts": "1740258231.000000"
+        },
+        "client_msg_id": "7a9c77f9-a586-4695-8c03-5e8a7f8b9755",
+        "text": "Hi Duncan! Apologies for the late response.\n\nThe example above has the following properties:\n\n- We store C and F inside a hash called `temperature`. C and F are just numbers, representing the temperature, each in its respective unit.\n- We also store `update` inside `temperature`, which is a function that takes a hash with keys `temperature` and `unit` as input.\n- `update`, when getting called, makes the updates to `temperature C` and `temperature F`, taking care to convert C to F or F to C.\n- The `listen` calls put listeners that, when `temperature C` or `temperature F` are updated, then goes and call `temperature update`. In that way, you don't have to call `temperature update` explicitly.\n- The `listen` calls are unidirectional, but there are two of them (one for each unit).\n- As for id-able object, you would expose your data explicitly through http. For example:\n\n```@ http server route method get\n                    path \/temperature\n                    handler C @ temperature C\n                            F @ temperature F```\n- If the cell server was hosted at `<http:\/\/example.com\/cell|example.com\/cell>`, then by calling `GET <http:\/\/example.com\/cell\/temperature|example.com\/cell\/temperature>` you could obtain a hash (as JSON, stringified) with both temperatures. In a more involved way (that I won't dare type now) you could also invoke `temperature update` through a POST request. I don't see necessarily a necessity for ids imposed system-wide, you choose how to expose your cell (through HTTP or other methods).\n- A response could keep responding, indeed, but HTTP doesn't allow for this, you'd have to keep on polling. In websockets, it could work. The TODIS paradigm does a call to update its response.\n- I love the example challenge! However, cell is right now not able to compute even a sum. I'll definitely have it in mind as an example when we have a base system going.\n\nThanks for the interest!",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "6b9d24756ac1",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2025-01-08\/8269664865108_6b9d24756ac1aa304bb9_72.jpg",
+            "first_name": "Federico",
+            "real_name": "Federico Pereiro",
+            "display_name": "Federico Pereiro",
+            "team": "T5TCAFTA9",
+            "name": "fpereiro",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1736460195.528239",
+        "parent_user_id": "U0887QU9G2V",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "\/V67X",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Hi Duncan! Apologies for the late response.\n\nThe example above has the following properties:\n\n- We store C and F inside a hash called `temperature`. C and F are just numbers, representing the temperature, each in its respective unit.\n- We also store `update` inside `temperature`, which is a function that takes a hash with keys `temperature` and `unit` as input.\n- `update`, when getting called, makes the updates to `temperature C` and `temperature F`, taking care to convert C to F or F to C.\n- The `listen` calls put listeners that, when `temperature C` or `temperature F` are updated, then goes and call `temperature update`. In that way, you don't have to call `temperature update` explicitly.\n- The `listen` calls are unidirectional, but there are two of them (one for each unit).\n- As for id-able object, you would expose your data explicitly through http. For example:\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "@ http server route method get\n                    path \/temperature\n                    handler C @ temperature C\n                            F @ temperature F"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\n- If the cell server was hosted at `"
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/example.com\/cell",
+                                "text": "example.com\/cell"
+                            },
+                            {
+                                "type": "text",
+                                "text": "`, then by calling `GET "
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/example.com\/cell\/temperature",
+                                "text": "example.com\/cell\/temperature"
+                            },
+                            {
+                                "type": "text",
+                                "text": "` you could obtain a hash (as JSON, stringified) with both temperatures. In a more involved way (that I won't dare type now) you could also invoke `temperature update` through a POST request. I don't see necessarily a necessity for ids imposed system-wide, you choose how to expose your cell (through HTTP or other methods).\n- A response could keep responding, indeed, but HTTP doesn't allow for this, you'd have to keep on polling. In websockets, it could work. The TODIS paradigm does a call to update its response.\n- I love the example challenge! However, cell is right now not able to compute even a sum. I'll definitely have it in mind as an example when we have a base system going.\n\nThanks for the interest!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

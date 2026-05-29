@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-02 05:50</span><br/>
+Your description reminds me of a <a href="https://en.wikipedia.org/wiki/Schmitt_trigger">Schmitt trigger</a> used in electronics. One can implement a Schmitt-trigger-like action in the digital domain with a state machine:<br/>S1: when a 0-&gt;1 event occurs, go to state S2.<br/>S2: when a 1-&gt;0 event occurs go back to state S1.<br/>(I think of the timer variant as a Schmitt trigger that deals with analog signals).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775134511.184419"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html#1775134511.184419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2026-04-02 05:55</span><br/>
+I have a problem shaped a lot like this in my “turn-orchestrator” for my agent harness. I’m tempted to solve it with timers (like “if no activity for 15 seconds, then it’s time to mark this as idled”), but it makes me itchy to solve a problem like that.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775134551.864819"></a>
+      <img src="https://avatars.slack-edge.com/2025-02-08/8407560079991_6d3ec7cc938bc2e0cdb7_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html#1775134551.864819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Cole Lawrence</b>
+<span style="margin:2em; color:#606060">2026-04-02 05:55</span><br/>
+I don’t know how the AI solved it at the end of the day. But, it’s not using timers and it’s probably inspired by temporal .io
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775180302.638599"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html#1775180302.638599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-02 18:38</span><br/>
+I seem to have not replied to the original thread again. This was meant as a reply to <span style="background-color:#ccf">@Marek Rogalski</span>'s thread (<a href="1775053630.907069.html">1775053630.907069.html</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775208966.612779"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html#1775208966.612779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2026-04-03 02:36</span><br/>
+The event-based state machine analogy is surprisingly accurate - also for the Key Presser. It's because a "key" on the computer is not quite a boolean - at the OS level it's a sequence of "press" &amp; "release" events. For example it's possible for a key to be "pressed" three times in a row, and then "released" once. Internally, most apps follow the Schmitt trigger model and maintain an internal boolean as the key state - but not always. And this can be used to trigger some fun edge-cases in many games - like faster movement or higher fire rate. The games can get pretty confused if the "release" events don't match up with "press"-es :slightly_smiling_face:<br/><br/>Also fun - if you go even deeper, on the HID level, it's a mix of the two models. The keyboards sometimes report state transitions (pressed =&gt; released &amp; vice versa) and sometimes they dump the full key state (list of pressed keys). All depends on the whims of the firmware. At the deepest level it's obviously just logic voltage levels.<br/><br/>Source: I'm also developing a tiny hand-held keyboard <a href="https://github.com/mafik/keyer">https://github.com/mafik/keyer</a> - hopefully one day it'll run Automat on it :P
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775210610.215669"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1775134215.731019.html#1775210610.215669" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-03 03:03</span><br/>
+This confusion isn’t restricted to games. I experience it in MacOS and emacs almost daily. The phobia against using “state” results in Greenspunian manual implementations of state machines using bad ideas like booleans and if-then-else instead of proper state machines. This just makes “reasoning about” sequencing much harder (and buggier) than necessary. BTW, a state machine is not just a switch statement, you need 3 functions per state (enter(), step(), exit()) - trivial to do, but bug-ridden if you build it manually with low-level constructs like booleans and if-then-else. <span style="background-color:#ccf">@Marek Rogalski</span>
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

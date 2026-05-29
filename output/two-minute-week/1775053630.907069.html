@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1775053630.907069.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2026-04-01 07:27</span><br/>
+I guess observable enthusiasts around here may find this one interesting! I'm designing a way for object to "act together" in a more natural way. This involves objects that do stuff (as opposed to simply computing a value) and that can generate their own events. Examples on the video are a Timer (which can be started/stopped and will stop itself automatically after some time) or a KeyPresser (which can be pressed down/released, based on the physical keyboard's keys but may also generate synthetic events, according to notifications received from other objects).<br/><br/>On the video you can see a simple Timer-based limiter, that releases the space after half a second. I can press the key myself, and that will cause Automat to start the Timer (you can take a closer look at the hand over the Key Presser - it shows whether the key is pressed or not). And then after some time, Automat will release the key for me. If I release the key sooner, the Timer is cancelled. You can see that the flow of information is multidirectional. The direction is indicated by the movement of belts between gears. That's the first half of the video.<br/><br/>One fundamental issue of these observable systems is that the computation would loop forever if the objects just announced their new state on every change. Typically they are only evaluated once, according to some topological sorting (most observable systems don't allow loops) and they also store &amp; compare their state to prevent redundant updates (optional optimization in loop-free reactive systems but absolutely necessary if loops are allowed - it's the stop condition).<br/><br/>(terminology: many people call this "feedback loops" and treat this as an undesired behavior, but IMO there are places where feedback loops are a sound solution, so I'll call this "reactive echo" - it's when an object changes state but then notifies the source of the change of its change. Another reason is that "reactive echo" doesn't really need to cause a loop - the issue is that a change notification is accidentally sent back)<br/><br/>None of this is new - it's a pretty well known pattern. Fun things start when the OS is involved &amp; objects start to flip-flop fast. This happens when I create a loop with the Timer. This is the second part of the video. The Timer switches itself off &amp; on - but it happens pretty much instantly. This off/on switching still generates notifications for the Key Presser - so it sends the events to the OS. And some time after, the OS sends these events back to Automat. There is a delay caused by the OS. The events differ from the internal state tracked by the Key Presser, so they must be announced to other synchronized objects, causing the Timer to stop &amp; restart instantly. The flow of events is:<br/><br/>• I press the key down =&gt; "ON" notification sent to the Timer<br/>• Timer completes =&gt; "OFF" notification sent to the Key Presser, which posts a synthetic "release key" event<br/>• Timer restarts =&gt; "ON" notification sent to the Key Presser, which posts a synthetic "press key" event<br/>• OS sends back the "key released" event to Key Presser =&gt; "OFF" notification sent to the Timer (uh oh! it's a reactive echo!)<br/>• OS sends back the "key pressed" event to Key Presser =&gt; "ON" notification sent to the Timer (again - it's a reactive echo!)<br/>The last two events should not be there. But the causal chain of reactive echo escapes the process and arrives back with a delay so it cannot be reasoned about in a local fashion. There is no portable way to distinguish synthetic vs natural events so they cannot be simply ignored. I cannot even attach anything to these events explicitly. They're pretty much indistinguishable from real user events.<br/><br/>As you can see on video, it actually works fine - this is because Automat is now using a completely different way to prevent the reactive echo (Automat has five different echo cancellation mechanisms, lol). I like this one the most because it's using a strategy known from biological neurons. You won't find it in the artificial ones! The real biological neurons have an inhibitory period that they enter after firing. This allows them to prevent back-flow of information in a completely distributed fashion - without the need for a central orchestrator that will sequence their activations in topological order - and without the need to track &amp; compare any internal "value" (neurons store no bits - they just "fire" &amp; rest). The way it works in Automat is that whenever a Key Presser sends an event, it records a timestamp - it's the start of its inhibitory period. For the duration of this period it will ignore the next event received from the OS. Very simple solution actually, and widely used in nature - but not so much in engineered reactive systems. But if you think about it - it could be!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775135010.895829"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1775135010.895829" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-04-02 06:03</span><br/>
+Great write-up.<br/><br/>I might be missing a realization — what makes this "inhibitory" approach different from a "throttle"? ("debounce" is also similar, maybe that's what i mean?)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775135353.353819"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1775135353.353819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2026-04-02 06:09</span><br/>
+Yes - it's exactly that! A throttle (or some variant of throttle - I'm also not familiar with precise terminology around those concepts). The thing is that this throttle can be used to prevent back-flow of information in reactive graphs. This allows reactive graphs with cycles &amp; multidirectional dataflow - which are otherwise finnicky and prone to oscillations to behave in a more robust fashion.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1775463102.486289"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1775463102.486289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-04-06 01:11</span><br/>
+yeah the self-triggering loops are the bane of my existence.<br/><br/><span style="background-color:#ccf">@Antranig Basman</span> claims to have solved bi-direcitonal reactivity in <tt>fluid.cell</tt> <a href="https://ponder.org.uk/post/2026-02-20-reactivity-for-malleability/">https://ponder.org.uk/post/2026-02-20-reactivity-for-malleability/</a><br/><br/>I am still trying to get my head around it.<br/><br/>Your approach is interesting. I feel like there is this modernist approach to coding where we build fragile mathematical towers, a topological sort being a great example of.<br/>Then there is the post-modernist approach, where we wire into systems we can't understand (e.g. a user's randomly configured operating system) and then apply techniques to deal with the chaos, which inhibition would be more like. The post-modern can end up more robust and fault tolerant, but ultimately even harder to reason about because its adding more entropy on top of the existing entropy.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779452402.435779"></a>
+      <img src="https://avatars.slack-edge.com/2026-05-22/11191968949649_f7048ff1506084527f08_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1779452402.435779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>shali Yfrimashvilly</b>
+<span style="margin:2em; color:#606060">2026-05-22 05:20</span><br/>
+hi, git refernced here. im very much i nteresting in atomation for humans, do you have maybe more demos of this? or a dmeo i can lay wiht?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779452443.872229"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1779452443.872229" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 05:20</span><br/>
+its on steam I think
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779452466.848259"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1779452466.848259" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 05:21</span><br/>
+<a href="https://store.steampowered.com/app/4122050/Automat">https://store.steampowered.com/app/4122050/Automat</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779452584.520759"></a>
+      <img src="https://avatars.slack-edge.com/2026-05-22/11191968949649_f7048ff1506084527f08_72.png" style="float:left"/>
+      <a href="../two-minute-week/1775053630.907069.html#1779452584.520759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>shali Yfrimashvilly</b>
+<span style="margin:2em; color:#606060">2026-05-22 05:23</span><br/>
+i see cool
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

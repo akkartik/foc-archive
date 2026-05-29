@@ -1,0 +1,173 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1765859105.605389.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:25</span><br/>
+new: divs, arrays, vector math- now we can lerp (concisely)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765859567.322049"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765859567.322049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:32</span><br/>
+Awesome that it's working! Now the hard part: what's a good design for visually depicting these data structures? (this is an annoyingly deep rabbit hole)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765859601.073549"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765859601.073549" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:33</span><br/>
+the current approach you've got is… rather…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765859626.729869"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765859626.729869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:33</span><br/>
+(ellipses used for comedic effect)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765859740.340719"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765859740.340719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:35</span><br/>
+i feel like a dedicated design study looking at "how to display arbitrarily large arrays / structs in a compact form suitable for viewing at a distance" would be highly worthwhile
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765859982.334609"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765859982.334609" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:39</span><br/>
+I feel like a bit of type-level awareness might help here. Like, if a data structure is known to be a point or a vector, you could render them visually (position as a dot on a little cartesian plane, at least showing which quadrant it's in, and vector as a little arrow). If the data structure is an array of numbers, you could render it as a little spark line. Then maybe some sort of quick-look interaction to pop open a larger view with the raw values?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765860011.277189"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765860011.277189" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:40</span><br/>
+(I don't think these ideas are general enough, but I'm just trying to give an example of what I'm thinking about when I say "visually depicting")
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765860057.258009"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765860057.258009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-15 20:40</span><br/>
+It's also an open question how you should edit these values. My adage is "anything that's a visualization of data should also be an interface for manipulating the data"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765866873.723719"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765866873.723719" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-15 22:34</span><br/>
+haha yeah honestly i reeeeeally want to not have to ever* do [special array or key:value] syntax but rather have types like Point or Date or ... yeah other more semantic types so that cells display them in standard fashion- which ideally is a visual and a direct manipulation interface- i agree. Naturally i would like you to be able to 'explode' these interfaces and expose how they work for full control over how these even default views work. And it is interesting to think about different zoom levels - that hadn't crossed by mind but it would be nice to have even different views for long tabular data.. Maybe, for example, sparklines are very thin* if the data is long and if it gets more room they are annotated with numbers.<br/><br/>To be honest i haven't gone too deep into thinking about how specific types might appear yet despite that being core to the ethos- reason being im trying to at least figure out how composing shapes into constructions/abstractions/encapsulations will work- im in a way trying to tinker my way there. My current idea is that cells will basically 'turn into' what ever type they get, so if it gets a Date it turns into a Date field, if it gets a List then the cell then nests a col of other cells, and each inner cell reflects that data type, recursively. But how does one actually compose them? Drag and drop, maybe? But then how do they interact? Maybe you can explode after they are compose? Not sure the answers here but... maybe getting closer?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765869874.154689"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765869874.154689" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-15 23:24</span><br/>
+woah a computation feedback loop via the spatial layout domain. Reminded me of a famous Minecraft construction: "Etho's Hopper Clock" [<a href="https://www.youtube.com/watch?v=t9kzE5j-BOA">1</a>] which is also uses space as part of the computation.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765902736.358569"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1765902736.358569" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-16 08:32</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> that was really cool!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765936866.551489"></a>
+      <a href="../devlog-together/1765859105.605389.html#1765936866.551489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-16 18:01</span><br/>
+keyboard control
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766056166.770209"></a>
+      <img src="https://avatars.slack-edge.com/2024-04-04/6922823105585_287ba5559ee1cedd6b98_72.png" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1766056166.770209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Marek Rogalski</b>
+<span style="margin:2em; color:#606060">2025-12-18 03:09</span><br/>
+Re visualizing complex structures in a way that can be directly manipulated is a hard problem indeed! I think a divide-and-conquer approach could be applied in its design. There are several subproblems that might be solved separately.<br/>The first one is that different representations of the same data are often good in some contexts but bad in others. Some of them need plenty of space, while others can work as tiny icons. For a sequence of pairs of numbers sometimes scatter plot is good, but sometimes the right visualization is a a stereo waveform. I think this can be solved using a well known "inspector" pattern - a view that can offer more detailed view (maybe one of many alternative visualizations) of a selected/connected item. Visual indicators such as proximity/lines/color/textures/icons/animation (ideally - all of them at the same time) can help make the connection between compact representation and the "inspector" more evident. Inspectors could be resizable and offer more tools as more space becomes available - creating a smooth spectrum between an icon and an immersive fullscreen editor. There could be many other ways to work around the "limited space problem" but I believe it is the first one that has to be tackled. When considered in isolation, I think it's much easier to think about it!<br/>The second problem is that some objects have complex internal structure. It needs to be exposed in a way that avoids visual clutter but stays discoverable to the user. Knowing that some properties can be accessed by special keywords is not particularly discoverable - that should probably be improved. Exposing internal structure is very important because this is what allows things on screen to be inspected recursively. It's so important that in mainstream programming it's done with a dot operator - and there are dedicated tools that aid with the discoverability of available methods (intellisense, language servers). I guess context menu is the most established design pattern that could help here. It's far from perfect (you have to right click to know that a menu is available) but when combined with some hover indicators or cursor changes that could work very well. Unfortunately, touchscreens don't really have a well established hover feedback - so on touchscreens context menus suck :disappointed: My favourite approach is entirely different though - it's to design the UI in such a way that different regions of the UI can represent different components of a complex object. A region of a large complex object can offer access into one of its fields. Visual design is very work intensive and has to be scrapped as things evolve so I'm not sure if it's worth recommending. It definietly looks cool!<br/>The third issue is the interoperability of different data types and different visualizers. How to tell the system that string data is actually a comma-separated sequence of "X,Y,image URL" which can be displayed on a 2D canvas as a bunch of images? Can this be done in a way that's going to allow bidirectional editing? The only UI pattern I know in that space is a sort of a box with inputs and outputs that the user fills with their own solution. Very common in node &amp; wire interfaces (Blender, Unreal Engine Blueprints). This could probably work with propagator networks as well.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766088411.725849"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1765859105.605389.html#1766088411.725849" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:06</span><br/>
+<span style="background-color:#ccf">@Marek Rogalski</span> Great commentary, I really like the framing of these problems.. the whole thread has sort of guided my thinking a lot here:<br/><br/>• As far as showing relevant data interfaces based on context- I definitely agree that not all data interfaces might carry over to all use cases/contexts. And for each data interface there are higher and lower res views of that data. My intuition is that there ought be a sort of default library of nestable views - a few sizes for each datum. So perhaps you have a [Point, Image] data, it can by default render a scatter plot and each point can be a thumbnail. Perhaps as you shrink the area the scatter plot thumbnails collapse to points. Or this could be selected directly. More compact views can always progressively disclose the largest view. That “inspector” can be “snapped” off which just makes it another connected node. Just spitballin here. <br/>• Discoverability is super weak right now. I definitely want to figure out the best way to encapsulate any graph partition, exposing some internally defined interface. I think rolling up internally accessible connections and displaying them on the encapsulated node makes sense. Right now a popover appears as you are connecting which is far less than ideal. I'd be curious if a visual example of the “complex” spatial view you’re thinking about. One guiding principle is being able to “peak” inside an encapsulation, exposing the inner graph so you can directly connect to/from internals- aligning with the “encapsulation without lamination” principle of Crosscut (cc <span style="background-color:#ccf">@Ivan Reese</span>).  <br/>• On type Interop- yeah.. that's a tricky one. My general opinion is to avoid editing strings for various data types directly- rather we keep manipulation happen in context-aware data views described above as much as possible. If views are dynamic and nestable then the views should mirror your data structure without excessive remapping, but you can also leverage some intelligent auto-mapping when necessary. <br/>• Lastly on bi-directionality… that's not entirely clear yet. My suspicion ia there needs to be a biderectional “equality” connection.. this is a rabbit hole though… this is all rather nebulous to me… things like CRDTs, constraint systems, propagator networks come to mind but not confident how they all connect lol.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

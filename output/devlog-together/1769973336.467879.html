@@ -1,0 +1,113 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1769973336.467879.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:15</span><br/>
+Here is a game I made in my language beagle. It is using c interop with raylib for all the drawing. But you'll notice one cool thing, the pause and rewind. What is particularly cool to me about this feature is that the game wasn't designed with that in mind. Instead, on each frame I capture a delimited continuation and store them in a ring buffer. Now we can rewind through them and resume execution at any point in the program.<br/><br/>This is a small step towards some of the things in the <a href="https://www.youtube.com/watch?v=72y2EC5fkcE">https://www.youtube.com/watch?v=72y2EC5fkcE</a> They seem to not be doing this exact strategy. I've considered reaching out to see if I can learn of the details of what they have going on. But as a flesh out more of the robust live coding stuff I want, I definitely think I could be a good amount of the way there.<br/><br/>I also think without too much trouble, I could get to the bret victor style seeing the future. If the game has a simulation step separate from rendering, it should be possible to do that without too much work from the game.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769973812.814199"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769973812.814199" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:23</span><br/>
+How crucial is the ring buffer? I imagine you could use some other structure (like a tree) without much difficulty, though perhaps with perf tradeoffs.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769973952.846589"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769973952.846589" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:25</span><br/>
+Like to do branching of timelines? Yeah, its a ring buffer only see I have a window of time I'm saving. Otherwise it is unbounded memory growth. One thing I did accidentally discover is that if that buffer is a persistent data structure, that results in unbounded memory growth, because I will hold onto past versions of it in the continuation, which in turn hold onto past versions.... So it is again unbounded memory growth
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769973987.151509"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769973987.151509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:26</span><br/>
+What's a little unbounded memory growth between friends.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769974070.977739"></a>
+      <img src="https://avatars.slack-edge.com/2019-12-25/886144219253_4377ee2417eb9eaacd4b_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769974070.977739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:27</span><br/>
+Got any interesting data structure in mind that I should try?
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769974580.445079"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769974580.445079" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-02-01 11:36</span><br/>
+Any tree. Branching history.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769980633.034319"></a>
+      <a href="../devlog-together/1769973336.467879.html#1769980633.034319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jimmy Miller</b>
+<span style="margin:2em; color:#606060">2026-02-01 13:17</span><br/>
+
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1769989994.870629"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1769989994.870629" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-02-01 15:53</span><br/>
+Coooooool
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1770192504.942049"></a>
+      <img src="https://avatars.slack-edge.com/2026-02-13/10518378304529_48f2ed3761bbf1351c76_72.png" style="float:left"/>
+      <a href="../devlog-together/1769973336.467879.html#1770192504.942049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Oleksandr Kryvonos</b>
+<span style="margin:2em; color:#606060">2026-02-04 00:08</span><br/>
+:fire:the last video could be a standalone entry in devlog channel, I like how you did tree visualization
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

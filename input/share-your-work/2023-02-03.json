@@ -1,0 +1,127 @@
+[
+    {
+        "user": "U04MAEU6VHN",
+        "type": "message",
+        "ts": "1675456455.115099",
+        "client_msg_id": "fc406730-8314-416e-93f8-a957d81177bf",
+        "text": "brilliant talk\/demo! it seems like those rules work really well on the GPU (although the cell splitting would take some gymnastics) -- is that what you're doing \/ have you tried that?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "43e7ef32ef6c",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-01-25\/4713451001249_43e7ef32ef6c84455dbd_72.jpg",
+            "first_name": "Jared",
+            "real_name": "Jared Forsyth",
+            "display_name": "Jared Forsyth",
+            "team": "T5TCAFTA9",
+            "name": "jabapyth",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1675409540.909829",
+        "parent_user_id": "U03R0B9U1GD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "1eMnL",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "brilliant talk\/demo! it seems like those rules work really well on the GPU (although the cell splitting would take some gymnastics) -- is that what you're doing \/ have you tried that?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U03R0B9U1GD",
+        "type": "message",
+        "ts": "1675465494.658649",
+        "client_msg_id": "ca8027de-06e1-4f66-8a0f-c90b52cf3221",
+        "text": "Thank you very much!\n\nYes I reckon there's some scope to run them on the GPU, but it might be harder than expected.\n\nSo, just for context - the engine's main bottleneck currently is rendering, because it's just using javascript canvas. The renderer could be sped up loads by using webgl instead, and then the bottleneck would become the computation behind it.\n\nAt that point, GPU would be a consideration! Cellular automatons are usually great for GPU optimisations, because all the classic (like game of life) involve rules where only the 'middle' of an 'event window' gets edited. Which is perfect for shaders.\n\nOne of the challenges of an engine like CellPond (which stems from Dave Ackley's <https:\/\/movablefeastmachine.org\/|Moveable Feast Machine> engine) is this: When a rule gets applied, it can affect *any* cell in the event window. This doesn't work so well with shaders. However, with the rise of GPU compute, eg: webgpu, it might become easier to leverage the GPU for this kind of thing! I need to look into it more!\n\nAnother challenge is this: Most cellular automatons are deterministic. But CellPond (and the Moveable Feast Machine) are non-deterministic. So parallelising 'events' involves having to make sure that any randomly-picked locations don't overlap with each other. You can't just get away with a classic <https:\/\/en.wikipedia.org\/wiki\/Block_cellular_automaton|block cellular automata> approach.\n\nI did manage to do a dodgy solution to that once on the GPU with <https:\/\/github.com\/TodePond\/GPU-SandPond|this experiment> though. And I made two videos about it:\n\n1. <https:\/\/youtu.be\/W7HRay9RPNg|The initial idea of using GPU to speed up one of these engines>.\n2. <https:\/\/youtu.be\/9mbs0sx3z2A|Taking the idea to its logical conclusion>.\n\nBig answer but it's an interesting topic, thanks for asking :)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "78c476adad42",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2022-08-26\/3992499177765_78c476adad42ab6cfe32_72.png",
+            "first_name": "Lu",
+            "real_name": "Lu Wilson",
+            "display_name": "TodePond",
+            "team": "T5TCAFTA9",
+            "name": "l2wilson94",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1675409540.909829",
+        "parent_user_id": "U03R0B9U1GD",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "JXOxX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thank you very much!\n\nYes I reckon there's some scope to run them on the GPU, but it might be harder than expected.\n\nSo, just for context - the engine's main bottleneck currently is rendering, because it's just using javascript canvas. The renderer could be sped up loads by using webgl instead, and then the bottleneck would become the computation behind it.\n\nAt that point, GPU would be a consideration! Cellular automatons are usually great for GPU optimisations, because all the classic (like game of life) involve rules where only the 'middle' of an 'event window' gets edited. Which is perfect for shaders.\n\nOne of the challenges of an engine like CellPond (which stems from Dave Ackley's "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/movablefeastmachine.org\/",
+                                "text": "Moveable Feast Machine"
+                            },
+                            {
+                                "type": "text",
+                                "text": " engine) is this: When a rule gets applied, it can affect *any* cell in the event window. This doesn't work so well with shaders. However, with the rise of GPU compute, eg: webgpu, it might become easier to leverage the GPU for this kind of thing! I need to look into it more!\n\nAnother challenge is this: Most cellular automatons are deterministic. But CellPond (and the Moveable Feast Machine) are non-deterministic. So parallelising 'events' involves having to make sure that any randomly-picked locations don't overlap with each other. You can't just get away with a classic "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/en.wikipedia.org\/wiki\/Block_cellular_automaton",
+                                "text": "block cellular automata"
+                            },
+                            {
+                                "type": "text",
+                                "text": " approach.\n\nI did manage to do a dodgy solution to that once on the GPU with "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/github.com\/TodePond\/GPU-SandPond",
+                                "text": "this experiment"
+                            },
+                            {
+                                "type": "text",
+                                "text": " though. And I made two videos about it:\n\n1. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/youtu.be\/W7HRay9RPNg",
+                                "text": "The initial idea of using GPU to speed up one of these engines"
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n2. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/youtu.be\/9mbs0sx3z2A",
+                                "text": "Taking the idea to its logical conclusion"
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n\nBig answer but it's an interesting topic, thanks for asking :)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

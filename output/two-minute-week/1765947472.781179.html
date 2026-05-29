@@ -1,0 +1,174 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #two-minute-week</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../two-minute-week/1765947472.781179.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-16 20:57</span><br/>
+This channel gets basically no action, and it's been years(?) since I've shared here, so I'm allowing myself <em>four</em> minutes for this. Sorry, pedants!<br/><br/>In this video I show a <em>code sketch</em> of a gestural notebook interface, something I made off-and-on over the past two weeks. This is for the <a href="https://www.inkandswitch.com/project/playbook/">PlayBook</a> project.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765955941.235759"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-03/6146149791636_eeae1e506647f237c0f9_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1765955941.235759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Xavier Lambein</b>
+<span style="margin:2em; color:#606060">2025-12-16 23:19</span><br/>
+Curious what it is you don't like about it? Watching you it seems okay, albeit a bit slow if you need to switch back and forth between canvases quickly (I'm comparing in my head to desktop workspaces).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765987147.525889"></a>
+      <img src="https://avatars.slack-edge.com/2024-07-21/7452153981845_9a58947a0752af693545_72.png" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1765987147.525889" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>John Christensen</b>
+<span style="margin:2em; color:#606060">2025-12-17 07:59</span><br/>
+Having the sequential "notebook" inside an infinite canvas seems nice! I often drift around and get a bit disorganized working in an infinite canvas, but having at least part of the canvas stay linear seems helpful when I want some structure
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766013662.252319"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766013662.252319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-17 15:21</span><br/>
+<span style="background-color:#ccf">@Xavier Lambein</span><br/><br/>There are a lot of values and goals behind the PlayBook project, and this little interface sketch manages to adhere to most of them but not all, and there are probably ways it could do better.<br/><br/>For instance, there's no on-screen UI chrome. No navbar, no back button, nothing. (The little tool picker in the bottom left is just an affordance for this code sketch. In our real prototype, tool picking is done using a different method — out of scope for my code sketch.)<br/><br/>The page-swiping works great. Happy with that part.<br/><br/>The first level of zoom-out, where you see the infinite canvas, also works well. Aside from bugs, we're pretty happy with this part. It doesn't do everything we want in the way we want, but it's close.<br/><br/>The second level of zoom-out, where you come out of one notebook and can switch to a different notebook… that part sucks.<br/><br/>The interaction of pulling in from both sides (I call the gesture a "Joni", because Joni Mitchell has a song called "Both Sides Now") does different things depending on when you do it. Conceptually, it always means "go out one level". But in practice what "one level" means changes depending on whether you're focused on a single page vs looking at the infinite canvas view vs looking at the list of notebooks. This inconsistency feels bad and is limiting.<br/><br/>For instance, I can't switch notebooks when focused on a single page. I first have to go back to the infinite canvas view. This means I also can't enter a notebook and have it already focused on a single page (which is what I would want for something like a daily journal).<br/><br/>Another goal of the system is that everything you can see and touch is made out of "materials". Briefly, we use the term "material" to describe the appearance, interactions, behaviours, and data encompassed by a type of physical object, and "material physics" to refer to how all these things work together to define the "laws of physics" for the system overall. The core materials in our system are ink and paper, but we are also working on <a href="https://www.inkandswitch.com/ink/notes/playbook-material-studies/">other materials</a>.<br/><br/>My goal in this interface prototype was to make it work while changing as little as possible about our current set of material physics. Some thing I had to change to make this demo:<br/><br/>• Paper will snap to adjacent paper, forming a "sequence"<br/>• The camera (which is just a screen-sized piece of paper with a tiny bit of special behaviour) can be in one of two modes, locked vs unlocked, and when locked (to another piece of paper) it'll try to frame that paper in view, and will respond to edge-swipes by moving to the next/prev page in the sequence (if any).<br/>• Paper can also act like a "portal", where it will render itself by taking the view from a camera paper.<br/>Etc etc.<br/><br/>All told, I didn't have to add much. Most of the behaviour comes from our existing physics that make paper what it is.<br/><br/>Buuuut the additions I had to make to get the portal rendering to work don't feel all that harmonious with the rest of the system.<br/><br/>I think I could come up with something different that would achieve the same interface goals but that require fewer additions to paper material physics and that feel better to use.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091031.387299"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-03/6146149791636_eeae1e506647f237c0f9_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091031.387299" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Xavier Lambein</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:50</span><br/>
+Yep I can totally see how the inconsistency of the joni could be frustrating to use. Seems like a tough thing to solve :thinking_face: What if you only joni to switch workspace, and you pinch to zoom in/out of a page? Then when you joni out it would retain whatever viewport you had.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091098.461359"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-03/6146149791636_eeae1e506647f237c0f9_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091098.461359" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Xavier Lambein</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:51</span><br/>
+I love that the camera is a piece of paper too, I hadn't realised that. Big "everything is a _" energy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091126.872819"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091126.872819" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:52</span><br/>
+Another goal: when you're focused on a page, fingers need to be basically a no-op. Even using fingers to turn pages is almost too risky. We want the basic drawing mode to be safe for "hands all over", so that you never accidentally invoke some unwanted behaviour due to failed palm rejection or other errant touches.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091148.806289"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-03/6146149791636_eeae1e506647f237c0f9_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091148.806289" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Xavier Lambein</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:52</span><br/>
+Ah, makes sense!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091160.300029"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091160.300029" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:52</span><br/>
+So Joni and swiping are the only things fingers do, normally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091199.441999"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091199.441999" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:53</span><br/>
+Turns out, this "hands all over" safety is probably the #1 factor that makes an iPad feel more like real paper.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1766091316.237489"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-03/6146149791636_eeae1e506647f237c0f9_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1766091316.237489" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Xavier Lambein</b>
+<span style="margin:2em; color:#606060">2025-12-18 12:55</span><br/>
+Yeah that makes complete sense, as I'm reminded every time I try to draw and didn't remember to disable the touch sensitivity of my Wacom
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1768531394.919709"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1768531394.919709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2026-01-15 18:43</span><br/>
+Love that you share what isn't quite right.  I surprised you can't stack them like cards or make a given perspective into a card, kind of like a hyperlink.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1768538013.381869"></a>
+      <img src="https://avatars.slack-edge.com/2026-03-24/10769426820022_840a677ee4ad41de05af_72.jpg" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1768538013.381869" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Ivan Reese</b>
+<span style="margin:2em; color:#606060">2026-01-15 20:33</span><br/>
+Oh, you can stack them in the real app. This prototype is just a throwaway that doesn't have all the "paper physics" we've designed.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1768598132.586369"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../two-minute-week/1765947472.781179.html#1768598132.586369" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2026-01-16 13:15</span><br/>
+I figured as much.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

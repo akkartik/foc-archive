@@ -1,0 +1,31 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #linking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1765500063.728639.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2025-12-11 16:41</span><br/>
+saw this new paper by <span style="background-color:#ccf">@Jonathan Edwards</span> and <span style="background-color:#ccf">@Tomas Petricek</span><br/>still reading it - very fun, discusses version control for structured data and schema evolution<br/><a href="https://www.arxiv.org/abs/2512.09762">https://www.arxiv.org/abs/2512.09762</a><br/>> <b>Baseline: Operation-Based Evolution and Versioning of Data</b><br/><snipped in favor of slack provided summary below><br/><br/>looks like it builds on their previous work, eg <a href="https://alarmingdevelopment.org/?p=1716">https://alarmingdevelopment.org/?p=1716</a><br/><br/>i think schema evolution is one of the unsolved problems so glad to see this. i'm also in the "store structures not text blobs" camp so happy to see a framework in place that doesn't require anyone to invent the entire representation stack there.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765659260.968699"></a>
+      <img src="https://avatars.slack-edge.com/2019-03-21/584465935395_b7c63cc07373326ec6ea_72.jpg" style="float:left"/>
+      <a href="../linking-together/1765500063.728639.html#1765659260.968699" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Shalabh</b>
+<span style="margin:2em; color:#606060">2025-12-13 12:54</span><br/>
+i recommend this paper to anyone doing local-first, structured-editing, or generally inventing a structured store that needs object versioning.<br/><br/>my comments:<br/>1. formalized timelines are really aesthetically pleasing, specifically the <em>transfer</em> of operations across timelines.<br/>2. it handles merging where one timeline does a value replacement, while another does a type transform. i dont think crdts have anything quite like this:<br/>    a. timeline-1: <tt>{key1: 'a1'}</tt>  ->  <tt>{key1: 'a2'}</tt><br/>    b. timeline-2: <tt>{key1: 'a1'}</tt> -(wrap in a list)-> <tt>{key1: ['a1']}</tt>   <br/>    c. merged: <tt>{key1: ['a2']}</tt> <br/>    d. even works if timeline-2 appends <tt>'b1'</tt> before merging. merge produces <tt>{key1: ['a2', 'b1']}</tt>.  <br/>3. there is a notion of <em>identity</em> in this model that i’d like to examine. eg when <tt>a1</tt> is replaced with <tt>a2</tt>  the containing structure “remembers”  <b>which specific value</b> was replaced by using a unique ID.<br/>    a. even for lists, a unique ID is attached to each value so you can figure out how an operation on that value in one timeline applies to a forked list where that specific value has since moved.<br/>4. i feel the idea can be generalized to more than records and lists. consider  if we think about a general object <tt>V</tt> as containing <em>slots</em> that have identity. slots hold values. transformations move slots around, add and remove slots or replace slot values. the projection and retraction methods may need to be supplied by <tt>V</tt> itself. anyway, haven’t fully worked this out.<br/>5. the paper focusses on small data where each copy carries around the full history, and doesn’t need a central repo. however, the model could easily work with a central repo storing the committed or even parallel timelines for objects. local objects only need to hold zero or small histories with a pointer back to the committed timelines. if we generalize the fork/merge model here, it could apply to even large object graphs, parts of which get forked and then recombined. <br/>overall quite fascinating. there’s a big section on related work i haven’t caught up on.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

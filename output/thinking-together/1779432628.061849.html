@@ -1,0 +1,163 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2026-05-21 23:50</span><br/>
+I'm looking for evidence of my observation that most async functions (at least in JavaScript/TypeScript) are called with a direct await. I think most developers find the synchronous semantics much easier to understand and therefore make the code better maintainable. Only in a few specific places I see <tt>.then(...)</tt> or <tt>Promise.all(...)</tt> being used consistently without a final await. Do you know of any research backing this observation? If so, please leave a message (synchronous or asynchronous :wink:) pointing me in the right direction. Thx!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779434165.344529"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779434165.344529" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 00:16</span><br/>
+but thats still useful? The motivation was to avoid having to write a series of steps in ever deepening nested <tt>.then</tt> blocks for relatively trivial yet serially dependent tasks like <tt>fetch(...)</tt> a.k.a. callback hell So even though only one promise is open is open at a time and there is 0 concurrency going on, a <tt>then</tt> makes this trivial and common task messy by introducing a callback and therefore nesting.<br/><br/>Article 11 years ago before we had await.<br/><a href="https://stackoverflow.com/questions/25098066/what-is-callback-hell-and-how-and-why-does-rx-solve-it">https://stackoverflow.com/questions/25098066/what-is-callbac&hellip;</a><br/><br/>You phrasing makes me thing you think developer who are not fanning out async with Promise.all() are doing it wrong. And if there task has real potential concurrency you would kinda be right, but because Javascript is single threaded you can still have the situation await leads to flatter code and there is no potential fanout to put a Promise.all<br/><br/>So "callback hell" in the context of "promises" is the research that led to await. If you want direct evidence people use await next to an async function you could probably pick an open source project and measure it, I also believe it is probably very common.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779434571.606009"></a>
+      <img src="https://avatars.slack-edge.com/2026-05-22/11191653728884_b3b54208596eff3d3b61_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779434571.606009" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew</b>
+<span style="margin:2em; color:#606060">2026-05-22 00:22</span><br/>
+personally I think async/await is a bloat, because multi-threading should defined by structure that "context changes between those block will never happen, therefore they do not depend on each other and should work in parallel"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779435204.717209"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779435204.717209" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 00:33</span><br/>
+its really not though, its still cooperative multitasking. Async is a signal that JS execution engine is free to do other work while something else in the background happens. Even in a straight serial block of asyncs, those asyncs are allowing stuff completely elsewhere to make progress by yielding execution. Because JS is single threaded and someone needs to do that otherwise the main thread is blocked.<br/>I love the JS execution model, having worked in other languages where execution can be interrupted right in the middle of a function execution, JS makes multitasking very easy to reason about, you function always executes fully.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779436155.441759"></a>
+      <img src="https://avatars.slack-edge.com/2026-05-22/11191653728884_b3b54208596eff3d3b61_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779436155.441759" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew</b>
+<span style="margin:2em; color:#606060">2026-05-22 00:49</span><br/>
+I agree await solves the cooperative yield problem in JS specifically. My concern is that it conflates two things: the dependency structure (what must happen before what) and the scheduling mechanism (when the thread yields). In a system with structural concurrency, you'd express the dependencies explicitly — graph, not chain — and the host decides how to schedule. Await makes the chain look flat but the graph is still implicit and scattered across suspension points.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779436525.187249"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779436525.187249" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 00:55</span><br/>
+Yeah I am also a fan of that too, observable runtime is such an engine and it ends up removing the outer awaits. <a href="https://observablehq.com/@mbostock/introduction#cell-152">https://observablehq.com/@mbostock/introduction#cell-152</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779443727.264659"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779443727.264659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2026-05-22 02:55</span><br/>
+My question was an observation which might have been biased by my preference for Smalltalk style 'concurrency', but certainly not a 'they are doing it wrong' statement. Smalltalk Processes (which are very light weight) run and can be pre-empted (not necessarily on a function boundary as JS, but not half way during a slot assignment). If you want to do things in parallel, you create another Process (again, which is cheap). This leads to code that (in my opinion) is easy to read and understand. Everything is synchronous. The concurrent parts are made explicit by adding Processes. And if needed you can wait on another Process to finish. In Smalltalk you'll have to add locks and guards if two Processes will update the same Object. Other approach. I like this style of programming, but can probably be a pita if you do a lot of concurrent stuff (not doing any heavy concurrent stuff, so I don't know).<br/>I'm developing a new language with many similarities to the Smalltalk model. I think the ease of understanding synchronous code ways in heavy. I was looking for some proof to back this up. If such proof ain't there, it will at best be hearsay and/or feeling. Is okay either way. If there is some proof/evidence I'd like to add it to my design decisions document. I'm not going to do my own statistical analysis on GH. Changes are it will be a lot of work and it is not worth it. (I'll make the decision based on feeling, just as easy :wink:).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779449144.229109"></a>
+      <img src="https://avatars.slack-edge.com/2026-05-22/11191653728884_b3b54208596eff3d3b61_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779449144.229109" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Andrew</b>
+<span style="margin:2em; color:#606060">2026-05-22 04:25</span><br/>
+I was saying it's wrong not because it fails to describe an action, but rather because "logically" you have multiple ways to make independent execution from each other and it's wrong because it's redundant and you can't change it via substitution (changing how threads created and how do they run the code). I mean sure it's great to have a distinction between concurrency and multi-threading, but if your description of a program makes this distinction at the foundation that you can't override, now you introduce non-composability inside a language and taking away the choice of decision from the user.<br/><br/>Basically It doesn't matter if your threads are light or heavy, if you leave that up to the user and implementation, but I think this might go beyond your goal.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779457645.053659"></a>
+      <img src="https://avatars.slack-edge.com/2023-11-23/6253994675665_a55b20870fb92473e7e8_72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779457645.053659" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Erik Stel</b>
+<span style="margin:2em; color:#606060">2026-05-22 06:47</span><br/>
+<span style="background-color:#ccf">@Andrew</span> just to be clear, my reference to 'they are doing it wrong' was for Tom who thought I was judging developers, which I was not.<br/>I've never really paid too much attention to the deeper concepts of JS async stuff (except for sometimes having to cope with it in my Smalltalk where I bridge to JS). The point you make seems fair, but I'm not sure if I qualify to say so since I'm not very knowledgeable on the topic.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779458302.433929"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779458302.433929" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-22 06:58</span><br/>
+> Only in a few specific places I see <tt>.then(...)</tt><br/>ok, well <tt>.then</tt> is virtually considered legacy in JS at this point. Its only really used in a synchronous function to throw off a side-effect that is unrelated to the return. That means you can avoid marking the function as async.<br/><br/>async/await has <b>replaced</b> <em>most</em> uses of the Promise objects. Promise.all is still needed and used, because thats where you can get parallelism and therefore speedups. I am not sure they actually merged it but the main linter for JS has at least agreed stylistically <tt>await</tt> is preferred to <tt>then</tt> (<a href="https://github.com/eslint/eslint/issues/9649">https://github.com/eslint/eslint/issues/9649</a>)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779491368.079339"></a>
+      <img src="https://secure.gravatar.com/avatar/79842c7c389426d76e2bb53fc48f8b98.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779491368.079339" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>dman-os</b>
+<span style="margin:2em; color:#606060">2026-05-22 16:09</span><br/>
+Can confirm this is also the case in Rust async, at least in the macro syntax sense. You have mostly procedural code and key pinch points will do <tt>select!</tt> (<tt>Promise.race</tt>) or <tt>join!</tt> (<tt>Promise.all</tt>). Usually, those are points of cross task/thread communication and scheduling or timeouts, with a lot of code falling into an event loop style as such.<br/><br/>So roughly (bear with me, I don't know PL nomenclature), async must appear like "bloat" that shows up everywhere only to be exercised at these pinch points. At least on the macro syntax level. But! As Tom points out, cooperative multitasking using futures/async-await/delimited continuations (all in service of having stackless coroutines) is such a win that a lot of trains have tacked on that car. For the rust case, if you're familiar with the lang, check out this discussion <a href="https://without.boats/blog/let-futures-be-futures/">https://without.boats/blog/let-futures-be-futures/</a> <br/><br/>Note that rust is not JS, it's not forced into a single threaded runtime and yet mountains were moved to implement this feature.<br/><br/>And think about cooperative multitasking/concurrency conceptually. The CPU gives us one temporal line to follow. One way or another, you'll have to pay the toll to hack around this weather it's stackfull/stackless coroutines or preemptive green threads. The syntax being the major "cost" in the stackless case.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779621416.740509"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779621416.740509" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2026-05-24 04:16</span><br/>
+that futures-be-futures was a great article.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1779626359.327049"></a>
+      <img src="https://secure.gravatar.com/avatar/79842c7c389426d76e2bb53fc48f8b98.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0012-72.png" style="float:left"/>
+      <a href="../thinking-together/1779432628.061849.html#1779626359.327049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>dman-os</b>
+<span style="margin:2em; color:#606060">2026-05-24 05:39</span><br/>
+The whole blog is a must if you write Rust. Explains and contextualizes some of its weird bits in very clear terms.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

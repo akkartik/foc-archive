@@ -1,0 +1,18 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #devlog-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <a href="../devlog-together/1760901298.957959.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-10-19 12:14</span><br/>
+Been thinking how Observable Notebook 2.0 format helps me. I conclude, that kind of transformation should NOT be in the low level. To run Notebook 2.0 you need compilers, but to run Lopecode the format is the low level raw JavaScript so Notebook 2.0 format puts specialised parsers/compilers in the loading path. Compilers and language choices should be in userspace, where they can be changed by the user. So I will revisit Notebook 2.0 when I have fixed the lower layer. I think it be neat as a userspace module.<br/><br/>So I return to where I left off. Bugs in importing from the net. I am redoing the foundational technology. I ditched importmaps and moved over to es-module-shims. It has allowed me to fix a problem that locally loaded models could not be deduped with network imported ones, which ends up causing semantic issues. importmaps are 1-way doors, es-module-shims gives you total control over import semantics at any point in time. Its a really amazing piece of software I recommend learning how it works. It has a C written Lezer parser doing the minimum parsing possible in the fastest possible way to read source code and swap "import" for "importShim" thus enclosing all import calls with a wrapper for customization.<br/><br/>Anyway, in the process I noticed defining the stdlib in the system space was also questionable because half those libs are broken (duckdb) and it takes up 50% of the system overheads for a large amount of extraneous code. Notebook 2.0 redid the stdlib =&gt; stdlib is subject to churn. So by a similar argument the stdlib definition should be in userspace too.<br/><br/>I spent a weekend on it and got surprisingly far. I can display some things, es-module-shim dedupuing seems to work and I added a userspace boot module that defines the stdlib and <b>then</b> loads the main module which I think its an improvement and allows the serialization format bootstrap process to be very small (26Kb). In that 26Kb you get a hot swapping reactive runtime and total control over ESM import semantics in a local-file.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

@@ -1,0 +1,348 @@
+[
+    {
+        "user": "U8A5MS6R1",
+        "type": "message",
+        "ts": "1765659260.968699",
+        "edited": {
+            "user": "U8A5MS6R1",
+            "ts": "1765675258.000000"
+        },
+        "client_msg_id": "f46480e8-f72b-4e63-8f1f-10effb763128",
+        "text": "i recommend this paper to anyone doing local-first, structured-editing, or generally inventing a structured store that needs object versioning.\n\nmy comments:\n1. formalized timelines are really aesthetically pleasing, specifically the _transfer_ of operations across timelines.\n2. it handles merging where one timeline does a value replacement, while another does a type transform. i dont think crdts have anything quite like this:\n    a. timeline-1: `{key1: 'a1'}`  ->  `{key1: 'a2'}`\n    b. timeline-2: `{key1: 'a1'}` -(wrap in a list)-> `{key1: ['a1']}`   \n    c. merged: `{key1: ['a2']}` \n    d. even works if timeline-2 appends `'b1'` before merging. merge produces `{key1: ['a2', 'b1']}`.  \n3. there is a notion of _identity_ in this model that i’d like to examine. eg when `a1` is replaced with `a2`  the containing structure “remembers”  *which specific value* was replaced by using a unique ID.\n    a. even for lists, a unique ID is attached to each value so you can figure out how an operation on that value in one timeline applies to a forked list where that specific value has since moved.\n4. i feel the idea can be generalized to more than records and lists. consider  if we think about a general object `V` as containing _slots_ that have identity. slots hold values. transformations move slots around, add and remove slots or replace slot values. the projection and retraction methods may need to be supplied by `V` itself. anyway, haven’t fully worked this out.\n5. the paper focusses on small data where each copy carries around the full history, and doesn’t need a central repo. however, the model could easily work with a central repo storing the committed or even parallel timelines for objects. local objects only need to hold zero or small histories with a pointer back to the committed timelines. if we generalize the fork\/merge model here, it could apply to even large object graphs, parts of which get forked and then recombined. \noverall quite fascinating. there’s a big section on related work i haven’t caught up on.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "b7c63cc07373",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-03-21\/584465935395_b7c63cc07373326ec6ea_72.jpg",
+            "first_name": "Shalabh",
+            "real_name": "Shalabh",
+            "display_name": "shalabh",
+            "team": "T5TCAFTA9",
+            "name": "shalabh.chaturvedi",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1765500063.728639",
+        "parent_user_id": "U8A5MS6R1",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "NY9R3",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "i recommend this paper to anyone doing local-first, structured-editing, or generally inventing a structured store that needs object versioning.\n\nmy comments:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "formalized timelines are really aesthetically pleasing, specifically the "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "transfer",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " of operations across timelines."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "it handles merging where one timeline does a value replacement, while another does a type transform. i dont think crdts have anything quite like this:"
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 0,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "timeline-1: "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: 'a1'}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "  ->  "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: 'a2'}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "timeline-2: "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: 'a1'}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " -(wrap in a list)-> "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: ['a1']}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "   "
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "merged: "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: ['a2']}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " "
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "even works if timeline-2 appends "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "'b1'",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " before merging. merge produces "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "{key1: ['a2', 'b1']}",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": ".  "
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 1,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "there is a notion of "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "identity ",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "in this model that i’d like to examine. eg when "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "a1",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " is replaced with "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "a2",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "  the containing structure “remembers” "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " which specific value",
+                                        "style": {
+                                            "bold": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " was replaced by using a unique ID."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 0,
+                        "offset": 2,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "even for lists, a unique ID is attached to each value so you can figure out how an operation on that value in one timeline applies to a forked list where that specific value has since moved."
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 1,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "i feel the idea can be generalized to more than records and lists. consider  if we think about a general object "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "V",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " as containing "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "slots",
+                                        "style": {
+                                            "italic": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " that have identity. slots hold values. transformations move slots around, add and remove slots or replace slot values. the projection and retraction methods may need to be supplied by "
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "V",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " itself. anyway, haven’t fully worked this out."
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "the paper focusses on small data where each copy carries around the full history, and doesn’t need a central repo. however, the model could easily work with a central repo storing the committed or even parallel timelines for objects. local objects only need to hold zero or small histories with a pointer back to the committed timelines. if we generalize the fork\/merge model here, it could apply to even large object graphs, parts of which get forked and then recombined. "
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "ordered",
+                        "indent": 0,
+                        "offset": 3,
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\noverall quite fascinating. there’s a big section on related work i haven’t caught up on."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-11-26 11:50</span><br/>
+<span style="background-color:#ccf">@Dennis Hansen</span> Great workshop on Artifact. I recognized the situation where you have to synchronise updates to do their thing before letting the outer thing tick on. Its in this notebook which is also a dataflow graph based programming environment but that is not graphical<br/><a href="https://observablehq.com/@tomlarkworthy/flow-queue">https://observablehq.com/@tomlarkworthy/flow-queue</a><br/><br/>It interesting seeing the same thing manifest. I think its because values propagate through the program asynchronously, but you sort of want functional reuse or recursion, but calling a function actually takes time now in the async world, so to get that "request/response" functional interface you need the converter from async to sync, which involves a synchronisation barrier to bring back the functional abstraction. After trying to work with it a while I sorta decided its annoying for some problems. The nice thing about a function call is the caller is stopped until the the call finishes, and the result is wired back to the caller, although many different places may make a call to the same function. Its harder to do on a static dataflow graph.<br/><br/>I think the functional calling primitive is something you could probably put into to your cells as they have routing ability (remember who sent me a value and next time I get a value send it back to the initiator?).<br/><br/>I share coz sometimes seeing the same thing in a different context can give helpful for perspective. See your work made me thing about the fact I put a queue in my flow-queue which makes it kinda of an actor too, even though the underlying dataflow paradigm of Observable does not have queueing between cells. I had to add the queue to get to the functional interface, to be able to process one thing at a time on the static dataflow graph :thinking_face:
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1764193743.912619"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html#1764193743.912619" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-11-26 13:49</span><br/>
+Awesome really appreciate the thinking. Interesting to hear about how the 'sync' behavior has manifested in your work - and honestly i've toyed around with the idea of doing sync at the cell level as well. The only thing that sort of bothers me is that then cells might have to be in this 'waiting for response' stage, which then the user has to be able to understand and control etc. But the reality is that its kinda the same with the current sync-by-op method, since those need to have the value in the queue waiting for the next run. Worth mentioning, once encapsulation exists, and assuming they are fully flexible, then technically i'll need to have them allow arbitrary waiting at arbitrary groups of ports so i once thats in i hypothetically could prototype a cell that works this way in artifact which would be cool.<br/><br/>My frustration with the current sync-by-op method is i think summarized as this- the state of the cell must be fully processed by any single loop and reach the cell again before it can be processed again, and right now the state of the cell is sent along an waiting at a switch that decided the direction. Thats sort of the standard pattern. It feels weird that the resting state of a program has a message waiting in a queue. But that is sort of required for that op to be immediately reactive since that state has to propagate through a loop before returning, its almost like theres one canonical 'state' of the cell is being passed around and can only be in once place at a time, again which just makes it weird that the 'state' is just sitting as a message. I think doing something like you are talking about makes sense, the only weird thing about that is that now cells, in a way, have to also be switches. And have to track whether the state is 'here' or its in a loop elsewhere (which means new inputs should be blocked. Totally 'legal' in artifact world to add this behavior but i haven't arrived at something that feels quite good yet. But yeah tbh this is maybe the one thing i think about that makes me question the current architecture most so honestly great question/feedback.<br/><br/>Also i'll add- cool that you added queues. Yeah when you have any waiting/sync it immediately pops out as necessary unless you have subsequent messages override previous ones which feels unholy lol. So yeah i've also un-intentionally arrived at the actor model too. And the once meta-programming is added then nodes will fit the definition almost perfectly which is strange and cool.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1764221398.646649"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html#1764221398.646649" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-11-26 21:29</span><br/>
+The unsynchronized temporarily confused values were what the (functional?) reactive programmers call "glitches".<br/>Some frameworks suffer from them (especially ones that "push" data as you do), some implement "glitch avoidance".<br/>In one directional DAGs, simplest fix is two-phased (1) propogate invalidations (2) pull from the end, recursively re-computing anything that was invalidated. This effectively does topological sort.  But that makes control flow even more implicit and magic, dunno how to sanely mix it with deliberately cyclic, non-converging loops.<br/><br/>What I loved about you going the opposite way, is how a single notation - arrows of several kinds - covers both data and control flow :clap: <br/><br/>The "wait until all inputs arrive" mechanic looks like the Petri Nets formalism.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1764230842.713219"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html#1764230842.713219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-11-27 00:07</span><br/>
+<span style="background-color:#ccf">@Beni Cherniavsky-Paskin</span> Thank you! Yep the tricky part is just finding rules that are understandable- but interesting to hear about the FRP manifestation of that problem- when trying to solve at first i did feel the pull to move into top sort territory. And yeah now that you mention Petri nets is probably the closest formalism- or furthermore discrete simulation
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1764233836.173969"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html#1764233836.173969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-11-27 00:57</span><br/>
+the other approach I am exploring is dataflow templating. I think you alluded to this too in your talk. Instead of invoking a shared dataflow subgraph with synchronisation at the entrance, instead, clone the subgraph and run it independently in parallel, this is a different way of reusing logic graphs. Shared nodes can fanout to all the copies for global modulation (e.g. configuration parameters). This replaces the queue with parallelism which is more Factorio-esq. The entrance barrier thing I think is a consequence of sequential execution thinking and maybe is not the ideal paradigm.<br/><br/>I have not finished the templating notebook, I don't like the actual programmatic interface but that doesn't really matter, but in this example there is a common widget from drawing cloned to make a dashboard with <b>shared</b> time axis and individually configurable data dimensions. So it mixes both shared nodes and cloned nodes.<br/><br/><a href="https://observablehq.com/@tomlarkworthy/dataflow-template">https://observablehq.com/@tomlarkworthy/dataflow-template</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1764280646.383729"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1764186658.018769.html#1764280646.383729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-11-27 13:57</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> very cool. I've been thinking about this approach a little as well - funny how this problem space we're exploring is really quite the same. I definitely think parallelizing anything that can be parallelized probably should be. So I tend to think parallelizing should be sort of built-in/ easy to do for encapsulated nodes- i’m still not sure exactly how that would play out, but the way I see it is really under the hood as you might have some meta programming nodes that duplicate the sub graph for any waiting inputs. And tear them down as they complete
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

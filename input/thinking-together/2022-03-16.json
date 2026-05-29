@@ -1,0 +1,2583 @@
+[
+    {
+        "user": "U02M6PM725T",
+        "type": "message",
+        "ts": "1647422642.414839",
+        "client_msg_id": "272c7adf-a923-4172-9099-9a7215db0e55",
+        "text": "Hi all, I wrote down some thoughts on colorless async. See below! I’m not experienced in use of go-routines etc; I write from a language design perspective and,  yeah so; I might be totally wrong\/have mis-conceptualized something.  I’m in a process of learning to think about this stuff and would be delighted to have feedback\/think together about the topic of designing async into a language!\n---\n\n*Colorless async seems obviously great, but what if the opposite is also true?*\nI read this blog post <https:\/\/journal.stuffwithstuff.com\/2015\/02\/01\/what-color-is-your-function\/|What Color is Your Function?>? on ways to integrate async into a language. It’s an entertaining  and convincing read by a super experienced developer. The article leads you through a chain of very obvious thoughts, that you cannot imagine even wanting to contradict; ending up with the understanding that the best solution is to enable using sync and async functions interchangeably, e.g. by supporting go-routines.\n\n*I was totally convinced*. But then I thought, what if you go all the way in the other direction, embracing that `sync` and `async` are so fundamentally different in their semantics. _What it that difference was present on the language level, in stead of being hidden by magic?_ \n\n*This has been done* many decades ago and with superb usability results, in the form of state machines and most notably statecharts. “Red” (sync) functions are transitions. “Blue” (async) functions are states. Thinking of them and visualizing them as distinctly different is a game-changer for the human mind: A top-down understanding can be conveyed to non-programmers and programmers alike, etc. In the typical visualization, sync stuff is not “red functions”, they are arrows. async stuff is not “blue functions”, they are rectangles. Arrows and Rectangles composes perfectly, _because of their differences_. It’s hard to see what’s gained conceptually by merging arrows and rectangles into one thing.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "46b1d789abee",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-11-14\/2726013476404_46b1d789abee49842525_72.jpg",
+            "first_name": "Henning",
+            "real_name": "Henning Sato von Rosen",
+            "display_name": "hvrosen",
+            "team": "T5TCAFTA9",
+            "name": "henning.von.rosen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "reply_count": 49,
+        "reply_users_count": 5,
+        "latest_reply": "1652553518.013959",
+        "reply_users": [
+            "UBN9AFS0N",
+            "U01661S9F34",
+            "UK3LH8CF5",
+            "ULM3U6275",
+            "U0112C10V4Y"
+        ],
+        "replies": [
+            {
+                "user": "UBN9AFS0N",
+                "ts": "1647426476.091299"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1647627444.970029"
+            },
+            {
+                "user": "UK3LH8CF5",
+                "ts": "1647815695.262939"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1647885985.387139"
+            },
+            {
+                "user": "UK3LH8CF5",
+                "ts": "1647886478.019279"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1647888333.523509"
+            },
+            {
+                "user": "UK3LH8CF5",
+                "ts": "1647998516.958289"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648065196.002859"
+            },
+            {
+                "user": "U0112C10V4Y",
+                "ts": "1648090278.871979"
+            },
+            {
+                "user": "UK3LH8CF5",
+                "ts": "1648144101.961429"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648229519.737769"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648235135.414739"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648252082.188639"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648252243.470739"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648256901.538549"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648491241.993929"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648495082.436399"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648496141.269119"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648496367.015009"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648496703.560479"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648498969.233539"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648499795.766609"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648500371.451019"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648503181.610769"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648503764.589209"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648504559.127549"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648504857.688159"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648506310.983499"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648507052.374169"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648507079.363439"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648508148.832639"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1648510600.001469"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648514113.147109"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648514427.622619"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1648516857.963519"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650230086.026869"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650230192.007289"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1650231527.300709"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650231735.142669"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1650232943.900469"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650302805.224589"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650303231.907539"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1650305058.910379"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650305533.562769"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1650305891.065579"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1650328109.614419"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1650390169.186829"
+            },
+            {
+                "user": "U01661S9F34",
+                "ts": "1652461337.955919"
+            },
+            {
+                "user": "ULM3U6275",
+                "ts": "1652553518.013959"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Bjc2x",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Hi all, I wrote down some thoughts on colorless async. See below! I’m not experienced in use of go-routines etc; I write from a language design perspective and,  yeah so; I might be totally wrong\/have mis-conceptualized something.  I’m in a process of learning to think about this stuff and would be delighted to have feedback\/think together about the topic of designing async into a language!\n---\n\n"
+                            },
+                            {
+                                "type": "text",
+                                "text": "Colorless async seems obviously great, but what if the opposite is also true?",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\nI read this blog post "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/journal.stuffwithstuff.com\/2015\/02\/01\/what-color-is-your-function\/",
+                                "text": "What Color is Your Function?"
+                            },
+                            {
+                                "type": "text",
+                                "text": "? on ways to integrate async into a language. It’s an entertaining  and convincing read by a super experienced developer. The article leads you through a chain of very obvious thoughts, that you cannot imagine even wanting to contradict; ending up with the understanding that the best solution is to enable using sync and async functions interchangeably, e.g. by supporting go-routines.\n\n"
+                            },
+                            {
+                                "type": "text",
+                                "text": "I was totally convinced",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". But then I thought, what if you go all the way in the other direction, embracing that "
+                            },
+                            {
+                                "type": "text",
+                                "text": "sync",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " and "
+                            },
+                            {
+                                "type": "text",
+                                "text": "async",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " are so fundamentally different in their semantics. "
+                            },
+                            {
+                                "type": "text",
+                                "text": "What it that difference was present on the language level, in stead of being hidden by magic? ",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n\n"
+                            },
+                            {
+                                "type": "text",
+                                "text": "This has been done",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " many decades ago and with superb usability results, in the form of state machines and most notably statecharts. “Red” (sync) functions are transitions. “Blue” (async) functions are states. Thinking of them and visualizing them as distinctly different is a game-changer for the human mind: A top-down understanding can be conveyed to non-programmers and programmers alike, etc. In the typical visualization, sync stuff is not “red functions”, they are arrows. async stuff is not “blue functions”, they are rectangles. Arrows and Rectangles composes perfectly, "
+                            },
+                            {
+                                "type": "text",
+                                "text": "because of their differences",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ". It’s hard to see what’s gained conceptually by merging arrows and rectangles into one thing."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "thinking_face",
+                "users": [
+                    "U02028JHX37"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UBN9AFS0N",
+        "type": "message",
+        "ts": "1647426476.091299",
+        "client_msg_id": "86142c79-dde7-42e3-86de-2f147686e872",
+        "text": "If you get preemptive multitasking and lightweight processes (like Erlang &amp; Go) you don't need async :slightly_smiling_face:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "7f0f1c0238ec",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-07-09\/395086754178_7f0f1c0238ec02befdab_72.jpg",
+            "first_name": "Mariano",
+            "real_name": "Mariano Guerra",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "mariano",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647422642.414839",
+        "parent_user_id": "U02M6PM725T",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "YjQ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "If you get preemptive multitasking and lightweight processes (like Erlang & Go) you don't need async "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "slightly_smiling_face",
+                                "unicode": "1f642"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "sunglasses",
+                "users": [
+                    "UA14TGLTC"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U01TBS7N9GS",
+        "type": "message",
+        "ts": "1647435595.966609",
+        "client_msg_id": "a530caf4-8317-4964-b537-fc0f70821939",
+        "text": "I see\nCan you build anything interesting without  manipulating text ?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "71dd199a82b8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-08\/2819390010180_71dd199a82b8118b84fc_72.jpg",
+            "first_name": "E.",
+            "real_name": "E. Lop",
+            "display_name": "E. Lop",
+            "team": "T5TCAFTA9",
+            "name": "erwann.lopinet",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "UvZ=U",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I see\nCan you build anything interesting without  manipulating text ?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647436917.097509",
+        "client_msg_id": "8607c20b-07b5-4611-b2ba-9f9c693020c8",
+        "text": "We did a sort of chat bot with Eve: <http:\/\/incidentalcomplexity.com\/2015\/10\/15\/jul-sept\/>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "attachments": [
+            {
+                "from_url": "http:\/\/incidentalcomplexity.com\/2015\/10\/15\/jul-sept\/",
+                "service_icon": "https:\/\/witheve.github.io\/assets\/images\/favicon.png",
+                "id": 1,
+                "original_url": "http:\/\/incidentalcomplexity.com\/2015\/10\/15\/jul-sept\/",
+                "fallback": "Eve Blog",
+                "text": "This is the development blog of the Eve programming language",
+                "title": "Eve Blog",
+                "title_link": "http:\/\/incidentalcomplexity.com\/2015\/10\/15\/jul-sept\/",
+                "service_name": "incidentalcomplexity.com"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "4EYj",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "We did a sort of chat bot with Eve: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/incidentalcomplexity.com\/2015\/10\/15\/jul-sept\/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "exploding_head",
+                "users": [
+                    "U02U0AS3J49"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647436933.095859",
+        "client_msg_id": "34e5e3b2-ddd9-4dac-9dff-bf0dee4b2cac",
+        "text": "I think <@UEBG0NPDK> made that version",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "u4I",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I think "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UEBG0NPDK"
+                            },
+                            {
+                                "type": "text",
+                                "text": " made that version"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1647450391.355089",
+        "client_msg_id": "72c6f087-287a-4722-9257-f376a41c9793",
+        "text": "In Smalltalk? No. Anything non-trivial requires writing some methods, which are written as text.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "jEhK",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "In Smalltalk? No. Anything non-trivial requires writing some methods, which are written as text."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UBSMEUXAA",
+        "type": "message",
+        "ts": "1647450990.123359",
+        "client_msg_id": "8092f7a7-32ee-4abe-9a59-74311e5c7f39",
+        "text": "<@U01TBS7N9GS> A tool made in Roblox doesn't quite fit your definition because it would have been made using text. Roblox has no visual scripting and uses Lua for almost all dynamic behavior.  There is often an assumption that Roblox = end user programming = visual scripting of some sort, but that's not the case.  It works more like a traditional game mod system really",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "0edf98a60210",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-09-26\/774747080560_0edf98a60210d3ab07ea_72.jpg",
+            "first_name": "",
+            "real_name": "Scott Anderson",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "scottan",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "sXoHT",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U01TBS7N9GS"
+                            },
+                            {
+                                "type": "text",
+                                "text": " A tool made in Roblox doesn't quite fit your definition because it would have been made using text. Roblox has no visual scripting and uses Lua for almost all dynamic behavior.  There is often an assumption that Roblox = end user programming = visual scripting of some sort, but that's not the case.  It works more like a traditional game mod system really"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UBSMEUXAA",
+        "type": "message",
+        "ts": "1647451539.232779",
+        "client_msg_id": "935a3a46-41a9-4b36-995e-5c3ecae3c3d7",
+        "text": "Unreal Engine has tools for building art pipelines that are largely Blueprint driven.  Maybe not 100% what you want but interesting. <https:\/\/docs.unrealengine.com\/4.27\/en-US\/ProductionPipelines\/ScriptingAndAutomation\/>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "0edf98a60210",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-09-26\/774747080560_0edf98a60210d3ab07ea_72.jpg",
+            "first_name": "",
+            "real_name": "Scott Anderson",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "scottan",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "attachments": [
+            {
+                "from_url": "https:\/\/docs.unrealengine.com\/4.27\/en-US\/ProductionPipelines\/ScriptingAndAutomation\/",
+                "image_url": "https:\/\/docs.unrealengine.com\/4.27\/Images\/placeholder-social.png",
+                "image_width": 444,
+                "image_height": 250,
+                "image_bytes": 58163,
+                "id": 1,
+                "original_url": "https:\/\/docs.unrealengine.com\/4.27\/en-US\/ProductionPipelines\/ScriptingAndAutomation\/",
+                "fallback": "Scripting and Automating the Editor",
+                "text": "Introduction to using Blueprints and Python to control the Unreal Editor programmatically.",
+                "title": "Scripting and Automating the Editor",
+                "title_link": "https:\/\/docs.unrealengine.com\/4.27\/en-US\/ProductionPipelines\/ScriptingAndAutomation\/",
+                "service_name": "docs.unrealengine.com"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "2Vsxq",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Unreal Engine has tools for building art pipelines that are largely Blueprint driven.  Maybe not 100% what you want but interesting. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/docs.unrealengine.com\/4.27\/en-US\/ProductionPipelines\/ScriptingAndAutomation\/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UBSMEUXAA",
+        "type": "message",
+        "ts": "1647452942.903219",
+        "client_msg_id": "f7198073-9cd8-4570-94dd-976a1c0bf8ec",
+        "text": "Tools like Houdini, Notch, Substance Designer, Blender nodes, etc. are designed for this. Make nodes that create tools that can create procedural artwork",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "0edf98a60210",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2019-09-26\/774747080560_0edf98a60210d3ab07ea_72.jpg",
+            "first_name": "",
+            "real_name": "Scott Anderson",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "scottan",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "NbB",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Tools like Houdini, Notch, Substance Designer, Blender nodes, etc. are designed for this. Make nodes that create tools that can create procedural artwork"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647453240.769619",
+        "client_msg_id": "2b5a0f86-48dd-46a5-8f54-69323d5fa4dd",
+        "text": "<@UM0EHL7JQ>, yes, I have seen some. In particular the minikanren demonstrations come to mind, where your tests become constraints to generate lisp code, or something. Wild, but more complicated than I am imagining, maybe.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "U\/n5L",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UM0EHL7JQ"
+                            },
+                            {
+                                "type": "text",
+                                "text": ", yes, I have seen some. In particular the minikanren demonstrations come to mind, where your tests become constraints to generate lisp code, or something. Wild, but more complicated than I am imagining, maybe."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647453791.918699",
+        "client_msg_id": "f6918e71-7a60-4df1-bb5b-0a9a4e65e3eb",
+        "text": "Pygmalion is fascinating, and very similar to what I was thinking. I realize having seen the video, <@UBN9AFS0N>, that the nature of the conversation between the user and the environment is significantly different depending on the paradigm of the language. Imperative languages need to repeatedly ask \"what next?\" But declarative languages would need to ask something more like \"defined how?\"",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "mhj\/k",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Pygmalion is fascinating, and very similar to what I was thinking. I realize having seen the video, "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UBN9AFS0N"
+                            },
+                            {
+                                "type": "text",
+                                "text": ", that the nature of the conversation between the user and the environment is significantly different depending on the paradigm of the language. Imperative languages need to repeatedly ask \"what next?\" But declarative languages would need to ask something more like \"defined how?\""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647453830.696829",
+        "client_msg_id": "cb770b95-f2b9-4612-9045-5a8a5f6bca8d",
+        "text": "Definitely helps me understand what I'm aimed at, better, thanks.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "IVbUH",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Definitely helps me understand what I'm aimed at, better, thanks."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454059.214839",
+        "client_msg_id": "0d65814d-9c76-4fd9-83ae-d702387adf77",
+        "text": "<@UCGR73CAY>, I wasn't familiar with Eve, and my mind is blown. That it could not find a place to live is so disappointing. The use of colours instead of variable names, the use of containers to represent conjunctions... All very cool.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "O8v=",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UCGR73CAY"
+                            },
+                            {
+                                "type": "text",
+                                "text": ", I wasn't familiar with Eve, and my mind is blown. That it could not find a place to live is so disappointing. The use of colours instead of variable names, the use of containers to represent conjunctions... All very cool."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454201.940759",
+        "client_msg_id": "3f544635-7a81-4ec4-9175-2efa1642aecc",
+        "text": "I notice that in none of these cases, though, does the interface explicitly request information. That, to me, is the crux of the idea... are there interfaced where the environment actively solicits information from the user?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "x40x",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I notice that in none of these cases, though, does the interface explicitly request information. That, to me, is the crux of the idea... are there interfaced where the environment actively solicits information from the user?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647454396.962899",
+        "client_msg_id": "c835a572-57f4-4829-a37c-cfb9f9cb13bc",
+        "text": "theorem provers do exactly that",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "eZX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "theorem provers do exactly that"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647454411.006209",
+        "client_msg_id": "32310486-368e-48fc-9d15-42280569718c",
+        "text": "or proof assistants",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lajwh",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "or proof assistants"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "point_up",
+                "users": [
+                    "U79HM6726"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454413.665229",
+        "client_msg_id": "713618b3-c555-4117-92b1-51f59f37c581",
+        "text": "I'm imagining something like \"What sort of thing do you want to describe?\" \"Cars.\" \"What might you say about a car?\" \"It has four wheels.\" \"So a car has four ___?\" \"No. A car has ___ wheels.\" \"And the blank must be a number?\" \"Yes.\" ...",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "zxJYT",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I'm imagining something like \"What sort of thing do you want to describe?\" \"Cars.\" \"What might you say about a car?\" \"It has four wheels.\" \"So a car has four ___?\" \"No. A car has ___ wheels.\" \"And the blank must be a number?\" \"Yes.\" ..."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454551.608219",
+        "client_msg_id": "2c2e0fa8-384f-42da-8630-988c56b1db30",
+        "text": "Not necessarily in a textual format, like that, but that sort of conversation. Where the environment actively prompts the user based on an understanding of the syntax and semantics involved in the underlying language...",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "8W6",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Not necessarily in a textual format, like that, but that sort of conversation. Where the environment actively prompts the user based on an understanding of the syntax and semantics involved in the underlying language..."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454775.754639",
+        "client_msg_id": "1782584b-6c05-49ca-9426-7b45959fcb78",
+        "text": "Good point on theorem provers. If you have premises and a conclusion, they give you a set of intermediate steps to aim toward, and ask for a step in that direction. But the \"asking\" is basically by showing the new targets, I think? The actual communication of \"what strategy should we explore for deriving X from Y?\" is sort of implicit?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "mXLdb",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Good point on theorem provers. If you have premises and a conclusion, they give you a set of intermediate steps to aim toward, and ask for a step in that direction. But the \"asking\" is basically by showing the new targets, I think? The actual communication of \"what strategy should we explore for deriving X from Y?\" is sort of implicit?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647454919.561429",
+        "client_msg_id": "ccc646d8-db19-40a0-8b45-92333eb9e3e9",
+        "text": "It is more iterative than conversational, maybe? Is that fair?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "U7ssV",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "It is more iterative than conversational, maybe? Is that fair?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647455389.615879",
+        "client_msg_id": "57870f06-015a-453f-8fed-9b7e61539beb",
+        "text": "Also, <@UCGR73CAY> the eve example has given me some interface ideas for a different problem I have been thinking about, which is greatly appreciated. Specifically, how to bridge the gap between wanting to use typing for speed of entry and visual representations for clarity and beginner ease of use. Very interesting approach.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "BYsWF",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Also, "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "UCGR73CAY"
+                            },
+                            {
+                                "type": "text",
+                                "text": " the eve example has given me some interface ideas for a different problem I have been thinking about, which is greatly appreciated. Specifically, how to bridge the gap between wanting to use typing for speed of entry and visual representations for clarity and beginner ease of use. Very interesting approach."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647455452.974359",
+        "client_msg_id": "08d58978-d73e-485f-bd99-bf4fd7ad4bac",
+        "text": "we had ~30 interfaces for Eve, so there's lots to look at there if you're interested :slightly_smiling_face:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "qv7",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "we had ~30 interfaces for Eve, so there's lots to look at there if you're interested "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "slightly_smiling_face",
+                                "unicode": "1f642"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455482.150659",
+        "client_msg_id": "2c1fe650-859c-49cf-a956-a4bd0047c978",
+        "text": "Glad to hear it Jason. There's a veritable treasure trove of stuff related to Eve at the <http:\/\/incidentalcomplexity.com|incidentalcomplexity.com> blog as well.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "iCcI",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Glad to hear it Jason. There's a veritable treasure trove of stuff related to Eve at the "
+                            },
+                            {
+                                "type": "link",
+                                "url": "http:\/\/incidentalcomplexity.com",
+                                "text": "incidentalcomplexity.com"
+                            },
+                            {
+                                "type": "text",
+                                "text": " blog as well."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647455496.052739",
+        "client_msg_id": "b33a56cb-a792-4e2c-8600-f97c61bfa850",
+        "text": "I will check it out.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "quE5b",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I will check it out."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455518.783539",
+        "client_msg_id": "b9afff40-b351-463f-83ad-662a6deb850a",
+        "text": "Also there was this: <https:\/\/futureofcoding.org\/essays\/eve\/#:~:text=A%20Visual%20History%20of%20Eve%3A%202014%20-%202018,years%20building%2030%2B%20prototypes%20of%20graphical%20programming%20tools>.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "95I=X",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Also there was this: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/futureofcoding.org\/essays\/eve\/#:~:text=A%20Visual%20History%20of%20Eve%3A%202014%20-%202018,years%20building%2030%2B%20prototypes%20of%20graphical%20programming%20tools"
+                            },
+                            {
+                                "type": "text",
+                                "text": "."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647455555.143829",
+        "client_msg_id": "2bc327c0-f104-4363-944d-a4891e716eef",
+        "text": "This might be the closest to what you're asking about: <https:\/\/www.youtube.com\/watch?v=mXAzHX14h1A>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "attachments": [
+            {
+                "from_url": "https:\/\/www.youtube.com\/watch?v=mXAzHX14h1A",
+                "thumb_url": "https:\/\/i.ytimg.com\/vi\/mXAzHX14h1A\/hqdefault.jpg",
+                "thumb_width": 480,
+                "thumb_height": 360,
+                "video_html": "<iframe width=\"400\" height=\"225\" src=\"https:\/\/www.youtube.com\/embed\/mXAzHX14h1A?feature=oembed&autoplay=1&iv_load_policy=3\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen><\/iframe>",
+                "video_html_width": 400,
+                "video_html_height": 225,
+                "service_icon": "https:\/\/a.slack-edge.com\/80588\/img\/unfurl_icons\/youtube.png",
+                "id": 1,
+                "original_url": "https:\/\/www.youtube.com\/watch?v=mXAzHX14h1A",
+                "fallback": "YouTube Video: Eve preview",
+                "title": "Eve preview",
+                "title_link": "https:\/\/www.youtube.com\/watch?v=mXAzHX14h1A",
+                "author_name": "ibdknox",
+                "author_link": "https:\/\/www.youtube.com\/user\/ibdknox",
+                "service_name": "YouTube",
+                "service_url": "https:\/\/www.youtube.com\/"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "g0GJ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "This might be the closest to what you're asking about: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.youtube.com\/watch?v=mXAzHX14h1A"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "UCGR73CAY"
+                ],
+                "count": 1
+            },
+            {
+                "name": "exploding_head",
+                "users": [
+                    "U02U0AS3J49"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647455652.845429",
+        "client_msg_id": "d2607d4b-596b-405f-9122-159a6a34bd86",
+        "text": "Yes, that's it precisely. Wild.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lMmxu",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Yes, that's it precisely. Wild."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647455849.537269",
+        "client_msg_id": "ef1b604b-06e3-405f-b879-0bb1a264cb47",
+        "text": "Is there a postmortem on Eve somewhere? Something that talks about what it has to teach about building businesses around innovative programming interfaces? Last night I heard about a friend's similar dead-end in a very innovative approach to something, and I wonder whether there is some lesson I can glean... Is it a cautionary tale about solving problems people don't yet know they have? Or what? Because I see my own work headed in a frustratingly similar direction.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "oYI5G",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Is there a postmortem on Eve somewhere? Something that talks about what it has to teach about building businesses around innovative programming interfaces? Last night I heard about a friend's similar dead-end in a very innovative approach to something, and I wonder whether there is some lesson I can glean... Is it a cautionary tale about solving problems people don't yet know they have? Or what? Because I see my own work headed in a frustratingly similar direction."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455920.802059",
+        "edited": {
+            "user": "UCGR73CAY",
+            "ts": "1647455949.000000"
+        },
+        "client_msg_id": "773b4783-7a50-414f-b38d-992058b7310c",
+        "text": "I believe there was a recording of the live 2018 workshop that <@U5TCAFTD3>  made",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "00g",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I believe there was a recording of the live 2018 workshop that "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "U5TCAFTD3"
+                            },
+                            {
+                                "type": "text",
+                                "text": "  made"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455931.820439",
+        "client_msg_id": "a33f0d60-1b86-4d26-89f1-5be4259f34da",
+        "text": "That was a pretty good post mortem",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Lu=s",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "That was a pretty good post mortem"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455956.409859",
+        "client_msg_id": "4fb81763-cf70-4fed-8544-086fe3f067f7",
+        "text": "anyone have a link to that?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "EfRk",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "anyone have a link to that?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455989.896299",
+        "client_msg_id": "4bbee80b-1420-4cb0-8be7-6e576c63c883",
+        "text": "oh wait here it is",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "P9ecX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "oh wait here it is"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647455990.337739",
+        "client_msg_id": "2bd175d2-a1fa-4695-b21e-fb5ccdb4f882",
+        "text": "<https:\/\/www.youtube.com\/watch?v=ThjFFDwOXok&amp;t=1034s>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "attachments": [
+            {
+                "from_url": "https:\/\/www.youtube.com\/watch?v=ThjFFDwOXok&amp;t=1034s",
+                "thumb_url": "https:\/\/i.ytimg.com\/vi\/ThjFFDwOXok\/hqdefault.jpg",
+                "thumb_width": 480,
+                "thumb_height": 360,
+                "video_html": "<iframe width=\"400\" height=\"225\" src=\"https:\/\/www.youtube.com\/embed\/ThjFFDwOXok?feature=oembed&start=1034&autoplay=1&iv_load_policy=3\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen><\/iframe>",
+                "video_html_width": 400,
+                "video_html_height": 225,
+                "service_icon": "https:\/\/a.slack-edge.com\/80588\/img\/unfurl_icons\/youtube.png",
+                "id": 1,
+                "original_url": "https:\/\/www.youtube.com\/watch?v=ThjFFDwOXok&amp;t=1034s",
+                "fallback": "YouTube Video: \"Against the Current\" by Chris Granger (Part 2)",
+                "title": "\"Against the Current\" by Chris Granger (Part 2)",
+                "title_link": "https:\/\/www.youtube.com\/watch?v=ThjFFDwOXok&amp;t=1034s",
+                "author_name": "Steve Krouse",
+                "author_link": "https:\/\/www.youtube.com\/user\/stevekrouse",
+                "service_name": "YouTube",
+                "service_url": "https:\/\/www.youtube.com\/"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "6r+",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.youtube.com\/watch?v=ThjFFDwOXok&t=1034s"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U5TCAFTD3",
+        "type": "message",
+        "ts": "1647456037.001339",
+        "client_msg_id": "88876d45-c7ba-4542-a62b-cc0ab827ff9c",
+        "text": "Also: <https:\/\/futureofcoding.org\/essays\/eve\/|https:\/\/futureofcoding.org\/essays\/eve\/>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "7c31dc735c6c",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-09-11\/433781465829_7c31dc735c6c1257fe1f_72.jpg",
+            "first_name": "Steve",
+            "real_name": "Steve Krouse",
+            "display_name": "stevekrouse",
+            "team": "T5TCAFTA9",
+            "name": "stevekrouse",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "lT15",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Also: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/futureofcoding.org\/essays\/eve\/",
+                                "text": "https:\/\/futureofcoding.org\/essays\/eve\/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U5TCAFTD3",
+        "type": "message",
+        "ts": "1647456064.845559",
+        "client_msg_id": "39b1a82a-eb6d-4f79-bea3-870f178be2e1",
+        "text": "For reference on what Eve did",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "7c31dc735c6c",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-09-11\/433781465829_7c31dc735c6c1257fe1f_72.jpg",
+            "first_name": "Steve",
+            "real_name": "Steve Krouse",
+            "display_name": "stevekrouse",
+            "team": "T5TCAFTA9",
+            "name": "stevekrouse",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "9amH",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "For reference on what Eve did"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647456231.567829",
+        "client_msg_id": "242fb3c4-c5fd-4527-a9a6-c49ed98fd2d2",
+        "text": "I at times variously swoon and shudder at the idea of taking some seed funding and working on this stuff with actual resources. But I usually come to the conclusion that being paid as a consultant full time for a few years to do user research and development on your own project is pretty fucking ideal.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "G1z",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I at times variously swoon and shudder at the idea of taking some seed funding and working on this stuff with actual resources. But I usually come to the conclusion that being paid as a consultant full time for a few years to do user research and development on your own project is pretty fucking ideal."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647456254.624679",
+        "client_msg_id": "e66133b9-52b0-4ef0-b98a-a2fda1f3aaea",
+        "text": "Thanks for the links! :eyes:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "u1vB",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks for the links! "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "eyes",
+                                "unicode": "1f440"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647456929.887379",
+        "client_msg_id": "07256587-578e-46f9-9ce5-55c207bcd083",
+        "text": "Inspiring as shit. Thanks, guys.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Y\/Op+",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Inspiring as shit. Thanks, guys."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02U0AS3J49",
+        "type": "message",
+        "ts": "1647457156.091429",
+        "client_msg_id": "2bd35e89-e919-49b6-8b2e-6762f621f638",
+        "text": "I still don't get it, which makes me nervous. I don't know what went wrong, there, so I have no way to avoid it. :grimacing:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g5247a9c6cbb",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/5247a9c6cbb943683c9e2e2cef6eba79.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0022-72.png",
+            "first_name": "Jason",
+            "real_name": "Jason Morris",
+            "display_name": "",
+            "team": "T5TCAFTA9",
+            "name": "jason",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "EB1",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I still don't get it, which makes me nervous. I don't know what went wrong, there, so I have no way to avoid it. "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "grimacing",
+                                "unicode": "1f62c"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647457210.496029",
+        "client_msg_id": "7f44a40a-b309-4d16-96ad-90507e573e11",
+        "text": "It's very hard to make something that is significantly better on some important axis while also not being meaningfully worse on axes that people currently see as valuable.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "x\/T",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "It's very hard to make something that is significantly better on some important axis while also not being meaningfully worse on axes that people currently see as valuable."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "100",
+                "users": [
+                    "UA14TGLTC",
+                    "UDQBTJ211"
+                ],
+                "count": 2
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647457288.876049",
+        "client_msg_id": "a038c534-a834-4ce5-b3ea-7bfbf3b37fd8",
+        "text": "True progress is extremely time intensive because it requires a crazy amount of experimentation. This means you basically have two options: find a way to give yourself a long time to find the kernel of something that _is_ geniunely better by a large degree (and then raise to try and productize it) or you do something incremental.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "KgBh",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "True progress is extremely time intensive because it requires a crazy amount of experimentation. This means you basically have two options: find a way to give yourself a long time to find the kernel of something that "
+                            },
+                            {
+                                "type": "text",
+                                "text": "is",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " geniunely better by a large degree (and then raise to try and productize it) or you do something incremental."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647457532.948299",
+        "client_msg_id": "e87e6de9-e318-4275-8d47-c6b6d28d92b4",
+        "text": "There were a number of incremental off ramps for us (we basically built notion, roam, airtable, bubble, and a number of others along the way...), but they weren't going to move the bar much for what we cared about; making programming more accessible for new comers and more productive for those of us who already did it.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "nlY+",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "There were a number of incremental off ramps for us (we basically built notion, roam, airtable, bubble, and a number of others along the way...), but they weren't going to move the bar much for what we cared about; making programming more accessible for new comers and more productive for those of us who already did it."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "exploding_head",
+                "users": [
+                    "U02U0AS3J49"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647457640.726679",
+        "client_msg_id": "b2fb7a02-0c0b-4678-a26b-8c66c98373ed",
+        "text": "You could argue that it was a bad choice to give up on businesses that could move the needle 10%, but we had the opportunity to try to swing for the fences and so that's what we did.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Ufci",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "You could argue that it was a bad choice to give up on businesses that could move the needle 10%, but we had the opportunity to try to swing for the fences and so that's what we did."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647457660.151839",
+        "client_msg_id": "7ac1fabb-cea3-488d-8115-303e7caf7264",
+        "text": "It's a low probability bet though.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ckj",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "It's a low probability bet though."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647460450.963199",
+        "client_msg_id": "1de60d74-f3f6-4721-9f3a-fe843e4f2742",
+        "text": "&gt; (we basically built notion, roam, airtable, bubble, and a number of others along the way...)\nFoursquare... :stuck_out_tongue:",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "kJnfz",
+                "elements": [
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "(we basically built notion, roam, airtable, bubble, and a number of others along the way...)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Foursquare... "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "stuck_out_tongue",
+                                "unicode": "1f61b"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647460535.711249",
+        "client_msg_id": "1f645cdb-7fc1-4b71-a30a-8e31acff248b",
+        "text": "haha",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "6Ys",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "haha"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UEBG0NPDK",
+        "type": "message",
+        "ts": "1647460542.908049",
+        "client_msg_id": "9bba2033-bdc4-4f2b-8c72-1b9468496250",
+        "text": "retool too",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "9e85c7bdd45b",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2018-11-25\/487455880658_9e85c7bdd45b1d2d4721_72.jpg",
+            "first_name": "Chris",
+            "real_name": "Chris Granger",
+            "display_name": "ibdknox",
+            "team": "T5TCAFTA9",
+            "name": "ibdknox",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "+Wa",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "retool too"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UCGR73CAY",
+        "type": "message",
+        "ts": "1647460553.729249",
+        "client_msg_id": "a7a01165-fabf-4f19-82d0-a124599b60a2",
+        "text": "It's true though, we really did build all of those things",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "bc46d9e86f7d",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2023-04-26\/5176774456644_bc46d9e86f7dc3780301_72.jpg",
+            "first_name": "Corey",
+            "real_name": "Corey Montella",
+            "display_name": "Corey",
+            "team": "T5TCAFTA9",
+            "name": "cmontella",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647218401.411819",
+        "parent_user_id": "U02U0AS3J49",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "s=7",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "It's true though, we really did build all of those things"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01AD80KMLK",
+        "type": "message",
+        "ts": "1647472465.231069",
+        "client_msg_id": "65655418-2372-4d71-9a5e-0c82228a60bc",
+        "text": "Turing Tumble allows for programming just by moving little plastic pieces around. <https:\/\/www.turingtumble.com\/>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "a07cdcb6d037",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-09-09\/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg",
+            "first_name": "",
+            "real_name": "Denny Vrandečić",
+            "display_name": "Denny Vrandečić",
+            "team": "T5TCAFTA9",
+            "name": "dvrandecic",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "attachments": [
+            {
+                "from_url": "https:\/\/www.turingtumble.com\/",
+                "service_icon": "https:\/\/www.turingtumble.com\/apple-touch-icon.png?v=Omyo0N4rxp",
+                "id": 1,
+                "original_url": "https:\/\/www.turingtumble.com\/",
+                "fallback": "Turing Tumble - Build Marble-Powered Computers",
+                "text": "Turing Tumble is a revolutionary new game where players build marble-powered computers to solve logic puzzles. It’s fun, addicting, and while you’re at it, you discover how computers work.",
+                "title": "Turing Tumble - Build Marble-Powered Computers",
+                "title_link": "https:\/\/www.turingtumble.com\/",
+                "service_name": "Turing Tumble"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "WGYnf",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Turing Tumble allows for programming just by moving little plastic pieces around. "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.turingtumble.com\/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01AD80KMLK",
+        "type": "message",
+        "ts": "1647472507.048219",
+        "client_msg_id": "4df258f8-1bfd-4070-a611-e9ac1809c691",
+        "text": "I am surprised there is not yet a lego based programming language, where you take actual lego blocks, and their configuration specifies a program.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "a07cdcb6d037",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-09-09\/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg",
+            "first_name": "",
+            "real_name": "Denny Vrandečić",
+            "display_name": "Denny Vrandečić",
+            "team": "T5TCAFTA9",
+            "name": "dvrandecic",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1647012495.146729",
+        "parent_user_id": "U01TBS7N9GS",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "L7DZ",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I am surprised there is not yet a lego based programming language, where you take actual lego blocks, and their configuration specifies a program."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

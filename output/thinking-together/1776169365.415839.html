@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-14 05:22</span><br/>
+<span style="background-color:#ccf">@Konrad Hinsen</span>'s link <a href="../linking-together/1776099082.547179.html">../linking-together/1776099082.547179.html</a> spawned this thought, among others, as I watched:<br/><br/>&gt; *<b>TL;DR</b>* — Old code is dying. The code isn't the problem. The business rules embedded in it are. LLMs can extract those rules into a factbase. A factbase can be rewritten into any target language. This is Design Recovery, and it is the right job for LLMs.<br/><a href="https://open.substack.com/pub/programmingsimplicity/p/llms-as-design-recovery-engines?r=1egdky&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=true">LLMs as Design Recovery Engines</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776188058.923979"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776188058.923979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2026-04-14 10:34</span><br/>
+Running coding agents backwards is a possibility. But not a trivial problem to solve. The "factbase" is what, exactly? For the code I deal with, it would have to include mathematical relations between numbers. The code being an approximation (floats etc) to the relations that one would like to see recovered. Not impossible, given that the number of numerical algorithms is limited and an LLM could have seen them all. But the structure of the factbase is part of the design that needs to be recovered. I don't know if an LLM can deal with that.<br/><br/>And then there is the eternal question with LLMs: do you trust the output to be correct, or at least good enough? Much of the legacy code we are using has no tests, no specification, etc. It's just the code, plus input/output combinations (which are easy to produce).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776217064.680419"></a>
+      <img src="https://secure.gravatar.com/avatar/3ae6d55db9d15b79bc683a8031fc2588.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0009-72.png" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776217064.680419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>William Taysom</b>
+<span style="margin:2em; color:#606060">2026-04-14 18:37</span><br/>
+I always make the LLMs work for their trust.  They often can do reasonably well if you encourage them and force them to keep it real.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776237426.749789"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776237426.749789" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2026-04-15 00:17</span><br/>
+The problem with legacy code is that you don't know what is real. Usually there's nobody left who actually knows what the code does. The code is the only "source of truth". So you need to trust your LLM blindly.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776256334.526469"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776256334.526469" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-15 05:32</span><br/>
+And, even worse, code that is in production probably has last-minute bandaids to fix edge-cases and loopholes that don’t fit the “general architecture” of the rest of the code.<br/><br/>At some point, the old code will need to be lifted into the present/future.<br/><br/>I tend to think about problem solving thusly: (1) understand the problem, (2) solve it.<br/><br/>Code is but a recipe of little steps that are combined together to produce a result. “Design” (architecture) is the extreme other end of this - it is the underlying thinking that someone chose to encode in little steps. The code gets written down, but, the design intent (DI) tends to not get written down and becomes obfuscated by details expressed in tiny steps. And, it’s not even a 1:1 mapping, the same DI could be expressed in multiple ways and combinations of steps.<br/><br/>The factbase idea is to understand what exists in tiny steps, then iterate and infer bigger steps from patterns and idioms in the code (like manually disassembling machine code and trying to understand what it means). This can’t be done in one fell swoop, by only one entity.<br/><br/>A “fact” is just a triple: <tt>relation(subject, object)</tt>. Say, something like <tt>inscope(“x”,”f”)</tt>, <tt>type(“x”,int16)</tt>, etc. A factbase of such facts doesn’t tell you much about the DI, but, someone might “see” a pattern in one place, then write a Prolog-like rule that says “if you find &lt;a&gt; followed by &lt;b&gt; then infer that this is a &lt;c&gt;” (it’s a lot like type checking, but deals with higher-level project-specific concepts). Repeat. After several iterations, more of the DI becomes clear(er). Discard or ignore the very low-level stuff (eg. delete &lt;a&gt;s and &lt;b&gt;s, leaving only &lt;c&gt;s), then see if the remaining high-level stuff can be converted into modern form.<br/><br/>No guarantee that this would work 100%, but, it’s better than nothing. I would find it easier to trust an LLM (or another human) to do this in little steps than blindly trusting that they did the whole conversion in an opaque manner. Can the result be trusted? Not without lots of testing…
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776259243.498839"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776259243.498839" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2026-04-15 06:20</span><br/>
+<span style="background-color:#ccf">@Paul Tarvydas</span> Thanks for the details on your factbase! I had assumed it was something at a higher level, trying to deduce design intent.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1776260852.472349"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1776169365.415839.html#1776260852.472349" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2026-04-15 06:47</span><br/>
+To further belabour this point… This is, also, how I view “compiling” diagrams to code. Take a mess of graphical detail (.xml, .graphml, .svg, .json) prune out the 95% that isn’t semantically interesting. Apply various tools (jq, swipl, python, js, LLMs, etc.) to the remaining 5% and iterate until you can emit Python (or whatever) from what has been inferred. Easy, especially if you treat it in stages instead of trying to force it into one-fell-swoopism.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

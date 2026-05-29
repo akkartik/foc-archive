@@ -1,0 +1,138 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #share-your-work</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-07 12:31</span><br/>
+There is a missing semantic in Dataflow programming, something like function calling but not exactly that. After many attempts, I think I finally nailed it: Dataflow Templating. While I have got it working for Observable Dataflow, I think this equally applies to its forefathers like <a href="https://docs.racket-lang.org/frtime/">FrTime</a>. I could reexplain it here but its in the article. I saw <span style="background-color:#ccf">@Dennis Hansen</span> grappling with the same thing for <a href="../thinking-together/1764186658.018769.html">Artifact</a>. I don't use diagrammatic representations of dataflow, but if I did, I would be trying to figure out what the graphical representation of this is.<br/><br/><a href="https://observablehq.com/@tomlarkworthy/dataflow-templating">https://observablehq.com/@tomlarkworthy/dataflow-templating</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765140133.518949"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765140133.518949" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-07 12:42</span><br/>
+I'me off functions <span style="background-color:#ccf">@Paul Tarvydas</span>!
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765140911.280779"></a>
+      <a href="../share-your-work/1765139501.587609.html#1765140911.280779" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-07 12:55</span><br/>
+its really just this diagram where the arrow denotes "has a reactive dependancy on"
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765144628.271639"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765144628.271639" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-07 13:57</span><br/>
+i think this is a very useful semantic. In general, blocking loops are necessary when the subsequent loop requires the output of the prior loop, but when there isn't that dependency then doing things in parallel is encouraged and should be easy
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765167202.990599"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765167202.990599" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-12-07 20:13</span><br/>
+For The Record, I don't actually dislike functional notation. It has its place, but is being over-used IMO. Pure dataflow notation is the underdog. I favour underdogs and tend to emphasize underdogs. Apparently, there was a PDP-8 manual that gave equal footing to CALL/RETURN and to co-routining. That's the way I see "functions" - there is something else that is on equal footing with functional CALL/RETURN. Modern ABIs insist that compilers must insert opcodes as scaffolding for functions. Forth and Prolog and ??? don't insist on such requirements.<br/><br/>...<br/><br/>I approach the "template" and dataflow issues from a different perspective. In my world, arrows are one-way tubes through which data packets flow,,, and, arrows <em>must not</em> cross boundaries of boxes (going only from port to port),,, and arrows don't just represent ephemeral "dependencies" but actual flow paths. Given that mindset, "templates" are just natural outcomes (assuming that I understand what you mean). Boxes can contain boxes all the way down until they hit bottom. Forth does this (threaded words can contain threaded words and/or native words), /bin/bash does this (scripts can invoke other scripts or compiled commands), etc. Functions, though, are just box wannabes. Functions don't satisfy the principles of complete isolation, hence, we need to buttress them with things called "operating systems".<br/><br/>The principle that arrows must not cross box boundaries leads to the conclusion that arrows cannot be represented by simple pairs (\{sender,receiver}, but must be represented by triples {direction,sender,receiver} where direction=[down|across|up|through]. To me, the "elephant in the room" is the ability to bundle operations (which I think you call "templates"). Forth does it. Shell does it. PBP/0D does it. Functions promise it, but don't succeed (because functions cause blocking control flow behaviour).<br/><br/>The idea of 'shared variables' and 'views' is just a special case. Such 'variables' are just units of software that react to incoming change messages and they emit messages when they change. What's inside doesn't actually matter - maybe it's just "state" or maybe it's something more complicated, as long as it reacts to incoming changes and emits appropriately.<br/><br/>[I go on to argue that you can go way beyond such simple 1-in:1-out concepts. Fan-in and fan-out give you the ability to do things that are inconvenient to express in text-only languages. Does the provided blog already contain fan-out?].
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765178230.647319"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765178230.647319" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-07 23:17</span><br/>
+&gt;  Does the provided blog already contain fan-out<br/>yeah, the chart's "startDay" and "endDay" define the x-axis interval that is shared across all dashboard widget instances. Maybe slightly confusing is I have drawn the arrows in the opposite way around to the direction of data flow. It is missing a symmetrical fan-in though<br/><br/><br/>&gt;  when the subsequent loop requires the output of the prior loop<br/>Can the sequential dependancies be put inside the template? I think it should be possible to instantiate templates on demand, so you could recursively add the next section of track as one finishes maybe? Not sure how to garbage collect the prior template though. Resource management is now an issue with dynamically instantiated dataflow, which was not even a consideration before with a single static dataflow.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765178245.501219"></a>
+      <img src="https://avatars.slack-edge.com/2021-03-12/1859691333940_e169f54bbaf8b9b36b12_72.png" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765178245.501219" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Konrad Hinsen</b>
+<span style="margin:2em; color:#606060">2025-12-07 23:17</span><br/>
+Nice! Next step: a refactoring tool for working dataflow templates. Or "parametrizable dataflow" as a new abstraction, where the parameters are the variables to be cloned.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765242840.912769"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765242840.912769" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-08 17:14</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span><br/>> Can the sequential dependancies be put inside the template?<br/>Probably for most things, unless you want it to pass through some thing that you want to keep decoupled (like some HTTP request or something)<br/>> I think it should be possible to instantiate templates on demand, so you could recursively add the next section of track as one finishes maybe<br/>I think this is probably useful too. To me the idea of templating is especially useful when you have excess memory or compute available but granted there are some constraints so in my mind its handled based on some user defined rules or* heuristics. You could spin up x instances and load balance or you could dynamically build up and tear down if hardware resources are limited. My thinking is you set useful defaults and allow the user to adjust behavior as desired. In artifact world i anticipate* spinning up and tearing down is basically metaprogramming (graph self modifying-i.e. nodes have entity CRUD capability)
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765305675.667859"></a>
+      <img src="https://avatars.slack-edge.com/2021-12-12/2854686602576_90c9108c61f5d809eb8a_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765305675.667859" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Beni Cherniavsky-Paskin</b>
+<span style="margin:2em; color:#606060">2025-12-09 10:41</span><br/>
+<a href="https://github.com/nteract/papermill">https://github.com/nteract/papermill</a> does parametrization (and distributed execution) on whole-notebook basis.  Netflix had <a href="https://netflixtechblog.com/notebook-innovation-591ee3221233">blog,</a> <a href="https://netflixtechblog.com/scheduling-notebooks-348e6c14cfd6">posts</a> and some lectures on it; dunno if they still use it internally.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765309533.861059"></a>
+      <img src="https://avatars.slack-edge.com/2021-09-13/2483463922595_27dffd0e73bd6f709927_72.gif" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765309533.861059" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Tom Larkworthy</b>
+<span style="margin:2em; color:#606060">2025-12-09 11:45</span><br/>
+Running parallel dataflow is not useful just for exploiting hardware. If a task is doing async IO (e.g. a http request) you get parallel IO which has value even on a single CPU in languages.<br/><br/>I am using papermill for retraining machine learning models! the parameter is the S3 file location to load the (latest) data! Very useful technique for productionizing notebooks.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1765314849.226979"></a>
+      <img src="https://avatars.slack-edge.com/2025-12-15/10142741017601_20b5593b82a97d4f58d6_72.jpg" style="float:left"/>
+      <a href="../share-your-work/1765139501.587609.html#1765314849.226979" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Dennis Hansen</b>
+<span style="margin:2em; color:#606060">2025-12-09 13:14</span><br/>
+<span style="background-color:#ccf">@Tom Larkworthy</span> for sure I’m referring to the async io example just to illustrate there may be cases where you want sequential dependencies to pass through something that lives elsewhere in your codebase
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

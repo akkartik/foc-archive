@@ -1,0 +1,438 @@
+[
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1765221694.828319",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1765221709.000000"
+        },
+        "client_msg_id": "92a6c967-3b66-4227-b9f0-117934e11b87",
+        "text": "<@UGWUJUZHT> I wouldn't call TCL \"polish notation\".  TCL is _prefix_ notation, and doesn't need parens for 1-level invocation, like all shell-like languages.\nBut it does NOT infer nesting from known arity.  You can use explicit brackets but you can't just write it flat:\n(for math, special infix parser expr was the original approach, but can <https:\/\/wiki.tcl-lang.org\/page\/tcl%3A%3Amathop|import> prefix commands that behave like any other commands)\n```% namespace import ::tcl::mathop::*\n% + [* 2 3] 4\n10\n% + * 2 3 4\ncannot use non-numeric string \"*\" as right operand of \"+\"```\nwhich was the whole point:\n>  I came upon the idea of a parenthesis-free notation in 1924. I used that notation for the first time in my article Łukasiewicz (1), p. 610, footnote.\nUiua <https:\/\/www.uiua.org\/pad?src=0_18_0-dev_3__KyDDlyAyIDMgNAo=|does accept> `+ × 2 3 4` same as Taka — unsurprising, it's also stack-based and right-to-left.\n\nML, F#, Elm, Haskell are I think are all prefix but not Polish, they don't use function arity to parse?  Again, they have infix math operators but can define e.g.\n```fun add x y = x + y;\nfun mul x y = x * y;\n\nadd (mul 2 3) 4```\nBut trying it now,  I can't make flat `add mul 2 3 4` work in any of them.\nWell, these langs don't have real arity, they simulate `add 2 3` _looking_ like 2-arg function call via currying, these parse as two 1-arg calls.\nFuthermore, they all encourage higher-order functions, so when they see `add mul` they can't say \"ah mul is a function not a value, so I need to parse mul's arguments before returning to the outer add's arguments\".  Instead they try to _call add with mul as an arg_ and then complain it's an `Int -> Int -> Int` while add wants an `Int`.\n\nWell, arguably a functional language _could_ do type-directed-parsing?  Are there any such?\nPossibly too DWIM but an <https:\/\/benchung.github.io\/papers\/globaldsl13.pdf|intriguing> space to explore...\n\nI don't think stack-based is the _only_ way to process Polish notation, just  very attractive for its simplicity.\ne.g. I think rewrite rules could do it too?\n\nP.S. wikipedia lists \"prefix notation\" as one of the synonyms for Polish.  Nevertheless, I think that's the accepted name for the distinction I'm trying to make.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1765003496.912509",
+        "parent_user_id": "U086XAU4F0F",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "y89C6",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "UGWUJUZHT"
+                            },
+                            {
+                                "type": "text",
+                                "text": " I wouldn't call TCL \"polish notation\".  TCL is "
+                            },
+                            {
+                                "type": "text",
+                                "text": "prefix",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " notation, and doesn't need parens for 1-level invocation, like all shell-like languages.\nBut it does NOT infer nesting from known arity.  You can use explicit brackets but you can't just write it flat:\n(for math, special infix parser expr was the original approach, but can "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/wiki.tcl-lang.org\/page\/tcl%3A%3Amathop",
+                                "text": "import"
+                            },
+                            {
+                                "type": "text",
+                                "text": " prefix commands that behave like any other commands)\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "% namespace import ::tcl::mathop::*\n% + [* 2 3] 4\n10\n% + * 2 3 4\ncannot use non-numeric string \"*\" as right operand of \"+\""
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "which was the whole point:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": " I came upon the idea of a parenthesis-free notation in 1924. I used that notation for the first time in my article Łukasiewicz (1), p. 610, footnote."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "\nUiua "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/www.uiua.org\/pad?src=0_18_0-dev_3__KyDDlyAyIDMgNAo=",
+                                "text": "does accept"
+                            },
+                            {
+                                "type": "text",
+                                "text": " "
+                            },
+                            {
+                                "type": "text",
+                                "text": "+ × 2 3 4",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " same as Taka — unsurprising, it's also stack-based and right-to-left.\n\nML, F#, Elm, Haskell are I think are all prefix but not Polish, they don't use function arity to parse?  Again, they have infix math operators but can define e.g.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_preformatted",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "fun add x y = x + y;\nfun mul x y = x * y;\n\nadd (mul 2 3) 4"
+                            }
+                        ],
+                        "border": 0
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "But trying it now,  I can't make flat "
+                            },
+                            {
+                                "type": "text",
+                                "text": "add mul 2 3 4",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " work in any of them.\nWell, these langs don't have real arity, they simulate "
+                            },
+                            {
+                                "type": "text",
+                                "text": "add 2 3",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " "
+                            },
+                            {
+                                "type": "text",
+                                "text": "looking",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " like 2-arg function call via currying, these parse as two 1-arg calls.\nFuthermore, they all encourage higher-order functions, so when they see "
+                            },
+                            {
+                                "type": "text",
+                                "text": "add mul",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " they can't say \"ah mul is a function not a value, so I need to parse mul's arguments before returning to the outer add's arguments\".  Instead they try to "
+                            },
+                            {
+                                "type": "text",
+                                "text": "call add with mul as an arg",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " and then complain it's an "
+                            },
+                            {
+                                "type": "text",
+                                "text": "Int -> Int -> Int",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " while add wants an "
+                            },
+                            {
+                                "type": "text",
+                                "text": "Int",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": ".\n\nWell, arguably a functional language "
+                            },
+                            {
+                                "type": "text",
+                                "text": "could",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " do type-directed-parsing?  Are there any such?\nPossibly too DWIM but an "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/benchung.github.io\/papers\/globaldsl13.pdf",
+                                "text": "intriguing"
+                            },
+                            {
+                                "type": "text",
+                                "text": " space to explore...\n\nI don't think stack-based is the "
+                            },
+                            {
+                                "type": "text",
+                                "text": "only",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " way to process Polish notation, just  very attractive for its simplicity.\ne.g. I think rewrite rules could do it too?\n\nP.S. wikipedia lists \"prefix notation\" as one of the synonyms for Polish.  Nevertheless, I think that's the accepted name for the distinction I'm trying to make."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "guitar",
+                "users": [
+                    "UGWUJUZHT"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U02QC0PPER3",
+        "type": "message",
+        "ts": "1765222337.306699",
+        "edited": {
+            "user": "U02QC0PPER3",
+            "ts": "1765224414.000000"
+        },
+        "client_msg_id": "5d39c4c0-d53f-4435-9904-23cacb3a949e",
+        "text": "At first look:\n• Taka's use of quotations for definitions and control structures is reminiscent of PostScript and Factor, but prefix order is much saner to read :+1:\n• `.` delimiting RTL segments in longer LTR flow is similar to Uiua's RTL-within-lines but top-down order, but with clever \"method like\" syntax pun :wink: ",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "90c9108c61f5",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-12-12\/2854686602576_90c9108c61f5d809eb8a_72.jpg",
+            "first_name": "Beni",
+            "real_name": "Beni Cherniavsky-Paskin",
+            "display_name": "Beni Cherniavsky-Paskin",
+            "team": "T5TCAFTA9",
+            "name": "beni.cherniavsky",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1765003496.912509",
+        "parent_user_id": "U086XAU4F0F",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "88HJz",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "At first look:\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_list",
+                        "elements": [
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "Taka's use of quotations for definitions and control structures is reminiscent of PostScript and Factor, but prefix order is much saner to read "
+                                    },
+                                    {
+                                        "type": "emoji",
+                                        "name": "+1",
+                                        "unicode": "1f44d"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "rich_text_section",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": ".",
+                                        "style": {
+                                            "code": true
+                                        }
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " delimiting RTL segments in longer LTR flow is similar to Uiua's RTL-within-lines but top-down order, but with clever \"method like\" syntax pun "
+                                    },
+                                    {
+                                        "type": "emoji",
+                                        "name": "wink",
+                                        "unicode": "1f609"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " "
+                                    }
+                                ]
+                            }
+                        ],
+                        "style": "bullet",
+                        "indent": 0,
+                        "border": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U06BUK2M2RH",
+        "type": "message",
+        "ts": "1765242840.912769",
+        "edited": {
+            "user": "U06BUK2M2RH",
+            "ts": "1765242905.000000"
+        },
+        "client_msg_id": "0993a14b-d8c5-47bd-aa70-70898e981a18",
+        "text": "<@U02E4DAQGSZ>\n> Can the sequential dependancies be put inside the template?\nProbably for most things, unless you want it to pass through some thing that you want to keep decoupled (like some HTTP request or something)\n> I think it should be possible to instantiate templates on demand, so you could recursively add the next section of track as one finishes maybe\nI think this is probably useful too. To me the idea of templating is especially useful when you have excess memory or compute available but granted there are some constraints so in my mind its handled based on some user defined rules or* heuristics. You could spin up x instances and load balance or you could dynamically build up and tear down if hardware resources are limited. My thinking is you set useful defaults and allow the user to adjust behavior as desired. In artifact world i anticipate* spinning up and tearing down is basically metaprogramming (graph self modifying-i.e. nodes have entity CRUD capability)",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "20b5593b82a9",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2025-12-15\/10142741017601_20b5593b82a97d4f58d6_72.jpg",
+            "first_name": "Dennis",
+            "real_name": "Dennis Hansen",
+            "display_name": "Dennis",
+            "team": "T5TCAFTA9",
+            "name": "dhansen909",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1765139501.587609",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ippJV",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "user",
+                                "user_id": "U02E4DAQGSZ"
+                            },
+                            {
+                                "type": "text",
+                                "text": "\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Can the sequential dependancies be put inside the template?"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Probably for most things, unless you want it to pass through some thing that you want to keep decoupled (like some HTTP request or something)\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_quote",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I think it should be possible to instantiate templates on demand, so you could recursively add the next section of track as one finishes maybe"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I think this is probably useful too. To me the idea of templating is especially useful when you have excess memory or compute available but granted there are some constraints so in my mind its handled based on some user defined rules or* heuristics. You could spin up x instances and load balance or you could dynamically build up and tear down if hardware resources are limited. My thinking is you set useful defaults and allow the user to adjust behavior as desired. In artifact world i anticipate* spinning up and tearing down is basically metaprogramming (graph self modifying-i.e. nodes have entity CRUD capability)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

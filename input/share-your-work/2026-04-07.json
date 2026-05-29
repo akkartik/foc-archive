@@ -1,0 +1,443 @@
+[
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1775545795.908749",
+        "client_msg_id": "d876710f-1a7b-41ec-9e24-2d16d030e1c5",
+        "text": "Wow, this is something I have been dreaming of for too many years to count!\n\nI have been playing a bit with the examples, and trying to figure out how this works. Is there any way in Lopecode to search for references to specific cells? For example, I have been wondering how the \"robotEditor\" cell actually contributes to the animation, as I haven't seen it referenced so far.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775510069.749669",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "f6UZn",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Wow, this is something I have been dreaming of for too many years to count!\n\nI have been playing a bit with the examples, and trying to figure out how this works. Is there any way in Lopecode to search for references to specific cells? For example, I have been wondering how the \"robotEditor\" cell actually contributes to the animation, as I haven't seen it referenced so far."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02E4DAQGSZ",
+        "type": "message",
+        "ts": "1775545834.400209",
+        "client_msg_id": "d6f25e43-b4a0-4b6c-b4b3-0b63f4be78eb",
+        "text": "probably easier to use the search on Observable <https:\/\/observablehq.com\/@tomlarkworthy\/parameteric-svg>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "27dffd0e73bd",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2483463922595_27dffd0e73bd6f709927_72.gif",
+            "first_name": "Tom",
+            "real_name": "Tom Larkworthy",
+            "display_name": "Tom Larkworthy",
+            "team": "T5TCAFTA9",
+            "name": "tom.larkworthy",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775510069.749669",
+        "parent_user_id": "U02E4DAQGSZ",
+        "attachments": [
+            {
+                "from_url": "https:\/\/observablehq.com\/@tomlarkworthy\/parameteric-svg",
+                "ts": 1775477930,
+                "image_url": "https:\/\/static.observableusercontent.com\/thumbnail\/584d7c53f16b4a4458d697717efda6c0da7b8f259511f3004237c97f2d80b566.jpg",
+                "image_width": 640,
+                "image_height": 400,
+                "image_bytes": 8215,
+                "service_icon": "https:\/\/static.observablehq.com\/favicon-512.0667824687f99c942a02e06e2db1a060911da0bf3606671676a255b1cf97b4fe.png",
+                "id": 1,
+                "original_url": "https:\/\/observablehq.com\/@tomlarkworthy\/parameteric-svg",
+                "fallback": "Observable: Interactive Parametric SVG via Numerical Solving",
+                "text": "You write the forward direction: parameters → shape + anchors. The numerical solver figures out the backward direction automatically: dragging anchors → parameter updates → shape redraws. Try the robot arm below — drag any joint or the end effector. Shift+click to lock an anchor in place. On a touchscreen, use multi-touch to drag several anchors simultaneously. How It Works You only write the forward mapping: a cell that takes parameters (wired up as \\`viewof\\` range inputs) and returns SVG with \\`anchor()\\",
+                "title": "Interactive Parametric SVG via Numerical Solving",
+                "title_link": "https:\/\/observablehq.com\/@tomlarkworthy\/parameteric-svg",
+                "service_name": "Observable"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "IABpp",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "probably easier to use the search on Observable "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/observablehq.com\/@tomlarkworthy\/parameteric-svg"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U02E4DAQGSZ",
+        "type": "message",
+        "ts": "1775546336.482839",
+        "client_msg_id": "02850cee-be85-4d10-bfb7-785b3f91cedc",
+        "text": "yeah the logic is hard to follow because of the meta-programming. robotEditor instanciates svgEditor, which clones a prototype dataflow subgragh (svgEditor_template), which is these cells pointing at an arbitrary ordinary svg node (i.e. each example has its own unique set of these cells so their state is kept separate)\n\n    'viewof svgTargetName',\n    'svgTargetName',\n    'viewof svgTargetModule',\n    'svgTargetModule',\n    'svgTemplateVariable',\n    'svgRenderDefinition',\n    'svgInputNames',\n    'svgParameterViews',\n    'svgParameterNames',\n    'svgParameterViewByName',\n    'svgParameterVarByName',\n    'svgParameterViewElByName',\n    'resolveSvgRenderArgs',\n    'renderProbe',\n    'viewof inverseConfig',\n    'inverseConfig',\n    'pseudoInverseStepMxN',\n    'viewof svgEditorStatus',\n    'svgEditorStatus',\n    'svgEditor_setStatus',\n    'getCurrentParams',\n    'svgEditor_commitParams',\n    'svgEditorController',\n    'anchor'\n\nThe numerical methods are mainly \"pseudoInverseStepMxN\". The core clever part is 'svgEditor_estimateJacobianForAnchor' 'renderProbe' and 'svgEditor_commitParams'.\n\nrenderProbe transforms the rendering to a pure  `(params) =&gt; svg`  so that we can linearize the system (svgEditor_estimateJacobianForAnchor) and then invert the dynamics, svgEditor_commitParams actually writes back to the true dataflow graph via twiddling the real UI (which is the chosen paramaterization of the SVG). I should add some more technical documentation really.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "27dffd0e73bd",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-09-13\/2483463922595_27dffd0e73bd6f709927_72.gif",
+            "first_name": "Tom",
+            "real_name": "Tom Larkworthy",
+            "display_name": "Tom Larkworthy",
+            "team": "T5TCAFTA9",
+            "name": "tom.larkworthy",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775510069.749669",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "\/NDUb",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "yeah the logic is hard to follow because of the meta-programming. robotEditor instanciates svgEditor, which clones a prototype dataflow subgragh (svgEditor_template), which is these cells pointing at an arbitrary ordinary svg node (i.e. each example has its own unique set of these cells so their state is kept separate)\n\n    'viewof svgTargetName',\n    'svgTargetName',\n    'viewof svgTargetModule',\n    'svgTargetModule',\n    'svgTemplateVariable',\n    'svgRenderDefinition',\n    'svgInputNames',\n    'svgParameterViews',\n    'svgParameterNames',\n    'svgParameterViewByName',\n    'svgParameterVarByName',\n    'svgParameterViewElByName',\n    'resolveSvgRenderArgs',\n    'renderProbe',\n    'viewof inverseConfig',\n    'inverseConfig',\n    'pseudoInverseStepMxN',\n    'viewof svgEditorStatus',\n    'svgEditorStatus',\n    'svgEditor_setStatus',\n    'getCurrentParams',\n    'svgEditor_commitParams',\n    'svgEditorController',\n    'anchor'\n\nThe numerical methods are mainly \"pseudoInverseStepMxN\". The core clever part is 'svgEditor_estimateJacobianForAnchor' 'renderProbe' and 'svgEditor_commitParams'.\n\nrenderProbe transforms the rendering to a pure  "
+                            },
+                            {
+                                "type": "text",
+                                "text": "(params) => svg",
+                                "style": {
+                                    "code": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": "  so that we can linearize the system (svgEditor_estimateJacobianForAnchor) and then invert the dynamics, svgEditor_commitParams actually writes back to the true dataflow graph via twiddling the real UI (which is the chosen paramaterization of the SVG). I should add some more technical documentation really."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U01AD80KMLK",
+        "type": "message",
+        "ts": "1775547368.408589",
+        "client_msg_id": "d80303cf-31c8-43c7-a191-42446c2a88fa",
+        "text": "that's really cool. Could you imagine doing that with two languages at the same time?",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "a07cdcb6d037",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2020-09-09\/1376906509376_a07cdcb6d037bf7b6a5e_72.jpg",
+            "first_name": "",
+            "real_name": "Denny Vrandečić",
+            "display_name": "Denny Vrandečić",
+            "team": "T5TCAFTA9",
+            "name": "dvrandecic",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775520835.831359",
+        "parent_user_id": "U06BUK2M2RH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "enVVS",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "that's really cool. Could you imagine doing that with two languages at the same time?"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1775568040.580369",
+        "client_msg_id": "ab4d7887-32fd-4443-bf41-1abde35e39f5",
+        "text": "Thanks <@U02E4DAQGSZ>! This raises the interesting question for Lopecode if metaprogramming can be made more transparent. And\/or if some visual representation of the cell graph could make complex graphs easier to understand.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775510069.749669",
+        "parent_user_id": "U02E4DAQGSZ",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "jH2cE",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Thanks "
+                            },
+                            {
+                                "type": "user",
+                                "user_id": "U02E4DAQGSZ"
+                            },
+                            {
+                                "type": "text",
+                                "text": "! This raises the interesting question for Lopecode if metaprogramming can be made more transparent. And\/or if some visual representation of the cell graph could make complex graphs easier to understand."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "+1",
+                "users": [
+                    "U02E4DAQGSZ"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "UJBAJNFLK",
+        "type": "message",
+        "ts": "1775576849.868039",
+        "client_msg_id": "a2985483-cb10-4190-a36d-7d3de480b754",
+        "text": "I have written an entry on Federated Wiki for the catalog of the Malleable Systems Collective, because I believe that it deserves to be better known: <https:\/\/forum.malleable.systems\/t\/federated-wiki\/418>",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "e169f54bbaf8",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2021-03-12\/1859691333940_e169f54bbaf8b9b36b12_72.png",
+            "first_name": "Konrad",
+            "real_name": "Konrad Hinsen",
+            "display_name": "Konrad Hinsen",
+            "team": "T5TCAFTA9",
+            "name": "konrad.hinsen",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775576849.868039",
+        "reply_count": 1,
+        "reply_users_count": 1,
+        "latest_reply": "1775581246.036609",
+        "reply_users": [
+            "UE1JQM9HQ"
+        ],
+        "replies": [
+            {
+                "user": "UE1JQM9HQ",
+                "ts": "1775581246.036609"
+            }
+        ],
+        "is_locked": false,
+        "subscribed": false,
+        "attachments": [
+            {
+                "from_url": "https:\/\/forum.malleable.systems\/t\/federated-wiki\/418",
+                "service_icon": "https:\/\/forum-cdn.malleable.systems\/uploads\/default\/optimized\/1X\/c07fcd43465ff3d16e37b779df0b5ce63e8c2a32_2_180x180.png",
+                "thumb_url": "https:\/\/forum-cdn.malleable.systems\/uploads\/default\/optimized\/1X\/7585d0744f73f0e085b6586d2d227e12ddfa6b25_2_1024x575.png",
+                "thumb_width": 1024,
+                "thumb_height": 575,
+                "ts": 1775569338,
+                "id": 1,
+                "original_url": "https:\/\/forum.malleable.systems\/t\/federated-wiki\/418",
+                "fallback": "Malleable Systems Forum: Federated Wiki",
+                "text": "<http:\/\/fed.wiki.org\/> Software, protocol, and associated workflows developed by Ward Cunningham and collaborators since 2011 A traditional wiki contains a single concensus version of each page. In Federated Wiki, participants maintain their own personal versions of each page, but follow the work of their peers and borrow material from them to make it their own. Another important evolution from traditional wikis is that pages can contain not only text and images, but also data and tools, which a...",
+                "title": "Federated Wiki",
+                "title_link": "https:\/\/forum.malleable.systems\/t\/federated-wiki\/418",
+                "service_name": "Malleable Systems Forum"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "xGPhf",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "I have written an entry on Federated Wiki for the catalog of the Malleable Systems Collective, because I believe that it deserves to be better known: "
+                            },
+                            {
+                                "type": "link",
+                                "url": "https:\/\/forum.malleable.systems\/t\/federated-wiki\/418"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "eyes",
+                "users": [
+                    "U02E4DAQGSZ"
+                ],
+                "count": 1
+            },
+            {
+                "name": "heart",
+                "users": [
+                    "U09ADC29F5J",
+                    "UE1JQM9HQ",
+                    "U06131CATV3",
+                    "UML4ZEKDK"
+                ],
+                "count": 4
+            }
+        ]
+    },
+    {
+        "user": "UE1JQM9HQ",
+        "type": "message",
+        "ts": "1775581246.036609",
+        "client_msg_id": "1c5f48f6-d6f2-46e3-b91d-c6d9b1868799",
+        "text": "Federated Wiki is one of the most underrated systems of our time.",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "g48924f215ef",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/f48924f215efa665f3c87affcdb14278.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0002-72.png",
+            "first_name": "Tudor",
+            "real_name": "Tudor Girba",
+            "display_name": "Tudor Girba",
+            "team": "T5TCAFTA9",
+            "name": "tudor",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775576849.868039",
+        "parent_user_id": "UJBAJNFLK",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "oPnNX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Federated Wiki is one of the most underrated systems of our time."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heavy_plus_sign",
+                "users": [
+                    "UJBAJNFLK"
+                ],
+                "count": 1
+            }
+        ]
+    },
+    {
+        "user": "U06BUK2M2RH",
+        "type": "message",
+        "ts": "1775594764.345509",
+        "client_msg_id": "2d090648-fb99-4678-9f76-ce886aaa6b3c",
+        "text": "That would be cool.. right now im forcing it to english but no reason it can't do that",
+        "team": "T5TCAFTA9",
+        "user_team": "T5TCAFTA9",
+        "source_team": "T5TCAFTA9",
+        "user_profile": {
+            "avatar_hash": "20b5593b82a9",
+            "image_72": "https:\/\/avatars.slack-edge.com\/2025-12-15\/10142741017601_20b5593b82a97d4f58d6_72.jpg",
+            "first_name": "Dennis",
+            "real_name": "Dennis Hansen",
+            "display_name": "Dennis",
+            "team": "T5TCAFTA9",
+            "name": "dhansen909",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "thread_ts": "1775520835.831359",
+        "parent_user_id": "U06BUK2M2RH",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "ghE1D",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "That would be cool.. right now im forcing it to english but no reason it can't do that"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "reactions": [
+            {
+                "name": "heart",
+                "users": [
+                    "U01AD80KMLK"
+                ],
+                "count": 1
+            }
+        ]
+    }
+]

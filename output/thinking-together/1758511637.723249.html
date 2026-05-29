@@ -1,0 +1,139 @@
+<html>
+<head><meta charset="UTF-8"></head><h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #thinking-together</h2>
+  <table>
+  <tr>
+    <td style="width:72px; vertical-align:top; padding-bottom:1em">
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-21 20:27</span><br/>
+<a href="https://programmingsimplicity.substack.com/p/recursive-asynchronous-layering-what?r=1egdky">https://programmingsimplicity.substack.com/p/recursive-async&hellip;</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758565134.411709"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758565134.411709" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:18</span><br/>
+The 'ticking' property of 'container parts' sounds like a useful guarantee for reasoning about async computational graphs (sections 3 - 4). So leaves have to be a function that returns, but containers can sit around listening for inputs.<br/><br/>I've been struggling with the compositionality of String -> String functions for expressive social simulation. This sort of control flow architecture will help.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758565633.798459"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758565633.798459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:27</span><br/>
+&gt; $4<br/>&gt; 2. Routes messages to appropriate children according to wire table<br/>It sounds like the wire spec is really a [Sender, Receiver, Condition] entry. 'direction' is determined by the container/leaf-ness of Sender and Receiver. But we should write down a rule for whether the wire will transmit or not.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758566324.350739"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758566324.350739" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:38</span><br/>
+in general: I consider units of software to be more primitive than “functions”. A Part is ready to run if it has any messages in its input queue. When it is chosen to run, it might produce zero or more output messages and queues them up on its output queue. The Container routes the output messages, then loops around again to check if message routing has caused any other child parts to become “ready”. It does this over and over again until there are no inputs on any child queues and there are only messages queued up on its own output queue. I call this repetition “ticking”. Operating system Dispatchers() do this, but they set a timer to interrupt a long-running child and to return control back to the Dispatcher(). In the PBP case, one is simply building a program, so preemption isn’t required (it’s “just a bug” to have a too-long-running part), hence, we can whittle away a lot of hardware and CPU cycles and make the whole thing more “efficient”. … back to my use of the word “function” - “functions” imply a hard-wired routing policy, i.e. callee must /always/ send info back to the caller. I contend that it is important to be able to /not/ hard-wire that routing policy in /all/ code. IOW, a “part” is something more-primitive than a “function”, in my mind.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758566573.051049"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758566573.051049" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:42</span><br/>
+I don’t yet grok what is meant by <tt>[Sender, Receiver, Condition]</tt>. As soon as I see the word <tt>condition</tt> my neurons see “state machine” (or statechart). IMM, ‘wires’ (arrows) are tubes through which data flows. If that’s what is meant, then I don’t get it yet. If that’s not what is meant, then I don’t get it yet. Hmm, mulling….
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758566897.979419"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758566897.979419" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:48</span><br/>
+I learned the word “tick” from a colleague who is building robotics with ROS.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758566987.138969"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758566987.138969" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-22 11:49</span><br/>
+FYI, “wires” can only be defined in Containers. I don’t/can’t care what’s inside Leaves.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758573180.231939"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758573180.231939" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2025-09-22 13:33</span><br/>
+I'm seeing the distinction between Containers, Parts, and Leaves more sharply, thanks. I agree it's a good idea to eradicate 'function' in this context b/c it could mean either an ideal function (with no stateful beliefs like the input/output queues), or a function on a call stack (which drags in conventional imperative beliefs about the runtime).
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758573473.476729"></a>
+      <img src="https://avatars.slack-edge.com/2023-09-30/5997119242352_87f45e326f3a692ca55c_72.png" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758573473.476729" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Jasmine Otto</b>
+<span style="margin:2em; color:#606060">2025-09-22 13:37</span><br/>
+I think the Container and the list of wire specs are the same thing, up to guarantees about which parts ought to eventually be ready, i.e. the implementation of ticking. (But this is where I need to read up on propagators for real.) I'm not sure what the utility of more than one Container is.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758577060.845459"></a>
+      <img src="https://avatars.slack-edge.com/2023-02-06/4754627914258_41a8bada781281751d07_72.jpg" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758577060.845459" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>Paul Tarvydas</b>
+<span style="margin:2em; color:#606060">2025-09-22 14:37</span><br/>
+&gt; I'm not sure what the utility of more than one Container is.<br/>Architectural layering. Isolation of data /and/ control-flow. LEGO®-like parts that snap together. You can create a large system which is simple enough to understand at every layer. “Functions” promise that kind of composability, but, the underlying “blocking” nature of function calling (caller must suspend waiting for callee) hampers pluggability. In my eyes, current software practices based on code libraries lead to bloat and to fragility and increasing complexity and to gotchas. Analogy: the “ideal” way to build programs would be to create multiply-threaded architectures and use 1 Arduino (or other small machine) for each thread in a program (i.e. no operating system or other bloatware needed). If I were to build a system like this with 1,000 Arduinos, I’d find some way to group them in a hierarchical fashion (think ORG chart in business, and, middle-management) and this leads to “multiple Container” thinking. This is what most programmers think that they are doing, but, I contend that they are not because of the hidden gotchas that function calls/returns entail.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top; padding-bottom:1em">
+      <a name="1758636073.373879"></a>
+      <img src="https://secure.gravatar.com/avatar/415c1650fb0f17d5a8b182fa4f4d17d7.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0015-72.png" style="float:left"/>
+      <a href="../thinking-together/1758511637.723249.html#1758636073.373879" style="color:#aaa">#</a>
+    </td>
+    <td style="vertical-align:top; padding-bottom:1em; padding-left:1em">
+<b>brett g porter</b>
+<span style="margin:2em; color:#606060">2025-09-23 07:01</span><br/>
+Thank you for the idea of a "wire table" -- might have just knocked loose some things I've been stumbling on in my head.
+    </td>
+  </tr>
+  </table>
+<hr>
+<a href="https://akkartik.name/foc-archive.zip">download this site</a> (~30MB)<br/>
+<a href="https://github.com/akkartik/foc-archive">Git repo</a>
+</html>

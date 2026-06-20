@@ -1,7 +1,7 @@
 -- Generate a static website out of a Slack archive.
 
 -- variables interpolated into generated files
-upstream_slack = 'futureofcoding'
+upstream_slack = 'feelingofcomputing'
 download_url = 'https://akkartik.name/foc-archive.zip'
 repo_url = 'https://github.com/akkartik/foc-archive'
 
@@ -51,7 +51,7 @@ function main(channels, users, files, output)
   local outfile = io.open(output..'/index.html', 'w')
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>\n')
-  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a></h2>\n')
+  outfile:write('<h2>Archives, <a href="https://feelingof.com/community">FoC Community</a></h2>\n')
   primary_channels = {'thinking-together', 'linking-together', 'reading-together', 'share-your-work', 'devlog-together', 'two-minute-week', 'introduce-yourself', 'present-company', 'announcements', 'administrivia'}
   for _,channel in ipairs(primary_channels) do
     outfile:write('    <a href="'..channel..'/index.html">'..channel..'</a><br/>\n')
@@ -122,7 +122,7 @@ function emit_channel_index(channel, posts, output, channels, users)
   local outfile = io.open(output..'/'..channel..'/index.html', 'w')
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
-  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..', index</h2>\n')
+  outfile:write('<h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #'..channel..', index</h2>\n')
   outfile:write('  <table style="table-layout:fixed; width:60em; margin:auto; padding:auto">\n')
   sorted_ts = {}
   for ts,_ in pairs(posts) do
@@ -228,7 +228,7 @@ end
 function emit_post(outfile, post, site_prefix, channel, channels, users)
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
-  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, #'..channel..'</h2>\n')
+  outfile:write('<h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, #'..channel..'</h2>\n')
   outfile:write('  <table>\n')
   emit_post_body(outfile, post, site_prefix, channel, channels, users)
   if post.comments then
@@ -250,7 +250,7 @@ function emit_intro(outfilename, name, posts, channels, users)
   local outfile = io.open(outfilename, 'w')
   outfile:write('<html>\n')
   outfile:write('<head><meta charset="UTF-8"></head>')
-  outfile:write('<h2>Archives, <a href="https://futureofcoding.org/community">Future of Coding Community</a>, introductions by '..name..'</h2>\n')
+  outfile:write('<h2>Archives, <a href="https://feelingof.com/community">FoC Community</a>, introductions by '..name..'</h2>\n')
   outfile:write('  <table>\n')
   for _, post in ipairs(posts) do
     emit_post_body(outfile, post, '../', 'introduce-yourself', channels, users)

@@ -1,8 +1,4 @@
-[Yet](http://history.futureofcoding.org)
-[another](https://github.com/akkartik/mu/tree/main/browse-slack) browser for
-the [Future of Coding Slack](https://futureofcoding.org/community) archives,
-this time as a purely static set of html files. Based on [this generic
-tool](https://github.com/akkartik/slack-archive).
+[Yet](http://history.futureofcoding.org) [another](https://github.com/akkartik/mu/tree/main/browse-slack) browser for the [FoC Slack](https://feelingof.com/community) archives, this time as a purely static set of html files. Based on [this generic tool](https://github.com/akkartik/slack-archive).
 
 This repo is also served online at http://akkartik.name/archives/foc.
 
@@ -48,13 +44,13 @@ Since this is a statically generated website, I can't use query parameters
 containing `?` and `&`. There are redirects to minimize the changes needed. Just turn:
 
 ```
-https://futureofcoding.slack.com/archives/C5T9GPWFL/p1653663004176149
+https://feelingofcomputing.slack.com/archives/C5T9GPWFL/p1653663004176149
 ```
 
 into something like:
 
 ```
-        http://akkartik.name/archives/foc/C5T9GPWFL/p1653663004176149.html
+            http://akkartik.name/archives/foc/C5T9GPWFL/p1653663004176149.html
 ```
 
 and it'll redirect you to the right page.
